@@ -7,6 +7,8 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
+import { UsersListModule } from './users-list/users-list.module';
+import { UsersListComponent } from './users-list/users-list.component';
 
 @NgModule({
     imports: [
