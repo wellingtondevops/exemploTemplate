@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
     imports: [
@@ -18,8 +19,8 @@ import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angula
         HttpClientModule,
         LanguageTranslationModule,
         AppRoutingModule,
-        ReactiveFormsModule
-        
+        ReactiveFormsModule,
+        ToastrModule.forRoot()
     ],
     declarations: [AppComponent],
     providers: [AuthGuard,FormBuilder,Validators],

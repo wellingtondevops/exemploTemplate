@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../services/login.service';
+import { AuthService } from '../services/auth/auth.service';
+import { ErrorMessagesService } from '../utils/error-messages.service';
 
 @Component({
     selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
     constructor(
       public router: Router,
       private fb: FormBuilder,
-      private loginSrv: LoginService
+      private AuthSrv: AuthService,
+      private errorMsg: ErrorMessagesService
     ) {}
 
     ngOnInit() {
@@ -29,9 +31,15 @@ export class LoginComponent implements OnInit {
 
     onLoggedin() {
         console.warn(this.loginForm.value);
-        this.loginSrv.login(this.loginForm.value).subscribe(() => {
+        this.AuthSrv.login(this.loginForm.value).subscribe(() => {
             this.router.navigate(['/dashboard']);
-        });
-        localStorage.setItem('isLoggedin', 'true');
+            localStorage.setItem('isLoggedin', 'true');
+        },
+        (error) =>  {
+            // console.log(error)
+            var resp = this.errorMsg.errorMessages(error)
+            console.log(resp)
+        } );
+        
     }
 }
