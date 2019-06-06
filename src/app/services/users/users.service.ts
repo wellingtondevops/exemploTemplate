@@ -18,4 +18,11 @@ export class UsersService {
         tap(data => { return data})
     );
   }
+
+  user(id){
+    return this.http.get<User>(`https://www.archi-api.com/users/${id}`)
+    .pipe(
+        tap(data => { return data })
+    );
+  }
 }
