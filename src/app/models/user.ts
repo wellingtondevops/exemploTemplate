@@ -2,7 +2,7 @@ export class User {
   _links: {
     self: string
   }
-  id: string;
+  _id: string;
   email: string;
   name: string;
   dateCreated: string;
