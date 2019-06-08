@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { ShowComponent } from './show/show.component';
+import { ArquivesRoutingModule } from './arquives-routing.module';
 import { PageHeaderModule } from 'src/app/shared';
-import { UsersRoutingModule } from './users-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent],
   imports: [
     CommonModule,
-    UsersRoutingModule,
+    ArquivesRoutingModule,
     PageHeaderModule,
     ReactiveFormsModule,
     FormsModule
   ]
 })
-export class UsersModule { }
+export class ArquivesModule { }

@@ -25,7 +25,8 @@ export class ListComponent implements OnInit {
 
   usersList(){
     this.usersSrv.users().subscribe(
-      (data) => { this.users = data.items }
+      (data) => { this.users = data.items },
+      (error) => { console.log('ERROR: ', error) }
     )
   }
 

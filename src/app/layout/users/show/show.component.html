@@ -1,13 +1,28 @@
-<div class="card bg-light mb-12">
-  <div class="card-header">
-    <h3>
-        Usuário
-    </h3>
-  </div>
-  <div class="card-body">
-      <div class="form-group">
-        <label class="ng-tns-c27-5" for="disabledSelect">Nome</label>
-        <input class="form-control" disabled="" id="disabledInput" placeholder="Nome" (ngModel)="user.name" type="text" />
-      </div>
-  </div>
+<div [@routerTransition]>
+    <app-page-header [heading]="'Dados do Usuário'" [icon]="'fa-user'"></app-page-header>
+    <div class="card bg-light mb-12">
+        <div class="card-body">
+            <form [formGroup]="userForm" role="FormGroup">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="">Nome</label>
+                        <input type="text" formControlName="name" class="form-control input-underline input-lg"
+                            placeholder="Nome" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">E-mail</label>
+                        <input type="text" formControlName="email" class="form-control input-underline input-lg"
+                            placeholder="Email" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Data de Criação</label>
+                        <input type="date" formControlName="dateCreated" class="form-control input-underline input-lg"
+                            placeholder="Criado em" disabled>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

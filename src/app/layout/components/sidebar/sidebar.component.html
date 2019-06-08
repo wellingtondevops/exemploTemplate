@@ -13,6 +13,11 @@
             <span>{{ 'Armazéns' | translate }}</span>
         </a>
 
+        <a [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-archive fa-2x"></i>&nbsp;
+            <span>{{ 'Empresas' | translate }}</span>
+        </a>
+        
         <a [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-archive fa-2x"></i>&nbsp;
             <span>{{ 'Volumes' | translate }}</span>
