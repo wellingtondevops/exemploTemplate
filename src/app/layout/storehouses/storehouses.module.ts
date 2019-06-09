@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StorehouseRoutingModule } from './storehouse-routing.module';
+import { StorehousesRoutingModule } from './storehouses-routing.module';
 import { PageHeaderModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ShowComponent } from './show/show.component';
+import { ListComponent } from './list/list.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [ListComponent, ShowComponent],
   imports: [
     CommonModule,
-    StorehouseRoutingModule,
+    StorehousesRoutingModule,
     PageHeaderModule,
     ReactiveFormsModule,
     FormsModule
   ]
 })
-export class StorehouseModule { }
+export class StorehousesModule { }
