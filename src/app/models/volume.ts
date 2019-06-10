@@ -1,4 +1,4 @@
-export class User {
+export class Volume {
   _links: {
     self: string
   }
@@ -9,7 +9,7 @@ export class User {
   profile: string[]
 }
 
-export class UserList {
+export class VolumeList {
   _links: string;
-  items: User[]
+  items: Volume[]
 }
