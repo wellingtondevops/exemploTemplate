@@ -1,30 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
-import { Company, CompaniesList } from '../../models/company';
+import { VolumeList, Volume } from 'src/app/models/volume';
 const url = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
-export class CompaniesService {
+export class VolumesService {
 
   constructor(
     private http: HttpClient
   ) { }
 
-  companies() {
-    return this.http.get<CompaniesList>(`${url}/companies`)
+  volumes(){
+    return this.http.get<VolumeList>(`${url}/volumes`)
     .pipe(
         tap(data => { return data})
     );
   }
 
-  company(id){
-    return this.http.get<Company>(`${url}/companies/${id}`)
+  volume(id){
+    return this.http.get<Volume>(`${url}/volumes${id}`)
     .pipe(
-        tap(data => { return data })
+        tap(data => { return data})
     );
   }
 }
