@@ -1,3 +1,41 @@
-<p>
-  list works!
-</p>
+<div [@routerTransition]>
+  <app-page-header [heading]="'Volumes'" [icon]="'fa-table'"></app-page-header>
+  <div class="row">
+      <div class="col col-xl-12 col-lg-12">
+          <div class="card mb-3">
+              <div class="card-body table-responsive">
+                  <table class="table table-hover table-striped">
+                      <thead>
+                      <tr>
+                          <th>Companhia</th>
+                          <th>Descrição</th>
+                          <th>Armazém</th>
+                          <th>Localização</th>
+                          <th>Tipo de Volume</th>
+                          <th>Status</th>
+                          <th>Criado em</th>
+                          <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let volume of volumes">
+                          <td>{{ volume.company.name }}</td>
+                          <td>{{ volume.description }}</td>
+                          <td>{{ volume.storehouse.name }}</td>
+                          <td>{{ volume.location }}</td>
+                          <td>{{ volume.volumeType }}</td>
+                          <td>{{ volume.status }}</td>
+                          <td>{{ volume.dateCreated | date: 'dd/MM/yyyy' }}</td>
+                          <td>
+                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Volume" [routerLink]="[volume._id]">
+                              <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                          </td>
+                      </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -13,14 +13,14 @@ export class UsersService {
   ) { }
 
   users() {
-    return this.http.get<UserList>('https://www.archi-api.com/users')
+    return this.http.get<UserList>('https://www.archio-api.online/users')
     .pipe(
         tap(data => { return data})
     );
   }
 
   user(id){
-    return this.http.get<User>(`https://www.archi-api.com/users/${id}`)
+    return this.http.get<User>(`https://www.archio-api.online/users/${id}`)
     .pipe(
         tap(data => { return data })
     );

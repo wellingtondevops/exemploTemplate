@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
 import { VolumeList, Volume } from 'src/app/models/volume';
+const url = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +15,14 @@ export class VolumesService {
   ) { }
 
   volumes(){
-    return this.http.get<VolumeList>('https://www.archi-api.com/volumes')
+    return this.http.get<VolumeList>(`${url}/volumes`)
     .pipe(
         tap(data => { return data})
     );
   }
 
   volume(id){
-    return this.http.get<Volume>(`https://www.archi-api.com/volumes${id}`)
+    return this.http.get<Volume>(`${url}/volumes${id}`)
     .pipe(
         tap(data => { return data})
     );
