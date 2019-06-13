@@ -19,7 +19,7 @@
                           <td>{{ user.email }}</td>
                           <td>{{ user.dateCreated | date: 'dd/MM/yyyy' }}</td>
                           <td>
-                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Usuário" [routerLink]="[user._id]">
+                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Usuário" [routerLink]="['get/', user._id]">
                               <i class="fa fa-eye" aria-hidden="true"></i>
                             </button>
                           </td>

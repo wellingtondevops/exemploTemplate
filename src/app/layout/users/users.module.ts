@@ -5,9 +5,10 @@ import { ShowComponent } from './show/show.component';
 import { PageHeaderModule } from 'src/app/shared';
 import { UsersRoutingModule } from './users-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NewComponent } from './new/new.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent],
+  declarations: [ListComponent, ShowComponent, NewComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
