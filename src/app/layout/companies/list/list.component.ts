@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../../../services/companies/companies.service';
+import { routerTransition } from '../../../router.animations';
 import { CompaniesList, Company } from 'src/app/models/company';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
   companies: Company[];

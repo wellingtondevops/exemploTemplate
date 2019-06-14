@@ -1,3 +1,37 @@
-<p>
-  list works!
-</p>
+<div [@routerTransition]>
+  <app-page-header [heading]="'Empresas'" [icon]="'fa-building'"></app-page-header>
+  <div class="row">
+      <div class="col col-xl-12 col-lg-12">
+          <div class="card mb-3">
+              <div class="card-body table-responsive">
+                  <table class="table table-hover table-striped">
+                      <thead>
+                      <tr>
+                          <th>Nome</th>
+                          <th>CPF / CNPJ</th>
+                          <th>E-mail</th>
+                          <th>Telefone</th>
+                          <th>Criado em</th>
+                          <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let company of companies">
+                          <td>{{ company.name }}</td>
+                          <td>{{ company.cpfCnpj }}</td>
+                          <td>{{ company.email }}</td>
+                          <td>{{ company.fone }}</td>
+                          <td>{{ company.dateCreated | date: 'dd/MM/yyyy' }}</td>
+                          <td>
+                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Empresa" [routerLink]="[company._id]">
+                              <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                          </td>
+                      </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

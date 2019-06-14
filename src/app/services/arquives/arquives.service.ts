@@ -14,15 +14,15 @@ export class ArquivesService {
     private http: HttpClient
   ) { }
 
-  companies() {
-    return this.http.get<ArquivesList>(`${url}/companies`)
+  arquives() {
+    return this.http.get<ArquivesList>(`${url}/arquives`)
     .pipe(
         tap(data => { return data })
     );
   }
 
-  company(id){
-    return this.http.get<Arquive>(`${url}/companies/${id}`)
+  arquive(id){
+    return this.http.get<Arquive>(`${url}/arquives/${id}`)
     .pipe(
         tap(data => { return data })
     );
