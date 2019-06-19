@@ -4,6 +4,7 @@ import { UsersService } from '../../../services/users/users.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
+import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-show',
@@ -28,7 +29,7 @@ export class ShowComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       dateCreated: ''
-    })
+    }, )
 
     this.id = this.route.snapshot.paramMap.get("id")
     console.log(this.id)
