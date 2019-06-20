@@ -14,6 +14,7 @@ const routes: Routes = [
             { path: 'storehouses', loadChildren: './storehouses/storehouses.module#StorehousesModule'},
             { path: 'arquives', loadChildren: './arquives/arquives.module#ArquivesModule'},
             { path: 'volumes', loadChildren: './volumes/volumes.module#VolumesModule'},
+            { path: 'doctypes', loadChildren: './doctypes/doctypes.module#DoctypesModule'},
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },
