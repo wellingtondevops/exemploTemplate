@@ -25,7 +25,7 @@ export class ListComponent implements OnInit {
 
   listVolumes(){
     this.volumeSrv.volumes().subscribe(
-      (data) => { this.volumes = data.items; console.log(this.volumes) },
+      (data) => { this.volumes = data.items; console.log(data) },
       (error) => { console.log('ERROR: ', error) }
     )
   }

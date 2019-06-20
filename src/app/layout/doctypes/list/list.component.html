@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Usuários'" [icon]="'fa-table'" [btnNew]="'Novo Usuário'" [routerTo]="'/users/new'" ></app-page-header>
+  <app-page-header [heading]="'Tipo de Documentos'" [icon]="'fa-table'"></app-page-header>
   <div class="row">
       <div class="col col-xl-12 col-lg-12">
           <div class="card mb-3">
@@ -8,18 +8,18 @@
                       <thead>
                       <tr>
                           <th>Nome</th>
-                          <th>E-mail</th>
+                          <th>Retenção</th>
                           <th>Criado em</th>
                           <th></th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr *ngFor="let user of users">
-                          <td>{{ user.name }}</td>
-                          <td>{{ user.email }}</td>
-                          <td>{{ user.dateCreated | date: 'dd/MM/yyyy' }}</td>
+                      <tr *ngFor="let doctype of doctypes">
+                          <td>{{ doctype.name }}</td>
+                          <td>{{ doctype.retention }}</td>
+                          <td>{{ doctype.dateCreated | date: 'dd/MM/yyyy' }}</td>
                           <td>
-                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Usuário" [routerLink]="['get/', user._id]">
+                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Tipo de Documento" [routerLink]="[doctype._id]">
                               <i class="fa fa-eye" aria-hidden="true"></i>
                             </button>
                           </td>
