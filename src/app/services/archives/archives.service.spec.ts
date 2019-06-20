@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ArquivesService } from './arquives.service';
+import { ArquivesService } from './archives.service';
 
 describe('ArquivesService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

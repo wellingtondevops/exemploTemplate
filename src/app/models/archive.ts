@@ -1,4 +1,4 @@
-export class Arquive {
+export class Archive {
   _links: {
     self: string
   }
@@ -20,7 +20,7 @@ export class Arquive {
   create: string;
 }
 
-export class ArquivesList {
+export class ArchivesList {
   _links: string;
-  items: Arquive[]
+  items: Archive[]
 }

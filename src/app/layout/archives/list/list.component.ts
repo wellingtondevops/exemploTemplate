@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ArquivesService } from 'src/app/services/arquives/arquives.service';
+import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
-import { Arquive } from 'src/app/models/arquive';
+import { Archive } from 'src/app/models/archive';
 
 @Component({
   selector: 'app-list',
@@ -10,10 +10,10 @@ import { Arquive } from 'src/app/models/arquive';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-  arquives: Arquive[];
+  archives: Archive[];
 
   constructor(
-    private arquiveSrv: ArquivesService
+    private archiveSrv: ArquivesService
   ) { }
 
   ngOnInit() {
@@ -21,9 +21,9 @@ export class ListComponent implements OnInit {
   }
 
   listArquives(){
-    this.arquiveSrv.arquives().subscribe( (data) => {
+    this.archiveSrv.archives().subscribe( (data) => {
       console.log('Arquives', data);
-      this.arquives = data.items;
+      this.archives = data.items;
     },
     (error) => {
       console.log('ERROR:', error);

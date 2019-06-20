@@ -2,18 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { ShowComponent } from './show/show.component';
-import { ArquivesRoutingModule } from './arquives-routing.module';
-import { PageHeaderModule } from 'src/app/shared';
+import { ArchivesRoutingModule } from './archives-routing.module';
+import { PageHeaderModule, DatatableRowDetailsModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent],
   imports: [
     CommonModule,
-    ArquivesRoutingModule,
+    ArchivesRoutingModule,
     PageHeaderModule,
+    DatatableRowDetailsModule,
     ReactiveFormsModule,
     FormsModule
   ]
 })
-export class ArquivesModule { }
+export class ArchivesModule { }

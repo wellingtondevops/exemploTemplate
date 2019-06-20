@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
-import { Arquive, ArquivesList } from 'src/app/models/arquive';
+import { Archive, ArchivesList } from 'src/app/models/archive';
 import { HttpClient } from '@angular/common/http';
 const url = environment.apiUrl;
 
@@ -14,15 +14,15 @@ export class ArquivesService {
     private http: HttpClient
   ) { }
 
-  arquives() {
-    return this.http.get<ArquivesList>(`${url}/arquives`)
+  archives() {
+    return this.http.get<ArchivesList>(`${url}/archives`)
     .pipe(
         tap(data => { return data })
     );
   }
 
-  arquive(id){
-    return this.http.get<Arquive>(`${url}/arquives/${id}`)
+  archive(id){
+    return this.http.get<Archive>(`${url}/archives/${id}`)
     .pipe(
         tap(data => { return data })
     );
