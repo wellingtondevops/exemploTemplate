@@ -21,6 +21,12 @@ export class Archive {
 }
 
 export class ArchivesList {
-  _links: string;
+  _links: {
+    self: string;
+    totalPage: number;
+    currentPage: number;
+    foundItems: number;
+    next: string;
+  };
   items: Archive[]
 }

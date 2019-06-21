@@ -14,11 +14,19 @@ export class ArquivesService {
     private http: HttpClient
   ) { }
 
-  archives() {
-    return this.http.get<ArchivesList>(`${url}/archives`)
-    .pipe(
-        tap(data => { return data })
-    );
+  archives(page) {
+    if(page) {
+      return this.http.get<ArchivesList>(`${url}/archives?_page=${page.currentPage}`)
+      .pipe(
+          tap(data => { return data })
+      );
+    } else {
+      return this.http.get<ArchivesList>(`${url}/archives`)
+      .pipe(
+          tap(data => { return data })
+      );
+    }
+
   }
 
   archive(id){

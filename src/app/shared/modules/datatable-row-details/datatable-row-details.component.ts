@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-datatable-row-details',
@@ -6,17 +6,27 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./datatable-row-details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DatatableRowDetailsComponent {
+export class DatatableRowDetailsComponent implements OnInit {
   @ViewChild('myTable') table: any;
-
+  columns: any[] = [];
   rows: any[] = [];
   expanded: any = {};
   timeout: any;
-
+  @Input() newRows: any[];
+  @Input() newColumns: any[];
+  
   constructor() {
     this.fetch(data => {
+      this.columns = Object.keys(data[0]).map(object => {
+        return { name: object }
+      });
+      console.log(this.columns)
       this.rows = data;
     });
+  }
+
+  ngOnInit(){
+    console.log(this.newRows);
   }
 
   onPage(event) {

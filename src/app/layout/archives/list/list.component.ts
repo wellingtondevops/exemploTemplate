@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
+import { Page } from 'src/app/models/page';
 
 @Component({
   selector: 'app-list',
@@ -11,6 +12,8 @@ import { Archive } from 'src/app/models/archive';
 })
 export class ListComponent implements OnInit {
   archives: Archive[];
+  archivesCol: any[];
+  page: any;
 
   constructor(
     private archiveSrv: ArquivesService
@@ -21,13 +24,23 @@ export class ListComponent implements OnInit {
   }
 
   listArquives(){
-    this.archiveSrv.archives().subscribe( (data) => {
+    this.archiveSrv.archives(null).subscribe( (data) => {
       console.log('Arquives', data);
+      this.page = data._links
       this.archives = data.items;
     },
     (error) => {
       console.log('ERROR:', error);
     })
+  }
+
+  setPage(pageInfo){
+    console.log(pageInfo)
+    this.page.currentPage = pageInfo.offset;
+    this.archiveSrv.archives(this.page).subscribe(data => {
+      this.page = data._links;
+      this.archives = data.items;
+    });
   }
 
 }
