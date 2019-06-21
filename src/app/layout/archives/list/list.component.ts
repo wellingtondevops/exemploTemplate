@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
@@ -11,6 +11,7 @@ import { Page } from 'src/app/models/page';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+  @ViewChild('myTable') table: any;
   archives: Archive[];
   archivesCol: any[];
   page: any;
@@ -41,6 +42,15 @@ export class ListComponent implements OnInit {
       this.page = data._links;
       this.archives = data.items;
     });
+  }
+
+  toggleExpandRow(row) {
+    console.log('Toggled Expand Row!', row);
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event) {
+    console.log('Detail Toggled', event);
   }
 
 }
