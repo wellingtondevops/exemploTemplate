@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsersService } from 'src/app/services/users/users.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 
 @Component({
   selector: 'app-new',
@@ -19,7 +20,8 @@ export class NewComponent implements OnInit {
   constructor(
     private userSrv: UsersService,
     private fb: FormBuilder,
-    private successMsgSrv: SuccessMessagesService
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService
   ) { 
     this.profiles = ProfileEnum
   }
@@ -43,7 +45,8 @@ export class NewComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error)
+        this.errorMsg.errorMessages(error)
+        console.log('ERROR: ',error)
       })
   }
 

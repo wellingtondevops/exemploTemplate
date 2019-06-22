@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
-import { Page } from 'src/app/models/page';
+import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 
 @Component({
   selector: 'app-list',
@@ -14,10 +14,13 @@ export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   archives: Archive[];
   archivesCol: any[];
-  page: any;
+  page: any = {
+    totalPage: 0
+  };
 
   constructor(
-    private archiveSrv: ArquivesService
+    private archiveSrv: ArquivesService,
+    private errorMsg: ErrorMessagesService
   ) { }
 
   ngOnInit() {
@@ -26,11 +29,11 @@ export class ListComponent implements OnInit {
 
   listArquives(){
     this.archiveSrv.archives(null).subscribe( (data) => {
-      console.log('Arquives', data);
       this.page = data._links
       this.archives = data.items;
     },
     (error) => {
+      this.errorMsg.errorMessages(error)
       console.log('ERROR:', error);
     })
   }
@@ -45,12 +48,12 @@ export class ListComponent implements OnInit {
   }
 
   toggleExpandRow(row) {
-    console.log('Toggled Expand Row!', row);
+    // console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
 
   onDetailToggle(event) {
-    console.log('Detail Toggled', event);
+    // console.log('Detail Toggled', event);
   }
 
 }

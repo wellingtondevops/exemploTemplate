@@ -4,11 +4,17 @@
     [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalPage" [offset]="page.currentPage" [limit]="50"
     (page)='setPage($event)'>
     <!-- Row Detail Template -->
-    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+    <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-        <div style="padding-left:35px;">
-          <div><strong>Tag</strong></div>
-          <div><span *ngFor="let tag of row.tag">{{tag}}</span></div>
+        <div class="container" style="padding-bottom: 10px">
+          <div class="row">
+            <div class="col-2" style="padding-left:35px;">
+              <div *ngFor="let desc of row.doct.label"><strong>{{desc.namefield}}: </strong></div>
+            </div>
+            <div class="col-4" style="padding-left:35px;">
+              <div *ngFor="let tag of row.tag">{{tag}} </div>
+            </div>
+          </div>
         </div>
       </ng-template>
     </ngx-datatable-row-detail>

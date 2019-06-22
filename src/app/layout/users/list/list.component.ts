@@ -3,6 +3,7 @@ import { routerTransition } from '../../../router.animations';
 import { UsersService } from '../../../services/users/users.service';
 import { User } from '../../../models/user';
 import { Router } from '@angular/router';
+import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +17,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private usersSrv: UsersService,
-    private _route: Router
+    private _route: Router,
+    private errorMsg: ErrorMessagesService
   ) { }
 
   ngOnInit() {
@@ -26,7 +28,10 @@ export class ListComponent implements OnInit {
   usersList(){
     this.usersSrv.users().subscribe(
       (data) => { this.users = data.items },
-      (error) => { console.log('ERROR: ', error) }
+      (error) => {
+        this.errorMsg.errorMessages(error)
+        console.log('ERROR: ', error)
+      }
     )
   }
 
