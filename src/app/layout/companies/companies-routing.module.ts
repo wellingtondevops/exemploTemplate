@@ -9,7 +9,7 @@ const routes: Routes = [
       component: ListComponent,
     },
     {
-      path: ':id', 
+      path: ':id',
       component: ShowComponent
     }
 ];

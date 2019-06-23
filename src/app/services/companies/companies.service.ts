@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
 import { Company, CompaniesList } from '../../models/company';
@@ -17,14 +17,14 @@ export class CompaniesService {
   companies() {
     return this.http.get<CompaniesList>(`${url}/companies`)
     .pipe(
-        tap(data => { return data})
+        tap(data => data)
     );
   }
 
-  company(id){
+  company(id) {
     return this.http.get<Company>(`${url}/companies/${id}`)
     .pipe(
-        tap(data => { return data })
+        tap(data => data)
     );
   }
 }

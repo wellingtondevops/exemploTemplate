@@ -1,7 +1,7 @@
 export class Doctype {
   _links: {
     self: string
-  }
+  };
   _id: string;
   name: string;
   retention: string;
@@ -12,7 +12,7 @@ export class Doctype {
 
 export class DoctypeList {
   _links: string;
-  items: Doctype[]
+  items: Doctype[];
 }
 
 export class Label {

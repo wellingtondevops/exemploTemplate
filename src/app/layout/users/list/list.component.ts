@@ -25,17 +25,17 @@ export class ListComponent implements OnInit {
     this.usersList();
   }
 
-  usersList(){
+  usersList() {
     this.usersSrv.users().subscribe(
-      (data) => { this.users = data.items },
+      (data) => { this.users = data.items; },
       (error) => {
-        this.errorMsg.errorMessages(error)
-        console.log('ERROR: ', error)
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
       }
-    )
+    );
   }
 
-  getUser(user){
+  getUser(user) {
     console.log(user);
     this._route.navigate(['ShowComponent'], user);
   }

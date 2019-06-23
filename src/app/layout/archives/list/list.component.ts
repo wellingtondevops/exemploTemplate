@@ -24,22 +24,21 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.listArquives()
+    this.listArquives();
   }
 
-  listArquives(){
-    this.archiveSrv.archives(null).subscribe( (data) => {
-      this.page = data._links
+  listArquives() {
+    this.archiveSrv.archives(null).subscribe((data) => {
+      this.page = data._links;
       this.archives = data.items;
     },
     (error) => {
-      this.errorMsg.errorMessages(error)
+      this.errorMsg.errorMessages(error);
       console.log('ERROR:', error);
-    })
+    });
   }
 
-  setPage(pageInfo){
-    console.log(pageInfo)
+  setPage(pageInfo) {
     this.page.currentPage = pageInfo.offset;
     this.archiveSrv.archives(this.page).subscribe(data => {
       this.page = data._links;

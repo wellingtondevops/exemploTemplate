@@ -19,18 +19,18 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('volumes')
+    console.log('volumes');
     this.listVolumes();
   }
 
-  listVolumes(){
+  listVolumes() {
     this.volumeSrv.volumes().subscribe(
-      (data) => { this.volumes = data.items; console.log(data) },
-      (error) => { console.log('ERROR: ', error) }
-    )
+      (data) => { this.volumes = data.items; console.log(data); },
+      (error) => { console.log('ERROR: ', error); }
+    );
   }
 
-  getVolume(user){
+  getVolume(user) {
     console.log(user);
     this._route.navigate(['ShowComponent'], user);
   }

@@ -15,24 +15,24 @@ export class ArquivesService {
   ) { }
 
   archives(page) {
-    if(page) {
+    if (page) {
       return this.http.get<ArchivesList>(`${url}/archives?_page=${page.currentPage}`)
       .pipe(
-          tap(data => { return data })
+          tap(data => data)
       );
     } else {
       return this.http.get<ArchivesList>(`${url}/archives`)
       .pipe(
-          tap(data => { return data })
+          tap(data => data)
       );
     }
 
   }
 
-  archive(id){
+  archive(id) {
     return this.http.get<Archive>(`${url}/archives/${id}`)
     .pipe(
-        tap(data => { return data })
+        tap(data => data)
     );
   }
 }

@@ -1,7 +1,7 @@
 export class Company {
   _links: {
     self: string
-  }
+  };
   _id: string;
   name: string;
   adress: string;
@@ -16,7 +16,7 @@ export class Company {
 
 export class CompaniesList {
   _links: string;
-  items: Company[]
+  items: Company[];
 }
 
 

@@ -1,7 +1,7 @@
 export class Archive {
   _links: {
     self: string
-  }
+  };
   _id: string;
   company: {
     _id: string,
@@ -28,5 +28,5 @@ export class ArchivesList {
     foundItems: number;
     next: string;
   };
-  items: Archive[]
+  items: Archive[];
 }

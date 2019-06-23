@@ -22,8 +22,8 @@ export class NewComponent implements OnInit {
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService
-  ) { 
-    this.profiles = ProfileEnum
+  ) {
+    this.profiles = ProfileEnum;
   }
 
   ngOnInit() {
@@ -32,22 +32,22 @@ export class NewComponent implements OnInit {
       name: this.fb.control('', [Validators.required]),
       password: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required])
-    })
+    });
   }
 
   postUser() {
-    console.log(this.userForm.value) 
+    console.log(this.userForm.value);
 
     this.userSrv.newUser(this.userForm.value).subscribe(
       data => {
-        if(data._id){
-          this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.')
+        if (data._id) {
+          this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.');
         }
       },
       (error) => {
-        this.errorMsg.errorMessages(error)
-        console.log('ERROR: ',error)
-      })
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      });
   }
 
 }

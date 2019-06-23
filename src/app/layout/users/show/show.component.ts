@@ -31,11 +31,11 @@ export class ShowComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       dateCreated: ''
-    }, )
+    }, );
 
-    this.id = this.route.snapshot.paramMap.get("id")
-    console.log(this.id)
-    this.getUser()
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log(this.id);
+    this.getUser();
   }
 
   getUser() {
@@ -48,9 +48,9 @@ export class ShowComponent implements OnInit {
         });
       },
       (error) => {
-        this.errorMsg.errorMessages(error)
-        console.log('ERROR: ',error)
-      })
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      });
   }
 
 }

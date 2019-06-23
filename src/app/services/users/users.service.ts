@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User, UserList } from '../../models/user';
@@ -17,21 +17,21 @@ export class UsersService {
   users() {
     return this.http.get<UserList>(`${url}/users`)
     .pipe(
-        tap(data => { return data})
+        tap(data => data)
     );
   }
 
-  user(id){
+  user(id) {
     return this.http.get<User>(`${url}/users/${id}`)
     .pipe(
-        tap(data => { return data })
+        tap(data => data)
     );
   }
 
-  newUser(user){
+  newUser(user) {
     return this.http.post<User>(`${url}/users`, user)
     .pipe(
-      tap(data => { return data })
-    )
+      tap(data => data)
+    );
   }
 }

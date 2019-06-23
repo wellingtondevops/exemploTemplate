@@ -22,13 +22,13 @@ export class ListComponent implements OnInit {
     this.getStoreHouses();
   }
 
-  getStoreHouses(){
+  getStoreHouses() {
     this.storeHousesSrv.storeHouses().subscribe(
-      (data) => { this.storehouses = data.items },
+      (data) => { this.storehouses = data.items; },
       (error) => {
         this.errorMsg.errorMessages(error);
         console.log('ERROR:', error);
       }
-    )
+    );
   }
 }

@@ -28,10 +28,9 @@ export class ListComponent implements OnInit {
         this.companies = data.items;
       },
       (error) => {
-        this.errorMsg.errorMessages(error)
+        this.errorMsg.errorMessages(error);
         console.log('ERROR:', error);
       }
-    )
+    );
   }
-
 }

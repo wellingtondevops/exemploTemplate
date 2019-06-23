@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +24,6 @@ export class TokenInterceptorService implements HttpInterceptor {
             setHeaders: {
                 Authorization: 'Bearer ' + window.localStorage.getItem('token')
             }
-        })
+        });
     }
 }

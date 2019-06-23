@@ -19,16 +19,16 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.doctypesList()
+    this.doctypesList();
   }
 
-  doctypesList(){
+  doctypesList() {
     this.doctypeSrv.doctypes().subscribe(
-      (data) => { console.log(data); this.doctypes = data.items },
+      (data) => { console.log(data); this.doctypes = data.items; },
       (error) => {
-        this.errorMsg.errorMessages(error)
-        console.log('ERROR: ', error)
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
       }
-    )
+    );
   }
 }
