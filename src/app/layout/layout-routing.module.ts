@@ -12,7 +12,7 @@ const routes: Routes = [
             { path: 'users', loadChildren: './users/users.module#UsersModule'},
             { path: 'companies', loadChildren: './companies/companies.module#CompaniesModule'},
             { path: 'storehouses', loadChildren: './storehouses/storehouses.module#StorehousesModule'},
-            { path: 'arquives', loadChildren: './arquives/arquives.module#ArquivesModule'},
+            { path: 'archives', loadChildren: './archives/archives.module#ArchivesModule'},
             { path: 'volumes', loadChildren: './volumes/volumes.module#VolumesModule'},
             { path: 'doctypes', loadChildren: './doctypes/doctypes.module#DoctypesModule'},
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },

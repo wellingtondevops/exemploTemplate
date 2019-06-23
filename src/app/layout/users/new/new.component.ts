@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsersService } from 'src/app/services/users/users.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 
 @Component({
   selector: 'app-new',
@@ -19,9 +20,10 @@ export class NewComponent implements OnInit {
   constructor(
     private userSrv: UsersService,
     private fb: FormBuilder,
-    private successMsgSrv: SuccessMessagesService
-  ) { 
-    this.profiles = ProfileEnum
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService
+  ) {
+    this.profiles = ProfileEnum;
   }
 
   ngOnInit() {
@@ -30,21 +32,22 @@ export class NewComponent implements OnInit {
       name: this.fb.control('', [Validators.required]),
       password: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required])
-    })
+    });
   }
 
   postUser() {
-    console.log(this.userForm.value) 
+    console.log(this.userForm.value);
 
     this.userSrv.newUser(this.userForm.value).subscribe(
       data => {
-        if(data._id){
-          this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.')
+        if (data._id) {
+          this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.');
         }
       },
       (error) => {
-        console.log(error)
-      })
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      });
   }
 
 }

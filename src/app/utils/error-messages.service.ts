@@ -10,18 +10,32 @@ export class ErrorMessagesService {
     private toastr: ToastrService
   ) { }
 
-  errorMessages(error){
-    let response = {
+  errorMessages(error) {
+    const response = {
       message: '',
       status: 0
-    }
-    switch(error.status)
-    {
+    };
+    switch (error.status) {
         case 403:
-            response.message = error.error.message
-            response.status = error.status
-            this.showError(response)
-            break;    
+          response.message = error.message;
+          response.status = error.status;
+          this.showError(response);
+          break;
+        case 404:
+          response.message = error.message;
+          response.status = error.status;
+          this.showError(response);
+          break;
+        case 500:
+          response.message = error.message;
+          response.status = error.status;
+          this.showError(response);
+          break;
+        case 0:
+          response.message = error.message;
+          response.status = error.status;
+          this.showError(response);
+          break;
     }
     return response;
   }

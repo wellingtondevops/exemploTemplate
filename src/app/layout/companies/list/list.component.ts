@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../../../services/companies/companies.service';
-import { CompaniesList, Company } from 'src/app/models/company';
+import { routerTransition } from '../../../router.animations';
+import { Company } from 'src/app/models/company';
+import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
   companies: Company[];
 
   constructor(
-    private companiesSrv: CompaniesService
+    private companiesSrv: CompaniesService,
+    private errorMsg: ErrorMessagesService
   ) { }
 
   ngOnInit() {
@@ -21,13 +25,12 @@ export class ListComponent implements OnInit {
   companiesList() {
     this.companiesSrv.companies().subscribe(
       (data) => {
-        console.log('Companies', data);
         this.companies = data.items;
       },
       (error) => {
+        this.errorMsg.errorMessages(error);
         console.log('ERROR:', error);
       }
-    )
+    );
   }
-
 }

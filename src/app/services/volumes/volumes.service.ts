@@ -14,17 +14,17 @@ export class VolumesService {
     private http: HttpClient
   ) { }
 
-  volumes(){
+  volumes() {
     return this.http.get<VolumeList>(`${url}/volumes`)
     .pipe(
-        tap(data => { return data})
+        tap(data => data)
     );
   }
 
-  volume(id){
+  volume(id) {
     return this.http.get<Volume>(`${url}/volumes${id}`)
     .pipe(
-        tap(data => { return data})
+        tap(data => data)
     );
   }
 }

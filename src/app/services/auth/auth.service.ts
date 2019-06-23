@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { tap } from "rxjs/operators";
+import { tap } from 'rxjs/operators';
 import { Auth } from '../../models/auth';
 const url = environment.apiUrl;
 

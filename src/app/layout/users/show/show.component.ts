@@ -5,6 +5,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
 import { DISABLED } from '@angular/forms/src/model';
+import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 
 @Component({
   selector: 'app-show',
@@ -20,7 +21,8 @@ export class ShowComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userSrv: UsersService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private errorMsg: ErrorMessagesService
   ) { }
 
   ngOnInit() {
@@ -29,18 +31,16 @@ export class ShowComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       dateCreated: ''
-    }, )
+    }, );
 
-    this.id = this.route.snapshot.paramMap.get("id")
-    console.log(this.id)
-    this.getUser()
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log(this.id);
+    this.getUser();
   }
 
   getUser() {
     this.userSrv.user(this.id).subscribe(
       data => {
-        console.log(data);
-        console.log(moment(data.dateCreated).format('DD/MM/YYYY'))
         this.userForm.patchValue({
           email: data.email,
           name: data.name,
@@ -48,8 +48,9 @@ export class ShowComponent implements OnInit {
         });
       },
       (error) => {
-        console.log(error)
-      })
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      });
   }
 
 }

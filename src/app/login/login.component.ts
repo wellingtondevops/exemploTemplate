@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service';
 import { ErrorMessagesService } from '../utils/error-messages.service';
 
@@ -13,7 +13,7 @@ import { ErrorMessagesService } from '../utils/error-messages.service';
 })
 export class LoginComponent implements OnInit {
 
-    loginForm: FormGroup
+    loginForm: FormGroup;
 
     constructor(
       public router: Router,
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
         this.loginForm = this.fb.group({
             email: this.fb.control('', [Validators.required, Validators.email]),
             password: this.fb.control('', [Validators.required, Validators.minLength(6)])
-        })
+        });
     }
 
     onLoggedin() {
@@ -36,10 +36,9 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('isLoggedin', 'true');
         },
         (error) =>  {
-            // console.log(error)
-            var resp = this.errorMsg.errorMessages(error)
-            console.log(resp)
+            console.log('ERROR: ', error);
+            this.errorMsg.errorMessages(error);
         } );
-        
+
     }
 }

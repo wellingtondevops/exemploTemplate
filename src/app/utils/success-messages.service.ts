@@ -10,8 +10,8 @@ export class SuccessMessagesService {
     private toastr: ToastrService
   ) { }
 
-  successMessages(message){
-    this.showSuccess(message)
+  successMessages(message) {
+    this.showSuccess(message);
   }
 
   showSuccess(message) {

@@ -17,14 +17,14 @@ export class DoctypesService {
   doctypes() {
     return this.http.get<DoctypeList>(`${url}/docts`)
     .pipe(
-        tap(data => { return data})
+        tap(data => data)
     );
   }
 
-  doctype(id){
+  doctype(id) {
     return this.http.get<Doctype>(`${url}/docts/${id}`)
     .pipe(
-        tap(data => { return data })
+        tap(data => data)
     );
   }
 }
