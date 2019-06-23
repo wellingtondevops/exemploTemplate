@@ -3,8 +3,8 @@
   "version": "7.0.0",
   "license": "Apache",
   "engines": {
-    "node": "10.13.0",
-    "npm": "6.4.1"
+    "node": "10.14.1",
+    "npm": "6.9.0"
   },
   "scripts": {
     "ng": "ng",
