@@ -14,7 +14,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start": "node server.js",
-    "postinstall": "ng build --aot --prod --base-href /start-angular/SB-Admin-BS4-Angular-7/master/dist/"
+    "postinstall": "ng build --aot=false --prod --base-href /"
   },
   "private": true,
   "dependencies": {
