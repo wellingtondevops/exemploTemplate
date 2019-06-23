@@ -14,7 +14,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start": "node server.js",
-    "postinstall": "ng build --aot=false --prod --base-href /"
+    "postinstall": "ng build --aot --prod"
   },
   "private": true,
   "dependencies": {
