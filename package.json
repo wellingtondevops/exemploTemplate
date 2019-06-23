@@ -2,15 +2,21 @@
   "name": "SB-Admin-BS4-Angular-7",
   "version": "7.0.0",
   "license": "Apache",
+  "engines": {
+    "node": "10.13.0",
+    "npm": "6.4.1"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "server": "ng serve",
     "build": "ng build --prod",
     "gitbuild": "ng build --prod --base-href /start-angular/SB-Admin-BS4-Angular-7/master/dist/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "start": "node server.js",
+    "postinstall": "ng build --aot --prod"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +35,7 @@
     "@swimlane/ngx-datatable": "^15.0.2",
     "chart.js": "2.7.3",
     "core-js": "2.5.7",
+    "express": "^4.17.1",
     "font-awesome": "4.7.0",
     "moment": "^2.24.0",
     "ng2-charts": "1.6.0",
