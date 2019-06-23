@@ -29,6 +29,7 @@ export class ListComponent implements OnInit {
 
   listArquives() {
     this.archiveSrv.archives(null).subscribe((data) => {
+      console.log(data);
       this.page = data._links;
       this.archives = data.items;
     },
@@ -53,6 +54,16 @@ export class ListComponent implements OnInit {
 
   onDetailToggle(event) {
     // console.log('Detail Toggled', event);
+  }
+
+  guardType(value) {
+    let res = '';
+    switch (value) {
+      case 'GERENCIADA':
+         res = 'G';
+         break;
+    }
+    return res;
   }
 
 }
