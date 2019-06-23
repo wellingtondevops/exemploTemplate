@@ -11,7 +11,7 @@
                           <th>Descrição</th>
                           <th>Armazém</th>
                           <th>Localização</th>
-                          <th>Tipo de Volume</th>
+                          <th>Guarda</th>
                           <th>Status</th>
                           <th>Criado em</th>
                           <th></th>
@@ -23,8 +23,8 @@
                           <td>{{ volume.description }}</td>
                           <td>{{ volume.storehouse.name }}</td>
                           <td>{{ volume.location }}</td>
-                          <td>{{ volume.volumeType }}</td>
-                          <td>{{ volume.status }}</td>
+                          <td>{{ guardType(volume.guardType) }}</td>
+                          <td><i class="fa fa-circle" [ngClass]="'color-' + volume.status"></i></td>
                           <td>{{ volume.dateCreated | date: 'dd/MM/yyyy' }}</td>
                           <td>
                             <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Volume" [routerLink]="[volume._id]">
