@@ -35,4 +35,17 @@ export class ListComponent implements OnInit {
     this._route.navigate(['ShowComponent'], user);
   }
 
+  guardType(type) {
+    let res = '';
+    switch (type) {
+      case 'GERENCIADA':
+        res = 'G';
+        break;
+      case 'SIMPLES':
+        res = 'S';
+        break;
+    }
+    return res;
+  }
+
 }
