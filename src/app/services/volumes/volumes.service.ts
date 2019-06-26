@@ -14,11 +14,19 @@ export class VolumesService {
     private http: HttpClient
   ) { }
 
-  volumes() {
-    return this.http.get<VolumeList>(`${url}/volumes`)
-    .pipe(
-        tap(data => data)
-    );
+  volumes(page) {
+    if (page) {
+      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.currentPage}`)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.get<VolumeList>(`${url}/volumes`)
+      .pipe(
+          tap(data => data)
+      );
+    }
+
   }
 
   volume(id) {

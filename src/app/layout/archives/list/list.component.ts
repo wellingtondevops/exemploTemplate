@@ -29,7 +29,6 @@ export class ListComponent implements OnInit {
 
   listArquives() {
     this.archiveSrv.archives(null).subscribe((data) => {
-      console.log(data);
       this.page = data._links;
       this.archives = data.items;
     },
