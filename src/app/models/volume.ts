@@ -1,3 +1,5 @@
+import { Pagination } from './pagination';
+
 export class Volume {
   _links: {
     self: string
@@ -10,6 +12,6 @@ export class Volume {
 }
 
 export class VolumeList {
-  _links: string;
+  _links: Pagination;
   items: Volume[];
 }

@@ -1,3 +1,5 @@
+import { Pagination } from './pagination';
+
 export class Storehouse {
   _links: {
     self: string
@@ -8,7 +10,7 @@ export class Storehouse {
 }
 
 export class StorehousesList {
-  _links: string;
+  _links: Pagination;
   items: Storehouse[];
 }
 
