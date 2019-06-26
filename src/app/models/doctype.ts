@@ -1,3 +1,5 @@
+import { Pagination } from './pagination';
+
 export class Doctype {
   _links: {
     self: string
@@ -11,7 +13,7 @@ export class Doctype {
 }
 
 export class DoctypeList {
-  _links: string;
+  _links: Pagination;
   items: Doctype[];
 }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../../../services/companies/companies.service';
 import { routerTransition } from '../../../router.animations';
-import { Company, CompaniesList } from 'src/app/models/company';
+import { CompaniesList } from 'src/app/models/company';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from '../../../utils/pipes/pipes';
@@ -16,6 +16,9 @@ export class ListComponent implements OnInit {
   page: Pagination;
   columns = [
     {name: 'Nome', prop: 'name'},
+    {name: 'CPF/CNPJ', prop: 'cpfCnpj'},
+    {name: 'E-mail', prop: 'email'},
+    {name: 'Telefone', prop: 'fone'},
     {name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
 
   constructor(

@@ -2,11 +2,7 @@
     <app-page-header [heading]="'Empresas'" [icon]="'fa-building'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-                <div class="card-body table-responsive">
-                    <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" ></app-datatables>
-                </div>
-            </div>
+            <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" ></app-datatables>
         </div>
     </div>
   </div>

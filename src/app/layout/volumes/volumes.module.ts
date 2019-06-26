@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { VolumesRoutingModule } from './volumes-routing.module';
-import { PageHeaderModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     VolumesRoutingModule,
     PageHeaderModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    DatatablesModule
   ]
 })
 export class VolumesModule { }
