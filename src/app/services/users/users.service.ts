@@ -14,11 +14,19 @@ export class UsersService {
     private http: HttpClient
   ) { }
 
-  users() {
-    return this.http.get<UserList>(`${url}/users`)
-    .pipe(
-        tap(data => data)
-    );
+  users(page) {
+    if (page) {
+      return this.http.get<UserList>(`${url}/users?_page=${page.currentPage}`)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.get<UserList>(`${url}/users`)
+      .pipe(
+          tap(data => data)
+      );
+    }
+
   }
 
   user(id) {

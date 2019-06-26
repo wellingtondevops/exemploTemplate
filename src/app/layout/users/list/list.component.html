@@ -2,32 +2,7 @@
   <app-page-header [heading]="'Usuários'" [icon]="'fa-table'" [btnNew]="'Novo Usuário'" [routerTo]="'/users/new'" ></app-page-header>
   <div class="row">
       <div class="col col-xl-12 col-lg-12">
-          <div class="card mb-3">
-              <div class="card-body table-responsive">
-                  <table class="table table-hover table-striped">
-                      <thead>
-                      <tr>
-                          <th>Nome</th>
-                          <th>E-mail</th>
-                          <th>Criado em</th>
-                          <th></th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr *ngFor="let user of users">
-                          <td>{{ user.name }}</td>
-                          <td>{{ user.email }}</td>
-                          <td>{{ user.dateCreated | date: 'dd/MM/yyyy' }}</td>
-                          <td>
-                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Usuário" [routerLink]="['get/', user._id]">
-                              <i class="fa fa-eye" aria-hidden="true"></i>
-                            </button>
-                          </td>
-                      </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
+            <app-datatables [data]="users" (setPage)="setPage($event)" (show)="getUser($event)" [columns]="columns" ></app-datatables>
       </div>
   </div>
 </div>

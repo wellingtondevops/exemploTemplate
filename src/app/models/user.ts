@@ -1,3 +1,5 @@
+import { Pagination } from './pagination';
+
 export class User {
   _links: {
     self: string
@@ -10,6 +12,6 @@ export class User {
 }
 
 export class UserList {
-  _links: string;
+  _links: Pagination;
   items: User[];
 }
