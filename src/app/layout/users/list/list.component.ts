@@ -16,7 +16,10 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 export class ListComponent implements OnInit {
   public isCollapsed = false;
   users: UserList;
-  page: Pagination;
+  page = {
+    currentPage: 0,
+    totalPage: 0
+  };
 
 
   columns = [
@@ -33,6 +36,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setPage({offset: 1});
     this.usersList();
   }
 
@@ -55,6 +59,11 @@ export class ListComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.currentPage = pageInfo.offset;
+
+    if (pageInfo.offset >= 1) {
+      this.page.currentPage = pageInfo.offset + 1;
+    }
+
     this.usersSrv.users(this.page).subscribe(
       (data) => {
         this.users = data;

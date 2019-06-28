@@ -17,19 +17,19 @@ export class DatatablesComponent {
   @Output() setPage = new EventEmitter();
   @ViewChild('editTmpl') editTmpl: TemplateRef<any>;
   @Output() show = new EventEmitter();
+
   constructor(
   ) {
   }
+
   ngOnChanges(changes: SimpleChanges) {
     if (!this.firstMoment) {
       this.firstMoment = true;
       this.columns.push({name: '', cellTemplate: this.editTmpl });
-      console.log(this.columns);
     }
     // tslint:disable-next-line:forin
     for (const propName in changes) {
         const change = changes[propName];
-        console.log('change', change);
         this.items = change.currentValue.items;
         this.page = change.currentValue._links;
     }
@@ -40,6 +40,6 @@ export class DatatablesComponent {
   }
 
   showView(value) {
-    this.show.emit(value)
+    this.show.emit(value);
   }
 }

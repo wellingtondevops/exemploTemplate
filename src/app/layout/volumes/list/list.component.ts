@@ -15,7 +15,10 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 })
 export class ListComponent implements OnInit {
   volumes: VolumeList;
-  page: Pagination;
+  page = {
+    currentPage: 0,
+    totalPage: 0
+  };
   columns = [
     {name: 'Empresa', prop: 'company.name'},
     {name: 'Descrição', prop: 'description'},
@@ -33,14 +36,13 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('volumes');
+    this.setPage({offset: 1});
     this.listVolumes();
   }
 
   listVolumes() {
     this.volumeSrv.volumes(null).subscribe(
       (data) => {
-        console.log(data);
         this.volumes = data;
         this.page = data._links;
       },
@@ -48,13 +50,17 @@ export class ListComponent implements OnInit {
     );
   }
 
-  getVolume(user) {
-    console.log(user);
-    this._route.navigate(['ShowComponent'], user);
+  getVolume(volume) {
+    this._route.navigate(['ShowComponent'], volume);
   }
 
   setPage(pageInfo) {
     this.page.currentPage = pageInfo.offset;
+
+    if (pageInfo.offset >= 1) {
+      this.page.currentPage = pageInfo.offset + 1;
+    }
+
     this.volumeSrv.volumes(this.page).subscribe(
       (data) => {
         this.volumes = data;

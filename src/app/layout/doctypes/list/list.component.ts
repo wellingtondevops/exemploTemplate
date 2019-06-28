@@ -14,7 +14,10 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 })
 export class ListComponent implements OnInit {
   doctypes: DoctypeList;
-  page: Pagination;
+  page = {
+    currentPage: 0,
+    totalPage: 0
+  };
   columns = [
     {name: 'Nome', prop: 'name'},
     {name: 'Retenção', prop: 'retention'},
@@ -27,6 +30,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setPage({offset: 1});
     this.doctypesList();
   }
 
@@ -45,6 +49,11 @@ export class ListComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.currentPage = pageInfo.offset;
+
+    if (pageInfo.offset >= 1) {
+      this.page.currentPage = pageInfo.offset + 1;
+    }
+
     this.doctypeSrv.doctypes(this.page).subscribe(
       (data) => {
         this.doctypes = data;
