@@ -1,5 +1,4 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Arquivos'" [icon]="'fa-building'"></app-page-header>
   <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
     [rowHeight]="'auto'" [externalPaging]="true" [count]="page.foundItems" [offset]="page.currentPage" [limit]="50"
     (page)='setPage($event)'>
