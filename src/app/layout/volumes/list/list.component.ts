@@ -14,7 +14,16 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-  volumes: VolumeList;
+  volumes: VolumeList = {
+    _links: {
+      currentPage: 1,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    },
+    items: []
+  };
   page = {
     currentPage: 0,
     totalPage: 0
