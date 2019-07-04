@@ -1,4 +1,5 @@
 <div [@routerTransition]>
+    <app-page-header [heading]="'Armazéns'" [icon]="'fa-table'" ></app-page-header>
   <div class="row">
       <div class="col col-xl-12 col-lg-12">
             <app-datatables [data]="storehouses" (setPage)="setPage($event)" [columns]="columns" ></app-datatables>
