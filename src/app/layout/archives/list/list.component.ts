@@ -3,6 +3,7 @@ import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { Pagination } from 'src/app/models/pagination';
 
 @Component({
   selector: 'app-list',
@@ -14,9 +15,12 @@ export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   archives: Archive[];
   archivesCol: any[];
-  page = {
+  page: Pagination = {
     currentPage: 0,
-    totalPage: 0
+    totalPage: 0,
+    next: '',
+    foundItems: 0,
+    self: ''
   };
 
   constructor(
