@@ -13,7 +13,10 @@ import { Pipes } from '../../../utils/pipes/pipes';
 })
 export class ListComponent implements OnInit {
   companies: CompaniesList;
-  page: Pagination;
+  page = {
+    currentPage: 0,
+    totalPage: 0
+  };
   columns = [
     {name: 'Nome', prop: 'name'},
     {name: 'CPF/CNPJ', prop: 'cpfCnpj'},
@@ -46,6 +49,11 @@ export class ListComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.currentPage = pageInfo.offset;
+
+    if (pageInfo.offset >= 1) {
+      this.page.currentPage = pageInfo.offset + 1;
+    }
+
     this.companiesSrv.companies(this.page).subscribe(data => {
       this.page = data._links;
       this.companies = data;

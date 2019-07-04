@@ -14,7 +14,11 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 })
 export class ListComponent implements OnInit {
   storehouses: StorehousesList;
-  page: Pagination;
+  page = {
+    currentPage: 0,
+    totalPage: 0
+  };
+
   columns = [
     {name: 'Nome', prop: 'name'},
     {name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
@@ -26,13 +30,13 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setPage({ offset: 1 });
     this.getStoreHouses();
   }
 
   getStoreHouses() {
     this.storeHousesSrv.storeHouses(null).subscribe(
       (data) => {
-        console.log(data);
         this.storehouses = data;
         this.page = data._links;
       },
@@ -45,6 +49,11 @@ export class ListComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.currentPage = pageInfo.offset;
+
+    if (pageInfo.offset >= 1) {
+      this.page.currentPage = pageInfo.offset + 1;
+    }
+
     this.storeHousesSrv.storeHouses(this.page).subscribe(
       (data) => {
         this.storehouses = data;
