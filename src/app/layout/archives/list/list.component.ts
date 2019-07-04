@@ -14,7 +14,8 @@ export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   archives: Archive[];
   archivesCol: any[];
-  page: any = {
+  page = {
+    currentPage: 0,
     totalPage: 0
   };
 
@@ -24,6 +25,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setPage({ offset: 1 });
     this.listArquives();
   }
 
@@ -40,6 +42,11 @@ export class ListComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.currentPage = pageInfo.offset;
+
+   if (pageInfo.offset >= 1) {
+      this.page.currentPage = pageInfo.offset + 1;
+    }
+
     this.archiveSrv.archives(this.page).subscribe(data => {
       this.page = data._links;
       this.archives = data.items;
@@ -53,6 +60,16 @@ export class ListComponent implements OnInit {
 
   onDetailToggle(event) {
     // console.log('Detail Toggled', event);
+  }
+
+  guardType(value) {
+    let res = '';
+    switch (value) {
+      case 'GERENCIADA':
+         res = 'G';
+         break;
+    }
+    return res;
   }
 
 }

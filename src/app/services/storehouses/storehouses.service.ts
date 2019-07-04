@@ -14,11 +14,18 @@ export class StorehousesService {
     private http: HttpClient
   ) { }
 
-  storeHouses() {
-    return this.http.get<StorehousesList>(`${url}/storehouses`)
-    .pipe(
-        tap(data => data)
-    );
+  storeHouses(page) {
+    if (page) {
+      return this.http.get<StorehousesList>(`${url}/storehouses?_page=${page.currentPage}`)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.get<StorehousesList>(`${url}/storehouses`)
+      .pipe(
+          tap(data => data)
+      );
+    }
   }
 
   storehouse(id) {

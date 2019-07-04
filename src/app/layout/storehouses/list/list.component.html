@@ -1,31 +1,8 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Armazéns'" [icon]="'fa-table'"></app-page-header>
+    <app-page-header [heading]="'Armazéns'" [icon]="'fa-table'" ></app-page-header>
   <div class="row">
       <div class="col col-xl-12 col-lg-12">
-          <div class="card mb-3">
-              <div class="card-body table-responsive">
-                  <table class="table table-hover table-striped">
-                      <thead>
-                      <tr>
-                          <th>Nome</th>
-                          <th>Criado em</th>
-                          <th></th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr *ngFor="let storehouse of storehouses">
-                          <td>{{ storehouse.name }}</td>
-                          <td>{{ storehouse.dateCreated | date: 'dd/MM/yyyy' }}</td>
-                          <td>
-                            <button type="button" class="btn btn-sm btn-primary" placement="top" ngbTooltip="Ver Usuário" [routerLink]="[storehouse._id]">
-                              <i class="fa fa-eye" aria-hidden="true"></i>
-                            </button>
-                          </td>
-                      </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
+            <app-datatables [data]="storehouses" (setPage)="setPage($event)" [columns]="columns" ></app-datatables>
       </div>
   </div>
 </div>
