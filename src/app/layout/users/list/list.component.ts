@@ -15,7 +15,16 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 })
 export class ListComponent implements OnInit {
   public isCollapsed = false;
-  users: UserList;
+  users: UserList = {
+    _links: {
+      currentPage: 1,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    },
+    items: []
+  };
   page = {
     currentPage: 0,
     totalPage: 0

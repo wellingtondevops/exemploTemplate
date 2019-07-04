@@ -13,7 +13,16 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-  doctypes: DoctypeList;
+  doctypes: DoctypeList = {
+    _links: {
+      currentPage: 1,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    },
+    items: []
+  };
   page = {
     currentPage: 0,
     totalPage: 0

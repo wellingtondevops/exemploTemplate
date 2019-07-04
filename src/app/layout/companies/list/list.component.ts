@@ -12,7 +12,16 @@ import { Pipes } from '../../../utils/pipes/pipes';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-  companies: CompaniesList;
+  companies: CompaniesList = {
+    _links: {
+      currentPage: 1,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    },
+    items: []
+  };
   page = {
     currentPage: 0,
     totalPage: 0

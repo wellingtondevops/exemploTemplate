@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Injectable, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Injectable, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from 'src/app/models/pagination';
 import { first } from 'rxjs/operators';
 
@@ -8,8 +8,8 @@ import { first } from 'rxjs/operators';
     styleUrls: ['./datatables.component.scss']
 })
 @Injectable()
-export class DatatablesComponent {
-  items: any;
+export class DatatablesComponent implements OnInit {
+  items: any = [];
   @Input() data: any;
   @Input() columns: any;
   page: Pagination;
@@ -20,6 +20,16 @@ export class DatatablesComponent {
 
   constructor(
   ) {
+  }
+
+  ngOnInit() {
+    this.page = {
+      currentPage: 1,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    };
   }
 
   ngOnChanges(changes: SimpleChanges) {
