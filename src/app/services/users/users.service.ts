@@ -29,6 +29,13 @@ export class UsersService {
 
   }
 
+  updateUser(user) {
+    return this.http.put<User>(`${url}/users/${user._id}`, user)
+    .pipe(
+      tap(data => data)
+    );
+  }
+
   user(id) {
     return this.http.get<User>(`${url}/users/${id}`)
     .pipe(
