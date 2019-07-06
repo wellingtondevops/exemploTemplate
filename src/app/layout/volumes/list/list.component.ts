@@ -35,6 +35,7 @@ export class ListComponent implements OnInit {
     {name: 'Localização', prop: 'location'},
     {name: 'Guarda', prop: 'guardType', pipe: { transform: this.pipes.guardType }},
     {name: 'Status', prop: 'status', pipe: {transform: this.pipes.status }},
+    {name: 'Referência', prop: 'reference' },
     {name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
 
   constructor(
@@ -52,6 +53,7 @@ export class ListComponent implements OnInit {
   listVolumes() {
     this.volumeSrv.volumes(null).subscribe(
       (data) => {
+        console.log(`volumes`, data);
         this.volumes = data;
         this.page = data._links;
       },
