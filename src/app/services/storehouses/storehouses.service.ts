@@ -28,6 +28,13 @@ export class StorehousesService {
     }
   }
 
+  newStoreHouse(storeHouse) {
+    return this.http.post<Storehouse>(`${url}/storehouses`, storeHouse)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
   storehouse(id) {
     return this.http.get<Storehouse>(`${url}/storehouses/${id}`)
     .pipe(
