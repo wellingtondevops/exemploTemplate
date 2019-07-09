@@ -4,6 +4,7 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+// import { forbiddenNameValidator } from '../../../shared/forbidden-name.directive';
 
 @Component({
   selector: 'app-new',
@@ -29,6 +30,8 @@ export class NewComponent implements OnInit {
     });
 
   }
+
+  get name() { return this.storeHouseForm.get('name'); }
 
   postStoreHouse() {
     console.log(this.storeHouseForm.value);

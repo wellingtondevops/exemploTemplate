@@ -5,9 +5,15 @@
             <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="postStoreHouse()">
                 <div class="form-content">
                     <div class="form-group">
-                        <label for="">Nome</label>
-                        <input type="text" formControlName="name" class="form-control input-underline input-lg"
-                            placeholder="Nome" />
+                        <label for="name">Name</label>
+                        <input id="name" class="form-control" [ngClass]="{'is-invalid' : !name.valid}"
+                            formControlName="name" required >
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                            class="invalid-feedback">
+                        <div *ngIf="!name.valid">
+                            Nome é Obrigatório.
+                        </div>
+                        </div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary" >Salvar</button>

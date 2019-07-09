@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { ShowComponent } from './show/show.component';
+import { NewComponent } from './new/new.component';
 
 const routes: Routes = [
   {
@@ -10,8 +11,12 @@ const routes: Routes = [
     component: ListComponent,
   },
   {
-    path: ':id',
+    path: 'get/:id',
     component: ShowComponent
+  },
+  {
+    path: 'new',
+    component: NewComponent
   }
 ];
 
