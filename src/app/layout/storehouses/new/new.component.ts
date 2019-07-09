@@ -34,11 +34,12 @@ export class NewComponent implements OnInit {
   get name() { return this.storeHouseForm.get('name'); }
 
   postStoreHouse() {
-    console.log(this.storeHouseForm.value);
-
     this.storeHouseSrv.newStoreHouse(this.storeHouseForm.value).subscribe(
       data => {
         if (data._id) {
+          this.storeHouseForm = this.fb.group({
+            name: this.fb.control('', [Validators.required]),
+          });
           this.successMsgSrv.successMessages('Armazém cadastrado com sucesso.');
         }
       },
