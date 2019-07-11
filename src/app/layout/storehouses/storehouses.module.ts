@@ -7,6 +7,7 @@ import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent, NewComponent, EditComponent],
@@ -16,7 +17,8 @@ import { EditComponent } from './edit/edit.component';
     PageHeaderModule,
     ReactiveFormsModule,
     FormsModule,
-    DatatablesModule
+    DatatablesModule,
+    NgbModule
   ]
 })
 export class StorehousesModule { }

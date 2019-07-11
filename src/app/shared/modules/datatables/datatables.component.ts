@@ -16,9 +16,9 @@ export class DatatablesComponent implements OnInit {
   firstMoment = false;
   @Output() setPage = new EventEmitter();
   @ViewChild('showTmpl') showTmpl: TemplateRef<any>;
-  @ViewChild('editTmpl') editTmpl: TemplateRef<any>;
   @Output() show = new EventEmitter();
   @Output() edit = new EventEmitter();
+  @Output() delete = new EventEmitter();
 
   constructor(
   ) {
@@ -57,5 +57,9 @@ export class DatatablesComponent implements OnInit {
 
   editView(value) {
     this.edit.emit(value);
+  }
+
+  deleteItem(value) {
+    this.delete.emit(value);
   }
 }

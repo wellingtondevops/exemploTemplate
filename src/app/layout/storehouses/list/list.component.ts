@@ -3,9 +3,10 @@ import { routerTransition } from '../../../router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { Storehouse, StorehousesList } from 'src/app/models/storehouse';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
-import { Pagination } from 'src/app/models/pagination';
+import { ToastrService } from 'ngx-toastr';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Router } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-list',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+  closeResult: string;
   storehouses: StorehousesList = {
     _links: {
       currentPage: 1,
@@ -37,7 +39,9 @@ export class ListComponent implements OnInit {
     private _route: Router,
     private storeHousesSrv: StorehousesService,
     private errorMsg: ErrorMessagesService,
-    private pipes: Pipes
+    private pipes: Pipes,
+    private toastr: ToastrService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -52,6 +56,35 @@ export class ListComponent implements OnInit {
   editStoreHouse(storeHouse) {
     this._route.navigate(['/storehouses/edit', storeHouse]);
   }
+
+  deleteStoreHouse(storeHouse) {
+    this.toastr.success('Hello world!', 'Toastr fun!')
+    .onTap
+    .pipe()
+    .subscribe(() => this.toasterClickedHandler());
+  }
+
+  toasterClickedHandler() {
+    console.log('Toastr clicked');
+  }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+}
+
+private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+    } else {
+        return  `with: ${reason}`;
+    }
+}
 
   getStoreHouses() {
     this.storeHousesSrv.storeHouses(null).subscribe(
