@@ -5,6 +5,7 @@ import { Storehouse, StorehousesList } from 'src/app/models/storehouse';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from 'src/app/utils/pipes/pipes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -33,6 +34,7 @@ export class ListComponent implements OnInit {
     {name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
 
   constructor(
+    private _route: Router,
     private storeHousesSrv: StorehousesService,
     private errorMsg: ErrorMessagesService,
     private pipes: Pipes
@@ -41,6 +43,10 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.setPage({ offset: 1 });
     this.getStoreHouses();
+  }
+
+  getStoreHouse(user) {
+    this._route.navigate(['/storehouses/get', user]);
   }
 
   getStoreHouses() {

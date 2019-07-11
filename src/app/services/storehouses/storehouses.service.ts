@@ -41,4 +41,11 @@ export class StorehousesService {
         tap(data => data)
     );
   }
+
+  updateStoreHouse(storeHouse) {
+    return this.http.put<Storehouse>(`${url}/storehouses/${storeHouse._id}`, storeHouse)
+    .pipe(
+        tap(data => data)
+    );
+  }
 }
