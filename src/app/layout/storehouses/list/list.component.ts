@@ -45,8 +45,12 @@ export class ListComponent implements OnInit {
     this.getStoreHouses();
   }
 
-  getStoreHouse(user) {
-    this._route.navigate(['/storehouses/get', user]);
+  getStoreHouse(storeHouse) {
+    this._route.navigate(['/storehouses/get', storeHouse]);
+  }
+
+  editStoreHouse(storeHouse) {
+    this._route.navigate(['/storehouses/edit', storeHouse]);
   }
 
   getStoreHouses() {

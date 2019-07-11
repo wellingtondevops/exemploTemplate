@@ -1,0 +1,17 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Dados do Armazém'" [icon]="'fa-house'"></app-page-header>
+    <div class="card bg-light mb-12">
+        <div class="card-body">
+            <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="name">Nome</label>
+                        <input id="name" class="form-control" 
+                            formControlName="name" >
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" >Salvar</button>
+            </form>
+        </div>
+    </div>
+  </div>
