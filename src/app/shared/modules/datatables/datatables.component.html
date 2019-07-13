@@ -13,7 +13,15 @@
     [limit]="50"
     (page)='pagination($event)'>
   </ngx-datatable>
-    <ng-template #editTmpl let-row="row" let-value="value">
-      <button class="btn btn-sm btn-default" (click)="showView(row._id)"><i class="fa fa-eye" style="color:blue"></i></button>
+    <ng-template #showTmpl let-row="row" let-value="value">
+      <button class="btn btn-sm btn-default" (click)="showView(row._id)">
+        <i class="fa fa-eye" style="color:blue"></i>
+      </button>
+      <button style="margin-left: 5px" class="btn btn-sm btn-default" (click)="editView(row._id)">
+        <i class="fa fa-pencil-square-o" style="color:yellow"></i>
+      </button>
+      <button style="margin-left: 5px" class="btn btn-sm btn-default" (click)="deleteItem(row._id)">
+        <i class="fa fa-trash" style="color: red"></i>
+      </button>
     </ng-template>
 </div>

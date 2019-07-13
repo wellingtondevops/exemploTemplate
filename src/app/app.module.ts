@@ -10,7 +10,7 @@ import { AuthGuard } from './shared';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import {TokenInterceptorService} from './interceptos/token-interceptor.service';
-
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
     imports: [
         CommonModule,
@@ -22,7 +22,7 @@ import {TokenInterceptorService} from './interceptos/token-interceptor.service';
         ReactiveFormsModule,
         ToastrModule.forRoot()
     ],
-    declarations: [AppComponent],
+    declarations: [AppComponent] ,
     providers: [AuthGuard, FormBuilder, Validators,
         {
             provide: HTTP_INTERCEPTORS,
