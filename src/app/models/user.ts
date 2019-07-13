@@ -8,7 +8,7 @@ export class User {
   email: string;
   name: string;
   dateCreated: string;
-  profile: string[];
+  profiles: string[];
 }
 
 export class UserList {

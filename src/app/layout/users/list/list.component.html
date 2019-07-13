@@ -6,6 +6,7 @@
               [data]="users"
               (setPage)="setPage($event)"
               (show)="getUser($event)"
+              (edit)="editUser($event)"
               [columns]="columns"
               (delete)="open('focusFirst', $event)"
             ></app-datatables>

@@ -9,9 +9,10 @@ import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbdModalConfirmComponent } from '../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe],
+  declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

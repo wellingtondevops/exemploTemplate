@@ -29,13 +29,13 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 
 export class NgbdModalConfirmComponent {
   @Input() item: any;
-  @Input() data: Object;
+  @Input() data: Object = {
+    msgQuestionDeleteOne: '',
+    msgQuestionDeleteTwo: '',
+  };
   @Output() delete: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private successMsgSrv: SuccessMessagesService,
-    private errorMsg: ErrorMessagesService,
-    private storeHousesSrv: StorehousesService,
     public modal: NgbActiveModal
   ) {
   }

@@ -1,10 +1,9 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { UsersService } from '../../../services/users/users.service';
 import { UserList } from '../../../models/user';
 import { Router } from '@angular/router';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
-import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -107,6 +106,10 @@ export class ListComponent implements OnInit {
     modalRef.componentInstance.delete.subscribe((item) => {
       this.delete(item);
     });
+  }
+
+  editUser(user) {
+    this._route.navigate(['/users/edit', user]);
   }
 
   delete(data) {
