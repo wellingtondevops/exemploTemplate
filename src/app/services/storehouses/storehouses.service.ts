@@ -42,6 +42,13 @@ export class StorehousesService {
     );
   }
 
+  deleteStoreHouse(id) {
+    return this.http.delete<Storehouse>(`${url}/storehouses/${id}`)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
   updateStoreHouse(storeHouse) {
     return this.http.put<Storehouse>(`${url}/storehouses/${storeHouse._id}`, storeHouse)
     .pipe(

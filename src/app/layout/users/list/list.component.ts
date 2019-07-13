@@ -45,8 +45,8 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setPage({offset: 1});
-    this.usersList();
+    this.setPage({offset: 0});
+    // this.usersList();
   }
 
   usersList() {
@@ -54,6 +54,7 @@ export class ListComponent implements OnInit {
       (data) => {
         this.users = data;
         this.page = data._links;
+        console.log(`links`, data._links);
       },
       (error) => {
         this.errorMsg.errorMessages(error);

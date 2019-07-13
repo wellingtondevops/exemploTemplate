@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { Storehouse, StorehousesList } from 'src/app/models/storehouse';
@@ -6,7 +6,13 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { ToastrService } from 'ngx-toastr';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Router } from '@angular/router';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+
+const MODALS = {
+  focusFirst: NgbdModalConfirmComponent
+};
 
 @Component({
   selector: 'app-list',
@@ -41,12 +47,13 @@ export class ListComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private pipes: Pipes,
     private toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
-    this.setPage({ offset: 1 });
-    this.getStoreHouses();
+    this.setPage({ offset: 0 });
+    // this.getStoreHouses();
   }
 
   getStoreHouse(storeHouse) {
@@ -68,15 +75,29 @@ export class ListComponent implements OnInit {
     console.log('Toastr clicked');
   }
 
-  open(content) {
-    this.modalService.open(content).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-}
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.storehouse = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Armazém foi deletado com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Armazém?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao armazém serão deletadas.'
+    };
+  }
 
-private getDismissReason(reason: any): string {
+  d(data) {
+    console.log(data);
+  }
+
+  c(data) {
+    console.log(data);
+  }
+
+  delete(data) {
+    console.log(data);
+  }
+
+  private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
         return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -84,7 +105,7 @@ private getDismissReason(reason: any): string {
     } else {
         return  `with: ${reason}`;
     }
-}
+  }
 
   getStoreHouses() {
     this.storeHousesSrv.storeHouses(null).subscribe(

@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { routerTransition } from 'src/app/router.animations';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  styleUrls: ['./edit.component.scss'],
+  animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
   id: String;
@@ -28,7 +30,7 @@ export class EditComponent implements OnInit {
 
     this.storeHouseForm = this.fb.group({
       _id: '',
-      name: this.fb.control({value: '', disabled: true}, [Validators.required]),
+      name: this.fb.control('', [Validators.required]),
     });
 
     this.id = this.route.snapshot.paramMap.get('id');

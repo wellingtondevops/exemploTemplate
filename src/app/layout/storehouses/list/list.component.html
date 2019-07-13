@@ -7,24 +7,25 @@
               (setPage)="setPage($event)"
               (show)="getStoreHouse($event)"
               (edit)="editStoreHouse($event)"
-              (delete)="open(content)"
+              (delete)="open('focusFirst', $event)"
               [columns]="columns"
             ></app-datatables>
-            <button class="btn btn-primary" (click)="open(content)">Large modal</button>
-                <ng-template #content let-c="close" let-d="dismiss">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Modal title</h4>
-                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>One fine body&hellip;</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-                    </div>
-                </ng-template>
       </div>
   </div>
 </div>
+
+<ng-template #delete let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Deletar Armazém</h4>
+        <button type="button" class="close" (click)="d('Cross click')">
+            <span>&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Você tem certeza que deseja deletar o Armazém?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close(delete('Close click'))">Sim</button>
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Não</button>
+    </div>
+</ng-template>
