@@ -26,7 +26,13 @@ export class UsersService {
           tap(data => data)
       );
     }
+  }
 
+  deleteUser(user) {
+    return this.http.delete<User>(`${url}/users/${user}`)
+    .pipe(
+      tap(data => data)
+    );
   }
 
   updateUser(user) {

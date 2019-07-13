@@ -11,7 +11,7 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, NewComponent, EditComponent, NgbdModalConfirmComponent],
+  declarations: [ListComponent, ShowComponent, NewComponent, EditComponent],
   imports: [
     CommonModule,
     StorehousesRoutingModule,
@@ -23,9 +23,6 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
   ],
   providers: [
     NgbActiveModal,
-  ],
-  entryComponents: [
-    NgbdModalConfirmComponent
   ]
 })
 export class StorehousesModule { }

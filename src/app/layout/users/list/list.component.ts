@@ -6,6 +6,13 @@ import { Router } from '@angular/router';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from 'src/app/utils/pipes/pipes';
+import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+
+const MODALS = {
+  focusFirst: NgbdModalConfirmComponent
+};
 
 @Component({
   selector: 'app-list',
@@ -40,8 +47,11 @@ export class ListComponent implements OnInit {
   constructor(
     private usersSrv: UsersService,
     private _route: Router,
+    private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
-    private pipes: Pipes
+    private pipes: Pipes,
+    private modalService: NgbModal,
+    public modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
@@ -82,6 +92,31 @@ export class ListComponent implements OnInit {
       (error) => {
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Usuário foi deletado com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Usuário?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao usuário serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe((item) => {
+      this.delete(item);
+    });
+  }
+
+  delete(data) {
+    this.usersSrv.deleteUser(data).subscribe(
+      (response) => {
+        this.successMsgSrv.successMessages('Usuário deletado com sucesso.');
+      },
+      (error) => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
       }
     );
   }

@@ -7,6 +7,8 @@ import { UsersRoutingModule } from './users-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgbdModalConfirmComponent } from '../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe],
@@ -17,7 +19,10 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     ReactiveFormsModule,
     FormsModule,
-    DatatablesModule
+    DatatablesModule,
+  ],
+  providers: [
+    NgbActiveModal,
   ]
 })
 export class UsersModule { }
