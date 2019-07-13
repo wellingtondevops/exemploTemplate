@@ -6,12 +6,12 @@ import { User, UserList } from '../../models/user';
 const url = environment.apiUrl;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
 
   constructor(
-    private http: HttpClient
+    public http: HttpClient
   ) { }
 
   users(page) {

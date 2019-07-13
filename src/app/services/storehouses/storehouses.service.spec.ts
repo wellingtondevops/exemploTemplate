@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { VolumesService } from './volumes.service';
+import { StorehousesService } from './storehouses.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('VolumesService', () => {
+describe('CompaniesService', () => {
   beforeEach(() => TestBed.configureTestingModule(
     {
       declarations: [],
@@ -13,7 +13,7 @@ describe('VolumesService', () => {
   ));
 
   it('should be created', () => {
-    const service: VolumesService = TestBed.get(VolumesService);
+    const service: StorehousesService = TestBed.get(StorehousesService);
     expect(service).toBeTruthy();
   });
 });

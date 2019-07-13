@@ -20,6 +20,6 @@ import { NgbdModalConfirmModule } from '../shared';
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
     entryComponents: [
         NgbdModalConfirmComponent
-      ]
+    ]
 })
 export class LayoutModule {}
