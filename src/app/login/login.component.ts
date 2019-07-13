@@ -4,14 +4,12 @@ import { routerTransition } from '../router.animations';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service';
 import { ErrorMessagesService } from '../utils/error-messages.service';
-import { TranslateService, TranslateStore } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     animations: [routerTransition()],
-    providers: [TranslateService, TranslateStore]
 })
 export class LoginComponent implements OnInit {
 
