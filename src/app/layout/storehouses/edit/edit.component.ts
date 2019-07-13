@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { routerTransition } from 'src/app/router.animations';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-show',
-  templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss'],
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss'],
   animations: [routerTransition()]
 })
-export class ShowComponent implements OnInit {
+export class EditComponent implements OnInit {
   id: String;
   storeHouse: any;
   storeHouseForm: FormGroup;
@@ -32,11 +32,12 @@ export class ShowComponent implements OnInit {
 
     this.storeHouseForm = this.fb.group({
       _id: '',
-      name: this.fb.control({value: '', disabled: true}, [Validators.required]),
+      name: this.fb.control('', [Validators.required]),
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getStoreHouse();
+
   }
 
   getStoreHouse() {
@@ -52,16 +53,6 @@ export class ShowComponent implements OnInit {
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
       });
-  }
-
-  changeUpdate() {
-    !this.changeUp ? this.changeUp = true : this.changeUp = false;
-    if (this.changeUp) {
-      this.storeHouseForm.reset({
-        _id: this.storeHouse._id,
-        name: {value: this.storeHouse.name, disabled: false},
-      });
-    }
   }
 
   updateStoreHouse() {

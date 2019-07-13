@@ -28,8 +28,29 @@ export class StorehousesService {
     }
   }
 
+  newStoreHouse(storeHouse) {
+    return this.http.post<Storehouse>(`${url}/storehouses`, storeHouse)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
   storehouse(id) {
     return this.http.get<Storehouse>(`${url}/storehouses/${id}`)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
+  deleteStoreHouse(id) {
+    return this.http.delete<Storehouse>(`${url}/storehouses/${id}`)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
+  updateStoreHouse(storeHouse) {
+    return this.http.put<Storehouse>(`${url}/storehouses/${storeHouse._id}`, storeHouse)
     .pipe(
         tap(data => data)
     );

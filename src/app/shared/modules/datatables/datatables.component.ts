@@ -15,8 +15,10 @@ export class DatatablesComponent implements OnInit {
   page: Pagination;
   firstMoment = false;
   @Output() setPage = new EventEmitter();
-  @ViewChild('editTmpl') editTmpl: TemplateRef<any>;
+  @ViewChild('showTmpl') showTmpl: TemplateRef<any>;
   @Output() show = new EventEmitter();
+  @Output() edit = new EventEmitter();
+  @Output() delete = new EventEmitter();
 
   constructor(
   ) {
@@ -35,7 +37,7 @@ export class DatatablesComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (!this.firstMoment) {
       this.firstMoment = true;
-      this.columns.push({name: '', cellTemplate: this.editTmpl });
+      this.columns.push({name: '', cellTemplate: this.showTmpl });
     }
     // tslint:disable-next-line:forin
     for (const propName in changes) {
@@ -51,5 +53,13 @@ export class DatatablesComponent implements OnInit {
 
   showView(value) {
     this.show.emit(value);
+  }
+
+  editView(value) {
+    this.edit.emit(value);
+  }
+
+  deleteItem(value) {
+    this.delete.emit(value);
   }
 }
