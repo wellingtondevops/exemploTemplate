@@ -6,13 +6,19 @@
             <br />
             <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
                 <div class="form-content">
-                    <div class="form-group">
-                        <label for="name">Nome</label>
-                        <input id="name" class="form-control" 
-                            formControlName="name" required >
-                    </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="name" class="form-control" [ngClass]="{'is-invalid' : !name.valid && name.value === '' }"
+                                formControlName="name" >
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                class="invalid-feedback">
+                            <div *ngIf="!name.valid">
+                                Nome é obrigatório.
+                            </div>
+                            </div>
+                        </div>
                 </div>
-                <button type="submit" class="btn btn-primary" >Salvar</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!name.valid" >Salvar</button>
             </form>
         </div>
     </div>

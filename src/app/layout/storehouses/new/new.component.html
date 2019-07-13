@@ -7,11 +7,11 @@
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input id="name" class="form-control" [ngClass]="{'is-invalid' : !name.valid}"
-                            formControlName="name" required >
+                            formControlName="name" >
                         <div *ngIf="name.invalid && (name.dirty || name.touched)"
                             class="invalid-feedback">
                         <div *ngIf="!name.valid">
-                            Nome é Obrigatório.
+                            Nome é obrigatório.
                         </div>
                         </div>
                     </div>

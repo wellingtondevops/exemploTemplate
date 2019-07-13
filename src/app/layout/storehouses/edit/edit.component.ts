@@ -26,6 +26,8 @@ export class EditComponent implements OnInit {
     private errorMsg: ErrorMessagesService
   ) { }
 
+  get name() { return this.storeHouseForm.get('name'); }
+
   ngOnInit() {
 
     this.storeHouseForm = this.fb.group({
