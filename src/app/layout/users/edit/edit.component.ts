@@ -49,7 +49,6 @@ export class EditComponent implements OnInit {
     this.userSrv.user(this.id).subscribe(
       data => {
         this.user = data;
-        console.log(data);
         this.userForm.patchValue({
           _id: this.user._id,
           email: this.user.email,
