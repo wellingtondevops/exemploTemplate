@@ -15,7 +15,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 export class NewComponent implements OnInit {
   user: Object;
   userForm: FormGroup;
-  profiles: any;
+  profilesList: any;
 
   constructor(
     private userSrv: UsersService,
@@ -23,7 +23,7 @@ export class NewComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService
   ) {
-    this.profiles = ProfileEnum;
+    this.profilesList = ProfileEnum;
   }
 
   ngOnInit() {
@@ -34,6 +34,14 @@ export class NewComponent implements OnInit {
       profiles: this.fb.control('', [Validators.required])
     });
   }
+
+  get name() { return this.userForm.get('name'); }
+
+  get email() { return this.userForm.get('email'); }
+
+  get password() { return this.userForm.get('password'); }
+
+  get profiles() { return this.userForm.get('profiles'); }
 
   postUser() {
     console.log(this.userForm.value);

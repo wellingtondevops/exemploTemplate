@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,32 +21,26 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close(deleteItem())">Ok</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close(deleteBack())">Ok</button>
   </div>
   `
 })
 
 
 export class NgbdModalConfirmComponent {
-  @Input() storehouse: any;
-  @Input() data: Object;
+  @Input() item: any;
+  @Input() data: Object = {
+    msgQuestionDeleteOne: '',
+    msgQuestionDeleteTwo: '',
+  };
+  @Output() delete: EventEmitter<any> = new EventEmitter();
+
   constructor(
-    private successMsgSrv: SuccessMessagesService,
-    private errorMsg: ErrorMessagesService,
-    private storeHousesSrv: StorehousesService,
     public modal: NgbActiveModal
   ) {
   }
 
-  deleteItem() {
-    this.storeHousesSrv.deleteStoreHouse(this.storehouse).subscribe(
-      (data) => {
-        this.successMsgSrv.successMessages('Armazém deletado com sucesso.');
-      },
-      (error) => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR:', error);
-      }
-    );
+  deleteBack() {
+    this.delete.emit(this.item);
   }
 }

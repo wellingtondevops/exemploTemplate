@@ -44,6 +44,7 @@ export class ListComponent implements OnInit {
   constructor(
     private _route: Router,
     private storeHousesSrv: StorehousesService,
+    private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private pipes: Pipes,
     private toastr: ToastrService,
@@ -77,12 +78,15 @@ export class ListComponent implements OnInit {
 
   open(name: string, storeHouse) {
     const modalRef = this.modalService.open(MODALS[name]);
-    modalRef.componentInstance.storehouse = storeHouse;
+    modalRef.componentInstance.item = storeHouse;
     modalRef.componentInstance.data = {
       msgConfirmDelete: 'Armazém foi deletado com sucesso.',
       msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Armazém?',
       msgQuestionDeleteTwo: 'Todas as informações associadas ao armazém serão deletadas.'
     };
+    modalRef.componentInstance.delete.subscribe((item) => {
+      this.delete(item);
+    });
   }
 
   d(data) {
@@ -94,7 +98,15 @@ export class ListComponent implements OnInit {
   }
 
   delete(data) {
-    console.log(data);
+    this.storeHousesSrv.deleteStoreHouse(data).subscribe(
+      (response) => {
+        this.successMsgSrv.successMessages('Armazém deletado com sucesso.');
+      },
+      (error) => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      }
+    );
   }
 
   private getDismissReason(reason: any): string {
