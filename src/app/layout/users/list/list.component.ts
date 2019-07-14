@@ -116,6 +116,7 @@ export class ListComponent implements OnInit {
     this.usersSrv.deleteUser(data).subscribe(
       (response) => {
         this.successMsgSrv.successMessages('Usuário deletado com sucesso.');
+        this.usersList();
       },
       (error) => {
         this.errorMsg.errorMessages(error);
