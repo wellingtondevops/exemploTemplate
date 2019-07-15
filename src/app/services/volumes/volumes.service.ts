@@ -26,7 +26,13 @@ export class VolumesService {
           tap(data => data)
       );
     }
+  }
 
+  deleteVolume(volume) {
+    return this.http.delete<Volume>(`${url}/volumes/${volume}`)
+    .pipe(
+      tap(data => data)
+    );
   }
 
   volume(id) {
