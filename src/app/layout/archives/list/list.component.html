@@ -1,7 +1,7 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Arquivos'" [icon]="'fa-table'" ></app-page-header>
   <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-    [rowHeight]="'auto'" [externalPaging]="true" [count]="page.foundItems" [offset]="page.currentPage" [limit]="50"
+    [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="50"
     (page)='setPage($event)'>
     <!-- Row Detail Template -->
     <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
