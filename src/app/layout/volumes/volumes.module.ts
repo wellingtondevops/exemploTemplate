@@ -7,7 +7,7 @@ import { PageHeaderModule, DatatablesModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
@@ -19,7 +19,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
     ReactiveFormsModule,
     FormsModule,
     DatatablesModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    NgbModule
   ],
   providers: [
     NgbActiveModal,

@@ -1,4 +1,6 @@
 import { Pagination } from './pagination';
+import { Company } from './company';
+import { Storehouse } from './storehouse';
 
 export class Volume {
   _links: {
@@ -7,6 +9,8 @@ export class Volume {
   _id: string;
   email: string;
   name: string;
+  storehouse: Storehouse;
+  company: Company;
   dateCreated: string;
   profile: string[];
 }

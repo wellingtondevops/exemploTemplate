@@ -75,7 +75,7 @@ export class ShowComponent implements OnInit {
         _id: this.user._id,
         email: {value: this.user.email, disabled: false},
         name: {value: this.user.name, disabled: false},
-        profiles: {value: this.user.profiles.name, disabled: false},
+        profiles: {value: this.user.profiles, disabled: false},
         dateCreated: {value: moment(this.user.dateCreated).format('YYYY-MM-DD'), disabled: true}
       });
     }

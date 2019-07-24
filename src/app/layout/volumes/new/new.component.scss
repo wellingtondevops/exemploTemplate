@@ -1,6 +1,13 @@
 .ng-autocomplete {
   width: 100%;
-  
+  z-index: 00000;
+}
+.autocomplete-container .suggestions-container.is-visible{
+  z-index: 9999;
+}
+
+.suggestions-container.is-visible > ul{
+  z-index: 9999!important;
 }
 
 body > app-root > app-layout > section > app-new > div > div > div > form > div > div:nth-child(1) > div > ng-autocomplete > div {
@@ -11,6 +18,7 @@ body > app-root > app-layout > section > app-new > div > div > div > form > div 
 }
 
 .autocomplete-container .input-container input{
+  z-index: 00000;
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;

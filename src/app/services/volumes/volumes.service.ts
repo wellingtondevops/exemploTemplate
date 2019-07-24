@@ -41,4 +41,11 @@ export class VolumesService {
         tap(data => data)
     );
   }
+
+  newVolume(volume) {
+    return this.http.post<Volume>(`${url}/volumes`, volume)
+    .pipe(
+      tap(data => data)
+    );
+  }
 }
