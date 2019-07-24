@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../services/users/users.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
 import { DISABLED } from '@angular/forms/src/model';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ProfileEnum } from 'src/app/models/profile.enum';
 
 @Component({
   selector: 'app-show',
@@ -18,13 +19,16 @@ export class ShowComponent implements OnInit {
   user: any;
   userForm: FormGroup;
   changeUp = false;
+  profilesList: any;
 
   constructor(
     private route: ActivatedRoute,
     private userSrv: UsersService,
     private fb: FormBuilder,
     private errorMsg: ErrorMessagesService
-  ) { }
+  ) {
+    this.profilesList = ProfileEnum;
+  }
 
   ngOnInit() {
 
@@ -32,12 +36,19 @@ export class ShowComponent implements OnInit {
       _id: '',
       email: this.fb.control({value: '', disabled: true}, [Validators.required, Validators.email]),
       name: this.fb.control({value: '', disabled: true},  [Validators.required]),
+      profiles: this.fb.control('', [Validators.required]),
       dateCreated: this.fb.control({value: '', disabled: true}),
     }, );
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getUser();
   }
+
+  get name() { return this.userForm.get('name'); }
+
+  get email() { return this.userForm.get('email'); }
+
+  get profiles() { return this.userForm.get('profiles'); }
 
   getUser() {
     this.userSrv.user(this.id).subscribe(
@@ -47,6 +58,7 @@ export class ShowComponent implements OnInit {
           _id: data._id,
           email: data.email,
           name: data.name,
+          profiles: data.profiles,
           dateCreated: moment(data.dateCreated).format('YYYY-MM-DD')
         });
       },
@@ -63,6 +75,7 @@ export class ShowComponent implements OnInit {
         _id: this.user._id,
         email: {value: this.user.email, disabled: false},
         name: {value: this.user.name, disabled: false},
+        profiles: {value: this.user.profiles.name, disabled: false},
         dateCreated: {value: moment(this.user.dateCreated).format('YYYY-MM-DD'), disabled: true}
       });
     }
@@ -74,4 +87,14 @@ export class ShowComponent implements OnInit {
     });
   }
 
+}
+
+@Pipe({
+  name: 'enumToArray'
+})
+export class EnumToArrayPipe implements PipeTransform {
+  transform(data: Object) {
+    const keys = Object.keys(data);
+    return keys.slice(keys.length / 2);
+  }
 }
