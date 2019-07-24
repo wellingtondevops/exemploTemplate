@@ -8,6 +8,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { Page } from 'src/app/models/page';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -21,7 +22,7 @@ const MODALS = {
 export class ListComponent implements OnInit {
   volumes: VolumeList = {
     _links: {
-      currentPage: 1,
+      currentPage: 0,
       foundItems: 0,
       next: '',
       self: '',
@@ -29,10 +30,7 @@ export class ListComponent implements OnInit {
     },
     items: []
   };
-  page = {
-    currentPage: 0,
-    totalPage: 0
-  };
+  page = new Page();
   columns = [
     {name: 'Empresa', prop: 'company.name', width: 250},
     {name: 'Descrição', prop: 'description'},
@@ -54,15 +52,18 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setPage({offset: 0});
-    // this.listVolumes();
+    //this.setPage({offset: 0});
+    this.listVolumes();
   }
 
   listVolumes() {
     this.volumeSrv.volumes(null).subscribe(
       (data) => {
+        console.log(data)
         this.volumes = data;
-        this.page = data._links;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
       },
       (error) => { console.log('ERROR: ', error); }
     );
@@ -103,16 +104,15 @@ export class ListComponent implements OnInit {
   }
 
   setPage(pageInfo) {
-    this.page.currentPage = pageInfo.offset;
-
-    if (pageInfo.offset >= 1) {
-      this.page.currentPage = pageInfo.offset + 1;
-    }
+    this.page.pageNumber = pageInfo.offset;
 
     this.volumeSrv.volumes(this.page).subscribe(
       (data) => {
+        console.log(data)
         this.volumes = data;
-        this.page = data._links;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
       },
       (error) => {
         this.errorMsg.errorMessages(error);

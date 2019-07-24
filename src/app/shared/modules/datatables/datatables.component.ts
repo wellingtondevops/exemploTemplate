@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, Injectable, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from 'src/app/models/pagination';
 import { first } from 'rxjs/operators';
+import { Page } from 'src/app/models/page';
 
 @Component({
     selector: 'app-datatables',
@@ -12,7 +13,7 @@ export class DatatablesComponent implements OnInit {
   items: any = [];
   @Input() data: any;
   @Input() columns: any;
-  page: Pagination;
+  page = new Page();
   firstMoment = false;
   @Output() setPage = new EventEmitter();
   @ViewChild('showTmpl') showTmpl: TemplateRef<any>;
@@ -22,16 +23,12 @@ export class DatatablesComponent implements OnInit {
 
   constructor(
   ) {
+    this.page.pageNumber = 1;
+    this.page.size = 50;
   }
 
   ngOnInit() {
-    this.page = {
-      currentPage: 1,
-      foundItems: 0,
-      next: '',
-      self: '',
-      totalPage: 0
-    };
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -43,11 +40,14 @@ export class DatatablesComponent implements OnInit {
     for (const propName in changes) {
         const change = changes[propName];
         this.items = change.currentValue.items;
-        this.page = change.currentValue._links;
+        this.page.totalElements = change.currentValue._links.foundItems;
+        this.page.pageNumber = change.currentValue._links.currentPage;
     }
   }
 
   pagination(pageInfo) {
+    console.log(pageInfo)
+    pageInfo.offset += 1;
     this.setPage.emit(pageInfo);
   }
 

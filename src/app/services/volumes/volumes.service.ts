@@ -16,7 +16,7 @@ export class VolumesService {
 
   volumes(page) {
     if (page) {
-      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.currentPage}`)
+      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );
