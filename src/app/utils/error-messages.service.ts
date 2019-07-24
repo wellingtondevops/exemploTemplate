@@ -17,26 +17,27 @@ export class ErrorMessagesService {
     };
     switch (error.status) {
         case 403:
-          response.message = error.message;
+          response.message = error.error.message;
           response.status = error.status;
-          this.showError(response);
           break;
         case 404:
-          response.message = error.message;
+          response.message = error.error.message;
           response.status = error.status;
-          this.showError(response);
+          break;
+        case 405:
+          response.message = error.error.message;
+          response.status = error.status;
           break;
         case 500:
-          response.message = error.message;
+          response.message = error.error.message;
           response.status = error.status;
-          this.showError(response);
           break;
         case 0:
-          response.message = error.message;
+          response.message = error.error.message;
           response.status = error.status;
-          this.showError(response);
           break;
     }
+    this.showError(response);
     return response;
   }
 

@@ -1,3 +1,7 @@
+import { Pagination } from './pagination';
+import { Company } from './company';
+import { Storehouse } from './storehouse';
+
 export class Volume {
   _links: {
     self: string
@@ -5,11 +9,13 @@ export class Volume {
   _id: string;
   email: string;
   name: string;
+  storehouse: Storehouse;
+  company: Company;
   dateCreated: string;
   profile: string[];
 }
 
 export class VolumeList {
-  _links: string;
+  _links: Pagination;
   items: Volume[];
 }

@@ -14,11 +14,18 @@ export class DoctypesService {
     private http: HttpClient
   ) { }
 
-  doctypes() {
-    return this.http.get<DoctypeList>(`${url}/docts`)
-    .pipe(
-        tap(data => data)
-    );
+  doctypes(page) {
+    if (page) {
+      return this.http.get<DoctypeList>(`${url}/docts?_page=${page.pageNumber}`)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.get<DoctypeList>(`${url}/docts`)
+      .pipe(
+          tap(data => data)
+      );
+    }
   }
 
   doctype(id) {

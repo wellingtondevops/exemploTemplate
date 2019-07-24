@@ -14,11 +14,19 @@ export class CompaniesService {
     private http: HttpClient
   ) { }
 
-  companies() {
-    return this.http.get<CompaniesList>(`${url}/companies`)
-    .pipe(
-        tap(data => data)
-    );
+  companies(page) {
+    if (page) {
+      return this.http.get<CompaniesList>(`${url}/companies?_page=${page.pageNumber}`)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.get<CompaniesList>(`${url}/companies`)
+      .pipe(
+          tap(data => data)
+      );
+    }
+
   }
 
   company(id) {

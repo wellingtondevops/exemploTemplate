@@ -1,0 +1,60 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Dados do Usuário'" [icon]="'fa-user'"></app-page-header>
+    <div class="card bg-light mb-12">
+        <div class="card-body">
+            <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="postVolume()">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="">Empresa</label>
+                        <div class="ng-autocomplete">
+                            <ng-autocomplete [data]="companies.items" [searchKeyword]="'name'" (selected)='selectEvent($event)'
+                                (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)'
+                                [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item style="z-index:9999">
+                                <a [innerHTML]="item.name"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="typeahead-basic">Armazém</label>
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse" [ngbTypeahead]="search"/>
+                    </div>
+
+                    <!--
+                        <div class="form-group">
+                        <label for="">Armazém</label>
+                        <div class="ng-autocomplete" style="z-index: 0!important">
+                            <ng-autocomplete [data]="storeHouses.items" [searchKeyword]="'name'" (selected)='selectStoreHouse($event)'
+                                (inputChanged)='onChangeSearchStoreHouse($event)' (inputFocused)='onFocusedStoreHouse($event)'
+                                [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.name"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                        </div>
+                    </div>
+                    -->
+
+                    <div class="form-group">
+                        <label for="">Descrição</label>
+                        <input type="text" formControlName="description" class="form-control input-underline input-lg"
+                            placeholder="Descrição" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>

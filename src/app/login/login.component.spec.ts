@@ -4,6 +4,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoginComponent } from './login.component';
 import { LoginModule } from './login.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ToastrModule } from 'ngx-toastr';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -15,6 +18,9 @@ describe('LoginComponent', () => {
         LoginModule,
         RouterTestingModule,
         BrowserAnimationsModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        TranslateModule.forRoot(),
       ],
     })
     .compileComponents();

@@ -24,6 +24,7 @@ $topnav-background-color: #222;
     // border-top: 1px solid rgba(255,255,255,0.3);
     .list-group {
         a.list-group-item {
+            padding-left: 25px;
             background: $topnav-background-color;
             border: 0;
             border-radius: 0;
@@ -34,10 +35,16 @@ $topnav-background-color: #222;
             }
         }
         a:hover {
+            padding-left: 20px;
+            border-left-color: white;
+            border-left: 5px solid;
             background: darken($topnav-background-color, 5%);
             color: #fff;
         }
         a.router-link-active {
+            padding-left: 20px;
+            border-left-color: white;
+            border-left: 5px solid;
             background: darken($topnav-background-color, 5%);
             color: #fff;
         }

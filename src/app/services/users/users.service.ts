@@ -6,18 +6,39 @@ import { User, UserList } from '../../models/user';
 const url = environment.apiUrl;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
 
   constructor(
-    private http: HttpClient
+    public http: HttpClient
   ) { }
 
-  users() {
-    return this.http.get<UserList>(`${url}/users`)
+  users(page) {
+    if (page) {
+      return this.http.get<UserList>(`${url}/users?_page=${page.pageNumber}`)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.get<UserList>(`${url}/users`)
+      .pipe(
+          tap(data => data)
+      );
+    }
+  }
+
+  deleteUser(user) {
+    return this.http.delete<User>(`${url}/users/${user}`)
     .pipe(
-        tap(data => data)
+      tap(data => data)
+    );
+  }
+
+  updateUser(user) {
+    return this.http.put<User>(`${url}/users/${user._id}`, user)
+    .pipe(
+      tap(data => data)
     );
   }
 

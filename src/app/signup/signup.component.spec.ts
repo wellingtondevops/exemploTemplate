@@ -4,6 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SignupComponent } from './signup.component';
 import { SignupModule } from './signup.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -15,6 +17,8 @@ describe('SignupComponent', () => {
         SignupModule,
         RouterTestingModule,
         BrowserAnimationsModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
       ],
     })
     .compileComponents();

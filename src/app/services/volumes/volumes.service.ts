@@ -14,10 +14,24 @@ export class VolumesService {
     private http: HttpClient
   ) { }
 
-  volumes() {
-    return this.http.get<VolumeList>(`${url}/volumes`)
+  volumes(page) {
+    if (page) {
+      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.pageNumber}`)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.get<VolumeList>(`${url}/volumes`)
+      .pipe(
+          tap(data => data)
+      );
+    }
+  }
+
+  deleteVolume(volume) {
+    return this.http.delete<Volume>(`${url}/volumes/${volume}`)
     .pipe(
-        tap(data => data)
+      tap(data => data)
     );
   }
 
@@ -25,6 +39,13 @@ export class VolumesService {
     return this.http.get<Volume>(`${url}/volumes${id}`)
     .pipe(
         tap(data => data)
+    );
+  }
+
+  newVolume(volume) {
+    return this.http.post<Volume>(`${url}/volumes`, volume)
+    .pipe(
+      tap(data => data)
     );
   }
 }

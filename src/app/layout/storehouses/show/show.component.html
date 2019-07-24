@@ -1,3 +1,25 @@
-<p>
-  Em construção
-</p>
+<div [@routerTransition]>
+    <app-page-header [heading]="'Dados do Armazém'" [icon]="'fa-house'"></app-page-header>
+    <div class="card bg-light mb-12">
+        <div class="card-body">
+            <button class="btn btn-primary pull-right" (click)="changeUpdate()" >Editar</button>
+            <br />
+            <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
+                <div class="form-content">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="name" class="form-control" [ngClass]="{'is-invalid' : !name.valid && name.value === '' }"
+                                formControlName="name" >
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                class="invalid-feedback">
+                            <div *ngIf="!name.valid">
+                                Nome é obrigatório.
+                            </div>
+                            </div>
+                        </div>
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="!name.valid" >Salvar</button>
+            </form>
+        </div>
+    </div>
+  </div>
