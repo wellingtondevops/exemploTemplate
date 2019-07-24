@@ -29,7 +29,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 
 export class NgbdModalConfirmComponent {
   @Input() item: any;
-  @Input() data: Object = {
+  @Input() data = {
     msgQuestionDeleteOne: '',
     msgQuestionDeleteTwo: '',
   };

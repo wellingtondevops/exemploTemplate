@@ -4,7 +4,6 @@ import { UsersService } from '../../../services/users/users.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
-import { DISABLED } from '@angular/forms/src/model';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
 
@@ -12,7 +11,7 @@ import { ProfileEnum } from 'src/app/models/profile.enum';
   selector: 'app-show',
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.scss'],
-  animations: [routerTransition()]
+  animations: [routerTransition()],
 })
 export class ShowComponent implements OnInit {
   id: String;
@@ -87,14 +86,4 @@ export class ShowComponent implements OnInit {
     });
   }
 
-}
-
-@Pipe({
-  name: 'enumToArray'
-})
-export class EnumToArrayPipe implements PipeTransform {
-  transform(data: Object) {
-    const keys = Object.keys(data);
-    return keys.slice(keys.length / 2);
-  }
 }
