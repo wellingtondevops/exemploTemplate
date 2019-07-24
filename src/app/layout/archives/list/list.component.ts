@@ -3,6 +3,7 @@ import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { Page } from 'src/app/models/page';
 
 @Component({
   selector: 'app-list',
@@ -14,10 +15,7 @@ export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   archives: Archive[];
   archivesCol: any[];
-  page = {
-    currentPage: 0,
-    totalPage: 0
-  };
+  page = new Page();
 
   constructor(
     private archiveSrv: ArquivesService,
@@ -25,13 +23,15 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setPage({ offset: 1 });
+    // this.setPage({ offset: 1 });
     this.listArquives();
   }
 
   listArquives() {
     this.archiveSrv.archives(null).subscribe((data) => {
-      this.page = data._links;
+      this.page.pageNumber = data._links.currentPage;
+      this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
       this.archives = data.items;
     },
     (error) => {
@@ -41,14 +41,12 @@ export class ListComponent implements OnInit {
   }
 
   setPage(pageInfo) {
-    this.page.currentPage = pageInfo.offset;
-
-   if (pageInfo.offset >= 1) {
-      this.page.currentPage = pageInfo.offset + 1;
-    }
+    this.page.pageNumber = pageInfo.offset;
 
     this.archiveSrv.archives(this.page).subscribe(data => {
-      this.page = data._links;
+      this.page.pageNumber = data._links.currentPage;
+      this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
       this.archives = data.items;
     });
   }

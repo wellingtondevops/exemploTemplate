@@ -16,7 +16,7 @@ export class DoctypesService {
 
   doctypes(page) {
     if (page) {
-      return this.http.get<DoctypeList>(`${url}/docts?_page=${page.currentPage}`)
+      return this.http.get<DoctypeList>(`${url}/docts?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );

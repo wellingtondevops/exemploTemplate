@@ -5,6 +5,7 @@ import { DoctypeList } from 'src/app/models/doctype';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from 'src/app/utils/pipes/pipes';
+import { Page } from 'src/app/models/page';
 
 @Component({
   selector: 'app-list',
@@ -23,10 +24,7 @@ export class ListComponent implements OnInit {
     },
     items: []
   };
-  page = {
-    currentPage: 0,
-    totalPage: 0
-  };
+  page = new Page();
   columns = [
     {name: 'Nome', prop: 'name'},
     {name: 'Retenção', prop: 'retention'},
@@ -47,7 +45,9 @@ export class ListComponent implements OnInit {
     this.doctypeSrv.doctypes(null).subscribe(
       (data) => {
         this.doctypes = data;
-        this.page = data._links;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
       },
       (error) => {
         this.errorMsg.errorMessages(error);
@@ -57,16 +57,14 @@ export class ListComponent implements OnInit {
   }
 
   setPage(pageInfo) {
-    this.page.currentPage = pageInfo.offset;
-
-    if (pageInfo.offset >= 1) {
-      this.page.currentPage = pageInfo.offset + 1;
-    }
+    this.page.pageNumber = pageInfo.offset;
 
     this.doctypeSrv.doctypes(this.page).subscribe(
       (data) => {
         this.doctypes = data;
-        this.page = data._links;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
       },
       (error) => {
         this.errorMsg.errorMessages(error);

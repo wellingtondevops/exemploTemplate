@@ -16,7 +16,7 @@ export class CompaniesService {
 
   companies(page) {
     if (page) {
-      return this.http.get<CompaniesList>(`${url}/companies?_page=${page.currentPage}`)
+      return this.http.get<CompaniesList>(`${url}/companies?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );

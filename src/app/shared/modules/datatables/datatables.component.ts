@@ -23,7 +23,7 @@ export class DatatablesComponent implements OnInit {
 
   constructor(
   ) {
-    this.page.pageNumber = 1;
+    this.page.pageNumber = 0;
     this.page.size = 50;
   }
 
@@ -46,7 +46,6 @@ export class DatatablesComponent implements OnInit {
   }
 
   pagination(pageInfo) {
-    console.log(pageInfo)
     pageInfo.offset += 1;
     this.setPage.emit(pageInfo);
   }

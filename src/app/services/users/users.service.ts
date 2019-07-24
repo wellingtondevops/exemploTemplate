@@ -16,7 +16,7 @@ export class UsersService {
 
   users(page) {
     if (page) {
-      return this.http.get<UserList>(`${url}/users?_page=${page.currentPage}`)
+      return this.http.get<UserList>(`${url}/users?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );
