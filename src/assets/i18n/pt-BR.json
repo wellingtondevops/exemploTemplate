@@ -1,5 +1,14 @@
 {
   "SNOW": "Pesquisador",
   "TYWIN": "Arquivador",
-  "DAENERYS": "Administrador"
+  "DAENERYS": "Administrador",
+  "ACTIVE": "Ativo",
+  "LOWER": "Baixado",
+  "BORROWED": "Emprestado",
+  "SIMPLE": "Simples",
+  "MANAGED": "Gerenciada",
+  "DRAWER": "Gaveta",
+  "MAPOTECA": "Mapoteca",
+  "BOX":"Box",
+  "CONTAINER": "Container"
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { CompaniesList, Company } from 'src/app/models/company';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
@@ -6,8 +6,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from 'src/app/router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { StorehousesList, Storehouse } from 'src/app/models/storehouse';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, reduce } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import _ from 'lodash';
+import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 
 const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
   'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
@@ -28,7 +30,8 @@ export class NewComponent implements OnInit {
   companies: CompaniesList;
   volumeForm: FormGroup;
   company: Company;
-  storeHouses: StorehousesList;
+  storeHouses: any = [];
+  volumeTypeList: any = [];
   storeHouse: Storehouse;
 
   constructor(
@@ -37,13 +40,19 @@ export class NewComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private fb: FormBuilder,
   ) {
+
+    this.volumeTypeList = VolumeTypeEnum;
+
     this.volumeForm = this.fb.group({
-      companie: this.fb.control('', [Validators.required]),
+      storehouse: this.fb.control('', [Validators.required]),
+      company: this.fb.control('', [Validators.required]),
       description: this.fb.control('', [Validators.required]),
       guardType: this.fb.control('', [Validators.required]),
       volumeType: this.fb.control('', [Validators.required])
     });
   }
+
+  get volumeType() { return this.volumeForm.get('volumeType'); }
 
   ngOnInit() {
     this.getCompanies();
@@ -52,7 +61,7 @@ export class NewComponent implements OnInit {
 
   getCompanies() {
     this.companiesSrv.companies(null).subscribe(data => {
-      this.companies = data;
+      this.companies = data.items;
     }, (error) => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
@@ -61,7 +70,7 @@ export class NewComponent implements OnInit {
 
   getStoreHouses() {
     this.storeHousesSrv.storeHouses(null).subscribe(data => {
-      this.storeHouses = data;
+      this.storeHouses = data.items;
     }, (error) => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
@@ -99,15 +108,43 @@ export class NewComponent implements OnInit {
     console.log('onChangeSearchStoreHouse', val);
   }
 
+  returnId(object) {
+    this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
+      if(key === '_id') return value;
+    })[0];
+  }
+
   postVolume() {
-    console.log('company', this.company)
+    this.returnId('company')
+    this.returnId('storehouse')
+    console.log('volumeForm', this.volumeForm.value)
   }
 
   search = (text$: Observable<string>) =>
   text$.pipe(
     debounceTime(200),
     distinctUntilChanged(),
-    map(term => term.length < 2 ? []
-      : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    map(storehouse => storehouse.length < 2 ? []
+      : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10))
   )
+
+  formatter = (x: {name: string}) => x.name;
+
+  searchCompany = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(company => company.length < 2 ? []
+      : _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10)),
+  )
+  
+}
+@Pipe({
+  name: 'enumToArray'
+})
+export class EnumToArrayPipe implements PipeTransform {
+  transform(data: Object) {
+    const keys = Object.keys(data);
+    return keys.slice(keys.length / 2);
+  }
 }

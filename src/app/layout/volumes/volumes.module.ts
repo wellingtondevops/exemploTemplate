@@ -5,13 +5,14 @@ import { ListComponent } from './list/list.component';
 import { VolumesRoutingModule } from './volumes-routing.module';
 import { PageHeaderModule, DatatablesModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NewComponent } from './new/new.component';
+import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent],
+  declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent],
   imports: [
     CommonModule,
     VolumesRoutingModule,
@@ -20,7 +21,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
     FormsModule,
     DatatablesModule,
     AutocompleteLibModule,
-    NgbModule
+    NgbModule,
+    TranslateModule
   ],
   providers: [
     NgbActiveModal,
