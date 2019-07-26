@@ -36,9 +36,16 @@ export class VolumesService {
   }
 
   volume(id) {
-    return this.http.get<Volume>(`${url}/volumes${id}`)
+    return this.http.get<Volume>(`${url}/volumes/${id}`)
     .pipe(
         tap(data => data)
+    );
+  }
+
+  updateVolume(volume) {
+    return this.http.put<Volume>(`${url}/volumes/${volume._id}`, volume)
+    .pipe(
+      tap(data => data)
     );
   }
 
