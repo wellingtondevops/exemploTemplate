@@ -1,3 +1,3 @@
 export enum GuardyTypeVolumeEnum {
-  SIMPLE, MANAGED
+  SIMPLES, GERENCIADA
 }

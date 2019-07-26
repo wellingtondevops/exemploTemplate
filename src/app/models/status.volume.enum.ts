@@ -1,3 +1,3 @@
 export enum StatusVolumeEnum {
-  ACTIVE, LOWER, BORROWED
+  ATIVO, BAIXADO, EMPRESTADO
 }

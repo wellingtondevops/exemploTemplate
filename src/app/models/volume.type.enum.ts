@@ -1,3 +1,3 @@
 export enum VolumeTypeEnum {
-  BOX, CONTAINER, DRAWER, MAPOTECA
+  BOX, CONTAINER, GAVETA, MAPOTECA
 }

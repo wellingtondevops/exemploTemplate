@@ -36,7 +36,7 @@ export class UsersService {
   }
 
   updateUser(user) {
-    return this.http.put<User>(`${url}/users/${user._id}`, user)
+    return this.http.patch<User>(`${url}/users/${user._id}`, user)
     .pipe(
       tap(data => data)
     );
