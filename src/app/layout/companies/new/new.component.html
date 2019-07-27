@@ -49,6 +49,17 @@
                   </div>
 
                   <div class="form-group">
+                      <label for="">E-mail</label>
+                      <input type="text" placeholder="E-mail" class="form-control" formControlName="email" [ngClass]="{'is-invalid' : !email.valid}" />
+                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                        class="invalid-feedback">
+                    <div *ngIf="!email.valid">
+                        E-mail é obrigatório.
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
                       <label for="">Telefone</label>
                       <input type="text" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid}" />
                     <div *ngIf="fone.invalid && (fone.dirty || fone.touched)"
@@ -132,7 +143,7 @@
                 [disabled]="name.invalid ||
                   typePerson.invalid || answerable.invalid ||
                   fone.invalid || city.invalid || province.invalid ||
-                  adress.invalid || name.invalid">
+                  adress.invalid || name.invalid || email.invalid">
                 Salvar
               </button>
           </form>

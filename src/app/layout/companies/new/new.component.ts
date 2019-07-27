@@ -2,6 +2,9 @@ import { Component, OnInit, PipeTransform, Pipe } from '@angular/core';
 import { PersonTypeEnum } from '../../../models/persontype.enum';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { routerTransition } from 'src/app/router.animations';
+import { CompaniesService } from 'src/app/services/companies/companies.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 
 @Component({
   selector: 'app-new',
@@ -17,12 +20,15 @@ export class NewComponent implements OnInit {
   departaments: any = [];
 
   constructor(
+    private companiesSrv: CompaniesService,
     private fb: FormBuilder,
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService
   ) { 
     this.personTypeList = PersonTypeEnum;
-    console.log(this.personTypeList)
     
     this.companyForm = this.fb.group({
+      email: this.fb.control('', [Validators.required]),
       name: this.fb.control('', [Validators.required]),
       adress: this.fb.control('', [Validators.required]),
       province: this.fb.control('', [Validators.required]),
@@ -30,12 +36,13 @@ export class NewComponent implements OnInit {
       fone: this.fb.control('', [Validators.required]),
       answerable: this.fb.control('', [Validators.required]),
       typePerson: this.fb.control('', [Validators.required]),
-      cpf: this.fb.control('', [Validators.required]),
-      cnpj: this.fb.control('', [Validators.required]),
+      cpf: this.fb.control(null),
+      cnpj: this.fb.control(null),
       departaments: this.fb.array(this.departaments),
     });
   }
 
+  get email() { return this.companyForm.get('email'); }
   get name() { return this.companyForm.get('name'); }
   get adress() { return this.companyForm.get('adress'); }
   get province() { return this.companyForm.get('province'); }
@@ -45,7 +52,6 @@ export class NewComponent implements OnInit {
   get typePerson() { return this.companyForm.get('typePerson'); }
   get cnpj() { return this.companyForm.get('cnpj'); }
   get cpf() { return this.companyForm.get('cpf'); }
-
   
   ngOnInit() {
   }
@@ -68,6 +74,14 @@ export class NewComponent implements OnInit {
 
   postCompany() {
     console.log(this.companyForm.value);
+    this.companiesSrv.newCompany(this.companyForm.value).subscribe(data => {
+      if(data._id){
+        this.successMsgSrv.successMessages('Empresa alterado com sucesso.');
+      }
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    })
   }
 
   typePersonChange() {
@@ -77,13 +91,13 @@ export class NewComponent implements OnInit {
           this.hiddenCPF = true;
           this.hiddenCNPJ = false;
           this.companyForm.addControl('cnpj', new FormControl('', [Validators.required]));
-          this.companyForm.removeControl('cpf');
+          this.companyForm.addControl('cpf', new FormControl(null));
         break;
       case 'FISICA':
           this.hiddenCNPJ = true;
           this.hiddenCPF = false;
           this.companyForm.addControl('cpf', new FormControl('', [Validators.required]));
-          this.companyForm.addControl('cnpj', new FormControl(''));
+          this.companyForm.addControl('cnpj', new FormControl(null));
         break;
     }
   }

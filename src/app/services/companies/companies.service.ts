@@ -41,4 +41,18 @@ export class CompaniesService {
         tap(data => data)
     );
   }
+
+  newCompany(company) {
+    return this.http.post<Company>(`${url}/companies`, company)
+    .pipe(
+      tap(data => data)
+    );
+  }
+
+  updateCompany(company) {
+    return this.http.patch<Company>(`${url}/companies/${company._id}`, company)
+    .pipe(
+      tap(data => data)
+    );
+  }
 }
