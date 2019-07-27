@@ -61,10 +61,10 @@
 
                   <div class="form-group">
                       <label for="">Responsável</label>
-                      <input type="text" placeholder="Responsável" class="form-control" formControlName="aswerable" [ngClass]="{'is-invalid' : !aswerable.valid}" />
-                    <div *ngIf="aswerable.invalid && (aswerable.dirty || aswerable.touched)"
+                      <input type="text" placeholder="Responsável" class="form-control" formControlName="answerable" [ngClass]="{'is-invalid' : !answerable.valid}" />
+                    <div *ngIf="answerable.invalid && (answerable.dirty || answerable.touched)"
                         class="invalid-feedback">
-                    <div *ngIf="!aswerable.valid">
+                    <div *ngIf="!answerable.valid">
                         Responsável é obrigatório.
                     </div>
                     </div>
@@ -72,19 +72,69 @@
 
                   <div class="form-group">
                     <label for="">Tipo de Pessoa</label>
-                    <select class="form-control" id="volumeType" formControlName="personType" [ngClass]="{'is-invalid' : !personType.valid}">
+                    <select class="form-control" id="personType" formControlName="typePerson" [ngClass]="{'is-invalid' : !typePerson.valid}" (change)="typePersonChange()">
                         <option *ngFor="let person of personTypeList | enumToArray" [value]="person">
                             {{person | translate}}</option>
                     </select>
-                    <div *ngIf="personType.invalid && (personType.dirty || personType.touched)"
+                    <div *ngIf="typePerson.invalid && (typePerson.dirty || typePerson.touched)"
                         class="invalid-feedback">
-                    <div *ngIf="!personType.valid">
+                    <div *ngIf="!typePerson.valid">
                         Tipo de pessoa é obrigatório.
                     </div>
                     </div>
                   </div>
+
+                <div class="form-group" [hidden]="hiddenCPF">
+                    <label for="">CPF</label>
+                    <input id="cpf" type="text" placeholder="CPF" class="form-control" formControlName="cpf" [ngClass]="{'is-invalid' : !cpf.valid}"  />
+                  <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
+                    class="invalid-feedback">
+                  <div *ngIf="!cpf.valid">
+                    CPF é obrigatório.
+                  </div>
+                </div>
+                </div>
+
+                <div class="form-group" [hidden]="hiddenCNPJ">
+                  <label for="">CNPJ</label>
+                  <input id="cnpj" type="text" placeholder="CNPJ" class="form-control" formControlName="cnpj" [ngClass]="{'is-invalid' : !cnpj.valid}"  />
+                <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
+                  class="invalid-feedback">
+                <div *ngIf="!cnpj.valid">
+                  CNPJ é obrigatório.
+                </div>
               </div>
-              <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+
+              <div class="form-group" formArrayName="departaments">
+                <label for="">Departamentos</label>
+                <div *ngFor="let departament of departaments.controls; index as i">
+                  <div [formGroupName]="i" class="form-group">
+                      <div class="input-group mb-2 mr-sm-2">
+                          <input type="text" placeholder="Nome do Departamento" class="form-control"  formControlName="departamentName">
+                        <div class="input-group-append">
+                          <div class="input-group-text" (click)="removeDepartament(i)">-</div>
+                        </div>
+                  </div>
+                  </div>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-success btn-xs" (click)="addDepartament()">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="name.invalid ||
+                  typePerson.invalid || answerable.invalid ||
+                  fone.invalid || city.invalid || province.invalid ||
+                  adress.invalid || name.invalid">
+                Salvar
+              </button>
           </form>
       </div>
   </div>

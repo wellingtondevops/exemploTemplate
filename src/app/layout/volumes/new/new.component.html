@@ -101,26 +101,6 @@
                     </div>
                     </div>
 
-                    <!--
-                        <div class="form-group">
-                        <label for="">Armazém</label>
-                        <div class="ng-autocomplete" style="z-index: 0!important">
-                            <ng-autocomplete [data]="storeHouses.items" [searchKeyword]="'name'" (selected)='selectStoreHouse($event)'
-                                (inputChanged)='onChangeSearchStoreHouse($event)' (inputFocused)='onFocusedStoreHouse($event)'
-                                [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
-                            </ng-autocomplete>
-
-                            <ng-template #itemTemplate let-item>
-                                <a [innerHTML]="item.name"></a>
-                            </ng-template>
-
-                            <ng-template #notFoundTemplate let-notFound>
-                                <div [innerHTML]="notFound"></div>
-                            </ng-template>
-                        </div>
-                    </div>
-                    -->
-
                     <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>

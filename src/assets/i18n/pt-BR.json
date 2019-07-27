@@ -13,5 +13,7 @@
   "CONTAINER": "Container",
   "GAVETA": "Gaveta",
   "SIMPLES": "Simples",
-  "GERENCIADA": "Gerenciada"
+  "GERENCIADA": "Gerenciada",
+  "FISICA": "Física",
+  "JURIDICA": "Jurídica"
 }
