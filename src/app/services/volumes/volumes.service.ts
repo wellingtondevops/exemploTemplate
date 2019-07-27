@@ -16,7 +16,7 @@ export class VolumesService {
 
   volumes(page) {
     if (page) {
-      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.currentPage}`)
+      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );
@@ -26,13 +26,33 @@ export class VolumesService {
           tap(data => data)
       );
     }
+  }
 
+  deleteVolume(volume) {
+    return this.http.delete<Volume>(`${url}/volumes/${volume}`)
+    .pipe(
+      tap(data => data)
+    );
   }
 
   volume(id) {
-    return this.http.get<Volume>(`${url}/volumes${id}`)
+    return this.http.get<Volume>(`${url}/volumes/${id}`)
     .pipe(
         tap(data => data)
+    );
+  }
+
+  updateVolume(volume) {
+    return this.http.put<Volume>(`${url}/volumes/${volume._id}`, volume)
+    .pipe(
+      tap(data => data)
+    );
+  }
+
+  newVolume(volume) {
+    return this.http.post<Volume>(`${url}/volumes`, volume)
+    .pipe(
+      tap(data => data)
     );
   }
 }

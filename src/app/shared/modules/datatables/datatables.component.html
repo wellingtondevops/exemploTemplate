@@ -8,9 +8,9 @@
     [footerHeight]="50"
     [rowHeight]="'auto'"
     [externalPaging]="true" 
-    [count]="page.foundItems" 
-    [offset]="page.currentPage" 
-    [limit]="50"
+    [count]="page.totalElements" 
+    [offset]="page.pageNumber" 
+    [limit]="page.size"
     (page)='pagination($event)'>
   </ngx-datatable>
     <ng-template #showTmpl let-row="row" let-value="value">

@@ -1,37 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { DoctypeList, Doctype } from 'src/app/models/doctype';
+import { tap } from 'rxjs/operators';
+import { DepartamentList } from 'src/app/models/departament';
 const url = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
-export class DoctypesService {
+export class DepartamentsService {
 
   constructor(
     private http: HttpClient
   ) { }
 
-  doctypes(page) {
+  departaments(page, id) {
     if (page) {
-      return this.http.get<DoctypeList>(`${url}/docts?_page=${page.pageNumber}`)
+      return this.http.get<DepartamentList>(`${url}/departaments/${id}?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );
     } else {
-      return this.http.get<DoctypeList>(`${url}/docts`)
+      return this.http.get<DepartamentList>(`${url}/departaments`)
       .pipe(
           tap(data => data)
       );
     }
-  }
-
-  doctype(id) {
-    return this.http.get<Doctype>(`${url}/docts/${id}`)
-    .pipe(
-        tap(data => data)
-    );
   }
 }

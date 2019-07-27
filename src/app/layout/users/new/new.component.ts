@@ -30,7 +30,6 @@ export class NewComponent implements OnInit {
     this.userForm = this.fb.group({
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
-      password: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required])
     });
   }
@@ -38,8 +37,6 @@ export class NewComponent implements OnInit {
   get name() { return this.userForm.get('name'); }
 
   get email() { return this.userForm.get('email'); }
-
-  get password() { return this.userForm.get('password'); }
 
   get profiles() { return this.userForm.get('profiles'); }
 

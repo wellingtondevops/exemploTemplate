@@ -16,7 +16,7 @@ export class UsersService {
 
   users(page) {
     if (page) {
-      return this.http.get<UserList>(`${url}/users?_page=${page.currentPage}`)
+      return this.http.get<UserList>(`${url}/users?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );
@@ -36,7 +36,7 @@ export class UsersService {
   }
 
   updateUser(user) {
-    return this.http.put<User>(`${url}/users/${user._id}`, user)
+    return this.http.patch<User>(`${url}/users/${user._id}`, user)
     .pipe(
       tap(data => data)
     );

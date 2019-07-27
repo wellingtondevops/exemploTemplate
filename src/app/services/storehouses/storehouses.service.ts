@@ -16,7 +16,7 @@ export class StorehousesService {
 
   storeHouses(page) {
     if (page) {
-      return this.http.get<StorehousesList>(`${url}/storehouses?_page=${page.currentPage}`)
+      return this.http.get<StorehousesList>(`${url}/storehouses?_page=${page.pageNumber}`)
       .pipe(
           tap(data => data)
       );

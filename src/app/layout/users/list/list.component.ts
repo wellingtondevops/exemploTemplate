@@ -8,6 +8,7 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { Page } from 'src/app/models/page';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -23,7 +24,7 @@ export class ListComponent implements OnInit {
   public isCollapsed = false;
   users: UserList = {
     _links: {
-      currentPage: 1,
+      currentPage: 0,
       foundItems: 0,
       next: '',
       self: '',
@@ -31,11 +32,7 @@ export class ListComponent implements OnInit {
     },
     items: []
   };
-  page = {
-    currentPage: 0,
-    totalPage: 0
-  };
-
+  page = new Page();
 
   columns = [
     {name: 'Nome', prop: 'name'},
@@ -54,16 +51,17 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setPage({offset: 0});
-    // this.usersList();
+    // this.setPage({offset: 0});
+    this.usersList();
   }
 
   usersList() {
     this.usersSrv.users(null).subscribe(
       (data) => {
         this.users = data;
-        this.page = data._links;
-        console.log(`links`, data._links);
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
       },
       (error) => {
         this.errorMsg.errorMessages(error);
@@ -77,16 +75,14 @@ export class ListComponent implements OnInit {
   }
 
   setPage(pageInfo) {
-    this.page.currentPage = pageInfo.offset;
-
-    if (pageInfo.offset >= 1) {
-      this.page.currentPage = pageInfo.offset + 1;
-    }
+    this.page.pageNumber = pageInfo.offset;
 
     this.usersSrv.users(this.page).subscribe(
       (data) => {
         this.users = data;
-        this.page = data._links;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
       },
       (error) => {
         this.errorMsg.errorMessages(error);

@@ -5,6 +5,7 @@ import { CompaniesList } from 'src/app/models/company';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from '../../../utils/pipes/pipes';
+import { Page } from 'src/app/models/page';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -22,10 +23,7 @@ export class ListComponent implements OnInit {
     },
     items: []
   };
-  page = {
-    currentPage: 0,
-    totalPage: 0
-  };
+  page = new Page();
   columns = [
     {name: 'Nome', prop: 'name'},
     {name: 'CPF/CNPJ', prop: 'cpfCnpj'},
@@ -47,7 +45,9 @@ export class ListComponent implements OnInit {
     this.companiesSrv.companies(null).subscribe(
       (data) => {
         this.companies = data;
-        this.page = data._links;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
       },
       (error) => {
         this.errorMsg.errorMessages(error);
@@ -57,14 +57,12 @@ export class ListComponent implements OnInit {
   }
 
   setPage(pageInfo) {
-    this.page.currentPage = pageInfo.offset;
-
-    if (pageInfo.offset >= 1) {
-      this.page.currentPage = pageInfo.offset + 1;
-    }
+    this.page.pageNumber = pageInfo.offset;
 
     this.companiesSrv.companies(this.page).subscribe(data => {
-      this.page = data._links;
+      this.page.pageNumber = data._links.currentPage;
+      this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
       this.companies = data;
     });
   }
