@@ -6,17 +6,35 @@
                 <div class="form-content">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"/>
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" [ngClass]="{'is-invalid' : !company.valid}"/>
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!company.valid">
+                        Empresa é obrigatório.
+                        </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="typeahead-basic">Departamento</label>
-                        <input id="typeahead-basic" type="text" class="form-control" formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament"/>
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" [ngClass]="{'is-invalid' : !departament.valid}"/>
+                        <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!departament.valid">
+                        Departamento é obrigatório.
+                        </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="typeahead-basic">Armazém</label>
-                        <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse" [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"/>
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse" [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search" [ngClass]="{'is-invalid' : !storehouse.valid}"/>
+                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!storehouse.valid">
+                        Armazém é obrigatório.
+                        </div>
+                        </div>
                     </div>
 
                     <div class="form-group">

@@ -14,4 +14,12 @@ export class StorehousesList {
   items: Storehouse[];
 }
 
+export class StorehousesSearchList {
+  _links: Pagination;
+  items: [{
+    _id: string;
+    name: string;
+  }];
+}
+
 

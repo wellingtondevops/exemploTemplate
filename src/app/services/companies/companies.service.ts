@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
-import { Company, CompaniesList } from '../../models/company';
+import { Company, CompaniesList, CompaniesSearchList } from '../../models/company';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -26,11 +26,17 @@ export class CompaniesService {
           tap(data => data)
       );
     }
-
   }
 
   company(id) {
     return this.http.get<Company>(`${url}/companies/${id}`)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
+  searchCompanies() {
+    return this.http.get<CompaniesSearchList>(`${url}/listcompanies/`)
     .pipe(
         tap(data => data)
     );

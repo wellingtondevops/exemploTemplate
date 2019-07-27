@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Storehouse, StorehousesList } from '../../models/storehouse';
+import { Storehouse, StorehousesList, StorehousesSearchList } from '../../models/storehouse';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -51,6 +51,13 @@ export class StorehousesService {
 
   updateStoreHouse(storeHouse) {
     return this.http.put<Storehouse>(`${url}/storehouses/${storeHouse._id}`, storeHouse)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
+  searchStorehouses(){
+    return this.http.get<StorehousesSearchList>(`${url}/liststorehouses`)
     .pipe(
         tap(data => data)
     );

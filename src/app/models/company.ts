@@ -23,4 +23,12 @@ export class CompaniesList {
   items: Company[];
 }
 
+export class CompaniesSearchList {
+  _links: Pagination;
+  items: [{
+    _id: string;
+    name: string;
+  }];
+}
+
 
