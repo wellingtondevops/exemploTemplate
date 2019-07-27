@@ -17,6 +17,7 @@ export class Volume {
   uniqueField: string;
   volumeType: string;
   dateCreated: string;
+  status: string;
 }
 
 export class VolumeList {

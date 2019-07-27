@@ -16,6 +16,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
 import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
+import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 
 @Component({
   selector: 'app-edit',
@@ -32,6 +33,7 @@ export class EditComponent implements OnInit {
   guardTypeList: any = [];
   storeHouse: Storehouse;
   departaments: any = [];
+  statusList: any = [];
   id: String;
   volume: Volume;
 
@@ -45,6 +47,7 @@ export class EditComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private fb: FormBuilder,
   ) { 
+    this.statusList = StatusVolumeEnum;
     this.volumeTypeList = VolumeTypeEnum;
     this.guardTypeList = GuardyTypeVolumeEnum;
 
@@ -55,6 +58,7 @@ export class EditComponent implements OnInit {
       description: this.fb.control('', [Validators.required]),
       guardType: this.fb.control('', [Validators.required]),
       volumeType: this.fb.control('', [Validators.required]),
+      status: this.fb.control('', [Validators.required]),
       departament: this.fb.control('', [Validators.required]),
       uniqueField: this.fb.control(''),
       location: this.fb.control('', [Validators.required])
@@ -74,6 +78,7 @@ export class EditComponent implements OnInit {
   get location() { return this.volumeForm.get('location'); }
   get volumeType() { return this.volumeForm.get('volumeType'); }
   get guardType() { return this.volumeForm.get('guardType'); }
+  get status() { return this.volumeForm.get('status'); }
 
   getVolume(){
     this.volumesSrv.volume(this.id).subscribe(data => {
@@ -89,14 +94,16 @@ export class EditComponent implements OnInit {
           volumeType: data.volumeType,
           uniqueField: data.uniqueField,
           location: data.location,
+          status: data.status
         });
     }, error => {
-
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR', error)
     })
   }
 
   returnUniqField(){
-    return `${this.volumeForm.value.storehouse}${this.volumeForm.value.company}`
+    return `${this.volumeForm.value.location}-${this.volumeForm.value.company}`
   }
 
   getCompanies() {
