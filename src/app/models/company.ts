@@ -12,7 +12,9 @@ export class Company {
   fone: string;
   email: string;
   answerable: string;
-  cpfCnpj: string;
+  typePerson: string;
+  cpf:string;
+  cnpj: string;
   dateCreated: string;
 }
 
