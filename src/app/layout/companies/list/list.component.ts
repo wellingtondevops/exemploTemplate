@@ -3,7 +3,6 @@ import { CompaniesService } from '../../../services/companies/companies.service'
 import { routerTransition } from '../../../router.animations';
 import { CompaniesList } from 'src/app/models/company';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
-import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from '../../../utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
@@ -80,7 +79,7 @@ export class ListComponent implements OnInit {
   }
 
   getCompany(company) {
-    this._route.navigate(['ShowComponent'], company);
+    this._route.navigate(['/companies/get', company]);
   }
 
   editCompany(company) {

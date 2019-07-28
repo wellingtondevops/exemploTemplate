@@ -27,19 +27,8 @@
                   </div>
 
                   <div class="form-group">
-                      <label for="province">Bairro</label>
-                      <input id="province" type="text" placeholder="Bairro" class="form-control" formControlName="province" [ngClass]="{'is-invalid' : !province.valid}" />
-                    <div *ngIf="province.invalid && (province.dirty || province.touched)"
-                      class="invalid-feedback">
-                    <div *ngIf="!province.valid">
-                      Bairro é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="">Cidade</label>
-                      <input type="text" placeholder="Cidade" class="form-control" formControlName="city" [ngClass]="{'is-invalid' : !city.valid}" />
+                      <label for="city">Cidade</label>
+                      <input type="text" id="city" placeholder="Cidade" class="form-control" formControlName="city" [ngClass]="{'is-invalid' : !city.valid}" />
                     <div *ngIf="city.invalid && (city.dirty || city.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!city.valid">
@@ -49,8 +38,19 @@
                   </div>
 
                   <div class="form-group">
-                      <label for="">E-mail</label>
-                      <input type="text" placeholder="E-mail" class="form-control" formControlName="email" [ngClass]="{'is-invalid' : !email.valid}" />
+                      <label for="province">Estado</label>
+                      <input id="province" type="text" placeholder="Estado" class="form-control" formControlName="province" [ngClass]="{'is-invalid' : !province.valid}" />
+                    <div *ngIf="province.invalid && (province.dirty || province.touched)"
+                      class="invalid-feedback">
+                    <div *ngIf="!province.valid">
+                      Estado é obrigatório.
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="email">E-mail</label>
+                      <input type="text" id="email" placeholder="E-mail" class="form-control" formControlName="email" [ngClass]="{'is-invalid' : !email.valid}" />
                     <div *ngIf="email.invalid && (email.dirty || email.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!email.valid">
@@ -60,8 +60,8 @@
                   </div>
 
                   <div class="form-group">
-                      <label for="">Telefone</label>
-                      <input type="text" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid}" [textMask]="{mask: mask.fone}" />
+                      <label for="fone">Telefone</label>
+                      <input type="text" id="fone" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid}" [textMask]="{mask: mask.fone}" />
                     <div *ngIf="fone.invalid && (fone.dirty || fone.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!fone.valid">
@@ -71,8 +71,8 @@
                   </div>
 
                   <div class="form-group">
-                      <label for="">Responsável</label>
-                      <input type="text" placeholder="Responsável" class="form-control" formControlName="answerable" [ngClass]="{'is-invalid' : !answerable.valid}" />
+                      <label for="answerable">Responsável</label>
+                      <input type="text" id="answerable" placeholder="Responsável" class="form-control" formControlName="answerable" [ngClass]="{'is-invalid' : !answerable.valid}" />
                     <div *ngIf="answerable.invalid && (answerable.dirty || answerable.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!answerable.valid">
@@ -82,7 +82,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="">Tipo de Pessoa</label>
+                    <label for="personType">Tipo de Pessoa</label>
                     <select class="form-control" id="personType" formControlName="typePerson" [ngClass]="{'is-invalid' : !typePerson.valid}" (change)="typePersonChange()">
                         <option *ngFor="let person of personTypeList | enumToArray" [value]="person">
                             {{person | translate}}</option>
@@ -96,7 +96,7 @@
                   </div>
 
                 <div class="form-group" [hidden]="hiddenCPF">
-                    <label for="">CPF</label>
+                    <label for="cpf">CPF</label>
                     <input id="cpf" type="text" placeholder="CPF" class="form-control" formControlName="cpf" [ngClass]="{'is-invalid' : !cpf.valid}" [textMask]="{mask: mask.cpf}" />
                   <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
                     class="invalid-feedback">
@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="form-group" [hidden]="hiddenCNPJ">
-                  <label for="">CNPJ</label>
+                  <label for="cnpj">CNPJ</label>
                   <input id="cnpj" type="text" placeholder="CNPJ" class="form-control" formControlName="cnpj" [ngClass]="{'is-invalid' : !cnpj.valid}" [textMask]="{mask: mask.cnpj}"  />
                 <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
                   class="invalid-feedback">

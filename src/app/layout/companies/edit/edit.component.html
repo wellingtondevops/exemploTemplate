@@ -27,23 +27,23 @@
                   </div>
 
                   <div class="form-group">
-                      <label for="province">Bairro</label>
-                      <input id="province" type="text" placeholder="Bairro" class="form-control" formControlName="province" [ngClass]="{'is-invalid' : !province.valid}" />
-                    <div *ngIf="province.invalid && (province.dirty || province.touched)"
-                      class="invalid-feedback">
-                    <div *ngIf="!province.valid">
-                      Bairro é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
                       <label for="">Cidade</label>
                       <input type="text" placeholder="Cidade" class="form-control" formControlName="city" [ngClass]="{'is-invalid' : !city.valid}" />
                     <div *ngIf="city.invalid && (city.dirty || city.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!city.valid">
                         Cidade é obrigatório.
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="province">Estado</label>
+                      <input id="province" type="text" placeholder="Bairro" class="form-control" formControlName="province" [ngClass]="{'is-invalid' : !province.valid}" />
+                    <div *ngIf="province.invalid && (province.dirty || province.touched)"
+                      class="invalid-feedback">
+                    <div *ngIf="!province.valid">
+                      Estado é obrigatório.
                     </div>
                     </div>
                   </div>

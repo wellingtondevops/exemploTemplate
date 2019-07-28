@@ -110,7 +110,6 @@ export class EditComponent implements OnInit {
 
   updateCompany() {
     var company = _.omitBy(this.companyForm.value, _.isNil);
-    console.log(company)
     this.companiesSrv.updateCompany(company).subscribe(data => {
       if(data._id){
         this.successMsgSrv.successMessages('Empresa alterada com sucesso.');

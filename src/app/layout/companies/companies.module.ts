@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ShowComponent } from './show/show.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageHeaderModule, DatatablesModule } from 'src/app/shared';
 import { CompaniesRoutingModule } from './companies-routing.module';
@@ -9,9 +8,10 @@ import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
+import { ShowComponent } from './show/show.component';
 
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent, EnumToArrayPipe],
+  declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
   imports: [
     CommonModule,
     CompaniesRoutingModule,
