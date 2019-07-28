@@ -55,4 +55,11 @@ export class CompaniesService {
       tap(data => data)
     );
   }
+
+  delete(company) {
+    return this.http.delete<Company>(`${url}/companies/${company}`)
+    .pipe(
+      tap(data => data)
+    );
+  }
 }

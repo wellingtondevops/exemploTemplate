@@ -7,6 +7,14 @@ import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from '../../../utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+
+const MODALS = {
+  focusFirst: NgbdModalConfirmComponent
+};
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -36,11 +44,39 @@ export class ListComponent implements OnInit {
     private _route: Router,
     private companiesSrv: CompaniesService,
     private errorMsg: ErrorMessagesService,
+    private modalService: NgbModal,
+    private successMsgSrv: SuccessMessagesService,
     private pipes: Pipes
   ) { }
 
   ngOnInit() {
     this.companiesList();
+  }
+
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Empresa foi deletada com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar a empresa?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas a empresa serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe((item) => {
+      this.delete(item);
+    });
+  }
+
+  delete(company) {
+    this.companiesSrv.delete(company).subscribe(
+      (response) => {
+        this.successMsgSrv.successMessages('Empresa deletada com sucesso.');
+        this.companiesList();
+      },
+      (error) => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      }
+    );
   }
 
   getCompany(company) {
