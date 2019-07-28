@@ -6,6 +6,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from '../../../utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -32,6 +33,7 @@ export class ListComponent implements OnInit {
     {name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
 
   constructor(
+    private _route: Router,
     private companiesSrv: CompaniesService,
     private errorMsg: ErrorMessagesService,
     private pipes: Pipes
@@ -39,6 +41,14 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.companiesList();
+  }
+
+  getCompany(company) {
+    this._route.navigate(['ShowComponent'], company);
+  }
+
+  editCompany(company) {
+    this._route.navigate(['/companies/edit', company]);
   }
 
   companiesList() {

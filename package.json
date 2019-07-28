@@ -28,6 +28,7 @@
     "@ngx-translate/http-loader": "4.0.0",
     "@swimlane/ngx-datatable": "^15.0.2",
     "angular-ng-autocomplete": "^1.1.13",
+    "angular2-text-mask": "^9.0.0",
     "chart.js": "2.7.3",
     "core-js": "2.5.7",
     "font-awesome": "4.7.0",

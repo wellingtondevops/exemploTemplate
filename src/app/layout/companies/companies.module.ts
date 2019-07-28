@@ -8,6 +8,7 @@ import { ListComponent } from './list/list.component';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent, EditComponent, EnumToArrayPipe],
@@ -18,7 +19,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     FormsModule,
     DatatablesModule,
-    TranslateModule
-  ]
+    TranslateModule,
+    TextMaskModule
+  ],
 })
 export class CompaniesModule { }

@@ -5,6 +5,8 @@ import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { Masks } from 'src/app/utils/masks'
+import _ from 'lodash';
 
 @Component({
   selector: 'app-new',
@@ -18,8 +20,10 @@ export class NewComponent implements OnInit {
   hiddenCPF: Boolean = true;
   hiddenCNPJ: Boolean = true;
   departaments: any = [];
+  public foneMask: Array<string | RegExp>
 
   constructor(
+    private mask: Masks,
     private companiesSrv: CompaniesService,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -27,8 +31,9 @@ export class NewComponent implements OnInit {
   ) { 
     this.personTypeList = PersonTypeEnum;
     
+    
     this.companyForm = this.fb.group({
-      email: this.fb.control('', [Validators.required]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       adress: this.fb.control('', [Validators.required]),
       province: this.fb.control('', [Validators.required]),
@@ -73,10 +78,10 @@ export class NewComponent implements OnInit {
   }
 
   postCompany() {
-    console.log(this.companyForm.value);
-    this.companiesSrv.newCompany(this.companyForm.value).subscribe(data => {
+    var company = _.omitBy(this.companyForm.value, _.isNil);
+    this.companiesSrv.newCompany(company).subscribe(data => {
       if(data._id){
-        this.successMsgSrv.successMessages('Empresa alterado com sucesso.');
+        this.successMsgSrv.successMessages('Empresa criada com sucesso.');
       }
     }, error => {
       this.errorMsg.errorMessages(error);
@@ -85,7 +90,6 @@ export class NewComponent implements OnInit {
   }
 
   typePersonChange() {
-    console.log(this.companyForm.value.typePerson);
     switch (this.companyForm.value.typePerson) {
       case 'JURIDICA':
           this.hiddenCPF = true;
@@ -102,6 +106,7 @@ export class NewComponent implements OnInit {
     }
   }
 }
+
 
 @Pipe({
   name: 'enumToArray'

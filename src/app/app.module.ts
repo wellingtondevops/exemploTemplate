@@ -7,10 +7,11 @@ import { LanguageTranslationModule } from './shared/modules/language-translation
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
-import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import {TokenInterceptorService} from './interceptos/token-interceptor.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+
 @NgModule({
     imports: [
         CommonModule,

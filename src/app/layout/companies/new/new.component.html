@@ -6,7 +6,7 @@
               <div class="form-content">
                   <div class="form-group">
                       <label for="">Nome</label>
-                      <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name" [ngClass]="{'is-invalid' : !name.valid}" />
+                      <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name" [ngClass]="{'is-invalid' : !name.valid}" mask="000.000.000-00"/>
                     <div *ngIf="name.invalid && (name.dirty || name.touched)"
                       class="invalid-feedback">
                     <div *ngIf="!name.valid">
@@ -61,7 +61,7 @@
 
                   <div class="form-group">
                       <label for="">Telefone</label>
-                      <input type="text" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid}" />
+                      <input type="text" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid}" [textMask]="{mask: mask.fone}" />
                     <div *ngIf="fone.invalid && (fone.dirty || fone.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!fone.valid">
@@ -97,7 +97,7 @@
 
                 <div class="form-group" [hidden]="hiddenCPF">
                     <label for="">CPF</label>
-                    <input id="cpf" type="text" placeholder="CPF" class="form-control" formControlName="cpf" [ngClass]="{'is-invalid' : !cpf.valid}"  />
+                    <input id="cpf" type="text" placeholder="CPF" class="form-control" formControlName="cpf" [ngClass]="{'is-invalid' : !cpf.valid}" [textMask]="{mask: mask.cpf}" />
                   <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
                     class="invalid-feedback">
                   <div *ngIf="!cpf.valid">
@@ -108,7 +108,7 @@
 
                 <div class="form-group" [hidden]="hiddenCNPJ">
                   <label for="">CNPJ</label>
-                  <input id="cnpj" type="text" placeholder="CNPJ" class="form-control" formControlName="cnpj" [ngClass]="{'is-invalid' : !cnpj.valid}"  />
+                  <input id="cnpj" type="text" placeholder="CNPJ" class="form-control" formControlName="cnpj" [ngClass]="{'is-invalid' : !cnpj.valid}" [textMask]="{mask: mask.cnpj}"  />
                 <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
                   class="invalid-feedback">
                 <div *ngIf="!cnpj.valid">

@@ -2,7 +2,14 @@
         <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'" [routerTo]="'/companies/new'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
-            <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" ></app-datatables>
+            <app-datatables
+                [data]="companies"
+                (setPage)="setPage($event)"
+                [columns]="columns"
+                (show)="getCompany($event)"
+                (edit)="editCompany($event)"
+                (delete)="open('focusFirst', $event)"
+            ></app-datatables>
         </div>
     </div>
 </div>

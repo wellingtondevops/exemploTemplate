@@ -8,6 +8,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NgbdModalConfirmComponent } from '../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbdModalConfirmModule } from '../shared';
+import { Masks } from '../utils/masks';
 
 @NgModule({
     imports: [
@@ -20,6 +21,9 @@ import { NgbdModalConfirmModule } from '../shared';
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
     entryComponents: [
         NgbdModalConfirmComponent
+    ],
+    providers: [
+        Masks
     ]
 })
 export class LayoutModule {}
