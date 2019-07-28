@@ -68,7 +68,7 @@ export class ListComponent implements OnInit {
   }
 
   getVolume(volume) {
-    this._route.navigate(['ShowComponent'], volume);
+    this._route.navigate(['/volumes/get', volume]);
   }
 
   editVolume(volume) {

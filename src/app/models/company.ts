@@ -1,4 +1,5 @@
 import { Pagination } from './pagination';
+import { Departament } from './departament';
 
 export class Company {
   _links: {
@@ -12,13 +13,24 @@ export class Company {
   fone: string;
   email: string;
   answerable: string;
-  cpfCnpj: string;
+  departaments: Departament[];
+  typePerson: string;
+  cpf:string;
+  cnpj: string;
   dateCreated: string;
 }
 
 export class CompaniesList {
   _links: Pagination;
   items: Company[];
+}
+
+export class CompaniesSearchList {
+  _links: Pagination;
+  items: [{
+    _id: string;
+    name: string;
+  }];
 }
 
 

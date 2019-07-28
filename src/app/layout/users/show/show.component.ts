@@ -1,10 +1,9 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../services/users/users.service';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
-import { DISABLED } from '@angular/forms/src/model';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
 

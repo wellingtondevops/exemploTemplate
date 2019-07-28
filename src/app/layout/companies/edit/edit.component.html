@@ -2,13 +2,11 @@
   <app-page-header [heading]="'Editar Empresa'" [icon]="'fa-user'"></app-page-header>
   <div class="card bg-light mb-12">
       <div class="card-body">
-          <button class="btn btn-primary pull-right" (click)="changeUpdate()" >Editar</button>
-          <br />
           <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">
               <div class="form-content">
                   <div class="form-group">
                       <label for="">Nome</label>
-                      <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name" [ngClass]="{'is-invalid' : !name.valid && !name.disabled}" mask="000.000.000-00"/>
+                      <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name" [ngClass]="{'is-invalid' : !name.valid}" mask="000.000.000-00"/>
                     <div *ngIf="name.invalid && (name.dirty || name.touched)"
                       class="invalid-feedback">
                     <div *ngIf="!name.valid">
@@ -19,7 +17,7 @@
 
                   <div class="form-group">
                       <label for="adress">Endereço</label>
-                      <input id="adress" placeholder="Endereço" type="text" class="form-control" formControlName="adress" [ngClass]="{'is-invalid' : !adress.valid && !adress.disabled}" />
+                      <input id="adress" placeholder="Endereço" type="text" class="form-control" formControlName="adress" [ngClass]="{'is-invalid' : !adress.valid}" />
                     <div *ngIf="adress.invalid && (adress.dirty || adress.touched)"
                       class="invalid-feedback">
                     <div *ngIf="!adress.valid">
@@ -30,7 +28,7 @@
 
                   <div class="form-group">
                       <label for="">Cidade</label>
-                      <input type="text" placeholder="Cidade" class="form-control" formControlName="city" [ngClass]="{'is-invalid' : !city.valid && !city.disabled}" />
+                      <input type="text" placeholder="Cidade" class="form-control" formControlName="city" [ngClass]="{'is-invalid' : !city.valid}" />
                     <div *ngIf="city.invalid && (city.dirty || city.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!city.valid">
@@ -41,7 +39,7 @@
 
                   <div class="form-group">
                       <label for="province">Estado</label>
-                      <input id="province" type="text" placeholder="Estado" class="form-control" formControlName="province" [ngClass]="{'is-invalid' : !province.valid && !province.disabled}" />
+                      <input id="province" type="text" placeholder="Bairro" class="form-control" formControlName="province" [ngClass]="{'is-invalid' : !province.valid}" />
                     <div *ngIf="province.invalid && (province.dirty || province.touched)"
                       class="invalid-feedback">
                     <div *ngIf="!province.valid">
@@ -52,7 +50,7 @@
 
                   <div class="form-group">
                       <label for="">E-mail</label>
-                      <input type="text" placeholder="E-mail" class="form-control" formControlName="email" [ngClass]="{'is-invalid' : !email.valid && !email.disabled}" />
+                      <input type="text" placeholder="E-mail" class="form-control" formControlName="email" [ngClass]="{'is-invalid' : !email.valid}" />
                     <div *ngIf="email.invalid && (email.dirty || email.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!email.valid">
@@ -63,7 +61,7 @@
 
                   <div class="form-group">
                       <label for="">Telefone</label>
-                      <input type="text" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid && !fone.disabled}" [textMask]="{mask: mask.fone}" />
+                      <input type="text" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid}" [textMask]="{mask: mask.fone}" />
                     <div *ngIf="fone.invalid && (fone.dirty || fone.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!fone.valid">
@@ -74,7 +72,7 @@
 
                   <div class="form-group">
                       <label for="">Responsável</label>
-                      <input type="text" placeholder="Responsável" class="form-control" formControlName="answerable" [ngClass]="{'is-invalid' : !answerable.valid && !answerable.disabled}" />
+                      <input type="text" placeholder="Responsável" class="form-control" formControlName="answerable" [ngClass]="{'is-invalid' : !answerable.valid}" />
                     <div *ngIf="answerable.invalid && (answerable.dirty || answerable.touched)"
                         class="invalid-feedback">
                     <div *ngIf="!answerable.valid">
@@ -85,7 +83,7 @@
 
                   <div class="form-group">
                     <label for="">Tipo de Pessoa</label>
-                    <select class="form-control" id="personType" formControlName="typePerson" [ngClass]="{'is-invalid' : !typePerson.valid && !typePerson.disabled}" (change)="typePersonChange()">
+                    <select class="form-control" id="personType" formControlName="typePerson" [ngClass]="{'is-invalid' : !typePerson.valid}" (change)="typePersonChange()">
                         <option *ngFor="let person of personTypeList | enumToArray" [value]="person">
                             {{person | translate}}</option>
                     </select>
@@ -99,7 +97,7 @@
 
                 <div class="form-group" [hidden]="hiddenCPF">
                     <label for="">CPF</label>
-                    <input id="cpf" type="text" placeholder="CPF" class="form-control" formControlName="cpf" [ngClass]="{'is-invalid' : !cpf.valid && !typePerson.disabled}" [textMask]="{mask: mask.cpf}" />
+                    <input id="cpf" type="text" placeholder="CPF" class="form-control" formControlName="cpf" [ngClass]="{'is-invalid' : !cpf.valid}" [textMask]="{mask: mask.cpf}" />
                   <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
                     class="invalid-feedback">
                   <div *ngIf="!cpf.valid">
@@ -110,7 +108,7 @@
 
                 <div class="form-group" [hidden]="hiddenCNPJ">
                   <label for="">CNPJ</label>
-                  <input id="cnpj" type="text" placeholder="CNPJ" class="form-control" formControlName="cnpj" [ngClass]="{'is-invalid' : !cnpj.valid && cnpj.disabled}" [textMask]="{mask: mask.cnpj}"  />
+                  <input id="cnpj" type="text" placeholder="CNPJ" class="form-control" formControlName="cnpj" [ngClass]="{'is-invalid' : !cnpj.valid}" [textMask]="{mask: mask.cnpj}"  />
                 <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
                   class="invalid-feedback">
                 <div *ngIf="!cnpj.valid">
@@ -132,7 +130,7 @@
                   </div>
                 </div>
                 <div>
-                  <button *ngIf="changeUp" type="button" class="btn btn-success btn-xs" (click)="addDepartament()">
+                  <button type="button" class="btn btn-success btn-xs" (click)="addDepartament()">
                     <i class="fa fa-plus"></i>
                   </button>
                 </div>
@@ -142,7 +140,7 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-                [disabled]="!changeUp || name.invalid ||
+                [disabled]="name.invalid ||
                   typePerson.invalid || answerable.invalid ||
                   fone.invalid || city.invalid || province.invalid ||
                   adress.invalid || name.invalid || email.invalid">
