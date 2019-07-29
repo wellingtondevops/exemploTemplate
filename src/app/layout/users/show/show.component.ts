@@ -35,7 +35,7 @@ export class ShowComponent implements OnInit {
       _id: '',
       email: this.fb.control({value: '', disabled: true}, [Validators.required, Validators.email]),
       name: this.fb.control({value: '', disabled: true},  [Validators.required]),
-      profiles: this.fb.control('', [Validators.required]),
+      profiles: this.fb.control({value: '', disabled: true}, [Validators.required]),
       dateCreated: this.fb.control({value: '', disabled: true}),
     }, );
 

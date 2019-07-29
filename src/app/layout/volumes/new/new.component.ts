@@ -31,6 +31,7 @@ export class NewComponent implements OnInit {
   statusList: any = [];
   storeHouse: Storehouse;
   departaments: any = [];
+  inputBlock: Boolean = false;
 
   constructor(
     private storeHousesSrv: StorehousesService,
@@ -71,6 +72,11 @@ export class NewComponent implements OnInit {
   ngOnInit() {
     this.getCompanies();
     this.getStoreHouses();
+  }
+
+  blockInputs() {
+    !this.inputBlock ? this.inputBlock = true : this.inputBlock = false;
+    console.log(this.inputBlock)
   }
 
   returnUniqField(){
@@ -115,7 +121,6 @@ export class NewComponent implements OnInit {
     this.returnId('company')
     this.returnId('storehouse')
     this.volumeForm.value.uniqueField = this.returnUniqField();
-    console.log('volumeForm', this.volumeForm.value)
     this.volumesSrv.newVolume(this.volumeForm.value).subscribe(
       data => {
         if (data._id) {

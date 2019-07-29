@@ -8,7 +8,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     FormsModule,
     DatatablesModule,
-    AutocompleteLibModule,
     NgbModule,
     TranslateModule
   ],
