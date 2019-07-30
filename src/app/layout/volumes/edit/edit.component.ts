@@ -61,7 +61,8 @@ export class EditComponent implements OnInit {
       status: this.fb.control('', [Validators.required]),
       departament: this.fb.control('', [Validators.required]),
       uniqueField: this.fb.control(''),
-      location: this.fb.control('', [Validators.required])
+      location: this.fb.control('', [Validators.required]),
+      reference: this.fb.control('', [Validators.required])
     });
 
   }
@@ -79,6 +80,10 @@ export class EditComponent implements OnInit {
   get volumeType() { return this.volumeForm.get('volumeType'); }
   get guardType() { return this.volumeForm.get('guardType'); }
   get status() { return this.volumeForm.get('status'); }
+  get storehouse() { return this.volumeForm.get('storehouse'); }
+  get departament() { return this.volumeForm.get('departament'); }
+  get reference() { return this.volumeForm.get('reference'); }
+  get companyInput() { return this.volumeForm.get('company'); }
 
   getVolume(){
     this.volumesSrv.volume(this.id).subscribe(data => {

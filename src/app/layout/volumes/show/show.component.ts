@@ -63,7 +63,8 @@ export class ShowComponent implements OnInit {
       status: this.fb.control({value:'', disabled: true}, [Validators.required]),
       departament: this.fb.control({value:'', disabled: true}, [Validators.required]),
       uniqueField: this.fb.control(''),
-      location: this.fb.control({value:'', disabled: true}, [Validators.required])
+      location: this.fb.control({value:'', disabled: true}, [Validators.required]),
+      reference: this.fb.control({value:'', disabled: true}, [Validators.required])
     });
 
   }
@@ -83,6 +84,7 @@ export class ShowComponent implements OnInit {
   get status() { return this.volumeForm.get('status'); }
   get companyIpt() { return this.volumeForm.get('company'); }
   get storehouse() { return this.volumeForm.get('storehouse'); }
+  get reference() { return this.volumeForm.get('reference'); }
 
   getVolume(){
     this.volumesSrv.volume(this.id).subscribe(data => {
@@ -98,7 +100,8 @@ export class ShowComponent implements OnInit {
           volumeType: data.volumeType,
           uniqueField: data.uniqueField,
           location: data.location,
-          status: data.status
+          status: data.status,
+          reference: data.reference
         });
     }, error => {
       this.errorMsg.errorMessages(error);
