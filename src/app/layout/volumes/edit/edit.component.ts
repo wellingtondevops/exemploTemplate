@@ -170,6 +170,7 @@ export class EditComponent implements OnInit {
       : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10))
   )
 
+  formatterDepartament = (x: {departamentName: string}) => x.departamentName;
   formatter = (x: {name: string}) => x.name;
 
   searchCompany = (text$: Observable<string>) =>
@@ -191,7 +192,7 @@ export class EditComponent implements OnInit {
     debounceTime(200),
     distinctUntilChanged(),
     map(departament => departament.length < 2 ? []
-      : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
+      : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
   )
 
 }
