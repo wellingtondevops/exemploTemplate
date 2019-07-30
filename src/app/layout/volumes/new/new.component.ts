@@ -52,11 +52,11 @@ export class NewComponent implements OnInit {
       description: this.fb.control('', [Validators.required]),
       guardType: this.fb.control('', [Validators.required]),
       volumeType: this.fb.control('', [Validators.required]),
-      departament: this.fb.control('', [Validators.required]),
+      departament: this.fb.control(null),
       uniqueField: this.fb.control(''),
       location: this.fb.control('', [Validators.required]),
-      status: this.fb.control('',Validators.required),
-      reference: this.fb.control('')
+      status: this.fb.control('',[Validators.required]),
+      reference: this.fb.control('', [Validators.required])
     });
   }
 
@@ -67,6 +67,7 @@ export class NewComponent implements OnInit {
   get status() { return this.volumeForm.get('status'); }
   get storehouse() { return this.volumeForm.get('storehouse'); }
   get departament() { return this.volumeForm.get('departament'); }
+  get reference() { return this.volumeForm.get('reference'); }
   get company() { return this.volumeForm.get('company'); }
 
   ngOnInit() {
@@ -76,11 +77,25 @@ export class NewComponent implements OnInit {
 
   blockInputs() {
     !this.inputBlock ? this.inputBlock = true : this.inputBlock = false;
-    console.log(this.inputBlock)
+  }
+
+  resetInputs() {
+    if(this.inputBlock) {
+      this.volumeForm.patchValue({
+        location: '',
+        reference: ''
+      });
+      this.volumeForm.controls.location.setValidators([Validators.required]);
+      this.volumeForm.controls.reference.setValidators([Validators.required]);
+    } else {
+      this.volumeForm.reset()
+    }
+
   }
 
   returnUniqField(){
-    return `${this.volumeForm.value.storeHouse}${this.volumeForm.value.company}`
+    console.log(`${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`);
+    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`
   }
 
   getCompanies() {
@@ -121,10 +136,12 @@ export class NewComponent implements OnInit {
     this.returnId('company')
     this.returnId('storehouse')
     this.volumeForm.value.uniqueField = this.returnUniqField();
-    this.volumesSrv.newVolume(this.volumeForm.value).subscribe(
+    var volume = _.omitBy(this.volumeForm.value, _.isNil);
+    this.volumesSrv.newVolume(volume).subscribe(
       data => {
         if (data._id) {
           this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
+          this.resetInputs();
         }
       },
       (error) => {
@@ -140,6 +157,8 @@ export class NewComponent implements OnInit {
     map(storehouse => storehouse.length < 2 ? []
       : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10))
   )
+
+  formatterDepartament = (x: {departamentName: string}) => x.departamentName;
 
   formatter = (x: {name: string}) => x.name;
 
@@ -162,7 +181,7 @@ export class NewComponent implements OnInit {
     debounceTime(200),
     distinctUntilChanged(),
     map(departament => departament.length < 2 ? []
-      : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
+      : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
   )
 }
 @Pipe({

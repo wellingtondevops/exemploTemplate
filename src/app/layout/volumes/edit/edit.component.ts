@@ -61,7 +61,8 @@ export class EditComponent implements OnInit {
       status: this.fb.control('', [Validators.required]),
       departament: this.fb.control('', [Validators.required]),
       uniqueField: this.fb.control(''),
-      location: this.fb.control('', [Validators.required])
+      location: this.fb.control('', [Validators.required]),
+      reference: this.fb.control('', [Validators.required])
     });
 
   }
@@ -79,6 +80,10 @@ export class EditComponent implements OnInit {
   get volumeType() { return this.volumeForm.get('volumeType'); }
   get guardType() { return this.volumeForm.get('guardType'); }
   get status() { return this.volumeForm.get('status'); }
+  get storehouse() { return this.volumeForm.get('storehouse'); }
+  get departament() { return this.volumeForm.get('departament'); }
+  get reference() { return this.volumeForm.get('reference'); }
+  get companyInput() { return this.volumeForm.get('company'); }
 
   getVolume(){
     this.volumesSrv.volume(this.id).subscribe(data => {
@@ -165,6 +170,7 @@ export class EditComponent implements OnInit {
       : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10))
   )
 
+  formatterDepartament = (x: {departamentName: string}) => x.departamentName;
   formatter = (x: {name: string}) => x.name;
 
   searchCompany = (text$: Observable<string>) =>
@@ -186,6 +192,6 @@ export class EditComponent implements OnInit {
     debounceTime(200),
     distinctUntilChanged(),
     map(departament => departament.length < 2 ? []
-      : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
+      : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
   )
 }

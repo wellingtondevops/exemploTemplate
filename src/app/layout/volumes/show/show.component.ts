@@ -63,7 +63,8 @@ export class ShowComponent implements OnInit {
       status: this.fb.control({value:'', disabled: true}, [Validators.required]),
       departament: this.fb.control({value:'', disabled: true}, [Validators.required]),
       uniqueField: this.fb.control(''),
-      location: this.fb.control({value:'', disabled: true}, [Validators.required])
+      location: this.fb.control({value:'', disabled: true}, [Validators.required]),
+      reference: this.fb.control({value:'', disabled: true}, [Validators.required])
     });
 
   }
@@ -83,6 +84,7 @@ export class ShowComponent implements OnInit {
   get status() { return this.volumeForm.get('status'); }
   get companyIpt() { return this.volumeForm.get('company'); }
   get storehouse() { return this.volumeForm.get('storehouse'); }
+  get reference() { return this.volumeForm.get('reference'); }
 
   getVolume(){
     this.volumesSrv.volume(this.id).subscribe(data => {
@@ -98,7 +100,8 @@ export class ShowComponent implements OnInit {
           volumeType: data.volumeType,
           uniqueField: data.uniqueField,
           location: data.location,
-          status: data.status
+          status: data.status,
+          reference: data.reference
         });
     }, error => {
       this.errorMsg.errorMessages(error);
@@ -119,6 +122,7 @@ export class ShowComponent implements OnInit {
         status: {value: this.volume.status, disabled: false},
         guardType: {value: this.volume.guardType, disabled: false},
         volumeType: {value: this.volume.volumeType, disabled: false},
+        reference: {value: this.volume.reference, disabled: false},
         dateCreated: {value: moment(this.volume.dateCreated).format('YYYY-MM-DD'), disabled: true}
       });
     }
@@ -187,6 +191,7 @@ export class ShowComponent implements OnInit {
       : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10))
   )
 
+  formatterDepartament = (x: {departamentName: string}) => x.departamentName;
   formatter = (x: {name: string}) => x.name;
 
   searchCompany = (text$: Observable<string>) =>
@@ -208,6 +213,6 @@ export class ShowComponent implements OnInit {
     debounceTime(200),
     distinctUntilChanged(),
     map(departament => departament.length < 2 ? []
-      : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
+      : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
   )
 }
