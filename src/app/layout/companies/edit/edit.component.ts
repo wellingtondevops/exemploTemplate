@@ -9,15 +9,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from 'src/app/models/company';
 import { routerTransition } from 'src/app/router.animations';
 import _ from 'lodash';
-import * as moment from 'moment';
 
 @Component({
-  selector: 'app-show',
-  templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss'],
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss'],
   animations: [routerTransition()]
 })
-export class ShowComponent implements OnInit {
+export class EditComponent implements OnInit {
   companyForm: FormGroup;
   company: Company;
   personTypeList: any = [];
@@ -25,7 +24,6 @@ export class ShowComponent implements OnInit {
   hiddenCNPJ: Boolean = true;
   departaments: any = [];
   id: string;
-  changeUp = false;
   public foneMask: Array<string | RegExp>
 
   constructor(
@@ -42,14 +40,14 @@ export class ShowComponent implements OnInit {
     
     this.companyForm = this.fb.group({
       _id:  this.fb.control(''),
-      email: this.fb.control({value:'', disabled: true}, [Validators.required, Validators.email]),
-      name: this.fb.control({value: '', disabled: true}, [Validators.required]),
-      adress: this.fb.control({value: '', disabled: true}, [Validators.required]),
-      province: this.fb.control({value: '', disabled: true}, [Validators.required]),
-      city: this.fb.control({value: '', disabled: true}, [Validators.required]),
-      fone: this.fb.control({value: '', disabled: true}, [Validators.required]),
-      answerable: this.fb.control({value: '', disabled: true}, [Validators.required]),
-      typePerson: this.fb.control({value: '', disabled: true}, [Validators.required]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      name: this.fb.control('', [Validators.required]),
+      adress: this.fb.control('', [Validators.required]),
+      province: this.fb.control('', [Validators.required]),
+      city: this.fb.control('', [Validators.required]),
+      fone: this.fb.control('', [Validators.required]),
+      answerable: this.fb.control('', [Validators.required]),
+      typePerson: this.fb.control('', [Validators.required]),
       cpf: this.fb.control(null),
       cnpj: this.fb.control(null),
       departaments: this.fb.array(this.departaments),
@@ -78,7 +76,6 @@ export class ShowComponent implements OnInit {
 
   getCompany(){
     this.companiesSrv.company(this.id).subscribe(data => {
-      console.log('company', data);
       this.company = data;
         this.companyForm.patchValue({
           _id: this.company._id,
@@ -98,26 +95,6 @@ export class ShowComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR', error)
     })
-  }
-
-  changeUpdate() {
-    !this.changeUp ? this.changeUp = true : this.changeUp = false;
-    if (this.changeUp) {
-      this.companyForm.reset({
-        _id: this.company._id,
-        name: {value: this.company.name, disabled: false},
-        email: {value: this.company.email, disabled: false},
-        province: {value: this.company.province, disabled: false},
-        adress: {value: this.company.adress, disabled: false},
-        city: {value: this.company.city, disabled: false},
-        fone: {value: this.company.fone, disabled: false},
-        answerable: {value: this.company.answerable, disabled: false},
-        typePerson: {value: this.company.typePerson, disabled: false},
-        cnpj: {value: this.company.cnpj ? this.company.cnpj : null, disabled: false},
-        cpf: {value: this.company.cpf ? this.company.cpf : null, disabled: false},
-        dateCreated: {value: moment(this.company.dateCreated).format('YYYY-MM-DD'), disabled: true}
-      });
-    }
   }
 
   createDepartament(): FormGroup {

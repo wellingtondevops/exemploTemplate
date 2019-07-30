@@ -52,14 +52,12 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.setPage({offset: 0});
     this.listVolumes();
   }
 
   listVolumes() {
     this.volumeSrv.volumes(null).subscribe(
       (data) => {
-        console.log(data)
         this.volumes = data;
         this.page.pageNumber = data._links.currentPage;
         this.page.totalElements = data._links.foundItems;
@@ -70,7 +68,7 @@ export class ListComponent implements OnInit {
   }
 
   getVolume(volume) {
-    this._route.navigate(['ShowComponent'], volume);
+    this._route.navigate(['/volumes/get', volume]);
   }
 
   editVolume(volume) {
@@ -80,7 +78,7 @@ export class ListComponent implements OnInit {
   delete(volume) {
     this.volumeSrv.deleteVolume(volume).subscribe(
       (response) => {
-        this.successMsgSrv.successMessages('Usuário deletado com sucesso.');
+        this.successMsgSrv.successMessages('Volume deletado com sucesso.');
         this.listVolumes();
       },
       (error) => {
@@ -120,5 +118,4 @@ export class ListComponent implements OnInit {
       }
     );
   }
-
 }

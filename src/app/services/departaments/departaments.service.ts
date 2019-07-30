@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
-import { DepartamentList } from 'src/app/models/departament';
+import { DepartamentList, Departament } from 'src/app/models/departament';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -26,5 +26,12 @@ export class DepartamentsService {
           tap(data => data)
       );
     }
+  }
+
+  newDepartament(departament) {
+    return this.http.post<Departament>(`${url}/departaments`, departament)
+    .pipe(
+        tap(data => data)
+    );
   }
 }

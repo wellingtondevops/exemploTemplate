@@ -1,7 +1,7 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../services/users/users.service';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
@@ -35,7 +35,7 @@ export class ShowComponent implements OnInit {
       _id: '',
       email: this.fb.control({value: '', disabled: true}, [Validators.required, Validators.email]),
       name: this.fb.control({value: '', disabled: true},  [Validators.required]),
-      profiles: this.fb.control('', [Validators.required]),
+      profiles: this.fb.control({value: '', disabled: true}, [Validators.required]),
       dateCreated: this.fb.control({value: '', disabled: true}),
     }, );
 

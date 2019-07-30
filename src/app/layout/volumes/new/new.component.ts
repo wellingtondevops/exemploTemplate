@@ -1,6 +1,6 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { CompaniesList, Company } from 'src/app/models/company';
+import { Company } from 'src/app/models/company';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from 'src/app/router.animations';
@@ -14,15 +14,7 @@ import _ from 'lodash';
 import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
-
-const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
-  'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
-  'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-  'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-  'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia',
-  'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
   
 @Component({
   selector: 'app-new',
@@ -33,12 +25,13 @@ const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'C
 export class NewComponent implements OnInit {
   companies: any = [];
   volumeForm: FormGroup;
-  company: Company;
   storeHouses: any = [];
   volumeTypeList: any = [];
   guardTypeList: any = [];
+  statusList: any = [];
   storeHouse: Storehouse;
   departaments: any = [];
+  inputBlock: Boolean = false;
 
   constructor(
     private storeHousesSrv: StorehousesService,
@@ -49,7 +42,7 @@ export class NewComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private fb: FormBuilder,
   ) {
-
+    this.statusList = StatusVolumeEnum;
     this.volumeTypeList = VolumeTypeEnum;
     this.guardTypeList = GuardyTypeVolumeEnum;
 
@@ -61,7 +54,9 @@ export class NewComponent implements OnInit {
       volumeType: this.fb.control('', [Validators.required]),
       departament: this.fb.control('', [Validators.required]),
       uniqueField: this.fb.control(''),
-      location: this.fb.control('', [Validators.required])
+      location: this.fb.control('', [Validators.required]),
+      status: this.fb.control('',Validators.required),
+      reference: this.fb.control('')
     });
   }
 
@@ -69,10 +64,19 @@ export class NewComponent implements OnInit {
   get location() { return this.volumeForm.get('location'); }
   get volumeType() { return this.volumeForm.get('volumeType'); }
   get guardType() { return this.volumeForm.get('guardType'); }
+  get status() { return this.volumeForm.get('status'); }
+  get storehouse() { return this.volumeForm.get('storehouse'); }
+  get departament() { return this.volumeForm.get('departament'); }
+  get company() { return this.volumeForm.get('company'); }
 
   ngOnInit() {
     this.getCompanies();
     this.getStoreHouses();
+  }
+
+  blockInputs() {
+    !this.inputBlock ? this.inputBlock = true : this.inputBlock = false;
+    console.log(this.inputBlock)
   }
 
   returnUniqField(){
@@ -80,7 +84,7 @@ export class NewComponent implements OnInit {
   }
 
   getCompanies() {
-    this.companiesSrv.companies(null).subscribe(data => {
+    this.companiesSrv.searchCompanies().subscribe(data => {
       this.companies = data.items;
     }, (error) => {
       this.errorMsg.errorMessages(error);
@@ -89,7 +93,7 @@ export class NewComponent implements OnInit {
   }
 
   getStoreHouses() {
-    this.storeHousesSrv.storeHouses(null).subscribe(data => {
+    this.storeHousesSrv.searchStorehouses().subscribe(data => {
       this.storeHouses = data.items;
     }, (error) => {
       this.errorMsg.errorMessages(error);
@@ -117,11 +121,10 @@ export class NewComponent implements OnInit {
     this.returnId('company')
     this.returnId('storehouse')
     this.volumeForm.value.uniqueField = this.returnUniqField();
-    console.log('volumeForm', this.volumeForm.value)
     this.volumesSrv.newVolume(this.volumeForm.value).subscribe(
       data => {
         if (data._id) {
-          this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.');
+          this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
         }
       },
       (error) => {
@@ -161,7 +164,6 @@ export class NewComponent implements OnInit {
     map(departament => departament.length < 2 ? []
       : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
   )
-  
 }
 @Pipe({
   name: 'enumToArray'
