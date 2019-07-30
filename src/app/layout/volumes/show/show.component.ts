@@ -122,6 +122,7 @@ export class ShowComponent implements OnInit {
         status: {value: this.volume.status, disabled: false},
         guardType: {value: this.volume.guardType, disabled: false},
         volumeType: {value: this.volume.volumeType, disabled: false},
+        reference: {value: this.volume.reference, disabled: false},
         dateCreated: {value: moment(this.volume.dateCreated).format('YYYY-MM-DD'), disabled: true}
       });
     }
