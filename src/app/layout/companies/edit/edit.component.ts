@@ -29,7 +29,7 @@ export class EditComponent implements OnInit {
   constructor(
     private _route: Router,
     private route: ActivatedRoute,
-    private mask: Masks,
+    public mask: Masks,
     private companiesSrv: CompaniesService,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
