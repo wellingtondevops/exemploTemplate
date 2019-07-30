@@ -5,7 +5,7 @@ import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { PersonTypeEnum } from 'src/app/models/persontype.enum';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from 'src/app/models/company';
 import { routerTransition } from 'src/app/router.animations';
 import _ from 'lodash';
@@ -29,8 +29,9 @@ export class ShowComponent implements OnInit {
   public foneMask: Array<string | RegExp>
 
   constructor(
+    private _route: Router,
     private route: ActivatedRoute,
-    private mask: Masks,
+    public mask: Masks,
     private companiesSrv: CompaniesService,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -77,6 +78,7 @@ export class ShowComponent implements OnInit {
 
   getCompany(){
     this.companiesSrv.company(this.id).subscribe(data => {
+      console.log('company', data);
       this.company = data;
         this.companyForm.patchValue({
           _id: this.company._id,
@@ -135,6 +137,7 @@ export class ShowComponent implements OnInit {
     this.companiesSrv.updateCompany(company).subscribe(data => {
       if(data._id){
         this.successMsgSrv.successMessages('Empresa alterada com sucesso.');
+        this._route.navigate(['/companies']);
       }
     }, error => {
       this.errorMsg.errorMessages(error);

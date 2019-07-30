@@ -5,8 +5,10 @@ import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
-import { Masks } from 'src/app/utils/masks'
+import { Masks } from 'src/app/utils/masks';
+import { Router } from '@angular/router';
 import _ from 'lodash';
+import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 
 @Component({
   selector: 'app-new',
@@ -23,7 +25,9 @@ export class NewComponent implements OnInit {
   public foneMask: Array<string | RegExp>
 
   constructor(
-    private mask: Masks,
+    private _route: Router,
+    private departamentSrv: DepartamentsService,
+    public mask: Masks,
     private companiesSrv: CompaniesService,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -81,12 +85,41 @@ export class NewComponent implements OnInit {
     var company = _.omitBy(this.companyForm.value, _.isNil);
     this.companiesSrv.newCompany(company).subscribe(data => {
       if(data._id){
+        this.createDepartamentPost(company.departaments, company._id)
         this.successMsgSrv.successMessages('Empresa criada com sucesso.');
+        this._route.navigate(['/companies']);
       }
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
     })
+  }
+
+  createDepartamentPost(departaments, company_id) {
+    if(_.isArray(departaments) && departaments.length > 1){
+      departaments.map(departament => {
+        var item = {
+          company: company_id,
+          departamentName: departament.departamentName
+        };
+        this.newDepartament(item)
+      })
+    }
+
+  }
+
+  newDepartament(departament) {
+    var result: Boolean = false;
+    this.departamentSrv.newDepartament(departament).subscribe(data => {
+      if (data._id) {
+        result = true
+      }
+    },(error) => {
+      result = error;
+      console.log(error)
+      this.errorMsg.errorMessages(error);
+    })
+    return result;
   }
 
   typePersonChange() {

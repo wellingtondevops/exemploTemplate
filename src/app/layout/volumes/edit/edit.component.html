@@ -6,17 +6,29 @@
               <div class="form-content">
                   <div class="form-group">
                       <label for="typeahead-basic">Empresa</label>
-                      <input id="typeahead-basic" type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"/>
+                      <input id="typeahead-basic" type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" [ngClass]="{'is-invalid' : !companyInput.valid}"/>
+                      <div *ngIf="companyInput.invalid && (companyInput.dirty || companyInput.touched)"
+                      class="invalid-feedback">
+                      <div *ngIf="!companyInput.valid">
+                      Empresa é obrigatório.
+                      </div>
+                      </div>
                   </div>
 
                   <div class="form-group">
                       <label for="typeahead-basic">Departamento</label>
-                      <input id="typeahead-basic" type="text" class="form-control" formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament"/>
+                      <input id="typeahead-basic" type="text" class="form-control" formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatterDepartament" [ngbTypeahead]="searchDepartament"/>
                   </div>
 
                   <div class="form-group">
                       <label for="typeahead-basic">Armazém</label>
-                      <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse" [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"/>
+                      <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse" [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search" [ngClass]="{'is-invalid' : !companyInput.valid}"/>
+                      <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!storehouse.valid">
+                        Armazém é obrigatório.
+                        </div>
+                        </div>
                   </div>
 
                   <div class="form-group">
@@ -83,6 +95,17 @@
                   </div>
                   </div>
 
+                  <div class="form-group">
+                    <label for="">Referência</label>
+                    <input type="text" placeholder="Referência" class="form-control" formControlName="reference" [ngClass]="{'is-invalid' : !reference.valid}" />
+                <div *ngIf="reference.invalid && (reference.dirty || reference.touched)"
+                    class="invalid-feedback">
+                <div *ngIf="!reference.valid">
+                    Referência é obrigatória.
+                </div>
+                </div>
+                </div>
+
                   <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
                       <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                   </ng-template>
@@ -93,7 +116,16 @@
                       <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                   </ng-template>
               </div>
-              <button type="submit" class="btn btn-primary">Salvar</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="companyInput.invalid ||
+                  storehouse.invalid || volumeType.invalid ||
+                  guardType.invalid || status.invalid || description.invalid ||
+                  location.invalid || reference.invalid"
+              >
+                Salvar
+              </button>
           </form>
       </div>
   </div>
