@@ -6,18 +6,18 @@ import { Auth } from '../../models/auth';
 const url = environment.apiUrl;
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {}
 
-  login(user) {
-    return this.http.post<Auth>(`${url}/users/authenticate`, user)
-    .pipe(
-        tap(data => {
-          window.localStorage.setItem('email', data.email);
-          window.localStorage.setItem('token', data.accessToken);
-        })
-    );
-  }
+    login(user) {
+        return this.http.post<Auth>(`${url}/users/authenticate`, user).pipe(
+            tap(data => {
+                window.localStorage.setItem('email', data.email);
+                window.localStorage.setItem('token', data.accessToken);
+                window.localStorage.setItem('profiles', JSON.stringify(data.profile));
+            })
+        );
+    }
 }
