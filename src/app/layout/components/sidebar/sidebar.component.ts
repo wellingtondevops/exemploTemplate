@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-sidebar',
@@ -12,16 +14,13 @@ export class SidebarComponent implements OnInit {
     collapsed: boolean;
     showMenu: string;
     pushRightClass: string;
+    permission: boolean;
 
     @Output() collapsedEvent = new EventEmitter<boolean>();
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(public daenerysGuard: DaenerysGuard, private translate: TranslateService, public router: Router) {
         this.router.events.subscribe(val => {
-            if (
-                val instanceof NavigationEnd &&
-                window.innerWidth <= 992 &&
-                this.isToggled()
-            ) {
+            if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
                 this.toggleSidebar();
             }
         });
@@ -32,11 +31,21 @@ export class SidebarComponent implements OnInit {
         this.collapsed = false;
         this.showMenu = '';
         this.pushRightClass = 'push-right';
+        this.permission = this.isAdmin();
     }
-
 
     eventCalled() {
         this.isActive = !this.isActive;
+    }
+
+    isAdmin() {
+        var res = false;
+        JSON.parse(window.localStorage.getItem('profiles')).map(item => {
+            if (item === 'DAENERYS') {
+                res = true;
+            }
+        });
+        return res;
     }
 
     addExpandClass(element: any) {
