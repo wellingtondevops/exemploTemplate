@@ -15,181 +15,213 @@ import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
-  
+
 @Component({
-  selector: 'app-new',
-  templateUrl: './new.component.html',
-  styleUrls: ['./new.component.scss'],
-  animations: [routerTransition()]
+    selector: 'app-new',
+    templateUrl: './new.component.html',
+    styleUrls: ['./new.component.scss'],
+    animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
-  companies: any = [];
-  volumeForm: FormGroup;
-  storeHouses: any = [];
-  volumeTypeList: any = [];
-  guardTypeList: any = [];
-  statusList: any = [];
-  storeHouse: Storehouse;
-  departaments: any = [];
-  inputBlock: Boolean = false;
+    companies: any = [];
+    volumeForm: FormGroup;
+    storeHouses: any = [];
+    volumeTypeList: any = [];
+    guardTypeList: any = [];
+    statusList: any = [];
+    storeHouse: Storehouse;
+    departaments: any = [];
+    inputBlock: Boolean = false;
 
-  constructor(
-    private storeHousesSrv: StorehousesService,
-    private departamentsSrv: DepartamentsService,
-    private volumesSrv: VolumesService,
-    private companiesSrv: CompaniesService,
-    private successMsgSrv: SuccessMessagesService,
-    private errorMsg: ErrorMessagesService,
-    private fb: FormBuilder,
-  ) {
-    this.statusList = StatusVolumeEnum;
-    this.volumeTypeList = VolumeTypeEnum;
-    this.guardTypeList = GuardyTypeVolumeEnum;
+    constructor(
+        private storeHousesSrv: StorehousesService,
+        private departamentsSrv: DepartamentsService,
+        private volumesSrv: VolumesService,
+        private companiesSrv: CompaniesService,
+        private successMsgSrv: SuccessMessagesService,
+        private errorMsg: ErrorMessagesService,
+        private fb: FormBuilder
+    ) {
+        this.statusList = StatusVolumeEnum;
+        this.volumeTypeList = VolumeTypeEnum;
+        this.guardTypeList = GuardyTypeVolumeEnum;
 
-    this.volumeForm = this.fb.group({
-      storehouse: this.fb.control('', [Validators.required]),
-      company: this.fb.control('', [Validators.required]),
-      description: this.fb.control('', [Validators.required]),
-      guardType: this.fb.control('', [Validators.required]),
-      volumeType: this.fb.control('', [Validators.required]),
-      departament: this.fb.control(null),
-      uniqueField: this.fb.control(''),
-      location: this.fb.control('', [Validators.required]),
-      status: this.fb.control('',[Validators.required]),
-      reference: this.fb.control('', [Validators.required])
-    });
-  }
-
-  get description() { return this.volumeForm.get('description'); }
-  get location() { return this.volumeForm.get('location'); }
-  get volumeType() { return this.volumeForm.get('volumeType'); }
-  get guardType() { return this.volumeForm.get('guardType'); }
-  get status() { return this.volumeForm.get('status'); }
-  get storehouse() { return this.volumeForm.get('storehouse'); }
-  get departament() { return this.volumeForm.get('departament'); }
-  get reference() { return this.volumeForm.get('reference'); }
-  get company() { return this.volumeForm.get('company'); }
-
-  ngOnInit() {
-    this.getCompanies();
-    this.getStoreHouses();
-  }
-
-  blockInputs() {
-    !this.inputBlock ? this.inputBlock = true : this.inputBlock = false;
-  }
-
-  resetInputs() {
-    if(this.inputBlock) {
-      this.volumeForm.patchValue({
-        location: '',
-        reference: ''
-      });
-      this.volumeForm.controls.location.setValidators([Validators.required]);
-      this.volumeForm.controls.reference.setValidators([Validators.required]);
-    } else {
-      this.volumeForm.reset()
+        this.volumeForm = this.fb.group({
+            storehouse: this.fb.control('', [Validators.required]),
+            company: this.fb.control('', [Validators.required]),
+            description: this.fb.control('', [Validators.required]),
+            guardType: this.fb.control('', [Validators.required]),
+            volumeType: this.fb.control('', [Validators.required]),
+            departament: this.fb.control(null),
+            uniqueField: this.fb.control(''),
+            location: this.fb.control('', [Validators.required]),
+            status: this.fb.control('', [Validators.required]),
+            reference: this.fb.control('')
+        });
     }
 
-  }
+    get description() {
+        return this.volumeForm.get('description');
+    }
+    get location() {
+        return this.volumeForm.get('location');
+    }
+    get volumeType() {
+        return this.volumeForm.get('volumeType');
+    }
+    get guardType() {
+        return this.volumeForm.get('guardType');
+    }
+    get status() {
+        return this.volumeForm.get('status');
+    }
+    get storehouse() {
+        return this.volumeForm.get('storehouse');
+    }
+    get departament() {
+        return this.volumeForm.get('departament');
+    }
+    get reference() {
+        return this.volumeForm.get('reference');
+    }
+    get company() {
+        return this.volumeForm.get('company');
+    }
 
-  returnUniqField(){
-    console.log(`${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`);
-    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`
-  }
+    ngOnInit() {
+        this.getCompanies();
+        this.getStoreHouses();
+    }
 
-  getCompanies() {
-    this.companiesSrv.searchCompanies().subscribe(data => {
-      this.companies = data.items;
-    }, (error) => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    });
-  }
+    blockInputs() {
+        !this.inputBlock ? (this.inputBlock = true) : (this.inputBlock = false);
+    }
 
-  getStoreHouses() {
-    this.storeHousesSrv.searchStorehouses().subscribe(data => {
-      this.storeHouses = data.items;
-    }, (error) => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    });
-  }
-
-  getDepartament(id){
-    this.departamentsSrv.departaments(null, id).subscribe(data => {
-      console.log('departaments',data)
-      this.departaments = data.items;
-    }, (error) => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    });
-  }
-
-  returnId(object) {
-    this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
-      if(key === '_id') return value;
-    })[0];
-  }
-
-  postVolume() {
-    this.returnId('company')
-    this.returnId('storehouse')
-    this.volumeForm.value.uniqueField = this.returnUniqField();
-    var volume = _.omitBy(this.volumeForm.value, _.isNil);
-    this.volumesSrv.newVolume(volume).subscribe(
-      data => {
-        if (data._id) {
-          this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
-          this.resetInputs();
+    resetInputs() {
+        if (this.inputBlock) {
+            this.volumeForm.patchValue({
+                location: '',
+                reference: ''
+            });
+            this.volumeForm.controls.location.setValidators([Validators.required]);
+            this.volumeForm.controls.reference.setValidators([Validators.required]);
+        } else {
+            this.volumeForm.reset();
         }
-      },
-      (error) => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-      });
-  }
+    }
 
-  search = (text$: Observable<string>) =>
-  text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map(storehouse => storehouse.length < 2 ? []
-      : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10))
-  )
+    returnUniqField() {
+        console.log(`${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`);
+        return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`;
+    }
 
-  formatterDepartament = (x: {departamentName: string}) => x.departamentName;
+    getCompanies() {
+        this.companiesSrv.searchCompanies().subscribe(
+            data => {
+                this.companies = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
 
-  formatter = (x: {name: string}) => x.name;
+    getStoreHouses() {
+        this.storeHousesSrv.searchStorehouses().subscribe(
+            data => {
+                this.storeHouses = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
 
-  searchCompany = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(company => {
-        var res;
-        if(company.length < 2) [] 
-        else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10)
-        this.getDepartament(this.volumeForm.value.company._id)
-        return res;
-      })
-    )
+    getDepartament(id) {
+        this.departamentsSrv.departaments(null, id).subscribe(
+            data => {
+                console.log('departaments', data);
+                this.departaments = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
 
+    returnId(object) {
+        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
+            if (key === '_id') return value;
+        })[0];
+    }
 
-  searchDepartament = (text$: Observable<string>) =>
-  text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map(departament => departament.length < 2 ? []
-      : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10))
-  )
+    postVolume() {
+        this.returnId('company');
+        this.returnId('storehouse');
+        this.volumeForm.value.uniqueField = this.returnUniqField();
+        var volume = _.omitBy(this.volumeForm.value, _.isNil);
+        this.volumesSrv.newVolume(volume).subscribe(
+            data => {
+                if (data._id) {
+                    this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
+                    this.resetInputs();
+                }
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
+
+    search = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(storehouse =>
+                storehouse.length < 2
+                    ? []
+                    : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+            )
+        );
+
+    formatterDepartament = (x: { departamentName: string }) => x.departamentName;
+
+    formatter = (x: { name: string }) => x.name;
+
+    searchCompany = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(company => {
+                var res;
+                if (company.length < 2) [];
+                else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+                this.getDepartament(this.volumeForm.value.company._id);
+                return res;
+            })
+        );
+
+    searchDepartament = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(departament =>
+                departament.length < 2
+                    ? []
+                    : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+            )
+        );
 }
 @Pipe({
-  name: 'enumToArray'
+    name: 'enumToArray'
 })
 export class EnumToArrayPipe implements PipeTransform {
-  transform(data: Object) {
-    const keys = Object.keys(data);
-    return keys.slice(keys.length / 2);
-  }
+    transform(data: Object) {
+        const keys = Object.keys(data);
+        return keys.slice(keys.length / 2);
+    }
 }
