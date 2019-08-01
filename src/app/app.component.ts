@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-root',
@@ -12,9 +12,8 @@ export class AppComponent implements OnInit {
         translate.setDefaultLang('pt-BR');
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
-        translate.use('en');
+        translate.use('pt-BR');
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 }

@@ -1,9 +1,5 @@
-<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+<nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
     <div class="list-group">
-        <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa fa-users fa-2x"></i>&nbsp;
-            <span>{{ 'Usuários' | translate }}</span>
-        </a>
         <a [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-envelope fa-2x"></i>&nbsp;
             <span>{{ 'Solicitantes ' | translate }}</span>
@@ -17,12 +13,12 @@
             <i class="fa fa-building fa-2x"></i>&nbsp;
             <span>{{ 'Empresas' | translate }}</span>
         </a>
-        
+
         <a [routerLink]="['/volumes']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-archive fa-2x"></i>&nbsp;
             <span>{{ 'Volumes' | translate }}</span>
         </a>
-        
+
         <a [routerLink]="['/doctypes']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-book fa-2x"></i>&nbsp;
             <span>{{ 'Documentos' | translate }}</span>
@@ -39,17 +35,26 @@
             <i class="fa fa-truck fa-2x"></i>&nbsp;
             <span>{{ 'Movimentações' | translate }}</span>
         </a>
-
-        <a [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-cog fa-2x"></i>&nbsp;
-            <span>{{ 'Configurações' | translate }}</span>
-        </a>
-
+        <div *ngIf="permission" class="nested-menu" [routerLinkActive]="['router-link-active']">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <i class="fa fa-plus"></i>&nbsp;
+                <span>{{ 'Configurações' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/users']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Usuários' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
     </div>
 
-    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
-        <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;
+    <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()">
+        <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i>&nbsp;
         <span></span>
     </div>
-
 </nav>
