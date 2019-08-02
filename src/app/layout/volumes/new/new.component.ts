@@ -55,7 +55,6 @@ export class NewComponent implements OnInit {
             departament: this.fb.control(null),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
-            status: this.fb.control('', [Validators.required]),
             reference: this.fb.control('')
         });
     }
@@ -71,9 +70,6 @@ export class NewComponent implements OnInit {
     }
     get guardType() {
         return this.volumeForm.get('guardType');
-    }
-    get status() {
-        return this.volumeForm.get('status');
     }
     get storehouse() {
         return this.volumeForm.get('storehouse');
