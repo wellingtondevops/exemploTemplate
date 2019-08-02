@@ -32,6 +32,7 @@ export class NewComponent implements OnInit {
     storeHouse: Storehouse;
     departaments: any = [];
     inputBlock: Boolean = false;
+    hiddenReference: Boolean = true;
 
     constructor(
         private storeHousesSrv: StorehousesService,
@@ -55,7 +56,6 @@ export class NewComponent implements OnInit {
             departament: this.fb.control(null),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
-            status: this.fb.control('', [Validators.required]),
             reference: this.fb.control('')
         });
     }
@@ -71,9 +71,6 @@ export class NewComponent implements OnInit {
     }
     get guardType() {
         return this.volumeForm.get('guardType');
-    }
-    get status() {
-        return this.volumeForm.get('status');
     }
     get storehouse() {
         return this.volumeForm.get('storehouse');
@@ -150,6 +147,17 @@ export class NewComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    changeGuardType() {
+        switch (this.volumeForm.value.guardType) {
+            case 'SIMPLES':
+                this.hiddenReference = false;
+                break;
+            case 'GERENCIADA':
+                this.hiddenReference = true;
+                break;
+        }
     }
 
     returnId(object) {

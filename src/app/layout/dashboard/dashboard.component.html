@@ -1,16 +1,15 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Dashboard </h2>
-    
-    <hr>
-    <div class="row">
+    <h2 class="text-muted">Dashboard</h2>
 
-        <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+    <hr />
+    <div class="row">
+        <a *ngIf="permission" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-users fa-4x" aria-hidden="true"></i></div>
                     <div class="card-body">
                         <h4 class="card-title">Usuários</h4>
-                        <p class="card-text">Criação de Usuários </p>
+                        <p class="card-text">Criação de Usuários</p>
                     </div>
                 </div>
             </div>
@@ -28,7 +27,6 @@
             </div>
         </a>
 
-
         <a [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
@@ -39,7 +37,6 @@
                     </div>
                 </div>
             </div>
-
         </a>
 
         <a [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
@@ -65,7 +62,6 @@
                 </div>
             </div>
         </a>
-
 
         <a [routerLink]="['/doctypes']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
@@ -110,15 +106,5 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-4">
-            <div class="card text-white bg-dark mb-3">
-                <div class="card-header"><i class="fa fa-cog fa-4x" aria-hidden="true"></i></div>
-                <div class="card-body">
-                    <h4 class="card-title">Configurações</h4>
-                    <p class="card-text">Configurações do Sistema</p>
-                </div>
-            </div>
-        </div>
-
     </div>
+</div>
