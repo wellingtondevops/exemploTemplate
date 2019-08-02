@@ -56,7 +56,7 @@ export class NewComponent implements OnInit {
             departament: this.fb.control(null),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
-            reference: this.fb.control('')
+            reference: this.fb.control(null)
         });
     }
 
@@ -98,10 +98,10 @@ export class NewComponent implements OnInit {
         if (this.inputBlock) {
             this.volumeForm.patchValue({
                 location: '',
-                reference: ''
+                reference: null
             });
             this.volumeForm.controls.location.setValidators([Validators.required]);
-            this.volumeForm.controls.reference.setValidators([Validators.required]);
+            // this.volumeForm.controls.reference.setValidators([Validators.required]);
         } else {
             this.volumeForm.reset();
         }
