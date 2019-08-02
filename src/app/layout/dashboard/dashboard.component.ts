@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -10,14 +11,14 @@ import { routerTransition } from '../../router.animations';
 export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
+    permission: boolean;
 
-    constructor() {
+    constructor(public daenerysGuard: DaenerysGuard) {
         this.sliders.push(
             {
                 imagePath: 'assets/images/slider1.jpg',
                 label: 'First slide label',
-                text:
-                    'Nulla vitae elit libero, a pharetra augue mollis interdum.'
+                text: 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
             },
             {
                 imagePath: 'assets/images/slider2.jpg',
@@ -27,8 +28,7 @@ export class DashboardComponent implements OnInit {
             {
                 imagePath: 'assets/images/slider3.jpg',
                 label: 'Third slide label',
-                text:
-                    'Praesent commodo cursus magna, vel scelerisque nisl consectetur.'
+                text: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.'
             }
         );
 
@@ -52,7 +52,19 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.permission = this.isAdmin();
+    }
+
+    isAdmin() {
+        var res = false;
+        JSON.parse(window.localStorage.getItem('profiles')).map(item => {
+            if (item === 'DAENERYS') {
+                res = true;
+            }
+        });
+        return res;
+    }
 
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);

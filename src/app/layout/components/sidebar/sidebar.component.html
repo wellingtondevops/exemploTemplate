@@ -37,7 +37,7 @@
         </a>
         <div *ngIf="permission" class="nested-menu" [routerLinkActive]="['router-link-active']">
             <a class="list-group-item" (click)="addExpandClass('pages')">
-                <i class="fa fa-plus"></i>&nbsp;
+                <i class="fa fa-cog"></i>&nbsp;
                 <span>{{ 'Configurações' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'">

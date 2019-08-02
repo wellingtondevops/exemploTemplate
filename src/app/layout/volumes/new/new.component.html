@@ -95,6 +95,7 @@
                             id="guardType"
                             formControlName="guardType"
                             [ngClass]="{ 'is-invalid': !guardType.valid }"
+                            (change)="changeGuardType()"
                         >
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT"> {{ guardT | translate }}</option>
                         </select>
@@ -137,7 +138,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" [hidden]="hiddenReference">
                         <label for="">Referência</label>
                         <input
                             type="text"
@@ -171,7 +172,6 @@
                         storehouse.invalid ||
                         volumeType.invalid ||
                         guardType.invalid ||
-                        status.invalid ||
                         description.invalid ||
                         location.invalid ||
                         reference.invalid

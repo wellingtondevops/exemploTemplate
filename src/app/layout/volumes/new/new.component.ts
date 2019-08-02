@@ -32,6 +32,7 @@ export class NewComponent implements OnInit {
     storeHouse: Storehouse;
     departaments: any = [];
     inputBlock: Boolean = false;
+    hiddenReference: Boolean = true;
 
     constructor(
         private storeHousesSrv: StorehousesService,
@@ -146,6 +147,17 @@ export class NewComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    changeGuardType() {
+        switch (this.volumeForm.value.guardType) {
+            case 'SIMPLES':
+                this.hiddenReference = false;
+                break;
+            case 'GERENCIADA':
+                this.hiddenReference = true;
+                break;
+        }
     }
 
     returnId(object) {
