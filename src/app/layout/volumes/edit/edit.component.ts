@@ -36,6 +36,7 @@ export class EditComponent implements OnInit {
     statusList: any = [];
     id: String;
     volume: Volume;
+    hiddenReference: Boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -58,11 +59,10 @@ export class EditComponent implements OnInit {
             description: this.fb.control('', [Validators.required]),
             guardType: this.fb.control('', [Validators.required]),
             volumeType: this.fb.control('', [Validators.required]),
-            status: this.fb.control('', [Validators.required]),
             departament: this.fb.control('', [Validators.required]),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
-            reference: this.fb.control('', [Validators.required])
+            reference: this.fb.control('')
         });
     }
 
@@ -85,9 +85,6 @@ export class EditComponent implements OnInit {
     }
     get guardType() {
         return this.volumeForm.get('guardType');
-    }
-    get status() {
-        return this.volumeForm.get('status');
     }
     get storehouse() {
         return this.volumeForm.get('storehouse');
@@ -118,6 +115,7 @@ export class EditComponent implements OnInit {
                     location: data.location,
                     status: data.status
                 });
+                this.changeGuardType();
             },
             error => {
                 this.errorMsg.errorMessages(error);
@@ -164,6 +162,17 @@ export class EditComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    changeGuardType() {
+        switch (this.volumeForm.value.guardType) {
+            case 'SIMPLES':
+                this.hiddenReference = false;
+                break;
+            case 'GERENCIADA':
+                this.hiddenReference = true;
+                break;
+        }
     }
 
     returnId(object) {
