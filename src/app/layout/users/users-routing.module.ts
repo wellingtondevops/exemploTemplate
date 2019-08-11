@@ -29,7 +29,7 @@ const routes: Routes = [
         canActivate: [DaenerysGuard]
     },
     {
-        path: 'alter-password',
+        path: 'alter',
         component: AlterPasswordComponent
         // canActivate: [DaenerysGuard]
     }
