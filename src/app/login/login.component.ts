@@ -9,18 +9,12 @@ import { ErrorMessagesService } from '../utils/error-messages.service';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    animations: [routerTransition()],
+    animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
-
     loginForm: FormGroup;
 
-    constructor(
-      public router: Router,
-      private fb: FormBuilder,
-      private AuthSrv: AuthService,
-      private errorMsg: ErrorMessagesService
-    ) {}
+    constructor(public router: Router, private fb: FormBuilder, private AuthSrv: AuthService, private errorMsg: ErrorMessagesService) {}
 
     ngOnInit() {
         this.loginForm = this.fb.group({
@@ -31,14 +25,15 @@ export class LoginComponent implements OnInit {
 
     onLoggedin() {
         console.warn(this.loginForm.value);
-        this.AuthSrv.login(this.loginForm.value).subscribe(() => {
-            this.router.navigate(['/dashboard']);
-            localStorage.setItem('isLoggedin', 'true');
-        },
-        (error) =>  {
-            console.log('ERROR: ', error);
-            this.errorMsg.errorMessages(error);
-        } );
-
+        this.AuthSrv.login(this.loginForm.value).subscribe(
+            () => {
+                this.router.navigate(['/dashboard']);
+                localStorage.setItem('isLoggedin', 'true');
+            },
+            error => {
+                console.log('ERROR: ', error);
+                this.errorMsg.errorMessages(error);
+            }
+        );
     }
 }

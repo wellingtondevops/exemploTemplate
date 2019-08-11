@@ -59,17 +59,6 @@ export class ListComponent implements OnInit {
     this._route.navigate(['/storehouses/get', storeHouse]);
   }
 
-  editStoreHouse(storeHouse) {
-    this._route.navigate(['/storehouses/edit', storeHouse]);
-  }
-
-  deleteStoreHouse(storeHouse) {
-    this.toastr.success('Hello world!', 'Toastr fun!')
-    .onTap
-    .pipe()
-    .subscribe(() => this.toasterClickedHandler());
-  }
-
   toasterClickedHandler() {
     console.log('Toastr clicked');
   }
