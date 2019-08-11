@@ -11,11 +11,9 @@
                     <i class="fa fa-user"></i> {{ email }} <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
-                    <a class="dropdown-item" [routerLink]="['/users/alter-password']" [routerLinkActive]="['router-link-active']">
-                        <i class="fa fa-fw fa-user"></i> {{ 'Alter Password' | translate }}
+                    <a class="dropdown-item" [routerLink]="['/users/alter']" [routerLinkActive]="['router-link-active']">
+                        <i class="fa fa-fw fa-user"></i> {{ 'Alter Dados' | translate }}
                     </a>
-
-                    <a class="dropdown-item" href="javascript:void(0)"> <i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }} </a>
 
                     <a class="dropdown-item" [routerLink]="['/login']" (click)="onLoggedout()">
                         <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}

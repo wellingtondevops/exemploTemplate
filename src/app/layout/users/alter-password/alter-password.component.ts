@@ -5,11 +5,13 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
+import { routerTransition } from 'src/app/router.animations';
 
 @Component({
     selector: 'app-alter-password',
     templateUrl: './alter-password.component.html',
-    styleUrls: ['./alter-password.component.scss']
+    styleUrls: ['./alter-password.component.scss'],
+    animations: [routerTransition()]
 })
 export class AlterPasswordComponent implements OnInit {
     id: String;
@@ -30,23 +32,22 @@ export class AlterPasswordComponent implements OnInit {
     ngOnInit() {
         this.userForm = this.fb.group({
             _id: '',
-            email: this.fb.control('', [Validators.required, Validators.email]),
+            email: this.fb.control({ value: '', disabled: true }),
             name: this.fb.control('', [Validators.required]),
-            profiles: this.fb.control('', [Validators.required])
+            password: this.fb.control('', [Validators.required, Validators.minLength(6)]),
+            profiles: this.fb.control({ value: '', disabled: true })
         });
 
-        this.id = localStorage.get('id');
+        this.id = localStorage.getItem('id');
         this.getUser();
     }
 
     get name() {
         return this.userForm.get('name');
     }
-    get email() {
-        return this.userForm.get('email');
-    }
-    get profiles() {
-        return this.userForm.get('profiles');
+
+    get password() {
+        return this.userForm.get('password');
     }
 
     getUser() {
@@ -55,8 +56,9 @@ export class AlterPasswordComponent implements OnInit {
                 this.user = data;
                 this.userForm.patchValue({
                     _id: this.user._id,
-                    email: this.user.email,
+                    email: data.email,
                     name: data.name,
+                    password: '',
                     profiles: data.profiles
                 });
             },
