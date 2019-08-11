@@ -1,27 +1,18 @@
 <div>
-  <ngx-datatable
-    class="material"
-    [rows]="items"
-    [columns]="columns"
-    [columnMode]="'force'"
-    [headerHeight]="50"
-    [footerHeight]="50"
-    [rowHeight]="'auto'"
-    [externalPaging]="true" 
-    [count]="page.totalElements" 
-    [offset]="page.pageNumber" 
-    [limit]="page.size"
-    (page)='pagination($event)'>
-  </ngx-datatable>
-    <ng-template #showTmpl let-row="row" let-value="value">
-      <button class="btn btn-sm btn-default" (click)="showView(row._id)">
-        <i class="fa fa-eye" style="color:blue"></i>
-      </button>
-      <button style="margin-left: 5px" class="btn btn-sm btn-default" (click)="editView(row._id)">
-        <i class="fa fa-pencil-square-o" style="color:yellow"></i>
-      </button>
-      <button style="margin-left: 5px" class="btn btn-sm btn-default" (click)="deleteItem(row._id)">
-        <i class="fa fa-trash" style="color: red"></i>
-      </button>
-    </ng-template>
+    <ngx-datatable
+        class="material striped"
+        [rows]="items"
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)="pagination($event)"
+        (activate)="showView($event)"
+    >
+    </ngx-datatable>
 </div>

@@ -2,7 +2,7 @@
     <app-page-header [heading]="'Dados do Volume'" [icon]="'fa-user'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <button class="btn btn-primary pull-right" (click)="changeUpdate()">Editar</button>
+            <app-buttons-custom (edit)="editVolume(volume._id)" (delete)="open('focusFirst', volume._id)"></app-buttons-custom>
             <br />
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="updateVolume()">
                 <div class="form-content">
@@ -152,21 +152,6 @@
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                 </div>
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                    [disabled]="
-                        !changeUp ||
-                        companyIpt.invalid ||
-                        storehouse.invalid ||
-                        volumeType.invalid ||
-                        guardType.invalid ||
-                        description.invalid ||
-                        location.invalid
-                    "
-                >
-                    Salvar
-                </button>
             </form>
         </div>
     </div>
