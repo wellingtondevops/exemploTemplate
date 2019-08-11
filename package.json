@@ -38,6 +38,7 @@
         "lodash": "^4.17.15",
         "moment": "^2.24.0",
         "ng2-charts": "1.6.0",
+        "ngx-loading": "^3.0.1",
         "ngx-toastr": "^10.0.4",
         "rxjs": "^6.5.2",
         "yarn": "1.12.1",

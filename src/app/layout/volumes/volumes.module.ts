@@ -9,6 +9,7 @@ import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
     declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent],
@@ -21,7 +22,8 @@ import { TranslateModule } from '@ngx-translate/core';
         DatatablesModule,
         NgbModule,
         TranslateModule,
-        ButtonsCustomModule
+        ButtonsCustomModule,
+        NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal]
 })

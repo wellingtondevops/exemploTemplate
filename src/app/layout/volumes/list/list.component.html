@@ -1,3 +1,7 @@
+<ngx-loading
+    [show]="loading"
+    [config]="{ backdropBorderRadius: '3px', primaryColour: '#222', secondaryColour: '#222', tertiaryColour: '#222' }"
+></ngx-loading>
 <div [@routerTransition]>
     <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'" [routerTo]="'/volumes/new'"></app-page-header>
     <div class="row">

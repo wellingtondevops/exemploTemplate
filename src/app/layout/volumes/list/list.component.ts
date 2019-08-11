@@ -20,6 +20,7 @@ const MODALS = {
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    public loading: boolean = true;
     volumes: VolumeList = {
         _links: {
             currentPage: 0,
@@ -59,12 +60,14 @@ export class ListComponent implements OnInit {
     listVolumes() {
         this.volumeSrv.volumes(null).subscribe(
             data => {
+                this.loading = false;
                 this.volumes = data;
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
             },
             error => {
+                this.loading = false;
                 console.log('ERROR: ', error);
             }
         );
