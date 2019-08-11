@@ -3,6 +3,18 @@
 
     <hr />
     <div class="row">
+        <a [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']" class="col-sm-12">
+            <div>
+                <div class="card text-white bg-dark mb-3">
+                    <div class="card-header"><i class="fa fa-search fa-4x" aria-hidden="true"></i></div>
+                    <div class="card-body">
+                        <h4 class="card-title">PROCURAR</h4>
+                        <p class="card-text">Pesquisa de Documentos</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+
         <a *ngIf="permission" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
@@ -84,18 +96,6 @@
                 </div>
             </div>
         </div>
-
-        <a [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
-            <div>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header"><i class="fa fa-search fa-4x" aria-hidden="true"></i></div>
-                    <div class="card-body">
-                        <h4 class="card-title">PROCURAR</h4>
-                        <p class="card-text">Pesquisa de Documentos</p>
-                    </div>
-                </div>
-            </div>
-        </a>
 
         <div class="col-sm-4">
             <div class="card text-white bg-dark mb-3">
