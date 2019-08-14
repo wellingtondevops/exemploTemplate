@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, Output, EventEmitter } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
@@ -44,6 +44,7 @@ export class ShowComponent implements OnInit {
     volume: Volume;
     changeUp = false;
     hiddenReference: Boolean = true;
+    loading: Boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -79,7 +80,7 @@ export class ShowComponent implements OnInit {
     ngOnInit() {
         this.getCompanies();
         this.getStoreHouses();
-
+        this.loading = true;
         this.id = this.route.snapshot.paramMap.get('id');
         this.getVolume();
     }
@@ -109,6 +110,7 @@ export class ShowComponent implements OnInit {
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
                     _id: this.volume._id,
@@ -125,6 +127,7 @@ export class ShowComponent implements OnInit {
                 });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR', error);
             }

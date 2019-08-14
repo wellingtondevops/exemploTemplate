@@ -33,6 +33,7 @@ export class ShowComponent implements OnInit {
     id: string;
     changeUp = false;
     public foneMask: Array<string | RegExp>;
+    loading: Boolean = true;
 
     constructor(
         private _route: Router,
@@ -105,6 +106,7 @@ export class ShowComponent implements OnInit {
     getCompany() {
         this.companiesSrv.company(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.company = data;
                 this.companyForm.patchValue({
                     _id: this.company._id,
@@ -122,6 +124,7 @@ export class ShowComponent implements OnInit {
                 });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR', error);
             }
@@ -161,15 +164,18 @@ export class ShowComponent implements OnInit {
     }
 
     updateCompany() {
+        this.loading = true;
         var company = _.omitBy(this.companyForm.value, _.isNil);
         this.companiesSrv.updateCompany(company).subscribe(
             data => {
                 if (data._id) {
+                    this.loading = false;
                     this.successMsgSrv.successMessages('Empresa alterada com sucesso.');
                     this._route.navigate(['/companies']);
                 }
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }
@@ -211,11 +217,14 @@ export class ShowComponent implements OnInit {
     }
 
     delete(company) {
+        this.loading = true;
         this.companiesSrv.delete(company).subscribe(
             response => {
+                this.loading = false;
                 this.successMsgSrv.successMessages('Empresa deletada com sucesso.');
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR:', error);
             }

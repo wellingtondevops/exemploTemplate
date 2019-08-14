@@ -1,0 +1,161 @@
+<div [@routerTransition]>
+    <ngx-loading
+        [show]="loading"
+        [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"
+    ></ngx-loading>
+    <app-page-header [heading]="'Nova Empresa'" [icon]="'fa-user'"></app-page-header>
+    <div class="card bg-light mb-12">
+        <div class="card-body">
+            <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="postDocument()">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="">Nome</label>
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="Nome"
+                            class="form-control"
+                            formControlName="name"
+                            [ngClass]="{ 'is-invalid': !name.valid }"
+                            mask="000.000.000-00"
+                        />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                            <div *ngIf="!name.valid">
+                                Nome é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="redemption">Tipo do Tempo de Guarda</label>
+                        <select
+                            class="form-control"
+                            id="redemption"
+                            formControlName="redemption"
+                            [ngClass]="{ 'is-invalid': !redemption.valid }"
+                            (change)="redemptionChange()"
+                        >
+                            <option *ngFor="let redemption of redemptionList | enumToArray" [value]="redemption">
+                                {{ redemption | translate }}</option
+                            >
+                        </select>
+                        <input
+                            id="redemption"
+                            placeholder=""
+                            type="text"
+                            class="form-control"
+                            formControlName="redemption"
+                            [ngClass]="{ 'is-invalid': !redemption.valid }"
+                        />
+                        <div *ngIf="redemption.invalid && (redemption.dirty || redemption.touched)" class="invalid-feedback">
+                            <div *ngIf="!redemption.valid">
+                                Tipo do Tempo de guarda é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="personType">Tipo de Pessoa</label>
+                        <select
+                            class="form-control"
+                            id="personType"
+                            formControlName="typePerson"
+                            [ngClass]="{ 'is-invalid': !typePerson.valid }"
+                            (change)="typePersonChange()"
+                        >
+                            <option *ngFor="let person of personTypeList | enumToArray" [value]="person"> {{ person | translate }}</option>
+                        </select>
+                        <div *ngIf="typePerson.invalid && (typePerson.dirty || typePerson.touched)" class="invalid-feedback">
+                            <div *ngIf="!typePerson.valid">
+                                Tipo de pessoa é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [hidden]="hiddenCPF">
+                        <label for="cpf">CPF</label>
+                        <input
+                            id="cpf"
+                            type="text"
+                            placeholder="CPF"
+                            class="form-control"
+                            formControlName="cpf"
+                            [ngClass]="{ 'is-invalid': !cpf.valid }"
+                            [textMask]="{ mask: mask.cpf }"
+                        />
+                        <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)" class="invalid-feedback">
+                            <div *ngIf="!cpf.valid">
+                                CPF é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [hidden]="hiddenCNPJ">
+                        <label for="cnpj">CNPJ</label>
+                        <input
+                            id="cnpj"
+                            type="text"
+                            placeholder="CNPJ"
+                            class="form-control"
+                            formControlName="cnpj"
+                            [ngClass]="{ 'is-invalid': !cnpj.valid }"
+                            [textMask]="{ mask: mask.cnpj }"
+                        />
+                        <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)" class="invalid-feedback">
+                            <div *ngIf="!cnpj.valid">
+                                CNPJ é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" formArrayName="departaments">
+                        <label for="">Departamentos</label>
+                        <div *ngFor="let departament of departaments.controls; index as i">
+                            <div [formGroupName]="i" class="form-group">
+                                <div class="input-group mb-2 mr-sm-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Nome do Departamento"
+                                        class="form-control"
+                                        formControlName="departamentName"
+                                    />
+                                    <div class="input-group-append">
+                                        <div class="input-group-text" (click)="removeDepartament(i)">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-success btn-xs" (click)="addDepartament()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="
+                        name.invalid ||
+                        typePerson.invalid ||
+                        answerable.invalid ||
+                        fone.invalid ||
+                        city.invalid ||
+                        province.invalid ||
+                        adress.invalid ||
+                        name.invalid ||
+                        email.invalid
+                    "
+                >
+                    Salvar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

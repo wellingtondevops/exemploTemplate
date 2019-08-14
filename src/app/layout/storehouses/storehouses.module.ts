@@ -9,6 +9,7 @@ import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EditComponent],
@@ -20,7 +21,8 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
         FormsModule,
         DatatablesModule,
         NgbModule,
-        ButtonsCustomModule
+        ButtonsCustomModule,
+        NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal]
 })

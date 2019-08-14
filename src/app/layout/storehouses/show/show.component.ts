@@ -23,6 +23,7 @@ export class ShowComponent implements OnInit {
     storeHouse: any;
     storeHouseForm: FormGroup;
     changeUp = false;
+    loading: Boolean = true;
 
     constructor(
         private _route: Router,
@@ -53,6 +54,7 @@ export class ShowComponent implements OnInit {
     getStoreHouse() {
         this.storeHouseSrv.storehouse(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.storeHouse = data;
                 this.storeHouseForm.patchValue({
                     _id: this.storeHouse._id,
@@ -60,6 +62,7 @@ export class ShowComponent implements OnInit {
                 });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }
@@ -77,8 +80,10 @@ export class ShowComponent implements OnInit {
     }
 
     updateStoreHouse() {
+        this.loading = true;
         this.storeHouseSrv.updateStoreHouse(this.storeHouseForm.value).subscribe(
             data => {
+                this.loading = false;
                 this.storeHouse = data;
                 this.storeHouseForm.reset({
                     _id: this.storeHouse._id,
@@ -87,6 +92,7 @@ export class ShowComponent implements OnInit {
                 this.successMsgSrv.successMessages('Armazém alterado com sucesso.');
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }
@@ -111,12 +117,15 @@ export class ShowComponent implements OnInit {
     }
 
     delete(storeHouse) {
+        this.loading = true;
         this.storeHouseSrv.deleteStoreHouse(storeHouse).subscribe(
             response => {
+                this.loading = false;
                 this.successMsgSrv.successMessages('Armazém deletado com sucesso.');
                 this._route.navigate(['/storehouses']);
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR:', error);
             }
