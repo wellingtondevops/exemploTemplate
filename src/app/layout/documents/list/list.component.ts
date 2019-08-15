@@ -6,6 +6,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-list',
@@ -32,7 +33,12 @@ export class ListComponent implements OnInit {
     ];
     loading: Boolean = true;
 
-    constructor(private documentSrv: DocumentsService, private errorMsg: ErrorMessagesService, private pipes: Pipes) {}
+    constructor(
+        private _route: Router,
+        private documentSrv: DocumentsService,
+        private errorMsg: ErrorMessagesService,
+        private pipes: Pipes
+    ) {}
 
     ngOnInit() {
         this.setPage({ offset: 1 });
@@ -73,5 +79,9 @@ export class ListComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    getDocument(document) {
+        this._route.navigate(['/documents/get', document]);
     }
 }

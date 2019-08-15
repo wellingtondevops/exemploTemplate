@@ -122,6 +122,9 @@ export class ShowComponent implements OnInit {
                     cnpj: data.cnpj ? data.cnpj : null,
                     cpf: data.cpf ? data.cpf : null
                 });
+                this.company.departaments.map(item => {
+                    this.addDepartament(item);
+                });
             },
             error => {
                 this.loading = false;
@@ -151,21 +154,21 @@ export class ShowComponent implements OnInit {
         }
     }
 
-    createDepartament(): FormGroup {
+    createDepartament(item): FormGroup {
         return this.fb.group({
-            departamentName: '',
-            company: ''
+            departamentName: item.departamentName,
+            company: item.company
         });
     }
 
-    addDepartament(): void {
+    addDepartament(item): void {
         this.departaments = this.companyForm.get('departaments') as FormArray;
-        this.departaments.push(this.createDepartament());
+        this.departaments.push(this.createDepartament(item));
     }
 
     updateCompany() {
         this.loading = true;
-        var company = _.omitBy(this.companyForm.value, _.isNil);
+        const company = _.omitBy(this.companyForm.value, _.isNil);
         this.companiesSrv.updateCompany(company).subscribe(
             data => {
                 if (data._id) {
