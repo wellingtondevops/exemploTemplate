@@ -10,55 +10,44 @@ import { Page } from 'src/app/models/page';
 })
 @Injectable()
 export class DatatablesComponent implements OnInit {
-  items: any = [];
-  @Input() data: any;
-  @Input() columns: any;
-  page = new Page();
-  firstMoment = false;
-  @Output() setPage = new EventEmitter();
-  @ViewChild('showTmpl') showTmpl: TemplateRef<any>;
-  @Output() show = new EventEmitter();
-  @Output() edit = new EventEmitter();
-  @Output() delete = new EventEmitter();
+    items: any = [];
+    @Input() data: any;
+    @Input() columns: any;
+    page = new Page();
+    firstMoment = false;
+    @Output() setPage = new EventEmitter();
+    @ViewChild('showTmpl') showTmpl: TemplateRef<any>;
+    @Output() show = new EventEmitter();
 
-  constructor(
-  ) {
-    this.page.pageNumber = 0;
-    this.page.size = 50;
-  }
-
-  ngOnInit() {
-
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (!this.firstMoment) {
-      this.firstMoment = true;
-      this.columns.push({name: '', cellTemplate: this.showTmpl });
+    constructor() {
+        this.page.pageNumber = 0;
+        this.page.size = 50;
     }
-    // tslint:disable-next-line:forin
-    for (const propName in changes) {
-        const change = changes[propName];
-        this.items = change.currentValue.items;
-        this.page.totalElements = change.currentValue._links.foundItems;
-        this.page.pageNumber = change.currentValue._links.currentPage;
+
+    ngOnInit() {}
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (!this.firstMoment) {
+            this.firstMoment = true;
+            this.columns.push({ name: '', cellTemplate: this.showTmpl });
+        }
+        // tslint:disable-next-line:forin
+        for (const propName in changes) {
+            const change = changes[propName];
+            this.items = change.currentValue.items;
+            this.page.totalElements = change.currentValue._links.foundItems;
+            this.page.pageNumber = change.currentValue._links.currentPage;
+        }
     }
-  }
 
-  pagination(pageInfo) {
-    pageInfo.offset += 1;
-    this.setPage.emit(pageInfo);
-  }
+    pagination(pageInfo) {
+        pageInfo.offset += 1;
+        this.setPage.emit(pageInfo);
+    }
 
-  showView(value) {
-    this.show.emit(value);
-  }
-
-  editView(value) {
-    this.edit.emit(value);
-  }
-
-  deleteItem(value) {
-    this.delete.emit(value);
-  }
+    showView(value) {
+        if (value.type == 'click') {
+            this.show.emit(value.row._id);
+        }
+    }
 }

@@ -18,6 +18,9 @@
 .collapsed {
     margin-left: 60px;
 }
+.disabled {
+    display: none;
+}
 @media screen and (max-width: 992px) {
     .main-container {
         margin-left: 0px !important;

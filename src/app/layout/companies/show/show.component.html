@@ -1,154 +1,217 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
-  <div class="card bg-light mb-12">
-      <div class="card-body">
-          <button class="btn btn-primary pull-right" (click)="changeUpdate()" >Editar</button>
-          <br />
-          <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">
-              <div class="form-content">
-                  <div class="form-group">
-                      <label for="">Nome</label>
-                      <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name" [ngClass]="{'is-invalid' : !name.valid && !name.disabled}" mask="000.000.000-00"/>
-                    <div *ngIf="name.invalid && (name.dirty || name.touched)"
-                      class="invalid-feedback">
-                    <div *ngIf="!name.valid">
-                      Nome é obrigatório.
-                    </div>
-                  </div>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="adress">Endereço</label>
-                      <input id="adress" placeholder="Endereço" type="text" class="form-control" formControlName="adress" [ngClass]="{'is-invalid' : !adress.valid && !adress.disabled}" />
-                    <div *ngIf="adress.invalid && (adress.dirty || adress.touched)"
-                      class="invalid-feedback">
-                    <div *ngIf="!adress.valid">
-                      Endereço é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="">Cidade</label>
-                      <input type="text" placeholder="Cidade" class="form-control" formControlName="city" [ngClass]="{'is-invalid' : !city.valid && !city.disabled}" />
-                    <div *ngIf="city.invalid && (city.dirty || city.touched)"
-                        class="invalid-feedback">
-                    <div *ngIf="!city.valid">
-                        Cidade é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="province">Estado</label>
-                      <input id="province" type="text" placeholder="Estado" class="form-control" formControlName="province" [ngClass]="{'is-invalid' : !province.valid && !province.disabled}" />
-                    <div *ngIf="province.invalid && (province.dirty || province.touched)"
-                      class="invalid-feedback">
-                    <div *ngIf="!province.valid">
-                      Estado é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="">E-mail</label>
-                      <input type="text" placeholder="E-mail" class="form-control" formControlName="email" [ngClass]="{'is-invalid' : !email.valid && !email.disabled}" />
-                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
-                        class="invalid-feedback">
-                    <div *ngIf="!email.valid">
-                        E-mail é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="">Telefone</label>
-                      <input type="text" placeholder="Telefone" class="form-control" formControlName="fone" [ngClass]="{'is-invalid' : !fone.valid && !fone.disabled}" [textMask]="{mask: mask.fone}" />
-                    <div *ngIf="fone.invalid && (fone.dirty || fone.touched)"
-                        class="invalid-feedback">
-                    <div *ngIf="!fone.valid">
-                        Telefone é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="">Responsável</label>
-                      <input type="text" placeholder="Responsável" class="form-control" formControlName="answerable" [ngClass]="{'is-invalid' : !answerable.valid && !answerable.disabled}" />
-                    <div *ngIf="answerable.invalid && (answerable.dirty || answerable.touched)"
-                        class="invalid-feedback">
-                    <div *ngIf="!answerable.valid">
-                        Responsável é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="">Tipo de Pessoa</label>
-                    <select class="form-control" id="personType" formControlName="typePerson" [ngClass]="{'is-invalid' : !typePerson.valid && !typePerson.disabled}" (change)="typePersonChange()">
-                        <option *ngFor="let person of personTypeList | enumToArray" [value]="person">
-                            {{person | translate}}</option>
-                    </select>
-                    <div *ngIf="typePerson.invalid && (typePerson.dirty || typePerson.touched)"
-                        class="invalid-feedback">
-                    <div *ngIf="!typePerson.valid">
-                        Tipo de pessoa é obrigatório.
-                    </div>
-                    </div>
-                  </div>
-
-                <div class="form-group" [hidden]="hiddenCPF">
-                    <label for="">CPF</label>
-                    <input id="cpf" type="text" placeholder="CPF" class="form-control" formControlName="cpf" [ngClass]="{'is-invalid' : !cpf.valid && !typePerson.disabled}" [textMask]="{mask: mask.cpf}" />
-                  <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
-                    class="invalid-feedback">
-                  <div *ngIf="!cpf.valid">
-                    CPF é obrigatório.
-                  </div>
-                </div>
-                </div>
-
-                <div class="form-group" [hidden]="hiddenCNPJ">
-                  <label for="">CNPJ</label>
-                  <input id="cnpj" type="text" placeholder="CNPJ" class="form-control" formControlName="cnpj" [ngClass]="{'is-invalid' : !cnpj.valid && cnpj.disabled}" [textMask]="{mask: mask.cnpj}"  />
-                <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
-                  class="invalid-feedback">
-                <div *ngIf="!cnpj.valid">
-                  CNPJ é obrigatório.
-                </div>
-              </div>
-              </div>
-
-              <div class="form-group" formArrayName="departaments">
-                <label for="">Departamentos</label>
-                <div *ngFor="let departament of departaments.controls; index as i">
-                  <div [formGroupName]="i" class="form-group">
-                      <div class="input-group mb-2 mr-sm-2">
-                          <input type="text" placeholder="Nome do Departamento" class="form-control"  formControlName="departamentName">
-                        <div class="input-group-append">
-                          <div class="input-group-text" (click)="removeDepartament(i)">-</div>
+    <ngx-loading
+        [show]="loading"
+        [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"
+    ></ngx-loading>
+    <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
+    <div class="card bg-light mb-12">
+        <div class="card-body">
+            <app-buttons-custom (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)"> </app-buttons-custom>
+            <br />
+            <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="">Nome</label>
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="Nome"
+                            class="form-control"
+                            formControlName="name"
+                            [ngClass]="{ 'is-invalid': !name.valid && !name.disabled }"
+                            mask="000.000.000-00"
+                        />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                            <div *ngIf="!name.valid">
+                                Nome é obrigatório.
+                            </div>
                         </div>
-                  </div>
-                  </div>
-                </div>
-                <div>
-                  <button *ngIf="changeUp" type="button" class="btn btn-success btn-xs" (click)="addDepartament()">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </div>
-              </div>
+                    </div>
 
-              </div>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="!changeUp || name.invalid ||
-                  typePerson.invalid || answerable.invalid ||
-                  fone.invalid || city.invalid || province.invalid ||
-                  adress.invalid || name.invalid || email.invalid">
-                Salvar
-              </button>
-          </form>
-      </div>
-  </div>
+                    <div class="form-group">
+                        <label for="adress">Endereço</label>
+                        <input
+                            id="adress"
+                            placeholder="Endereço"
+                            type="text"
+                            class="form-control"
+                            formControlName="adress"
+                            [ngClass]="{ 'is-invalid': !adress.valid && !adress.disabled }"
+                        />
+                        <div *ngIf="adress.invalid && (adress.dirty || adress.touched)" class="invalid-feedback">
+                            <div *ngIf="!adress.valid">
+                                Endereço é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Cidade</label>
+                        <input
+                            type="text"
+                            placeholder="Cidade"
+                            class="form-control"
+                            formControlName="city"
+                            [ngClass]="{ 'is-invalid': !city.valid && !city.disabled }"
+                        />
+                        <div *ngIf="city.invalid && (city.dirty || city.touched)" class="invalid-feedback">
+                            <div *ngIf="!city.valid">
+                                Cidade é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="province">Estado</label>
+                        <input
+                            id="province"
+                            type="text"
+                            placeholder="Estado"
+                            class="form-control"
+                            formControlName="province"
+                            [ngClass]="{ 'is-invalid': !province.valid && !province.disabled }"
+                        />
+                        <div *ngIf="province.invalid && (province.dirty || province.touched)" class="invalid-feedback">
+                            <div *ngIf="!province.valid">
+                                Estado é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">E-mail</label>
+                        <input
+                            type="text"
+                            placeholder="E-mail"
+                            class="form-control"
+                            formControlName="email"
+                            [ngClass]="{ 'is-invalid': !email.valid && !email.disabled }"
+                        />
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
+                            <div *ngIf="!email.valid">
+                                E-mail é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Telefone</label>
+                        <input
+                            type="text"
+                            placeholder="Telefone"
+                            class="form-control"
+                            formControlName="fone"
+                            [ngClass]="{ 'is-invalid': !fone.valid && !fone.disabled }"
+                            [textMask]="{ mask: mask.fone }"
+                        />
+                        <div *ngIf="fone.invalid && (fone.dirty || fone.touched)" class="invalid-feedback">
+                            <div *ngIf="!fone.valid">
+                                Telefone é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Responsável</label>
+                        <input
+                            type="text"
+                            placeholder="Responsável"
+                            class="form-control"
+                            formControlName="answerable"
+                            [ngClass]="{ 'is-invalid': !answerable.valid && !answerable.disabled }"
+                        />
+                        <div *ngIf="answerable.invalid && (answerable.dirty || answerable.touched)" class="invalid-feedback">
+                            <div *ngIf="!answerable.valid">
+                                Responsável é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Tipo de Pessoa</label>
+                        <select
+                            class="form-control"
+                            id="personType"
+                            formControlName="typePerson"
+                            [ngClass]="{ 'is-invalid': !typePerson.valid && !typePerson.disabled }"
+                            (change)="typePersonChange()"
+                        >
+                            <option *ngFor="let person of personTypeList | enumToArray" [value]="person"> {{ person | translate }}</option>
+                        </select>
+                        <div *ngIf="typePerson.invalid && (typePerson.dirty || typePerson.touched)" class="invalid-feedback">
+                            <div *ngIf="!typePerson.valid">
+                                Tipo de pessoa é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [hidden]="hiddenCPF">
+                        <label for="">CPF</label>
+                        <input
+                            id="cpf"
+                            type="text"
+                            placeholder="CPF"
+                            class="form-control"
+                            formControlName="cpf"
+                            [ngClass]="{ 'is-invalid': !cpf.valid && !typePerson.disabled }"
+                            [textMask]="{ mask: mask.cpf }"
+                        />
+                        <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)" class="invalid-feedback">
+                            <div *ngIf="!cpf.valid">
+                                CPF é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [hidden]="hiddenCNPJ">
+                        <label for="">CNPJ</label>
+                        <input
+                            id="cnpj"
+                            type="text"
+                            placeholder="CNPJ"
+                            class="form-control"
+                            formControlName="cnpj"
+                            [ngClass]="{ 'is-invalid': !cnpj.valid && cnpj.disabled }"
+                            [textMask]="{ mask: mask.cnpj }"
+                        />
+                        <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)" class="invalid-feedback">
+                            <div *ngIf="!cnpj.valid">
+                                CNPJ é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" formArrayName="departaments">
+                        <label for="">Departamentos</label>
+                        <div *ngFor="let departament of departaments.controls; index as i">
+                            <div [formGroupName]="i" class="form-group">
+                                <div class="input-group mb-2 mr-sm-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Nome do Departamento"
+                                        class="form-control"
+                                        formControlName="departamentName"
+                                    />
+                                    <div class="input-group-append">
+                                        <div class="input-group-text" (click)="removeDepartament(i)">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button *ngIf="changeUp" type="button" class="btn btn-success btn-xs" (click)="addDepartament()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

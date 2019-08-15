@@ -2,28 +2,29 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { ShowComponent } from './show/show.component';
-import { PageHeaderModule, DatatablesModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule } from 'src/app/shared';
 import { UsersRoutingModule } from './users-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbdModalConfirmComponent } from '../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditComponent } from './edit/edit.component';
+import { AlterPasswordComponent } from './alter-password/alter-password.component';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent],
-  imports: [
-    CommonModule,
-    UsersRoutingModule,
-    PageHeaderModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatatablesModule,
-  ],
-  providers: [
-    NgbActiveModal,
-  ]
+    declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
+    imports: [
+        CommonModule,
+        UsersRoutingModule,
+        PageHeaderModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatatablesModule,
+        ButtonsCustomModule,
+        NgxLoadingModule.forRoot({})
+    ],
+    providers: [NgbActiveModal]
 })
-export class UsersModule { }
+export class UsersModule {}

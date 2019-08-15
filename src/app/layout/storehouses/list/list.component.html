@@ -1,15 +1,23 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Armazéns'" [icon]="'fa-table'" [btnNew]="'Novo Armazém'" [routerTo]="'/storehouses/new'" ></app-page-header>
-  <div class="row">
-      <div class="col col-xl-12 col-lg-12">
-            <app-datatables 
-              [data]="storehouses"
-              (setPage)="setPage($event)"
-              (show)="getStoreHouse($event)"
-              (edit)="editStoreHouse($event)"
-              (delete)="open('focusFirst', $event)"
-              [columns]="columns"
+    <ngx-loading
+        [show]="loading"
+        [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"
+    ></ngx-loading>
+    <app-page-header [heading]="'Armazéns'" [icon]="'fa-table'" [btnNew]="'Novo Armazém'" [routerTo]="'/storehouses/new'"></app-page-header>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <app-datatables
+                [data]="storehouses"
+                (setPage)="setPage($event)"
+                (show)="getStoreHouse($event)"
+                [columns]="columns"
             ></app-datatables>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>

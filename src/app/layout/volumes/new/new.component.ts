@@ -33,6 +33,7 @@ export class NewComponent implements OnInit {
     departaments: any = [];
     inputBlock: Boolean = false;
     hiddenReference: Boolean = true;
+    loading: Boolean = true;
 
     constructor(
         private storeHousesSrv: StorehousesService,
@@ -127,9 +128,11 @@ export class NewComponent implements OnInit {
     getStoreHouses() {
         this.storeHousesSrv.searchStorehouses().subscribe(
             data => {
+                this.loading = false;
                 this.storeHouses = data.items;
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }

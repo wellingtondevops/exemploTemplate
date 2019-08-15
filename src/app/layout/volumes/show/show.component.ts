@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, Output, EventEmitter } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
@@ -9,7 +9,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from 'src/app/models/company';
 import { Storehouse } from 'src/app/models/storehouse';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Volume } from 'src/app/models/volume';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -18,7 +18,12 @@ import * as moment from 'moment';
 import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
+const MODALS = {
+    focusFirst: NgbdModalConfirmComponent
+};
 @Component({
     selector: 'app-show',
     templateUrl: './show.component.html',
@@ -39,6 +44,7 @@ export class ShowComponent implements OnInit {
     volume: Volume;
     changeUp = false;
     hiddenReference: Boolean = true;
+    loading: Boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -48,7 +54,10 @@ export class ShowComponent implements OnInit {
         private companiesSrv: CompaniesService,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private modalService: NgbModal,
+        public modal: NgbActiveModal,
+        private _route: Router
     ) {
         this.statusList = StatusVolumeEnum;
         this.volumeTypeList = VolumeTypeEnum;
@@ -71,7 +80,7 @@ export class ShowComponent implements OnInit {
     ngOnInit() {
         this.getCompanies();
         this.getStoreHouses();
-
+        this.loading = true;
         this.id = this.route.snapshot.paramMap.get('id');
         this.getVolume();
     }
@@ -101,6 +110,7 @@ export class ShowComponent implements OnInit {
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
                     _id: this.volume._id,
@@ -117,6 +127,7 @@ export class ShowComponent implements OnInit {
                 });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR', error);
             }
@@ -227,6 +238,35 @@ export class ShowComponent implements OnInit {
                 this.hiddenReference = true;
                 break;
         }
+    }
+
+    editVolume(volume) {
+        this._route.navigate(['/volumes/edit', volume]);
+    }
+
+    delete(volume) {
+        this.volumesSrv.deleteVolume(volume).subscribe(
+            response => {
+                this.successMsgSrv.successMessages('Volume deletado com sucesso.');
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR:', error);
+            }
+        );
+    }
+
+    open(name: string, storeHouse) {
+        const modalRef = this.modalService.open(MODALS[name]);
+        modalRef.componentInstance.item = storeHouse;
+        modalRef.componentInstance.data = {
+            msgConfirmDelete: 'Volume foi deletado com sucesso.',
+            msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Volume?',
+            msgQuestionDeleteTwo: 'Todas as informações associadas ao volume serão deletadas.'
+        };
+        modalRef.componentInstance.delete.subscribe(item => {
+            this.delete(item);
+        });
     }
 
     formatterDepartament = (x: { departamentName: string }) => x.departamentName;

@@ -5,6 +5,7 @@ import { ShowComponent } from './show/show.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
+import { AlterPasswordComponent } from './alter-password/alter-password.component';
 
 const routes: Routes = [
     {
@@ -26,6 +27,11 @@ const routes: Routes = [
         path: 'new',
         component: NewComponent,
         canActivate: [DaenerysGuard]
+    },
+    {
+        path: 'alter',
+        component: AlterPasswordComponent
+        // canActivate: [DaenerysGuard]
     }
 ];
 
