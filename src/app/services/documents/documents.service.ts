@@ -22,4 +22,16 @@ export class DocumentsService {
     document(id) {
         return this.http.get<Document>(`${url}/docts/${id}`).pipe(tap(data => data));
     }
+
+    newDocument(document) {
+        return this.http.post<Document>(`${url}/docts/`, document).pipe(tap(data => data));
+    }
+
+    updateCompany(document) {
+        return this.http.patch<Document>(`${url}/docts/${document._id}`, document).pipe(tap(data => data));
+    }
+
+    delete(document) {
+        return this.http.delete<Document>(`${url}/docts/${document}`).pipe(tap(data => data));
+    }
 }
