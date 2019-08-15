@@ -9,7 +9,7 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
-    <app-page-header [heading]="'Dados do Armazém'" [icon]="'fa-house'"></app-page-header>
+    <app-page-header [id]="storeHouse._id" [heading]="'Dados do Armazém'" [icon]="'fa-house'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
             <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)" (delete)="open('focusFirst', storeHouse._id)"></app-buttons-custom>
