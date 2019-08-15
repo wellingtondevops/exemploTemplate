@@ -23,6 +23,7 @@ import { NgxLoadingModule } from 'ngx-loading';
         NgbModule,
         TranslateModule,
         ButtonsCustomModule,
+        NgxLoadingModule,
         NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal]

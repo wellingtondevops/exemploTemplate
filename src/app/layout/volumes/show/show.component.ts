@@ -44,7 +44,7 @@ export class ShowComponent implements OnInit {
     volume: Volume;
     changeUp = false;
     hiddenReference: Boolean = true;
-    loading: Boolean = false;
+    public loading: Boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -195,7 +195,9 @@ export class ShowComponent implements OnInit {
 
     returnId(object) {
         this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
-            if (key === '_id') return value;
+            if (key === '_id') {
+                return value;
+            }
         })[0];
     }
 
@@ -277,13 +279,16 @@ export class ShowComponent implements OnInit {
             debounceTime(200),
             distinctUntilChanged(),
             map(company => {
-                var res;
-                if (company.length < 2) [];
-                else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+                let res;
+                if (company.length < 2) {
+                    [];
+                } else {
+                    const res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+                }
                 this.getDepartament(this.volumeForm.value.company._id);
                 return res;
             })
-        );
+        )
 
     searchDepartament = (text$: Observable<string>) =>
         text$.pipe(
@@ -294,5 +299,5 @@ export class ShowComponent implements OnInit {
                     ? []
                     : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
             )
-        );
+        )
 }

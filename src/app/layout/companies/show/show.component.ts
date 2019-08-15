@@ -33,7 +33,7 @@ export class ShowComponent implements OnInit {
     id: string;
     changeUp = false;
     public foneMask: Array<string | RegExp>;
-    loading: Boolean = true;
+    public loading: Boolean = true;
 
     constructor(
         private _route: Router,
