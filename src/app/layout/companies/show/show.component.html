@@ -12,7 +12,8 @@
     <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <app-buttons-custom (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)"> </app-buttons-custom>
+            <app-buttons-custom [id]="company._id" (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)">
+            </app-buttons-custom>
             <br />
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">
                 <div class="form-content">
