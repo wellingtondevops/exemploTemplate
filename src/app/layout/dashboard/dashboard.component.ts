@@ -11,7 +11,8 @@ import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/da
 export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
-    permission: boolean;
+    permissionAdmin: boolean;
+    permissionPesquisador: boolean;
 
     constructor(public daenerysGuard: DaenerysGuard) {
         this.sliders.push(
@@ -53,13 +54,24 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.permission = this.isAdmin();
+        this.permissionAdmin = this.isAdmin();
+        this.permissionPesquisador = this.isSnow();
     }
 
     isAdmin() {
         var res = false;
         JSON.parse(window.localStorage.getItem('profiles')).map(item => {
             if (item === 'DAENERYS') {
+                res = true;
+            }
+        });
+        return res;
+    }
+
+    isSnow(){
+        var res = false;
+        JSON.parse(window.localStorage.getItem('profiles')).map(item => {
+            if (item === 'SNOW') {
                 res = true;
             }
         });
