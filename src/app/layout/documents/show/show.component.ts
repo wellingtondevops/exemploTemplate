@@ -33,9 +33,9 @@ export class ShowComponent implements OnInit {
         private errorMsg: ErrorMessagesService
     ) {
         this.documentForm = this.fb.group({
-            name: this.fb.control('', [Validators.required]),
-            retention: this.fb.control('', [Validators.required]),
-            retentionTime: this.fb.control('', [Validators.required]),
+            name: this.fb.control({value:'', disabled: true}, [Validators.required]),
+            retention: this.fb.control({value:'', disabled: true}, [Validators.required]),
+            retentionTime: this.fb.control({value:'', disabled: true}, [Validators.required]),
             label: this.fb.array(this.labels)
         });
     }
@@ -57,9 +57,9 @@ export class ShowComponent implements OnInit {
 
     createLabel(item): FormGroup {
         return this.fb.group({
-            namefield: item.namefield,
-            typeField: item.typeField,
-            uniq: item.uniq
+            namefield: {value: item.namefield, disabled: true},
+            typeField: {value: item.typeField, disabled: true},
+            uniq: {value: item.uniq, disabled: true}
         });
     }
 
