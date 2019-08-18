@@ -37,6 +37,7 @@ export class EditComponent implements OnInit {
     id: String;
     volume: Volume;
     hiddenReference: Boolean = true;
+    loading: Boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -69,6 +70,7 @@ export class EditComponent implements OnInit {
     ngOnInit() {
         this.getCompanies();
         this.getStoreHouses();
+        this.loading = true;
 
         this.id = this.route.snapshot.paramMap.get('id');
         this.getVolume();
@@ -102,6 +104,7 @@ export class EditComponent implements OnInit {
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
                     _id: this.volume._id,
@@ -118,6 +121,7 @@ export class EditComponent implements OnInit {
                 this.changeGuardType();
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR', error);
             }
@@ -182,6 +186,7 @@ export class EditComponent implements OnInit {
     }
 
     updateVolume() {
+        this.loading = true;
         this.returnId('company');
         this.returnId('storehouse');
 
@@ -190,10 +195,12 @@ export class EditComponent implements OnInit {
         this.volumesSrv.updateVolume(this.volumeForm.value).subscribe(
             data => {
                 if (data._id) {
+                    this.loading = false;
                     this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
                 }
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }

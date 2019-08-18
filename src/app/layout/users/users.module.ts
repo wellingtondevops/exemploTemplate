@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditComponent } from './edit/edit.component';
 import { AlterPasswordComponent } from './alter-password/alter-password.component';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
@@ -21,7 +22,8 @@ import { AlterPasswordComponent } from './alter-password/alter-password.componen
         ReactiveFormsModule,
         FormsModule,
         DatatablesModule,
-        ButtonsCustomModule
+        ButtonsCustomModule,
+        NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal]
 })

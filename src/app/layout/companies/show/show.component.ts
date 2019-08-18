@@ -33,6 +33,7 @@ export class ShowComponent implements OnInit {
     id: string;
     changeUp = false;
     public foneMask: Array<string | RegExp>;
+    loading: Boolean = true;
 
     constructor(
         private _route: Router,
@@ -105,6 +106,7 @@ export class ShowComponent implements OnInit {
     getCompany() {
         this.companiesSrv.company(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.company = data;
                 this.companyForm.patchValue({
                     _id: this.company._id,
@@ -120,8 +122,12 @@ export class ShowComponent implements OnInit {
                     cnpj: data.cnpj ? data.cnpj : null,
                     cpf: data.cpf ? data.cpf : null
                 });
+                this.company.departaments.map(item => {
+                    this.addDepartament(item);
+                });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR', error);
             }
@@ -148,28 +154,31 @@ export class ShowComponent implements OnInit {
         }
     }
 
-    createDepartament(): FormGroup {
+    createDepartament(item): FormGroup {
         return this.fb.group({
-            departamentName: '',
-            company: ''
+            departamentName: item.departamentName,
+            company: item.company
         });
     }
 
-    addDepartament(): void {
+    addDepartament(item): void {
         this.departaments = this.companyForm.get('departaments') as FormArray;
-        this.departaments.push(this.createDepartament());
+        this.departaments.push(this.createDepartament(item));
     }
 
     updateCompany() {
-        var company = _.omitBy(this.companyForm.value, _.isNil);
+        this.loading = true;
+        const company = _.omitBy(this.companyForm.value, _.isNil);
         this.companiesSrv.updateCompany(company).subscribe(
             data => {
                 if (data._id) {
+                    this.loading = false;
                     this.successMsgSrv.successMessages('Empresa alterada com sucesso.');
                     this._route.navigate(['/companies']);
                 }
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }
@@ -211,11 +220,14 @@ export class ShowComponent implements OnInit {
     }
 
     delete(company) {
+        this.loading = true;
         this.companiesSrv.delete(company).subscribe(
             response => {
+                this.loading = false;
                 this.successMsgSrv.successMessages('Empresa deletada com sucesso.');
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR:', error);
             }

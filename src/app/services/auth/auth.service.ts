@@ -14,7 +14,6 @@ export class AuthService {
     login(user) {
         return this.http.post<Auth>(`${url}/users/authenticate`, user).pipe(
             tap(data => {
-                console.log(data);
                 window.localStorage.setItem('id', data.id);
                 window.localStorage.setItem('email', data.email);
                 window.localStorage.setItem('token', data.accessToken);

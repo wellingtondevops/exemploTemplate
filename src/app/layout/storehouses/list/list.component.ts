@@ -12,129 +12,123 @@ import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-co
 import { Page } from 'src/app/models/page';
 
 const MODALS = {
-  focusFirst: NgbdModalConfirmComponent
+    focusFirst: NgbdModalConfirmComponent
 };
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
-  animations: [routerTransition()]
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss'],
+    animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-  closeResult: string;
-  storehouses: StorehousesList = {
-    _links: {
-      currentPage: 0,
-      foundItems: 0,
-      next: '',
-      self: '',
-      totalPage: 0
-    },
-    items: []
-  };
-  page = new Page();
-
-  columns = [
-    {name: 'Nome', prop: 'name'},
-    {name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
-
-  constructor(
-    private _route: Router,
-    private storeHousesSrv: StorehousesService,
-    private successMsgSrv: SuccessMessagesService,
-    private errorMsg: ErrorMessagesService,
-    private pipes: Pipes,
-    private toastr: ToastrService,
-    private modalService: NgbModal,
-    public modal: NgbActiveModal
-  ) { }
-
-  ngOnInit() {
-    // this.setPage({ offset: 0 });
-    this.getStoreHouses();
-  }
-
-  getStoreHouse(storeHouse) {
-    this._route.navigate(['/storehouses/get', storeHouse]);
-  }
-
-  toasterClickedHandler() {
-    console.log('Toastr clicked');
-  }
-
-  open(name: string, storeHouse) {
-    const modalRef = this.modalService.open(MODALS[name]);
-    modalRef.componentInstance.item = storeHouse;
-    modalRef.componentInstance.data = {
-      msgConfirmDelete: 'Armazém foi deletado com sucesso.',
-      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Armazém?',
-      msgQuestionDeleteTwo: 'Todas as informações associadas ao armazém serão deletadas.'
+    closeResult: string;
+    storehouses: StorehousesList = {
+        _links: {
+            currentPage: 0,
+            foundItems: 0,
+            next: '',
+            self: '',
+            totalPage: 0
+        },
+        items: []
     };
-    modalRef.componentInstance.delete.subscribe((item) => {
-      this.delete(item);
-    });
-  }
+    page = new Page();
+    loading: Boolean = true;
 
-  d(data) {
-    console.log(data);
-  }
+    columns = [{ name: 'Nome', prop: 'name' }, { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
 
-  c(data) {
-    console.log(data);
-  }
+    constructor(
+        private _route: Router,
+        private storeHousesSrv: StorehousesService,
+        private successMsgSrv: SuccessMessagesService,
+        private errorMsg: ErrorMessagesService,
+        private pipes: Pipes,
+        private toastr: ToastrService,
+        private modalService: NgbModal,
+        public modal: NgbActiveModal
+    ) {}
 
-  delete(data) {
-    this.storeHousesSrv.deleteStoreHouse(data).subscribe(
-      (response) => {
-        this.successMsgSrv.successMessages('Armazém deletado com sucesso.');
-      },
-      (error) => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR:', error);
-      }
-    );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-        return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-        return 'by clicking on a backdrop';
-    } else {
-        return  `with: ${reason}`;
+    ngOnInit() {
+        // this.setPage({ offset: 0 });
+        this.getStoreHouses();
     }
-  }
 
-  getStoreHouses() {
-    this.storeHousesSrv.storeHouses(null).subscribe(
-      (data) => {
-        this.storehouses = data;
-        this.page.pageNumber = data._links.currentPage;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-      },
-      (error) => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR:', error);
-      }
-    );
-  }
+    getStoreHouse(storeHouse) {
+        this._route.navigate(['/storehouses/get', storeHouse]);
+    }
 
-  setPage(pageInfo) {
-    this.page.pageNumber = pageInfo.offset;
+    toasterClickedHandler() {
+        console.log('Toastr clicked');
+    }
 
-    this.storeHousesSrv.storeHouses(this.page).subscribe(
-      (data) => {
-        this.storehouses = data;
-        this.page.pageNumber = data._links.currentPage;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-      },
-      (error) => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-      }
-    );
-  }
+    open(name: string, storeHouse) {
+        const modalRef = this.modalService.open(MODALS[name]);
+        modalRef.componentInstance.item = storeHouse;
+        modalRef.componentInstance.data = {
+            msgConfirmDelete: 'Armazém foi deletado com sucesso.',
+            msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Armazém?',
+            msgQuestionDeleteTwo: 'Todas as informações associadas ao armazém serão deletadas.'
+        };
+        modalRef.componentInstance.delete.subscribe(item => {
+            this.delete(item);
+        });
+    }
+
+    d(data) {
+        console.log(data);
+    }
+
+    c(data) {
+        console.log(data);
+    }
+
+    delete(data) {
+        this.loading = true;
+        this.storeHousesSrv.deleteStoreHouse(data).subscribe(
+            response => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Armazém deletado com sucesso.');
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR:', error);
+            }
+        );
+    }
+
+    getStoreHouses() {
+        this.storeHousesSrv.storeHouses(null).subscribe(
+            data => {
+                this.loading = false;
+                this.storehouses = data;
+                this.page.pageNumber = data._links.currentPage;
+                this.page.totalElements = data._links.foundItems;
+                this.page.size = data._links.totalPage;
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR:', error);
+            }
+        );
+    }
+
+    setPage(pageInfo) {
+        this.page.pageNumber = pageInfo.offset;
+
+        this.storeHousesSrv.storeHouses(this.page).subscribe(
+            data => {
+                this.storehouses = data;
+                this.page.pageNumber = data._links.currentPage;
+                this.page.totalElements = data._links.foundItems;
+                this.page.size = data._links.totalPage;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
 }

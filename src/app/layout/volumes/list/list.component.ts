@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { Volume, VolumeList } from 'src/app/models/volume';
@@ -20,6 +20,8 @@ const MODALS = {
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    height: any;
+    loading: Boolean = true;
     volumes: VolumeList = {
         _links: {
             currentPage: 0,
@@ -43,6 +45,7 @@ export class ListComponent implements OnInit {
     ];
 
     constructor(
+        private el: ElementRef,
         private volumeSrv: VolumesService,
         private _route: Router,
         private pipes: Pipes,
@@ -59,12 +62,14 @@ export class ListComponent implements OnInit {
     listVolumes() {
         this.volumeSrv.volumes(null).subscribe(
             data => {
+                this.loading = false;
                 this.volumes = data;
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
             },
             error => {
+                this.loading = false;
                 console.log('ERROR: ', error);
             }
         );

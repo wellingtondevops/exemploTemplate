@@ -13,10 +13,12 @@ import { ErrorMessagesService } from '../utils/error-messages.service';
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
+    public loading = true;
 
     constructor(public router: Router, private fb: FormBuilder, private AuthSrv: AuthService, private errorMsg: ErrorMessagesService) {}
 
     ngOnInit() {
+        this.loading = false;
         this.loginForm = this.fb.group({
             email: this.fb.control('', [Validators.required, Validators.email]),
             password: this.fb.control('', [Validators.required, Validators.minLength(6)])
@@ -24,14 +26,16 @@ export class LoginComponent implements OnInit {
     }
 
     onLoggedin() {
-        console.warn(this.loginForm.value);
+        this.loading = true;
         this.AuthSrv.login(this.loginForm.value).subscribe(
             () => {
+                this.loading = false;
                 this.router.navigate(['/dashboard']);
                 localStorage.setItem('isLoggedin', 'true');
             },
             error => {
                 console.log('ERROR: ', error);
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
             }
         );

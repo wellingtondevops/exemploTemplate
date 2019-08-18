@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class NewComponent implements OnInit {
     storeHouse: Object;
     storeHouseForm: FormGroup;
+    loading: Boolean = false;
 
     constructor(
         private storeHouseSrv: StorehousesService,
@@ -36,9 +37,11 @@ export class NewComponent implements OnInit {
     }
 
     postStoreHouse() {
+        this.loading = true;
         this.storeHouseSrv.newStoreHouse(this.storeHouseForm.value).subscribe(
             data => {
                 if (data._id) {
+                    this.loading = false;
                     this.storeHouseForm = this.fb.group({
                         name: this.fb.control('', [Validators.required])
                     });
@@ -47,6 +50,7 @@ export class NewComponent implements OnInit {
                 }
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }

@@ -1,0 +1,123 @@
+<div [@routerTransition]>
+  <ngx-loading
+      [show]="loading"
+      [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"
+  ></ngx-loading>
+  <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header>
+  <div class="card bg-light mb-12">
+      <div class="card-body">
+          <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="updateDocument()">
+              <div class="row">
+                  <div class="col-xl-6">
+                      <div class="form-group">
+                          <label for="">Nome</label>
+                          <input
+                              id="name"
+                              type="text"
+                              placeholder="Nome"
+                              class="form-control"
+                              formControlName="name"
+                              [ngClass]="{ 'is-invalid': !name.valid }"
+                          />
+                          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                              <div *ngIf="!name.valid">
+                                  Nome é obrigatório.
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="retention">Tipo do Tempo de Guarda</label>
+                          <select
+                              class="form-control"
+                              id="retention"
+                              formControlName="retention"
+                              [ngClass]="{ 'is-invalid': !retention.valid }"
+                          >
+                              <option *ngFor="let retention of retentionList | enumToArray" [value]="retention">
+                                  {{ retention | translate }}</option
+                              >
+                          </select>
+                          <div *ngIf="retention.invalid && (retention.dirty || retention.touched)" class="invalid-feedback">
+                              <div *ngIf="!redemption.valid">
+                                  Tipo do Tempo de guarda é obrigatório.
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="">Tempo de Guarda</label>
+                          <input
+                              id="retentionTime"
+                              type="number"
+                              placeholder="Tempo de Guarda"
+                              class="form-control"
+                              formControlName="retentionTime"
+                              [ngClass]="{ 'is-invalid': !retentionTime.valid }"
+                          />
+                          <div *ngIf="retentionTime.invalid && (retentionTime.dirty || retentionTime.touched)" class="invalid-feedback">
+                              <div *ngIf="!retentionTime.valid">
+                                  Tempo de Guarda é obrigatório.
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-xl-6">
+                      <div class="form-group" formArrayName="label">
+                          <label for="">Campos</label>
+                          <div *ngFor="let label of labels.controls; index as i">
+                              <div class="card bg-light mb-12" style="margin-bottom: 5px">
+                                  <div class="card-body">
+                                      <button type="button" class="btn btn-danger btn-xs pull-right" (click)="removeLabel(i)">
+                                          <i class="fa fa-trash"></i>
+                                      </button>
+                                      <br />
+                                      <div [formGroupName]="i">
+                                          <div class="form-group">
+                                              <label for="">Nome do Campo</label>
+                                              <input
+                                                  type="text"
+                                                  placeholder="Nome do Campo"
+                                                  class="form-control"
+                                                  formControlName="namefield"
+                                              />
+                                          </div>
+                                          <div class="form-group">
+                                              <label for="">Tipo de Campos</label>
+                                              <select class="form-control" id="typefield" formControlName="typeField">
+                                                  <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
+                                                      {{ typeFieldN | translate }}</option
+                                                  >
+                                              </select>
+                                          </div>
+                                          <div class="form-group">
+                                              <div class="checkbox">
+                                                  <label> <input type="checkbox" formControlName="uniq" value="" /> Único </label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div>
+                              <button type="button" class="btn btn-success btn-xs" (click)="addLabel()">
+                                  <i class="fa fa-plus"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="name.invalid || retention.invalid || retentionTime.invalid">
+                  Salvar
+              </button>
+          </form>
+      </div>
+  </div>
+</div>

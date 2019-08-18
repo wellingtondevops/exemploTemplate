@@ -7,67 +7,75 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { routerTransition } from 'src/app/router.animations';
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss'],
-  animations: [routerTransition()]
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss'],
+    animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
-  id: String;
-  storeHouse: any;
-  storeHouseForm: FormGroup;
-  changeUp = false;
+    id: String;
+    storeHouse: any;
+    storeHouseForm: FormGroup;
+    changeUp = false;
+    loading: Boolean = true;
 
-  constructor(
-    private route: ActivatedRoute,
-    private storeHouseSrv: StorehousesService,
-    private fb: FormBuilder,
-    private successMsgSrv: SuccessMessagesService,
-    private errorMsg: ErrorMessagesService
-  ) { }
+    constructor(
+        private route: ActivatedRoute,
+        private storeHouseSrv: StorehousesService,
+        private fb: FormBuilder,
+        private successMsgSrv: SuccessMessagesService,
+        private errorMsg: ErrorMessagesService
+    ) {}
 
-  get name() { return this.storeHouseForm.get('name'); }
+    get name() {
+        return this.storeHouseForm.get('name');
+    }
 
-  ngOnInit() {
-
-    this.storeHouseForm = this.fb.group({
-      _id: '',
-      name: this.fb.control('', [Validators.required]),
-    });
-
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.getStoreHouse();
-
-  }
-
-  getStoreHouse() {
-    this.storeHouseSrv.storehouse(this.id).subscribe(
-      data => {
-        this.storeHouse = data;
-        this.storeHouseForm.patchValue({
-          _id: this.storeHouse._id,
-          name: data.name
+    ngOnInit() {
+        this.storeHouseForm = this.fb.group({
+            _id: '',
+            name: this.fb.control('', [Validators.required])
         });
-      },
-      (error) => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-      });
-  }
 
-  updateStoreHouse() {
-    this.storeHouseSrv.updateStoreHouse(this.storeHouseForm.value).subscribe(data => {
-      this.storeHouse = data;
-      this.storeHouseForm.reset({
-        _id: this.storeHouse._id,
-        name: {value: this.storeHouse.name, disabled: true},
-      });
-      this.successMsgSrv.successMessages('Armazém alterado com sucesso.');
-    },
-    (error) => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    });
-  }
+        this.id = this.route.snapshot.paramMap.get('id');
+        this.getStoreHouse();
+    }
 
+    getStoreHouse() {
+        this.storeHouseSrv.storehouse(this.id).subscribe(
+            data => {
+                this.loading = false;
+                this.storeHouse = data;
+                this.storeHouseForm.patchValue({
+                    _id: this.storeHouse._id,
+                    name: data.name
+                });
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
+
+    updateStoreHouse() {
+        this.loading = true;
+        this.storeHouseSrv.updateStoreHouse(this.storeHouseForm.value).subscribe(
+            data => {
+                this.loading = false;
+                this.storeHouse = data;
+                this.storeHouseForm.reset({
+                    _id: this.storeHouse._id,
+                    name: { value: this.storeHouse.name, disabled: true }
+                });
+                this.successMsgSrv.successMessages('Armazém alterado com sucesso.');
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
 }

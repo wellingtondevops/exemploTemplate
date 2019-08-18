@@ -26,6 +26,7 @@ export class ShowComponent implements OnInit {
     userForm: FormGroup;
     changeUp = false;
     profilesList: any;
+    loading: Boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -68,6 +69,7 @@ export class ShowComponent implements OnInit {
     getUser() {
         this.userSrv.user(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.user = data;
                 this.userForm.patchValue({
                     _id: data._id,
@@ -78,6 +80,7 @@ export class ShowComponent implements OnInit {
                 });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }
@@ -97,23 +100,20 @@ export class ShowComponent implements OnInit {
         }
     }
 
-    updateUser() {
-        this.userSrv.updateUser(this.userForm.value).subscribe(data => {
-            console.log(data);
-        });
-    }
-
     editUser(user) {
         this._route.navigate(['/users/edit', user]);
     }
 
     delete(data) {
+        this.loading = true;
         this.userSrv.deleteUser(data).subscribe(
             response => {
+                this.loading = false;
                 this.successMsgSrv.successMessages('Usuário deletado com sucesso.');
                 this._route.navigate(['/users']);
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR:', error);
             }

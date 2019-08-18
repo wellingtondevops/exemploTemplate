@@ -9,6 +9,7 @@ import { EditComponent } from './edit/edit.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ShowComponent } from './show/show.component';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
     declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
@@ -21,7 +22,8 @@ import { ShowComponent } from './show/show.component';
         DatatablesModule,
         TranslateModule,
         TextMaskModule,
-        ButtonsCustomModule
+        ButtonsCustomModule,
+        NgxLoadingModule.forRoot({})
     ]
 })
 export class CompaniesModule {}

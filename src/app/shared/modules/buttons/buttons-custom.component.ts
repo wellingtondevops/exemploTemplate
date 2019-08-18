@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Injectable } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Injectable, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class ButtonsCustomComponent implements OnInit {
     @Output() edit = new EventEmitter();
     @Output() delete = new EventEmitter();
+    @Input() id: string;
 
     public radioGroupForm: FormGroup;
 
@@ -21,11 +22,11 @@ export class ButtonsCustomComponent implements OnInit {
         });
     }
 
-    editView(value) {
-        this.edit.emit(value);
+    editView() {
+        this.edit.emit(this.id);
     }
 
-    deleteItem(value) {
-        this.delete.emit(value);
+    deleteItem() {
+        this.delete.emit(this.id);
     }
 }

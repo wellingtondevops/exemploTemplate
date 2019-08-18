@@ -37,5 +37,11 @@
     "Repeat Password": "Repeat Password",
     "Register": "Register",
     "Log in": "Log in",
-    "Alter Password": "Alterar Password"
+    "Alter Password": "Alterar Password",
+    "Redemption": "Type of redemption",
+    "DIAS": "Day's",
+    "MESES": "Month",
+    "ANOS": "Years",
+    "TEXTO": "Text",
+    "NUMERO": "Number"
 }

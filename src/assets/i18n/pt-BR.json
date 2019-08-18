@@ -18,5 +18,11 @@
     "JURIDICA": "Jurídica",
     "Log in": "Entrar",
     "Log Out": "Sair",
-    "Alter Password": "Alterar Password"
+    "Alter Password": "Alterar Password",
+    "Redemption": "Tipo de Tempo de Guarda",
+    "DIAS": "Dias",
+    "MESES": "Meses",
+    "ANOS": "Anos",
+    "TEXTO": "Texto",
+    "NUMERO": "Número"
 }

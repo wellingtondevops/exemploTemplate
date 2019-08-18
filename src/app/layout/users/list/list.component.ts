@@ -33,6 +33,7 @@ export class ListComponent implements OnInit {
         items: []
     };
     page = new Page();
+    loading: Boolean = true;
 
     columns = [
         { name: 'Nome', prop: 'name' },
@@ -51,19 +52,20 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.setPage({offset: 0});
         this.usersList();
     }
 
     usersList() {
         this.usersSrv.users(null).subscribe(
             data => {
+                this.loading = false;
                 this.users = data;
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }

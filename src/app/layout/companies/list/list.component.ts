@@ -32,6 +32,7 @@ export class ListComponent implements OnInit {
         { name: 'Telefone', prop: 'fone' },
         { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
+    loading: Boolean = true;
 
     constructor(
         private _route: Router,
@@ -51,12 +52,14 @@ export class ListComponent implements OnInit {
     companiesList() {
         this.companiesSrv.companies(null).subscribe(
             data => {
+                this.loading = false;
                 this.companies = data;
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR:', error);
             }

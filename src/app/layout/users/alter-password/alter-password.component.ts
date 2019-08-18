@@ -18,6 +18,7 @@ export class AlterPasswordComponent implements OnInit {
     user: any;
     userForm: FormGroup;
     profilesList: any;
+    loading: Boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -53,6 +54,7 @@ export class AlterPasswordComponent implements OnInit {
     getUser() {
         this.userSrv.user(this.id).subscribe(
             data => {
+                this.loading = false;
                 this.user = data;
                 this.userForm.patchValue({
                     _id: this.user._id,
@@ -63,6 +65,7 @@ export class AlterPasswordComponent implements OnInit {
                 });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }
@@ -72,6 +75,7 @@ export class AlterPasswordComponent implements OnInit {
     updateUser() {
         this.userSrv.updateUser(this.userForm.value).subscribe(
             data => {
+                this.loading = false;
                 this.successMsgSrv.successMessages('Usuário alterado com sucesso.');
                 this.user = data;
                 this.userForm.patchValue({
@@ -81,6 +85,7 @@ export class AlterPasswordComponent implements OnInit {
                 });
             },
             error => {
+                this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
             }
