@@ -27,7 +27,7 @@ export class DocumentsService {
         return this.http.post<Document>(`${url}/docts/`, document).pipe(tap(data => data));
     }
 
-    updateCompany(document) {
+    updateDocument(document) {
         return this.http.patch<Document>(`${url}/docts/${document._id}`, document).pipe(tap(data => data));
     }
 

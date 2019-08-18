@@ -8,6 +8,12 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { Document } from 'src/app/models/document';
 import { routerTransition } from 'src/app/router.animations';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+
+const MODALS = {
+    focusFirst: NgbdModalConfirmComponent
+};
 
 @Component({
     selector: 'app-show',
@@ -17,7 +23,7 @@ import { routerTransition } from 'src/app/router.animations';
 })
 export class ShowComponent implements OnInit {
     document: Document;
-    loading: Boolean = false;
+    loading: Boolean = true;
     documentForm: FormGroup;
     labels: any = [];
     id: string;
@@ -30,24 +36,19 @@ export class ShowComponent implements OnInit {
         private route: ActivatedRoute,
         private documentSrv: DocumentsService,
         private successMsgSrv: SuccessMessagesService,
-        private errorMsg: ErrorMessagesService
+        private errorMsg: ErrorMessagesService,
+        private modalService: NgbModal
     ) {
+        this.loading = true;
+        console.log(this.loading)
         this.documentForm = this.fb.group({
-            name: this.fb.control('', [Validators.required]),
-            retention: this.fb.control('', [Validators.required]),
-            retentionTime: this.fb.control('', [Validators.required]),
+            _id: '',
+            name: this.fb.control({value:'', disabled: true}, [Validators.required]),
+            retention: this.fb.control({value:'', disabled: true}, [Validators.required]),
+            retentionTime: this.fb.control({value:'', disabled: true}, [Validators.required]),
             label: this.fb.array(this.labels)
         });
-    }
-
-    get name() {
-        return this.documentForm.get('name');
-    }
-    get retentionTime() {
-        return this.documentForm.get('retentionTime');
-    }
-    get retention() {
-        return this.documentForm.get('retention');
+        
     }
 
     ngOnInit() {
@@ -57,9 +58,9 @@ export class ShowComponent implements OnInit {
 
     createLabel(item): FormGroup {
         return this.fb.group({
-            namefield: item.namefield,
-            typeField: item.typeField,
-            uniq: item.uniq
+            namefield: {value: item.namefield, disabled: true},
+            typeField: {value: item.typeField, disabled: true},
+            uniq: {value: item.uniq, disabled: true}
         });
     }
 
@@ -76,8 +77,6 @@ export class ShowComponent implements OnInit {
         this.loading = true;
         this.documentSrv.document(this.id).subscribe(
             data => {
-                console.log(data);
-                this.loading = false;
                 this.document = data;
                 this.documentForm.patchValue({
                     _id: this.document._id,
@@ -89,13 +88,45 @@ export class ShowComponent implements OnInit {
                 this.document.label.map(item => {
                     this.addLabel(item);
                 });
-                console.log(this.labels);
-                console.log(this.documentForm.value.label.control);
+                this.loading = false;
             },
             error => {
                 this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR', error);
+            }
+        );
+    }
+
+    editDocument(document) {
+        this._route.navigate(['/documents/edit', document]);
+    }
+    
+    open(name: string, storeHouse) {
+        const modalRef = this.modalService.open(MODALS[name]);
+        modalRef.componentInstance.item = storeHouse;
+        modalRef.componentInstance.data = {
+            msgConfirmDelete: 'Documento foi deletado com sucesso.',
+            msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o documento?',
+            msgQuestionDeleteTwo: 'Todas as informações associadas ao documento serão deletadas.'
+        };
+        modalRef.componentInstance.delete.subscribe(item => {
+            this.delete(item);
+        });
+    }
+    
+    delete(document) {
+        this.loading = true;
+        this.documentSrv.delete(document).subscribe(
+            data => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Documento deletado com sucesso.');
+                this._route.navigate(['/documents']);
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR:', error);
             }
         );
     }
