@@ -12,4 +12,10 @@ export class EditComponent implements OnInit {
   ngOnInit() {
   }
 
+  getDocument() {
+    this.documentsSrv.document(this.id).subscribe(data => {
+      console.log(data)
+    })
+  }
+
 }
