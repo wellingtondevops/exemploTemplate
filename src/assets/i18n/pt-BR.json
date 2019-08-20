@@ -24,5 +24,7 @@
     "MESES": "Meses",
     "ANOS": "Anos",
     "TEXTO": "Texto",
-    "NUMERO": "Número"
+    "NUMERO": "Número",
+    "COMPETENCIA": "Competência",
+    "DATA": "Data"
 }
