@@ -13,7 +13,9 @@ export class SidebarComponent implements OnInit {
     collapsed: boolean;
     showMenu: string;
     pushRightClass: string;
-    permission: boolean;
+    permissionAdmin: boolean;
+    permissionPesquisador: boolean;
+    permissionArquivador: boolean;
 
     @Output() collapsedEvent = new EventEmitter<boolean>();
 
@@ -30,7 +32,9 @@ export class SidebarComponent implements OnInit {
         this.collapsed = false;
         this.showMenu = '';
         this.pushRightClass = 'push-right';
-        this.permission = this.isAdmin();
+        this.permissionAdmin = this.isAdmin();
+        this.permissionArquivador = this.isTywin();
+        this.permissionPesquisador = this.isSnow();
     }
 
     eventCalled() {
@@ -41,6 +45,26 @@ export class SidebarComponent implements OnInit {
         var res = false;
         JSON.parse(window.localStorage.getItem('profiles')).map(item => {
             if (item === 'DAENERYS') {
+                res = true;
+            }
+        });
+        return res;
+    }
+
+    isSnow(){
+        var res = false;
+        JSON.parse(window.localStorage.getItem('profiles')).map(item => {
+            if (item === 'SNOW') {
+                res = true;
+            }
+        });
+        return res;
+    }
+
+    isTywin() {
+        var res = false;
+        JSON.parse(window.localStorage.getItem('profiles')).map(item => {
+            if (item === 'TYWIN') {
                 res = true;
             }
         });

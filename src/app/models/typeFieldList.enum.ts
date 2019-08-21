@@ -1,4 +1,6 @@
 export enum TypeFieldListEnum {
     TEXTO,
-    NUMERO
+    NUMERO,
+    DATA,
+    COMPETENCIA
 }

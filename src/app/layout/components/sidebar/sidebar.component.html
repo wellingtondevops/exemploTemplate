@@ -1,41 +1,41 @@
 <nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
     <div class="list-group">
-        <a [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-envelope fa-2x"></i>&nbsp;
             <span>{{ 'Solicitantes ' | translate }}</span>
         </a>
-        <a [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-home fa-2x"></i>&nbsp;
             <span>{{ 'Armazéns' | translate }}</span>
         </a>
 
-        <a [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-building fa-2x"></i>&nbsp;
             <span>{{ 'Empresas' | translate }}</span>
         </a>
 
-        <a [routerLink]="['/volumes']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/volumes']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-archive fa-2x"></i>&nbsp;
             <span>{{ 'Volumes' | translate }}</span>
         </a>
 
-        <a [routerLink]="['/documents']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/documents']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-book fa-2x"></i>&nbsp;
             <span>{{ 'Documentos' | translate }}</span>
         </a>
-        <a [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-wpforms fa-2x"></i>&nbsp;
             <span>{{ 'Regristro Arquivos' | translate }}</span>
         </a>
-        <a [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador || permissionPesquisador" [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-search fa-2x"></i>&nbsp;
             <span>{{ 'Procurar Arquivos' | translate }}</span>
         </a>
-        <a [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-truck fa-2x"></i>&nbsp;
             <span>{{ 'Movimentações' | translate }}</span>
         </a>
-        <div *ngIf="permission" class="nested-menu" [routerLinkActive]="['router-link-active']">
+        <div *ngIf="permissionAdmin" class="nested-menu" [routerLinkActive]="['router-link-active']">
             <a class="list-group-item" (click)="addExpandClass('pages')">
                 <i class="fa fa-cog"></i>&nbsp;
                 <span>{{ 'Configurações' | translate }}</span>
