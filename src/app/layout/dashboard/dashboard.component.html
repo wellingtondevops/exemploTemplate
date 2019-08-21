@@ -3,7 +3,7 @@
 
     <hr />
     <div class="row">
-        <a *ngIf="!permissionPesquisador" [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']" class="col-sm-12">
+        <a *ngIf="permissionPesquisador || permissionAdmin" [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']" class="col-sm-12">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-search fa-4x" aria-hidden="true"></i></div>
@@ -15,7 +15,7 @@
             </div>
         </a>
 
-        <a *ngIf="!permissionAdmin" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+        <a *ngIf="permissionAdmin" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-users fa-4x" aria-hidden="true"></i></div>
@@ -27,7 +27,7 @@
             </div>
         </a>
 
-        <a *ngIf="!permissionPesquisador" [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+        <a *ngIf="permissionAdmin" [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-envelope fa-4x" aria-hidden="true"></i></div>
@@ -39,7 +39,7 @@
             </div>
         </a>
 
-        <a *ngIf="!permissionPesquisador" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-home fa-4x" aria-hidden="true"></i></div>
@@ -51,7 +51,7 @@
             </div>
         </a>
 
-        <a *ngIf="!permissionPesquisador" [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-building fa-4x" aria-hidden="true"></i></div>
@@ -63,7 +63,7 @@
             </div>
         </a>
 
-        <a *ngIf="!permissionPesquisador" [routerLink]="['/volumes']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/volumes']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-archive fa-4x" aria-hidden="true"></i></div>
@@ -75,7 +75,7 @@
             </div>
         </a>
 
-        <a *ngIf="!permissionPesquisador" [routerLink]="['/documents']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/documents']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div>
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><i class="fa fa-book fa-4x" aria-hidden="true"></i></div>
@@ -87,7 +87,7 @@
             </div>
         </a>
 
-        <div class="col-sm-4">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div class="card text-white bg-dark mb-3">
                 <div class="card-header"><i class="fa fa-wpforms fa-4x" aria-hidden="true"></i></div>
                 <div class="card-body">
@@ -95,9 +95,9 @@
                     <p class="card-text">Indexação ou Catalogação</p>
                 </div>
             </div>
-        </div>
+        </a>
 
-        <div class="col-sm-4">
+        <div *ngIf="permissionAdmin" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div class="card text-white bg-dark mb-3">
                 <div class="card-header"><i class="fa fa-truck fa-4x" aria-hidden="true"></i></div>
                 <div class="card-body">

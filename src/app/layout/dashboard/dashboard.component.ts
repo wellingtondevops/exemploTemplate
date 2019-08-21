@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
     public sliders: Array<any> = [];
     permissionAdmin: boolean;
     permissionPesquisador: boolean;
+    permissionArquivador: boolean;
 
     constructor(public daenerysGuard: DaenerysGuard) {
         this.sliders.push(
@@ -56,6 +57,7 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         this.permissionAdmin = this.isAdmin();
         this.permissionPesquisador = this.isSnow();
+        this.permissionArquivador = this.isTywin();
     }
 
     isAdmin() {
@@ -72,6 +74,16 @@ export class DashboardComponent implements OnInit {
         var res = false;
         JSON.parse(window.localStorage.getItem('profiles')).map(item => {
             if (item === 'SNOW') {
+                res = true;
+            }
+        });
+        return res;
+    }
+
+    isTywin() {
+        var res = false;
+        JSON.parse(window.localStorage.getItem('profiles')).map(item => {
+            if (item === 'TYWIN') {
                 res = true;
             }
         });
