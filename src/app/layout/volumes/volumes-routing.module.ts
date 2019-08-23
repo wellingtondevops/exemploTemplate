@@ -4,29 +4,28 @@ import { ShowComponent } from './show/show.component';
 import { Routes, RouterModule } from '@angular/router';
 import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
-import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
-import { TywinGuardService as TywinGuard } from 'src/app/services/guard/tywin-guard.service';
+import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
 
 const routes: Routes = [
   {
     path: '',
     component: ListComponent,
-    canActivate: [DaenerysGuard, TywinGuard]
+    canActivate: [DaenerysTywinGuard]
   },
   {
     path: 'get/:id',
     component: ShowComponent,
-    canActivate: [DaenerysGuard, TywinGuard]
+    canActivate: [DaenerysTywinGuard]
   },
   {
     path: 'edit/:id',
     component: EditComponent,
-    canActivate: [DaenerysGuard, TywinGuard]
+    canActivate: [DaenerysTywinGuard]
   },
   {
     path: 'new',
     component: NewComponent,
-    canActivate: [DaenerysGuard, TywinGuard]
+    canActivate: [DaenerysTywinGuard]
   }
 ];
 
