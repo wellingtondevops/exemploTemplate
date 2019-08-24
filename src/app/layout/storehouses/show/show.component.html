@@ -12,7 +12,13 @@
     <app-page-header [id]="storeHouse._id" [heading]="'Dados do Armazém'" [icon]="'fa-house'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)" (delete)="open('focusFirst', storeHouse._id)"></app-buttons-custom>
+            <app-buttons-custom
+                (edit)="editStoreHouse(storeHouse._id)"
+                (delete)="open('focusFirst', storeHouse._id)"
+                [permissionEdit]="['DAENERYS']"
+                [permissionDelete]="['DAENERYS']"
+            >
+            </app-buttons-custom>
             <br />
             <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
                 <div class="form-content">
