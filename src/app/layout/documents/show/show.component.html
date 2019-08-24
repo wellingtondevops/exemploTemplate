@@ -9,8 +9,13 @@
     <app-page-header [heading]="'Dados Documento'" [icon]="'fa-book'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <app-buttons-custom [id]="document._id" (edit)="editDocument(document._id)"
-                (delete)="open('focusFirst', document._id)">
+            <app-buttons-custom
+                [id]="document._id"
+                (edit)="editDocument(document._id)"
+                (delete)="open('focusFirst', document._id)"
+                [permissionEdit]="['DAENERYS', 'TYWIN']"
+                [permissionDelete]="['DAENERYS', 'TYWIN']"
+            >
             </app-buttons-custom>
             <br />
             <form [formGroup]="documentForm" role="FormGroup">

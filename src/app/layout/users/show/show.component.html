@@ -12,7 +12,13 @@
     <app-page-header [heading]="'Dados do Usuário'" [icon]="'fa-user'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <app-buttons-custom [id]="user._id" (edit)="editUser(user._id)" (delete)="open('focusFirst', user._id)"></app-buttons-custom>
+            <app-buttons-custom
+                [id]="user._id"
+                (edit)="editUser(user._id)"
+                (delete)="open('focusFirst', user._id)"
+                [permissionEdit]="['DAENERYS']"
+                [permissionDelete]="['DAENERYS']"
+            ></app-buttons-custom>
             <br />
             <form [formGroup]="userForm" role="FormGroup">
                 <div class="form-content">
