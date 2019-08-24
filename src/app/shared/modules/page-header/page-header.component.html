@@ -2,7 +2,7 @@
     <div class="col-xl-12">
         <h2 class="page-header">
             {{heading}}
-            <button class="btn btn-primary" *ngIf="routerTo" style="float:right" [routerLink]="[routerTo]">{{ btnNew }}</button>
+            <button *ngIf="permissionOfBtnNew()" class="btn btn-primary" style="float:right" [routerLink]="[routerTo]">{{ btnNew }}</button>
         </h2>
     </div>
 </div>

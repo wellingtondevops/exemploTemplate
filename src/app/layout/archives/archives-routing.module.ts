@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { ShowComponent } from './show/show.component';
-import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
+import { DaenerysTywinSnowGuardService as DaenerysTywinSnowGuard } from 'src/app/services/guard/daenerys-tywin-snow-guard.service';
 
 const routes: Routes = [
   {
     path: '',
     component: ListComponent,
-    canActivate: [DaenerysTywinGuard]
+    canActivate: [DaenerysTywinSnowGuard]
   },
   {
     path: ':id',
     component: ShowComponent,
-    canActivate: [DaenerysTywinGuard]
+    canActivate: [DaenerysTywinSnowGuard]
   }
 ];
 

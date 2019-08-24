@@ -5,6 +5,7 @@ import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { ShowComponent } from './show/show.component';
 import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
+import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
 
 const routes: Routes = [
     {
@@ -20,12 +21,12 @@ const routes: Routes = [
     {
       path: 'edit/:id',
       component: EditComponent,
-      canActivate: [DaenerysTywinGuard]
+      canActivate: [DaenerysGuard]
     },
     {
       path: 'new',
       component: NewComponent,
-      canActivate: [DaenerysTywinGuard]
+      canActivate: [DaenerysGuard]
     }
 ];
 

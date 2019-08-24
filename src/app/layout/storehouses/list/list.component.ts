@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.service';
 import { Page } from 'src/app/models/page';
 
 const MODALS = {
@@ -81,6 +82,10 @@ export class ListComponent implements OnInit {
 
     c(data) {
         console.log(data);
+    }
+
+    isDaenerys(){
+        return DaenerysGuardService.isDaenerys()
     }
 
     delete(data) {
