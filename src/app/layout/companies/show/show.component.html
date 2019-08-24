@@ -12,7 +12,7 @@
     <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <app-buttons-custom [id]="company._id" (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)">
+            <app-buttons-custom [id]="company._id" [permissionEdit]="['DAENERYS']" [permissionDelete]="['DAENERYS']" (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)">
             </app-buttons-custom>
             <br />
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">
@@ -160,7 +160,6 @@
                             placeholder="CPF"
                             class="form-control"
                             formControlName="cpf"
-                            [ngClass]="{ 'is-invalid': !cpf.valid && !typePerson.disabled }"
                             [textMask]="{ mask: mask.cpf }"
                         />
                         <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)" class="invalid-feedback">
@@ -178,7 +177,6 @@
                             placeholder="CNPJ"
                             class="form-control"
                             formControlName="cnpj"
-                            [ngClass]="{ 'is-invalid': !cnpj.valid && cnpj.disabled }"
                             [textMask]="{ mask: mask.cnpj }"
                         />
                         <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)" class="invalid-feedback">

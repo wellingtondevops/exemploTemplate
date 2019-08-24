@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
     page = new Page();
     columns = [
         { name: 'Nome', prop: 'name' },
-        { name: 'CPF/CNPJ', prop: 'cpfCnpj' },
+        /*{ name: 'CPF/CNPJ', prop: 'cpfCnpj' },*/
         { name: 'E-mail', prop: 'email' },
         { name: 'Telefone', prop: 'fone' },
         { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }

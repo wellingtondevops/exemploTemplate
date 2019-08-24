@@ -57,8 +57,8 @@ export class ShowComponent implements OnInit {
             fone: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             answerable: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             typePerson: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            cpf: this.fb.control(null),
-            cnpj: this.fb.control(null),
+            cpf: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            cnpj: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             departaments: this.fb.array(this.departaments)
         });
     }
@@ -122,6 +122,12 @@ export class ShowComponent implements OnInit {
                     cnpj: data.cnpj ? data.cnpj : null,
                     cpf: data.cpf ? data.cpf : null
                 });
+                if(data.cnpj) {
+                    this.hiddenCNPJ = false
+                }
+                if(data.cpf) {
+                    this.hiddenCPF = false
+                }
                 this.company.departaments.map(item => {
                     this.addDepartament(item);
                 });
