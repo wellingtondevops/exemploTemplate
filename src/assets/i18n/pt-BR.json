@@ -23,8 +23,8 @@
     "DIAS": "Dias",
     "MESES": "Meses",
     "ANOS": "Anos",
-    "TEXTO": "Texto",
-    "NUMERO": "Número",
-    "COMPETENCIA": "Competência",
-    "DATA": "Data"
+    "TEXTO": "Texto - Exemplo: Contrato",
+    "NUMERO": "Número - Exemplo: 1036",
+    "COMPETENCIA": "Competência - Exemplo: mm/aaaa",
+    "DATA": "Data - Exemplo: dd/mm/aaaa"
 }
