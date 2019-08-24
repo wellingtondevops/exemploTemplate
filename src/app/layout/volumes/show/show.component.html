@@ -16,8 +16,8 @@
                 [id]="volume._id"
                 (edit)="editVolume(volume._id)"
                 (delete)="open('focusFirst', volume._id)"
-                [permissionEdit]="['DAENERYS']"
-                [permissionDelete]="['DAENERYS']"
+                [permissionEdit]="['DAENERYS', 'TYWIN']"
+                [permissionDelete]="['DAENERYS', 'TYWIN']"
             ></app-buttons-custom>
             <br />
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="updateVolume()">
