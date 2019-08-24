@@ -9,7 +9,7 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
-    <app-page-header [heading]="'Usuários'" [icon]="'fa-table'" [btnNew]="'Novo Usuário'" [routerTo]="'/users/new'"></app-page-header>
+    <app-page-header [heading]="'Usuários'" [icon]="'fa-table'" [btnNew]="'Novo Usuário'" [permissionBtnNew]="['DAENERYS']" [routerTo]="'/users/new'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <app-datatables [data]="users" (setPage)="setPage($event)" (show)="getUser($event)" [columns]="columns"></app-datatables>

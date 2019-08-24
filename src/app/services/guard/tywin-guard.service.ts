@@ -9,14 +9,14 @@ export class TywinGuardService {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      if (!this.isTywin()) {
+      if (!TywinGuardService.isTywin()) {
           this.router.navigate(['/not-authorized']);
           return false;
       }
       return true;
   }
 
-  isTywin() {
+  static isTywin() {
       var access = false;
       JSON.parse(window.localStorage.getItem('profiles')).map(item => {
           if (item === 'TYWIN') {

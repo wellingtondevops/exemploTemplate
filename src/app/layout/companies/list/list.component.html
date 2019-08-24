@@ -9,7 +9,7 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
-    <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'" [routerTo]="'/companies/new'"></app-page-header>
+    <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'" [permissionBtnNew]="['DAENERYS']" [routerTo]="'/companies/new'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" (show)="getCompany($event)"></app-datatables>

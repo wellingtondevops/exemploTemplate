@@ -9,7 +9,7 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
-    <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'" [routerTo]="'/volumes/new'"></app-page-header>
+    <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'" [permissionBtnNew]="['DAENERYS', 'TYWIN']" [routerTo]="'/volumes/new'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <app-datatables [data]="volumes" (setPage)="setPage($event)" [columns]="columns" (show)="getVolume($event)"></app-datatables>
