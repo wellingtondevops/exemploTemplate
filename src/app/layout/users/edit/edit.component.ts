@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users/users.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { routerTransition } from 'src/app/router.animations';
@@ -21,6 +21,7 @@ export class EditComponent implements OnInit {
     loading: Boolean = true;
 
     constructor(
+        private _route: Router,
         private route: ActivatedRoute,
         private userSrv: UsersService,
         private fb: FormBuilder,
@@ -84,6 +85,7 @@ export class EditComponent implements OnInit {
                     email: this.user.email,
                     name: data.name
                 });
+                this._route.navigate(['/users']);
             },
             error => {
                 this.loading = false;

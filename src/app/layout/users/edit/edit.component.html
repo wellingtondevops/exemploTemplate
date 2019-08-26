@@ -1,14 +1,11 @@
 <div [@routerTransition]>
-    <ngx-loading
-        [show]="loading"
-        [config]="{
+    <ngx-loading [show]="loading" [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
-        }"
-    ></ngx-loading>
+        }"></ngx-loading>
     <app-page-header [heading]="'Dados do Usuário'" [icon]="'fa-user'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
@@ -16,13 +13,8 @@
                 <div class="form-content">
                     <div class="form-group">
                         <label for="">Nome</label>
-                        <input
-                            type="text"
-                            formControlName="name"
-                            class="form-control input-underline input-lg"
-                            placeholder="Nome"
-                            [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }"
-                        />
+                        <input type="text" formControlName="name" class="form-control input-underline input-lg"
+                            placeholder="Nome" [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" />
                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
                                 Nome é obrigatório.
@@ -32,13 +24,8 @@
 
                     <div class="form-group">
                         <label for="">E-mail</label>
-                        <input
-                            type="text"
-                            formControlName="email"
-                            class="form-control input-underline input-lg"
-                            placeholder="Email"
-                            [ngClass]="{ 'is-invalid': !email.valid && email.value === '' }"
-                        />
+                        <input type="text" formControlName="email" class="form-control input-underline input-lg"
+                            placeholder="Email" [ngClass]="{ 'is-invalid': !email.valid && email.value === '' }" />
                         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
                             <div *ngIf="!email.valid">
                                 E-mail é obrigatório.
@@ -48,8 +35,10 @@
 
                     <div class="form-group">
                         <label for="">Perfil do Usuário</label>
-                        <select class="form-control" id="profile" formControlName="profiles" [ngClass]="{ 'is-invalid': !profiles.valid }">
-                            <option *ngFor="let profile of profilesList | enumToArray" [value]="profile"> {{ profile | translate }}</option>
+                        <select class="form-control" id="profile" formControlName="profiles"
+                            [ngClass]="{ 'is-invalid': !profiles.valid }">
+                            <option *ngFor="let profile of profilesList | enumToArray" [value]="profile">
+                                {{ profile | translate }}</option>
                         </select>
                         <div *ngIf="profiles.invalid && (profiles.dirty || profiles.touched)" class="invalid-feedback">
                             <div *ngIf="!profiles.valid">
@@ -58,7 +47,12 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" [disabled]="name.invalid || email.invalid || profiles.invalid">Salvar</button>
+                <div class="pull-right">
+                    <button type="button" [routerLink]="['/users']" class="btn btn-default"
+                        style="margin-right:10px">Voltar</button>
+                    <button type="submit" class="btn btn-primary"
+                        [disabled]="name.invalid || email.invalid || profiles.invalid">Salvar</button>
+                </div>
             </form>
         </div>
     </div>

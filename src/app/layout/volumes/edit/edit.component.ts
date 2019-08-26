@@ -9,7 +9,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from 'src/app/models/company';
 import { Storehouse } from 'src/app/models/storehouse';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Volume } from 'src/app/models/volume';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -40,6 +40,7 @@ export class EditComponent implements OnInit {
     loading: Boolean = true;
 
     constructor(
+        private _route: Router,
         private route: ActivatedRoute,
         private storeHousesSrv: StorehousesService,
         private departamentsSrv: DepartamentsService,
@@ -197,6 +198,7 @@ export class EditComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
+                    this._route.navigate(['/volumes']);
                 }
             },
             error => {

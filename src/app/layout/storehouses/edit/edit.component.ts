@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
@@ -20,6 +20,7 @@ export class EditComponent implements OnInit {
     loading: Boolean = true;
 
     constructor(
+        private _route: Router,
         private route: ActivatedRoute,
         private storeHouseSrv: StorehousesService,
         private fb: FormBuilder,
@@ -70,6 +71,7 @@ export class EditComponent implements OnInit {
                     name: { value: this.storeHouse.name, disabled: true }
                 });
                 this.successMsgSrv.successMessages('Armazém alterado com sucesso.');
+                this._route.navigate(['/storehouses']);
             },
             error => {
                 this.loading = false;

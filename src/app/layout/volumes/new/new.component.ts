@@ -15,6 +15,7 @@ import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-new',
@@ -36,6 +37,7 @@ export class NewComponent implements OnInit {
     loading: Boolean = true;
 
     constructor(
+        private _route: Router,
         private storeHousesSrv: StorehousesService,
         private departamentsSrv: DepartamentsService,
         private volumesSrv: VolumesService,
@@ -179,6 +181,7 @@ export class NewComponent implements OnInit {
                 if (data._id) {
                     this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
                     this.resetInputs();
+                    this._route.navigate(['/volumes']);
                 }
             },
             error => {
