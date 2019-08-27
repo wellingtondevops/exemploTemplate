@@ -5,6 +5,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-new',
@@ -19,6 +20,7 @@ export class NewComponent implements OnInit {
     loading: Boolean = false;
 
     constructor(
+        private _route: Router,
         private userSrv: UsersService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
@@ -54,6 +56,7 @@ export class NewComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.');
+                    this._route.navigate(['/users']);
                 }
             },
             error => {
