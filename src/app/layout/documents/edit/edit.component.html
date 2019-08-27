@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <div class="pull-right">
-                    <button type="button" [routerLink]="['/documents']" class="btn btn-default"
+                    <button type="button" [routerLink]="['/documents/get', document._id]" class="btn btn-default"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary"
                         [disabled]="name.invalid || retention.invalid || retentionTime.invalid">

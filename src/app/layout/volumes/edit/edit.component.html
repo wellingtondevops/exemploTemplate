@@ -120,7 +120,7 @@
                     </ng-template>
                 </div>
                 <div class="pull-right">
-                    <button type="button" [routerLink]="['/volumes']" class="btn btn-default"
+                    <button type="button" [routerLink]="['/volumes/get', volume._id]" class="btn btn-default"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="
                         companyInput.invalid ||
