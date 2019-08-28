@@ -181,7 +181,7 @@ export class NewComponent implements OnInit {
                 if (data._id) {
                     this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
                     this.resetInputs();
-                    this._route.navigate(['/volumes']);
+                    // this._route.navigate(['/volumes']);
                 }
             },
             error => {

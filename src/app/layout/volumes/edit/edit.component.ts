@@ -198,7 +198,7 @@ export class EditComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
-                    this._route.navigate(['/volumes']);
+                    // this._route.navigate(['/volumes']);
                 }
             },
             error => {
