@@ -97,6 +97,7 @@ export class EditComponent implements OnInit {
     getCompany() {
         this.companiesSrv.company(this.id).subscribe(
             data => {
+                console.log(data);
                 this.loading = false;
                 this.company = data;
                 this.companyForm.patchValue({
@@ -125,7 +126,7 @@ export class EditComponent implements OnInit {
     createDepartament(): FormGroup {
         return this.fb.group({
             departamentName: '',
-            company: ''
+            company: this.company._id
         });
     }
 
@@ -137,6 +138,7 @@ export class EditComponent implements OnInit {
     updateCompany() {
         this.loading = true;
         var company = _.omitBy(this.companyForm.value, _.isNil);
+        console.log(company);
         this.companiesSrv.updateCompany(company).subscribe(
             data => {
                 if (data._id) {
