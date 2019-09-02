@@ -23,7 +23,7 @@
             <i class="fa fa-book fa-2x"></i>&nbsp;
             <span>{{ 'Documentos' | translate }}</span>
         </a>
-        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/register-file']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-wpforms fa-2x"></i>&nbsp;
             <span>{{ 'Regristro Arquivos' | translate }}</span>
         </a>
