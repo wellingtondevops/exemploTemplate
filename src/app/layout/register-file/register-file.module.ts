@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegisterFileRoutingModule } from './register-file-routing.module';
-import { PageHeaderModule, DatatablesModule, ButtonsCustomModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, FormIndexModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ import { ListComponent } from './list/list.component';
     ReactiveFormsModule,
     FormsModule,
     DatatablesModule,
+    FormIndexModule,
     NgbModule,
     TranslateModule,
     ButtonsCustomModule,
