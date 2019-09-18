@@ -6,10 +6,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
-import { ListComponent } from './list/list.component';
+import { ListComponent, EnumToArrayPipe } from './list/list.component';
 
 @NgModule({
-  declarations: [ListComponent],
+  declarations: [ListComponent, EnumToArrayPipe],
   imports: [
     CommonModule,
     RegisterFileRoutingModule,

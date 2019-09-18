@@ -41,6 +41,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+@ngx-formly/bootstrap
+MIT
+
+@ngx-formly/bootstrap/addons
+
+@ngx-formly/core
+MIT
+
 @ngx-translate/core
 MIT
 

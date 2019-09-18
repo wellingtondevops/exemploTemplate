@@ -25,6 +25,7 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+  loading = false;
   companies: any = [];
   registerFileForm: FormGroup;
   storeHouses: any = [];
