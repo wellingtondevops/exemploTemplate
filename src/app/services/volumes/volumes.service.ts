@@ -55,4 +55,11 @@ export class VolumesService {
       tap(data => data)
     );
   }
+
+  listvolume(storehouse_id, company_id, location, description){
+    return this.http.get<VolumeList>(`${url}/listvolumes?storehouse=${storehouse_id}&company=${company_id}&location=${location}&description=${description}`)
+    .pipe(
+      tap(data => data)
+    )
+  }
 }
