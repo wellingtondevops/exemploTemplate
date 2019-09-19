@@ -27,6 +27,7 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 export class ListComponent implements OnInit {
   companies: any = [];
   registerFileForm: FormGroup;
+  typeDocumentForm: FormGroup;
   storeHouses: any = [];
   inputBlock: Boolean = false;
   document: any;
@@ -68,12 +69,14 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.typeDocumentForm = this.fb.group({
+      typeDocument: this.fb.control('', [Validators.required])
+    })
     this.registerFileForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
       storehouse: this.fb.control('', [Validators.required]),
       location: this.fb.control(''),
-      description: this.fb.control(''),
-      typeDocument: this.fb.control('', [Validators.required])
+      description: this.fb.control('')
     });
 
     this.getCompanies();
@@ -88,7 +91,7 @@ export class ListComponent implements OnInit {
     return this.registerFileForm.get('storehouse');
   }
   get typeDocument() {
-    return this.registerFileForm.get('typeDocument');
+    return this.typeDocumentForm.get('typeDocument');
   }
 
   blockInputs() {
@@ -138,13 +141,12 @@ export class ListComponent implements OnInit {
     var company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
     var location = this.registerFileForm.value.location;
-    var typeDocument = this.registerFileForm.value.typeDocument._id;
+ 
     console.log('data', storehouse_id)
     console.log('data', company_id)
     console.log('data', description)
     console.log('data', location)
-    console.log('docts', typeDocument)
-    this.getDocument(typeDocument)
+
 
     this.volumesSrv.listvolume(storehouse_id, company_id, location, description).subscribe(
       data => {
@@ -169,6 +171,12 @@ export class ListComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
     })
+  }
+
+  getRegister(){
+    var typeDocument = this.typeDocumentForm.value.typeDocument._id;
+    console.log('docts', typeDocument)
+    this.getDocument(typeDocument)
   }
 
   searchDocts = (text$: Observable<string>) =>
