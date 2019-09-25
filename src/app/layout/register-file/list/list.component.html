@@ -83,27 +83,44 @@
                 </form>
               </ng-template>
             </ngb-tab>
-            <ngb-tab id="tab2" title="Formulário de Indexação">
+            <ngb-tab id="tab2" title="Formulário de Indexação" [disabled]="tabIndex">
               <ng-template ngbTabContent>
-                <form>
-                  <div class="form-group mb-2 col-4">
-                    <label for="typeDocument">Tipo do Documento</label>
-                    <!--<input id="typeDocument" class="form-control col-12" formControlName="typeDocument" />-->
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="typeDocument"
-                      [resultTemplate]="rtTypeDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocts"
-                      style="width: 100%" [ngClass]="{ 'is-invalid': !typeDocument.valid }" />
-                    <div *ngIf="typeDocument.invalid && (typeDocument.dirty || typeDocument.touched)"
-                      class="invalid-feedback">
-                      <div *ngIf="!typeDocument.valid">
-                        Tipo de documento é obrigatório.
+                <div class="row">
+                  <div class="col-6">
+                    <form [formGroup]="typeDocumentForm" role="FormGroup" class="form-inline"
+                      (ngSubmit)="getDocument()">
+                      <div class="form-group col-10">
+                        <label for="typeDocument">Tipo do Documento</label>
+                        <!--<input id="typeDocument" class="form-control col-12" formControlName="typeDocument" />-->
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="typeDocument"
+                          [resultTemplate]="rtTypeDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocts"
+                          style="width: 100%" [ngClass]="{ 'is-invalid': !typeDocument.valid }" />
+                        <div *ngIf="typeDocument.invalid && (typeDocument.dirty || typeDocument.touched)"
+                          class="invalid-feedback">
+                          <div *ngIf="!typeDocument.valid">
+                            Tipo de documento é obrigatório.
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                      <ng-template #rtTypeDocument let-r="result" let-t="typeDocument">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                      </ng-template>
+                      <div class="form-group mb-2 col-2">
+                        <button type="submit" class="btn btn-default pull-right" style="margin-top:20px">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                    </form>
+                    <app-form-index *ngIf="document" [data]="document"></app-form-index>
+                    <br>
+                    <br>
+                    <br>
                   </div>
-                  <ng-template #rtTypeDocument let-r="result" let-t="typeDocument">
-                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                  </ng-template>
-                </form>
-                <app-form-index></app-form-index>
+                  <!--<div class="col-6">
+                    <app-datatables *ngIf="tableRegister" [data]="registers" [columns]="columnsRegisters">
+                    </app-datatables>
+                  </div>-->
+                </div>
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
@@ -114,7 +131,7 @@
   <br />
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <app-datatables [data]="volumes" [columns]="columns">
+      <app-datatables *ngIf="!tableRegister && !document" [data]="volumes" [columns]="columns" (show)="getVolume($event)">
       </app-datatables>
     </div>
   </div>

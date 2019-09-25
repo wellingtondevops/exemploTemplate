@@ -16,10 +16,9 @@ export class RegistersService {
 
 
   listregister(volume){
-    return this.http.get<RegistersList>(`${url}/listregister?volume=${volume}`)
+    return this.http.get<RegistersList>(`${url}/listregisters?volume=${volume}`)
     .pipe(
       tap(data => data)
     )
   }
-
 }

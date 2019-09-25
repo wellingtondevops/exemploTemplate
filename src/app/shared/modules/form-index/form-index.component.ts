@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, Injectable, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Document } from '../../../models/document'
 
 @Component({
     selector: 'app-form-index',
@@ -9,7 +10,13 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 })
 @Injectable()
 export class FormIndexComponent implements OnInit {
-    data = {
+    @Input() data: Document;
+    firstMoment = false;
+    document: Document;
+    form = new FormGroup({});
+    model: any;
+    fields: any;
+    /* data = {
         "_links": {
             "self": "/docts/5d555a736f32e97b7bff60df"
         },
@@ -39,15 +46,70 @@ export class FormIndexComponent implements OnInit {
                 "uniq": false
             }
         ]
-    };
+    }; */
 
     constructor() {
+        console.log('data', this.data)
     }
 
-    ngOnInit() {}
-    form = new FormGroup({});
-    model = { email: 'email@gmail.com' };
-    fields: FormlyFieldConfig[] = [{
+    ngOnChanges(changes: SimpleChanges) {
+        console.log(changes)
+        if (!this.firstMoment) {
+            this.firstMoment = true;
+            // this.columns.push({ name: '', cellTemplate: this.showTmpl });
+        }
+        // tslint:disable-next-line:forin
+        for (const propName in changes) {
+            const change = changes[propName];
+            console.log('change', change)
+            this.document = change.currentValue;
+            this.model = this.objectModel(this.document.label);
+            this.fields = this.arrayLabelForm(this.document.label);
+            // this.page.totalElements = change.currentValue._links.foundItems;
+            // this.page.pageNumber = change.currentValue._links.currentPage;
+        }
+    }
+
+    typeInput(element) {
+        var type = 'input'
+        switch (element) {
+            case 'DATA':
+                type = 'input'
+                break
+            case 'TEXTO':
+                type = 'input'
+                break
+        }
+        return type
+    }
+
+    arrayLabelForm(labels) {
+        var array = labels.map(element => {
+            return {
+                key: element.namefield,
+                type: this.typeInput(element.typeField),
+                templateOptions: {
+                    label: element.namefield,
+                    placeholder: element.namefield,
+                    required: false,
+                }
+            }
+        });
+        console.log(array)
+        return array
+    }
+
+    objectModel(labels){
+        var newObj = {}
+        labels.map(element => {
+            newObj[element.namefield] = ''
+        })
+        console.log(newObj)
+        return newObj
+    }
+
+    ngOnInit() { }
+/*[{
       key: 'email',
       type: 'input',
       templateOptions: {
@@ -55,9 +117,11 @@ export class FormIndexComponent implements OnInit {
         placeholder: 'Enter email',
         required: true,
       }
-    }];
-  
-    submit(model) {
-      console.log(model);
+    }];*/
+
+
+    submit() {
+        console.log(this.fields)
+        console.log(this.model);
     }
 }
