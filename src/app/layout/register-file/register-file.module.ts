@@ -7,6 +7,7 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ListComponent } from './list/list.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [ListComponent],
@@ -21,6 +22,7 @@ import { ListComponent } from './list/list.component';
     NgbModule,
     TranslateModule,
     ButtonsCustomModule,
+    NgxDatatableModule,
     NgxLoadingModule.forRoot({})
   ],
   providers: [NgbActiveModal]

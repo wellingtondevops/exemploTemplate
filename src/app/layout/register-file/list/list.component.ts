@@ -27,6 +27,7 @@ import { RegistersList } from 'src/app/models/register';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+  @ViewChild('myTable') table: any;
   tableRegister: Boolean = false;
   companies: any = [];
   registerFileForm: FormGroup;
@@ -35,7 +36,7 @@ export class ListComponent implements OnInit {
   inputBlock: Boolean = false;
   document: any;
   documents: any;
-  registers: RegistersList = {
+  registers: any = {
     _links: {
       self: '',
       totalPage: 0,
@@ -71,9 +72,9 @@ export class ListComponent implements OnInit {
   ];
 
   columnsRegisters = [
-    /* { name: 'Id', prop: '_id' }, */
-    { name: 'Doct', prop: 'doct._id' },
-    /*{ name: 'Label', prop: 'doct.label', width: 70 }*/,
+    { name: 'Id', prop: '_id' },
+    /*{ name: 'Doct', prop: 'doct._id' },
+    { name: 'Label', prop: 'doct.label', width: 70 }*/,
     /*{ name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
     { name: 'Referência', prop: 'reference', width: 70 },
@@ -167,6 +168,7 @@ export class ListComponent implements OnInit {
     var company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
     var location = this.registerFileForm.value.location;
+    this.tableRegister = false;
     this.volumesSrv.listvolume(storehouse_id, company_id, location, description).subscribe(
       data => {
         console.log(data)
@@ -199,8 +201,10 @@ export class ListComponent implements OnInit {
   }
 
   getRegisterVolume(volume_id) {
+    console.log('volume_id', volume_id)
     this.registerSrv.listregister(volume_id).subscribe(data => {
-      this.registers = data;
+      this.registers = data.items;
+      console.log('registers', this.registers)
       this.registerPage.pageNumber = data._links.currentPage;
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
@@ -214,6 +218,15 @@ export class ListComponent implements OnInit {
 
   getRegister() {
     this.getDocument()
+  }
+
+  toggleExpandRow(row) {
+    // console.log('Toggled Expand Row!', row);
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event) {
+    // console.log('Detail Toggled', event);
   }
 
   searchDocts = (text$: Observable<string>) =>

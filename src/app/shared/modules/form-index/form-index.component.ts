@@ -120,7 +120,8 @@ export class FormIndexComponent implements OnInit {
     }];*/
 
 
-    submit() {
+    postArchive(model) {
+        console.log('model', model)
         console.log(this.fields)
         console.log(this.model);
     }
