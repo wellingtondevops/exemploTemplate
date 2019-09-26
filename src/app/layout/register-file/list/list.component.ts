@@ -16,6 +16,8 @@ import { Page } from 'src/app/models/page';
 import { DoctypesService } from 'src/app/services/doctypes/doctypes.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { RegistersService } from 'src/app/services/registers/registers.service';
+import { RegistersList } from 'src/app/models/register';
 
 
 @Component({
@@ -25,12 +27,25 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+  @ViewChild('myTable') table: any;
+  tableRegister: Boolean = false;
   companies: any = [];
   registerFileForm: FormGroup;
+  typeDocumentForm: FormGroup;
   storeHouses: any = [];
   inputBlock: Boolean = false;
   document: any;
   documents: any;
+  registers: any = {
+    _links: {
+      self: '',
+      totalPage: 0,
+      currentPage: 0,
+      foundItems: 0,
+      next: ''
+    },
+    items: []
+  }
   volumes: VolumeList = {
     _links: {
       currentPage: 0,
@@ -41,7 +56,9 @@ export class ListComponent implements OnInit {
     },
     items: []
   };
+  tabIndex: Boolean = true;
   page = new Page();
+  registerPage = new Page();
   @ViewChild('tab') private tab: NgbTabset;
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
@@ -54,6 +71,16 @@ export class ListComponent implements OnInit {
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }*/
   ];
 
+  columnsRegisters = [
+    { name: 'Id', prop: '_id' },
+    /*{ name: 'Doct', prop: 'doct._id' },
+    { name: 'Label', prop: 'doct.label', width: 70 }*/,
+    /*{ name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
+    { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
+    { name: 'Referência', prop: 'reference', width: 70 },
+    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }*/
+  ]
+
   constructor(
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -64,16 +91,19 @@ export class ListComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private storeHousesSrv: StorehousesService,
     private volumesSrv: VolumesService,
-    private documentsSrv: DocumentsService
+    private documentsSrv: DocumentsService,
+    private registerSrv: RegistersService
   ) { }
 
   ngOnInit() {
+    this.typeDocumentForm = this.fb.group({
+      typeDocument: this.fb.control('', [Validators.required])
+    })
     this.registerFileForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
       storehouse: this.fb.control('', [Validators.required]),
       location: this.fb.control(''),
-      description: this.fb.control(''),
-      typeDocument: this.fb.control('', [Validators.required])
+      description: this.fb.control('')
     });
 
     this.getCompanies();
@@ -88,7 +118,7 @@ export class ListComponent implements OnInit {
     return this.registerFileForm.get('storehouse');
   }
   get typeDocument() {
-    return this.registerFileForm.get('typeDocument');
+    return this.typeDocumentForm.get('typeDocument');
   }
 
   blockInputs() {
@@ -138,14 +168,7 @@ export class ListComponent implements OnInit {
     var company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
     var location = this.registerFileForm.value.location;
-    var typeDocument = this.registerFileForm.value.typeDocument._id;
-    console.log('data', storehouse_id)
-    console.log('data', company_id)
-    console.log('data', description)
-    console.log('data', location)
-    console.log('docts', typeDocument)
-    this.getDocument(typeDocument)
-
+    this.tableRegister = false;
     this.volumesSrv.listvolume(storehouse_id, company_id, location, description).subscribe(
       data => {
         console.log(data)
@@ -153,6 +176,7 @@ export class ListComponent implements OnInit {
         this.page.pageNumber = data._links.currentPage;
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
+        this.tabIndex = false;
       }
     ), error => {
       this.errorMsg.errorMessages(error);
@@ -160,27 +184,61 @@ export class ListComponent implements OnInit {
     }
   }
 
-  getDocument(id){
-    this.documentsSrv.document(id).subscribe(data => {
-      console.log(data)
+  getDocument() {
+    var document_id = this.typeDocumentForm.value.typeDocument._id
+    this.documentsSrv.document(document_id).subscribe(data => {
+      console.log('document', data)
       this.document = data
-      this.tab.select('tab2');
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
     })
   }
 
+  getVolume(volume) {
+    this.getRegisterVolume(volume)
+    this.tab.select('tab2');
+  }
+
+  getRegisterVolume(volume_id) {
+    console.log('volume_id', volume_id)
+    this.registerSrv.listregister(volume_id).subscribe(data => {
+      this.registers = data.items;
+      console.log('registers', this.registers)
+      this.registerPage.pageNumber = data._links.currentPage;
+      this.registerPage.totalElements = data._links.foundItems;
+      this.registerPage.size = data._links.totalPage;
+      this.tableRegister = true;
+      console.log('registers', this.registers);
+      console.log('tableRegister', this.tableRegister);
+    }, error => {
+      console.log('error', error)
+    })
+  }
+
+  getRegister() {
+    this.getDocument()
+  }
+
+  toggleExpandRow(row) {
+    // console.log('Toggled Expand Row!', row);
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event) {
+    // console.log('Detail Toggled', event);
+  }
+
   searchDocts = (text$: Observable<string>) =>
-  text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map(typeDocument =>
-      typeDocument.length < 2
-        ? []
-        : _.filter(this.documents, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10)
-    )
-  );
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(typeDocument =>
+        typeDocument.length < 2
+          ? []
+          : _.filter(this.documents, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10)
+      )
+    );
 
   search = (text$: Observable<string>) =>
     text$.pipe(
