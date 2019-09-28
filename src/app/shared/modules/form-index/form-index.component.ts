@@ -61,7 +61,6 @@ export class FormIndexComponent implements OnInit {
         // tslint:disable-next-line:forin
         for (const propName in changes) {
             const change = changes[propName];
-            console.log('change', change)
             this.document = change.currentValue;
             this.model = this.objectModel(this.document.label);
             this.fields = this.arrayLabelForm(this.document.label);
@@ -84,10 +83,18 @@ export class FormIndexComponent implements OnInit {
     }
 
     arrayLabelForm(labels) {
-        var array = labels.map(element => {
+        var array = labels.map((element, i) => {
             return {
+                id: "formindex",
                 key: element.namefield,
                 type: this.typeInput(element.typeField),
+                expressionProperties: {
+                    "templateOptions.focus": (i) => {
+                        if(i === 0) {
+                            return true
+                        }
+                    },
+                },
                 templateOptions: {
                     label: element.namefield,
                     placeholder: element.namefield,
@@ -95,7 +102,6 @@ export class FormIndexComponent implements OnInit {
                 }
             }
         });
-        console.log(array)
         return array
     }
 
@@ -104,7 +110,6 @@ export class FormIndexComponent implements OnInit {
         labels.map(element => {
             newObj[element.namefield] = ''
         })
-        console.log(newObj)
         return newObj
     }
 

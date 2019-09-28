@@ -87,30 +87,13 @@
               <ng-template ngbTabContent>
                 <div class="row">
                   <div class="col-6">
-                    <form [formGroup]="typeDocumentForm" role="FormGroup" class="form-inline"
-                      (ngSubmit)="getDocument()">
+<!--                     <form [formGroup]="typeDocumentForm" role="FormGroup" class="form-inline">
                       <div class="form-group col-10">
                         <label for="typeDocument">Tipo do Documento</label>
-                        <!--<input id="typeDocument" class="form-control col-12" formControlName="typeDocument" />-->
-                        <input id="typeahead-basic" type="text" class="form-control" formControlName="typeDocument"
-                          [resultTemplate]="rtTypeDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocts"
-                          style="width: 100%" [ngClass]="{ 'is-invalid': !typeDocument.valid }" />
-                        <div *ngIf="typeDocument.invalid && (typeDocument.dirty || typeDocument.touched)"
-                          class="invalid-feedback">
-                          <div *ngIf="!typeDocument.valid">
-                            Tipo de documento é obrigatório.
-                          </div>
-                        </div>
+                        
+                        <input id="typeDocument" type="text" class="form-control" formControlName="typeDocument" />
                       </div>
-                      <ng-template #rtTypeDocument let-r="result" let-t="typeDocument">
-                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                      </ng-template>
-                      <div class="form-group mb-2 col-2">
-                        <button type="submit" class="btn btn-default pull-right" style="margin-top:20px">
-                          <i class="fa fa-search"></i>
-                        </button>
-                      </div>
-                    </form>
+                    </form> -->
                     <br>
                     <app-form-index *ngIf="document" [data]="document"></app-form-index>
                     <br>
@@ -121,7 +104,7 @@
                     <br>
                     <ngx-datatable *ngIf="tableRegister" #myTable class="material" [rows]="registers" [columnMode]="'force'"
                       [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
-                      [count]="registerPage.totalElements" [offset]="registerPage.pageNumber" [limit]="50" >
+                      [count]="registerPage.totalElements" [offset]="registerPage.pageNumber" [limit]="50" (page)="setPageRegisters($event)" >
                       <!-- Row Detail Template -->
                       <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
                         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
@@ -147,7 +130,7 @@
                           </a>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column name="Id" [width]="200" prop="_id">
+                      <ngx-datatable-column name="Dados Indexados" [width]="200" prop="index">
                       </ngx-datatable-column>
                       <!-- <ngx-datatable-column name="Descrição" [width]="200" prop="volume.description">
                       </ngx-datatable-column>
