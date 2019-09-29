@@ -29,12 +29,23 @@ import { RegistersList } from 'src/app/models/register';
 export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   tableRegister: Boolean = false;
-  companies: any = [];
+  loading: Boolean = false;
+  companies: any = {
+    _links: {
+      self: '',
+      totalPage: 0,
+      currentPage: 0,
+      foundItems: 0,
+      next: ''
+    },
+    items: []
+  };
   registerFileForm: FormGroup;
   typeDocumentForm: FormGroup;
   storeHouses: any = [];
   inputBlock: Boolean = false;
   document: any;
+  document_id: string;
   documents: any;
   registers: any = {
     _links: {
@@ -72,10 +83,10 @@ export class ListComponent implements OnInit {
   ];
 
   columnsRegisters = [
-    { name: 'Id', prop: '_id' },
+    { name: 'Dados Indexados', prop: 'index' },
     /*{ name: 'Doct', prop: 'doct._id' },
-    { name: 'Label', prop: 'doct.label', width: 70 }*/,
-    /*{ name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
+    { name: 'Label', prop: 'doct.label', width: 70 },
+    { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
     { name: 'Referência', prop: 'reference', width: 70 },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }*/
@@ -92,7 +103,8 @@ export class ListComponent implements OnInit {
     private storeHousesSrv: StorehousesService,
     private volumesSrv: VolumesService,
     private documentsSrv: DocumentsService,
-    private registerSrv: RegistersService
+    private registerSrv: RegistersService,
+    private doctypesSrv: DoctypesService
   ) { }
 
   ngOnInit() {
@@ -105,10 +117,9 @@ export class ListComponent implements OnInit {
       location: this.fb.control(''),
       description: this.fb.control('')
     });
-
+    this.loading = true;
     this.getCompanies();
     this.getStoreHouses();
-    this.getListDocts();
   }
 
   get company() {
@@ -117,9 +128,9 @@ export class ListComponent implements OnInit {
   get storehouse() {
     return this.registerFileForm.get('storehouse');
   }
-  get typeDocument() {
-    return this.typeDocumentForm.get('typeDocument');
-  }
+  /*   get typeDocument() {
+      return this.typeDocumentForm.get('typeDocument');
+    } */
 
   blockInputs() {
     !this.inputBlock ? (this.inputBlock = true) : (this.inputBlock = false);
@@ -135,59 +146,52 @@ export class ListComponent implements OnInit {
       error => {
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
+        this.loading = false;
       }
     );
-  }
-
-  getListDocts() {
-    this.doctsSrv.listdocts().subscribe(data => {
-      console.log(data)
-      this.documents = data.items;
-    }, error => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    })
   }
 
   getStoreHouses() {
     this.storeHousesSrv.searchStorehouses().subscribe(
       data => {
-        // this.loading = false;
+        this.loading = false;
         this.storeHouses = data.items;
       },
       error => {
         // this.loading = false;
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
+        this.loading = false;
       }
     );
   }
 
   getVolumesList() {
+    this.loading = true;
+    this.tableRegister = false;
     var storehouse_id = this.registerFileForm.value.storehouse._id;
     var company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
     var location = this.registerFileForm.value.location;
-    this.tableRegister = false;
     this.volumesSrv.listvolume(storehouse_id, company_id, location, description).subscribe(
       data => {
-        console.log(data)
         this.volumes = data;
         this.page.pageNumber = data._links.currentPage;
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
         this.tabIndex = false;
+        this.loading = false;
       }
     ), error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
+      this.loading = false;
     }
   }
 
   getDocument() {
     var document_id = this.typeDocumentForm.value.typeDocument._id
     this.documentsSrv.document(document_id).subscribe(data => {
-      console.log('document', data)
       this.document = data
     }, error => {
       this.errorMsg.errorMessages(error);
@@ -196,25 +200,66 @@ export class ListComponent implements OnInit {
   }
 
   getVolume(volume) {
+    this.loading = true;
     this.getRegisterVolume(volume)
     this.tab.select('tab2');
   }
 
   getRegisterVolume(volume_id) {
-    console.log('volume_id', volume_id)
     this.registerSrv.listregister(volume_id).subscribe(data => {
-      this.registers = data.items;
-      console.log('registers', this.registers)
+      this.registers = this.newRegisters(data.items);
+      this.getDoctype(this.registers[0].doct._id);
       this.registerPage.pageNumber = data._links.currentPage;
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
       this.tableRegister = true;
-      console.log('registers', this.registers);
-      console.log('tableRegister', this.tableRegister);
+      this.loading = false;
+    }, error => {
+      console.log('error', error);
+      this.loading = false;
+    })
+  }
+
+  newRegisters(registers) {
+    registers.map(item => {
+      item.index = this.mapLabel(item.doct.label, item.tag);
+    })
+    return registers
+  }
+
+  mapLabel(labels, tags) {
+    var obj = ''
+    labels.map((item, i) => {
+      if(i === (labels.length - 1)){
+        obj += `${item.namefield}: ${tags[i]}`
+      } else {
+        obj += `${item.namefield}: ${tags[i]} | `
+      }
+    })
+    return obj
+  }
+
+  getDoctype(doctype_id) {
+    this.doctypesSrv.doctype(doctype_id).subscribe(data => {
+      this.document = data;
+      this.typeDocumentForm.value.typeDocument = this.document.name;
     }, error => {
       console.log('error', error)
     })
   }
+
+  setPageRegisters(pageInfo) {
+    this.page.pageNumber = pageInfo.offset;
+
+    this.registerSrv.listregister(this.page).subscribe(data => {
+      this.registers = this.newRegisters(data.items);
+      // this.getDoctype(this.registers[0].doct._id);
+      this.registerPage.pageNumber = data._links.currentPage;
+      this.registerPage.totalElements = data._links.foundItems;
+      this.registerPage.size = data._links.totalPage;
+      this.tableRegister = true;
+    });
+}
 
   getRegister() {
     this.getDocument()
@@ -229,16 +274,16 @@ export class ListComponent implements OnInit {
     // console.log('Detail Toggled', event);
   }
 
-  searchDocts = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(typeDocument =>
-        typeDocument.length < 2
-          ? []
-          : _.filter(this.documents, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10)
-      )
-    );
+  /*   searchDocts = (text$: Observable<string>) =>
+      text$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        map(typeDocument =>
+          typeDocument.length < 2
+            ? []
+            : _.filter(this.documents, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10)
+        )
+      ); */
 
   search = (text$: Observable<string>) =>
     text$.pipe(
