@@ -18,7 +18,7 @@
                 <form [formGroup]="registerFileForm" role="FormGroup" class="form-inline">
                   <div class="form-group mb-2 col-4">
                     <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="company"
                       [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                       [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
                     <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
@@ -163,7 +163,7 @@
   <br />
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <app-datatables *ngIf="!tableRegister && !document" [data]="volumes" [columns]="columns"
+      <app-datatables *ngIf="!tableRegister" [data]="volumes" [columns]="columns"
         (show)="getVolume($event)">
       </app-datatables>
     </div>

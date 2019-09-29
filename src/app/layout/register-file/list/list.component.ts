@@ -29,6 +29,7 @@ import { RegistersList } from 'src/app/models/register';
 export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   tableRegister: Boolean = false;
+  loading: Boolean = false;
   companies: any = {
     _links: {
       self: '',
@@ -116,10 +117,9 @@ export class ListComponent implements OnInit {
       location: this.fb.control(''),
       description: this.fb.control('')
     });
-
+    this.loading = true;
     this.getCompanies();
     this.getStoreHouses();
-    this.getListDocts();
   }
 
   get company() {
@@ -146,39 +146,33 @@ export class ListComponent implements OnInit {
       error => {
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
+        this.loading = false;
       }
     );
-  }
-
-  getListDocts() {
-    this.doctsSrv.listdocts().subscribe(data => {
-      this.documents = data.items;
-    }, error => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    })
   }
 
   getStoreHouses() {
     this.storeHousesSrv.searchStorehouses().subscribe(
       data => {
-        // this.loading = false;
+        this.loading = false;
         this.storeHouses = data.items;
       },
       error => {
         // this.loading = false;
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
+        this.loading = false;
       }
     );
   }
 
   getVolumesList() {
+    this.loading = true;
+    this.tableRegister = false;
     var storehouse_id = this.registerFileForm.value.storehouse._id;
     var company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
     var location = this.registerFileForm.value.location;
-    this.tableRegister = false;
     this.volumesSrv.listvolume(storehouse_id, company_id, location, description).subscribe(
       data => {
         this.volumes = data;
@@ -186,10 +180,12 @@ export class ListComponent implements OnInit {
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
         this.tabIndex = false;
+        this.loading = false;
       }
     ), error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
+      this.loading = false;
     }
   }
 
@@ -204,6 +200,7 @@ export class ListComponent implements OnInit {
   }
 
   getVolume(volume) {
+    this.loading = true;
     this.getRegisterVolume(volume)
     this.tab.select('tab2');
   }
@@ -216,8 +213,10 @@ export class ListComponent implements OnInit {
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
       this.tableRegister = true;
+      this.loading = false;
     }, error => {
-      console.log('error', error)
+      console.log('error', error);
+      this.loading = false;
     })
   }
 
@@ -250,7 +249,6 @@ export class ListComponent implements OnInit {
   }
 
   setPageRegisters(pageInfo) {
-    console.log(pageInfo)
     this.page.pageNumber = pageInfo.offset;
 
     this.registerSrv.listregister(this.page).subscribe(data => {
