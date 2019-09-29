@@ -7,10 +7,9 @@ import { Router } from '@angular/router';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import _ from 'lodash';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
-import { VolumeList } from 'src/app/models/volume';
+import { VolumeList, Volume } from 'src/app/models/volume';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { DoctypesService } from 'src/app/services/doctypes/doctypes.service';
@@ -18,7 +17,8 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { RegistersService } from 'src/app/services/registers/registers.service';
 import { RegistersList } from 'src/app/models/register';
-
+import { ArquivesService } from 'src/app/services/archives/archives.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-list',
@@ -30,6 +30,8 @@ export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   tableRegister: Boolean = false;
   loading: Boolean = false;
+  company_id: string;
+  storeHouse_id: string;
   companies: any = {
     _links: {
       self: '',
@@ -47,6 +49,7 @@ export class ListComponent implements OnInit {
   document: any;
   document_id: string;
   documents: any;
+  volume: Volume;
   registers: any = {
     _links: {
       self: '',
@@ -104,7 +107,8 @@ export class ListComponent implements OnInit {
     private volumesSrv: VolumesService,
     private documentsSrv: DocumentsService,
     private registerSrv: RegistersService,
-    private doctypesSrv: DoctypesService
+    private doctypesSrv: DoctypesService,
+    private archivesSrv: ArquivesService
   ) { }
 
   ngOnInit() {
@@ -169,11 +173,11 @@ export class ListComponent implements OnInit {
   getVolumesList() {
     this.loading = true;
     this.tableRegister = false;
-    var storehouse_id = this.registerFileForm.value.storehouse._id;
-    var company_id = this.registerFileForm.value.company._id;
+    this.storeHouse_id = this.registerFileForm.value.storehouse._id;
+    this.company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
     var location = this.registerFileForm.value.location;
-    this.volumesSrv.listvolume(storehouse_id, company_id, location, description).subscribe(
+    this.volumesSrv.listvolume(this.storeHouse_id, this.company_id, location, description).subscribe(
       data => {
         this.volumes = data;
         this.page.pageNumber = data._links.currentPage;
@@ -189,7 +193,7 @@ export class ListComponent implements OnInit {
     }
   }
 
-  getDocument() {
+/*   getDocument() {
     var document_id = this.typeDocumentForm.value.typeDocument._id
     this.documentsSrv.document(document_id).subscribe(data => {
       this.document = data
@@ -197,11 +201,16 @@ export class ListComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
     })
-  }
+  } */
 
   getVolume(volume) {
     this.loading = true;
     this.getRegisterVolume(volume)
+    this.volumesSrv.volume(volume).subscribe(data => {
+      this.volume = data
+    }, error => {
+      console.log(error)
+    })
     this.tab.select('tab2');
   }
 
@@ -215,7 +224,7 @@ export class ListComponent implements OnInit {
       this.tableRegister = true;
       this.loading = false;
     }, error => {
-      console.log('error', error);
+      console.log('ERROR:', error);
       this.loading = false;
     })
   }
@@ -230,7 +239,7 @@ export class ListComponent implements OnInit {
   mapLabel(labels, tags) {
     var obj = ''
     labels.map((item, i) => {
-      if(i === (labels.length - 1)){
+      if (i === (labels.length - 1)) {
         obj += `${item.namefield}: ${tags[i]}`
       } else {
         obj += `${item.namefield}: ${tags[i]} | `
@@ -244,7 +253,7 @@ export class ListComponent implements OnInit {
       this.document = data;
       this.typeDocumentForm.value.typeDocument = this.document.name;
     }, error => {
-      console.log('error', error)
+      console.log('ERROR', error)
     })
   }
 
@@ -258,11 +267,10 @@ export class ListComponent implements OnInit {
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
       this.tableRegister = true;
+    }, error => {
+      // this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
     });
-}
-
-  getRegister() {
-    this.getDocument()
   }
 
   toggleExpandRow(row) {
@@ -274,16 +282,36 @@ export class ListComponent implements OnInit {
     // console.log('Detail Toggled', event);
   }
 
-  /*   searchDocts = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        map(typeDocument =>
-          typeDocument.length < 2
-            ? []
-            : _.filter(this.documents, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10)
-        )
-      ); */
+  postArchive(data) {
+    this.loading = true;
+    const storehouse = this.storeHouse_id;
+    const doct = this.document._id;
+    const company = this.company_id;
+    const tag = _.values(data);
+    let uniqueness = '';
+    let labelsTrueLength = _.filter(this.document.label,['uniq', true])
+    this.document.label.map((label, i) => {
+      if(label.uniq){
+        if(i === (labelsTrueLength.length - 1)){
+          uniqueness += `${tag[i]}`
+        } else {
+          uniqueness += `${tag[i]}-`
+        }
+      }
+    })
+    console.log('arquive to index', { tag, company, doct, storehouse, uniqueness });
+    this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness }).subscribe(data => {
+      if (data._id) {
+        console.log('success', data)
+        this.loading = false;
+        this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
+    }
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    }) 
+  }
 
   search = (text$: Observable<string>) =>
     text$.pipe(

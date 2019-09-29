@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Injectable, SimpleChanges } from '@angular/core';
+import { Component, Input, EventEmitter, Injectable, SimpleChanges, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Document } from '../../../models/document'
@@ -11,11 +11,12 @@ import { Document } from '../../../models/document'
 @Injectable()
 export class FormIndexComponent {
     @Input() data: Document;
+    @Output() sendArchive = new EventEmitter();
     firstMoment = false;
     document: Document;
     form = new FormGroup({});
     model: any;
-    fields: FormlyFieldConfig[];
+    fields: any;
 
     constructor() {
     }
@@ -50,7 +51,7 @@ export class FormIndexComponent {
         var array = labels.map((element, i) => {
             var result = {
                 id: `formindex${i}`,
-                key: `formindex${i}`,
+                key: element.namefield,
                 type: this.typeInput(element.typeField),
                 templateOptions: {
                     label: element.namefield,
@@ -82,8 +83,6 @@ export class FormIndexComponent {
     }
 
     postArchive(model) {
-        console.log('model', model)
-        console.log(this.fields)
-        console.log(this.model);
+        this.sendArchive.emit(model);
     }
 }

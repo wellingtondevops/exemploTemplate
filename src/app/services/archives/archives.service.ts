@@ -17,22 +17,29 @@ export class ArquivesService {
   archives(page) {
     if (page) {
       return this.http.get<ArchivesList>(`${url}/archives?_page=${page.pageNumber}`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     } else {
       return this.http.get<ArchivesList>(`${url}/archives`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     }
 
   }
 
   archive(id) {
     return this.http.get<Archive>(`${url}/archives/${id}`)
-    .pipe(
+      .pipe(
         tap(data => data)
-    );
+      );
+  }
+
+  newArchive(archive) {
+    return this.http.post<Archive>(`${url}/archives`, archive)
+      .pipe(
+        tap(data => data)
+      );
   }
 }
