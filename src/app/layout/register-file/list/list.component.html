@@ -95,7 +95,7 @@
                       </div>
                     </form> -->
                     <br>
-                    <app-form-index *ngIf="document" [data]="document"></app-form-index>
+                    <app-form-index *ngIf="document" [data]="document" (sendArchive)="postArchive($event)"></app-form-index>
                     <br>
                     <br>
                     <br>
