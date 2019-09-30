@@ -12,6 +12,8 @@
     <app-page-header [id]="storeHouse._id" [heading]="'Dados do Armazém'" [icon]="'fa-house'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body">
+            <app-button-back [redirectTo]="'storehouses'"
+            ></app-button-back>
             <app-buttons-custom
                 (edit)="editStoreHouse(storeHouse._id)"
                 (delete)="open('focusFirst', storeHouse._id)"
