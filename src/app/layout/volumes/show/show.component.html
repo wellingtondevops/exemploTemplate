@@ -1,40 +1,29 @@
 <div [@routerTransition]>
-    <ngx-loading
-        [show]="loading"
-        [config]="{
+    <ngx-loading [show]="loading" [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
-        }"
-    ></ngx-loading>
+        }"></ngx-loading>
     <app-page-header [heading]="'Dados do Volume'" [icon]="'fa-user'"></app-page-header>
+    <div style="margin-bottom: 10px">
+        <app-button-back [redirectTo]="'volumes'"></app-button-back>
+        <app-buttons-custom [id]="volume._id" (edit)="editVolume(volume._id)" (delete)="open('focusFirst', volume._id)"
+            [permissionEdit]="['DAENERYS', 'TYWIN']" [permissionDelete]="['DAENERYS', 'TYWIN']"></app-buttons-custom>
+        <br />
+    </div>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <app-buttons-custom
-                [id]="volume._id"
-                (edit)="editVolume(volume._id)"
-                (delete)="open('focusFirst', volume._id)"
-                [permissionEdit]="['DAENERYS', 'TYWIN']"
-                [permissionDelete]="['DAENERYS', 'TYWIN']"
-            ></app-buttons-custom>
-            <br />
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="updateVolume()">
                 <div class="form-content">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
-                        <input
-                            id="typeahead-basic"
-                            type="text"
-                            class="form-control"
-                            formControlName="company"
-                            [resultTemplate]="rtCompany"
-                            [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }"
-                        />
-                        <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                            [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
+                        <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
+                            class="invalid-feedback">
                             <div *ngIf="!companyIpt.valid">
                                 Empresa é obrigatória.
                             </div>
@@ -43,30 +32,18 @@
 
                     <div class="form-group">
                         <label for="typeahead-basic">Departamento</label>
-                        <input
-                            id="typeahead-basic"
-                            type="text"
-                            class="form-control"
-                            formControlName="departament"
-                            [resultTemplate]="rtDepartament"
-                            [inputFormatter]="formatterDepartament"
-                            [ngbTypeahead]="searchDepartament"
-                        />
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
+                            [resultTemplate]="rtDepartament" [inputFormatter]="formatterDepartament"
+                            [ngbTypeahead]="searchDepartament" />
                     </div>
 
                     <div class="form-group">
                         <label for="typeahead-basic">Armazém</label>
-                        <input
-                            id="typeahead-basic"
-                            type="text"
-                            class="form-control"
-                            formControlName="storehouse"
-                            [resultTemplate]="rtStoreHouse"
-                            [inputFormatter]="formatter"
-                            [ngbTypeahead]="search"
-                            [ngClass]="{ 'is-invalid': !storehouse.valid && !storehouse.disabled }"
-                        />
-                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)" class="invalid-feedback">
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
+                            [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"
+                            [ngClass]="{ 'is-invalid': !storehouse.valid && !storehouse.disabled }" />
+                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
+                            class="invalid-feedback">
                             <div *ngIf="!storehouse.valid">
                                 Armazém é obrigatório.
                             </div>
@@ -75,17 +52,13 @@
 
                     <div class="form-group">
                         <label for="">Tipo de Volume</label>
-                        <select
-                            class="form-control"
-                            id="volumeType"
-                            formControlName="volumeType"
-                            [ngClass]="{ 'is-invalid': !volumeType.valid && !volumeType.disabled }"
-                        >
+                        <select class="form-control" id="volumeType" formControlName="volumeType"
+                            [ngClass]="{ 'is-invalid': !volumeType.valid && !volumeType.disabled }">
                             <option *ngFor="let volumeT of volumeTypeList | enumToArray" [value]="volumeT">
-                                {{ volumeT | translate }}</option
-                            >
+                                {{ volumeT | translate }}</option>
                         </select>
-                        <div *ngIf="volumeType.invalid && (volumeType.dirty || volumeType.touched)" class="invalid-feedback">
+                        <div *ngIf="volumeType.invalid && (volumeType.dirty || volumeType.touched)"
+                            class="invalid-feedback">
                             <div *ngIf="!volumeType.valid">
                                 Tipo de volume é obrigatório.
                             </div>
@@ -94,16 +67,14 @@
 
                     <div class="form-group">
                         <label for="">Tipo de Guarda</label>
-                        <select
-                            class="form-control"
-                            id="guardType"
-                            formControlName="guardType"
+                        <select class="form-control" id="guardType" formControlName="guardType"
                             [ngClass]="{ 'is-invalid': !guardType.valid && !guardType.disabled }"
-                            (change)="changeGuardType()"
-                        >
-                            <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT"> {{ guardT | translate }}</option>
+                            (change)="changeGuardType()">
+                            <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
+                                {{ guardT | translate }}</option>
                         </select>
-                        <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)" class="invalid-feedback">
+                        <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)"
+                            class="invalid-feedback">
                             <div *ngIf="!guardType.valid">
                                 Tipo de volume é obrigatório.
                             </div>
@@ -112,14 +83,10 @@
 
                     <div class="form-group">
                         <label for="">Descrição</label>
-                        <input
-                            type="text"
-                            placeholder="Descrição"
-                            class="form-control"
-                            formControlName="description"
-                            [ngClass]="{ 'is-invalid': !description.valid && !description.disabled }"
-                        />
-                        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="invalid-feedback">
+                        <input type="text" placeholder="Descrição" class="form-control" formControlName="description"
+                            [ngClass]="{ 'is-invalid': !description.valid && !description.disabled }" />
+                        <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                            class="invalid-feedback">
                             <div *ngIf="!description.valid">
                                 Descrição é obrigatório.
                             </div>
@@ -128,13 +95,8 @@
 
                     <div class="form-group">
                         <label for="">Localização</label>
-                        <input
-                            type="text"
-                            placeholder="Localização"
-                            class="form-control"
-                            formControlName="location"
-                            [ngClass]="{ 'is-invalid': !location.valid && !location.disabled }"
-                        />
+                        <input type="text" placeholder="Localização" class="form-control" formControlName="location"
+                            [ngClass]="{ 'is-invalid': !location.valid && !location.disabled }" />
                         <div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
                             <div *ngIf="!location.valid">
                                 Localização é obrigatório.
@@ -144,14 +106,10 @@
 
                     <div class="form-group" [hidden]="hiddenReference">
                         <label for="">Referência</label>
-                        <input
-                            type="text"
-                            placeholder="Referência"
-                            class="form-control"
-                            formControlName="reference"
-                            [ngClass]="{ 'is-invalid': !reference.valid }"
-                        />
-                        <div *ngIf="reference.invalid && (reference.dirty || reference.touched)" class="invalid-feedback">
+                        <input type="text" placeholder="Referência" class="form-control" formControlName="reference"
+                            [ngClass]="{ 'is-invalid': !reference.valid }" />
+                        <div *ngIf="reference.invalid && (reference.dirty || reference.touched)"
+                            class="invalid-feedback">
                             <div *ngIf="!reference.valid">
                                 Referência é obrigatória.
                             </div>
