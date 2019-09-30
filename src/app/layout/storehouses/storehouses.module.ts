@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StorehousesRoutingModule } from './storehouses-routing.module';
-import { PageHeaderModule, DatatablesModule, NgbdModalConfirmModule, ButtonsCustomModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, NgbdModalConfirmModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
@@ -22,6 +22,7 @@ import { NgxLoadingModule } from 'ngx-loading';
         DatatablesModule,
         NgbModule,
         ButtonsCustomModule,
+        ButtonBackModule,
         NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal]

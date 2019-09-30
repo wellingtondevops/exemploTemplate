@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { VolumesRoutingModule } from './volumes-routing.module';
-import { PageHeaderModule, DatatablesModule, ButtonsCustomModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
@@ -22,6 +22,7 @@ import { NgxLoadingModule } from 'ngx-loading';
         DatatablesModule,
         NgbModule,
         TranslateModule,
+        ButtonBackModule,
         ButtonsCustomModule,
         NgxLoadingModule,
         NgxLoadingModule.forRoot({})
