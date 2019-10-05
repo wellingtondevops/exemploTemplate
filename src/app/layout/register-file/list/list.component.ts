@@ -19,6 +19,7 @@ import { RegistersService } from 'src/app/services/registers/registers.service';
 import { RegistersList } from 'src/app/models/register';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import _ from 'lodash';
+import { DoctypeList, Doctype } from 'src/app/models/doctype';
 
 @Component({
   selector: 'app-list',
@@ -36,12 +37,13 @@ export class ListComponent implements OnInit {
     _links: {
       self: '',
       totalPage: 0,
-      currentPage: 0,
+      currentPage: 1,
       foundItems: 0,
       next: ''
     },
     items: []
   };
+  typeDocuments: Doctype[];
   registerFileForm: FormGroup;
   typeDocumentForm: FormGroup;
   storeHouses: any = [];
@@ -50,11 +52,13 @@ export class ListComponent implements OnInit {
   document_id: string;
   documents: any;
   volume: Volume;
+  notDocument: boolean;
+  location: string;
   registers: any = {
     _links: {
       self: '',
       totalPage: 0,
-      currentPage: 0,
+      currentPage: 1,
       foundItems: 0,
       next: ''
     },
@@ -62,7 +66,7 @@ export class ListComponent implements OnInit {
   }
   volumes: VolumeList = {
     _links: {
-      currentPage: 0,
+      currentPage: 1,
       foundItems: 0,
       next: '',
       self: '',
@@ -123,6 +127,7 @@ export class ListComponent implements OnInit {
     });
     this.loading = true;
     this.getCompanies();
+    this.getTypeDocuments()
     this.getStoreHouses();
   }
 
@@ -132,9 +137,9 @@ export class ListComponent implements OnInit {
   get storehouse() {
     return this.registerFileForm.get('storehouse');
   }
-  /*   get typeDocument() {
-      return this.typeDocumentForm.get('typeDocument');
-    } */
+  get typeDocument() {
+    return this.typeDocumentForm.get('typeDocument');
+  }
 
   blockInputs() {
     !this.inputBlock ? (this.inputBlock = true) : (this.inputBlock = false);
@@ -170,6 +175,12 @@ export class ListComponent implements OnInit {
     );
   }
 
+  getTypeDocuments() {
+    this.doctypesSrv.listdocts().subscribe(data => {
+      this.typeDocuments = data.items;
+    })
+  }
+
   getVolumesList() {
     this.loading = true;
     this.tableRegister = false;
@@ -193,20 +204,21 @@ export class ListComponent implements OnInit {
     }
   }
 
-/*   getDocument() {
-    var document_id = this.typeDocumentForm.value.typeDocument._id
-    this.documentsSrv.document(document_id).subscribe(data => {
-      this.document = data
-    }, error => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    })
-  } */
+  /*   getDocument() {
+      var document_id = this.typeDocumentForm.value.typeDocument._id
+      this.documentsSrv.document(document_id).subscribe(data => {
+        this.document = data
+      }, error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      })
+    } */
 
   getVolume(volume) {
+    console.log(volume)
     this.loading = true;
-    this.getRegisterVolume(volume)
-    this.volumesSrv.volume(volume).subscribe(data => {
+    this.getRegisterVolume(volume._id)
+    this.volumesSrv.volume(volume._id).subscribe(data => {
       this.volume = data
     }, error => {
       console.log(error)
@@ -215,9 +227,17 @@ export class ListComponent implements OnInit {
   }
 
   getRegisterVolume(volume_id) {
-    this.registerSrv.listregister(volume_id).subscribe(data => {
+    var page = {
+      pageNumber: 1
+    }
+    this.registerSrv.listregister(volume_id, page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
-      this.getDoctype(this.registers[0].doct._id);
+      if (this.registers.length !== 0) {
+        this.getDoctype(this.registers[0].doct._id);
+      } else {
+        this.notDocument = true;
+        this.loading = false;
+      }
       this.registerPage.pageNumber = data._links.currentPage;
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
@@ -258,9 +278,10 @@ export class ListComponent implements OnInit {
   }
 
   setPageRegisters(pageInfo) {
+    console.log('pageInfo', pageInfo)
     this.page.pageNumber = pageInfo.offset;
 
-    this.registerSrv.listregister(this.page).subscribe(data => {
+    this.registerSrv.listregister(this.volume._id, this.page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
       // this.getDoctype(this.registers[0].doct._id);
       this.registerPage.pageNumber = data._links.currentPage;
@@ -289,10 +310,10 @@ export class ListComponent implements OnInit {
     const company = this.company_id;
     const tag = _.values(data);
     let uniqueness = '';
-    let labelsTrueLength = _.filter(this.document.label,['uniq', true])
+    let labelsTrueLength = _.filter(this.document.label, ['uniq', true])
     this.document.label.map((label, i) => {
-      if(label.uniq){
-        if(i === (labelsTrueLength.length - 1)){
+      if (label.uniq) {
+        if (i === (labelsTrueLength.length - 1)) {
           uniqueness += `${tag[i]}`
         } else {
           uniqueness += `${tag[i]}-`
@@ -300,17 +321,17 @@ export class ListComponent implements OnInit {
       }
     })
     console.log('arquive to index', { tag, company, doct, storehouse, uniqueness });
-    this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness }).subscribe(data => {
+    this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness }).subscribe(data => {
       if (data._id) {
         console.log('success', data)
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
-    }
+      }
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    }) 
+    })
   }
 
   search = (text$: Observable<string>) =>
@@ -322,6 +343,18 @@ export class ListComponent implements OnInit {
           ? []
           : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
       )
+    );
+
+  searchTypeDocument = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(typeDocument => {
+        var res;
+        if (typeDocument.length < 2) [];
+        else var res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10);
+        return res;
+      })
     );
 
   searchCompany = (text$: Observable<string>) =>

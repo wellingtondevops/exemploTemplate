@@ -15,10 +15,17 @@ export class RegistersService {
   ) { }
 
 
-  listregister(volume){
-    return this.http.get<RegistersList>(`${url}/listregisters?volume=${volume}`)
-    .pipe(
-      tap(data => data)
-    )
+  listregister(volume, page, limit = 10) {
+    if (page) {
+      return this.http.get<RegistersList>(`${url}/listregisters?volume=${volume}&_page=${page.pageNumber}&size=${limit}`)
+      .pipe(
+        tap(data => data)
+      )
+    } else {
+      return this.http.get<RegistersList>(`${url}/listregisters?volume=${volume}&size=${limit}`)
+        .pipe(
+          tap(data => data)
+        )
+    }
   }
 }

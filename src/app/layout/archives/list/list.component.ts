@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
@@ -16,6 +16,7 @@ export class ListComponent implements OnInit {
   archives: Archive[];
   archivesCol: any[];
   page = new Page();
+  loading: boolean = false;
 
   constructor(
     private archiveSrv: ArquivesService,
@@ -23,8 +24,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.setPage({ offset: 1 });
-    this.listArquives();
+    this.setPage({ offset: 0 });
   }
 
   listArquives() {
@@ -34,20 +34,26 @@ export class ListComponent implements OnInit {
       this.page.size = data._links.totalPage;
       this.archives = data.items;
     },
-    (error) => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR:', error);
-    });
+      (error) => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      });
   }
 
   setPage(pageInfo) {
+    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    console.log(this.page)
 
     this.archiveSrv.archives(this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
-      this.page.size = data._links.totalPage;
       this.archives = data.items;
+      this.loading = false;
+      console.log(this.page)
+    }, error => {
+      this.loading = false;
+      console.log('ERROR: ', error);
     });
   }
 
@@ -64,8 +70,8 @@ export class ListComponent implements OnInit {
     let res = '';
     switch (value) {
       case 'GERENCIADA':
-         res = 'G';
-         break;
+        res = 'G';
+        break;
     }
     return res;
   }

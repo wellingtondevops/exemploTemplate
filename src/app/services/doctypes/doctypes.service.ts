@@ -17,28 +17,36 @@ export class DoctypesService {
   doctypes(page) {
     if (page) {
       return this.http.get<DoctypeList>(`${url}/docts?_page=${page.pageNumber}`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     } else {
       return this.http.get<DoctypeList>(`${url}/docts`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     }
   }
 
   doctype(id) {
     return this.http.get<Doctype>(`${url}/docts/${id}`)
-    .pipe(
+      .pipe(
         tap(data => data)
-    );
+      );
   }
 
-  listdocts(){
+  newDoctype(doctype) {
+    return this.http.post<Doctype>(`${url}/docts/`, doctype).pipe(tap(data => data));
+  }
+
+  updateDoctype(doctype) {
+    return this.http.patch<Doctype>(`${url}/docts/${doctype._id}`, doctype).pipe(tap(data => data));
+  }
+
+  listdocts() {
     return this.http.get<DoctypeList>(`${url}/listdocts`)
-    .pipe(
+      .pipe(
         tap(data => data)
-    );
+      );
   }
 }
