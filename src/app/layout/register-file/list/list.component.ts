@@ -228,7 +228,7 @@ export class ListComponent implements OnInit {
 
   getRegisterVolume(volume_id) {
     var page = {
-      pageNumber: 1
+      pageNumber: 0
     }
     this.registerSrv.listregister(volume_id, page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
@@ -238,7 +238,7 @@ export class ListComponent implements OnInit {
         this.notDocument = true;
         this.loading = false;
       }
-      this.registerPage.pageNumber = data._links.currentPage;
+      this.registerPage.pageNumber = data._links.currentPage - 1;
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
       this.tableRegister = true;
@@ -278,19 +278,21 @@ export class ListComponent implements OnInit {
   }
 
   setPageRegisters(pageInfo) {
-    console.log('pageInfo', pageInfo)
+    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
     this.registerSrv.listregister(this.volume._id, this.page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
       // this.getDoctype(this.registers[0].doct._id);
-      this.registerPage.pageNumber = data._links.currentPage;
+      this.registerPage.pageNumber = data._links.currentPage - 1;
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
       this.tableRegister = true;
+      this.loading = false;
     }, error => {
       // this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
+      this.loading = false;
     });
   }
 

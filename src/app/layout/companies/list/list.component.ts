@@ -42,14 +42,15 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.companiesList();
+        // this.companiesList();
+        this.setPage({ offset: 0 })
     }
 
     getCompany(company) {
         this._route.navigate(['/companies/get', company._id]);
     }
 
-    companiesList() {
+/*     companiesList() {
         this.companiesSrv.companies(null).subscribe(
             data => {
                 this.loading = false;
@@ -64,16 +65,21 @@ export class ListComponent implements OnInit {
                 console.log('ERROR:', error);
             }
         );
-    }
+    } */
 
     setPage(pageInfo) {
+        this.loading = true 
         this.page.pageNumber = pageInfo.offset;
 
         this.companiesSrv.companies(this.page).subscribe(data => {
-            this.page.pageNumber = data._links.currentPage;
+            this.page.pageNumber = data._links.currentPage - 1;
             this.page.totalElements = data._links.foundItems;
             this.page.size = data._links.totalPage;
             this.companies = data;
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error)
+            this.loading = false;
         });
     }
 }

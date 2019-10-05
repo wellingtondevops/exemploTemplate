@@ -33,7 +33,7 @@ export class ListComponent implements OnInit {
     console.log(this.page)
 
     this.archiveSrv.archives(this.page).subscribe(data => {
-      this.page.pageNumber = data._links.currentPage;
+      this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.archives = data.items;
       this.loading = false;

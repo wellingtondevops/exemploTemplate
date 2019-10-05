@@ -41,11 +41,11 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.setPage({ offset: 1 });
-        this.documentsList();
+        this.setPage({ offset: 0 });
+        // this.documentsList();
     }
 
-    documentsList() {
+    /* documentsList() {
         this.documentSrv.documents(null).subscribe(
             data => {
                 this.loading = false;
@@ -60,23 +60,26 @@ export class ListComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
-    }
+    } */
 
     setPage(pageInfo) {
+        this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
         this.documentSrv.documents(this.page).subscribe(
             data => {
                 this.loading = false;
                 this.documents = data;
-                this.page.pageNumber = data._links.currentPage;
+                this.page.pageNumber = data._links.currentPage - 1;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
+                this.loading = false;
             },
             error => {
                 this.loading = false;
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
+                this.loading = false;
             }
         );
     }
