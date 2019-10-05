@@ -16,12 +16,12 @@ export class StorehousesService {
 
   storeHouses(page) {
     if (page) {
-      return this.http.get<StorehousesList>(`${url}/storehouses?_page=${page.pageNumber}`)
+      return this.http.get<StorehousesList>(`${url}/storehouses?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
     } else {
-      return this.http.get<StorehousesList>(`${url}/storehouses`)
+      return this.http.get<StorehousesList>(`${url}/storehouses?size=10`)
       .pipe(
           tap(data => data)
       );

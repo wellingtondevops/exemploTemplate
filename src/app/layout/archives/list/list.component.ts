@@ -27,19 +27,6 @@ export class ListComponent implements OnInit {
     this.setPage({ offset: 0 });
   }
 
-  listArquives() {
-    this.archiveSrv.archives(null).subscribe((data) => {
-      this.page.pageNumber = data._links.currentPage;
-      this.page.totalElements = data._links.foundItems;
-      this.page.size = data._links.totalPage;
-      this.archives = data.items;
-    },
-      (error) => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR:', error);
-      });
-  }
-
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;

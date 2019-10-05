@@ -46,7 +46,7 @@ export class ListComponent implements OnInit {
     }
 
     getCompany(company) {
-        this._route.navigate(['/companies/get', company]);
+        this._route.navigate(['/companies/get', company._id]);
     }
 
     companiesList() {

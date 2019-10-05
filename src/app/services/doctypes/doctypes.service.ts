@@ -16,12 +16,12 @@ export class DoctypesService {
 
   doctypes(page) {
     if (page) {
-      return this.http.get<DoctypeList>(`${url}/docts?_page=${page.pageNumber}`)
+      return this.http.get<DoctypeList>(`${url}/docts?_page=${page.pageNumber}&size=10`)
         .pipe(
           tap(data => data)
         );
     } else {
-      return this.http.get<DoctypeList>(`${url}/docts`)
+      return this.http.get<DoctypeList>(`${url}/docts?size=10`)
         .pipe(
           tap(data => data)
         );
