@@ -184,6 +184,7 @@ export class ListComponent implements OnInit {
   getVolumesList() {
     this.loading = true;
     this.tableRegister = false;
+    this.document = null;
     this.storeHouse_id = this.registerFileForm.value.storehouse._id;
     this.company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
@@ -202,6 +203,17 @@ export class ListComponent implements OnInit {
       console.log('ERROR: ', error);
       this.loading = false;
     }
+  }
+
+  selectTypeDocument(data) {
+    this.loading = true;
+    this.documentsSrv.document(data.item._id).subscribe(data => {
+      this.document = data;
+      this.loading = false;
+    }, error => {
+      console.log('ERROR: ', error);
+      this.errorMsg.errorMessages(error);
+    })
   }
 
   /*   getDocument() {
@@ -322,10 +334,12 @@ export class ListComponent implements OnInit {
         }
       }
     })
-    console.log('arquive to index', { tag, company, doct, storehouse, uniqueness });
-    this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness }).subscribe(data => {
+    var volume = this.volume._id;
+    console.log('arquive to index', { tag, company, doct, storehouse, uniqueness, volume });
+    this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness, volume }).subscribe(data => {
       if (data._id) {
         console.log('success', data)
+        this.getRegisterVolume(this.volume._id)
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
       }
@@ -334,6 +348,10 @@ export class ListComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
     })
+  }
+
+  sendDocument() {
+
   }
 
   search = (text$: Observable<string>) =>
