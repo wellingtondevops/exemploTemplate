@@ -36,18 +36,18 @@ export class DatatablesComponent implements OnInit {
             const change = changes[propName];
             this.items = change.currentValue.items;
             this.page.totalElements = change.currentValue._links.foundItems;
-            this.page.pageNumber = change.currentValue._links.currentPage;
+            this.page.pageNumber = change.currentValue._links.currentPage - 1;
         }
     }
 
     pagination(pageInfo) {
-        pageInfo.offset += 1;
+        // pageInfo.offset += 1;
         this.setPage.emit(pageInfo);
     }
 
     showView(value) {
         if (value.type == 'click') {
-            this.show.emit(value.row._id);
+            this.show.emit(value.row);
         }
     }
 }

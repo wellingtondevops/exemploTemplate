@@ -14,9 +14,9 @@ export class ArquivesService {
     private http: HttpClient
   ) { }
 
-  archives(page) {
+  archives(page, size = 10) {
     if (page) {
-      return this.http.get<ArchivesList>(`${url}/archives?_page=${page.pageNumber}`)
+      return this.http.get<ArchivesList>(`${url}/archives?_page=${page.pageNumber}&size=${size}`)
         .pipe(
           tap(data => data)
         );

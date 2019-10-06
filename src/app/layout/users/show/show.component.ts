@@ -4,9 +4,9 @@ import { UsersService } from '../../../services/users/users.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
