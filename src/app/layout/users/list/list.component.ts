@@ -3,11 +3,11 @@ import { routerTransition } from '../../../router.animations';
 import { UsersService } from '../../../services/users/users.service';
 import { UserList } from '../../../models/user';
 import { Router } from '@angular/router';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { Page } from 'src/app/models/page';
 
 const MODALS = {

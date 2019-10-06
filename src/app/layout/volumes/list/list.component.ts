@@ -4,10 +4,10 @@ import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { Volume, VolumeList } from 'src/app/models/volume';
 import { Router } from '@angular/router';
 import { Pipes } from 'src/app/utils/pipes/pipes';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { Page } from 'src/app/models/page';
 
 const MODALS = {

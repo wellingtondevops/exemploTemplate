@@ -1,8 +1,8 @@
 import { Component, OnInit, PipeTransform, Pipe } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { RedemptionEnum } from 'src/app/models/redemption.enum';
 import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { routerTransition } from 'src/app/router.animations';

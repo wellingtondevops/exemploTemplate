@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service';
-import { ErrorMessagesService } from '../utils/error-messages.service';
+import { ErrorMessagesService } from '../utils/error-messages/error-messages.service';
 
 @Component({
     selector: 'app-login',

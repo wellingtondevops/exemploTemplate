@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 
 @Component({
   selector: 'ngbd-modal-confirm',

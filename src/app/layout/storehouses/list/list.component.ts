@@ -2,12 +2,12 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, Input, SimpleChange
 import { routerTransition } from '../../../router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { Storehouse, StorehousesList } from 'src/app/models/storehouse';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { ToastrService } from 'ngx-toastr';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.service';
 import { Page } from 'src/app/models/page';

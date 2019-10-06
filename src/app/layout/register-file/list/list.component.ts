@@ -1,8 +1,8 @@
 import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Router } from '@angular/router';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
@@ -20,6 +20,16 @@ import { RegistersList } from 'src/app/models/register';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import _ from 'lodash';
 import { DoctypeList, Doctype } from 'src/app/models/doctype';
+import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+interface Alert {
+  type: string;
+  message: string;
+}
+
+const ALERTS: Alert[] = [{
+  type: 'warning',
+  message: 'Insira um documento no volume para continuar.',
+}];
 
 @Component({
   selector: 'app-list',
@@ -28,6 +38,7 @@ import { DoctypeList, Doctype } from 'src/app/models/doctype';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+  alerts: Alert[];
   @ViewChild('myTable') table: any;
   tableRegister: Boolean = false;
   loading: Boolean = false;
@@ -99,6 +110,9 @@ export class ListComponent implements OnInit {
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }*/
   ]
 
+
+
+
   constructor(
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -112,7 +126,8 @@ export class ListComponent implements OnInit {
     private documentsSrv: DocumentsService,
     private registerSrv: RegistersService,
     private doctypesSrv: DoctypesService,
-    private archivesSrv: ArquivesService
+    private archivesSrv: ArquivesService,
+    private warningMsgSrv: WarningMessagesService
   ) { }
 
   ngOnInit() {
@@ -196,6 +211,7 @@ export class ListComponent implements OnInit {
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
         this.tabIndex = false;
+        this.reset();
         this.loading = false;
       }
     ), error => {
@@ -247,6 +263,7 @@ export class ListComponent implements OnInit {
       if (this.registers.length !== 0) {
         this.getDoctype(this.registers[0].doct._id);
       } else {
+        this.warningMsgSrv.showWarning('Insira um tipo de documento ao volume para continuar indexando.', true)
         this.notDocument = true;
         this.loading = false;
       }
@@ -350,8 +367,13 @@ export class ListComponent implements OnInit {
     })
   }
 
-  sendDocument() {
+  // Alert
+  close(alert: Alert) {
+    this.alerts.splice(this.alerts.indexOf(alert), 1);
+  }
 
+  reset() {
+    this.alerts = Array.from(ALERTS);
   }
 
   search = (text$: Observable<string>) =>

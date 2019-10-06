@@ -3,8 +3,8 @@ import { routerTransition } from '../../../router.animations';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsersService } from 'src/app/services/users/users.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Router } from '@angular/router';
 
 @Component({
