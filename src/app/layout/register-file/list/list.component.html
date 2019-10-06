@@ -89,6 +89,10 @@
                   <div class="col-6">
                     <form *ngIf="notDocument" [formGroup]="typeDocumentForm" role="FormGroup" class="form-inline">
                       <div class="form-group mb-2 col-12" style="padding-top: 10px">
+                        <label for="">Volume</label>
+                        <input type="text" formControlName="location" class="form-control" style="width: 100%">
+                      </div>
+                      <div class="form-group mb-2 col-12">
                         <label for="typeahead-basic">Tipo do Documento</label>
                         <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
                           formControlName="typeDocument" [resultTemplate]="rtTypeDocument" [inputFormatter]="formatter"

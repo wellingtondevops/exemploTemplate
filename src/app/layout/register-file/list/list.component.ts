@@ -132,7 +132,8 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.typeDocumentForm = this.fb.group({
-      typeDocument: this.fb.control('', [Validators.required])
+      typeDocument: this.fb.control('', [Validators.required]),
+      location: ''
     })
     this.registerFileForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
@@ -232,18 +233,14 @@ export class ListComponent implements OnInit {
     })
   }
 
-  /*   getDocument() {
-      var document_id = this.typeDocumentForm.value.typeDocument._id
-      this.documentsSrv.document(document_id).subscribe(data => {
-        this.document = data
-      }, error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-      })
-    } */
-
   getVolume(volume) {
     console.log(volume)
+    this.typeDocumentForm.reset({
+      typeDocument: { value: '', required: true },
+      location: {
+        value: volume.location, disabled: true
+      }
+    });
     this.loading = true;
     this.getRegisterVolume(volume._id)
     this.volumesSrv.volume(volume._id).subscribe(data => {
