@@ -16,12 +16,12 @@ export class DepartamentsService {
 
   departaments(page, id) {
     if (page) {
-      return this.http.get<DepartamentList>(`${url}/departaments/${id}?_page=${page.pageNumber}`)
+      return this.http.get<DepartamentList>(`${url}/departaments/${id}?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
     } else {
-      return this.http.get<DepartamentList>(`${url}/departaments`)
+      return this.http.get<DepartamentList>(`${url}/departaments?size=10`)
       .pipe(
           tap(data => data)
       );

@@ -4,10 +4,10 @@ import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { Volume, VolumeList } from 'src/app/models/volume';
 import { Router } from '@angular/router';
 import { Pipes } from 'src/app/utils/pipes/pipes';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { Page } from 'src/app/models/page';
 
 const MODALS = {
@@ -56,10 +56,11 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.listVolumes();
+        // this.listVolumes();
+        this.setPage({ offset: 0 })
     }
 
-    listVolumes() {
+    /* listVolumes() {
         this.volumeSrv.volumes(null).subscribe(
             data => {
                 this.loading = false;
@@ -73,26 +74,29 @@ export class ListComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
-    }
+    } */
 
     getVolume(volume) {
-        this._route.navigate(['/volumes/get', volume]);
+        this._route.navigate(['/volumes/get', volume._id]);
     }
 
     setPage(pageInfo) {
+        this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
         this.volumeSrv.volumes(this.page).subscribe(
             data => {
                 console.log(data);
                 this.volumes = data;
-                this.page.pageNumber = data._links.currentPage;
+                this.page.pageNumber = data._links.currentPage - 1;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
+                this.loading = false;
             },
             error => {
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
+                this.loading = false;
             }
         );
     }

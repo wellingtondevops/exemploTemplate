@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { routerTransition } from 'src/app/router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';

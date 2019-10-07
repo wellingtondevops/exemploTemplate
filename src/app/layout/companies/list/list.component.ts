@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../../../services/companies/companies.service';
 import { routerTransition } from '../../../router.animations';
 import { CompaniesList } from 'src/app/models/company';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Pipes } from '../../../utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
@@ -42,14 +42,15 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.companiesList();
+        // this.companiesList();
+        this.setPage({ offset: 0 })
     }
 
     getCompany(company) {
-        this._route.navigate(['/companies/get', company]);
+        this._route.navigate(['/companies/get', company._id]);
     }
 
-    companiesList() {
+/*     companiesList() {
         this.companiesSrv.companies(null).subscribe(
             data => {
                 this.loading = false;
@@ -64,16 +65,21 @@ export class ListComponent implements OnInit {
                 console.log('ERROR:', error);
             }
         );
-    }
+    } */
 
     setPage(pageInfo) {
+        this.loading = true 
         this.page.pageNumber = pageInfo.offset;
 
         this.companiesSrv.companies(this.page).subscribe(data => {
-            this.page.pageNumber = data._links.currentPage;
+            this.page.pageNumber = data._links.currentPage - 1;
             this.page.totalElements = data._links.foundItems;
             this.page.size = data._links.totalPage;
             this.companies = data;
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error)
+            this.loading = false;
         });
     }
 }

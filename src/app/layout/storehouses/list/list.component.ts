@@ -2,12 +2,12 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, Input, SimpleChange
 import { routerTransition } from '../../../router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { Storehouse, StorehousesList } from 'src/app/models/storehouse';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { ToastrService } from 'ngx-toastr';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.service';
 import { Page } from 'src/app/models/page';
@@ -51,8 +51,8 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.setPage({ offset: 0 });
-        this.getStoreHouses();
+        this.setPage({ offset: 0 });
+        // this.getStoreHouses();
     }
 
     getStoreHouse(storeHouse) {
@@ -103,7 +103,7 @@ export class ListComponent implements OnInit {
         );
     }
 
-    getStoreHouses() {
+    /* getStoreHouses() {
         this.storeHousesSrv.storeHouses(null).subscribe(
             data => {
                 this.loading = false;
@@ -118,21 +118,24 @@ export class ListComponent implements OnInit {
                 console.log('ERROR:', error);
             }
         );
-    }
+    } */
 
     setPage(pageInfo) {
+        this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
         this.storeHousesSrv.storeHouses(this.page).subscribe(
             data => {
                 this.storehouses = data;
-                this.page.pageNumber = data._links.currentPage;
+                this.page.pageNumber = data._links.currentPage - 1;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
+                this.loading = false;
             },
             error => {
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
+                this.loading = false;
             }
         );
     }

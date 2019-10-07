@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Page } from 'src/app/models/page';
 
 @Component({
@@ -16,6 +16,7 @@ export class ListComponent implements OnInit {
   archives: Archive[];
   archivesCol: any[];
   page = new Page();
+  loading: boolean = false;
 
   constructor(
     private archiveSrv: ArquivesService,
@@ -23,31 +24,23 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.setPage({ offset: 1 });
-    this.listArquives();
-  }
-
-  listArquives() {
-    this.archiveSrv.archives(null).subscribe((data) => {
-      this.page.pageNumber = data._links.currentPage;
-      this.page.totalElements = data._links.foundItems;
-      this.page.size = data._links.totalPage;
-      this.archives = data.items;
-    },
-    (error) => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR:', error);
-    });
+    this.setPage({ offset: 0 });
   }
 
   setPage(pageInfo) {
+    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    console.log(this.page)
 
     this.archiveSrv.archives(this.page).subscribe(data => {
-      this.page.pageNumber = data._links.currentPage;
+      this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
-      this.page.size = data._links.totalPage;
       this.archives = data.items;
+      this.loading = false;
+      console.log(this.page)
+    }, error => {
+      this.loading = false;
+      console.log('ERROR: ', error);
     });
   }
 
@@ -64,8 +57,8 @@ export class ListComponent implements OnInit {
     let res = '';
     switch (value) {
       case 'GERENCIADA':
-         res = 'G';
-         break;
+        res = 'G';
+        break;
     }
     return res;
   }

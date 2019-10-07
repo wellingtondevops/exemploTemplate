@@ -16,12 +16,12 @@ export class CompaniesService {
 
   companies(page) {
     if (page) {
-      return this.http.get<CompaniesList>(`${url}/companies?_page=${page.pageNumber}`)
+      return this.http.get<CompaniesList>(`${url}/companies?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
     } else {
-      return this.http.get<CompaniesList>(`${url}/companies`)
+      return this.http.get<CompaniesList>(`${url}/companies?size=10`)
       .pipe(
           tap(data => data)
       );

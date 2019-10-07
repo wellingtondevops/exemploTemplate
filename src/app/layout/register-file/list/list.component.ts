@@ -1,8 +1,8 @@
 import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Router } from '@angular/router';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
@@ -19,6 +19,17 @@ import { RegistersService } from 'src/app/services/registers/registers.service';
 import { RegistersList } from 'src/app/models/register';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import _ from 'lodash';
+import { DoctypeList, Doctype } from 'src/app/models/doctype';
+import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+interface Alert {
+  type: string;
+  message: string;
+}
+
+const ALERTS: Alert[] = [{
+  type: 'warning',
+  message: 'Insira um documento no volume para continuar.',
+}];
 
 @Component({
   selector: 'app-list',
@@ -27,6 +38,7 @@ import _ from 'lodash';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+  alerts: Alert[];
   @ViewChild('myTable') table: any;
   tableRegister: Boolean = false;
   loading: Boolean = false;
@@ -36,12 +48,13 @@ export class ListComponent implements OnInit {
     _links: {
       self: '',
       totalPage: 0,
-      currentPage: 0,
+      currentPage: 1,
       foundItems: 0,
       next: ''
     },
     items: []
   };
+  typeDocuments: Doctype[];
   registerFileForm: FormGroup;
   typeDocumentForm: FormGroup;
   storeHouses: any = [];
@@ -50,11 +63,13 @@ export class ListComponent implements OnInit {
   document_id: string;
   documents: any;
   volume: Volume;
+  notDocument: boolean;
+  location: string;
   registers: any = {
     _links: {
       self: '',
       totalPage: 0,
-      currentPage: 0,
+      currentPage: 1,
       foundItems: 0,
       next: ''
     },
@@ -62,7 +77,7 @@ export class ListComponent implements OnInit {
   }
   volumes: VolumeList = {
     _links: {
-      currentPage: 0,
+      currentPage: 1,
       foundItems: 0,
       next: '',
       self: '',
@@ -95,6 +110,9 @@ export class ListComponent implements OnInit {
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }*/
   ]
 
+
+
+
   constructor(
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -108,12 +126,14 @@ export class ListComponent implements OnInit {
     private documentsSrv: DocumentsService,
     private registerSrv: RegistersService,
     private doctypesSrv: DoctypesService,
-    private archivesSrv: ArquivesService
+    private archivesSrv: ArquivesService,
+    private warningMsgSrv: WarningMessagesService
   ) { }
 
   ngOnInit() {
     this.typeDocumentForm = this.fb.group({
-      typeDocument: this.fb.control('', [Validators.required])
+      typeDocument: this.fb.control('', [Validators.required]),
+      location: ''
     })
     this.registerFileForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
@@ -123,6 +143,7 @@ export class ListComponent implements OnInit {
     });
     this.loading = true;
     this.getCompanies();
+    this.getTypeDocuments()
     this.getStoreHouses();
   }
 
@@ -132,9 +153,9 @@ export class ListComponent implements OnInit {
   get storehouse() {
     return this.registerFileForm.get('storehouse');
   }
-  /*   get typeDocument() {
-      return this.typeDocumentForm.get('typeDocument');
-    } */
+  get typeDocument() {
+    return this.typeDocumentForm.get('typeDocument');
+  }
 
   blockInputs() {
     !this.inputBlock ? (this.inputBlock = true) : (this.inputBlock = false);
@@ -170,9 +191,16 @@ export class ListComponent implements OnInit {
     );
   }
 
+  getTypeDocuments() {
+    this.doctypesSrv.listdocts().subscribe(data => {
+      this.typeDocuments = data.items;
+    })
+  }
+
   getVolumesList() {
     this.loading = true;
     this.tableRegister = false;
+    this.document = null;
     this.storeHouse_id = this.registerFileForm.value.storehouse._id;
     this.company_id = this.registerFileForm.value.company._id;
     var description = this.registerFileForm.value.description;
@@ -184,6 +212,7 @@ export class ListComponent implements OnInit {
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
         this.tabIndex = false;
+        this.reset();
         this.loading = false;
       }
     ), error => {
@@ -193,20 +222,28 @@ export class ListComponent implements OnInit {
     }
   }
 
-/*   getDocument() {
-    var document_id = this.typeDocumentForm.value.typeDocument._id
-    this.documentsSrv.document(document_id).subscribe(data => {
-      this.document = data
+  selectTypeDocument(data) {
+    this.loading = true;
+    this.documentsSrv.document(data.item._id).subscribe(data => {
+      this.document = data;
+      this.loading = false;
     }, error => {
-      this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
+      this.errorMsg.errorMessages(error);
     })
-  } */
+  }
 
   getVolume(volume) {
+    console.log(volume)
+    this.typeDocumentForm.reset({
+      typeDocument: { value: '', required: true },
+      location: {
+        value: volume.location, disabled: true
+      }
+    });
     this.loading = true;
-    this.getRegisterVolume(volume)
-    this.volumesSrv.volume(volume).subscribe(data => {
+    this.getRegisterVolume(volume._id)
+    this.volumesSrv.volume(volume._id).subscribe(data => {
       this.volume = data
     }, error => {
       console.log(error)
@@ -215,10 +252,19 @@ export class ListComponent implements OnInit {
   }
 
   getRegisterVolume(volume_id) {
-    this.registerSrv.listregister(volume_id).subscribe(data => {
+    var page = {
+      pageNumber: 0
+    }
+    this.registerSrv.listregister(volume_id, page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
-      this.getDoctype(this.registers[0].doct._id);
-      this.registerPage.pageNumber = data._links.currentPage;
+      if (this.registers.length !== 0) {
+        this.getDoctype(this.registers[0].doct._id);
+      } else {
+        this.warningMsgSrv.showWarning('Insira um tipo de documento ao volume para continuar indexando.', true)
+        this.notDocument = true;
+        this.loading = false;
+      }
+      this.registerPage.pageNumber = data._links.currentPage - 1;
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
       this.tableRegister = true;
@@ -258,18 +304,21 @@ export class ListComponent implements OnInit {
   }
 
   setPageRegisters(pageInfo) {
+    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
-    this.registerSrv.listregister(this.page).subscribe(data => {
+    this.registerSrv.listregister(this.volume._id, this.page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
       // this.getDoctype(this.registers[0].doct._id);
-      this.registerPage.pageNumber = data._links.currentPage;
+      this.registerPage.pageNumber = data._links.currentPage - 1;
       this.registerPage.totalElements = data._links.foundItems;
       this.registerPage.size = data._links.totalPage;
       this.tableRegister = true;
+      this.loading = false;
     }, error => {
       // this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
+      this.loading = false;
     });
   }
 
@@ -289,28 +338,39 @@ export class ListComponent implements OnInit {
     const company = this.company_id;
     const tag = _.values(data);
     let uniqueness = '';
-    let labelsTrueLength = _.filter(this.document.label,['uniq', true])
+    let labelsTrueLength = _.filter(this.document.label, ['uniq', true])
     this.document.label.map((label, i) => {
-      if(label.uniq){
-        if(i === (labelsTrueLength.length - 1)){
+      if (label.uniq) {
+        if (i === (labelsTrueLength.length - 1)) {
           uniqueness += `${tag[i]}`
         } else {
           uniqueness += `${tag[i]}-`
         }
       }
     })
-    console.log('arquive to index', { tag, company, doct, storehouse, uniqueness });
-    this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness }).subscribe(data => {
+    var volume = this.volume._id;
+    console.log('arquive to index', { tag, company, doct, storehouse, uniqueness, volume });
+    this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness, volume }).subscribe(data => {
       if (data._id) {
         console.log('success', data)
+        this.getRegisterVolume(this.volume._id)
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
-    }
+      }
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    }) 
+    })
+  }
+
+  // Alert
+  close(alert: Alert) {
+    this.alerts.splice(this.alerts.indexOf(alert), 1);
+  }
+
+  reset() {
+    this.alerts = Array.from(ALERTS);
   }
 
   search = (text$: Observable<string>) =>
@@ -322,6 +382,18 @@ export class ListComponent implements OnInit {
           ? []
           : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
       )
+    );
+
+  searchTypeDocument = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(typeDocument => {
+        var res;
+        if (typeDocument.length < 2) [];
+        else var res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10);
+        return res;
+      })
     );
 
   searchCompany = (text$: Observable<string>) =>

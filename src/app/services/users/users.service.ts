@@ -16,12 +16,12 @@ export class UsersService {
 
   users(page) {
     if (page) {
-      return this.http.get<UserList>(`${url}/users?_page=${page.pageNumber}`)
+      return this.http.get<UserList>(`${url}/users?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
     } else {
-      return this.http.get<UserList>(`${url}/users`)
+      return this.http.get<UserList>(`${url}/users?size=10`)
       .pipe(
           tap(data => data)
       );
