@@ -1,0 +1,10 @@
+<div *ngIf="!file">
+  <span>Escolha o arquivo</span>
+  <span>{{file ? file.name : ' ou arraste o arquivo aqui' }}</span>
+  <input class="file-input" type="file" *ngIf="!file" />
+</div>
+<img *ngIf="file" [src]="file.name" type="image/png" />
+<div *ngIf="file">
+  <button class="btn btn-default">Editar</button>
+  <button class="btn btn-default">Excluir</button>
+</div>
