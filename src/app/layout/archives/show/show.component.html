@@ -1,3 +1,25 @@
-<p>
-  show works!
-</p>
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Arquivo'" [icon]="'fa-user'"></app-page-header>
+  <div style="margin-bottom: 10px">
+    <app-button-back [redirectTo]="'archives'"></app-button-back>
+    <app-buttons-custom *ngIf="archive" [id]="archive._id" [permissionEdit]="['DAENERYS']" [permissionDelete]="['DAENERYS']">
+    </app-buttons-custom>
+    <br />
+  </div>
+  <div class="card bg-light mb-12">
+    <div class="card-body">
+      <app-form-index [data]="archive" [isArchive]="true" (sendArchive)="postArchive($event)">
+      </app-form-index>
+      <div class="col-12">
+          <app-form-upload></app-form-upload>
+      </div>
+    </div>
+  </div>
+</div>
