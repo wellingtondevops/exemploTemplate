@@ -9,7 +9,7 @@
   <app-page-header [heading]="'Arquivos'" [icon]="'fa-table'"></app-page-header>
   <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-    [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'>
+    [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="showView($event)">
     <!-- Row Detail Template -->
     <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>

@@ -4,6 +4,7 @@ import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Page } from 'src/app/models/page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -20,7 +21,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private archiveSrv: ArquivesService,
-    private errorMsg: ErrorMessagesService
+    private errorMsg: ErrorMessagesService,
+    private _route: Router,
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,12 @@ export class ListComponent implements OnInit {
 
   onDetailToggle(event) {
     // console.log('Detail Toggled', event);
+  }
+
+  showView(value) {
+    if (value.type == 'click') {
+      this._route.navigate(['/archives/get', value.row._id]);
+    }
   }
 
   guardType(value) {
