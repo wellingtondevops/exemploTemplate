@@ -38,11 +38,6 @@ export class ShowComponent implements OnInit {
   getArquive(){
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
-      this.uploadFile.patchValue({
-        archive: this.archive._id,
-        volume: this.archive.volume._id,
-        storehouse: this.archive.storehouse._id
-      })
     }, error => {
       console.log('ERROR: ', error)
     })
@@ -61,20 +56,22 @@ export class ShowComponent implements OnInit {
   }
 
   postFile(data){
-    console.log('data');
+    this.uploadFile.patchValue({
+      archive: this.archive._id,
+      volume: this.archive.volume._id,
+      storehouse: this.archive.storehouse._id,
+      file: data
+    })
     this.submit();
   }
 
   submit() {
-/*     var up = toFormData(this.uploadFile.value)
-    console.log('up', up) */
-    console.log('file', this.uploadFile)
     const formData = new FormData();
     formData.append('file', this.uploadFile.get('file').value);
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
     formData.append('volume', this.uploadFile.get('volume').value);
     formData.append('archive', this.uploadFile.get('archive').value);
-    this.filesSrv.file(toFormData(this.uploadFile.value)).subscribe(data => {
+    this.filesSrv.file(formData).subscribe(data => {
       console.log('success', data);
     }, error => {
       console.log("ERROR ", error)
