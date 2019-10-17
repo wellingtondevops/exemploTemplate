@@ -84,7 +84,6 @@ export class FormIndexComponent {
             if (i == 0) {
                 result['focus'] = true;
             }
-            console.log('result', result)
             return result
         });
         return array

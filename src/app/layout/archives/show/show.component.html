@@ -9,7 +9,8 @@
   <app-page-header [heading]="'Arquivo'" [icon]="'fa-user'"></app-page-header>
   <div style="margin-bottom: 10px">
     <app-button-back [redirectTo]="'archives'"></app-button-back>
-    <app-buttons-custom *ngIf="archive" [id]="archive._id" [permissionEdit]="['DAENERYS']" [permissionDelete]="['DAENERYS']">
+    <app-buttons-custom *ngIf="archive" [id]="archive._id" [permissionEdit]="['DAENERYS']"
+      [permissionDelete]="['DAENERYS']">
     </app-buttons-custom>
     <br />
   </div>
@@ -18,7 +19,11 @@
       <app-form-index [data]="archive" [isArchive]="true" (sendArchive)="postArchive($event)">
       </app-form-index>
       <div class="col-12">
-          <app-form-upload></app-form-upload>
+        <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+          <div class="form-group">
+            <app-form-upload formControlName="file" (postFile)="postFile($event)"></app-form-upload>
+          </div>
+        </form>
       </div>
     </div>
   </div>
