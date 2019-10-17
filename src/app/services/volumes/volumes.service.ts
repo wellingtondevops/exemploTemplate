@@ -16,12 +16,12 @@ export class VolumesService {
 
   volumes(page) {
     if (page) {
-      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.pageNumber}`)
+      return this.http.get<VolumeList>(`${url}/volumes?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
     } else {
-      return this.http.get<VolumeList>(`${url}/volumes`)
+      return this.http.get<VolumeList>(`${url}/volumes?size=10`)
       .pipe(
           tap(data => data)
       );
@@ -57,7 +57,7 @@ export class VolumesService {
   }
 
   listvolume(storehouse_id, company_id, location, description){
-    return this.http.get<VolumeList>(`${url}/listvolumes?storehouse=${storehouse_id}&company=${company_id}&location=${location}&description=${description}`)
+    return this.http.get<VolumeList>(`${url}/listvolumes?storehouse=${storehouse_id}&company=${company_id}&location=${location}&description=${description}&size=10`)
     .pipe(
       tap(data => data)
     )

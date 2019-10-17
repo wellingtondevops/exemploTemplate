@@ -4,8 +4,8 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from 'src/app/models/company';
 import { Storehouse } from 'src/app/models/storehouse';

@@ -1,7 +1,7 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Company } from 'src/app/models/company';
-import { ErrorMessagesService } from 'src/app/utils/error-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from 'src/app/router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 import _ from 'lodash';
 import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
-import { SuccessMessagesService } from 'src/app/utils/success-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { Router } from '@angular/router';
 
