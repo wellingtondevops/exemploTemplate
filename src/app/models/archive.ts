@@ -1,3 +1,5 @@
+import { Doctype } from "./doctype";
+
 export class Archive {
   _links: {
     self: string
@@ -15,7 +17,7 @@ export class Archive {
     _id: string,
     location: string
   };
-  doct: string;
+  doct: Doctype;
   tag: string[];
   create: string;
 }

@@ -108,12 +108,13 @@
                           <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
                       </div>
+                      
                       <!-- <div class="form-group mb-2 col-12">
                         <button type="submit" class="btn btn-default">Adicionar tipo de documento ao volume</button>
                       </div> -->
                     </form>
                     <br>
-                    <app-form-index *ngIf="document" [data]="document" (sendArchive)="postArchive($event)">
+                    <app-form-index *ngIf="document" [data]="archive"  [isArchive]="false" (sendArchive)="postArchive($event)">
                     </app-form-index>
                     <br>
                     <br>

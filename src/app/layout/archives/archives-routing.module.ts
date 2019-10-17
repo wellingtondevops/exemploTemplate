@@ -11,7 +11,7 @@ const routes: Routes = [
     canActivate: [DaenerysTywinSnowGuard]
   },
   {
-    path: ':id',
+    path: 'get/:id',
     component: ShowComponent,
     canActivate: [DaenerysTywinSnowGuard]
   }
