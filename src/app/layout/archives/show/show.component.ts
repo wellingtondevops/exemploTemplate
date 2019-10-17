@@ -5,6 +5,8 @@ import { Archive } from 'src/app/models/archive';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { toFormData } from '../../../utils/form-data/form-data';
 import { FilesService } from 'src/app/services/files/files.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 
 @Component({
   selector: 'app-show',
@@ -14,13 +16,16 @@ import { FilesService } from 'src/app/services/files/files.service';
 export class ShowComponent implements OnInit {
   id: string;
   archive: Archive;
-  loading: Boolean = false;
+  loading: Boolean = true;
+  file: any;
 
   constructor(
     private _route: Router,
     private route: ActivatedRoute,
     private archiveSrv: ArquivesService,
-    private filesSrv: FilesService
+    private filesSrv: FilesService,
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService
   ) { }
 
   uploadFile = new FormGroup({
@@ -38,8 +43,17 @@ export class ShowComponent implements OnInit {
   getArquive(){
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
+      this.getFile(this.archive._id);
+      this.loading = false;
     }, error => {
-      console.log('ERROR: ', error)
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
+  }
+
+  getFile(archive_id) {
+    this.filesSrv.getFile(archive_id).subscribe(data => {
+      this.file = data;
     })
   }
 
@@ -66,16 +80,22 @@ export class ShowComponent implements OnInit {
   }
 
   submit() {
+    this.loading = true;
     const formData = new FormData();
     formData.append('file', this.uploadFile.get('file').value);
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
     formData.append('volume', this.uploadFile.get('volume').value);
     formData.append('archive', this.uploadFile.get('archive').value);
     this.filesSrv.file(formData).subscribe(data => {
-      console.log('success', data);
+      if (data._id) {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Imagem anexada com sucesso.');
+      }
+      this.getFile(this.archive._id);
     }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
       console.log("ERROR ", error)
     })
-
   }
 }

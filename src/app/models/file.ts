@@ -8,4 +8,7 @@ export class File {
   key: string;
   size: string;
   name: string;
+  _links: {
+    self: string;
+  }
 }

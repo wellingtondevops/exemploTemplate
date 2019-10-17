@@ -1,13 +1,13 @@
 <div class="file-drop-area">
-  <div *ngIf="!file">
+  <div *ngIf="!file && !archive">
     <span class="btn fake-btn">Escolha o arquivo</span>
     <span>{{file ? file.name : ' ou arraste o arquivo aqui' }}</span>
     <input class="file-input" type="file">
 
   </div>
-  <span *ngIf="file">
-    <img [src]="file.name" type="image/png" />
-    <button type="button" class="btn btn-default">Editar</button>
+  <span *ngIf="archive">
+    <img [src]="archive.url" width="100px" style="margin-right:10px" />
+    <!--<button type="button" class="btn btn-default" style="margin-right:10px">Editar</button> -->
     <button type="button" class="btn btn-default">Excluir</button>
   </span>
 </div>

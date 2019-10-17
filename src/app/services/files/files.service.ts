@@ -12,6 +12,10 @@ export class FilesService {
     constructor(private http: HttpClient) { }
 
     file(form) {
-        return this.http.post<File>(`http://localhost:2000/posts`, form).pipe(tap(data => data));
+        return this.http.post<File>(`https://archioqa.appspot.com/posts`, form).pipe(tap(data => data));
+    }
+
+    getFile (archive_id) {
+        return this.http.get<File>(`${url}/pictures?archive=${archive_id}`).pipe(tap(data => data));
     }
 }
