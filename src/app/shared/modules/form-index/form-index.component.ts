@@ -13,9 +13,9 @@ import { isArray } from 'util';
 @Injectable()
 export class FormIndexComponent {
     @Input() data: Document;
-    @Input() isArchive: Boolean;
+    @Input() isArchive: Boolean = false;
     @Output() sendArchive = new EventEmitter();
-    firstMoment = false;
+    firstMoment: Boolean = false;
     document: Document;
     archive: Archive;
     form = new FormGroup({});
@@ -26,18 +26,21 @@ export class FormIndexComponent {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!this.firstMoment) {
-            this.firstMoment = true;
-        }
         // tslint:disable-next-line:forin
         for (const propName in changes) {
             if (!this.isArchive) {
+                // console.log(changes)
+                // console.log(propName)
                 const change = changes[propName];
-                this.document = change.currentValue;
-                this.model = this.objectModel(this.document.label, null);
-                this.fields = this.arrayLabelForm(this.document.label, null);
+                if (propName === 'data') {
+                    this.document = change.currentValue;
+                    // console.log(this.document)
+                    this.model = this.objectModel(this.document.label, null);
+                    this.fields = this.arrayLabelForm(this.document.label, null);
+                }
+
             } else {
-                console.log('else')
+                // console.log('else')
                 const change = changes[propName];
                 this.archive = change.currentValue;
                 this.model = this.objectModel(this.archive.doct.label, this.archive.tag);
@@ -90,6 +93,7 @@ export class FormIndexComponent {
     }
 
     objectModel(labels, tag) {
+        console.log('labels', labels)
         var newObj = {}
         labels.map((element, i) => {
             newObj[element.namefield] = tag ? tag[i] : ''
