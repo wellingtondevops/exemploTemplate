@@ -16,7 +16,7 @@
   </div>
   <div class="card bg-light mb-12">
     <div class="card-body">
-      <app-form-index [data]="archive" [isArchive]="true" (sendArchive)="postArchive($event)">
+      <app-form-index [data]="archive" [isArchive]="true">
       </app-form-index>
       <div class="col-12">
         <form [formGroup]="uploadFile" (ngSubmit)="submit()">
