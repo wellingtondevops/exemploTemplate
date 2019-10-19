@@ -5,6 +5,7 @@ import { Archive } from 'src/app/models/archive';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -18,23 +19,28 @@ export class ListComponent implements OnInit {
   archivesCol: any[];
   page = new Page();
   loading: boolean = false;
+  searchForm: FormGroup;
 
   constructor(
     private archiveSrv: ArquivesService,
     private errorMsg: ErrorMessagesService,
     private _route: Router,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.setPage({ offset: 0 });
+    // this.setPage({ offset: 0 });
+    this.searchForm = this.fb.group({
+      search: this.fb.control('')
+  });
   }
 
-  setPage(pageInfo) {
+  setPage(pageInfo, search) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
     console.log(this.page)
 
-    this.archiveSrv.archives(this.page).subscribe(data => {
+    this.archiveSrv.archives(this.page, null, search).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.archives = data.items;
@@ -56,8 +62,10 @@ export class ListComponent implements OnInit {
   }
 
   showView(value) {
-    if (value.type == 'click') {
+    if (value.type === 'click') {
       this._route.navigate(['/archives/get', value.row._id]);
+    } else if (value.type === 'mouseenter') {
+      this.toggleExpandRow(value.row)
     }
   }
 
@@ -69,6 +77,10 @@ export class ListComponent implements OnInit {
         break;
     }
     return res;
+  }
+
+  getArchive () {
+    this.setPage(0, this.searchForm.value.search)
   }
 
 }
