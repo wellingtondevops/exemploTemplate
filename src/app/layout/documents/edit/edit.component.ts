@@ -33,16 +33,6 @@ export class EditComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService
   ) {
-    this.documentForm = this.fb.group({
-      _id: '',
-      name: this.fb.control('', [Validators.required]),
-      retention: this.fb.control('', [Validators.required]),
-      retentionTime: this.fb.control('', [Validators.required]),
-      label: this.fb.array(this.labels)
-    });
-
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.getDocument();
   }
 
   get name() {
@@ -56,6 +46,16 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.documentForm = this.fb.group({
+      _id: '',
+      name: this.fb.control('', [Validators.required]),
+      retention: this.fb.control('', [Validators.required]),
+      retentionTime: this.fb.control('', [Validators.required]),
+      label: this.fb.array(this.labels)
+    });
+
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.getDocument();
   }
 
   createLabelExist(item): FormGroup {

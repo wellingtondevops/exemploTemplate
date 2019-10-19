@@ -10,7 +10,7 @@ import { ListComponent, EnumToArrayPipe } from './list/list.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
-  declarations: [ListComponent, EnumToArrayPipe,],
+  declarations: [ListComponent, EnumToArrayPipe],
   imports: [
     CommonModule,
     RegisterFileRoutingModule,
