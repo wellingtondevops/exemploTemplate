@@ -5,7 +5,6 @@ import { ShowComponent } from './show/show.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
-import { TywinGuardService as TywinGuard } from 'src/app/services/guard/tywin-guard.service';
 
 const routes: Routes = [
     {

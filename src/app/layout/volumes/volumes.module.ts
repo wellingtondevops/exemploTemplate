@@ -24,6 +24,7 @@ import { NgxLoadingModule } from 'ngx-loading';
         TranslateModule,
         ButtonBackModule,
         ButtonsCustomModule,
+        NgxLoadingModule,
         NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal]
