@@ -7,10 +7,12 @@ import { PageHeaderModule, FormUploadModule, ButtonBackModule, ButtonsCustomModu
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent],
   imports: [
+    NgbModule,
     CommonModule,
     ArchivesRoutingModule,
     PageHeaderModule,
