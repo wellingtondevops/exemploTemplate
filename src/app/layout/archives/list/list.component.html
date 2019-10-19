@@ -7,6 +7,28 @@
       tertiaryColour: '#222'
   }"></ngx-loading>
   <app-page-header [heading]="'Arquivos'" [icon]="'fa-table'"></app-page-header>
+  <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form-inline">
+          <div class="form-group mb-2 col-11">
+            <label for="search_archive">Pesquisar Arquivo</label>
+            <input id="search_archive" class="form-control col-12" formControlName="search" />
+          </div>
+          <div class="form-group mb-2 col-1">
+            <button type="submit" class="btn btn-default pull-right"
+              style="margin-top:20px">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </form>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+  <br />
   <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
     [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="showView($event)">
