@@ -32,20 +32,18 @@ export class ListComponent implements OnInit {
     // this.setPage({ offset: 0 });
     this.searchForm = this.fb.group({
       search: this.fb.control('')
-  });
+    });
   }
 
-  setPage(pageInfo, search) {
+  setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    console.log(this.page)
 
-    this.archiveSrv.archives(this.page, null, search).subscribe(data => {
+    this.archiveSrv.archives(this.page, null, this.searchForm.value.search).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.archives = data.items;
       this.loading = false;
-      console.log(this.page)
     }, error => {
       this.loading = false;
       console.log('ERROR: ', error);
@@ -79,8 +77,8 @@ export class ListComponent implements OnInit {
     return res;
   }
 
-  getArchive () {
-    this.setPage(0, this.searchForm.value.search)
+  getArchive() {
+    this.setPage({ offset: 0 })
   }
 
 }
