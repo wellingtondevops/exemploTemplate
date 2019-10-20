@@ -7,13 +7,13 @@
         "npm": "6.9.0"
     },
     "scripts": {
-      "ng": "ng",
-      "server": "ng serve",
-      "test": "ng test",
-      "test-ci": "TEST_CI=true ng test",
-      "lint": "ng lint",
-      "e2e": "ng e2e",
-      "start": "node server.js"
+        "ng": "ng",
+        "server": "ng serve",
+        "test": "ng test",
+        "test-ci": "TEST_CI=true ng test",
+        "lint": "ng lint",
+        "e2e": "ng e2e",
+        "start": "ng serve"
     },
     "private": true,
     "dependencies": {

@@ -14,7 +14,7 @@ const routes: Routes = [
         canActivate: [DaenerysGuard]
     },
     {
-        path: 'get/:id',
+        path: ':id',
         component: ShowComponent,
         canActivate: [DaenerysGuard]
     },
