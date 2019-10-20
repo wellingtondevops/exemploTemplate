@@ -74,7 +74,7 @@ export class ListComponent implements OnInit {
     } */
 
     getUser(user) {
-        this._route.navigate(['/users/get', user]);
+        this._route.navigate(['/users/get', user._id]);
     }
 
     setPage(pageInfo) {
