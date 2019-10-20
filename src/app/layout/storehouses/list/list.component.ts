@@ -56,7 +56,7 @@ export class ListComponent implements OnInit {
     }
 
     getStoreHouse(storeHouse) {
-        this._route.navigate(['/storehouses/get', storeHouse]);
+        this._route.navigate(['/storehouses', storeHouse._id]);
     }
 
     toasterClickedHandler() {
