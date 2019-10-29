@@ -44,7 +44,7 @@
         "ngx-loading": "^3.0.1",
         "ngx-toastr": "^10.0.4",
         "rxjs": "^6.5.2",
-        "yarn": "1.12.1",
+        "yarn": "1.19.1",
         "zone.js": "0.8.26"
     },
     "devDependencies": {
