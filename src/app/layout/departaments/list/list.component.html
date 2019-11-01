@@ -1,0 +1,18 @@
+<div [@routerTransition]>
+  <ngx-loading
+      [show]="loading"
+      [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"
+  ></ngx-loading>
+  <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'" [permissionBtnNew]="['DAENERYS', 'TYWIN']" [routerTo]="'/departaments/new'"></app-page-header>
+  <div class="row">
+      <div class="col col-xl-12 col-lg-12">
+          <app-datatables [data]="departaments" (setPage)="setPage($event)" [columns]="columns" (show)="getDepartament($event)"></app-datatables>
+      </div>
+  </div>
+</div>
