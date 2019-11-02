@@ -46,7 +46,7 @@ export class ListComponent implements OnInit {
   }
 
   getDepartament(departament) {
-      this._route.navigate(['/departments/get', departament._id]);
+      this._route.navigate(['/departaments/get', departament._id]);
   }
 
   setPage(pageInfo) {

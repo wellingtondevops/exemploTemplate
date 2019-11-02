@@ -29,8 +29,6 @@ export class ShowComponent implements OnInit {
   departamentForm: FormGroup;
   company: Company;
   storeHouses: any = [];
-  // volumeTypeList: any = [];
-  // guardTypeList: any = [];
   departaments: any = [];
   statusList: any = [];
   id: String;
@@ -50,10 +48,6 @@ export class ShowComponent implements OnInit {
       public modal: NgbActiveModal,
       private _route: Router
   ) {
-      // this.statusList = StatusVolumeEnum;
-      // this.volumeTypeList = VolumeTypeEnum;
-      // this.guardTypeList = GuardyTypeVolumeEnum;
-
       this.departamentForm = this.fb.group({
           _id: this.fb.control(''),
           company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
@@ -65,6 +59,7 @@ export class ShowComponent implements OnInit {
       this.getCompanies();
       this.loading = true;
       this.id = this.route.snapshot.paramMap.get('id');
+      console.log(this.id);
       this.getDepartament();
   }
 
@@ -150,6 +145,7 @@ export class ShowComponent implements OnInit {
       this.departamentsSrv.delete(departament).subscribe(
           response => {
               this.successMsgSrv.successMessages('Departamento deletado com sucesso.');
+              this._route.navigate(['/departaments']);
           },
           error => {
               this.errorMsg.errorMessages(error);

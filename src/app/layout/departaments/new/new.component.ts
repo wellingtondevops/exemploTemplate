@@ -39,6 +39,8 @@ export class NewComponent implements OnInit {
       });
   }
 
+  formatter = (x: { name: string }) => x.name;
+
   get name() {
       return this.departamentForm.get('name');
   }
