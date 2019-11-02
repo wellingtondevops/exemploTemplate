@@ -14,16 +14,85 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form-inline">
-          <div class="form-group mb-2 col-11">
-            <label for="search_archive">Pesquisar Arquivo</label>
-            <input id="search_archive" class="form-control col-12" formControlName="search" />
+          <div class="row col-12">
+            <div class="form-group mb-2 col-3">
+              <label for="typeahead-basic">Empresa</label>
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="company"
+                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
+              <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                <div *ngIf="!company.valid">
+                  Empresa é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-2 col-3">
+              <label for="typeahead-basic">Departamento</label>
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
+                formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                [ngbTypeahead]="searchDepartament" style="width: 100%" />
+            </div>
+            <div class="form-group mb-2 col-2">
+              <label for="search_archive">Localização</label>
+              <input id="search_archive" class="form-control col-12" formControlName="location" />
+            </div>
+            <div class="form-group mb-2 col-1">
+              <label for="status">Status</label>
+              <select class="form-control col-12" id="status" formControlName="status" (change)="statusChange()">
+                <option *ngFor="let item of statusList | enumToArray" [value]="item">
+                  {{ item }}</option>
+              </select>
+            </div>
+            <div class="form-group mb-2 col-3">
+              <label for="typeahead-basic">Armazém</label>
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="storehouse"
+                [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
+                style="width: 100%" />
+            </div>
           </div>
-          <div class="form-group mb-2 col-1">
-            <button type="submit" class="btn btn-default pull-right"
-              style="margin-top:20px">
-              <i class="fa fa-search"></i>
-            </button>
+          <div class="row col-12">
+            <div class="form-group mb-2 col-3">
+              <label for="typeahead-basic">Documento</label>
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="doct"
+                [resultTemplate]="rtDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
+                style="width: 100%" />
+            </div>
+            <div class="form-group mb-2 col-6">
+              <label for="search_archive">Índice</label>
+              <input id="search_archive" class="form-control col-12" formControlName="search" />
+            </div>
+            <div class="form-group mb-2 col-3" style="padding-right: 0;">
+              <div class="row col-12" style="padding-right: 0;">
+                <label for="initDate">Data Inicial</label>
+                <input id="initDate" class="form-control col-12" formControlName="initDate"/>
+              </div>
+
+              <div class="row col-12" style="padding-right: 0;">
+                <label for="endDate">Data Final</label>
+                <input id="endDate" class="form-control col-12" formControlName="endDate" />
+              </div>
+            </div>
           </div>
+          <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+            <div class="form-group mb-2">
+              <button type="submit" class="btn btn-default">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          </ng-template>
+          <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          </ng-template>
+          <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
+            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          </ng-template>
+          <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          </ng-template>
         </form>
       </ng-template>
     </ngb-panel>

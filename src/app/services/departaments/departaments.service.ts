@@ -55,4 +55,11 @@ export class DepartamentsService {
       tap(data => data)
     );
   }
+
+  searchDepartaments(){
+    return this.http.get<DepartamentList>(`${url}/listdepartaments`)
+    .pipe(
+        tap(data => data)
+    );
+  }
 }
