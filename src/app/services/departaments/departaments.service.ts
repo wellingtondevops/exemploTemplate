@@ -56,8 +56,9 @@ export class DepartamentsService {
     );
   }
 
-  searchDepartaments(){
-    return this.http.get<DepartamentList>(`${url}/listdepartaments`)
+  searchDepartaments(company_id){
+    var urlNew = company_id ? `${url}/listdepartaments?company=${company_id}` : `${url}/listdepartaments`
+    return this.http.get<DepartamentList>(urlNew)
     .pipe(
         tap(data => data)
     );

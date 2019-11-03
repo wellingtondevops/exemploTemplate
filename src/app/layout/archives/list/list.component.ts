@@ -14,6 +14,7 @@ import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
+import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 
 @Component({
   selector: 'app-list',
@@ -43,7 +44,8 @@ export class ListComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private departamentsSrv: DepartamentsService,
     private storehousesSrv: StorehousesService,
-    private documentsSrv: DocumentsService
+    private documentsSrv: DocumentsService,
+    private warningMsg: WarningMessagesService
   ) { }
 
   ngOnInit() {
@@ -55,13 +57,15 @@ export class ListComponent implements OnInit {
       location: this.fb.control(''),
       storehouse: this.fb.control(''),
       doct: this.fb.control(''),
-      search: this.fb.control('')
+      search: this.fb.control(''),
+      endDate: this.fb.control(''),
+      initDate: this.fb.control('')
     });
 
     this.statusList = StatusVolumeEnum;
     console.log(this.statusList);
     this.getCompanies();
-    this.getDepartaments();
+    // this.getDepartaments();
     this.getStoreHouses();
     this.getDocuments();
   }
@@ -83,8 +87,9 @@ export class ListComponent implements OnInit {
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-
-    this.archiveSrv.archives(this.page, null, this.searchForm.value.search).subscribe(data => {
+    var searchValue = _.omitBy(this.searchForm.value, _.isNil);
+    this.archiveSrv.archives(this.page, null, searchValue).subscribe(data => {
+      console.log('setPage', data);
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.archives = data.items;
@@ -147,14 +152,15 @@ export class ListComponent implements OnInit {
         var res;
         if (company.length < 2) [];
         else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        this.getDepartaments(res[0]._id);
         return res;
       })
     );
 
-    getDepartaments() {
-      this.departamentsSrv.searchDepartaments().subscribe(
+    getDepartaments(company_id) {
+      this.departamentsSrv.searchDepartaments(company_id).subscribe(
         data => {
-          console.log(data);
+          console.log('departament', data);
           this.departaments = data.items;
         },
         error => {
@@ -170,6 +176,11 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(departament => {
+        console.log(departament);
+        if(this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined'){
+          this.warningMsg.showWarning('Selecione uma empresa.', 4000);
+          return
+        };
         var res;
         if (departament.length < 2) [];
         else var res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
