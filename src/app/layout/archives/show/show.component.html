@@ -14,17 +14,25 @@
     </app-buttons-custom>
     <br />
   </div>
-  <div class="card bg-light mb-12">
-    <div class="card-body">
-      <app-form-index [data]="archive" [isArchive]="true">
-      </app-form-index>
-      <div class="col-12">
-        <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-          <div class="form-group">
-            <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"></app-form-upload>
+  <div class="row">
+    <div class="col-6">
+      <div class="card bg-light mb-12">
+        <div class="card-body">
+          <app-form-index [data]="archive" [isArchive]="true">
+          </app-form-index>
+          <div class="col-12">
+            <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+              <div class="form-group">
+                <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)">
+                </app-form-upload>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
+    </div>
+    <div class="col-6">
+
     </div>
   </div>
 </div>

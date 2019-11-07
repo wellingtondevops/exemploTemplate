@@ -16,6 +16,7 @@ import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { Router } from '@angular/router';
+import { Page } from 'src/app/models/page';
 
 @Component({
     selector: 'app-new',
@@ -35,6 +36,7 @@ export class NewComponent implements OnInit {
     inputBlock: Boolean = false;
     hiddenReference: Boolean = true;
     loading: Boolean = true;
+    page = new Page();
 
     constructor(
         private _route: Router,
@@ -118,6 +120,7 @@ export class NewComponent implements OnInit {
     getCompanies() {
         this.companiesSrv.searchCompanies().subscribe(
             data => {
+                console.log('companies', data.items);
                 this.companies = data.items;
             },
             error => {
@@ -142,7 +145,7 @@ export class NewComponent implements OnInit {
     }
 
     getDepartament(id) {
-        this.departamentsSrv.departaments(null, id).subscribe(
+        this.departamentsSrv.searchDepartaments(id).subscribe(
             data => {
                 console.log('departaments', data);
                 this.departaments = data.items;
@@ -166,7 +169,7 @@ export class NewComponent implements OnInit {
     }
 
     returnId(object) {
-        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
+        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
             if (key === '_id') return value;
         })[0];
     }
@@ -202,8 +205,6 @@ export class NewComponent implements OnInit {
             )
         );
 
-    formatterDepartament = (x: { departamentName: string }) => x.departamentName;
-
     formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>
@@ -211,10 +212,17 @@ export class NewComponent implements OnInit {
             debounceTime(200),
             distinctUntilChanged(),
             map(company => {
+                console.log('company', company);
                 var res;
-                if (company.length < 2) [];
-                else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-                this.getDepartament(this.volumeForm.value.company._id);
+                if (company.length < 2) {
+                    res = [];
+                } else {
+                    res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+                    // console.log(res);
+                    if (res[0]._id) {
+                        this.getDepartament(res[0]._id);
+                    }
+                }
                 return res;
             })
         );
@@ -223,11 +231,16 @@ export class NewComponent implements OnInit {
         text$.pipe(
             debounceTime(200),
             distinctUntilChanged(),
-            map(departament =>
-                departament.length < 2
-                    ? []
-                    : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
-            )
+            map(departament => {
+                console.log('departament', departament);
+                let res;
+                if (departament.length < 2) {
+                    res = [];
+                } else {
+                    res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+                }
+                return res;
+            })
         );
 }
 @Pipe({

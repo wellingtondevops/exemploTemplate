@@ -6,7 +6,7 @@ import { FormUploadComponent } from './form-upload.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, NgbModule,],
+    imports: [CommonModule, RouterModule, NgbModule],
     declarations: [FormUploadComponent],
     exports: [FormUploadComponent]
 })

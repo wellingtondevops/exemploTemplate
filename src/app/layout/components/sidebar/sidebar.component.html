@@ -14,6 +14,11 @@
             <span>{{ 'Empresas' | translate }}</span>
         </a>
 
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/departaments']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-server fa-2x"></i>&nbsp;
+            <span>{{ 'Departamentos' | translate }}</span>
+        </a>
+
         <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/volumes']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-archive fa-2x"></i>&nbsp;
             <span>{{ 'Volumes' | translate }}</span>
