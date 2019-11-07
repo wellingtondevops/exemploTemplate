@@ -111,7 +111,7 @@ export class ListComponent implements OnInit {
 
   showView(value) {
     if (value.type === 'click') {
-      this._route.navigate(['/archives', value.row._id]);
+      this._route.navigate(['/archives/get', value.row._id]);
     } else if (value.type === 'mouseenter') {
       this.toggleExpandRow(value.row)
     }

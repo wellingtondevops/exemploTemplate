@@ -85,6 +85,6 @@ export class ListComponent implements OnInit {
     }
 
     getDocument(document) {
-        this._route.navigate(['/documents', document._id]);
+        this._route.navigate(['/documents/get', document._id]);
     }
 }

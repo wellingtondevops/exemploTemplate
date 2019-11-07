@@ -77,7 +77,7 @@ export class ListComponent implements OnInit {
     } */
 
     getVolume(volume) {
-        this._route.navigate(['/volumes', volume._id]);
+        this._route.navigate(['/volumes/get', volume._id]);
     }
 
     setPage(pageInfo) {
