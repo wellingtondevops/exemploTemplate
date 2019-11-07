@@ -34,4 +34,8 @@ export class DocumentsService {
     delete(document) {
         return this.http.delete<Document>(`${url}/docts/${document}`).pipe(tap(data => data));
     }
+
+    searchDocuments(){
+        return this.http.get<DocumentList>(`${url}/listdocts`).pipe(tap(data => data));
+    }
 }

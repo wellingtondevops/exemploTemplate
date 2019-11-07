@@ -15,21 +15,50 @@ export class DepartamentsService {
   ) { }
 
   departaments(page, id) {
-    if (page) {
+    if (id) {
       return this.http.get<DepartamentList>(`${url}/departaments/${id}?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
-    } else {
-      return this.http.get<DepartamentList>(`${url}/departaments?size=10`)
+    } else if(page) {
+      return this.http.get<DepartamentList>(`${url}/departaments?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
     }
   }
 
+  departament(id){
+    return this.http.get<Departament>(`${url}/departaments/${id}`)
+      .pipe(
+          tap(data => data)
+      );
+  }
+
   newDepartament(departament) {
     return this.http.post<Departament>(`${url}/departaments`, departament)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
+  update(departament) {
+    return this.http.patch<Departament>(`${url}/departaments/${departament._id}`, departament)
+    .pipe(
+        tap(data => data)
+    );
+  }
+
+  delete(departament) {
+    return this.http.delete<Departament>(`${url}/departaments/${departament}`)
+    .pipe(
+      tap(data => data)
+    );
+  }
+
+  searchDepartaments(company_id){
+    var urlNew = company_id ? `${url}/listdepartaments?company=${company_id}` : `${url}/listdepartaments`
+    return this.http.get<DepartamentList>(urlNew)
     .pipe(
         tap(data => data)
     );

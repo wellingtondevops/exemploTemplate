@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="typeahead-basic">Departamento</label>
                         <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
-                            [resultTemplate]="rtDepartament" [inputFormatter]="formatterDepartament"
+                            [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDepartament" [ngClass]="{ 'is-invalid': !departament.valid }" />
                         <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
                             class="invalid-feedback">
@@ -129,7 +129,7 @@
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                     <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
-                        <ngb-highlight [result]="r.departamentName" [term]="t"></ngb-highlight>
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                 </div>
                 <div class="pull-right">
