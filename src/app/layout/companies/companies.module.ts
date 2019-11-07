@@ -26,6 +26,7 @@ import { NgxLoadingModule } from 'ngx-loading';
         ButtonBackModule,
         ButtonsCustomModule,
         NgxLoadingModule.forRoot({})
-    ]
+    ],
+    exports: [EnumToArrayPipe]
 })
 export class CompaniesModule {}

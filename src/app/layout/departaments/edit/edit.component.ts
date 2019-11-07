@@ -84,6 +84,10 @@ export class EditComponent implements OnInit {
       }
     );
   }
+  
+  editDepartament(departament) {
+    this._route.navigate(['/departaments/edit', departament._id]);
+  }
 
   returnId(object) {
     this.departamentForm.value[object] = _.filter(this.departamentForm.value[object], function (value, key) {

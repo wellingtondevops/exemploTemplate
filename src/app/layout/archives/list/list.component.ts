@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole, Pipe, PipeTransform } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
@@ -239,4 +239,14 @@ export class ListComponent implements OnInit {
         return res;
       })
     );
+}
+
+@Pipe({
+  name: 'enumToArray'
+})
+export class EnumToArrayPipe implements PipeTransform {
+  transform(data: Object) {
+      const keys = Object.keys(data);
+      return keys.slice(keys.length / 2);
+  }
 }
