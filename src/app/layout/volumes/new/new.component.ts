@@ -233,9 +233,13 @@ export class NewComponent implements OnInit {
             distinctUntilChanged(),
             map(departament => {
                 console.log('departament', departament);
-                departament.length < 2
-                    ? []
-                    : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+                let res;
+                if (departament.length < 2) {
+                    res = [];
+                } else {
+                    res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+                }
+                return res;
             })
         );
 }
