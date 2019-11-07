@@ -43,7 +43,7 @@ export class DepartamentsService {
   }
 
   update(departament) {
-    return this.http.put<Departament>(`${url}/departaments/${departament._id}`, departament)
+    return this.http.patch<Departament>(`${url}/departaments/${departament._id}`, departament)
     .pipe(
         tap(data => data)
     );

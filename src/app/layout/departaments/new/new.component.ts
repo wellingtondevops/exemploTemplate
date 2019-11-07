@@ -97,7 +97,7 @@ export class NewComponent implements OnInit {
           map(company => {
               var res;
               if (company.length < 2) [];
-              else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+              else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
               return res;
           })
       );
