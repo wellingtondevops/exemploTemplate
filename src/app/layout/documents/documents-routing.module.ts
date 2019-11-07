@@ -13,7 +13,7 @@ const routes: Routes = [
         canActivate: [DaenerysTywinGuard]
     },
     {
-        path: 'get/:id',
+        path: ':id',
         component: ShowComponent,
         canActivate: [DaenerysTywinGuard]
     },
