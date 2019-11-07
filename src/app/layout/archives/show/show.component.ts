@@ -70,13 +70,14 @@ export class ShowComponent implements OnInit {
   }
 
   postFile(data){
-    this.uploadFile.patchValue({
+    console.log(data);
+    /* this.uploadFile.patchValue({
       archive: this.archive._id,
       volume: this.archive.volume._id,
       storehouse: this.archive.storehouse._id,
       file: data
-    })
-    this.submit();
+    }) */
+    // this.submit();
   }
 
   submit() {
