@@ -67,7 +67,7 @@ export class ShowComponent implements OnInit {
             _id: this.fb.control(''),
             storehouse: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            description: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            /* description: this.fb.control({ value: '', disabled: true }, [Validators.required]), */
             guardType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             volumeType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
@@ -85,9 +85,9 @@ export class ShowComponent implements OnInit {
         this.getVolume();
     }
 
-    get description() {
+    /* get description() {
         return this.volumeForm.get('description');
-    }
+    } */
     get location() {
         return this.volumeForm.get('location');
     }
@@ -117,7 +117,6 @@ export class ShowComponent implements OnInit {
                     departament: this.volume.departament ? this.volume.departament.name : null,
                     storehouse: this.volume.storehouse,
                     company: data.company,
-                    description: data.description,
                     guardType: data.guardType,
                     volumeType: data.volumeType,
                     uniqueField: data.uniqueField,
@@ -139,7 +138,6 @@ export class ShowComponent implements OnInit {
         if (this.changeUp) {
             this.volumeForm.reset({
                 _id: this.volume._id,
-                description: { value: this.volume.description, disabled: false },
                 location: { value: this.volume.location, disabled: false },
                 company: { value: this.volume.company, disabled: false },
                 departament: { value: this.volume.departament, disabled: false },

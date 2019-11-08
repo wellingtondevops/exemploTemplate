@@ -55,7 +55,6 @@ export class NewComponent implements OnInit {
         this.volumeForm = this.fb.group({
             storehouse: this.fb.control('', [Validators.required]),
             company: this.fb.control('', [Validators.required]),
-            description: this.fb.control('', [Validators.required]),
             guardType: this.fb.control('', [Validators.required]),
             volumeType: this.fb.control('', [Validators.required]),
             departament: this.fb.control(null),

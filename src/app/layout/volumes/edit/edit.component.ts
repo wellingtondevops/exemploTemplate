@@ -58,7 +58,6 @@ export class EditComponent implements OnInit {
             _id: this.fb.control(''),
             storehouse: this.fb.control('', [Validators.required]),
             company: this.fb.control('', [Validators.required]),
-            description: this.fb.control('', [Validators.required]),
             guardType: this.fb.control('', [Validators.required]),
             volumeType: this.fb.control('', [Validators.required]),
             departament: this.fb.control('', [Validators.required]),
@@ -77,9 +76,6 @@ export class EditComponent implements OnInit {
         this.getVolume();
     }
 
-    get description() {
-        return this.volumeForm.get('description');
-    }
     get location() {
         return this.volumeForm.get('location');
     }
@@ -112,7 +108,6 @@ export class EditComponent implements OnInit {
                     departament: this.volume.departament ? this.volume.departament.name : null,
                     storehouse: this.volume.storehouse,
                     company: data.company,
-                    description: data.description,
                     guardType: data.guardType,
                     volumeType: data.volumeType,
                     uniqueField: data.uniqueField,
