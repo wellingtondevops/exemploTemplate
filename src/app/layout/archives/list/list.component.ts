@@ -149,10 +149,12 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
+        var res = [];
         if (company.length < 2) [];
         else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        this.getDepartaments(res[0]._id);
+        if(res.length > 0) {
+          this.getDepartaments(res[0]._id);
+        }
         return res;
       })
     );
@@ -160,7 +162,7 @@ export class ListComponent implements OnInit {
     getDepartaments(company_id) {
       this.departamentsSrv.searchDepartaments(company_id).subscribe(
         data => {
-          console.log('departament', data);
+          // console.log('departament', data);
           this.departaments = data.items;
         },
         error => {
@@ -209,7 +211,7 @@ export class ListComponent implements OnInit {
       map(storehouse => {
         var res;
         if (storehouse.length < 2) [];
-        else var res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
@@ -235,7 +237,7 @@ export class ListComponent implements OnInit {
       map(document => {
         var res;
         if (document.length < 2) [];
-        else var res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );

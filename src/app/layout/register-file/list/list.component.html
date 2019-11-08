@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-<!--   <ngx-loading [show]="loading" [config]="{
+  <!--   <ngx-loading [show]="loading" [config]="{
           backdropBorderRadius: '3px',
           fullScreenBackdrop: true,
           primaryColour: '#222',
@@ -58,15 +58,10 @@
                                                                 </div> -->
                   </div>
                   <div class="form-group mb-2 col-4">
-                    <label for="description">Descrição</label>
-                    <input id="description" class="form-control col-12" formControlName="description" />
-                    <!--<div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
-                                                                    
-                                                                            <div *ngIf="!company.valid">
-                                                                              Empresa é obrigatório.
-                                                                          </div>
-                                                                         
-                                                                  </div> -->
+                    <label for="typeahead-basic">Departamento</label>
+                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
+                      formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                      [ngbTypeahead]="searchDepartament" style="width: 100%" />
                   </div>
                   <div class="form-group mb-2 col-2">
                     <button type="button" class="btn btn-default pull-right" (click)="getVolumesList()"
@@ -78,6 +73,9 @@
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                   </ng-template>
                   <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                  </ng-template>
+                  <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                   </ng-template>
                 </form>
@@ -108,13 +106,14 @@
                           <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
                       </div>
-                      
+
                       <!-- <div class="form-group mb-2 col-12">
                         <button type="submit" class="btn btn-default">Adicionar tipo de documento ao volume</button>
                       </div> -->
                     </form>
                     <br>
-                    <app-form-index *ngIf="document" [data]="document"  [isArchive]="false" (sendArchive)="postArchive($event)">
+                    <app-form-index *ngIf="document" [data]="document" [isArchive]="false"
+                      (sendArchive)="postArchive($event)">
                     </app-form-index>
                     <br>
                     <br>
