@@ -151,7 +151,7 @@ export class ListComponent implements OnInit {
       map(company => {
         var res;
         if (company.length < 2) [];
-        else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
         this.getDepartaments(res[0]._id);
         return res;
       })
@@ -183,7 +183,7 @@ export class ListComponent implements OnInit {
         };
         var res;
         if (departament.length < 2) [];
-        else var res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
