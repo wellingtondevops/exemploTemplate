@@ -94,7 +94,7 @@ export class ListComponent implements OnInit {
   @ViewChild('tab') private tab: NgbTabset;
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
-    { name: 'Descrição', prop: 'description' },
+    { name: 'Departamento', prop: 'departament.name' },
     /*{ name: 'Ármazem', prop: 'storehouse.name' },*/
     { name: 'Localização', prop: 'location', width: 70 },
     /*{ name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
