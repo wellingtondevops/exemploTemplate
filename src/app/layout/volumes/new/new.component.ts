@@ -176,6 +176,7 @@ export class NewComponent implements OnInit {
     postVolume() {
         this.returnId('company');
         this.returnId('storehouse');
+        this.returnId('departament');
         this.volumeForm.value.uniqueField = this.returnUniqField();
         var volume = _.omitBy(this.volumeForm.value, _.isNil);
         this.volumesSrv.newVolume(volume).subscribe(

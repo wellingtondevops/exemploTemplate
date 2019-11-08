@@ -106,15 +106,19 @@ export class ShowComponent implements OnInit {
     get reference() {
         return this.volumeForm.get('reference');
     }
+    get departament() {
+        return this.volumeForm.get('departament');
+    }
 
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
+                console.log(data)
                 this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
                     _id: this.volume._id,
-                    departament: this.volume.departament ? this.volume.departament.name : null,
+                    departament: this.volume.departament,
                     storehouse: this.volume.storehouse,
                     company: data.company,
                     guardType: data.guardType,
