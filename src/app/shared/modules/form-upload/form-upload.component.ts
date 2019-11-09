@@ -17,6 +17,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 export class FormUploadComponent implements ControlValueAccessor {
   @Input() archive;
   @Input() savedFile;
+  progress: boolean = false;
   onChange: Function;
   file: File | null = null;
   url: any = '';
@@ -57,6 +58,7 @@ export class FormUploadComponent implements ControlValueAccessor {
   }
 
   saveFile() {
+    this.progress = true;
     this.postFile.emit(this.file)
   }
 }
