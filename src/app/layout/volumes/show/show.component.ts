@@ -128,6 +128,7 @@ export class ShowComponent implements OnInit {
                     status: data.status,
                     reference: data.reference
                 });
+                this.getDepartament(data.company._id);
             },
             error => {
                 this.loading = false;
@@ -184,8 +185,9 @@ export class ShowComponent implements OnInit {
     }
 
     getDepartament(id) {
-        this.departamentsSrv.departaments(null, id).subscribe(
+        this.departamentsSrv.searchDepartaments(id).subscribe(
             data => {
+                console.log('departaments', data)
                 this.departaments = data.items;
             },
             error => {
@@ -272,8 +274,7 @@ export class ShowComponent implements OnInit {
             this.delete(item);
         });
     }
-
-    formatterDepartament = (x: { departamentName: string }) => x.departamentName;
+    
     formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>

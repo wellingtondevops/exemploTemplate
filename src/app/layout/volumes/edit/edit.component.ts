@@ -116,6 +116,7 @@ export class EditComponent implements OnInit {
                     status: data.status
                 });
                 this.changeGuardType();
+                this.getDepartament(data.company._id)
             },
             error => {
                 this.loading = false;
@@ -154,7 +155,7 @@ export class EditComponent implements OnInit {
     }
 
     getDepartament(id) {
-        this.departamentsSrv.departaments(null, id).subscribe(
+        this.departamentsSrv.searchDepartaments(id).subscribe(
             data => {
                 this.departaments = data.items;
             },
@@ -216,7 +217,6 @@ export class EditComponent implements OnInit {
             )
         );
 
-    formatterDepartament = (x: { departamentName: string }) => x.departamentName;
     formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>
