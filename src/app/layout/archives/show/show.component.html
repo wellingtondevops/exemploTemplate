@@ -26,7 +26,7 @@
     <div class="col-6">
       <form [formGroup]="uploadFile" (ngSubmit)="submit()">
         <div class="form-group">
-          <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)">
+          <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)" [savedFile]="savedFile">
           </app-form-upload>
         </div>
       </form>

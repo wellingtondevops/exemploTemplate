@@ -16,19 +16,32 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 })
 export class FormUploadComponent implements ControlValueAccessor {
   @Input() archive;
+  @Input() savedFile;
   onChange: Function;
   file: File | null = null;
+  url: any = '';
   @Output() postFile = new EventEmitter();
+
+  constructor(
+    private host: ElementRef<HTMLInputElement>
+  ) {
+  }
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
     const file = event && event.item(0);
     this.onChange(file);
     this.file = file;
-    this.postFile.emit(this.file)
+    var reader = new FileReader();
+    reader.readAsDataURL(event[0]); // read file as data url
+
+    reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.currentTarget;
+        this.url = this.url.result;
+      
+    }
   }
 
-  constructor(private host: ElementRef<HTMLInputElement>) {
-  }
+
 
   writeValue(value: null) {
     // clear file input
@@ -41,5 +54,9 @@ export class FormUploadComponent implements ControlValueAccessor {
   }
 
   registerOnTouched(fn: Function) {
+  }
+
+  saveFile() {
+    this.postFile.emit(this.file)
   }
 }

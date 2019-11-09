@@ -39,7 +39,7 @@
             <div class="form-group mb-2 col-1">
               <label for="status">Status</label>
               <select class="form-control col-12" id="status" formControlName="status" (change)="statusChange()">
-                <option *ngFor="let item of statusList | enumToArray" [value]="item">
+                <option *ngFor="let item of statusList" [value]="item">
                   {{ item }}</option>
               </select>
             </div>

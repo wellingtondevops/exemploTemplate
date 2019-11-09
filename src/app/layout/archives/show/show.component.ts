@@ -18,6 +18,7 @@ export class ShowComponent implements OnInit {
   archive: Archive;
   loading: Boolean = true;
   file: any;
+  savedFile: boolean = false;
 
   constructor(
     private _route: Router,
@@ -70,14 +71,13 @@ export class ShowComponent implements OnInit {
   }
 
   postFile(data){
-    console.log(data);
-    /* this.uploadFile.patchValue({
+    this.uploadFile.patchValue({
       archive: this.archive._id,
       volume: this.archive.volume._id,
       storehouse: this.archive.storehouse._id,
       file: data
-    }) */
-    // this.submit();
+    }) 
+    this.submit();
   }
 
   submit() {
@@ -90,6 +90,7 @@ export class ShowComponent implements OnInit {
     this.filesSrv.file(formData).subscribe(data => {
       if (data._id) {
         this.loading = false;
+        this.savedFile = true;
         this.successMsgSrv.successMessages('Imagem anexada com sucesso.');
       }
       this.getFile(this.archive._id);

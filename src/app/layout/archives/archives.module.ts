@@ -8,10 +8,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { EnumToArrayPipe } from '../companies/new/new.component';
+
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, EnumToArrayPipe,],
+  declarations: [ListComponent, ShowComponent],
   imports: [
     NgbModule,
     CommonModule,
