@@ -7,14 +7,10 @@
       <button type="button" class="btn btn-default pull-right" style="margin-top: 2%">Excluir</button>
     </span>
     <span *ngIf="archive">
-      <img [src]="archive.url" style="margin-right:10px; width: 100%" />
+      <img *ngIf="archive.url" [src]="archive.url" style="margin-right:10px; width: 100%" />
       <!--<button type="button" class="btn btn-default" style="margin-right:10px">Editar</button> -->
       <button type="button" class="btn btn-default pull-right" style="margin-top: 2%">Excluir</button>
     </span>
-    <div class="progress" *ngIf="progress">
-      <div class="progress-bar" role="progressbar" style="height: 10px;" aria-valuenow="25"
-        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':archive.progress+'%'}"></div>
-    </div>
   </div>
   <div class="row">
     <div *ngIf="!file && !archive && !url">

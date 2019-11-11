@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListComponent } from './list/list.component';
+import { ListComponent, EnumToArrayPipe } from './list/list.component';
 import { ShowComponent } from './show/show.component';
 import { ArchivesRoutingModule } from './archives-routing.module';
 import { PageHeaderModule, FormUploadModule, ButtonBackModule, ButtonsCustomModule, FormIndexModule } from 'src/app/shared';
@@ -11,7 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent],
+  declarations: [ListComponent, ShowComponent, EnumToArrayPipe],
   imports: [
     NgbModule,
     CommonModule,
