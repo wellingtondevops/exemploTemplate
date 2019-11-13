@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { DomSanitizer,SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -21,10 +22,14 @@ export class FormUploadComponent implements ControlValueAccessor {
   onChange: Function;
   file: File | null = null;
   url: any = '';
+  urlFile: any = '';
+  isPdf: boolean = false;
+  urlGoogle: any;
   @Output() postFile = new EventEmitter();
 
   constructor(
-    private host: ElementRef<HTMLInputElement>
+    private host: ElementRef<HTMLInputElement>,
+    public sanitizer: DomSanitizer
   ) {
   }
 
@@ -36,13 +41,25 @@ export class FormUploadComponent implements ControlValueAccessor {
     reader.readAsDataURL(event[0]); // read file as data url
 
     reader.onload = (event) => { // called once readAsDataURL is completed
-        this.url = event.currentTarget;
-        this.url = this.url.result;
-      
+      this.url = event.currentTarget;
+      this.url = this.url.result;
+
     }
   }
 
-
+  ngOnChanges(changes: SimpleChanges) {
+    // tslint:disable-next-line:forin
+    for (const propName in changes) {
+      const change = changes[propName];
+      if (propName === 'archive') {
+        this.urlFile = change.currentValue.url;
+        this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
+        var url = `https://docs.google.com/viewer?url=${this.archive.url}&embedded=true`;
+        this.urlGoogle = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        console.log('urlGoogle', this.urlGoogle);
+      }
+    }
+  }
 
   writeValue(value: null) {
     // clear file input
