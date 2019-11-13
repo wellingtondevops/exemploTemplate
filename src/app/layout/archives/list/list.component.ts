@@ -242,10 +242,7 @@ export class ListComponent implements OnInit {
       })
     );
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> f03f86d892d89efcda8849810c399ea416a722cb
 @Pipe({
   name: 'enumToArray'
 })
@@ -254,8 +251,4 @@ export class EnumToArrayPipe implements PipeTransform {
       const keys = Object.keys(data);
       return keys.slice(keys.length / 2);
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> f03f86d892d89efcda8849810c399ea416a722cb
