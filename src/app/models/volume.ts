@@ -8,7 +8,6 @@ export class Volume {
     self: string
   };
   _id: string;
-  description: string;
   location: string;
   departament: Departament;
   storehouse: Storehouse;

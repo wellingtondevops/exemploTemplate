@@ -21,6 +21,8 @@ import { ArquivesService } from 'src/app/services/archives/archives.service';
 import _ from 'lodash';
 import { DoctypeList, Doctype } from 'src/app/models/doctype';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
+import { DepartamentList } from 'src/app/models/departament';
 interface Alert {
   type: string;
   message: string;
@@ -44,6 +46,7 @@ export class ListComponent implements OnInit {
   loading: Boolean = false;
   company_id: string;
   storeHouse_id: string;
+  departaments: any = [];
   companies: any = {
     _links: {
       self: '',
@@ -91,7 +94,7 @@ export class ListComponent implements OnInit {
   @ViewChild('tab') private tab: NgbTabset;
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
-    { name: 'Descrição', prop: 'description' },
+    { name: 'Departamento', prop: 'departament.name' },
     /*{ name: 'Ármazem', prop: 'storehouse.name' },*/
     { name: 'Localização', prop: 'location', width: 70 },
     /*{ name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
@@ -127,7 +130,8 @@ export class ListComponent implements OnInit {
     private registerSrv: RegistersService,
     private doctypesSrv: DoctypesService,
     private archivesSrv: ArquivesService,
-    private warningMsgSrv: WarningMessagesService
+    private warningMsgSrv: WarningMessagesService,
+    private departamentsSrv: DepartamentsService
   ) { }
 
   ngOnInit() {
@@ -139,7 +143,7 @@ export class ListComponent implements OnInit {
       company: this.fb.control('', [Validators.required]),
       storehouse: this.fb.control('', [Validators.required]),
       location: this.fb.control(''),
-      description: this.fb.control('')
+      departament: this.fb.control('')
     });
     this.loading = true;
     this.getCompanies();
@@ -166,7 +170,22 @@ export class ListComponent implements OnInit {
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
       data => {
+        console.log(data.items);
         this.companies = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+  }
+
+  getDepartaments(company_id) {
+    this.departamentsSrv.searchDepartaments(company_id).subscribe(
+      data => {
+        console.log('departament', data);
+        this.departaments = data.items;
       },
       error => {
         this.errorMsg.errorMessages(error);
@@ -203,9 +222,9 @@ export class ListComponent implements OnInit {
     this.document = null;
     this.storeHouse_id = this.registerFileForm.value.storehouse._id;
     this.company_id = this.registerFileForm.value.company._id;
-    var description = this.registerFileForm.value.description;
+    var departament = this.registerFileForm.value.departament._id;
     var location = this.registerFileForm.value.location;
-    this.volumesSrv.listvolume(this.storeHouse_id, this.company_id, location, description).subscribe(
+    this.volumesSrv.listvolume(this.storeHouse_id, this.company_id, location, departament).subscribe(
       data => {
         this.volumes = data;
         this.page.pageNumber = data._links.currentPage;
@@ -391,7 +410,7 @@ export class ListComponent implements OnInit {
       map(typeDocument => {
         var res;
         if (typeDocument.length < 2) [];
-        else var res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
@@ -401,11 +420,25 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
+        var res = [];
         if (company.length < 2) [];
-        else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        if(res.length > 0){
+          this.getDepartaments(res[0]._id);
+        }
         return res;
       })
+    );
+
+  searchDepartament = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(departament =>
+        departament.length < 2
+          ? []
+          : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+      )
     );
 }
 @Pipe({

@@ -35,7 +35,7 @@ export class ListComponent implements OnInit {
     page = new Page();
     columns = [
         { name: 'Empresa', prop: 'company.name', width: 250 },
-        { name: 'Departamento', prop: 'departament.departamentName' },
+        { name: 'Departamento', prop: 'departament.name' },
         { name: 'Ármazem', prop: 'storehouse.name' },
         { name: 'Localização', prop: 'location', width: 70 },
         /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },

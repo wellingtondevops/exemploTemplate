@@ -55,7 +55,6 @@ export class NewComponent implements OnInit {
         this.volumeForm = this.fb.group({
             storehouse: this.fb.control('', [Validators.required]),
             company: this.fb.control('', [Validators.required]),
-            description: this.fb.control('', [Validators.required]),
             guardType: this.fb.control('', [Validators.required]),
             volumeType: this.fb.control('', [Validators.required]),
             departament: this.fb.control(null),
@@ -177,6 +176,7 @@ export class NewComponent implements OnInit {
     postVolume() {
         this.returnId('company');
         this.returnId('storehouse');
+        this.returnId('departament');
         this.volumeForm.value.uniqueField = this.returnUniqField();
         var volume = _.omitBy(this.volumeForm.value, _.isNil);
         this.volumesSrv.newVolume(volume).subscribe(

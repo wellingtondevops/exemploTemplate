@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole, Pipe, PipeTransform } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';
@@ -149,10 +149,12 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
+        var res = [];
         if (company.length < 2) [];
-        else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        this.getDepartaments(res[0]._id);
+        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        if(res.length > 0) {
+          this.getDepartaments(res[0]._id);
+        }
         return res;
       })
     );
@@ -160,7 +162,7 @@ export class ListComponent implements OnInit {
     getDepartaments(company_id) {
       this.departamentsSrv.searchDepartaments(company_id).subscribe(
         data => {
-          console.log('departament', data);
+          // console.log('departament', data);
           this.departaments = data.items;
         },
         error => {
@@ -183,7 +185,7 @@ export class ListComponent implements OnInit {
         };
         var res;
         if (departament.length < 2) [];
-        else var res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
@@ -209,7 +211,7 @@ export class ListComponent implements OnInit {
       map(storehouse => {
         var res;
         if (storehouse.length < 2) [];
-        else var res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
@@ -235,8 +237,17 @@ export class ListComponent implements OnInit {
       map(document => {
         var res;
         if (document.length < 2) [];
-        else var res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
+}
+@Pipe({
+  name: 'enumToArray'
+})
+export class EnumToArrayPipe implements PipeTransform {
+  transform(data: Object) {
+      const keys = Object.keys(data);
+      return keys.slice(keys.length / 2);
+  }
 }
