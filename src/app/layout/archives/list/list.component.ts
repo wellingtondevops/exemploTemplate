@@ -149,10 +149,12 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
+        var res = [];
         if (company.length < 2) [];
-        else var res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        this.getDepartaments(res[0]._id);
+        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        if(res.length > 0) {
+          this.getDepartaments(res[0]._id);
+        }
         return res;
       })
     );
@@ -160,7 +162,7 @@ export class ListComponent implements OnInit {
     getDepartaments(company_id) {
       this.departamentsSrv.searchDepartaments(company_id).subscribe(
         data => {
-          console.log('departament', data);
+          // console.log('departament', data);
           this.departaments = data.items;
         },
         error => {
@@ -183,7 +185,7 @@ export class ListComponent implements OnInit {
         };
         var res;
         if (departament.length < 2) [];
-        else var res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
@@ -209,7 +211,7 @@ export class ListComponent implements OnInit {
       map(storehouse => {
         var res;
         if (storehouse.length < 2) [];
-        else var res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
@@ -235,12 +237,15 @@ export class ListComponent implements OnInit {
       map(document => {
         var res;
         if (document.length < 2) [];
-        else var res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
+        else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
     );
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f03f86d892d89efcda8849810c399ea416a722cb
 @Pipe({
   name: 'enumToArray'
 })
@@ -249,4 +254,8 @@ export class EnumToArrayPipe implements PipeTransform {
       const keys = Object.keys(data);
       return keys.slice(keys.length / 2);
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> f03f86d892d89efcda8849810c399ea416a722cb

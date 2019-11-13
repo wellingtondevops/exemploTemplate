@@ -16,7 +16,7 @@ export class ArquivesService {
 
   archives(page, size = 10, search = null) {
     if (page) {
-      return this.http.get<ArchivesList>(`${url}/archives?_page=${page.pageNumber}&size=${size}&search=${search}`)
+      return this.http.get<ArchivesList>(`${url}/archives?_page=${page.pageNumber}&size=${size}&search=${search.search}`)
         .pipe(
           tap(data => data)
         );

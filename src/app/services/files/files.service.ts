@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
+import { tap, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { File } from 'src/app/models/file';
 const url = environment.apiUrl;
@@ -12,10 +12,27 @@ export class FilesService {
     constructor(private http: HttpClient) { }
 
     file(form) {
-        return this.http.post<File>(`https://archioqa.appspot.com/posts`, form).pipe(tap(data => data));
+        return this.http.post<any>(`https://archioqa.appspot.com/posts`,
+            form,
+            {
+                reportProgress: true,
+                observe: 'events'
+            }).pipe(map((event) => {
+                console.log('event', event)
+                switch (event.type) {
+                    case HttpEventType.UploadProgress:
+                      const progress = Math.round(100 * event.loaded / event.total);
+                      return { status: 'progress', message: progress };
+            
+                    case HttpEventType.Response:
+                      return event.body;
+                    default:
+                      return `Unhandled event: ${event.type}`;
+                  }
+            }));
     }
 
-    getFile (archive_id) {
+    getFile(archive_id) {
         return this.http.get<File>(`${url}/pictures?archive=${archive_id}`).pipe(tap(data => data));
     }
 }

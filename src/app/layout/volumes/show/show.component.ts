@@ -67,7 +67,7 @@ export class ShowComponent implements OnInit {
             _id: this.fb.control(''),
             storehouse: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            description: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            /* description: this.fb.control({ value: '', disabled: true }, [Validators.required]), */
             guardType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             volumeType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
@@ -85,9 +85,9 @@ export class ShowComponent implements OnInit {
         this.getVolume();
     }
 
-    get description() {
+    /* get description() {
         return this.volumeForm.get('description');
-    }
+    } */
     get location() {
         return this.volumeForm.get('location');
     }
@@ -106,18 +106,21 @@ export class ShowComponent implements OnInit {
     get reference() {
         return this.volumeForm.get('reference');
     }
+    get departament() {
+        return this.volumeForm.get('departament');
+    }
 
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
+                console.log(data)
                 this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
                     _id: this.volume._id,
-                    departament: this.volume.departament ? this.volume.departament.name : null,
+                    departament: this.volume.departament,
                     storehouse: this.volume.storehouse,
                     company: data.company,
-                    description: data.description,
                     guardType: data.guardType,
                     volumeType: data.volumeType,
                     uniqueField: data.uniqueField,
@@ -125,6 +128,7 @@ export class ShowComponent implements OnInit {
                     status: data.status,
                     reference: data.reference
                 });
+                this.getDepartament(data.company._id);
             },
             error => {
                 this.loading = false;
@@ -139,7 +143,6 @@ export class ShowComponent implements OnInit {
         if (this.changeUp) {
             this.volumeForm.reset({
                 _id: this.volume._id,
-                description: { value: this.volume.description, disabled: false },
                 location: { value: this.volume.location, disabled: false },
                 company: { value: this.volume.company, disabled: false },
                 departament: { value: this.volume.departament, disabled: false },
@@ -182,8 +185,9 @@ export class ShowComponent implements OnInit {
     }
 
     getDepartament(id) {
-        this.departamentsSrv.departaments(null, id).subscribe(
+        this.departamentsSrv.searchDepartaments(id).subscribe(
             data => {
+                console.log('departaments', data)
                 this.departaments = data.items;
             },
             error => {
@@ -270,8 +274,7 @@ export class ShowComponent implements OnInit {
             this.delete(item);
         });
     }
-
-    formatterDepartament = (x: { departamentName: string }) => x.departamentName;
+    
     formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>

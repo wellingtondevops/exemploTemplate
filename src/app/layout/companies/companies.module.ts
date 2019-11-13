@@ -12,7 +12,7 @@ import { ShowComponent } from './show/show.component';
 import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
-    declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
+    declarations: [ListComponent, NewComponent, EditComponent, ShowComponent, EnumToArrayPipe],
     imports: [
         CommonModule,
         CompaniesRoutingModule,
