@@ -7,6 +7,10 @@
             tertiaryColour: '#222'
         }"></ngx-loading>
     <app-page-header [heading]="'Editar Empresa'" [icon]="'fa-user'"></app-page-header>
+    <div style="margin-bottom: 10px">
+        <app-button-back [redirectTo]="'companies'"></app-button-back>
+        <br />
+    </div>
     <div class="card bg-light mb-12">
         <div class="card-body">
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">

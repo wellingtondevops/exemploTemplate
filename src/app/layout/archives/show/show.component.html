@@ -20,19 +20,22 @@
         <div class="card-body">
           <app-form-index [data]="archive" [isArchive]="true">
           </app-form-index>
-          <div class="col-12">
-            <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-              <div class="form-group">
-                <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)">
-                </app-form-upload>
-              </div>
-            </form>
-          </div>
         </div>
       </div>
     </div>
     <div class="col-6">
-
+      <div class="progress" *ngIf="uploadResponse.status === 'progress'">
+        <div class="progress-bar" role="progressbar" style="height: 10px;" aria-valuenow="25"
+          aria-valuemin="0" aria-valuemax="100" [style.width.%]="uploadResponse.message">
+        </div>
+      </div>
+      <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+        <div class="form-group">
+          <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
+            [savedFile]="savedFile">
+          </app-form-upload>
+        </div>
+      </form>
     </div>
   </div>
 </div>

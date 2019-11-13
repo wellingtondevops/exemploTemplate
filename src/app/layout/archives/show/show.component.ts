@@ -16,8 +16,11 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 export class ShowComponent implements OnInit {
   id: string;
   archive: Archive;
+  uploadResponse = { status: '', message: '', filePath: '' };
+  error: string;
   loading: Boolean = true;
   file: any;
+  savedFile: boolean = false;
 
   constructor(
     private _route: Router,
@@ -53,6 +56,7 @@ export class ShowComponent implements OnInit {
 
   getFile(archive_id) {
     this.filesSrv.getFile(archive_id).subscribe(data => {
+      console.log('file', data)
       this.file = data;
     })
   }
@@ -70,18 +74,17 @@ export class ShowComponent implements OnInit {
   }
 
   postFile(data){
-    console.log(data);
-    /* this.uploadFile.patchValue({
+    this.uploadFile.patchValue({
       archive: this.archive._id,
       volume: this.archive.volume._id,
       storehouse: this.archive.storehouse._id,
       file: data
-    }) */
-    // this.submit();
+    }) 
+    this.submit();
   }
 
   submit() {
-    this.loading = true;
+    // this.loading = true;
     const formData = new FormData();
     formData.append('file', this.uploadFile.get('file').value);
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
@@ -89,13 +92,18 @@ export class ShowComponent implements OnInit {
     formData.append('archive', this.uploadFile.get('archive').value);
     this.filesSrv.file(formData).subscribe(data => {
       if (data._id) {
-        this.loading = false;
+        console.log(data)
+        this.uploadResponse = data;
+        // this.loading = false;
+        this.savedFile = true;
         this.successMsgSrv.successMessages('Imagem anexada com sucesso.');
       }
       this.getFile(this.archive._id);
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
+      console.log(error)
+      this.error = error;
       console.log("ERROR ", error)
     })
   }

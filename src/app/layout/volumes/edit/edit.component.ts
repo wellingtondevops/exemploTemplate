@@ -58,7 +58,6 @@ export class EditComponent implements OnInit {
             _id: this.fb.control(''),
             storehouse: this.fb.control('', [Validators.required]),
             company: this.fb.control('', [Validators.required]),
-            description: this.fb.control('', [Validators.required]),
             guardType: this.fb.control('', [Validators.required]),
             volumeType: this.fb.control('', [Validators.required]),
             departament: this.fb.control('', [Validators.required]),
@@ -77,9 +76,6 @@ export class EditComponent implements OnInit {
         this.getVolume();
     }
 
-    get description() {
-        return this.volumeForm.get('description');
-    }
     get location() {
         return this.volumeForm.get('location');
     }
@@ -105,14 +101,14 @@ export class EditComponent implements OnInit {
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
+                console.log(data)
                 this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
                     _id: this.volume._id,
-                    departament: this.volume.departament ? this.volume.departament.name : null,
+                    departament: this.volume.departament,
                     storehouse: this.volume.storehouse,
                     company: data.company,
-                    description: data.description,
                     guardType: data.guardType,
                     volumeType: data.volumeType,
                     uniqueField: data.uniqueField,
@@ -120,6 +116,7 @@ export class EditComponent implements OnInit {
                     status: data.status
                 });
                 this.changeGuardType();
+                this.getDepartament(data.company._id)
             },
             error => {
                 this.loading = false;
@@ -158,7 +155,7 @@ export class EditComponent implements OnInit {
     }
 
     getDepartament(id) {
-        this.departamentsSrv.departaments(null, id).subscribe(
+        this.departamentsSrv.searchDepartaments(id).subscribe(
             data => {
                 this.departaments = data.items;
             },
@@ -220,7 +217,6 @@ export class EditComponent implements OnInit {
             )
         );
 
-    formatterDepartament = (x: { departamentName: string }) => x.departamentName;
     formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>
