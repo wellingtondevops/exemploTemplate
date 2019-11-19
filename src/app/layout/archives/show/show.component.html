@@ -15,7 +15,7 @@
     <br />
   </div>
   <div class="row">
-    <div class="col-6">
+    <div class="col-4">
       <div class="card bg-light mb-12">
         <div class="card-body">
           <app-form-index [data]="archive" [isArchive]="true">
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-8">
       <div class="progress" *ngIf="uploadResponse.status === 'progress'">
         <div class="progress-bar" role="progressbar" style="height: 10px;" aria-valuenow="25"
           aria-valuemin="0" aria-valuemax="100" [style.width.%]="uploadResponse.message">
