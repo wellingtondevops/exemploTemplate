@@ -12,7 +12,7 @@ export class FilesService {
     constructor(private http: HttpClient) { }
 
     file(form) {
-        return this.http.post<any>(`https://archioqa.appspot.com/posts`,
+        return this.http.post<any>(`https://localhost:2000/post`,
             form,
             {
                 reportProgress: true,

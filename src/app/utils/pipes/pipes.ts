@@ -24,4 +24,5 @@ export class Pipes {
   status(value: any, ...args: any[]) {
     return `<i class="fa fa-circle color-${value[0]}"></i>`;
   }
+
 }
