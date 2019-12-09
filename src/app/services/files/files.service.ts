@@ -12,7 +12,8 @@ export class FilesService {
     constructor(private http: HttpClient) { }
 
     file(form) {
-        return this.http.post<any>(`https://localhost:2000/post`,
+        console.log('form', form);
+        return this.http.post<any>(`http://localhost:2000/post`,
             form,
             {
                 reportProgress: true,

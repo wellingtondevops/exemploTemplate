@@ -6,13 +6,13 @@
       <button type="button" class="btn btn-default pull-right" style="margin-top: 2%">Excluir</button>
     </span>
     <span *ngIf="archive && !isPdf">
+        <!-- <iframe [src]="archive.url" style="width:100%;height: 600px;" frameborder="0"></iframe> -->
       <img *ngIf="archive.url" [src]="archive.url" style="margin-right:10px; width: 100%" />
       <button type="button" class="btn btn-default pull-right" style="margin-top: 2%">Excluir</button>
     </span>
     <div *ngIf="isPdf" style="width: 100%; height: 600px;">
         <iframe [src]="urlGoogle" style="width:100%;height: 600px;" frameborder="0"></iframe>
-      <!-- <ngx-extended-pdf-viewer [src]="archive.url" useBrowserLocale="true"></ngx-extended-pdf-viewer> -->
-    </div>
+    </div> 
   </div>
   <div class="row">
     <div *ngIf="!file && !archive && !url">

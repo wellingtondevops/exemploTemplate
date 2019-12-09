@@ -34,6 +34,7 @@ export class ShowComponent implements OnInit {
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
     volume: new FormControl(''),
+    company: new FormControl(''),
     archive: new FormControl(''),
     file: new FormControl(null, [Validators.required])
   });
@@ -45,6 +46,7 @@ export class ShowComponent implements OnInit {
 
   getArquive(){
     this.archiveSrv.archive(this.id).subscribe(data => {
+      console.log('getArchive', data);
       this.archive = data;
       this.getFile(this.archive._id);
       this.loading = false;
@@ -77,6 +79,7 @@ export class ShowComponent implements OnInit {
     this.uploadFile.patchValue({
       archive: this.archive._id,
       volume: this.archive.volume._id,
+      company: this.archive.company._id,
       storehouse: this.archive.storehouse._id,
       file: data
     }) 
@@ -90,6 +93,7 @@ export class ShowComponent implements OnInit {
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
     formData.append('volume', this.uploadFile.get('volume').value);
     formData.append('archive', this.uploadFile.get('archive').value);
+    formData.append('company', this.uploadFile.get('company').value);
     this.filesSrv.file(formData).subscribe(data => {
       if (data._id) {
         console.log(data)
