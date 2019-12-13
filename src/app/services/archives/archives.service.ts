@@ -14,19 +14,18 @@ export class ArquivesService {
     private http: HttpClient
   ) { }
 
-  archives(page, size = 10, search = null) {
+  archives(formData, page, size = 10) {
     if (page) {
-      return this.http.get<ArchivesList>(`${url}/archives?_page=${page.pageNumber}&size=${size}&search=${search.search}`)
+      return this.http.post<ArchivesList>(`${url}/archives/search?_page=${page.pageNumber}`, formData)
         .pipe(
           tap(data => data)
         );
     } else {
-      return this.http.get<ArchivesList>(`${url}/archives`)
+      return this.http.post<ArchivesList>(`${url}/archives/search`, formData)
         .pipe(
           tap(data => data)
         );
     }
-
   }
 
   archive(id) {

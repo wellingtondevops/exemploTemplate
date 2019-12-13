@@ -16,7 +16,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 export class ShowComponent implements OnInit {
   id: string;
   archive: Archive;
-  uploadResponse = { status: '', message: '', filePath: '' };
+  uploadResponse = { status: '', message: '' };
   error: string;
   loading: Boolean = true;
   file: any;
@@ -34,6 +34,7 @@ export class ShowComponent implements OnInit {
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
     volume: new FormControl(''),
+    company: new FormControl(''),
     archive: new FormControl(''),
     file: new FormControl(null, [Validators.required])
   });
@@ -43,7 +44,7 @@ export class ShowComponent implements OnInit {
     this.getArquive();
   }
 
-  getArquive(){
+  getArquive() {
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
       this.getFile(this.archive._id);
@@ -56,7 +57,6 @@ export class ShowComponent implements OnInit {
 
   getFile(archive_id) {
     this.filesSrv.getFile(archive_id).subscribe(data => {
-      console.log('file', data)
       this.file = data;
     })
   }
@@ -73,13 +73,14 @@ export class ShowComponent implements OnInit {
     return obj
   }
 
-  postFile(data){
+  postFile(data) {
     this.uploadFile.patchValue({
       archive: this.archive._id,
       volume: this.archive.volume._id,
+      company: this.archive.company._id,
       storehouse: this.archive.storehouse._id,
       file: data
-    }) 
+    })
     this.submit();
   }
 
@@ -90,11 +91,13 @@ export class ShowComponent implements OnInit {
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
     formData.append('volume', this.uploadFile.get('volume').value);
     formData.append('archive', this.uploadFile.get('archive').value);
+    formData.append('company', this.uploadFile.get('company').value);
     this.filesSrv.file(formData).subscribe(data => {
-      if (data._id) {
-        console.log(data)
+      if (data.status && data.status === 'progress') {
         this.uploadResponse = data;
-        // this.loading = false;
+      }
+      if (data._id) {
+        this.uploadResponse = data;
         this.savedFile = true;
         this.successMsgSrv.successMessages('Imagem anexada com sucesso.');
       }
@@ -102,7 +105,6 @@ export class ShowComponent implements OnInit {
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
-      console.log(error)
       this.error = error;
       console.log("ERROR ", error)
     })

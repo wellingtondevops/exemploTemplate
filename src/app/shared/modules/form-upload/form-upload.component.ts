@@ -55,6 +55,7 @@ export class FormUploadComponent implements ControlValueAccessor {
         this.urlFile = change.currentValue.url;
         this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
         var url = `https://docs.google.com/viewer?url=${this.archive.url}&embedded=true`;
+        console.log(url);
         this.urlGoogle = this.sanitizer.bypassSecurityTrustResourceUrl(url);
         console.log('urlGoogle', this.urlGoogle);
       }
