@@ -57,7 +57,6 @@ export class ShowComponent implements OnInit {
 
   getFile(archive_id) {
     this.filesSrv.getFile(archive_id).subscribe(data => {
-      console.log('file', data)
       this.file = data;
     })
   }
