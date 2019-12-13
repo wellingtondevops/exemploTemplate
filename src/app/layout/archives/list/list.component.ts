@@ -51,15 +51,15 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     // this.setPage({ offset: 0 });
     this.searchForm = this.fb.group({
-      company: this.fb.control('', Validators.required),
-      departament: this.fb.control(''),
-      status: this.fb.control(''),
-      location: this.fb.control(''),
-      storehouse: this.fb.control(''),
-      doct: this.fb.control(''),
-      search: this.fb.control(''),
-      endDate: this.fb.control(''),
-      initDate: this.fb.control('')
+      company: this.fb.control(null, Validators.required),
+      departament: this.fb.control(null),
+      status: this.fb.control(null),
+      location: this.fb.control(null),
+      storehouse: this.fb.control(null),
+      doct: this.fb.control(null),
+      search: this.fb.control(null, Validators.required),
+      endDate: this.fb.control(null),
+      initDate: this.fb.control(null)
     });
 
     this.statusList = StatusVolumeEnum;
@@ -71,24 +71,35 @@ export class ListComponent implements OnInit {
   }
 
   formatter = (x: { name: string }) => x.name;
-  
+
   get company() {
     return this.searchForm.get('company');
   }
 
-/*   get departament() {
-    return this.searchForm.get('departament');
-  }
+  /*   get departament() {
+      return this.searchForm.get('departament');
+    }
+  
+    get storehouse() {
+      return this.searchForm.get('storehouse');
+    } */
 
-  get storehouse() {
-    return this.searchForm.get('storehouse');
-  } */
+  returnId(object) {
+    this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
+      if (key === '_id') return value;
+    })[0];
+  }
 
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    this.returnId('company');
+    this.returnId('storehouse');
+    this.returnId('departament');
+    this.returnId('doct');
     var searchValue = _.omitBy(this.searchForm.value, _.isNil);
-    this.archiveSrv.archives(this.page, null, searchValue).subscribe(data => {
+    console.log(searchValue);
+    this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
       console.log('setPage', data);
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
@@ -97,6 +108,7 @@ export class ListComponent implements OnInit {
     }, error => {
       this.loading = false;
       console.log('ERROR: ', error);
+      this.errorMsg.errorMessages(error);
     });
   }
 
@@ -152,34 +164,34 @@ export class ListComponent implements OnInit {
         var res = [];
         if (company.length < 2) [];
         else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        if(res.length > 0) {
+        if (res.length > 0) {
           this.getDepartaments(res[0]._id);
         }
         return res;
       })
     );
 
-    getDepartaments(company_id) {
-      this.departamentsSrv.searchDepartaments(company_id).subscribe(
-        data => {
-          // console.log('departament', data);
-          this.departaments = data.items;
-        },
-        error => {
-          this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
-          this.loading = false;
-        }
-      );
-    }
+  getDepartaments(company_id) {
+    this.departamentsSrv.searchDepartaments(company_id).subscribe(
+      data => {
+        // console.log('departament', data);
+        this.departaments = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+  }
 
-    searchDepartament = (text$: Observable<string>) =>
+  searchDepartament = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       map(departament => {
         console.log(departament);
-        if(this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined'){
+        if (this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined') {
           this.warningMsg.showWarning('Selecione uma empresa.', 4000);
           return
         };
@@ -190,21 +202,21 @@ export class ListComponent implements OnInit {
       })
     );
 
-    getStoreHouses() {
-      this.storehousesSrv.searchStorehouses().subscribe(
-        data => {
-          console.log(data);
-          this.storehouses = data.items;
-        },
-        error => {
-          this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
-          this.loading = false;
-        }
-      );
-    }
+  getStoreHouses() {
+    this.storehousesSrv.searchStorehouses().subscribe(
+      data => {
+        console.log(data);
+        this.storehouses = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+  }
 
-    searchStorehouse = (text$: Observable<string>) =>
+  searchStorehouse = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -216,21 +228,21 @@ export class ListComponent implements OnInit {
       })
     );
 
-    getDocuments() {
-      this.documentsSrv.searchDocuments().subscribe(
-        data => {
-          console.log(data);
-          this.documents = data.items;
-        },
-        error => {
-          this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
-          this.loading = false;
-        }
-      );
-    }
+  getDocuments() {
+    this.documentsSrv.searchDocuments().subscribe(
+      data => {
+        console.log(data);
+        this.documents = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+  }
 
-    searchDocument = (text$: Observable<string>) =>
+  searchDocument = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -247,7 +259,7 @@ export class ListComponent implements OnInit {
 })
 export class EnumToArrayPipe implements PipeTransform {
   transform(data: Object) {
-      const keys = Object.keys(data);
-      return keys.slice(keys.length / 2);
+    const keys = Object.keys(data);
+    return keys.slice(keys.length / 2);
   }
 }
