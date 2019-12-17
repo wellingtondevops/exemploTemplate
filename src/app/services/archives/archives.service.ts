@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
 import { Archive, ArchivesList } from 'src/app/models/archive';
 import { HttpClient } from '@angular/common/http';
-const url = environment.apiUrl;
+const url = environment.apiUrlUpload;
 
 @Injectable({
   providedIn: 'root'
