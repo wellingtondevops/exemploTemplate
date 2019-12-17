@@ -30,8 +30,4 @@ export class FilesService {
                 }
             }));
     }
-
-    getFile(archive_id) {
-        return this.http.get<File>(`${url}/pictures?archive=${archive_id}`).pipe(tap(data => data));
-    }
 }
