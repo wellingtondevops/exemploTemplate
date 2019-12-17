@@ -9,7 +9,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 @NgModule({
   declarations: [ListComponent, ShowComponent, EnumToArrayPipe],
   imports: [

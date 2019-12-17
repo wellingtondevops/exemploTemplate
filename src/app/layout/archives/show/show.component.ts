@@ -7,6 +7,7 @@ import { toFormData } from '../../../utils/form-data/form-data';
 import { FilesService } from 'src/app/services/files/files.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { PicturesService } from 'src/app/services/pictures/pictures.service';
 
 @Component({
   selector: 'app-show',
@@ -26,6 +27,7 @@ export class ShowComponent implements OnInit {
     private _route: Router,
     private route: ActivatedRoute,
     private archiveSrv: ArquivesService,
+    private picturesSrv: PicturesService,
     private filesSrv: FilesService,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService
@@ -47,7 +49,7 @@ export class ShowComponent implements OnInit {
   getArquive() {
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
-      this.getFile(this.archive._id);
+      this.picture(this.archive._id);
       this.loading = false;
     }, error => {
       console.log('ERROR: ', error);
@@ -55,8 +57,8 @@ export class ShowComponent implements OnInit {
     })
   }
 
-  getFile(archive_id) {
-    this.filesSrv.getFile(archive_id).subscribe(data => {
+  picture(archive_id) {
+    this.picturesSrv.picture(archive_id).subscribe(data => {
       this.file = data;
     })
   }
@@ -101,7 +103,7 @@ export class ShowComponent implements OnInit {
         this.savedFile = true;
         this.successMsgSrv.successMessages('Imagem anexada com sucesso.');
       }
-      this.getFile(this.archive._id);
+      this.picture(this.archive._id);
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);

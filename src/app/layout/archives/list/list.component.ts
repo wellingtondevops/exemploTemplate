@@ -254,6 +254,7 @@ export class ListComponent implements OnInit {
       })
     );
 }
+
 @Pipe({
   name: 'enumToArray'
 })
