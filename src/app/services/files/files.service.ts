@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { File } from 'src/app/models/file';
-const url = environment.apiUrl;
+const url = environment.apiUrlUpload;
 
 @Injectable({
     providedIn: 'root'
