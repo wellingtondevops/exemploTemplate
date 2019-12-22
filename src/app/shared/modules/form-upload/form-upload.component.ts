@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { DomSanitizer,SafeResourceUrl } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+
+const MODALS = {
+    focusFirst: NgbdModalConfirmComponent
+};
 
 
 @Component({
@@ -26,6 +32,7 @@ export class FormUploadComponent implements ControlValueAccessor {
   isPdf: boolean = false;
   urlGoogle: any;
   @Output() postFile = new EventEmitter();
+  @Output() deleteFile = new EventEmitter();
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
@@ -52,6 +59,7 @@ export class FormUploadComponent implements ControlValueAccessor {
     for (const propName in changes) {
       const change = changes[propName];
       if (propName === 'archive') {
+        this.file = change.currentValue;
         this.urlFile = change.currentValue.url;
         this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
         var url = `https://docs.google.com/viewer?url=${this.archive.url}&embedded=true`;
@@ -79,4 +87,11 @@ export class FormUploadComponent implements ControlValueAccessor {
     this.progress = true;
     this.postFile.emit(this.file)
   }
+
+  deletFile(){
+    console.log('deletFile');
+    console.log(this.file);
+    this.deleteFile.emit(this.file)
+  }
+  
 }

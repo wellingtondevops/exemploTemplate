@@ -1,8 +1,8 @@
 <span style="float: right">
-    <button *ngIf="permissionOfEdit()" style="margin-left: 5px" class="btn btn-sm btn-default" (click)="editView()">
+    <button type="button" *ngIf="permissionOfEdit()" style="margin-left: 5px" class="btn btn-sm btn-default" (click)="editView()">
         <i class="fa fa-pencil-square-o" style="color:white"></i>
     </button>
-    <button *ngIf="permissionOfDelete()" style="margin-left: 5px" class="btn btn-sm btn-default" (click)="deleteItem()">
+    <button type="button" *ngIf="permissionOfDelete()" style="margin-left: 5px" class="btn btn-sm btn-default" (click)="deleteItem()">
         <i class="fa fa-trash" style="color: white"></i>
     </button>
 </span>

@@ -4,9 +4,10 @@ import { RouterModule } from '@angular/router';
 
 import { FormUploadComponent } from './form-upload.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ButtonsCustomModule } from '..';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, NgbModule],
+    imports: [CommonModule, RouterModule, NgbModule, ButtonsCustomModule],
     declarations: [FormUploadComponent],
     exports: [FormUploadComponent]
 })

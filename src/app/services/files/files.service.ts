@@ -30,4 +30,10 @@ export class FilesService {
                 }
             }));
     }
+
+    delete(file_id) {
+        return this.http.delete(`${apiUrlUpload}/posts/${file_id}`).pipe(
+            tap(data => data)
+        );
+    }
 }
