@@ -7,6 +7,13 @@ import { toFormData } from '../../../utils/form-data/form-data';
 import { FilesService } from 'src/app/services/files/files.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { PicturesService } from 'src/app/services/pictures/pictures.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+
+const MODALS = {
+    focusFirst: NgbdModalConfirmComponent
+};
 
 @Component({
   selector: 'app-show',
@@ -26,9 +33,11 @@ export class ShowComponent implements OnInit {
     private _route: Router,
     private route: ActivatedRoute,
     private archiveSrv: ArquivesService,
+    private picturesSrv: PicturesService,
     private filesSrv: FilesService,
     private successMsgSrv: SuccessMessagesService,
-    private errorMsg: ErrorMessagesService
+    private errorMsg: ErrorMessagesService,
+    private modalService: NgbModal,
   ) { }
 
   uploadFile = new FormGroup({
@@ -47,7 +56,7 @@ export class ShowComponent implements OnInit {
   getArquive() {
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
-      this.getFile(this.archive._id);
+      this.picture(this.archive._id);
       this.loading = false;
     }, error => {
       console.log('ERROR: ', error);
@@ -55,8 +64,8 @@ export class ShowComponent implements OnInit {
     })
   }
 
-  getFile(archive_id) {
-    this.filesSrv.getFile(archive_id).subscribe(data => {
+  picture(archive_id) {
+    this.picturesSrv.picture(archive_id).subscribe(data => {
       this.file = data;
     })
   }
@@ -84,6 +93,10 @@ export class ShowComponent implements OnInit {
     this.submit();
   }
 
+  deleteFile(file) {
+    console.log(file);
+  }
+
   submit() {
     // this.loading = true;
     const formData = new FormData();
@@ -99,14 +112,40 @@ export class ShowComponent implements OnInit {
       if (data._id) {
         this.uploadResponse = data;
         this.savedFile = true;
-        this.successMsgSrv.successMessages('Imagem anexada com sucesso.');
+        this.successMsgSrv.successMessages('Upload realizado com sucesso.');
       }
-      this.getFile(this.archive._id);
+      this.picture(this.archive._id);
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       this.error = error;
       console.log("ERROR ", error)
+    })
+  }
+
+  open(name: string, file) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = file;
+    modalRef.componentInstance.data = {
+      titleModal: 'Deletar Arquivo',
+      msgConfirmDelete: 'Arquivo foi deletada com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o arquivo?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao arquivo serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe(item => {
+      this.delete(item);
+    });
+  }
+
+  delete(file) {
+    this.filesSrv.delete(file).subscribe(res => {
+      this.successMsgSrv.successMessages('Arquivo deletado com sucesso.');
+      this.file = null;
+      this.archive = null;
+      window.location.reload()
+    }, error => {
+      console.log(error)
+      this.errorMsg.errorMessages(error);
     })
   }
 }

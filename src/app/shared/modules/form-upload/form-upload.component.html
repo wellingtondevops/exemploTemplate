@@ -1,18 +1,28 @@
 <div class="file-drop-area">
   <div class="row">
+    <div class="col-lg-6">
+      <h5>Arquivo</h5>
+    </div>
+    <div class="col-lg-6">
+      <span *ngIf="url || archive" class="pull-right">
+        <app-buttons-custom [id]="archive._id" [permissionDelete]="['DAENERYS']" (delete)="deletFile(archive._id)">
+        </app-buttons-custom>
+      </span>
+    </div>
+  </div>
+  <div class="row">
     <span *ngIf="url && !savedFile">
       <img [src]="url" style="margin-right:10px; width: 100%" />
       <button type="button" class="btn btn-primary" style="margin-top: 2%" (click)="saveFile()">Salvar</button>
-      <button type="button" class="btn btn-default pull-right" style="margin-top: 2%">Excluir</button>
     </span>
     <span *ngIf="archive && !isPdf">
-        <!-- <iframe [src]="archive.url" style="width:100%;height: 600px;" frameborder="0"></iframe> -->
+      <!-- <iframe [src]="archive.url" style="width:100%;height: 600px;" frameborder="0"></iframe> -->
       <img *ngIf="archive.url" [src]="archive.url" style="margin-right:10px; width: 100%" />
-      <button type="button" class="btn btn-default pull-right" style="margin-top: 2%">Excluir</button>
+
     </span>
     <div *ngIf="isPdf" style="width: 100%; height: 600px;">
-        <iframe [src]="urlGoogle" style="width:100%;height: 600px;" frameborder="0"></iframe>
-    </div> 
+      <iframe [src]="urlGoogle" style="width:100%;height: 600px;" frameborder="0"></iframe>
+    </div>
   </div>
   <div class="row">
     <div *ngIf="!file && !archive && !url">

@@ -8,7 +8,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
   selector: 'ngbd-modal-confirm',
   template: `
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Deletar Armazém</h4>
+    <h4 class="modal-title" id="modal-title">{{ data.titleModal }}</h4>
     <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -30,6 +30,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 export class NgbdModalConfirmComponent {
   @Input() item: any;
   @Input() data = {
+    titleModal: '',
     msgQuestionDeleteOne: '',
     msgQuestionDeleteTwo: '',
   };

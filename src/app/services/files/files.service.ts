@@ -31,7 +31,9 @@ export class FilesService {
             }));
     }
 
-    getFile(archive_id) {
-        return this.http.get<File>(`${url}/pictures?archive=${archive_id}`).pipe(tap(data => data));
+    delete(file_id) {
+        return this.http.delete(`${apiUrlUpload}/posts/${file_id}`).pipe(
+            tap(data => data)
+        );
     }
 }
