@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { Archive } from 'src/app/models/archive';
@@ -10,9 +10,10 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { ModalProgressComponent } from 'src/app/shared/modules/modal-progress/modal-progress.component';
 
 const MODALS = {
-    focusFirst: NgbdModalConfirmComponent
+  focusFirst: NgbdModalConfirmComponent
 };
 
 @Component({
@@ -23,11 +24,12 @@ const MODALS = {
 export class ShowComponent implements OnInit {
   id: string;
   archive: Archive;
-  uploadResponse = { status: '', message: '' };
+  uploadResponse = { status: 'progress', message: 0 };
   error: string;
   loading: Boolean = true;
   file: any;
   savedFile: boolean = false;
+  @ViewChild("content") content: TemplateRef<any>;
 
   constructor(
     private _route: Router,
@@ -99,6 +101,7 @@ export class ShowComponent implements OnInit {
 
   submit() {
     // this.loading = true;
+    this.openProgress();
     const formData = new FormData();
     formData.append('file', this.uploadFile.get('file').value);
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
@@ -107,6 +110,7 @@ export class ShowComponent implements OnInit {
     formData.append('company', this.uploadFile.get('company').value);
     this.filesSrv.file(formData).subscribe(data => {
       if (data.status && data.status === 'progress') {
+        console.log(data);
         this.uploadResponse = data;
       }
       if (data._id) {
@@ -124,7 +128,10 @@ export class ShowComponent implements OnInit {
   }
 
   open(name: string, file) {
-    const modalRef = this.modalService.open(MODALS[name]);
+    const modalRef = this.modalService.open(MODALS[name], {
+      keyboard: false, backdrop: 'static', windowClass: 'position',
+      backdropClass: 'light-blue-backdrop', size: 'sm'
+    });
     modalRef.componentInstance.item = file;
     modalRef.componentInstance.data = {
       titleModal: 'Deletar Arquivo',
@@ -134,6 +141,13 @@ export class ShowComponent implements OnInit {
     };
     modalRef.componentInstance.delete.subscribe(item => {
       this.delete(item);
+    });
+  }
+
+  openProgress(){
+    const modalRef = this.modalService.open(this.content, {
+      keyboard: false, backdrop: 'static', windowClass: '{left: 250%; top: 230%}',
+      backdropClass: 'light-blue-backdrop', size: 'sm'
     });
   }
 
