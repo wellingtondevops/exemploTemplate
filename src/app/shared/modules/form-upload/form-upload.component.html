@@ -4,7 +4,7 @@
       <h5>Arquivo</h5>
     </div>
     <div class="col-lg-6">
-      <span *ngIf="url || archive" class="pull-right">
+      <span *ngIf="archive" class="pull-right">
         <app-buttons-custom [id]="archive._id" [permissionDelete]="['DAENERYS']" (delete)="deletFile(archive._id)">
         </app-buttons-custom>
       </span>

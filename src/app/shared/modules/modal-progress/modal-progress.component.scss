@@ -13,3 +13,15 @@
 .dark-modal .close {
   color: white;
 }
+#modal-style {
+  top: 70%;
+  left: 80%;
+}
+
+.modal-dialog {
+  top: 70% !important;
+  left: 80% !important;
+}
+.modal.fade .modal-dialog {
+  top: 70%;
+}

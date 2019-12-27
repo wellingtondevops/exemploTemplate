@@ -11,17 +11,41 @@ import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { ModalProgressComponent } from 'src/app/shared/modules/modal-progress/modal-progress.component';
+import { NgxSmartModalService } from 'ngx-smart-modal';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
 };
 
+const MODALPROGRESS = {
+  focusFirst: ModalProgressComponent
+};
+
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss']
+  styles: [`
+  .dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }
+  .modal-dialog-centered {
+    display: flex;
+    flex-direction: column-reverse;
+    float: right;
+  }
+`]
 })
 export class ShowComponent implements OnInit {
+  progressModal = {
+    customClass: 'modal-style'
+  }
   id: string;
   archive: Archive;
   uploadResponse = { status: 'progress', message: 0 };
@@ -40,6 +64,7 @@ export class ShowComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private modalService: NgbModal,
+    public ngxSmartModalService: NgxSmartModalService
   ) { }
 
   uploadFile = new FormGroup({
@@ -101,7 +126,7 @@ export class ShowComponent implements OnInit {
 
   submit() {
     // this.loading = true;
-    this.openProgress();
+    // this.openProgress();
     const formData = new FormData();
     formData.append('file', this.uploadFile.get('file').value);
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
@@ -129,8 +154,7 @@ export class ShowComponent implements OnInit {
 
   open(name: string, file) {
     const modalRef = this.modalService.open(MODALS[name], {
-      keyboard: false, backdrop: 'static', windowClass: 'position',
-      backdropClass: 'light-blue-backdrop', size: 'sm'
+      keyboard: false, backdrop: 'static', windowClass: 'modal-style',
     });
     modalRef.componentInstance.item = file;
     modalRef.componentInstance.data = {
@@ -144,11 +168,17 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  openProgress(){
-    const modalRef = this.modalService.open(this.content, {
-      keyboard: false, backdrop: 'static', windowClass: '{left: 250%; top: 230%}',
-      backdropClass: 'light-blue-backdrop', size: 'sm'
+  openProgress(name: string){
+    const modalRef = this.modalService.open(MODALPROGRESS[name], {
+      keyboard: true, backdrop: 'static', windowClass: 'dark-modal',
+      backdropClass: 'light-blue-backdrop', centered: true,
+      size: 'sm'
     });
+    modalRef.componentInstance.progress = this.uploadResponse;
+  }
+
+  openBackDropCustomClass(content) {
+    this.modalService.open(content, { centered: true, keyboard: true, backdrop: 'static', backdropClass: 'light-blue-backdrop', windowClass: 'modal-style'});
   }
 
   delete(file) {

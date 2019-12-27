@@ -1,5 +1,5 @@
 .light-blue-backdrop {
-  background-color: #5cb3fd00;
+  background-color: #5cb3fd00 !important;
 }
 .position {
   transform: translate(38%);
@@ -12,13 +12,24 @@
 }
 
 .modal-style {
-  left: 250%;
-  margin-top: 225%;
+  top: 70%;
+  left: 80%;
 }
 
-.modal-dialog {
-  max-width: 100px;
+.modal-dialog.modal-sm{
+  top: 90% !important;
+  left: 40% !important;
 }
 .dark-modal .close {
   color: white;
+}
+.nsm-content {
+  left: 70%;
+  top: 70%;
+}
+
+.modal-dialog-centered {
+  display: flex;
+  flex-direction: column-reverse;
+  float: right;
 }
