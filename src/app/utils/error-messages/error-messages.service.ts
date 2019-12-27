@@ -16,6 +16,10 @@ export class ErrorMessagesService {
       status: 0
     };
     switch (error.status) {
+        case 400:
+          response.message = error.error.message;
+          response.status = error.status;
+          break;
         case 403:
           response.message = error.error.message;
           response.status = error.status;
