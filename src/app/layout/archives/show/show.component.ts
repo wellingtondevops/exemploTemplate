@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { Archive } from 'src/app/models/archive';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
-import { toFormData } from '../../../utils/form-data/form-data';
 import { FilesService } from 'src/app/services/files/files.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
