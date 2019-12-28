@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { ModalProgressComponent } from 'src/app/shared/modules/modal-progress/modal-progress.component';
 import { NgxSmartModalService } from 'ngx-smart-modal';
+import * as $ from 'jquery';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -48,9 +49,11 @@ export class ShowComponent implements OnInit {
   }
   id: string;
   archive: Archive;
-  uploadResponse = { status: 'progress', message: 0 };
+  uploadResponse: any = { status: 'progress', message: 0 };
   error: string;
   loading: Boolean = true;
+  first: boolean = true;
+  errorUpload: boolean = null;
   file: any;
   savedFile: boolean = false;
   @ViewChild("content") content: TemplateRef<any>;
@@ -76,6 +79,8 @@ export class ShowComponent implements OnInit {
   });
 
   ngOnInit() {
+    var height = $("nav.sidebar").height()
+    $('.file').css('height', height - 30);
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
   }
@@ -120,13 +125,8 @@ export class ShowComponent implements OnInit {
     this.submit();
   }
 
-  deleteFile(file) {
-    console.log(file);
-  }
-
   submit() {
     // this.loading = true;
-    // this.openProgress();
     const formData = new FormData();
     formData.append('file', this.uploadFile.get('file').value);
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
@@ -135,19 +135,21 @@ export class ShowComponent implements OnInit {
     formData.append('company', this.uploadFile.get('company').value);
     this.filesSrv.file(formData).subscribe(data => {
       if (data.status && data.status === 'progress') {
-        console.log(data);
-        this.uploadResponse = data;
+        this.uploadResponse.message = data.message;
+        this.uploadResponse.status = data.status;
+        this.errorUpload = false;
       }
       if (data._id) {
-        this.uploadResponse = data;
         this.savedFile = true;
-        this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+        // this.successMsgSrv.successMessages('Upload realizado com sucesso.');
       }
       this.picture(this.archive._id);
     }, error => {
       this.loading = false;
+      this.uploadResponse.message = 10;
+      this.uploadResponse.status = 'progress';
+      this.errorUpload = true;
       this.errorMsg.errorMessages(error);
-      this.error = error;
       console.log("ERROR ", error)
     })
   }
@@ -168,7 +170,7 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  openProgress(name: string){
+  openProgress(name: string) {
     const modalRef = this.modalService.open(MODALPROGRESS[name], {
       keyboard: true, backdrop: 'static', windowClass: 'dark-modal',
       backdropClass: 'light-blue-backdrop', centered: true,
@@ -178,7 +180,7 @@ export class ShowComponent implements OnInit {
   }
 
   openBackDropCustomClass(content) {
-    this.modalService.open(content, { centered: true, keyboard: true, backdrop: 'static', backdropClass: 'light-blue-backdrop', windowClass: 'modal-style'});
+    this.modalService.open(content, { centered: true, keyboard: true, backdrop: 'static', backdropClass: 'light-blue-backdrop', windowClass: 'modal-style' });
   }
 
   delete(file) {

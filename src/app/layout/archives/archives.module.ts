@@ -10,6 +10,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
+import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent, EnumToArrayPipe],
@@ -26,6 +27,7 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
     ButtonsCustomModule,
     FormIndexModule,
     ModalProgressModule,
+    ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({}),
     NgxSmartModalModule.forRoot()
   ]

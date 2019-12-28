@@ -38,6 +38,7 @@
         "core-js": "2.5.7",
         "express": "^4.17.1",
         "font-awesome": "4.7.0",
+        "jquery": "^3.4.1",
         "lodash": "^4.17.15",
         "moment": "^2.24.0",
         "ng2-charts": "1.6.0",

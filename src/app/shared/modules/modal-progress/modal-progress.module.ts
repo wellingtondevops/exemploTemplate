@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModalModule, NgbProgressbar, NgbProgressbarModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbProgressbarModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { ModalProgressComponent } from './modal-progress.component';
 
