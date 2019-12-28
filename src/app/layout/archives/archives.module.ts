@@ -4,7 +4,7 @@ import { ListComponent, EnumToArrayPipe } from './list/list.component';
 import { ShowComponent } from './show/show.component';
 import { ArchivesRoutingModule } from './archives-routing.module';
 import { PageHeaderModule, FormUploadModule, ButtonBackModule, ButtonsCustomModule,
-  FormIndexModule, ModalProgressModule } from 'src/app/shared';
+  FormIndexModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -26,7 +26,6 @@ import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-pro
     ButtonBackModule,
     ButtonsCustomModule,
     FormIndexModule,
-    ModalProgressModule,
     ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({}),
     NgxSmartModalModule.forRoot()

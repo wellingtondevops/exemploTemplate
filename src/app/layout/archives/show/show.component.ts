@@ -10,7 +10,6 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { ModalProgressComponent } from 'src/app/shared/modules/modal-progress/modal-progress.component';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import * as $ from 'jquery';
 
@@ -18,30 +17,10 @@ const MODALS = {
   focusFirst: NgbdModalConfirmComponent
 };
 
-const MODALPROGRESS = {
-  focusFirst: ModalProgressComponent
-};
-
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
-  styles: [`
-  .dark-modal .modal-content {
-    background-color: #292b2c;
-    color: white;
-  }
-  .dark-modal .close {
-    color: white;
-  }
-  .light-blue-backdrop {
-    background-color: #5cb3fd;
-  }
-  .modal-dialog-centered {
-    display: flex;
-    flex-direction: column-reverse;
-    float: right;
-  }
-`]
+  styleUrls: ['./show.component.scss']
 })
 export class ShowComponent implements OnInit {
   progressModal = {
@@ -168,15 +147,6 @@ export class ShowComponent implements OnInit {
     modalRef.componentInstance.delete.subscribe(item => {
       this.delete(item);
     });
-  }
-
-  openProgress(name: string) {
-    const modalRef = this.modalService.open(MODALPROGRESS[name], {
-      keyboard: true, backdrop: 'static', windowClass: 'dark-modal',
-      backdropClass: 'light-blue-backdrop', centered: true,
-      size: 'sm'
-    });
-    modalRef.componentInstance.progress = this.uploadResponse;
   }
 
   openBackDropCustomClass(content) {
