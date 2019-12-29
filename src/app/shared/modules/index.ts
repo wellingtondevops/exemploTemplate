@@ -6,3 +6,4 @@ export * from './buttons/buttons-custom.module';
 export * from './button-back/button-back.module';
 export * from './form-index/form-index.module';
 export * from './form-upload/form-upload.module';
+export * from './modal-progress-right-bottom/modal-progress-right-bottom.module';

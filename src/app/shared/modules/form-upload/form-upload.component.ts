@@ -3,6 +3,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { DomSanitizer,SafeResourceUrl } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -33,25 +34,39 @@ export class FormUploadComponent implements ControlValueAccessor {
   urlGoogle: any;
   @Output() postFile = new EventEmitter();
   @Output() deleteFile = new EventEmitter();
+  nameFile: string;
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private errorMsg: ErrorMessagesService,
   ) {
   }
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
+    this.nameFile = event.item(0).name;
     const file = event && event.item(0);
-    this.onChange(file);
-    this.file = file;
-    var reader = new FileReader();
-    reader.readAsDataURL(event[0]); // read file as data url
-
-    reader.onload = (event) => { // called once readAsDataURL is completed
-      this.url = event.currentTarget;
-      this.url = this.url.result;
-
+    if (!file.name.match(/\.(JPG|JPEG|TIFF|PNG|TIF|PJPEG|PDF|GIF|jpg|jpeg|png|tiff|pjpeg|pdf|gif|tif)$/)) {
+      this.removeFile();
+      var error = {
+        status: 404,
+        message: 'Formato de arquivo não suportado.'
+      }
+      this.errorMsg.showError(error);
+      
+    } else {
+      this.onChange(file);
+      this.file = file;
+      var reader = new FileReader();
+      reader.readAsDataURL(event[0]); // read file as data url
+  
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.currentTarget;
+        this.url = this.url.result;
+  
+      }
     }
+ 
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -92,6 +107,13 @@ export class FormUploadComponent implements ControlValueAccessor {
     console.log('deletFile');
     console.log(this.file);
     this.deleteFile.emit(this.file)
+  }
+
+  removeFile(){
+    this.host.nativeElement.value = '';
+    this.file = null;
+    this.url = null;
+    this.nameFile = null;
   }
   
 }

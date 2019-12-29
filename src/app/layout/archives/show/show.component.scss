@@ -1,0 +1,72 @@
+.light-blue-backdrop {
+  background-color: #5cb3fd00 !important;
+}
+.position {
+  transform: translate(38%);
+  display: flex !important;
+  flex-direction: column-reverse;
+}
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+}
+
+.modal-style {
+  top: 70%;
+  left: 80%;
+}
+
+.modal-dialog.modal-sm{
+  top: 90% !important;
+  left: 40% !important;
+}
+.dark-modal .close {
+  color: white;
+}
+.nsm-content {
+  left: 70%;
+  top: 70%;
+}
+
+.modal-dialog-centered {
+  display: flex;
+  flex-direction: column-reverse;
+  float: right;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+h2 {
+  margin-left: 20px;
+  white-space: nowrap;
+}
+
+$sidebarWidth: 200px;
+$contentPadding: 20px;
+$wDiff: $sidebarWidth + $contentPadding * 2;
+
+$headerHeight: 64px;
+$subHeaderHeight: 32px + 16px;
+$hDiff: $headerHeight + $subHeaderHeight + $contentPadding * 2;
+
+.imagewrapper {
+  flex: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+  max-width: calc(100vw -  #{$wDiff});
+  min-width: calc(100vw - #{$wDiff});
+  width: calc(100vw - #{$wDiff});
+  max-height: calc(100vh - #{$hDiff});
+  min-height: calc(100vh - #{$hDiff});
+  height: calc(100vh - #{$hDiff});
+
+  @media only screen and (max-width: 600px) {
+    max-width: calc(100vw - #{$contentPadding * 2});
+    min-width: calc(100vw - #{$contentPadding * 2});
+    width: calc(100vw - #{$contentPadding * 2});
+  }
+}
