@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="col-8 file">
+    <div class="col-8">
       <form [formGroup]="uploadFile" (ngSubmit)="submit()">
         <div class="form-group">
           <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)" [savedFile]="savedFile"

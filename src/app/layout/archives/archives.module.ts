@@ -9,7 +9,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
 
 @NgModule({
@@ -28,7 +27,6 @@ import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-pro
     FormIndexModule,
     ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({}),
-    NgxSmartModalModule.forRoot()
   ]
 })
 export class ArchivesModule { }

@@ -9,7 +9,6 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { NgxSmartModalService } from 'ngx-smart-modal';
 import * as $ from 'jquery';
 
 const MODALS = {
@@ -36,6 +35,13 @@ export class ShowComponent implements OnInit {
   savedFile: boolean = false;
   height: number = 0;
   @ViewChild("content") content: TemplateRef<any>;
+  uploadFile = new FormGroup({
+    storehouse: new FormControl(''),
+    volume: new FormControl(''),
+    company: new FormControl(''),
+    archive: new FormControl(''),
+    file: new FormControl(null, [Validators.required])
+  });
 
   constructor(
     private _route: Router,
@@ -46,16 +52,9 @@ export class ShowComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private modalService: NgbModal,
-    public ngxSmartModalService: NgxSmartModalService
   ) { }
 
-  uploadFile = new FormGroup({
-    storehouse: new FormControl(''),
-    volume: new FormControl(''),
-    company: new FormControl(''),
-    archive: new FormControl(''),
-    file: new FormControl(null, [Validators.required])
-  });
+
 
   ngOnInit() {
     this.height = $("nav.sidebar").height()
