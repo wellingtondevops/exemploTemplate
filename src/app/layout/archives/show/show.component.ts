@@ -32,8 +32,9 @@ export class ShowComponent implements OnInit {
   loading: Boolean = true;
   first: boolean = true;
   errorUpload: boolean = null;
-  file: any;
+  file: any = '';
   savedFile: boolean = false;
+  height: number = 0;
   @ViewChild("content") content: TemplateRef<any>;
 
   constructor(
@@ -57,8 +58,7 @@ export class ShowComponent implements OnInit {
   });
 
   ngOnInit() {
-    var height = $("nav.sidebar").height()
-    $('.file').css('height', height - 30);
+    this.height = $("nav.sidebar").height()
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
   }
@@ -77,6 +77,9 @@ export class ShowComponent implements OnInit {
   picture(archive_id) {
     this.picturesSrv.picture(archive_id).subscribe(data => {
       this.file = data;
+      $('.file').css('height', 'auto');
+    }, (error) => {
+      $('.file').css('height', this.height - 30);
     })
   }
 

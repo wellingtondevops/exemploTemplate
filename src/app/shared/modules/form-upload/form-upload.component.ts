@@ -33,6 +33,7 @@ export class FormUploadComponent implements ControlValueAccessor {
   urlGoogle: any;
   @Output() postFile = new EventEmitter();
   @Output() deleteFile = new EventEmitter();
+  nameFile: string;
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
@@ -42,16 +43,23 @@ export class FormUploadComponent implements ControlValueAccessor {
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
     const file = event && event.item(0);
+    this.nameFile = file.name;
     this.onChange(file);
     this.file = file;
     var reader = new FileReader();
     reader.readAsDataURL(event[0]); // read file as data url
 
     reader.onload = (event) => { // called once readAsDataURL is completed
+      console.log(event);
       this.url = event.currentTarget;
       this.url = this.url.result;
-
     }
+  }
+
+  removeFile(){
+    this.file = null;
+    this.nameFile = '';
+    this.url = '';
   }
 
   ngOnChanges(changes: SimpleChanges) {

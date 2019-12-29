@@ -38,12 +38,9 @@ export class ModalProgressRightBottomComponent implements OnInit {
       if (this.error) {
         this.returnColorProgress = 'danger'
       }
-
       if (this.progress.message === 100 && !this.error) {
         this.returnColorProgress = 'success'
       }
-      console.log(propName);
-      console.log(this.progress);
       this.progress.message !== 0 ? this.openModal() : '';
       
     }
