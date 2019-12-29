@@ -26,6 +26,7 @@ export class ListComponent implements OnInit {
   page = new Page();
   columns = [
     { name: 'Nome', prop: 'name', width: 250 },
+    { name: 'Empresa', prop: 'company.name', width: 200 },
     { name: 'Criado por', prop: 'author.name' },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
   ];
@@ -55,6 +56,7 @@ export class ListComponent implements OnInit {
 
       this.departmentService.departaments(this.page, null).subscribe(
           data => {
+              console.log(data);
               this.departaments = data;
               this.page.pageNumber = data._links.currentPage - 1;
               this.page.totalElements = data._links.foundItems;

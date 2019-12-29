@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { Archive } from 'src/app/models/archive';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
-import { toFormData } from '../../../utils/form-data/form-data';
 import { FilesService } from 'src/app/services/files/files.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import * as $ from 'jquery';
 
 const MODALS = {
-    focusFirst: NgbdModalConfirmComponent
+  focusFirst: NgbdModalConfirmComponent
 };
 
 @Component({
@@ -21,13 +21,27 @@ const MODALS = {
   styleUrls: ['./show.component.scss']
 })
 export class ShowComponent implements OnInit {
+  progressModal = {
+    customClass: 'modal-style'
+  }
   id: string;
   archive: Archive;
-  uploadResponse = { status: '', message: '' };
+  uploadResponse: any = { status: 'progress', message: 0 };
   error: string;
   loading: Boolean = true;
-  file: any;
+  first: boolean = true;
+  errorUpload: boolean = null;
+  file: any = '';
   savedFile: boolean = false;
+  height: number = 0;
+  @ViewChild("content") content: TemplateRef<any>;
+  uploadFile = new FormGroup({
+    storehouse: new FormControl(''),
+    volume: new FormControl(''),
+    company: new FormControl(''),
+    archive: new FormControl(''),
+    file: new FormControl(null, [Validators.required])
+  });
 
   constructor(
     private _route: Router,
@@ -40,15 +54,10 @@ export class ShowComponent implements OnInit {
     private modalService: NgbModal,
   ) { }
 
-  uploadFile = new FormGroup({
-    storehouse: new FormControl(''),
-    volume: new FormControl(''),
-    company: new FormControl(''),
-    archive: new FormControl(''),
-    file: new FormControl(null, [Validators.required])
-  });
+
 
   ngOnInit() {
+    this.height = $("nav.sidebar").height()
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
   }
@@ -67,6 +76,9 @@ export class ShowComponent implements OnInit {
   picture(archive_id) {
     this.picturesSrv.picture(archive_id).subscribe(data => {
       this.file = data;
+      $('.file').css('height', 'auto');
+    }, (error) => {
+      $('.file').css('height', this.height - 30);
     })
   }
 
@@ -93,10 +105,6 @@ export class ShowComponent implements OnInit {
     this.submit();
   }
 
-  deleteFile(file) {
-    console.log(file);
-  }
-
   submit() {
     // this.loading = true;
     const formData = new FormData();
@@ -107,24 +115,29 @@ export class ShowComponent implements OnInit {
     formData.append('company', this.uploadFile.get('company').value);
     this.filesSrv.file(formData).subscribe(data => {
       if (data.status && data.status === 'progress') {
-        this.uploadResponse = data;
+        this.uploadResponse.message = data.message;
+        this.uploadResponse.status = data.status;
+        this.errorUpload = false;
       }
       if (data._id) {
-        this.uploadResponse = data;
         this.savedFile = true;
-        this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+        // this.successMsgSrv.successMessages('Upload realizado com sucesso.');
       }
       this.picture(this.archive._id);
     }, error => {
       this.loading = false;
+      this.uploadResponse.message = 10;
+      this.uploadResponse.status = 'progress';
+      this.errorUpload = true;
       this.errorMsg.errorMessages(error);
-      this.error = error;
       console.log("ERROR ", error)
     })
   }
 
   open(name: string, file) {
-    const modalRef = this.modalService.open(MODALS[name]);
+    const modalRef = this.modalService.open(MODALS[name], {
+      keyboard: false, backdrop: 'static', windowClass: 'modal-style',
+    });
     modalRef.componentInstance.item = file;
     modalRef.componentInstance.data = {
       titleModal: 'Deletar Arquivo',
@@ -135,6 +148,10 @@ export class ShowComponent implements OnInit {
     modalRef.componentInstance.delete.subscribe(item => {
       this.delete(item);
     });
+  }
+
+  openBackDropCustomClass(content) {
+    this.modalService.open(content, { centered: true, keyboard: true, backdrop: 'static', backdropClass: 'light-blue-backdrop', windowClass: 'modal-style' });
   }
 
   delete(file) {
