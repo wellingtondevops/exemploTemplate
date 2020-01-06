@@ -133,10 +133,11 @@ export class ImportVolumeComponent implements OnInit {
   }
 
   returnUniqField() {
-    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`;
+    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse._id}`;
   }
 
   postVolume() {
+    this.loading = true;
     this.returnId('company');
     this.returnId('storehouse');
     this.returnId('departament');
@@ -166,11 +167,13 @@ export class ImportVolumeComponent implements OnInit {
           if (data._id) {
             numImports++;
             if (numImports === totalImports) {
+              this.loading = false;
               this.successMsgSrv.successMessages('Volumes cadastrados com sucesso.');
             }
           }
         },
         error => {
+          this.loading = false;
           this.errorMsg.errorMessagesImport(error);
         }
       );
