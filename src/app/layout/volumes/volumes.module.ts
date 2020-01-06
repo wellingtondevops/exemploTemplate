@@ -10,9 +10,10 @@ import { EditComponent } from './edit/edit.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
+import { ImportVolumeComponent } from './import-volume/import-volume.component';
 
 @NgModule({
-    declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent],
+    declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent],
     imports: [
         CommonModule,
         VolumesRoutingModule,

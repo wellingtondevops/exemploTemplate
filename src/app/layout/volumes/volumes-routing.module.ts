@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
+import { ImportVolumeComponent } from './import-volume/import-volume.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'new',
     component: NewComponent,
     canActivate: [DaenerysTywinGuard]
+  },
+  {
+    path: 'import-volumes',
+    component: ImportVolumeComponent,
+    canActivate:[DaenerysTywinGuard]
   }
 ];
 

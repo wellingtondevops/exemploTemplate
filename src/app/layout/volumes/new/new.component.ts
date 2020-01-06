@@ -1,13 +1,12 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { Company } from 'src/app/models/company';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { routerTransition } from 'src/app/router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
-import { StorehousesList, Storehouse } from 'src/app/models/storehouse';
+import { Storehouse } from 'src/app/models/storehouse';
 import { debounceTime, distinctUntilChanged, map, reduce, tap, finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
