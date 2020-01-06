@@ -133,7 +133,7 @@ export class ImportVolumeComponent implements OnInit {
   }
 
   returnUniqField() {
-    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse}`;
+    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse._id}`;
   }
 
   postVolume() {
