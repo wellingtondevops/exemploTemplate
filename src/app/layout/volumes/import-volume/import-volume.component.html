@@ -1,3 +1,16 @@
-<p>
-  import-volume works!
-</p>
+<div class="row">
+  <div class="col-xl-12">
+    <h2 class="page-header">
+      Insira um arquivo para importar os volumes
+    </h2>
+  </div>
+</div>
+<div class="file-drop-area">
+  <div class="row">
+    <div *ngIf="!file && !archive && !url">
+      <span class="btn fake-btn">Escolha o arquivo</span>
+      <span>{{file ? file.name : ' ou arraste o arquivo aqui' }}</span>
+      <input class="file-input" type="file" (onChange)="onFileChange($event)">
+    </div>
+  </div>
+</div>
