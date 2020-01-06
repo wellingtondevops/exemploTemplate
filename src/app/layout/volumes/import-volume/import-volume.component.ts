@@ -197,7 +197,6 @@ export class ImportVolumeComponent implements OnInit {
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
       data => {
-        console.log('companies', data.items);
         this.companies = data.items;
       },
       error => {
@@ -224,7 +223,6 @@ export class ImportVolumeComponent implements OnInit {
   getDepartament(id) {
     this.departamentsSrv.searchDepartaments(id).subscribe(
       data => {
-        console.log('departaments', data);
         this.departaments = data.items;
       },
       error => {
@@ -252,13 +250,11 @@ export class ImportVolumeComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        console.log('company', company);
         var res;
         if (company.length < 2) {
           res = [];
         } else {
           res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-          // console.log(res);
           if (res[0]._id) {
             this.getDepartament(res[0]._id);
           }
@@ -272,7 +268,6 @@ export class ImportVolumeComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(departament => {
-        console.log('departament', departament);
         let res;
         if (departament.length < 2) {
           res = [];
