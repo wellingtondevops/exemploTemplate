@@ -38,4 +38,18 @@ export class DocumentsService {
     searchDocuments(){
         return this.http.get<DocumentList>(`${url}/listdocts`).pipe(tap(data => data));
     }
+
+    searchDocts(formdata, page) {
+        if (page) {
+          return this.http.post<DocumentList>(`${url}/docts/search?_page=${page.pageNumber}&size=10`, formdata)
+          .pipe(
+              tap(data => data)
+          );
+        } else {
+          return this.http.post<DocumentList>(`${url}/docts/search?size=10`, formdata)
+          .pipe(
+              tap(data => data)
+          );
+        }
+      }
 }
