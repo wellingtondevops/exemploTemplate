@@ -62,4 +62,18 @@ export class StorehousesService {
         tap(data => data)
     );
   }
+
+  searchStorehouse(formdata, page) {
+    if (page) {
+      return this.http.post<StorehousesSearchList>(`${url}/storehouses/search?_page=${page.pageNumber}&size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.post<StorehousesSearchList>(`${url}/storehouses/search?size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    }
+  }
 }

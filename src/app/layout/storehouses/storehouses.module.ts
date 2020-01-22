@@ -14,6 +14,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EditComponent],
     imports: [
+        NgbModule,
         CommonModule,
         StorehousesRoutingModule,
         PageHeaderModule,
