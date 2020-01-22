@@ -63,4 +63,18 @@ export class DepartamentsService {
         tap(data => data)
     );
   }
+
+  searchDepartament(formdata, page){
+    if (page) {
+      return this.http.post<DepartamentList>(`${url}/departaments/search?_page=${page.pageNumber}&size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.post<DepartamentList>(`${url}/departaments/search?size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    }
+  }
 }
