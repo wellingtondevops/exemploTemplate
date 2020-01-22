@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
         private errorMsg: ErrorMessagesService,
         private pipes: Pipes,
         private fb: FormBuilder,
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.setPage({ offset: 0 });
@@ -68,12 +68,12 @@ export class ListComponent implements OnInit {
         );
     } */
 
-    getDocuments(){
+    getDocuments() {
         this.setPageDocuments({ offset: 0 })
     }
 
-    setPageDocuments(pageInfo){
-        this.loading = true 
+    setPageDocuments(pageInfo) {
+        this.loading = true
         this.page.pageNumber = pageInfo.offset;
 
         this.documentSrv.searchDocts(this.searchForm.value, this.page).subscribe(data => {

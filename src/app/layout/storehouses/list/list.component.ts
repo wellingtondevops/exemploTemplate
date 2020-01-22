@@ -51,7 +51,7 @@ export class ListComponent implements OnInit {
         private modalService: NgbModal,
         public modal: NgbActiveModal,
         private fb: FormBuilder,
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.setPage({ offset: 0 });
@@ -90,7 +90,7 @@ export class ListComponent implements OnInit {
         console.log(data);
     }
 
-    isDaenerys(){
+    isDaenerys() {
         return DaenerysGuardService.isDaenerys()
     }
 
@@ -109,12 +109,12 @@ export class ListComponent implements OnInit {
         );
     }
 
-    getStoreHouses(){
+    getStoreHouses() {
         this.setPageStoreHouses({ offset: 0 })
     }
 
-    setPageStoreHouses(pageInfo){
-        this.loading = true 
+    setPageStoreHouses(pageInfo) {
+        this.loading = true
         this.page.pageNumber = pageInfo.offset;
 
         this.storeHousesSrv.searchStorehouse(this.searchForm.value, this.page).subscribe(data => {

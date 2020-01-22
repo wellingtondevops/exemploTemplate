@@ -281,7 +281,7 @@ export class ImportVolumeComponent implements OnInit {
       })
     );
 }
-@Pipe({
+/* @Pipe({
   name: 'enumToArray'
 })
 export class EnumToArrayPipe implements PipeTransform {
@@ -289,4 +289,4 @@ export class EnumToArrayPipe implements PipeTransform {
     const keys = Object.keys(data);
     return keys.slice(keys.length / 2);
   }
-}
+} */
