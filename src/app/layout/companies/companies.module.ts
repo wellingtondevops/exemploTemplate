@@ -10,10 +10,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ShowComponent } from './show/show.component';
 import { NgxLoadingModule } from 'ngx-loading';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [ListComponent, NewComponent, EditComponent, ShowComponent, EnumToArrayPipe],
     imports: [
+        NgbModule,
         CommonModule,
         CompaniesRoutingModule,
         PageHeaderModule,

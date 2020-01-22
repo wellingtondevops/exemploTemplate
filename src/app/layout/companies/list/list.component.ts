@@ -6,6 +6,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { Pipes } from '../../../utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-list',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    searchForm: FormGroup;
     companies: CompaniesList = {
         _links: {
             currentPage: 1,
@@ -38,16 +40,40 @@ export class ListComponent implements OnInit {
         private _route: Router,
         private companiesSrv: CompaniesService,
         private errorMsg: ErrorMessagesService,
-        private pipes: Pipes
+        private pipes: Pipes,
+        private fb: FormBuilder,
     ) {}
 
     ngOnInit() {
         // this.companiesList();
         this.setPage({ offset: 0 })
+        this.searchForm = this.fb.group({
+            name: this.fb.control(null),
+        });
     }
 
     getCompany(company) {
         this._route.navigate(['/companies/get', company._id]);
+    }
+
+    getCompanies(){
+        this.setPageCompanies({ offset: 0 })
+    }
+
+    setPageCompanies(pageInfo){
+        this.loading = true 
+        this.page.pageNumber = pageInfo.offset;
+
+        this.companiesSrv.searchCompany(this.searchForm.value, this.page).subscribe(data => {
+            this.page.pageNumber = data._links.currentPage - 1;
+            this.page.totalElements = data._links.foundItems;
+            this.page.size = data._links.totalPage;
+            this.companies = data;
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error)
+            this.loading = false;
+        });
     }
 
 /*     companiesList() {
