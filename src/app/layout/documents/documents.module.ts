@@ -9,10 +9,12 @@ import { ShowComponent } from './show/show.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
     imports: [
+        NgbModule,
         CommonModule,
         DocumentsRoutingModule,
         PageHeaderModule,

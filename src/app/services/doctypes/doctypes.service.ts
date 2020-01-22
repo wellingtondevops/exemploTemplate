@@ -49,4 +49,18 @@ export class DoctypesService {
         tap(data => data)
       );
   }
+
+  searchDocts(formdata, page) {
+    if (page) {
+      return this.http.post<DoctypeList>(`${url}/docts/search?_page=${page.pageNumber}&size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.post<DoctypeList>(`${url}/docts/search?size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    }
+  }
 }

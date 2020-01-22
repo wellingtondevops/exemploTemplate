@@ -14,6 +14,20 @@ export class UsersService {
     public http: HttpClient
   ) { }
 
+  searchUsers(formData, page) {
+    if (page) {
+      return this.http.post<UserList>(`${url}/users/search?_page=${page.pageNumber}&size=10`, formData)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.post<UserList>(`${url}/users/search?size=10`, formData)
+      .pipe(
+          tap(data => data)
+      );
+    }
+  }
+
   users(page) {
     if (page) {
       return this.http.get<UserList>(`${url}/users?_page=${page.pageNumber}&size=10`)

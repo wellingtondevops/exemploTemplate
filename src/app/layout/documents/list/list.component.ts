@@ -7,6 +7,7 @@ import { Pagination } from 'src/app/models/pagination';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-list',
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    searchForm: FormGroup;
     documents: DocumentList = {
         _links: {
             currentPage: 1,
@@ -37,12 +39,16 @@ export class ListComponent implements OnInit {
         private _route: Router,
         private documentSrv: DocumentsService,
         private errorMsg: ErrorMessagesService,
-        private pipes: Pipes
-    ) {}
+        private pipes: Pipes,
+        private fb: FormBuilder,
+    ) { }
 
     ngOnInit() {
         this.setPage({ offset: 0 });
         // this.documentsList();
+        this.searchForm = this.fb.group({
+            name: this.fb.control(null),
+        });
     }
 
     /* documentsList() {
@@ -61,6 +67,26 @@ export class ListComponent implements OnInit {
             }
         );
     } */
+
+    getDocuments() {
+        this.setPageDocuments({ offset: 0 })
+    }
+
+    setPageDocuments(pageInfo) {
+        this.loading = true
+        this.page.pageNumber = pageInfo.offset;
+
+        this.documentSrv.searchDocts(this.searchForm.value, this.page).subscribe(data => {
+            this.page.pageNumber = data._links.currentPage - 1;
+            this.page.totalElements = data._links.foundItems;
+            this.page.size = data._links.totalPage;
+            this.documents = data;
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error)
+            this.loading = false;
+        });
+    }
 
     setPage(pageInfo) {
         this.loading = true;

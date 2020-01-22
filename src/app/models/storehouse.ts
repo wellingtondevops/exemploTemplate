@@ -19,6 +19,10 @@ export class StorehousesSearchList {
   items: [{
     _id: string;
     name: string;
+    mailSignup: string;
+    author: any;
+    dateCreated: string;
+    _links: any;
   }];
 }
 

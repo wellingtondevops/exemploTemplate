@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ɵConsole, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
 import { Archive } from 'src/app/models/archive';

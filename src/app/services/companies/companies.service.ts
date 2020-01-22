@@ -14,6 +14,20 @@ export class CompaniesService {
     private http: HttpClient
   ) { }
 
+  searchCompany(formdata, page) {
+    if (page) {
+      return this.http.post<CompaniesList>(`${url}/companies/search?_page=${page.pageNumber}&size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    } else {
+      return this.http.post<CompaniesList>(`${url}/companies/search?size=10`, formdata)
+      .pipe(
+          tap(data => data)
+      );
+    }
+  }
+
   companies(page) {
     if (page) {
       return this.http.get<CompaniesList>(`${url}/companies?_page=${page.pageNumber}&size=10`)

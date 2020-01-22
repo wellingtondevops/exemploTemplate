@@ -11,6 +11,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.service';
 import { Page } from 'src/app/models/page';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -23,6 +24,7 @@ const MODALS = {
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    searchForm: FormGroup;
     closeResult: string;
     storehouses: StorehousesList = {
         _links: {
@@ -47,12 +49,16 @@ export class ListComponent implements OnInit {
         private pipes: Pipes,
         private toastr: ToastrService,
         private modalService: NgbModal,
-        public modal: NgbActiveModal
-    ) {}
+        public modal: NgbActiveModal,
+        private fb: FormBuilder,
+    ) { }
 
     ngOnInit() {
         this.setPage({ offset: 0 });
         // this.getStoreHouses();
+        this.searchForm = this.fb.group({
+            name: this.fb.control(null),
+        });
     }
 
     getStoreHouse(storeHouse) {
@@ -84,7 +90,7 @@ export class ListComponent implements OnInit {
         console.log(data);
     }
 
-    isDaenerys(){
+    isDaenerys() {
         return DaenerysGuardService.isDaenerys()
     }
 
@@ -101,6 +107,26 @@ export class ListComponent implements OnInit {
                 console.log('ERROR:', error);
             }
         );
+    }
+
+    getStoreHouses() {
+        this.setPageStoreHouses({ offset: 0 })
+    }
+
+    setPageStoreHouses(pageInfo) {
+        this.loading = true
+        this.page.pageNumber = pageInfo.offset;
+
+        this.storeHousesSrv.searchStorehouse(this.searchForm.value, this.page).subscribe(data => {
+            this.page.pageNumber = data._links.currentPage - 1;
+            this.page.totalElements = data._links.foundItems;
+            this.page.size = data._links.totalPage;
+            this.storehouses = data;
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error)
+            this.loading = false;
+        });
     }
 
     /* getStoreHouses() {

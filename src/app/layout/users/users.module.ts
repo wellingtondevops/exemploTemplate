@@ -7,7 +7,7 @@ import { UsersRoutingModule } from './users-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditComponent } from './edit/edit.component';
 import { AlterPasswordComponent } from './alter-password/alter-password.component';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -15,6 +15,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
     imports: [
+        NgbModule,
         CommonModule,
         UsersRoutingModule,
         PageHeaderModule,

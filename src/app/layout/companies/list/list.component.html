@@ -12,6 +12,28 @@
     <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'" [permissionBtnNew]="['DAENERYS']" [routerTo]="'/companies/new'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
+            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                <ngb-panel>
+                  <ng-template ngbPanelTitle>
+                    <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <form [formGroup]="searchForm" (ngSubmit)="getCompanies()" role="FormGroup" class="form-inline">
+                      <div class="row col-12">
+                        <div class="form-group mb-2 col-4">
+                            <label for="labelName">Nome</label>
+                            <input id="name" autoFocus="true" type="text" class="form-control" formControlName="name"
+                              style="width: 100%" />
+                        </div>
+                        <div class="form-group mb-2 col-4" style="padding-top: 3%;">
+                          <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                      </div>
+                    </form>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
+            <br />
             <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" (show)="getCompany($event)"></app-datatables>
         </div>
     </div>
