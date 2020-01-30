@@ -63,9 +63,7 @@ export class ListComponent implements OnInit {
     });
 
     this.statusList = StatusVolumeEnum;
-    console.log(this.statusList);
     this.getCompanies();
-    // this.getDepartaments();
     this.getStoreHouses();
     this.getDocuments();
   }

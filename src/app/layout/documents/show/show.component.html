@@ -6,78 +6,90 @@
     tertiaryColour: '#222'
 }"></ngx-loading>
 <div [@routerTransition]>
-    <app-page-header [heading]="'Dados Documento'" [icon]="'fa-book'"></app-page-header>
-    <div style="margin-bottom: 10px">
-        <app-button-back [redirectTo]="'documents'"></app-button-back>
-        <app-buttons-custom [id]="document._id" (edit)="editDocument(document._id)"
-            (delete)="open('focusFirst', document._id)" [permissionEdit]="['DAENERYS', 'TYWIN']"
-            [permissionDelete]="['DAENERYS', 'TYWIN']">
-        </app-buttons-custom>
-        <br />
-    </div>
+  <app-page-header *ngIf="!loading" [heading]="'Dados Documento'" [icon]="'fa-book'"></app-page-header>
+  <div style="margin-bottom: 10px" *ngIf="!loading">
+    <app-button-back [redirectTo]="'documents'"></app-button-back>
+    <app-buttons-custom  [id]="document._id" (edit)="editDocument(document._id)"
+      (delete)="open('focusFirst', document._id)" [permissionEdit]="['DAENERYS', 'TYWIN']"
+      [permissionDelete]="['DAENERYS', 'TYWIN']">
+    </app-buttons-custom>
+    <br />
+  </div>
 
-    <div class="card bg-light mb-12">
-        <div class="card-body">
+  <div class="card bg-light mb-12">
+    <div *ngIf="!loading" class="card-body">
 
-            <form [formGroup]="documentForm" role="FormGroup">
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="form-group">
-                            <label for="">Nome</label>
-                            <input id="name" type="text" placeholder="Nome" class="form-control"
-                                formControlName="name" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="retention">Tipo do Tempo de Guarda</label>
-                            <select class="form-control" id="retention" formControlName="retention">
-                                <option *ngFor="let retention of retentionList | enumToArray" [value]="retention">
-                                    {{ retention | translate }}</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="">Tempo de Guarda</label>
-                            <input id="retentionTime" type="number" placeholder="Tempo de Guarda" class="form-control"
-                                formControlName="retentionTime" />
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6">
-                        <div class="form-group" formArrayName="label">
-                            <label for="">Campos</label>
-                            <div *ngFor="let label of labels.controls; index as i">
-                                <div class="card bg-light mb-12" style="margin-bottom: 5px">
-                                    <div class="card-body">
-                                        <div [formGroupName]="i">
-                                            <div class="form-group">
-                                                <label for="">Nome do Campo</label>
-                                                <input type="text" placeholder="Nome do Campo" class="form-control"
-                                                    formControlName="namefield" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="">Tipo de Campos</label>
-                                                <select class="form-control" id="typefield" formControlName="typeField">
-                                                    <option *ngFor="let typeFieldN of typeFieldList | enumToArray"
-                                                        [value]="typeFieldN">
-                                                        {{ typeFieldN | translate }}</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="checkbox">
-                                                    <label> <input type="checkbox" formControlName="uniq" value="" />
-                                                        Único </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div></div>
-                        </div>
-                    </div>
+      <form [formGroup]="documentForm" role="FormGroup">
+        <div class="row">
+          <div class="col-xl-6">
+            <div class="form-group">
+              <label for="typeahead-basic">Empresa</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
+              <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
+                <div *ngIf="!companyIpt.valid">
+                  Empresa é obrigatória.
                 </div>
-            </form>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="">Nome</label>
+              <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name" />
+            </div>
+
+            <div class="form-group">
+              <label for="retention">Tipo do Tempo de Guarda</label>
+              <select class="form-control" id="retention" formControlName="retention">
+                <option *ngFor="let retention of retentionList | enumToArray" [value]="retention">
+                  {{ retention | translate }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="">Tempo de Guarda</label>
+              <input id="retentionTime" type="number" placeholder="Tempo de Guarda" class="form-control"
+                formControlName="retentionTime" />
+            </div>
+          </div>
+
+          <div class="col-xl-6">
+            <div class="form-group" formArrayName="label">
+              <label for="">Campos</label>
+              <div *ngFor="let label of labels.controls; index as i">
+                <div class="card bg-light mb-12" style="margin-bottom: 5px">
+                  <div class="card-body">
+                    <div [formGroupName]="i">
+                      <div class="form-group">
+                        <label for="">Nome do Campo</label>
+                        <input type="text" placeholder="Nome do Campo" class="form-control"
+                          formControlName="namefield" />
+                      </div>
+                      <div class="form-group">
+                        <label for="">Tipo de Campos</label>
+                        <select class="form-control" formControlName="typeField">
+                          <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
+                            {{ typeFieldN | translate }}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label> <input type="checkbox" formControlName="uniq" value="" />
+                            Único </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div></div>
+            </div>
+          </div>
         </div>
+        <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+        </ng-template>
+      </form>
     </div>
+  </div>
 </div>

@@ -33,7 +33,7 @@ export class EditComponent implements OnInit {
   ) {
     this.departamentForm = this.fb.group({
       _id: this.fb.control(''),
-      company: this.fb.control({ value: '' }, [Validators.required]),
+      company: this.fb.control('', [Validators.required]),
       name: this.fb.control({ value: '' }, [Validators.required])
     });
   }
@@ -55,7 +55,6 @@ export class EditComponent implements OnInit {
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
       data => {
-        console.log('companies', data.items);
         this.companies = data.items;
       },
       error => {
@@ -68,7 +67,6 @@ export class EditComponent implements OnInit {
   getDepartament() {
     this.departamentsSrv.departament(this.id).subscribe(
       data => {
-        console.log('departament', data);
         this.loading = false;
         this.departament = data;
         this.departamentForm.patchValue({
@@ -118,7 +116,6 @@ export class EditComponent implements OnInit {
     this.returnId('company');
     this.loading = true;
     var departament = _.omitBy(this.departamentForm.value, _.isNil);
-    console.log(departament);
     this.departamentsSrv.update(departament).subscribe(
       data => {
         if (data._id) {

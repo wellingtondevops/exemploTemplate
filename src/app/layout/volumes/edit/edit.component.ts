@@ -101,7 +101,6 @@ export class EditComponent implements OnInit {
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
-                console.log(data)
                 this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
