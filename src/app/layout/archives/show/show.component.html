@@ -6,15 +6,15 @@
           secondaryColour: '#222',
           tertiaryColour: '#222'
       }"></ngx-loading>
-  <app-page-header [heading]="'Arquivo'" [icon]="'fa-user'"></app-page-header>
-  <div style="margin-bottom: 10px">
+  <app-page-header *ngIf="!loading" [heading]="'Arquivo'" [icon]="'fa-user'"></app-page-header>
+  <div style="margin-bottom: 10px" *ngIf="!loading">
     <app-button-back [redirectTo]="'archives'"></app-button-back>
-    <app-buttons-custom *ngIf="archive" [id]="archive._id" [permissionEdit]="['DAENERYS']"
+    <app-buttons-custom [id]="archive._id" [permissionEdit]="['DAENERYS']"
       [permissionDelete]="['DAENERYS']">
     </app-buttons-custom>
     <br />
   </div>
-  <div class="row">
+  <div class="row" *ngIf="!loading">
     <div class="col-4">
       <div class="card bg-light mb-12">
         <div class="card-body">
