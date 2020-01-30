@@ -188,8 +188,9 @@ export class EditComponent implements OnInit {
         this.returnId('storehouse');
 
         this.volumeForm.value.uniqueField = this.returnUniqField();
-
-        this.volumesSrv.updateVolume(this.volumeForm.value).subscribe(
+        console.log(this.volumeForm.value);
+        var volumeForm = _.omitBy(this.volumeForm.value, _.isNil);
+        this.volumesSrv.updateVolume(volumeForm).subscribe(
             data => {
                 if (data._id) {
                     this.loading = false;

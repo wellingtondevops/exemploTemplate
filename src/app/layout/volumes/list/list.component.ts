@@ -55,9 +55,9 @@ export class ListComponent implements OnInit {
     { name: 'Departamento', prop: 'departament.name' },
     { name: 'Ármazem', prop: 'storehouse.name' },
     { name: 'Localização', prop: 'location', width: 70 },
+    { name: 'Referência', prop: 'reference', width: 70 },
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
-    { name: 'Referência', prop: 'reference', width: 70 },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
 
