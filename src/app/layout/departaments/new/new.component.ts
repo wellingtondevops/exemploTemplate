@@ -26,80 +26,79 @@ export class NewComponent implements OnInit {
   loading: Boolean = false;
 
   constructor(
-      private _route: Router,
-      private departamentsSrv: DepartamentsService,
-      private companiesSrv: CompaniesService,
-      private successMsgSrv: SuccessMessagesService,
-      private errorMsg: ErrorMessagesService,
-      private fb: FormBuilder
+    private _route: Router,
+    private departamentsSrv: DepartamentsService,
+    private companiesSrv: CompaniesService,
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService,
+    private fb: FormBuilder
   ) {
-      this.departamentForm = this.fb.group({
-          company: this.fb.control('', [Validators.required]),
-          name: this.fb.control('', [Validators.required])
-      });
+    this.departamentForm = this.fb.group({
+      company: this.fb.control('', [Validators.required]),
+      name: this.fb.control('', [Validators.required])
+    });
   }
 
   formatter = (x: { name: string }) => x.name;
 
   get name() {
-      return this.departamentForm.get('name');
+    return this.departamentForm.get('name');
   }
   get company() {
-      return this.departamentForm.get('company');
+    return this.departamentForm.get('company');
   }
 
   ngOnInit() {
-      this.getCompanies();
+    this.getCompanies();
   }
 
   getCompanies() {
-      this.companiesSrv.searchCompanies().subscribe(
-          data => {
-              this.companies = data.items;
-          },
-          error => {
-              this.errorMsg.errorMessages(error);
-              console.log('ERROR: ', error);
-          }
-      );
+    this.companiesSrv.searchCompanies().subscribe(
+      data => {
+        this.companies = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
   }
 
 
   returnId(object) {
-      this.departamentForm.value[object] = _.filter(this.departamentForm.value[object], function(value, key) {
-          if (key === '_id') return value;
-      })[0];
+    this.departamentForm.value[object] = _.filter(this.departamentForm.value[object], function (value, key) {
+      if (key === '_id') return value;
+    })[0];
   }
 
   postDepartament() {
-      this.returnId('company');
-      
-      var departament = _.omitBy(this.departamentForm.value, _.isNil);
-      this.departamentsSrv.newDepartament(departament).subscribe(
-          data => {
-              if (data._id) {
-                  this.successMsgSrv.successMessages('Departamento cadastrado com sucesso.');
-                  
-                  this._route.navigate(['/departaments']);
-              }
-          },
-          error => {
-              this.errorMsg.errorMessages(error);
-              console.log('ERROR: ', error);
-          }
-      );
+    this.returnId('company');
+
+    var departament = _.omitBy(this.departamentForm.value, _.isNil);
+    this.departamentsSrv.newDepartament(departament).subscribe(
+      data => {
+        if (data._id) {
+          this.successMsgSrv.successMessages('Departamento cadastrado com sucesso.');
+          this._route.navigate(['/departaments']);
+        }
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
   }
 
   searchCompany = (text$: Observable<string>) =>
-      text$.pipe(
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(company => {
-              var res;
-              if (company.length < 2) [];
-              else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-              return res;
-          })
-      );
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(company => {
+        var res;
+        if (company.length < 2) [];
+        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        return res;
+      })
+    );
 
 }

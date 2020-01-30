@@ -59,7 +59,6 @@ export class ShowComponent implements OnInit {
       this.getCompanies();
       this.loading = true;
       this.id = this.route.snapshot.paramMap.get('id');
-      console.log(this.id);
       this.getDepartament();
   }
 
@@ -179,7 +178,7 @@ export class ShowComponent implements OnInit {
               if (company.length < 2) {
                   [];
               } else {
-                  const res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+                res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
               }
               return res;
           })

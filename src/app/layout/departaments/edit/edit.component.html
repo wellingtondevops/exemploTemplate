@@ -15,6 +15,7 @@
     <div class="card-body">
       <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="updateDepartament()">
         <div class="form-content">
+
           <div class="form-group">
             <label for="typeahead-basic">Empresa</label>
             <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
@@ -40,18 +41,16 @@
           <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
           </ng-template>
+
           <div class="pull-right">
             <button type="button" [routerLink]="['/departaments']" class="btn btn-default"
               style="margin-right:10px">Voltar</button>
-            <button type="submit" class="btn btn-primary" [disabled]="
-            companyIpt.invalid ||
-                      name.invalid
-                  ">
+            <button type="submit" class="btn btn-primary" [disabled]="companyIpt.invalid ||name.invalid">
               Salvar
             </button>
           </div>
-        </div>
 
+        </div>
       </form>
     </div>
   </div>

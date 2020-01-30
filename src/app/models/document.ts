@@ -1,4 +1,5 @@
 import { Pagination } from './pagination';
+import { Company } from './company';
 
 export class Document {
     _links: {
@@ -10,6 +11,7 @@ export class Document {
     retention: string;
     __v: number;
     dateCreated: string;
+    company: Company;
     label: Label[];
 }
 

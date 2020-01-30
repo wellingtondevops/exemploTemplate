@@ -9,6 +9,9 @@ import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { Document } from 'src/app/models/document';
 import _ from 'lodash';
 import { routerTransition } from 'src/app/router.animations';
+import { CompaniesService } from 'src/app/services/companies/companies.service';
+import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit',
@@ -21,6 +24,7 @@ export class EditComponent implements OnInit {
   document: Document;
   loading: Boolean = true;
   documentForm: FormGroup;
+  companies: any = [];
   labels: any = [];
   public retentionList: any = RedemptionEnum;
   public typeFieldList: any = TypeFieldListEnum;
@@ -31,10 +35,14 @@ export class EditComponent implements OnInit {
     private documentsSrv: DocumentsService,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
-    private errorMsg: ErrorMessagesService
+    private errorMsg: ErrorMessagesService,
+    private companiesSrv: CompaniesService,
   ) {
   }
 
+  get companyIpt() {
+    return this.documentForm.get('company');
+  }
   get name() {
     return this.documentForm.get('name');
   }
@@ -48,6 +56,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
     this.documentForm = this.fb.group({
       _id: '',
+      company: this.fb.control('', [Validators.required]),
       name: this.fb.control('', [Validators.required]),
       retention: this.fb.control('', [Validators.required]),
       retentionTime: this.fb.control('', [Validators.required]),
@@ -56,6 +65,7 @@ export class EditComponent implements OnInit {
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocument();
+    this.getCompanies();
   }
 
   createLabelExist(item): FormGroup {
@@ -95,6 +105,7 @@ export class EditComponent implements OnInit {
         this.documentForm.patchValue({
           _id: data._id,
           name: data.name,
+          company: data.company,
           retention: data.retention,
           retentionTime: data.retentionTime,
           label: data.label
@@ -124,4 +135,41 @@ export class EditComponent implements OnInit {
         console.log('ERROR: ', error);
       })
   }
+
+  returnId(object) {
+    this.documentForm.value[object] = _.filter(this.documentForm.value[object], function (value, key) {
+      if (key === '_id') {
+        return value;
+      }
+    })[0];
+  }
+
+  formatter = (x: { name: string }) => x.name;
+
+  getCompanies() {
+    this.companiesSrv.searchCompanies().subscribe(
+      data => {
+        this.companies = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  searchCompany = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(company => {
+        let res;
+        if (company.length < 2) {
+          [];
+        } else {
+          res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        }
+        return res;
+      })
+    )
 }

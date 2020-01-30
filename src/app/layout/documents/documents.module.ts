@@ -12,19 +12,20 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
-    imports: [
-        NgbModule,
-        CommonModule,
-        DocumentsRoutingModule,
-        PageHeaderModule,
-        ReactiveFormsModule,
-        FormsModule,
-        DatatablesModule,
-        TranslateModule,
-        ButtonsCustomModule,
-        ButtonBackModule,
-        NgxLoadingModule.forRoot({})
-    ]
+  declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
+  imports: [
+    PageHeaderModule,
+    NgbModule,
+    CommonModule,
+    DocumentsRoutingModule,
+    PageHeaderModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatatablesModule,
+    TranslateModule,
+    ButtonsCustomModule,
+    ButtonBackModule,
+    NgxLoadingModule.forRoot({})
+  ]
 })
-export class DocumentsModule {}
+export class DocumentsModule { }

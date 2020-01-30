@@ -79,7 +79,6 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.listVolumes();
     this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       company: this.fb.control(null),
@@ -96,22 +95,6 @@ export class ListComponent implements OnInit {
     this.getCompanies();
     this.getStoreHouses();
   }
-
-  /* listVolumes() {
-      this.volumeSrv.volumes(null).subscribe(
-          data => {
-              this.loading = false;
-              this.volumes = data;
-              this.page.pageNumber = data._links.currentPage;
-              this.page.totalElements = data._links.foundItems;
-              this.page.size = data._links.totalPage;
-          },
-          error => {
-              this.loading = false;
-              console.log('ERROR: ', error);
-          }
-      );
-  } */
 
   getVolume(volume) {
     this._route.navigate(['/volumes/get', volume._id]);
@@ -136,7 +119,6 @@ export class ListComponent implements OnInit {
     this.returnId('storehouse');
     this.returnId('departament');
     var searchValue = _.omitBy(this.searchForm.value, _.isNil);
-    //console.log(searchValue);
     this.volumeSrv.searchVolumes(searchValue, this.page).subscribe(
       data => {
         this.volumes = data;
@@ -159,7 +141,6 @@ export class ListComponent implements OnInit {
 
     this.volumeSrv.volumes(this.page).subscribe(
       data => {
-        console.log(data);
         this.volumes = data;
         this.page.pageNumber = data._links.currentPage - 1;
         this.page.totalElements = data._links.foundItems;
@@ -177,7 +158,6 @@ export class ListComponent implements OnInit {
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
       data => {
-        console.log('companies', data)
         this.companies = data.items;
       },
       error => {
@@ -206,7 +186,6 @@ export class ListComponent implements OnInit {
   getDepartaments(company_id) {
     this.departamentsSrv.searchDepartaments(company_id).subscribe(
       data => {
-        // console.log('departament', data);
         this.departaments = data.items;
       },
       error => {
@@ -222,7 +201,6 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(departament => {
-        console.log(departament);
         if (this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined') {
           this.warningMsg.showWarning('Selecione uma empresa.', 4000);
           return
@@ -237,7 +215,6 @@ export class ListComponent implements OnInit {
   getStoreHouses() {
     this.storehousesSrv.searchStorehouses().subscribe(
       data => {
-        console.log(data);
         this.storehouses = data.items;
       },
       error => {
