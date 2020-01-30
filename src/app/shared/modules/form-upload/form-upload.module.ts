@@ -5,10 +5,11 @@ import { RouterModule } from '@angular/router';
 import { FormUploadComponent } from './form-upload.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewerModule } from '@hallysonh/ngx-imageviewer';
+import { ButtonsCustomModule } from '..';
 
 
 @NgModule({
-    imports: [CommonModule, RouterModule, NgbModule, ImageViewerModule],
+    imports: [CommonModule, RouterModule, NgbModule, ImageViewerModule, ButtonsCustomModule],
     declarations: [FormUploadComponent],
     exports: [FormUploadComponent]
 })
