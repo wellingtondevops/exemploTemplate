@@ -72,7 +72,6 @@ export class ImportFileComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.getCompanies();
     this.getTypeDocuments();
     this.getStoreHouses();
@@ -95,7 +94,6 @@ export class ImportFileComponent implements OnInit {
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
       data => {
-        console.log(data.items);
         this.companies = data.items;
       },
       error => {
@@ -115,7 +113,6 @@ export class ImportFileComponent implements OnInit {
   getDepartaments(company_id) {
     this.departamentsSrv.searchDepartaments(company_id).subscribe(
       data => {
-        console.log('departament', data);
         this.departaments = data.items;
       },
       error => {
@@ -130,7 +127,6 @@ export class ImportFileComponent implements OnInit {
     this.storeHousesSrv.searchStorehouses().subscribe(
       data => {
         this.loading = false;
-        console.log(data);
         this.storeHouses = data.items;
       },
       error => {
@@ -184,17 +180,10 @@ export class ImportFileComponent implements OnInit {
           // I want to get top row only.
           // console.log(XLSX.utils.decode_row('A1')); 
           this.workbook = worksheet;
-          setTimeout(() => {
-            // console.log(workbook)
-          }, 15000)
           var item = XLSX.utils.sheet_to_json(worksheet, { raw: true })
           item.map(row => {
-            var newRow = _.omit(row, ['LOCALIZACAO']);
-            console.log(newRow)
-            this.rowsFile.push(newRow);
+            this.rowsFile.push(row);
           })
-          console.log('item length', item.length);
-          console.log('rowsFile length', this.rowsFile.length);
         }
         fileReader.readAsArrayBuffer(this.file);
       }
@@ -244,7 +233,6 @@ export class ImportFileComponent implements OnInit {
     this.loading = true;
     this.documentsSrv.document(data.item._id).subscribe(data => {
       this.document = data;
-      console.log('documento', data);
       this.document.label.map(item => {
         this.labels.push(item.namefield);
       })
@@ -281,57 +269,77 @@ export class ImportFileComponent implements OnInit {
     })[0];
   }
 
-  removeLocation(tag, location) {
-    new Promise((resolve, reject) => {
-      
-    })
-
-  }
-
   postImportArchive() {
-    console.log(this.importFileForm.value);
-    var checkColumnsAndLabelsLength = this.checkLengthColumnsAndLabels(this.columns.length, this.labels.length);
-    if (!checkColumnsAndLabelsLength) return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
-    var checkColumnsAndLabels = this.checkColumnsAndLabels(this.columns, this.labels);
-    if (!checkColumnsAndLabels) return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+
     this.returnId('company');
     this.returnId('storehouse');
     this.returnId('departament');
     this.returnId('doct');
-    this.document
     this.rowsFile.map(item => {
       this.postArquive(item);
     })
   }
 
-  async postArquive(data) {
-    const volume = data.localizacao;
-    const tag = _.values(data);
-    let uniqueness = '';
-    let labelsTrueLength = _.filter(this.document.label, ['uniq', true])
-    this.document.label.map((label, i) => {
-      if (label.uniq) {
-        if (i === (labelsTrueLength.length - 1)) {
-          uniqueness += `${tag[i]}`
+  getVolume(location) {
+    var page = {
+      pageNumber: 0
+    }
+    return new Promise((resolve, reject) => {
+      this.volumesSrv.searchVolumes(location, page).subscribe(res => {
+        var getVolume = res.items[0]
+        if (res.items[0] && location.location === getVolume.location) {
+          // location = getVolume._id;
+          return resolve(getVolume._id)
         } else {
-          uniqueness += `${tag[i]}-`
+          this.loading = false;
+          this.errorMsg.showError({ message: `O volume ${location.location} não foi encontrado, cadastre o volume.`, status: 404 });
+          return reject('Volume não encontrado');
         }
-      }
-    })
-    const { company, doct, storehouse, departament } = this.importFileForm.value;
-    console.log('arquive to index', { tag, company, departament, doct, storehouse, uniqueness, volume });
-    this.archivesSrv.newArchive({ tag, company, departament, doct, storehouse, uniqueness, volume }).subscribe(data => {
-      if (data._id) {
-        console.log('success', data)
-        // this.getRegisterVolume(this.volume._id)
+      }, (error) => {
+        console.log(`ERROR`, error);
         this.loading = false;
-        this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
-      }
-    }, error => {
-      this.loading = false;
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-      this.errorsToPostArchive.push(error);
+        return reject(error)
+        
+      })
     })
+  }
+
+  async postArquive(data) {
+    this.loading = true;
+    let volume = data.LOCALIZACAO;
+    var newRow = _.omit(data, ['LOCALIZACAO']);
+
+    var volume_id = await this.getVolume({location: data.LOCALIZACAO});
+    if (volume_id) {
+      var checkColumnsAndLabelsLength = this.checkLengthColumnsAndLabels(this.columns.length, this.labels.length);
+      if (!checkColumnsAndLabelsLength) return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+      var checkColumnsAndLabels = this.checkColumnsAndLabels(this.columns, this.labels);
+      if (!checkColumnsAndLabels) return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+
+      const tag = _.values(newRow);
+      let uniqueness = '';
+      let labelsTrueLength = _.filter(this.document.label, ['uniq', true])
+      this.document.label.map((label, i) => {
+        if (label.uniq) {
+          if (i === (labelsTrueLength.length - 1)) {
+            uniqueness += `${tag[i]}`
+          } else {
+            uniqueness += `${tag[i]}-`
+          }
+        }
+      })
+      const { company, doct, storehouse, departament } = this.importFileForm.value;
+       this.archivesSrv.newArchive({ tag, company, departament, doct, storehouse, uniqueness, volume: volume_id }).subscribe(res => {
+        if (res._id) {
+          this.loading = false;
+          this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
+        }
+      }, error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.errorsToPostArchive.push(error);
+      })
+    }
   }
 }
