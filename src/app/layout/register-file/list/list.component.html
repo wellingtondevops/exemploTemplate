@@ -111,13 +111,14 @@
                         <button type="submit" class="btn btn-default">Adicionar tipo de documento ao volume</button>
                       </div> -->
                     </form>
-                    <br>
-                    <app-form-index *ngIf="document" [data]="document" [isArchive]="false"
-                      (sendArchive)="postArchive($event)">
-                    </app-form-index>
-                    <br>
-                    <br>
-                    <br>
+                    <div *ngIf="document">
+                      <br>
+                      <br>
+                      <p>Insira os dados do documento abaixo ou importe um arquivo xlsx</p>
+                      <app-form-index [data]="document" [isArchive]="false" (sendArchive)="postArchive($event)">
+                      </app-form-index>
+                      <br>
+                    </div>
                   </div>
                   <div class="col-6">
                     <br>
@@ -175,12 +176,6 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab id="tab3" title="Importar Arquivos" [disabled]="tabIndex">
-              <ng-template ngbTabContent>
-                <div class="row">
-                </div>
-              </ng-template>
-            </ngb-tab>
           </ngb-tabset>
         </div>
       </div>
@@ -189,7 +184,7 @@
   <br />
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <app-datatables *ngIf="!tableRegister" [data]="volumes" [columns]="columns" (show)="getVolume($event)">
+      <app-datatables [data]="volumes" [columns]="columns" (show)="getVolume($event)">
       </app-datatables>
     </div>
   </div>

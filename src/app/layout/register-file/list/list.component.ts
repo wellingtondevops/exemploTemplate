@@ -16,13 +16,13 @@ import { DoctypesService } from 'src/app/services/doctypes/doctypes.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { RegistersService } from 'src/app/services/registers/registers.service';
-import { RegistersList } from 'src/app/models/register';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import _ from 'lodash';
-import { DoctypeList, Doctype } from 'src/app/models/doctype';
+import { Doctype } from 'src/app/models/doctype';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
-import { DepartamentList } from 'src/app/models/departament';
+
+
 interface Alert {
   type: string;
   message: string;
@@ -47,6 +47,7 @@ export class ListComponent implements OnInit {
   company_id: string;
   storeHouse_id: string;
   departaments: any = [];
+  labels: any = [];
   companies: any = {
     _links: {
       self: '',
@@ -94,8 +95,8 @@ export class ListComponent implements OnInit {
   @ViewChild('tab') private tab: NgbTabset;
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
-    { name: 'Departamento', prop: 'departament.name' },
-    /*{ name: 'Ármazem', prop: 'storehouse.name' },*/
+    { name: 'Departamento', prop: 'departament.name' }, 
+    /*{ name: 'Ármazem', prop: 'storehouse.name' }, */
     { name: 'Localização', prop: 'location', width: 70 },
     /*{ name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
@@ -113,16 +114,12 @@ export class ListComponent implements OnInit {
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }*/
   ]
 
-
-
-
   constructor(
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private _route: Router,
     private pipes: Pipes,
-    private doctsSrv: DoctypesService,
     private companiesSrv: CompaniesService,
     private storeHousesSrv: StorehousesService,
     private volumesSrv: VolumesService,
@@ -224,6 +221,7 @@ export class ListComponent implements OnInit {
     this.company_id = this.registerFileForm.value.company._id;
     var departament = this.registerFileForm.value.departament._id;
     var location = this.registerFileForm.value.location;
+    /* var searchValue = _.omitBy(this.registerFileForm.value, _.isNil); */
     this.volumesSrv.listvolume(this.storeHouse_id, this.company_id, location, departament).subscribe(
       data => {
         this.volumes = data;
@@ -349,6 +347,8 @@ export class ListComponent implements OnInit {
   onDetailToggle(event) {
     // console.log('Detail Toggled', event);
   }
+
+  
 
   postArchive(data) {
     this.loading = true;

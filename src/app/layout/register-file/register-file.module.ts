@@ -8,9 +8,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ListComponent, EnumToArrayPipe } from './list/list.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ImportFileComponent } from './import-file/import-file.component';
 
 @NgModule({
-  declarations: [ListComponent, EnumToArrayPipe],
+  declarations: [ListComponent, EnumToArrayPipe, ImportFileComponent],
   imports: [
     CommonModule,
     RegisterFileRoutingModule,
