@@ -47,7 +47,7 @@ export class NewComponent implements OnInit {
             typePerson: this.fb.control('', [Validators.required]),
             cpf: this.fb.control(null),
             cnpj: this.fb.control(null),
-            departaments: this.fb.array(this.departaments)
+            /* departaments: this.fb.array(this.departaments) */
         });
     }
 
@@ -107,7 +107,7 @@ export class NewComponent implements OnInit {
             data => {
                 if (data._id) {
                     this.loading = false;
-                    this.createDepartamentPost(company.departaments, company._id);
+                    /* this.createDepartamentPost(company.departaments, company._id); */
                     this.successMsgSrv.successMessages('Empresa criada com sucesso.');
                     this._route.navigate(['/companies']);
                 }
