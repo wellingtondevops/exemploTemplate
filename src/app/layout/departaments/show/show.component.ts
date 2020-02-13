@@ -166,7 +166,7 @@ export class ShowComponent implements OnInit {
       });
   }
 
-  formatterDepartament = (x: { departamentName: string }) => x.departamentName;
+  formatterDepartament = (x: { name: string }) => x.name;
   formatter = (x: { name: string }) => x.name;
 
   searchCompany = (text$: Observable<string>) =>

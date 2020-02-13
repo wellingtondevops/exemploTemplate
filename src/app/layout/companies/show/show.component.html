@@ -7,7 +7,7 @@
             tertiaryColour: '#222'
         }"></ngx-loading>
     <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
-    <div style="margin-bottom: 10px">
+    <div style="margin-bottom: 10px" *ngIf="!loading">
         <app-button-back [redirectTo]="'companies'"></app-button-back>
         <app-buttons-custom [id]="company._id" [permissionEdit]="['DAENERYS']" [permissionDelete]="['DAENERYS']"
             (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)">
@@ -137,7 +137,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group" formArrayName="departaments">
+                    <!-- <div class="form-group" formArrayName="departaments">
                         <label for="">Departamentos</label>
                         <div *ngFor="let departament of departaments.controls; index as i">
                             <div [formGroupName]="i" class="form-group">
@@ -156,7 +156,7 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </form>
         </div>

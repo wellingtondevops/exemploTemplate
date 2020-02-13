@@ -50,7 +50,7 @@ export class EditComponent implements OnInit {
             typePerson: this.fb.control('', [Validators.required]),
             cpf: this.fb.control(null),
             cnpj: this.fb.control(null),
-            departaments: this.fb.array(this.departaments)
+            /* departaments: this.fb.array(this.departaments) */
         });
     }
 

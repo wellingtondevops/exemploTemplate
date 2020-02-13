@@ -128,9 +128,9 @@ export class ShowComponent implements OnInit {
                 if(data.cpf) {
                     this.hiddenCPF = false
                 }
-                this.company.departaments.map(item => {
+                /* this.company.departaments.map(item => {
                     this.addDepartament(item);
-                });
+                }); */
             },
             error => {
                 this.loading = false;

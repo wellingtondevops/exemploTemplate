@@ -239,7 +239,7 @@ export class EditComponent implements OnInit {
             map(departament =>
                 departament.length < 2
                     ? []
-                    : _.filter(this.departaments, v => v.departamentName.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+                    : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
             )
         );
 }
