@@ -49,7 +49,7 @@
         "ngx-toastr": "^10.0.4",
         "rxjs": "^6.5.2",
         "ts-xlsx": "0.0.11",
-        "yarn": "1.12.1",
+        "yarn": "1.22.0",
         "zone.js": "0.8.26"
     },
     "devDependencies": {
