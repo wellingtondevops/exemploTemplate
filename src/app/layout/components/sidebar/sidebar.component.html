@@ -34,11 +34,6 @@
       <i class="fa fa-book fa-2x"></i>&nbsp;
       <span>{{ 'Documentos' | translate }}</span>
     </a>
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLinkActive]="['router-link-active']"
-      class="list-group-item">
-      <i class="fa fa-wpforms fa-2x"></i>&nbsp;
-      <span>{{ 'Regristro Arquivos' | translate }}</span>
-    </a>
     <div *ngIf="permissionAdmin" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('pages')">
         <i class="fa fa-file fa-2x"></i>&nbsp;
@@ -48,7 +43,7 @@
         <ul class="submenu">
           <li>
             <a [routerLink]="['/file/import']" class="list-group-item">
-              <i class="fa fa-plus"></i>&nbsp;
+              <i class="fa fa-file-excel-o"></i>&nbsp;
               <span>{{ 'Importar Arquivos' | translate }}</span>
             </a>
           </li>
