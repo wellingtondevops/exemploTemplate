@@ -45,7 +45,7 @@ export class NewComponent implements OnInit {
                     this.storeHouseForm = this.fb.group({
                         name: this.fb.control('', [Validators.required])
                     });
-                    this.successMsgSrv.successMessages('Armazém cadastrado com sucesso.');
+                    this.successMsgSrv.successMessages('Depósito cadastrado com sucesso.');
                     this._route.navigate(['/storehouses']);
                 }
             },
