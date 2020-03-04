@@ -29,9 +29,10 @@ export class ListComponent implements OnInit {
     };
     page = new Page();
     columns = [
+        { name: 'Empresa', prop: 'company.name' },
         { name: 'Nome', prop: 'name' },
         { name: 'Retenção', prop: 'retention' },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+        /* { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
     ];
     loading: Boolean = true;
 

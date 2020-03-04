@@ -63,7 +63,7 @@
 
           <div class="col-xl-6">
             <div class="form-group" formArrayName="label">
-              <label for="">Campos</label>
+              <label for="">Índices</label>
               <div *ngFor="let label of labels.controls; index as i">
                 <div class="card bg-light mb-12" style="margin-bottom: 5px">
                   <div class="card-body">
@@ -73,12 +73,12 @@
                     <br />
                     <div [formGroupName]="i">
                       <div class="form-group">
-                        <label for="">Nome do Campo</label>
-                        <input type="text" placeholder="Nome do Campo" class="form-control"
+                        <label for="">Nome do Índice</label>
+                        <input type="text" placeholder="Nome do Índice" class="form-control"
                           formControlName="namefield" />
                       </div>
                       <div class="form-group">
-                        <label for="">Tipo do Campo</label>
+                        <label for="">Tipo do Índice</label>
                         <select class="form-control" id="typefield" formControlName="typeField">
                           <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
                             {{ typeFieldN | translate }}</option>
@@ -98,7 +98,7 @@
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                   <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                 </ng-template>
-                <button type="button" class="btn btn-success btn-xs" (click)="addLabel()">
+                <button type="button" class="btn btn-success btn-xs pull-right" (click)="addLabel()" style="margin-top: 2%; margin-bottom: 2%">
                   <i class="fa fa-plus"></i>
                 </button>
               </div>
