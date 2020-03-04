@@ -27,10 +27,10 @@ export class ListComponent implements OnInit {
   departaments: DepartamentList;
   page = new Page();
   columns = [
-    { name: 'Nome', prop: 'name', width: 250 },
     { name: 'Empresa', prop: 'company.name', width: 200 },
+    { name: 'Departamento', prop: 'name', width: 250 },
     { name: 'Criado por', prop: 'author.name' },
-    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+    /* { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
 
   constructor(
