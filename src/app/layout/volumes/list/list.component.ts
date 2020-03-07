@@ -19,6 +19,7 @@ import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
+import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -37,6 +38,7 @@ export class ListComponent implements OnInit {
   company_id: string;
   statusList: any = [];
   departaments: any = [];
+  guardTypeList: any = [];
   storehouses: any = [];
   documents: any = [];
   volumes: VolumeList = {
@@ -50,11 +52,12 @@ export class ListComponent implements OnInit {
     items: []
   };
   page = new Page();
+
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Departamento', prop: 'departament.name' },
     { name: 'Ármazem', prop: 'storehouse.name' },
-    { name: 'Localização', prop: 'location', width: 70 },
+    { name: 'Posição', prop: 'location', width: 70 },
     { name: 'Referência', prop: 'reference', width: 70 },
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
@@ -76,7 +79,9 @@ export class ListComponent implements OnInit {
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
-  ) { }
+  ) { 
+    this.guardTypeList = GuardyTypeVolumeEnum;
+  }
 
   ngOnInit() {
     this.setPage({ offset: 0 })
@@ -89,6 +94,7 @@ export class ListComponent implements OnInit {
       reference: this.fb.control(null),
       endDate: this.fb.control(null),
       initDate: this.fb.control(null),
+      guardType: this.fb.control(null),
     });
     
     this.statusList = StatusVolumeEnum;

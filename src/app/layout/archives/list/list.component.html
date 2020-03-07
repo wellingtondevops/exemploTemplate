@@ -33,7 +33,7 @@
                 [ngbTypeahead]="searchDepartament" style="width: 100%" />
             </div>
             <div class="form-group mb-2 col-2">
-              <label for="search_archive">Localização</label>
+              <label for="search_archive">Posição</label>
               <input id="search_archive" class="form-control col-12" formControlName="location" />
             </div>
             <div class="form-group mb-2 col-1">
@@ -126,7 +126,7 @@
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Departamento" [width]="200" prop="departament.name"></ngx-datatable-column>
-    <ngx-datatable-column name="Localização" [width]="200" prop="volume.location"></ngx-datatable-column>
+    <ngx-datatable-column name="Posição" [width]="200" prop="volume.location"></ngx-datatable-column>
     <ngx-datatable-column name="status" [width]="150" prop="status"></ngx-datatable-column>
     <ngx-datatable-column name="Documento" [width]="200" prop="doct.name"></ngx-datatable-column>
     <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name"></ngx-datatable-column>

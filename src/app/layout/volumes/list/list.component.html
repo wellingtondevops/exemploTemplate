@@ -29,7 +29,7 @@
                 [ngbTypeahead]="searchDepartament" style="width: 100%" />
             </div>
             <div class="form-group mb-2 col-3">
-              <label for="location">Localização</label>
+              <label for="location">Posição</label>
               <input id="location" class="form-control col-12" formControlName="location" />
             </div>
             <div class="form-group mb-2 col-3">
@@ -40,14 +40,21 @@
             </div>
           </div>
           <div class="row col-12">
-            <div class="form-group mb-2 col-3">
+            <div class="form-group mb-2 col-2">
               <label for="status">Status</label>
               <select class="form-control col-12" id="status" formControlName="status">
                 <option *ngFor="let item of statusList | enumToArray" [value]="item">
                   {{ item }}</option>
               </select>
             </div>
-            <div class="form-group mb-2 col-3">
+            <div class="form-group mb-2 col-2">
+              <label for="status">Tipo de Guarda</label>
+              <select class="form-control col-12" id="guardType" formControlName="guardType">
+                <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
+                  {{ guardT | translate }}</option>
+              </select>
+            </div>
+            <div class="form-group mb-2 col-2">
               <label for="reference">Referência</label>
               <input id="reference" class="form-control col-12" formControlName="reference" />
             </div>

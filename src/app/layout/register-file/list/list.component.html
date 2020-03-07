@@ -12,7 +12,7 @@
       <div class="card bg-light mb-12">
         <div class="card-body">
           <ngb-tabset #tab>
-            <ngb-tab title="Dados da Localização" id="tab1">
+            <ngb-tab title="Dados da Posição" id="tab1">
               <ng-template ngbTabContent>
                 <br />
                 <form [formGroup]="registerFileForm" role="FormGroup" class="form-inline">
@@ -47,7 +47,7 @@
                     </div>
                   </div>
                   <div class="form-group mb-2 col-4">
-                    <label for="location">Localização</label>
+                    <label for="location">Posição</label>
                     <input id="location" class="form-control col-12" formControlName="location" />
                     <!--<div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
                                                                   
