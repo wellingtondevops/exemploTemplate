@@ -54,7 +54,7 @@ export class ListComponent implements OnInit {
     this.setPage({ offset: 0 });
     // this.documentsList();
     this.searchForm = this.fb.group({
-      name: this.fb.control(null),
+      name: this.fb.control(''),
       company: this.fb.control(null),
     });
   }
