@@ -12,7 +12,7 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 const MODALS = {
-    focusFirst: NgbdModalConfirmComponent
+  focusFirst: NgbdModalConfirmComponent
 };
 @Component({
   selector: 'app-list',
@@ -21,7 +21,7 @@ const MODALS = {
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-    searchForm: FormGroup;
+  searchForm: FormGroup;
   height: any;
   loading: Boolean = true;
   departaments: DepartamentList;
@@ -34,67 +34,68 @@ export class ListComponent implements OnInit {
   ];
 
   constructor(
-      private el: ElementRef,
-      private departmentService: DepartamentsService,
-      private _route: Router,
-      private pipes: Pipes,
-      private errorMsg: ErrorMessagesService,
-      private modalService: NgbModal,
-      public modal: NgbActiveModal,
-      private successMsgSrv: SuccessMessagesService,
-      private fb: FormBuilder,
-  ) {}
+    private el: ElementRef,
+    private departmentService: DepartamentsService,
+    private _route: Router,
+    private pipes: Pipes,
+    private errorMsg: ErrorMessagesService,
+    private modalService: NgbModal,
+    public modal: NgbActiveModal,
+    private successMsgSrv: SuccessMessagesService,
+    private fb: FormBuilder,
+  ) { }
 
   ngOnInit() {
-      this.setPage({ offset: 0 })
-      this.searchForm = this.fb.group({
-        name: this.fb.control(null),
+    // this.setPage({ offset: 0 })
+    this.searchForm = this.fb.group({
+      name: this.fb.control(null),
     });
+    this.getDepartaments();
   }
 
   getDepartament(departament) {
-      this._route.navigate(['/departaments/get', departament._id]);
+    this._route.navigate(['/departaments/get', departament._id]);
   }
 
-  getDepartaments(){
+  getDepartaments() {
     this.setPageDepartaments({ offset: 0 })
-}
+  }
 
-    setPageDepartaments(pageInfo){
-        this.loading = true 
-        this.page.pageNumber = pageInfo.offset;
+  setPageDepartaments(pageInfo) {
+    this.loading = true
+    this.page.pageNumber = pageInfo.offset;
 
-        this.departmentService.searchDepartament(this.searchForm.value, this.page).subscribe(data => {
-            this.page.pageNumber = data._links.currentPage - 1;
-            this.page.totalElements = data._links.foundItems;
-            this.page.size = data._links.totalPage;
-            this.departaments = data;
-            this.loading = false;
-        }, error => {
-            console.log('ERROR: ', error)
-            this.loading = false;
-        });
-    }
+    this.departmentService.searchDepartament(this.searchForm.value, this.page).subscribe(data => {
+      this.page.pageNumber = data._links.currentPage - 1;
+      this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
+      this.departaments = data;
+      this.loading = false;
+    }, error => {
+      console.log('ERROR: ', error)
+      this.loading = false;
+    });
+  }
 
   setPage(pageInfo) {
-      this.loading = true;
-      this.page.pageNumber = pageInfo.offset;
+    this.loading = true;
+    this.page.pageNumber = pageInfo.offset;
 
-      this.departmentService.departaments(this.page, null).subscribe(
-          data => {
-              console.log(data);
-              this.departaments = data;
-              this.page.pageNumber = data._links.currentPage - 1;
-              this.page.totalElements = data._links.foundItems;
-              this.page.size = data._links.totalPage;
-              this.loading = false;
-          },
-          error => {
-              this.errorMsg.errorMessages(error);
-              console.log('ERROR: ', error);
-              this.loading = false;
-          }
-      );
+    this.departmentService.departaments(this.page, null).subscribe(
+      data => {
+        console.log(data);
+        this.departaments = data;
+        this.page.pageNumber = data._links.currentPage - 1;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
   }
 
 }

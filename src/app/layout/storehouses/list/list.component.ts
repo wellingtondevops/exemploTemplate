@@ -54,11 +54,12 @@ export class ListComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.setPage({ offset: 0 });
+        // this.setPage({ offset: 0 });
         // this.getStoreHouses();
         this.searchForm = this.fb.group({
             name: this.fb.control(null),
         });
+        this.getStoreHouses();
     }
 
     getStoreHouse(storeHouse) {
