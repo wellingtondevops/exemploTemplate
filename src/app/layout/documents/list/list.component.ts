@@ -6,7 +6,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -51,12 +51,17 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.getCompanies();
-    this.setPage({ offset: 0 });
-    // this.documentsList();
+    // this.setPage({ offset: 0 });
+    
     this.searchForm = this.fb.group({
-      name: this.fb.control(''),
-      company: this.fb.control(null),
+      name: this.fb.control(null),
+      company: this.fb.control(null, [Validators.required]),
     });
+    this.getDocuments();
+  }
+
+  get company() {
+    return this.searchForm.get('company');
   }
 
   getCompanies() {
@@ -102,6 +107,7 @@ export class ListComponent implements OnInit {
   setPageDocuments(pageInfo) {
     this.loading = true
     this.page.pageNumber = pageInfo.offset;
+    console.log(this.searchForm.value);
     this.returnId('company');
 
     this.documentSrv.searchDocts(this.searchForm.value, this.page).subscribe(data => {

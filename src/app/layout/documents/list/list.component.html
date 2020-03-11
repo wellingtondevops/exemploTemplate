@@ -22,7 +22,12 @@
                   <label for="typeahead-basic">Empresa</label>
                   <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
                     formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                    [ngbTypeahead]="searchCompany" style="width: 100%" />
+                    [ngbTypeahead]="searchCompany" style="width: 100%" [ngClass]="{ 'is-invalid': !company.valid }" />
+                    <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                      <div *ngIf="!company.valid">
+                        Empresa é obrigatório.
+                      </div>
+                    </div>
                 </div>
                 <div class="form-group mb-2 col-3">
                   <label for="labelName">Nome</label>
