@@ -83,24 +83,45 @@ export class ListComponent implements OnInit {
     } */
 
   returnId(object) {
-    this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
+    var result = _.filter(this.searchForm.value[object], function (value, key) {
       if (key === '_id') return value;
     })[0];
+    return result;
   }
 
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    this.returnId('company');
-    this.returnId('storehouse');
-    this.returnId('departament');
-    this.returnId('doct');
-    var searchValue = _.omitBy(this.searchForm.value, _.isNil);
+    var newSearch = {
+      company: null,
+      storehouse: null,
+      departament: null,
+      doct: null,
+      location: null,
+      status: null,
+      search: null,
+      endDate: null,
+      initDate: null,
+    };
+
+    this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
+    this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
+    this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
+    this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
+    newSearch.location = this.searchForm.value.location;
+    newSearch.status = this.searchForm.value.status;
+    newSearch.search = this.searchForm.value.search;
+    newSearch.endDate = this.searchForm.value.endDate;
+    newSearch.initDate = this.searchForm.value.initDate;
+
+    var searchValue = _.omitBy(newSearch, _.isNil);
+
     console.log(searchValue);
     this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
       console.log('setPage', data);
-      this.page.pageNumber = data._links.currentPage - 1;
+      this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
       this.archives = data.items;
       this.loading = false;
     }, error => {

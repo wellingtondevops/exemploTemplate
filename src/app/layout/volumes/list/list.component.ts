@@ -79,12 +79,12 @@ export class ListComponent implements OnInit {
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
-  ) { 
+  ) {
     this.guardTypeList = GuardyTypeVolumeEnum;
   }
 
   ngOnInit() {
-    this.setPage({ offset: 0 })
+    // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       company: this.fb.control(null),
       departament: this.fb.control(null),
@@ -96,7 +96,7 @@ export class ListComponent implements OnInit {
       initDate: this.fb.control(null),
       guardType: this.fb.control(null),
     });
-    
+    this.getVolumes();
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
@@ -107,9 +107,10 @@ export class ListComponent implements OnInit {
   }
 
   returnId(object) {
-    this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
+    var result = _.filter(this.searchForm.value[object], function (value, key) {
       if (key === '_id') return value;
     })[0];
+    return result
   }
 
   getVolumes() {
@@ -119,16 +120,36 @@ export class ListComponent implements OnInit {
   formatter = (x: { name: string }) => x.name;
 
   setPageVolumes(pageInfo) {
-    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    this.returnId('company');
-    this.returnId('storehouse');
-    this.returnId('departament');
-    var searchValue = _.omitBy(this.searchForm.value, _.isNil);
+    this.loading = true;
+    var newForm = {
+      company: null,
+      storehouse: null,
+      departament: null,
+      status: null,
+      location: null,
+      reference: null,
+      endDate: null,
+      initDate: null,
+      guardType: null
+    }
+
+    this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
+    this.searchForm.value.storehouse ? newForm.storehouse = this.returnId('storehouse') : null;
+    this.searchForm.value.departament ? newForm.departament = this.returnId('departament') : null;
+    this.searchForm.value.status ? newForm.status : null;
+    this.searchForm.value.location ? newForm.location : null;
+    this.searchForm.value.reference ? newForm.reference : null;
+    this.searchForm.value.endDate ? newForm.endDate : null;
+    this.searchForm.value.initDate ? newForm.initDate : null;
+    this.searchForm.value.guardType ? newForm.guardType : null;
+
+    var searchValue = _.omitBy(newForm, _.isNil);
+
     this.volumeSrv.searchVolumes(searchValue, this.page).subscribe(
       data => {
         this.volumes = data;
-        this.page.pageNumber = data._links.currentPage - 1;
+        this.page.pageNumber = data._links.currentPage;
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
         this.loading = false;
