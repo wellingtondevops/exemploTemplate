@@ -119,7 +119,7 @@ export class ListComponent implements OnInit {
     console.log(searchValue);
     this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
       console.log('setPage', data);
-      this.page.pageNumber = data._links.currentPage;
+      this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
       this.archives = data.items;
