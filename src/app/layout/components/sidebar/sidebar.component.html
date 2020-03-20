@@ -35,11 +35,11 @@
       <span>{{ 'Documentos' | translate }}</span>
     </a>
     <div *ngIf="permissionAdmin" class="nested-menu" [routerLinkActive]="['router-link-active']">
-      <a class="list-group-item" (click)="addExpandClass('pages')">
+      <a class="list-group-item" (click)="addExpandClass('archives')">
         <i class="fa fa-file fa-2x"></i>&nbsp;
         <span>{{ 'Arquivos' | translate }}</span>
       </a>
-      <li class="nested" [class.expand]="showMenu === 'pages'">
+      <li class="nested" [class.expand]="showMenu === 'archives'">
         <ul class="submenu">
           <li>
             <a [routerLink]="['/file/import']" class="list-group-item">

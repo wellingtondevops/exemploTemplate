@@ -35,11 +35,16 @@ export class DocumentsService {
         return this.http.delete<Document>(`${url}/docts/${document}`).pipe(tap(data => data));
     }
 
-    searchDocuments(){
+    searchDocuments(company_id = null){
+      if(company_id){
+        return this.http.get<DocumentList>(`${url}/listdocts?company=${company_id}`).pipe(tap(data => data));
+      } else {
         return this.http.get<DocumentList>(`${url}/listdocts`).pipe(tap(data => data));
+      }
+        
     }
 
-    searchDocts(formdata, page) {
+    searchDocts(formdata, page = null) {
         if (page) {
           return this.http.post<DocumentList>(`${url}/docts/search?_page=${page.pageNumber}&size=10`, formdata)
           .pipe(
