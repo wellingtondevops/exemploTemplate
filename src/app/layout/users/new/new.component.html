@@ -52,44 +52,50 @@
             <div class="col-lg-12">
               <label style="float: left;">Permissões</label>
             </div>
-
-            <div class="card bg-light col-lg-12">
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="typeahead-basic">Empresa</label>
-                  <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                    (selectItem)="getDocuments($event)"
-                    [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                    [ngClass]="{ 'is-invalid': !company.valid }" />
-                  <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                    <div *ngIf="!company.valid">
-                      Empresa é obrigatório.
-                    </div>
-                  </div>
-                </div>
-                <div class="input-group">
-                  <label>Documento</label>
-                  <type-ahead class="form-control multi"
-                  [multi]="true"
-                  [complex]="true"
-                  idField="_id"
-                  formControlName="documents"
-                  [suggestions]="documentsAll">
-                  </type-ahead>
-                  <!-- <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="doct"
+            <div class="form-group" formArrayName="permissions">
+              <div *ngFor="let permissions of permissions.controls; index as i">
+                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                  <div class="card-body">
+                    <div [formGroupName]="i">
+                      <button type="button" class="btn btn-danger btn-xs pull-right" (click)="removePermission(i)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                      <br />
+                      <div class="form-group">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                          (selectItem)="getDocuments($event)" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                          [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                          <div *ngIf="!company.valid">
+                            Empresa é obrigatório.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-group">
+                        <label>Documento</label>
+                        <type-ahead class="form-control multi" [multi]="true" [complex]="true" idField="_id"
+                          formControlName="docts" [suggestions]="documentsAll">
+                        </type-ahead>
+                        <!-- <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="doct"
                   [resultTemplate]="rtDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
                   style="width: 100%" /> -->
-                </div>
-                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                </ng-template>
-                <!-- <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+                      </div>
+                    </div>
+                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                      <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                    <!-- <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
               </ng-template> -->
+                  </div>
+                </div>
               </div>
             </div>
+
             <div>
-              <button type="button" class="btn btn-success btn-xs pull-right" style="margin-top: 2%; margin-bottom: 2%">
+              <button type="button" (click)="addPermission()" class="btn btn-success btn-xs pull-right"
+                style="margin-top: 2%; margin-bottom: 2%">
                 <i class="fa fa-plus"></i>
               </button>
             </div>

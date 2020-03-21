@@ -1,6 +1,6 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { UsersService } from 'src/app/services/users/users.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
@@ -27,6 +27,7 @@ export class NewComponent implements OnInit {
   companies: any = [];
   documentsAll: any = [];
   searchSubscribe: string = '';
+  permissions: any = [];
 
   constructor(
     private _route: Router,
@@ -46,10 +47,26 @@ export class NewComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required]),
-      documents: this.fb.control('', [Validators.required])
+      permissions: this.fb.array(this.permissions)
     });
 
     this.getCompanies();
+  }
+
+  createPermission(): FormGroup {
+    return this.fb.group({
+      company: '',
+      docts: ''
+    });
+  }
+
+  addPermission(): void {
+    this.permissions = this.userForm.get('permissions') as FormArray;
+    this.permissions.push(this.createPermission());
+  }
+
+  removePermission(e) {
+    this.permissions.removeAt(e);
   }
 
   formatter = (x: { name: string }) => x.name;
@@ -69,8 +86,6 @@ export class NewComponent implements OnInit {
   get profiles() {
     return this.userForm.get('profiles');
   }
-
-
 
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
@@ -97,6 +112,10 @@ export class NewComponent implements OnInit {
     );
 
     getDocuments(e) {
+      this.companies = _.remove(this.companies, (item)=>{
+        return item._id === e
+      })
+
       this.documentsSrv.searchDocuments(e.item._id).subscribe(
         data => {
           console.log(data);
