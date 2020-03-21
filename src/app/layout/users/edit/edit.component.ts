@@ -43,6 +43,7 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getDocuments();
     this.userForm = this.fb.group({
       _id: '',
       email: this.fb.control('', [Validators.required, Validators.email]),
@@ -51,10 +52,10 @@ export class EditComponent implements OnInit {
       company: this.fb.control(''),
       permissions: this.fb.array(this.permissions)
     });
-
+    
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompanies();
-    this.getUser();
+    
 
   }
 
@@ -75,24 +76,22 @@ export class EditComponent implements OnInit {
     });
   }
 
-  returnDocts(item){
+  returnDocts(item) {
     let docts = []
-    docts.push({_id: item})
+    docts.push({ _id: item })
     return docts;
   }
 
   createPermissionExist(item): FormGroup {
     return this.fb.group({
       company: item.company,
-      docts: item.docts.map((item) => {
-        this.returnDocts(item);
-      })
+      docts: item.docts
     });
   }
 
   addPermissionExist(item): void {
     this.permissions = this.userForm.get('permissions') as FormArray;
-    this.getDocuments(item.company)
+    // this.getDocuments(item.company)
     this.permissions.push(this.createPermissionExist(item));
   }
 
@@ -130,9 +129,9 @@ export class EditComponent implements OnInit {
       })
     );
 
-  getDocuments(e) {
-    console.log(e);
-    if (e.item) {
+  getDocuments(e = null) {
+    console.log('getDocuments', e);
+    if (e && e.item) {
       _.remove(this.companies, (item) => {
         return item._id === e.item._id
       })
@@ -150,12 +149,14 @@ export class EditComponent implements OnInit {
     } else {
       this.documentsSrv.documents(1).subscribe(
         data => {
-          /* data.items.map(item => {
-            this.documentsAll.push(item);
-          }) */
-          // this.documentsAll.push(data.items);
-          this.documentsAll = data.items;
-          console.log(this.documentsAll);
+          if (this.documentsAll.length === 0) {
+            data.items.map(item => {
+              this.documentsAll.push({ _id: item._id, name: item.name });
+            })
+
+            console.log(this.documentsAll);
+            this.getUser();
+          }
         },
         error => {
           this.errorMsg.errorMessages(error);
@@ -164,7 +165,7 @@ export class EditComponent implements OnInit {
         }
       );
     }
-    
+
   }
 
   searchDocument = (text$: Observable<string>) =>
@@ -187,6 +188,10 @@ export class EditComponent implements OnInit {
     this.userForm.value.permissions = newArray;
   }
 
+  selectDocts(e) {
+    console.log('selectDocts', e);
+  }
+
   getUser() {
     this.userSrv.user(this.id).subscribe(
       data => {
@@ -199,7 +204,7 @@ export class EditComponent implements OnInit {
           profiles: data.profiles,
           dateCreated: data.dateCreated,
           permissions: [
-            { 
+            {
               company: {
                 _id: "5e46d12e4587937fd9d1b1df",
                 name: "RUBENS MANSUR"
@@ -213,7 +218,7 @@ export class EditComponent implements OnInit {
               company: {
                 _id: "5e46d1e64587937fd9d1b1e1",
                 name: "VALE DO TIJUCO AÇUCAR E ALCOOL LTDA"
-            },
+              },
               docts: [[
                 "5e46d4214587937fd9d1b1f8",
                 "5e46d3364587937fd9d1b1ec"
@@ -221,7 +226,6 @@ export class EditComponent implements OnInit {
             }
           ]
         };
-
 
         this.userForm.patchValue({
           _id: this.user._id,
