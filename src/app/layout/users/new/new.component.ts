@@ -11,7 +11,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import _ from 'lodash';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
-import { TypeaheadSettings } from 'ngx-type-ahead';
 
 @Component({
   selector: 'app-new',
@@ -111,35 +110,63 @@ export class NewComponent implements OnInit {
       })
     );
 
-    getDocuments(e) {
-      this.companies = _.remove(this.companies, (item)=>{
-        return item._id === e
-      })
+  getDocuments(e) {
+    _.remove(this.companies, (item) => {
+      return item._id === e.item._id
+    })
+    console.log('companies', this.companies);
+    this.documentsSrv.searchDocuments(e.item._id).subscribe(
+      data => {
+        console.log(data);
+        this.documentsAll = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+  }
 
-      this.documentsSrv.searchDocuments(e.item._id).subscribe(
-        data => {
-          console.log(data);
-          this.documentsAll = data.items;
-        },
-        error => {
-          this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
+  searchDocument = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(document => {
+        var res;
+        if (document.length < 2) [];
+        else res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
+        return res;
+      })
+    );
+
+  returnIdCompanyPermissions() {
+    let newArray = [];
+    this.userForm.value.permissions.map((item) => {
+      newArray.push({ company: item.company._id, docts: item.docts });
+    });
+    this.userForm.value.permissions = newArray;
+  }
+
+  postUser() {
+    this.loading = true;
+    this.returnIdCompanyPermissions();
+    console.log(this.userForm.value);
+    this.userSrv.newUser(this.userForm.value).subscribe(
+      data => {
+        if (data._id) {
           this.loading = false;
+          this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.');
+          this._route.navigate(['/users']);
         }
-      );
-    }
-  
-    searchDocument = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        map(document => {
-          var res;
-          if (document.length < 2) [];
-          else res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
-          return res;
-        })
-      );
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
 }
 
 @Pipe({
