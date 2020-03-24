@@ -148,6 +148,13 @@ export class NewComponent implements OnInit {
     this.userForm.value.permissions = newArray;
   }
 
+  isAdminSelect() {
+    if(this.userForm.get('profiles').value === 'DAENERYS') {
+      return true
+    }
+    return false
+  }
+
   postUser() {
     this.loading = true;
     this.returnIdCompanyPermissions();
