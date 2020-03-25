@@ -166,7 +166,6 @@ export class EditComponent implements OnInit {
         }
       );
     }
-
   }
 
   searchDocument = (text$: Observable<string>) =>

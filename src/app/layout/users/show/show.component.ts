@@ -1,7 +1,7 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../../services/users/users.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { routerTransition } from '../../../router.animations';
 import * as moment from 'moment';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
@@ -9,6 +9,12 @@ import { ProfileEnum } from 'src/app/models/profile.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { DocumentsService } from 'src/app/services/documents/documents.service';
+import _ from 'lodash';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/models/user';
+import { CompaniesService } from 'src/app/services/companies/companies.service';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -22,12 +28,15 @@ const MODALS = {
 })
 export class ShowComponent implements OnInit {
   id: String;
-  user: any;
+  user: User;
   userForm: FormGroup;
   changeUp = false;
   profilesList: any;
   loading: Boolean = true;
   permissions: any = [];
+  isViewPermission: boolean = false;
+  documentsAll: any = [];
+  companies: any = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +46,9 @@ export class ShowComponent implements OnInit {
     private _route: Router,
     private successMsgSrv: SuccessMessagesService,
     private modalService: NgbModal,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private documentsSrv: DocumentsService,
+    private companiesSrv: CompaniesService,
   ) {
     this.profilesList = ProfileEnum;
   }
@@ -49,12 +60,37 @@ export class ShowComponent implements OnInit {
       name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       profiles: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       dateCreated: this.fb.control({ value: '', disabled: true }),
-      company: this.fb.control(''),
       permissions: this.fb.array(this.permissions)
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
-    this.getUser();
+    this.getCompanies();
+    this.getDocuments();
+    // this.getUser();
+  }
+
+  searchCompany = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(company => {
+      var res;
+      if (company.length < 2) [];
+      else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+      return res;
+    })
+  );
+
+  getCompanies() {
+    this.companiesSrv.searchCompanies().subscribe(
+      data => {
+        this.companies = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
   }
 
   get name() {
@@ -69,18 +105,112 @@ export class ShowComponent implements OnInit {
     return this.userForm.get('profiles');
   }
 
+  returnDocts(item) {
+    let docts = []
+    docts.push({ _id: item })
+    return docts;
+  }
+
+  createPermissionExist(item): FormGroup {
+    return this.fb.group({
+      company: {value: item.company, disabled: true},
+      docts: {value: item.docts, disabled: true}
+    });
+  }
+
+  addPermissionExist(item): void {
+    this.permissions = this.userForm.get('permissions') as FormArray;
+    this.permissions.push(this.createPermissionExist(item));
+  }
+
+  removePermission(e) {
+    this.permissions.removeAt(e);
+  }
+
+  formatter = (x: { name: string }) => x.name;
+
+  getDocuments(e = null) {
+    console.log('getDocuments', e);
+    if (e && e.item) {
+      _.remove(this.companies, (item) => {
+        return item._id === e.item._id
+      })
+      this.documentsSrv.searchDocuments(e.item._id).subscribe(
+        data => {
+          this.documentsAll = data.items;
+          if (!this.user) {
+            this.getUser();
+          }
+        },
+        error => {
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR: ', error);
+          this.loading = false;
+        }
+      );
+    } else {
+      this.documentsSrv.documents(1).subscribe(
+        data => {
+          if (this.documentsAll.length === 0) {
+            data.items.map(item => {
+              this.documentsAll.push({ _id: item._id, name: item.name });
+            })
+            if (!this.user) {
+              this.getUser();
+            }
+          }
+        },
+        error => {
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR: ', error);
+          this.loading = false;
+        }
+      );
+    }
+  }
+
+  returnDoctsArray(permissions) {
+    return permissions.map(item => {
+      return { company: item.company, docts: [item.docts] }
+    })
+  }
+
   getUser() {
     this.userSrv.user(this.id).subscribe(
       data => {
+        console.log(data)
         this.loading = false;
-        this.user = data;
+        this.user = {
+          _links: data._links,
+          _id: data._id,
+          email: data.email,
+          name: data.email,
+          profiles: data.profiles,
+          dateCreated: data.dateCreated,
+          permissions: data.permissions
+        };
+
+        if (this.user.profiles.indexOf('DAENERYS') === 0) {
+          this.isViewPermission = false
+          this.permissions = [];
+          this.userForm.value.permissions = []
+        } else {
+          this.isViewPermission = true
+        }
+
         this.userForm.patchValue({
           _id: data._id,
           email: data.email,
           name: data.name,
           profiles: data.profiles,
-          dateCreated: moment(data.dateCreated).format('YYYY-MM-DD')
+          dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
+          permissions: this.user.permissions
         });
+
+        this.user.permissions.map(item => {
+          this.addPermissionExist(item);
+        });
+
       },
       error => {
         this.loading = false;
