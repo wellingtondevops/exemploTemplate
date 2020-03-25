@@ -36,7 +36,7 @@
 
             <div class="form-group">
               <label for="">Perfil do Usuário</label>
-              <select class="form-control" id="profile" formControlName="profiles"
+              <select (change)="isAdminSelect()" class="form-control" id="profile" formControlName="profiles"
                 [ngClass]="{ 'is-invalid': !profiles.valid }">
                 <option *ngFor="let profile of profilesList | enumToArray" [value]="profile">
                   {{ profile | translate }}</option>
@@ -48,7 +48,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6" *ngIf="isViewPermission">
             <div class="col-lg-12">
               <label style="float: left;">Permissões</label>
             </div>
@@ -70,8 +70,7 @@
                       <div class="form-group">
                         <label>Documentos</label>
                         <type-ahead class="form-control multi" [multi]="true" [complex]="true" idField="_id"
-                          formControlName="docts" [suggestions]="documentsAll" aria-describedby="emailHelp"
-                          (click)="selectDocts($event)">
+                          formControlName="docts" [suggestions]="documentsAll" aria-describedby="emailHelp">
                         </type-ahead>
                         <small id="emailHelp" class="form-text text-muted">
                           Se não houver documentos selecionados serão permitido todos os documentos da empresa.

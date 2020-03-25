@@ -28,6 +28,7 @@ export class EditComponent implements OnInit {
   permissions: any = [];
   companies: any = [];
   documentsAll: any = [];
+  isViewPermission: boolean;
 
   constructor(
     private _route: Router,
@@ -52,11 +53,9 @@ export class EditComponent implements OnInit {
       company: this.fb.control(''),
       permissions: this.fb.array(this.permissions)
     });
-    
+
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompanies();
-    
-
   }
 
   get name() {
@@ -91,7 +90,6 @@ export class EditComponent implements OnInit {
 
   addPermissionExist(item): void {
     this.permissions = this.userForm.get('permissions') as FormArray;
-    // this.getDocuments(item.company)
     this.permissions.push(this.createPermissionExist(item));
   }
 
@@ -137,8 +135,10 @@ export class EditComponent implements OnInit {
       })
       this.documentsSrv.searchDocuments(e.item._id).subscribe(
         data => {
-          console.log(data);
           this.documentsAll = data.items;
+          if (!this.user) {
+            this.getUser();
+          }
         },
         error => {
           this.errorMsg.errorMessages(error);
@@ -153,9 +153,10 @@ export class EditComponent implements OnInit {
             data.items.map(item => {
               this.documentsAll.push({ _id: item._id, name: item.name });
             })
+            if (!this.user) {
+              this.getUser();
+            }
 
-            console.log(this.documentsAll);
-            this.getUser();
           }
         },
         error => {
@@ -188,10 +189,6 @@ export class EditComponent implements OnInit {
     this.userForm.value.permissions = newArray;
   }
 
-  selectDocts(e) {
-    console.log('selectDocts', e);
-  }
-
   getUser() {
     this.userSrv.user(this.id).subscribe(
       data => {
@@ -203,29 +200,16 @@ export class EditComponent implements OnInit {
           name: data.email,
           profiles: data.profiles,
           dateCreated: data.dateCreated,
-          permissions: [
-            {
-              company: {
-                _id: "5e46d12e4587937fd9d1b1df",
-                name: "RUBENS MANSUR"
-              },
-              docts: [[
-                "5e46d2da4587937fd9d1b1e8",
-                "5e46d4774587937fd9d1b1fb"
-              ]]
-            },
-            {
-              company: {
-                _id: "5e46d1e64587937fd9d1b1e1",
-                name: "VALE DO TIJUCO AÇUCAR E ALCOOL LTDA"
-              },
-              docts: [[
-                "5e46d4214587937fd9d1b1f8",
-                "5e46d3364587937fd9d1b1ec"
-              ]]
-            }
-          ]
+          permissions: this.returnDoctsArray(data.permissions)
         };
+
+        if (this.user.profiles.indexOf('DAENERYS') === 0) {
+          this.isViewPermission = false
+          this.permissions = [];
+          this.userForm.value.permissions = []
+        } else {
+          this.isViewPermission = true
+        }
 
         this.userForm.patchValue({
           _id: this.user._id,
@@ -234,7 +218,6 @@ export class EditComponent implements OnInit {
           profiles: data.profiles,
           permissions: this.user.permissions
         });
-        console.log(this.user)
         this.user.permissions.map(item => {
           this.addPermissionExist(item);
         });
@@ -247,6 +230,22 @@ export class EditComponent implements OnInit {
     );
   }
 
+  returnDoctsArray(permissions) {
+    return permissions.map(item => {
+      return { company: item.company, docts: [item.docts] }
+    })
+  }
+
+  isAdminSelect() {
+    if (this.userForm.get('profiles').value === 'DAENERYS') {
+      this.permissions = [];
+      this.userForm.value.permissions = []
+      this.isViewPermission = false
+    } else {
+      this.isViewPermission = true
+    }
+  }
+
   updateUser() {
     this.loading = true;
     this.userSrv.updateUser(this.userForm.value).subscribe(
@@ -257,7 +256,8 @@ export class EditComponent implements OnInit {
         this.userForm.patchValue({
           _id: this.user._id,
           email: this.user.email,
-          name: data.name
+          name: data.name,
+          permissions: data.permissions,
         });
         this._route.navigate(['/users']);
       },
