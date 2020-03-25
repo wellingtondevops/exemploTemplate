@@ -8,8 +8,8 @@
         }"></ngx-loading>
   <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'"
     [permissionBtnNew]="['DAENERYS', 'TYWIN']" [routerTo]="'/volumes/new'"></app-page-header>
-  <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-    <ngb-panel>
+  <ngb-accordion #acc="ngbAccordion" activeIds="volumes-0">
+    <ngb-panel id="volumes-0">
       <ng-template ngbPanelTitle>
         <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
       </ng-template>
@@ -29,25 +29,32 @@
                 [ngbTypeahead]="searchDepartament" style="width: 100%" />
             </div>
             <div class="form-group mb-2 col-3">
-              <label for="location">Localização</label>
+              <label for="location">Posição</label>
               <input id="location" class="form-control col-12" formControlName="location" />
             </div>
             <div class="form-group mb-2 col-3">
-              <label for="typeahead-basic">Armazém</label>
+              <label for="typeahead-basic">Depósito</label>
               <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="storehouse"
                 [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
                 style="width: 100%" />
             </div>
           </div>
           <div class="row col-12">
-            <div class="form-group mb-2 col-3">
+            <div class="form-group mb-2 col-2">
               <label for="status">Status</label>
               <select class="form-control col-12" id="status" formControlName="status">
                 <option *ngFor="let item of statusList | enumToArray" [value]="item">
                   {{ item }}</option>
               </select>
             </div>
-            <div class="form-group mb-2 col-3">
+            <div class="form-group mb-2 col-2">
+              <label for="status">Tipo de Guarda</label>
+              <select class="form-control col-12" id="guardType" formControlName="guardType">
+                <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
+                  {{ guardT | translate }}</option>
+              </select>
+            </div>
+            <div class="form-group mb-2 col-2">
               <label for="reference">Referência</label>
               <input id="reference" class="form-control col-12" formControlName="reference" />
             </div>
@@ -85,7 +92,7 @@
   </ngb-accordion>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <app-datatables [data]="volumes" (setPage)="setPage($event)" [columns]="columns" (show)="getVolume($event)">
+      <app-datatables [data]="volumes" (setPage)="setPageVolumes($event)" [columns]="columns" (show)="getVolume($event)">
       </app-datatables>
     </div>
   </div>

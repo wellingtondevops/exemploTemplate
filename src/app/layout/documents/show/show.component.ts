@@ -15,6 +15,7 @@ import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Company } from 'src/app/models/company';
 import _ from 'lodash';
+import * as moment from 'moment';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -55,6 +56,7 @@ export class ShowComponent implements OnInit {
       name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       retention: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       retentionTime: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      dateCreated: this.fb.control({ value: '', disabled: true}),
       label: this.fb.array(this.labels)
     });
 
@@ -111,7 +113,8 @@ export class ShowComponent implements OnInit {
           name: this.document.name,
           company: this.document.company,
           retention: this.document.retention,
-          retentionTime: this.document.retentionTime
+          retentionTime: this.document.retentionTime,
+          dateCreated: moment(this.document.dateCreated).format('YYYY-MM-DD'),
         });
         this.document.label.map(item => {
           this.addLabel(item);

@@ -10,8 +10,8 @@
         }"
     ></ngx-loading>
     <app-page-header [heading]="'Usuários'" [icon]="'fa-table'" [btnNew]="'Novo Usuário'" [permissionBtnNew]="['DAENERYS']" [routerTo]="'/users/new'"></app-page-header>
-        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-          <ngb-panel>
+        <ngb-accordion #acc="ngbAccordion" activeIds="users-0">
+          <ngb-panel id="users-0">
             <ng-template ngbPanelTitle>
               <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
             </ng-template>

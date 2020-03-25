@@ -54,11 +54,12 @@ export class ListComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.setPage({ offset: 0 });
+        // this.setPage({ offset: 0 });
         // this.getStoreHouses();
         this.searchForm = this.fb.group({
             name: this.fb.control(null),
         });
+        this.getStoreHouses();
     }
 
     getStoreHouse(storeHouse) {
@@ -73,9 +74,9 @@ export class ListComponent implements OnInit {
         const modalRef = this.modalService.open(MODALS[name]);
         modalRef.componentInstance.item = storeHouse;
         modalRef.componentInstance.data = {
-            msgConfirmDelete: 'Armazém foi deletado com sucesso.',
-            msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Armazém?',
-            msgQuestionDeleteTwo: 'Todas as informações associadas ao armazém serão deletadas.'
+            msgConfirmDelete: 'Depósito foi deletado com sucesso.',
+            msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Depósito?',
+            msgQuestionDeleteTwo: 'Todas as informações associadas ao Depósito serão deletadas.'
         };
         modalRef.componentInstance.delete.subscribe(item => {
             this.delete(item);
@@ -99,7 +100,7 @@ export class ListComponent implements OnInit {
         this.storeHousesSrv.deleteStoreHouse(data).subscribe(
             response => {
                 this.loading = false;
-                this.successMsgSrv.successMessages('Armazém deletado com sucesso.');
+                this.successMsgSrv.successMessages('Depósito deletado com sucesso.');
             },
             error => {
                 this.loading = false;

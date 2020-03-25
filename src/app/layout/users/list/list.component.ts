@@ -99,8 +99,6 @@ export class ListComponent implements OnInit {
     setPageUsers(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
-        //var searchValue = _.omitBy(this.searchForm.value, _.isNil);
-        //console.log(searchValue);
         this.usersSrv.searchUsers(this.searchForm.value, this.page).subscribe(
             data => {
                 this.users = data;

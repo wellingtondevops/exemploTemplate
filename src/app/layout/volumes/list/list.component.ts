@@ -19,6 +19,7 @@ import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
+import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -37,6 +38,7 @@ export class ListComponent implements OnInit {
   company_id: string;
   statusList: any = [];
   departaments: any = [];
+  guardTypeList: any = [];
   storehouses: any = [];
   documents: any = [];
   volumes: VolumeList = {
@@ -50,11 +52,12 @@ export class ListComponent implements OnInit {
     items: []
   };
   page = new Page();
+
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Departamento', prop: 'departament.name' },
     { name: 'Ármazem', prop: 'storehouse.name' },
-    { name: 'Localização', prop: 'location', width: 70 },
+    { name: 'Posição', prop: 'location', width: 70 },
     { name: 'Referência', prop: 'reference', width: 70 },
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
@@ -76,10 +79,12 @@ export class ListComponent implements OnInit {
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
-  ) { }
+  ) {
+    this.guardTypeList = GuardyTypeVolumeEnum;
+  }
 
   ngOnInit() {
-    this.setPage({ offset: 0 })
+    // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       company: this.fb.control(null),
       departament: this.fb.control(null),
@@ -89,8 +94,9 @@ export class ListComponent implements OnInit {
       reference: this.fb.control(null),
       endDate: this.fb.control(null),
       initDate: this.fb.control(null),
+      guardType: this.fb.control(null),
     });
-    
+    this.getVolumes();
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
@@ -101,9 +107,10 @@ export class ListComponent implements OnInit {
   }
 
   returnId(object) {
-    this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
+    var result = _.filter(this.searchForm.value[object], function (value, key) {
       if (key === '_id') return value;
     })[0];
+    return result
   }
 
   getVolumes() {
@@ -113,16 +120,36 @@ export class ListComponent implements OnInit {
   formatter = (x: { name: string }) => x.name;
 
   setPageVolumes(pageInfo) {
-    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    this.returnId('company');
-    this.returnId('storehouse');
-    this.returnId('departament');
-    var searchValue = _.omitBy(this.searchForm.value, _.isNil);
+    this.loading = true;
+    var newForm = {
+      company: null,
+      storehouse: null,
+      departament: null,
+      status: null,
+      location: null,
+      reference: null,
+      endDate: null,
+      initDate: null,
+      guardType: null
+    }
+
+    this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
+    this.searchForm.value.storehouse ? newForm.storehouse = this.returnId('storehouse') : null;
+    this.searchForm.value.departament ? newForm.departament = this.returnId('departament') : null;
+    this.searchForm.value.status ? newForm.status = this.searchForm.value.status : null;
+    this.searchForm.value.location ? newForm.location = this.searchForm.value.location : null;
+    this.searchForm.value.reference ? newForm.reference = this.searchForm.value.reference : null;
+    this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
+    this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;
+    this.searchForm.value.guardType ? newForm.guardType = this.searchForm.value.guardType: null;
+
+    var searchValue = _.omitBy(newForm, _.isNil);
+
     this.volumeSrv.searchVolumes(searchValue, this.page).subscribe(
       data => {
         this.volumes = data;
-        this.page.pageNumber = data._links.currentPage - 1;
+        this.page.pageNumber = data._links.currentPage;
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
         this.loading = false;

@@ -7,6 +7,7 @@ export class User {
   _id: string;
   email: string;
   name: string;
+  permissions: Permission[];
   dateCreated: string;
   profiles: string[];
 }
@@ -14,4 +15,15 @@ export class User {
 export class UserList {
   _links: Pagination;
   items: User[];
+}
+
+export class Permission {
+  company: IdName;
+  docts: [string[]];
+}
+
+
+class IdName {
+  _id: string;
+  name: string;
 }

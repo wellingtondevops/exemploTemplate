@@ -70,7 +70,7 @@ export class EditComponent implements OnInit {
                     _id: this.storeHouse._id,
                     name: { value: this.storeHouse.name, disabled: true }
                 });
-                this.successMsgSrv.successMessages('Armazém alterado com sucesso.');
+                this.successMsgSrv.successMessages('Depósito alterado com sucesso.');
                 this._route.navigate(['/storehouses']);
             },
             error => {
