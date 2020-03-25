@@ -137,12 +137,12 @@ export class ListComponent implements OnInit {
     this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
     this.searchForm.value.storehouse ? newForm.storehouse = this.returnId('storehouse') : null;
     this.searchForm.value.departament ? newForm.departament = this.returnId('departament') : null;
-    this.searchForm.value.status ? newForm.status : null;
-    this.searchForm.value.location ? newForm.location : null;
-    this.searchForm.value.reference ? newForm.reference : null;
-    this.searchForm.value.endDate ? newForm.endDate : null;
-    this.searchForm.value.initDate ? newForm.initDate : null;
-    this.searchForm.value.guardType ? newForm.guardType : null;
+    this.searchForm.value.status ? newForm.status = this.searchForm.value.status : null;
+    this.searchForm.value.location ? newForm.location = this.searchForm.value.location : null;
+    this.searchForm.value.reference ? newForm.reference = this.searchForm.value.reference : null;
+    this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
+    this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;
+    this.searchForm.value.guardType ? newForm.guardType = this.searchForm.value.guardType: null;
 
     var searchValue = _.omitBy(newForm, _.isNil);
 

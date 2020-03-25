@@ -9,7 +9,7 @@ import { Page } from 'src/app/models/page';
 import { DepartamentList } from 'src/app/models/departament';
 import { routerTransition } from 'src/app/router.animations';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import _ from 'lodash';
@@ -55,7 +55,7 @@ export class ListComponent implements OnInit {
     // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       name: this.fb.control(null),
-      company: this.fb.control(null)
+      company: this.fb.control(null, Validators.required)
     });
     this.getDepartaments();
     this.getCompanies();

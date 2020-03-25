@@ -81,6 +81,14 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                      <label for="status">Status</label>
+                      <select class="form-control col-12" id="status" formControlName="status" >
+                        <option *ngFor="let item of statusList | enumToArray" [value]="item">
+                          {{ item }}</option>
+                      </select>
+                    </div>
+
                     <!-- <div class="form-group">
                         <label for="">Descrição</label>
                         <input type="text" placeholder="Descrição" class="form-control" formControlName="description"
