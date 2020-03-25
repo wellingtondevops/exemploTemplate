@@ -12,7 +12,6 @@ import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { VolumeList, Volume } from 'src/app/models/volume';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
-import { DoctypesService } from 'src/app/services/doctypes/doctypes.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { RegistersService } from 'src/app/services/registers/registers.service';
@@ -125,7 +124,6 @@ export class ListComponent implements OnInit {
     private volumesSrv: VolumesService,
     private documentsSrv: DocumentsService,
     private registerSrv: RegistersService,
-    private doctypesSrv: DoctypesService,
     private archivesSrv: ArquivesService,
     private warningMsgSrv: WarningMessagesService,
     private departamentsSrv: DepartamentsService
@@ -144,8 +142,12 @@ export class ListComponent implements OnInit {
     });
     this.loading = true;
     this.getCompanies();
-    this.getTypeDocuments()
     this.getStoreHouses();
+  }
+
+  selectedCompany(e) {
+    this.getTypeDocuments(e.item._id);
+    this.getDepartaments(e.item._id);
   }
 
   get company() {
@@ -207,8 +209,8 @@ export class ListComponent implements OnInit {
     );
   }
 
-  getTypeDocuments() {
-    this.doctypesSrv.listdocts().subscribe(data => {
+  getTypeDocuments(company_id) {
+    this.documentsSrv.searchDocuments(company_id).subscribe(data => {
       this.typeDocuments = data.items;
     })
   }
@@ -312,7 +314,7 @@ export class ListComponent implements OnInit {
   }
 
   getDoctype(doctype_id) {
-    this.doctypesSrv.doctype(doctype_id).subscribe(data => {
+    this.documentsSrv.document(doctype_id).subscribe(data => {
       this.document = data;
       this.typeDocumentForm.value.typeDocument = this.document.name;
     }, error => {

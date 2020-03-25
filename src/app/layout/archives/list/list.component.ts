@@ -65,7 +65,7 @@ export class ListComponent implements OnInit {
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
-    this.getDocuments();
+    // this.getDocuments();
   }
 
   formatter = (x: { name: string }) => x.name;
@@ -175,6 +175,11 @@ export class ListComponent implements OnInit {
     );
   }
 
+  selectedCompany(e) {
+    this.getDocuments(e.item._id);
+    this.getDepartaments(e.item._id);
+  }
+
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -183,9 +188,6 @@ export class ListComponent implements OnInit {
         var res = [];
         if (company.length < 2) [];
         else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        if (res.length > 0) {
-          this.getDepartaments(res[0]._id);
-        }
         return res;
       })
     );
@@ -247,8 +249,8 @@ export class ListComponent implements OnInit {
       })
     );
 
-  getDocuments() {
-    this.documentsSrv.searchDocuments().subscribe(
+  getDocuments(company_id) {
+    this.documentsSrv.searchDocuments(company_id).subscribe(
       data => {
         console.log(data);
         this.documents = data.items;

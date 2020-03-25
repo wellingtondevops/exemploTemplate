@@ -14,7 +14,7 @@
           <form [formGroup]="importFileForm" role="FormGroup" class="form-inline" (ngSubmit)="postImportArchive()">
             <div class="form-group mb-2 col-6">
               <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" autoFocus="true" id="company" type="text" class="form-control"
+              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" id="company" type="text" class="form-control"
                 formControlName="company" [resultTemplate]="rtCompany1" [inputFormatter]="formatter"
                 [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
               <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
