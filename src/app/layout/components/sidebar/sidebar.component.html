@@ -2,41 +2,41 @@
   <div class="list-group">
     <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-envelope fa-2x"></i>&nbsp;
+      <i class="fa fa-envelope"></i>&nbsp;
       <span>{{ 'Solicitantes ' | translate }}</span>
     </a>
     <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/storehouses']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-home fa-2x"></i>&nbsp;
+      <i class="fa fa-home"></i>&nbsp;
       <span>{{ 'Depósitos' | translate }}</span>
     </a>
 
     <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/companies']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-building fa-2x"></i>&nbsp;
+      <i class="fa fa-building"></i>&nbsp;
       <span>{{ 'Empresas' | translate }}</span>
     </a>
 
     <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/departaments']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-server fa-2x"></i>&nbsp;
+      <i class="fa fa-server"></i>&nbsp;
       <span>{{ 'Departamentos' | translate }}</span>
     </a>
 
     <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/volumes']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-archive fa-2x"></i>&nbsp;
+      <i class="fa fa-archive"></i>&nbsp;
       <span>{{ 'Volumes' | translate }}</span>
     </a>
 
     <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/documents']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-book fa-2x"></i>&nbsp;
+      <i class="fa fa-book"></i>&nbsp;
       <span>{{ 'Documentos' | translate }}</span>
     </a>
     <div *ngIf="permissionAdmin" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('archives')">
-        <i class="fa fa-file fa-2x"></i>&nbsp;
+        <i class="fa fa-file"></i>&nbsp;
         <span>{{ 'Arquivos' | translate }}</span>
       </a>
       <li class="nested" [class.expand]="showMenu === 'archives'">
@@ -66,7 +66,7 @@
 
     <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-truck fa-2x"></i>&nbsp;
+      <i class="fa fa-truck"></i>&nbsp;
       <span>{{ 'Movimentações' | translate }}</span>
     </a>
     <div *ngIf="permissionAdmin" class="nested-menu" [routerLinkActive]="['router-link-active']">
