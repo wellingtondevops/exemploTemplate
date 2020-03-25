@@ -10,6 +10,10 @@ import { DepartamentList } from 'src/app/models/departament';
 import { routerTransition } from 'src/app/router.animations';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { CompaniesService } from 'src/app/services/companies/companies.service';
+import _ from 'lodash';
+import { Observable } from 'rxjs';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -26,6 +30,7 @@ export class ListComponent implements OnInit {
   loading: Boolean = true;
   departaments: DepartamentList;
   page = new Page();
+  companies: any = [];
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 200 },
     { name: 'Departamento', prop: 'name', width: 250 },
@@ -43,18 +48,38 @@ export class ListComponent implements OnInit {
     public modal: NgbActiveModal,
     private successMsgSrv: SuccessMessagesService,
     private fb: FormBuilder,
+    private companiesSrv: CompaniesService,
   ) { }
 
   ngOnInit() {
     // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       name: this.fb.control(null),
+      company: this.fb.control(null)
     });
     this.getDepartaments();
+    this.getCompanies();
+  }
+
+  get company() {
+    return this.searchForm.get('company');
   }
 
   getDepartament(departament) {
     this._route.navigate(['/departaments/get', departament._id]);
+  }
+
+  getCompanies() {
+    this.companiesSrv.searchCompanies().subscribe(
+      data => {
+        this.companies = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
   }
 
   getDepartaments() {
@@ -64,7 +89,7 @@ export class ListComponent implements OnInit {
   setPageDepartaments(pageInfo) {
     this.loading = true
     this.page.pageNumber = pageInfo.offset;
-
+    this.returnId('company');
     this.departmentService.searchDepartament(this.searchForm.value, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
@@ -75,6 +100,12 @@ export class ListComponent implements OnInit {
       console.log('ERROR: ', error)
       this.loading = false;
     });
+  }
+
+  returnId(object) {
+    this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
+      if (key === '_id') return value;
+    })[0];
   }
 
   setPage(pageInfo) {
@@ -97,5 +128,19 @@ export class ListComponent implements OnInit {
       }
     );
   }
+
+  formatter = (x: { name: string }) => x.name;
+
+  searchCompany = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(company => {
+        var res = [];
+        if (company.length < 2) [];
+        return _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+
+      })
+    );
 
 }

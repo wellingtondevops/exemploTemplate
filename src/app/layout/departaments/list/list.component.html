@@ -1,40 +1,53 @@
 <div [@routerTransition]>
-    <ngx-loading [show]="loading" [config]="{
+  <ngx-loading [show]="loading" [config]="{
           backdropBorderRadius: '3px',
           fullScreenBackdrop: true,
           primaryColour: '#222',
           secondaryColour: '#222',
           tertiaryColour: '#222'
       }"></ngx-loading>
-    <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
-        [permissionBtnNew]="['DAENERYS', 'TYWIN']" [routerTo]="'/departaments/new'"></app-page-header>
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <ngb-accordion #acc="ngbAccordion" activeIds="departaments-0">
-                <ngb-panel id="departaments-0">
-                    <ng-template ngbPanelTitle>
-                        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        <form [formGroup]="searchForm" (ngSubmit)="getDepartaments()" role="FormGroup"
-                            class="form-inline">
-                            <div class="row col-12">
-                                <div class="form-group mb-2 col-4">
-                                    <label for="labelName">Departamento</label>
-                                    <input id="name" autoFocus="true" type="text" class="form-control"
-                                        formControlName="name" style="width: 100%" />
-                                </div>
-                                <div class="form-group mb-2 col-4" style="padding-top: 3%;">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </ng-template>
-                </ngb-panel>
-            </ngb-accordion>
-            <br />
-            <app-datatables [data]="departaments" (setPage)="setPage($event)" [columns]="columns"
-                (show)="getDepartament($event)"></app-datatables>
-        </div>
+  <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
+    [permissionBtnNew]="['DAENERYS', 'TYWIN']" [routerTo]="'/departaments/new'"></app-page-header>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <ngb-accordion #acc="ngbAccordion" activeIds="departaments-0">
+        <ngb-panel id="departaments-0">
+          <ng-template ngbPanelTitle>
+            <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <form [formGroup]="searchForm" (ngSubmit)="getDepartaments()" role="FormGroup" class="form-inline">
+              <div class="row col-12">
+                <div class="form-group mb-2 col-4">
+                  <label for="labelName">Empresa</label>
+                  <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
+                    formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                    [ngbTypeahead]="searchCompany" style="width: 100%" [ngClass]="{ 'is-invalid': !company.valid }" />
+                    <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                      <div *ngIf="!company.valid">
+                        Empresa é obrigatório.
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group mb-2 col-4">
+                  <label for="labelName">Departamento</label>
+                  <input id="name" autoFocus="true" type="text" class="form-control" formControlName="name"
+                    style="width: 100%" />
+                </div>
+                <div class="form-group mb-2 col-4" style="padding-top: 3%;">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
+              <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+              </ng-template>
+            </form>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+      <br />
+      <app-datatables [data]="departaments" (setPage)="setPage($event)" [columns]="columns"
+        (show)="getDepartament($event)"></app-datatables>
     </div>
+  </div>
 </div>
