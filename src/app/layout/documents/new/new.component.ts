@@ -62,7 +62,7 @@ export class NewComponent implements OnInit {
     });
 
     this.getCompanies();
-
+    this.addLabel();
   }
 
   returnId(object) {

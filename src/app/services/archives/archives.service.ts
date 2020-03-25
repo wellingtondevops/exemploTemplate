@@ -16,7 +16,7 @@ export class ArquivesService {
 
   archives(formData, page, size = 10) {
     if (page) {
-      return this.http.post<ArchivesList>(`${url}/archives/search?_page=${page.pageNumber}`, formData)
+      return this.http.post<ArchivesList>(`${url}/archives/search?_page=${page.pageNumber}&size=10`, formData)
         .pipe(
           tap(data => data)
         );

@@ -45,11 +45,10 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.companiesList();
-        this.setPage({ offset: 0 })
         this.searchForm = this.fb.group({
             name: this.fb.control(null),
         });
+        this.getCompanies();
     }
 
     getCompany(company) {

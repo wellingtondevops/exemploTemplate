@@ -8,7 +8,6 @@ import { routerTransition } from 'src/app/router.animations';
 import { Doctype } from 'src/app/models/doctype';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
-import { DoctypesService } from 'src/app/services/doctypes/doctypes.service';
 import { RegistersService } from 'src/app/services/registers/registers.service';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
@@ -59,7 +58,6 @@ export class ImportFileComponent implements OnInit {
     private volumesSrv: VolumesService,
     private documentsSrv: DocumentsService,
     private registerSrv: RegistersService,
-    private doctypesSrv: DoctypesService,
     private departamentsSrv: DepartamentsService,
     private archivesSrv: ArquivesService,
   ) {
@@ -73,7 +71,6 @@ export class ImportFileComponent implements OnInit {
 
   ngOnInit() {
     this.getCompanies();
-    this.getTypeDocuments();
     this.getStoreHouses();
   }
   get company() {
@@ -104,8 +101,8 @@ export class ImportFileComponent implements OnInit {
     );
   }
 
-  getTypeDocuments() {
-    this.doctypesSrv.listdocts().subscribe(data => {
+  getTypeDocuments(company_id) {
+    this.documentsSrv.searchDocuments(company_id).subscribe(data => {
       this.typeDocuments = data.items;
     })
   }
@@ -214,6 +211,11 @@ export class ImportFileComponent implements OnInit {
       })
     );
 
+  selectedCompany(e) {
+    this.getTypeDocuments(e.item._id);
+    this.getDepartaments(e.item._id);
+  }
+
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -222,9 +224,6 @@ export class ImportFileComponent implements OnInit {
         var res = [];
         if (company.length < 2) [];
         else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        if (res.length > 0) {
-          this.getDepartaments(res[0]._id);
-        }
         return res;
       })
     );
@@ -299,7 +298,7 @@ export class ImportFileComponent implements OnInit {
         console.log(`ERROR`, error);
         this.loading = false;
         return reject(error)
-        
+
       })
     })
   }
@@ -309,7 +308,7 @@ export class ImportFileComponent implements OnInit {
     let volume = data.LOCALIZACAO;
     var newRow = _.omit(data, ['LOCALIZACAO']);
 
-    var volume_id = await this.getVolume({location: data.LOCALIZACAO});
+    var volume_id = await this.getVolume({ location: data.LOCALIZACAO });
     if (volume_id) {
       var checkColumnsAndLabelsLength = this.checkLengthColumnsAndLabels(this.columns.length, this.labels.length);
       if (!checkColumnsAndLabelsLength) return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
@@ -329,7 +328,7 @@ export class ImportFileComponent implements OnInit {
         }
       })
       const { company, doct, storehouse, departament } = this.importFileForm.value;
-       this.archivesSrv.newArchive({ tag, company, departament, doct, storehouse, uniqueness, volume: volume_id }).subscribe(res => {
+      this.archivesSrv.newArchive({ tag, company, departament, doct, storehouse, uniqueness, volume: volume_id }).subscribe(res => {
         if (res._id) {
           this.loading = false;
           this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');

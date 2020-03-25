@@ -25,13 +25,13 @@
                   </div>
 
                   <div class="form-group">
-                      <label for="">Nome</label>
+                      <label for="">Departamento</label>
                       <input type="text" placeholder="Nome" class="form-control" formControlName="name"
                           [ngClass]="{ 'is-invalid': !name.valid }" />
                       <div *ngIf="name.invalid && (name.dirty || name.touched)"
                           class="invalid-feedback">
                           <div *ngIf="!name.valid">
-                              Nome é obrigatório.
+                              Departamento é obrigatório.
                           </div>
                       </div>
                   </div>

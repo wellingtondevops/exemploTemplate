@@ -23,6 +23,7 @@ import { Page } from 'src/app/models/page';
     styleUrls: ['./new.component.scss'],
     animations: [routerTransition()]
 })
+
 export class NewComponent implements OnInit {
     companies: any = [];
     volumeForm: FormGroup;

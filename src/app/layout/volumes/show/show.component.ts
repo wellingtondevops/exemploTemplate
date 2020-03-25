@@ -72,6 +72,7 @@ export class ShowComponent implements OnInit {
             volumeType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             uniqueField: this.fb.control(''),
+            status: this.fb.control({ value: '', disabled: true }),
             location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             reference: this.fb.control({ value: '', disabled: true })
         });

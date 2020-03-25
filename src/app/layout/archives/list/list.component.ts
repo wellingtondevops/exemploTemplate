@@ -65,7 +65,7 @@ export class ListComponent implements OnInit {
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
-    this.getDocuments();
+    // this.getDocuments();
   }
 
   formatter = (x: { name: string }) => x.name;
@@ -83,24 +83,45 @@ export class ListComponent implements OnInit {
     } */
 
   returnId(object) {
-    this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
+    var result = _.filter(this.searchForm.value[object], function (value, key) {
       if (key === '_id') return value;
     })[0];
+    return result;
   }
 
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    this.returnId('company');
-    this.returnId('storehouse');
-    this.returnId('departament');
-    this.returnId('doct');
-    var searchValue = _.omitBy(this.searchForm.value, _.isNil);
+    var newSearch = {
+      company: null,
+      storehouse: null,
+      departament: null,
+      doct: null,
+      location: null,
+      status: null,
+      search: null,
+      endDate: null,
+      initDate: null,
+    };
+
+    this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
+    this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
+    this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
+    this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
+    newSearch.location = this.searchForm.value.location;
+    newSearch.status = this.searchForm.value.status;
+    newSearch.search = this.searchForm.value.search;
+    newSearch.endDate = this.searchForm.value.endDate;
+    newSearch.initDate = this.searchForm.value.initDate;
+
+    var searchValue = _.omitBy(newSearch, _.isNil);
+
     console.log(searchValue);
     this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
       console.log('setPage', data);
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
       this.archives = data.items;
       this.loading = false;
     }, error => {
@@ -154,6 +175,11 @@ export class ListComponent implements OnInit {
     );
   }
 
+  selectedCompany(e) {
+    this.getDocuments(e.item._id);
+    this.getDepartaments(e.item._id);
+  }
+
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -162,9 +188,6 @@ export class ListComponent implements OnInit {
         var res = [];
         if (company.length < 2) [];
         else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        if (res.length > 0) {
-          this.getDepartaments(res[0]._id);
-        }
         return res;
       })
     );
@@ -172,7 +195,6 @@ export class ListComponent implements OnInit {
   getDepartaments(company_id) {
     this.departamentsSrv.searchDepartaments(company_id).subscribe(
       data => {
-        // console.log('departament', data);
         this.departaments = data.items;
       },
       error => {
@@ -188,7 +210,6 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(departament => {
-        console.log(departament);
         if (this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined') {
           this.warningMsg.showWarning('Selecione uma empresa.', 4000);
           return
@@ -203,7 +224,6 @@ export class ListComponent implements OnInit {
   getStoreHouses() {
     this.storehousesSrv.searchStorehouses().subscribe(
       data => {
-        console.log(data);
         this.storehouses = data.items;
       },
       error => {
@@ -226,10 +246,9 @@ export class ListComponent implements OnInit {
       })
     );
 
-  getDocuments() {
-    this.documentsSrv.searchDocuments().subscribe(
+  getDocuments(company_id) {
+    this.documentsSrv.searchDocuments(company_id).subscribe(
       data => {
-        console.log(data);
         this.documents = data.items;
       },
       error => {

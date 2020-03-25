@@ -11,6 +11,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditComponent } from './edit/edit.component';
 import { AlterPasswordComponent } from './alter-password/alter-password.component';
 import { NgxLoadingModule } from 'ngx-loading';
+import { TypeaheadModule } from 'ngx-type-ahead';
 
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
@@ -25,6 +26,7 @@ import { NgxLoadingModule } from 'ngx-loading';
         DatatablesModule,
         ButtonsCustomModule,
         ButtonBackModule,
+        TypeaheadModule,
         NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal]

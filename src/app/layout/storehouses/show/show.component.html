@@ -6,7 +6,7 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <app-page-header [id]="storeHouse._id" [heading]="'Dados do Armazém'" [icon]="'fa-house'"></app-page-header>
+    <app-page-header [id]="storeHouse._id" [heading]="'Dados do Depósito'" [icon]="'fa-house'"></app-page-header>
     <div style="margin-bottom: 10px">
         <app-button-back [redirectTo]="'storehouses'"></app-button-back>
         <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)" (delete)="open('focusFirst', storeHouse._id)"
