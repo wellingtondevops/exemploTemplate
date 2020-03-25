@@ -44,7 +44,7 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getDocuments();
+
     this.userForm = this.fb.group({
       _id: '',
       email: this.fb.control('', [Validators.required, Validators.email]),
@@ -55,6 +55,7 @@ export class EditComponent implements OnInit {
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
+    this.getDocuments();
     this.getCompanies();
   }
 
@@ -115,6 +116,10 @@ export class EditComponent implements OnInit {
     );
   }
 
+  selectedCompany(e) {
+    this.getDocuments(e);
+  }
+
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -128,11 +133,7 @@ export class EditComponent implements OnInit {
     );
 
   getDocuments(e = null) {
-    console.log('getDocuments', e);
     if (e && e.item) {
-      _.remove(this.companies, (item) => {
-        return item._id === e.item._id
-      })
       this.documentsSrv.searchDocuments(e.item._id).subscribe(
         data => {
           this.documentsAll = data.items;
@@ -147,16 +148,11 @@ export class EditComponent implements OnInit {
         }
       );
     } else {
-      this.documentsSrv.documents(1).subscribe(
+      this.documentsSrv.doctsUser(this.id).subscribe(
         data => {
-          if (this.documentsAll.length === 0) {
-            data.items.map(item => {
-              this.documentsAll.push({ _id: item._id, name: item.name });
-            })
-            if (!this.user) {
-              this.getUser();
-            }
-
+          this.documentsAll = data;
+          if (!this.user) {
+            this.getUser();
           }
         },
         error => {

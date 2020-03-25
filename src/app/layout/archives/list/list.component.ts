@@ -195,7 +195,6 @@ export class ListComponent implements OnInit {
   getDepartaments(company_id) {
     this.departamentsSrv.searchDepartaments(company_id).subscribe(
       data => {
-        // console.log('departament', data);
         this.departaments = data.items;
       },
       error => {
@@ -211,7 +210,6 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(departament => {
-        console.log(departament);
         if (this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined') {
           this.warningMsg.showWarning('Selecione uma empresa.', 4000);
           return
@@ -226,7 +224,6 @@ export class ListComponent implements OnInit {
   getStoreHouses() {
     this.storehousesSrv.searchStorehouses().subscribe(
       data => {
-        console.log(data);
         this.storehouses = data.items;
       },
       error => {
@@ -252,7 +249,6 @@ export class ListComponent implements OnInit {
   getDocuments(company_id) {
     this.documentsSrv.searchDocuments(company_id).subscribe(
       data => {
-        console.log(data);
         this.documents = data.items;
       },
       error => {

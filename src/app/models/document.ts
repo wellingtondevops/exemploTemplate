@@ -26,3 +26,8 @@ export class Label {
     uniq: boolean;
     _id: string;
 }
+
+export class DocumentListUser {
+  _id: string;
+  name: string
+}

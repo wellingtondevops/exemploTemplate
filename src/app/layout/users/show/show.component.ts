@@ -66,7 +66,6 @@ export class ShowComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompanies();
     this.getDocuments();
-    // this.getUser();
   }
 
   searchCompany = (text$: Observable<string>) =>
@@ -130,8 +129,20 @@ export class ShowComponent implements OnInit {
   formatter = (x: { name: string }) => x.name;
 
   getDocuments(e = null) {
-    console.log('getDocuments', e);
-    if (e && e.item) {
+    this.documentsSrv.doctsUser(this.id).subscribe(
+      data => {
+        this.documentsAll = data;
+        if (!this.user) {
+          this.getUser();
+        }
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+    /* if (e && e.item) {
       _.remove(this.companies, (item) => {
         return item._id === e.item._id
       })
@@ -166,7 +177,7 @@ export class ShowComponent implements OnInit {
           this.loading = false;
         }
       );
-    }
+    } */
   }
 
   returnDoctsArray(permissions) {
@@ -178,7 +189,6 @@ export class ShowComponent implements OnInit {
   getUser() {
     this.userSrv.user(this.id).subscribe(
       data => {
-        console.log(data)
         this.loading = false;
         this.user = {
           _links: data._links,
