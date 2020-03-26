@@ -33,7 +33,7 @@ const MODALS = {
 export class ListComponent implements OnInit {
   searchForm: FormGroup;
   height: any;
-  loading: Boolean = true;
+  loading: Boolean = false;
   companies: any = [];
   company_id: string;
   statusList: any = [];
@@ -86,7 +86,7 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
-      company: this.fb.control(null),
+      company: this.fb.control(null, Validators.required),
       departament: this.fb.control(null),
       status: this.fb.control(null),
       location: this.fb.control(""),
@@ -96,10 +96,14 @@ export class ListComponent implements OnInit {
       initDate: this.fb.control(null),
       guardType: this.fb.control(null),
     });
-    this.getVolumes();
+    
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
+  }
+
+  get company() {
+    return this.searchForm.get('company');
   }
 
   getVolume(volume) {
@@ -120,8 +124,9 @@ export class ListComponent implements OnInit {
   formatter = (x: { name: string }) => x.name;
 
   setPageVolumes(pageInfo) {
-    this.page.pageNumber = pageInfo.offset;
     this.loading = true;
+    this.page.pageNumber = pageInfo.offset;
+    
     var newForm = {
       company: null,
       storehouse: null,
