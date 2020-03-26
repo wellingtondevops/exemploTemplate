@@ -87,7 +87,7 @@
             </div>
         </a>
 
-        <a *ngIf="permissionAdmin || permissionArquivador" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+        <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
             <div class="card text-white bg-dark mb-3">
                 <div class="card-header"><i class="fa fa-wpforms fa-4x" aria-hidden="true"></i></div>
                 <div class="card-body">
