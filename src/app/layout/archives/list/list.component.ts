@@ -159,7 +159,9 @@ export class ListComponent implements OnInit {
   }
 
   getArchive() {
-    this.setPage({ offset: 0 })
+    if(this.searchForm.value.company){
+      this.setPage({ offset: 0 })
+    }
   }
 
   getCompanies() {
