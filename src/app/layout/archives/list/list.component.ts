@@ -116,9 +116,7 @@ export class ListComponent implements OnInit {
 
     var searchValue = _.omitBy(newSearch, _.isNil);
 
-    console.log(searchValue);
     this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
-      console.log('setPage', data);
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
@@ -132,7 +130,6 @@ export class ListComponent implements OnInit {
   }
 
   toggleExpandRow(row) {
-    // console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
 
@@ -159,7 +156,9 @@ export class ListComponent implements OnInit {
   }
 
   getArchive() {
-    this.setPage({ offset: 0 })
+    if(this.searchForm.value.company){
+      this.setPage({ offset: 0 })
+    }
   }
 
   getCompanies() {

@@ -34,27 +34,27 @@
       <i class="fa fa-book"></i>&nbsp;
       <span>{{ 'Documentos' | translate }}</span>
     </a>
-    <div *ngIf="permissionAdmin" class="nested-menu" [routerLinkActive]="['router-link-active']">
+    <div *ngIf="permissionAdmin || permissionArquivador" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('archives')">
         <i class="fa fa-file"></i>&nbsp;
         <span>{{ 'Arquivos' | translate }}</span>
       </a>
       <li class="nested" [class.expand]="showMenu === 'archives'">
         <ul class="submenu">
-          <li>
+          <li *ngIf="permissionAdmin">
             <a [routerLink]="['/file/import']" class="list-group-item">
               <i class="fa fa-file-excel-o"></i>&nbsp;
               <span>{{ 'Importar Arquivos' | translate }}</span>
             </a>
           </li>
-          <li>
+          <li *ngIf="permissionAdmin || permissionArquivador">
             <a [routerLink]="['/file/register']" class="list-group-item">
               <i class="fa fa-plus"></i>&nbsp;
               <span>{{ 'Registrar Arquivo' | translate }}</span>
             </a>
           </li>
-          <li>
-            <a *ngIf="permissionAdmin || permissionArquivador || permissionPesquisador" [routerLink]="['/archives']"
+          <li *ngIf="permissionAdmin || permissionArquivador || permissionPesquisador">
+            <a [routerLink]="['/archives']"
               [routerLinkActive]="['router-link-active']" class="list-group-item">
               <i class="fa fa-search"></i>&nbsp;
               <span>{{ 'Procurar Arquivos' | translate }}</span>

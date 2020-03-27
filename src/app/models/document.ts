@@ -27,7 +27,19 @@ export class Label {
     _id: string;
 }
 
-export class DocumentListUser {
+class Permission {
   _id: string;
-  name: string
+  name: string;
+  docts: DocumentSingle[];
+}
+
+export class PermissionsUser {
+  _id: string;
+  permissions: Permission[];
+
+}
+
+class DocumentSingle {
+  _id: string;
+  name: string;
 }

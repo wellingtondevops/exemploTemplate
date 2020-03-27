@@ -64,6 +64,7 @@ export class ListComponent implements OnInit {
   inputBlock: Boolean = false;
   document: any;
   document_id: string;
+  doctype_id: string;
   documents: any;
   volume: Volume;
   notDocument: boolean;
@@ -94,7 +95,7 @@ export class ListComponent implements OnInit {
   @ViewChild('tab') private tab: NgbTabset;
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
-    { name: 'Departamento', prop: 'departament.name' }, 
+    { name: 'Departamento', prop: 'departament.name' },
     /*{ name: 'Ármazem', prop: 'storehouse.name' }, */
     { name: 'Posição', prop: 'location', width: 70 },
     /*{ name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
@@ -253,13 +254,8 @@ export class ListComponent implements OnInit {
   }
 
   getVolume(volume) {
-    console.log(volume)
-    this.typeDocumentForm.reset({
-      typeDocument: { value: '', required: true },
-      location: {
-        value: volume.location, disabled: true
-      }
-    });
+    console.log(this.doctype_id)
+
     this.loading = true;
     this.getRegisterVolume(volume._id)
     this.volumesSrv.volume(volume._id).subscribe(data => {
@@ -277,6 +273,15 @@ export class ListComponent implements OnInit {
     this.registerSrv.listregister(volume_id, page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
       if (this.registers.length !== 0) {
+        console.log('getRegisterVolume')
+        console.log(this.registers[0].doct)
+        this.typeDocumentForm.reset({
+          typeDocument: { value: this.registers[0].doct, disabled: true },
+          location: {
+            value: this.volume.location, disabled: true
+          }
+        });
+        console.log(this.typeDocumentForm.value)
         this.getDoctype(this.registers[0].doct._id);
       } else {
         this.warningMsgSrv.showWarning('Insira um tipo de documento ao volume para continuar indexando.', true)
@@ -314,6 +319,7 @@ export class ListComponent implements OnInit {
   }
 
   getDoctype(doctype_id) {
+    this.doctype_id = doctype_id;
     this.documentsSrv.document(doctype_id).subscribe(data => {
       this.document = data;
       this.typeDocumentForm.value.typeDocument = this.document.name;
@@ -350,7 +356,7 @@ export class ListComponent implements OnInit {
     // console.log('Detail Toggled', event);
   }
 
-  
+
 
   postArchive(data) {
     this.loading = true;
@@ -425,7 +431,7 @@ export class ListComponent implements OnInit {
         var res = [];
         if (company.length < 2) [];
         else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        if(res.length > 0){
+        if (res.length > 0) {
           this.getDepartaments(res[0]._id);
         }
         return res;
