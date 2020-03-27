@@ -70,7 +70,7 @@
                       <div class="form-group">
                         <label>Documentos</label>
                         <type-ahead class="form-control multi" [multi]="true" [complex]="true" idField="_id"
-                          formControlName="docts" [suggestions]="documentsAll" aria-describedby="emailHelp">
+                          formControlName="docts" [suggestions]="documentsAll[i].docts" aria-describedby="emailHelp">
                         </type-ahead>
                         <small id="emailHelp" class="form-text text-muted">
                           Se não houver documentos selecionados serão permitido todos os documentos da empresa.

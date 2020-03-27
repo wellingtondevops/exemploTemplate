@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Document, DocumentList, DocumentListUser } from 'src/app/models/document';
+import { Document, DocumentList, PermissionsUser } from 'src/app/models/document';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -59,7 +59,7 @@ export class DocumentsService {
       }
 
     doctsUser(user_id){
-      return this.http.get<DocumentListUser[]>(`${url}/users/permissions/${user_id}`).pipe(
+      return this.http.get<PermissionsUser>(`${url}/users/permissions/${user_id}`).pipe(
         tap(data => data)
       );
     }

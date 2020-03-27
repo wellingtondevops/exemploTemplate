@@ -44,7 +44,6 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.userForm = this.fb.group({
       _id: '',
       email: this.fb.control('', [Validators.required, Validators.email]),

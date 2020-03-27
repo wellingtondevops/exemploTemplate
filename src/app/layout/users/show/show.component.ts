@@ -132,6 +132,7 @@ export class ShowComponent implements OnInit {
     this.documentsSrv.doctsUser(this.id).subscribe(
       data => {
         this.documentsAll = data;
+        console.log(this.documentsAll)
         if (!this.user) {
           this.getUser();
         }
