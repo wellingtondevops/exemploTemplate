@@ -136,10 +136,13 @@ export class EditComponent implements OnInit {
     if (e && e.item) {
       this.documentsSrv.searchDocuments(e.item._id).subscribe(
         data => {
+          // console.log('data',data);
           if (i) {
+            console.log('if', data)
             this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
           } else {
-            this.documentsAll = data.items
+            console.log('else', data)
+            this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
           }
           if (!this.user) {
             this.getUser();
@@ -154,6 +157,7 @@ export class EditComponent implements OnInit {
     } else {
       this.documentsSrv.doctsUser(this.id).subscribe(
         data => {
+          console.log('doctsUser',data);
           this.documentsAll = data;
           if (!this.user) {
             this.getUser();

@@ -184,7 +184,12 @@
   <br />
   <div class="row" *ngIf="!document">
     <div class="col col-xl-12 col-lg-12">
-      <app-datatables [data]="volumes" [columns]="columns" (show)="getVolume($event)">
+      <app-datatables 
+      [data]="volumes" 
+      [columns]="columns" 
+      (show)="getVolume($event)"
+      (setPage)="setPage($event)"
+      >
       </app-datatables>
     </div>
   </div>

@@ -170,7 +170,6 @@ export class ListComponent implements OnInit {
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
       data => {
-        console.log(data.items);
         this.companies = data.items;
       },
       error => {
@@ -184,7 +183,6 @@ export class ListComponent implements OnInit {
   getDepartaments(company_id) {
     this.departamentsSrv.searchDepartaments(company_id).subscribe(
       data => {
-        console.log('departament', data);
         this.departaments = data.items;
       },
       error => {
@@ -225,7 +223,7 @@ export class ListComponent implements OnInit {
     var departament = this.registerFileForm.value.departament._id;
     var location = this.registerFileForm.value.location;
     /* var searchValue = _.omitBy(this.registerFileForm.value, _.isNil); */
-    this.volumesSrv.listvolume(this.storeHouse_id, this.company_id, location, departament).subscribe(
+    this.volumesSrv.listvolume(this.storeHouse_id, this.company_id, location, departament, this.page).subscribe(
       data => {
         this.volumes = data;
         this.page.pageNumber = data._links.currentPage;
@@ -242,6 +240,12 @@ export class ListComponent implements OnInit {
     }
   }
 
+  setPage(pageInfo) {
+    this.loading = true;
+    this.page.pageNumber = pageInfo.offset;
+    this.getVolumesList();
+  }
+
   selectTypeDocument(data) {
     this.loading = true;
     this.documentsSrv.document(data.item._id).subscribe(data => {
@@ -254,8 +258,12 @@ export class ListComponent implements OnInit {
   }
 
   getVolume(volume) {
-    console.log(this.doctype_id)
-
+    this.typeDocumentForm.reset({
+      typeDocument: { value: '', required: true },
+      location: {
+        value: volume.location, disabled: true
+      }
+    });
     this.loading = true;
     this.getRegisterVolume(volume._id)
     this.volumesSrv.volume(volume._id).subscribe(data => {
@@ -273,16 +281,8 @@ export class ListComponent implements OnInit {
     this.registerSrv.listregister(volume_id, page).subscribe(data => {
       this.registers = this.newRegisters(data.items);
       if (this.registers.length !== 0) {
-        console.log('getRegisterVolume')
-        console.log(this.registers[0].doct)
-        this.typeDocumentForm.reset({
-          typeDocument: { value: this.registers[0].doct, disabled: true },
-          location: {
-            value: this.volume.location, disabled: true
-          }
-        });
-        console.log(this.typeDocumentForm.value)
         this.getDoctype(this.registers[0].doct._id);
+        this.getTypeDocuments(this.volume.company._id);
       } else {
         this.warningMsgSrv.showWarning('Insira um tipo de documento ao volume para continuar indexando.', true)
         this.notDocument = true;
@@ -319,10 +319,14 @@ export class ListComponent implements OnInit {
   }
 
   getDoctype(doctype_id) {
-    this.doctype_id = doctype_id;
     this.documentsSrv.document(doctype_id).subscribe(data => {
       this.document = data;
-      this.typeDocumentForm.value.typeDocument = this.document.name;
+      this.typeDocumentForm.reset({
+        typeDocument: { value: this.document, disabled: true },
+        location: {
+          value: this.volume.location, disabled: true
+        }
+      });
     }, error => {
       console.log('ERROR', error)
     })
