@@ -63,9 +63,9 @@
                     <div [formGroupName]="i">
                       <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" type="text" (selectItem)="selectedCompany($event)" class="form-control" formControlName="company"
-                          (selectItem)="getDocuments($event, i)" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                          [ngbTypeahead]="searchCompany" />
+                        <input id="typeahead-basic" type="text" (selectItem)="selectedCompany($event)"
+                          class="form-control" formControlName="company" (selectItem)="getDocuments($event, i)"
+                          [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" />
                       </div>
                       <div class="form-group">
                         <label>Documentos</label>
