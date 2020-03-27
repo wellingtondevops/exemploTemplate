@@ -115,8 +115,8 @@ export class EditComponent implements OnInit {
     );
   }
 
-  selectedCompany(e) {
-    this.getDocuments(e);
+  selectedCompany(e, i) {
+    this.getDocuments(e, i);
   }
 
   searchCompany = (text$: Observable<string>) =>
@@ -131,11 +131,16 @@ export class EditComponent implements OnInit {
       })
     );
 
-  getDocuments(e = null) {
+  getDocuments(e = null, i = null) {
+    console.log(i)
     if (e && e.item) {
       this.documentsSrv.searchDocuments(e.item._id).subscribe(
         data => {
-          this.documentsAll = data.items;
+          if (i) {
+            this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
+          } else {
+            this.documentsAll = data.items
+          }
           if (!this.user) {
             this.getUser();
           }
