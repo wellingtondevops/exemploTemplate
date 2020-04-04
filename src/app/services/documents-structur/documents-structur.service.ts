@@ -1,0 +1,21 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { DocumentsStructurList } from 'src/app/models/document-structur';
+const url = environment.apiUrl;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DocumentsStructurService {
+    constructor(private http: HttpClient) {}
+
+    documentsStructur(page) {
+      if (page) {
+          return this.http.get<DocumentsStructurList>(`${url}/templates?_page=${page.pageNumber}`).pipe(tap(data => data));
+      } else {
+          return this.http.get<DocumentsStructurList>(`${url}/templates`).pipe(tap(data => data));
+      }
+  }
+}

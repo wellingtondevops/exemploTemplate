@@ -22,12 +22,12 @@ const routes: Routes = [
   {
     path: 'new',
     component: NewComponent,
-    canActivate: [DaenerysGuard]
+    /* canActivate: [DaenerysGuard] */
   },
   {
     path: 'edit/:id',
     component: EditComponent,
-    canActivate: [DaenerysGuard]
+    /* canActivate: [DaenerysGuard] */
   },
 ];
 

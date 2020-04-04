@@ -1,3 +1,76 @@
-<p>
-  new works!
-</p>
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"></ngx-loading>
+  <app-page-header [heading]="'Nova Strutura Documental'" [icon]="'fa-book'"></app-page-header>
+  <div class="card bg-light mb-12">
+    <div class="card-body">
+      <form [formGroup]="documentStructurForm" role="FormGroup" (ngSubmit)="postDocumentStructur()">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label for="">Nome da Estrutura de Documento</label>
+              <input id="structureName" type="text" placeholder="Nome" class="form-control"
+                formControlName="structureName" [ngClass]="{ 'is-invalid': !structureName.valid }" />
+              <div *ngIf="structureName.invalid && (structureName.dirty || structureName.touched)"
+                class="invalid-feedback">
+                <div *ngIf="!structureName.valid">
+                  Nome da Estrutura de Documentos é obrigatório.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="card bg-light mb-12">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <label for="">Classes</label>
+                    <br>
+                    <div class="form-group" formArrayName="class">
+                      <div *ngFor="let class of classes.controls; index as i">
+                        <div class="card bg-light mb-12" style="margin-bottom: 5px">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <span *ngIf="i > 0">
+                                  <button type="button" class="btn btn-danger btn-sm pull-right"
+                                    (click)="removeClass(i)">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                  <br />
+                                </span>
+                                <div [formGroupName]="i">
+                                  <div class="form-group">
+                                    <label for="">Código do Tópico</label>
+                                    <input id="codTopic" type="text" placeholder="Código do Tópico" class="form-control"
+                                      formControlName="codTopic" />
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="">Tópico</label>
+                                    <input id="topic" type="text" placeholder="Tópico" class="form-control"
+                                      formControlName="topic" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <button class="btn btn-success" (click)="addClass()"><i class="fa fa-plus"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
