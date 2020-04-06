@@ -43,8 +43,8 @@ export class NewComponent implements OnInit {
       currentLabel: '',
       currentValue: 0,
       intermediateLabel: '',
-      intermediateValue: '',
-      final: 0,
+      intermediateValue: 0,
+      final: '',
       comments: '',
       subclasses: this.fb.array([])
     });

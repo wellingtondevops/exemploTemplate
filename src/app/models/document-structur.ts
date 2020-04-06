@@ -17,7 +17,7 @@ export class Class {
   currentValue: number;
   intermediateLabel: string;
   intermediateValue: string;
-  final: number;
+  final: string;
   comments: string;
   subclasses: SubClass[]
 }
@@ -29,7 +29,7 @@ export class SubClass {
   currentValue: number;
   intermediateLabel: string;
   intermediateValue: string;
-  final: number;
+  final: string;
   comments: string;
   groups: Group[]
 }
@@ -41,7 +41,7 @@ export class Group {
   currentValue: number;
   intermediateLabel: string;
   intermediateValue: string;
-  final: number;
+  final: string;
   comments: string;
   subgroups: SubGroup[]
 }
@@ -53,7 +53,7 @@ export class SubGroup {
   currentValue: number;
   intermediateLabel: string;
   intermediateValue: string;
-  final: number;
+  final: string;
   comments: string;
 }
 
