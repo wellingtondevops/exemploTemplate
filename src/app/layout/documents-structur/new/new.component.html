@@ -170,6 +170,162 @@
                                   <button class="btn btn-sm btn-success" (click)="addGroup(subclass)"><i
                                       class="fa fa-plus"></i>&emsp;Grupo</button>
                                 </div>
+                                <div class="card bg-light mb-12" *ngIf="subclass.value.groups.length > 0">
+                                  <div class="card-body">
+                                    <label for="">Grupos</label>
+                                    <br>
+                                    <div class="form-group" formArrayName="groups">
+                                      <div *ngFor="let group of subclass.get('groups').controls; index as g">
+                                        <span>
+                                          <button type="button" class="btn btn-danger btn-sm pull-right"
+                                            (click)="removeGroup(subclass, g)">
+                                            <i class="fa fa-trash"></i>
+                                          </button>
+                                          <br />
+                                        </span>
+                                        <div [formGroupName]="g">
+                                          <div class="form-row">
+                                            <div class="form-group col-md-1">
+                                              <label for="">Código</label>
+                                              <input id="codTopic" type="text" placeholder="Código" class="form-control"
+                                                formControlName="codTopic" />
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                              <label for="">Assunto</label>
+                                              <textarea rows="3" placeholder="Assunto" class="form-control"
+                                                formControlName="topic"></textarea>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                              <label for="">Fase Corrente</label>
+                                              <br>
+                                              <div class="row col-12">
+                                                <div class="col-lg-8">
+                                                  <input id="currentValue" type="number" placeholder="Anos"
+                                                    class="form-control" formControlName="currentValue" />
+                                                </div>
+                                                <div class="col-lg-4"
+                                                  style="display: flex; justify-content: center; align-items: center;">
+                                                  Anos
+                                                </div>
+                                              </div>
+                                              <label for="">Objetivo</label>
+                                              <input id="currentLabel" type="text" placeholder="Objetivo"
+                                                class="form-control" formControlName="currentLabel" />
+                                            </div>
+                                            <div class="form-group mb-2 col-2">
+                                              <label for="">Fase Intermediária</label>
+                                              <br>
+                                              <div class="row col-12">
+                                                <div class="col-lg-8">
+                                                  <input id="intermediateValue" type="number" placeholder="Anos"
+                                                    class="form-control" formControlName="intermediateValue" />
+                                                </div>
+                                                <div class="col-lg-4"
+                                                  style="display: flex; justify-content: center; align-items: center;">
+                                                  Anos
+                                                </div>
+                                              </div>
+                                              <label for="">Objetivo</label>
+                                              <input id="intermediateLabel" type="text" placeholder="Objetivo"
+                                                class="form-control" formControlName="intermediateLabel" />
+                                            </div>
+                                            <div class="form-group mb-2 col-2">
+                                              <label for="">Destinação Final</label>
+                                              <input id="finalLabel" type="text" placeholder="Destinação Final"
+                                                class="form-control" formControlName="final" />
+                                            </div>
+                                            <div class="form-group mb-2 col-2">
+                                              <label for="">Observações</label>
+                                              <textarea id="finalLabel" rows="3" placeholder="Observações"
+                                                class="form-control" formControlName="comments"></textarea>
+                                            </div>
+                                          </div>
+                                          <div>
+                                            <button class="btn btn-sm btn-success" (click)="addSubGroup(group)"><i
+                                                class="fa fa-plus"></i>&emsp;Sub Grupo</button>
+                                          </div>
+                                          <div class="card bg-light mb-12" *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
+                                            <div class="card-body">
+                                              <label for="">Sub Grupos</label>
+                                              <br>
+                                              <div class="form-group" formArrayName="subgroups">
+                                                <div *ngFor="let subgroup of group.get('subgroups').controls; index as sg">
+                                                  <span>
+                                                    <button type="button" class="btn btn-danger btn-sm pull-right"
+                                                      (click)="removeSubGroup(subgroup, sg)">
+                                                      <i class="fa fa-trash"></i>
+                                                    </button>
+                                                    <br />
+                                                  </span>
+                                                  <div [formGroupName]="sg">
+                                                    <div class="form-row">
+                                                      <div class="form-group col-md-1">
+                                                        <label for="">Código</label>
+                                                        <input id="codTopic" type="text" placeholder="Código"
+                                                          class="form-control" formControlName="codTopic" />
+                                                      </div>
+                                                      <div class="form-group col-md-3">
+                                                        <label for="">Assunto</label>
+                                                        <textarea rows="3" placeholder="Assunto" class="form-control"
+                                                          formControlName="topic"></textarea>
+                                                      </div>
+                                                      <div class="form-group col-md-2">
+                                                        <label for="">Fase Corrente</label>
+                                                        <br>
+                                                        <div class="row col-12">
+                                                          <div class="col-lg-8">
+                                                            <input id="currentValue" type="number" placeholder="Anos"
+                                                              class="form-control" formControlName="currentValue" />
+                                                          </div>
+                                                          <div class="col-lg-4"
+                                                            style="display: flex; justify-content: center; align-items: center;">
+                                                            Anos
+                                                          </div>
+                                                        </div>
+                                                        <label for="">Objetivo</label>
+                                                        <input id="currentLabel" type="text" placeholder="Objetivo"
+                                                          class="form-control" formControlName="currentLabel" />
+                                                      </div>
+                                                      <div class="form-group mb-2 col-2">
+                                                        <label for="">Fase Intermediária</label>
+                                                        <br>
+                                                        <div class="row col-12">
+                                                          <div class="col-lg-8">
+                                                            <input id="intermediateValue" type="number"
+                                                              placeholder="Anos" class="form-control"
+                                                              formControlName="intermediateValue" />
+                                                          </div>
+                                                          <div class="col-lg-4"
+                                                            style="display: flex; justify-content: center; align-items: center;">
+                                                            Anos
+                                                          </div>
+                                                        </div>
+                                                        <label for="">Objetivo</label>
+                                                        <input id="intermediateLabel" type="text" placeholder="Objetivo"
+                                                          class="form-control" formControlName="intermediateLabel" />
+                                                      </div>
+                                                      <div class="form-group mb-2 col-2">
+                                                        <label for="">Destinação Final</label>
+                                                        <input id="finalLabel" type="text"
+                                                          placeholder="Destinação Final" class="form-control"
+                                                          formControlName="final" />
+                                                      </div>
+                                                      <div class="form-group mb-2 col-2">
+                                                        <label for="">Observações</label>
+                                                        <textarea id="finalLabel" rows="3" placeholder="Observações"
+                                                          class="form-control" formControlName="comments"></textarea>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>

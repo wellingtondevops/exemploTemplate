@@ -17,6 +17,7 @@ export class NewComponent implements OnInit {
   classes: any = [];
   subclasses: any = [];
   groups: any = [];
+  subgroups: any = [];
 
   constructor(
     private _route: Router,
@@ -30,8 +31,6 @@ export class NewComponent implements OnInit {
       class: this.fb.array(this.classes)
     });
     this.addClass();
-    console.log(this.classes)
-    console.log(this.documentStructurForm.value);
   }
 
   get structureName() {
@@ -62,7 +61,7 @@ export class NewComponent implements OnInit {
       intermediateValue: 0,
       final: '',
       comments: '',
-      group: this.fb.array([])
+      groups: this.fb.array([])
     });
   }
 
@@ -77,6 +76,19 @@ export class NewComponent implements OnInit {
       final: '',
       comments: '',
       subgroups: this.fb.array([])
+    });
+  }
+
+  createSubGroup(): FormGroup {
+    return this.fb.group({
+      codTopic: '',
+      topic: '',
+      currentLabel: '',
+      currentValue: 0,
+      intermediateLabel: '',
+      intermediateValue: 0,
+      final: '',
+      comments: ''
     });
   }
 
@@ -99,9 +111,24 @@ export class NewComponent implements OnInit {
     classeN.push(this.createSubClass());
   }
 
+  removeGroup(subclass, e){
+    var groups = <FormArray>subclass.controls['groups'];
+    groups.removeAt(e)
+  }
+
   addGroup(e): void {
     this.groups = e.get('groups') as FormArray;
-    this.groups.push(this.createSubClass());
+    this.groups.push(this.createGroup());
+  }
+
+  removeSubGroup(group, e){
+    var subgroups = <FormArray>group.controls['subgroups'];
+    subgroups.removeAt(e)
+  }
+
+  addSubGroup(e): void {
+    this.subgroups = e.get('subgroups') as FormArray;
+    this.subgroups.push(this.createSubGroup());
   }
 
   postDocumentStructur() {
