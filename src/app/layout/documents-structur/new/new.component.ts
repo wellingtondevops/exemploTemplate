@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DocumentsStructurList } from 'src/app/models/document-structur';
+import { DocumentsStructurList, DocumentStructur } from 'src/app/models/document-structur';
 import { routerTransition } from 'src/app/router.animations';
+import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 
 @Component({
   selector: 'app-new',
@@ -22,6 +25,9 @@ export class NewComponent implements OnInit {
   constructor(
     private _route: Router,
     private fb: FormBuilder,
+    private documentStructurSrv: DocumentsStructurService,
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService,
   ) {
   }
 
@@ -39,8 +45,8 @@ export class NewComponent implements OnInit {
 
   createClass(): FormGroup {
     return this.fb.group({
-      codTopic: '',
-      topic: '',
+      codTopic: this.fb.control('', Validators.required),
+      topic: this.fb.control('', Validators.required),
       currentLabel: '',
       currentValue: 0,
       intermediateLabel: '',
@@ -53,8 +59,8 @@ export class NewComponent implements OnInit {
 
   createSubClass(): FormGroup {
     return this.fb.group({
-      codTopic: '',
-      topic: '',
+      codTopic: this.fb.control('', Validators.required),
+      topic: this.fb.control('', Validators.required),
       currentLabel: '',
       currentValue: 0,
       intermediateLabel: '',
@@ -67,8 +73,8 @@ export class NewComponent implements OnInit {
 
   createGroup(): FormGroup {
     return this.fb.group({
-      codTopic: '',
-      topic: '',
+      codTopic: this.fb.control('', Validators.required),
+      topic: this.fb.control('', Validators.required),
       currentLabel: '',
       currentValue: 0,
       intermediateLabel: '',
@@ -81,8 +87,8 @@ export class NewComponent implements OnInit {
 
   createSubGroup(): FormGroup {
     return this.fb.group({
-      codTopic: '',
-      topic: '',
+      codTopic: this.fb.control('', Validators.required),
+      topic: this.fb.control('', Validators.required),
       currentLabel: '',
       currentValue: 0,
       intermediateLabel: '',
@@ -101,7 +107,7 @@ export class NewComponent implements OnInit {
     this.classes.removeAt(e);
   }
 
-  removeSubClass(classe, e){
+  removeSubClass(classe, e) {
     var subclasses = <FormArray>classe.controls['subclasses'];
     subclasses.removeAt(e)
   }
@@ -111,7 +117,7 @@ export class NewComponent implements OnInit {
     classeN.push(this.createSubClass());
   }
 
-  removeGroup(subclass, e){
+  removeGroup(subclass, e) {
     var groups = <FormArray>subclass.controls['groups'];
     groups.removeAt(e)
   }
@@ -121,7 +127,7 @@ export class NewComponent implements OnInit {
     this.groups.push(this.createGroup());
   }
 
-  removeSubGroup(group, e){
+  removeSubGroup(group, e) {
     var subgroups = <FormArray>group.controls['subgroups'];
     subgroups.removeAt(e)
   }
@@ -132,7 +138,19 @@ export class NewComponent implements OnInit {
   }
 
   postDocumentStructur() {
+    this.loading = true;
     console.log(this.documentStructurForm.value)
+    this.documentStructurSrv.newDocumentStructur(this.documentStructurForm.value).subscribe(res => {
+      if (res._id) {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Estrutura documental criada com sucesso.');
+        this._route.navigate(['/documents-structur']);
+      }
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    })
   }
 
 }
