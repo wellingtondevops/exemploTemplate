@@ -6,7 +6,7 @@ import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { DocumentsStructurRoutingModule } from './documents-structur-routing.module';
 import { NgxLoadingModule } from 'ngx-loading';
-import { PageHeaderModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -17,6 +17,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     PageHeaderModule,
     ReactiveFormsModule,
     FormsModule,
+    DatatablesModule,
     NgxLoadingModule.forRoot({})
   ]
 })
