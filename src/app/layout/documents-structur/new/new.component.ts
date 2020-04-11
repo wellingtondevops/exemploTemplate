@@ -28,7 +28,7 @@ export class NewComponent implements OnInit {
   ngOnInit() {
     this.documentStructurForm = this.fb.group({
       structureName: this.fb.control('', Validators.required),
-      class: this.fb.array(this.classes)
+      classes: this.fb.array(this.classes)
     });
     this.addClass();
   }
@@ -93,7 +93,7 @@ export class NewComponent implements OnInit {
   }
 
   addClass(): void {
-    this.classes = this.documentStructurForm.get('class') as FormArray;
+    this.classes = this.documentStructurForm.get('classes') as FormArray;
     this.classes.push(this.createClass());
   }
 

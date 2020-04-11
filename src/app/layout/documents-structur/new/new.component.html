@@ -27,7 +27,7 @@
               <div class="card-body">
                 <label for="">Classes</label>
                 <br>
-                <div class="form-group" formArrayName="class">
+                <div class="form-group" formArrayName="classes">
                   <div *ngFor="let class of classes.controls; index as i">
 
                     <span *ngIf="i > 0">
@@ -244,12 +244,14 @@
                                             <button class="btn btn-sm btn-success" (click)="addSubGroup(group)"><i
                                                 class="fa fa-plus"></i>&emsp;Sub Grupo</button>
                                           </div>
-                                          <div class="card bg-light mb-12" *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
+                                          <div class="card bg-light mb-12"
+                                            *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
                                             <div class="card-body">
                                               <label for="">Sub Grupos</label>
                                               <br>
                                               <div class="form-group" formArrayName="subgroups">
-                                                <div *ngFor="let subgroup of group.get('subgroups').controls; index as sg">
+                                                <div
+                                                  *ngFor="let subgroup of group.get('subgroups').controls; index as sg">
                                                   <span>
                                                     <button type="button" class="btn btn-danger btn-sm pull-right"
                                                       (click)="removeSubGroup(subgroup, sg)">
@@ -335,6 +337,12 @@
                   </div>
                   <br />
                   <button class="btn btn-success" (click)="addClass()"><i class="fa fa-plus"></i></button>
+                  <div class="col-lg-12">
+                    <br />
+                    <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>
+                    <button type="button" [routerLink]="['/documents-structur']" class="btn btn-default"
+                      style="float: right;margin-right: 10px;">Voltar</button>
+                  </div>
                 </div>
               </div>
             </div>
