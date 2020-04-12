@@ -42,10 +42,7 @@ export class ShowComponent implements OnInit {
     this.documentStructurForm = this.fb.group({
       _id: '',
       structureName: this.fb.control(''),
-      structors:[{
-        _id: this.fb.control(''),
-        classes: this.fb.array([])
-      }],
+      classes: this.fb.array([]),
       dateCreated: this.fb.control('')
     })
 
@@ -60,41 +57,37 @@ export class ShowComponent implements OnInit {
         this.documentStructurForm.patchValue({
           _id: data._id,
           structureName: data.structureName,
-          structors: [{
-            _id: data.structors[0]._id,
-            classes: data.structors[0].classes
-          }],
+          classes: data.classes,
           dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
         });
 
-        console.log(data.structors[0].classes)
+        console.log(data.classes)
 
-        let classes = data.structors[0].classes;
-        classes.map(item => {
-          this.addClass()
-          if(item.subclasses.length > 0){
-            item.subclasses.map(subclass => {
+        let classes = data.classes;
+        classes.map(classe => {
+          this.addClass(classe)
+          if(classe.subclasses.length > 0){
+            classe.subclasses.map(subclass => {
+              console.log(subclass)
               this.addSubClass(subclass);
             })
-           
           }
         })
-
       }
     })
   }
 
-  createClass(): FormGroup {
+  createClass(item): FormGroup {
     return this.fb.group({
-      codTopic: this.fb.control({ value: '', disabled: true }),
-      topic: this.fb.control({ value: '', disabled: true }),
-      currentLabel: this.fb.control({ value: '', disabled: true }),
-      currentValue: this.fb.control({ value: 0, disabled: true }),
-      intermediateLabel: this.fb.control({ value: '', disabled: true }),
-      intermediateValue: this.fb.control({ value: 0, disabled: true }),
-      final: this.fb.control({ value: '', disabled: true }),
-      comments: this.fb.control({ value: '', disabled: true }),
-      subclasses: this.fb.array(this.subclasses)
+      codTopic: this.fb.control({ value: item.codTopic, disabled: true }),
+      topic: this.fb.control({ value: item.topic, disabled: true }),
+      currentLabel: this.fb.control({ value: item.currentLabel, disabled: true }),
+      currentValue: this.fb.control({ value: item.currentValue, disabled: true }),
+      intermediateLabel: this.fb.control({ value: item.intermediateLabel, disabled: true }),
+      intermediateValue: this.fb.control({ value: item.intermediateValue, disabled: true }),
+      final: this.fb.control({ value: item.final, disabled: true }),
+      comments: this.fb.control({ value: item.comments, disabled: true }),
+      subclasses: this.fb.array(item.subclasses)
     });
   }
 
@@ -126,22 +119,22 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  createSubGroup(): FormGroup {
+  createSubGroup(subclass): FormGroup {
     return this.fb.group({
-      codTopic: this.fb.control({ value: '', disabled: true }),
-      topic: this.fb.control({ value: '', disabled: true }),
-      currentLabel: this.fb.control({ value: '', disabled: true }),
-      currentValue: this.fb.control({ value: 0, disabled: true }),
-      intermediateLabel: this.fb.control({ value: '', disabled: true }),
-      intermediateValue: this.fb.control({ value: 0, disabled: true }),
-      final: this.fb.control({ value: '', disabled: true }),
-      comments: this.fb.control({ value: '', disabled: true }),
+      codTopic: this.fb.control({ value: subclass.codTopic, disabled: true }),
+      topic: this.fb.control({ value: subclass.topic, disabled: true }),
+      currentLabel: this.fb.control({ value: subclass.currentLabel, disabled: true }),
+      currentValue: this.fb.control({ value: subclass.currentValue, disabled: true }),
+      intermediateLabel: this.fb.control({ value: subclass.intermediateLabel, disabled: true }),
+      intermediateValue: this.fb.control({ value: subclass.intermediateValue, disabled: true }),
+      final: this.fb.control({ value: subclass.final, disabled: true }),
+      comments: this.fb.control({ value: subclass.comments, disabled: true }),
     });
   }
 
-  addClass(): void {
+  addClass(item): void {
     this.classes = this.documentStructurForm.get('classes') as FormArray;
-    this.classes.push(this.createClass());
+    this.classes.push(this.createClass(item));
   }
 
   removeClass(e) {

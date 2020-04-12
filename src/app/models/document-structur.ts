@@ -6,9 +6,7 @@ export class DocumentStructur {
   };
   _id: string;
   structureName: string;
-  structors: {
-    classes: Class[];
-  };
+  classes: Class[];
   author: string;
   dateCreated: string;
 }

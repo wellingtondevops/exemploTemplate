@@ -15,19 +15,13 @@
     <br />
   </div>
   <div class="card bg-light mb-12">
-    <div class="card-body" *ngIf="documentStructur">
+    <div class="card-body">
       <form [formGroup]="documentStructurForm" role="FormGroup" (ngSubmit)="postDocumentStructur()">
         <div class="row col-12">
           <div class="form-group mb-2 col-6">
             <label for="">Nome da Estrutura de Documento</label>
             <input id="structureName" type="text" placeholder="Nome" class="form-control"
-              formControlName="structureName" [ngClass]="{ 'is-invalid': !structureName.valid }" />
-            <div *ngIf="structureName.invalid && (structureName.dirty || structureName.touched)"
-              class="invalid-feedback">
-              <div *ngIf="!structureName.valid">
-                Nome da Estrutura de Documentos é obrigatório.
-              </div>
-            </div>
+              formControlName="structureName" />
           </div>
           <div class="col-12">
             <div class="card bg-light mb-12">
@@ -35,7 +29,7 @@
                 <label for="">Classes</label>
                 <br>
                 <div class="form-group" formArrayName="classes">
-                  <div *ngFor="let class of structors.classes.controls; index as i">
+                  <div *ngFor="let class of classes.controls; index as i">
                     <div [formGroupName]="i">
                       <div class="form-row">
                         <div class="form-group col-md-1">
