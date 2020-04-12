@@ -6,6 +6,7 @@ import { DocumentStructur, DocumentsStructurList } from 'src/app/models/document
 import { Page } from 'src/app/models/page';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { routerTransition } from '../../../router.animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -36,14 +37,15 @@ export class ListComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private pipes: Pipes,
+    private _route: Router,
   ) { }
 
   ngOnInit() {
     this.setPageDocumentsStructur({ offset: 0 })
   }
 
-  getDocumentStructur(e){
-    console.log(e)
+  getDocumentStructur(documentStructur){
+    this._route.navigate(['/documents-structur/get', documentStructur._id]);
   }
 
   setPageDocumentsStructur(pageInfo) {

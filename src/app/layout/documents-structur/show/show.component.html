@@ -1,3 +1,324 @@
-<p>
-  show works!
-</p>
+<ngx-loading [show]="loading" [config]="{
+  backdropBorderRadius: '3px',
+  fullScreenBackdrop: true,
+  primaryColour: '#222',
+  secondaryColour: '#222',
+  tertiaryColour: '#222'
+}"></ngx-loading>
+<div [@routerTransition]>
+  <app-page-header [heading]="'Estrutura Documental'" [icon]="'fa-paper'"></app-page-header>
+  <div style="margin-bottom: 10px" *ngIf="documentStructur">
+    <app-button-back [redirectTo]="'documentStructur'"></app-button-back>
+    <app-buttons-custom [id]="documentStructur._id" (edit)="editDocumentStructur(documentStructur._id)"
+      (delete)="open('focusFirst', documentStructur._id)" [permissionEdit]="['DAENERYS']"
+      [permissionDelete]="['DAENERYS']"></app-buttons-custom>
+    <br />
+  </div>
+  <div class="card bg-light mb-12">
+    <div class="card-body" *ngIf="documentStructur">
+      <form [formGroup]="documentStructurForm" role="FormGroup" (ngSubmit)="postDocumentStructur()">
+        <div class="row col-12">
+          <div class="form-group mb-2 col-6">
+            <label for="">Nome da Estrutura de Documento</label>
+            <input id="structureName" type="text" placeholder="Nome" class="form-control"
+              formControlName="structureName" [ngClass]="{ 'is-invalid': !structureName.valid }" />
+            <div *ngIf="structureName.invalid && (structureName.dirty || structureName.touched)"
+              class="invalid-feedback">
+              <div *ngIf="!structureName.valid">
+                Nome da Estrutura de Documentos é obrigatório.
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="card bg-light mb-12">
+              <div class="card-body">
+                <label for="">Classes</label>
+                <br>
+                <div class="form-group" formArrayName="classes">
+                  <div *ngFor="let class of structors.classes.controls; index as i">
+                    <div [formGroupName]="i">
+                      <div class="form-row">
+                        <div class="form-group col-md-1">
+                          <label for="">Código</label>
+                          <input id="codTopic" type="text" placeholder="Código" class="form-control"
+                            formControlName="codTopic" />
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="">Assunto</label>
+                          <textarea id="topic" rows="3" placeholder="Assunto" class="form-control"
+                            formControlName="topic"></textarea>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="">Fase Corrente</label>
+                          <br>
+                          <div class="row col-12">
+                            <div class="col-lg-8">
+                              <input id="currentValue" type="number" placeholder="Anos" class="form-control"
+                                formControlName="currentValue" />
+                            </div>
+                            <div class="col-lg-4" style="display: flex; justify-content: center; align-items: center;">
+                              Anos
+                            </div>
+                          </div>
+                          <label for="">Objetivo</label>
+                          <input id="currentLabel" type="text" placeholder="Objetivo" class="form-control"
+                            formControlName="currentLabel" />
+                        </div>
+                        <div class="form-group mb-2 col-2">
+                          <label for="">Fase Intermediária</label>
+                          <br>
+                          <div class="row col-12">
+                            <div class="col-lg-8">
+                              <input id="intermediateValue" type="number" placeholder="Anos" class="form-control"
+                                formControlName="intermediateValue" />
+                            </div>
+                            <div class="col-lg-4" style="display: flex; justify-content: center; align-items: center;">
+                              Anos
+                            </div>
+                          </div>
+                          <label for="">Objetivo</label>
+                          <input id="intermediateLabel" type="text" placeholder="Objetivo" class="form-control"
+                            formControlName="intermediateLabel" />
+                        </div>
+                        <div class="form-group mb-2 col-2">
+                          <label for="">Destinação Final</label>
+                          <input id="finalLabel" rows="3" placeholder="Destinação Final" class="form-control"
+                            formControlName="final" />
+                        </div>
+                        <div class="form-group mb-2 col-2">
+                          <label for="">Observações</label>
+                          <textarea id="finalLabel" rows="3" placeholder="Observações" class="form-control"
+                            formControlName="comments"></textarea>
+                        </div>
+                      </div>
+                      <div class="card bg-light mb-12" *ngIf="class.value.subclasses.length > 0">
+                        <div class="card-body">
+                          <label for="">Sub Classes</label>
+                          <br>
+                          <div class="form-group" formArrayName="subclasses">
+                            <div *ngFor="let subclass of class.get('subclasses').controls; index as s">
+                              <div [formGroupName]="s">
+                                <div class="form-row">
+                                  <div class="form-group col-md-1">
+                                    <label for="">Código</label>
+                                    <input id="codTopic" type="text" placeholder="Código" class="form-control"
+                                      formControlName="codTopic" />
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                    <label for="">Assunto</label>
+                                    <textarea rows="3" placeholder="Assunto" class="form-control"
+                                      formControlName="topic"></textarea>
+                                  </div>
+                                  <div class="form-group col-md-2">
+                                    <label for="">Fase Corrente</label>
+                                    <br>
+                                    <div class="row col-12">
+                                      <div class="col-lg-8">
+                                        <input id="currentValue" type="number" placeholder="Anos" class="form-control"
+                                          formControlName="currentValue" />
+                                      </div>
+                                      <div class="col-lg-4"
+                                        style="display: flex; justify-content: center; align-items: center;">
+                                        Anos
+                                      </div>
+                                    </div>
+                                    <label for="">Objetivo</label>
+                                    <input id="currentLabel" type="text" placeholder="Objetivo" class="form-control"
+                                      formControlName="currentLabel" />
+                                  </div>
+                                  <div class="form-group mb-2 col-2">
+                                    <label for="">Fase Intermediária</label>
+                                    <br>
+                                    <div class="row col-12">
+                                      <div class="col-lg-8">
+                                        <input id="intermediateValue" type="number" placeholder="Anos"
+                                          class="form-control" formControlName="intermediateValue" />
+                                      </div>
+                                      <div class="col-lg-4"
+                                        style="display: flex; justify-content: center; align-items: center;">
+                                        Anos
+                                      </div>
+                                    </div>
+                                    <label for="">Objetivo</label>
+                                    <input id="intermediateLabel" type="text" placeholder="Objetivo"
+                                      class="form-control" formControlName="intermediateLabel" />
+                                  </div>
+                                  <div class="form-group mb-2 col-2">
+                                    <label for="">Destinação Final</label>
+                                    <input id="finalLabel" type="text" placeholder="Destinação Final"
+                                      class="form-control" formControlName="final" />
+                                  </div>
+                                  <div class="form-group mb-2 col-2">
+                                    <label for="">Observações</label>
+                                    <textarea id="finalLabel" rows="3" placeholder="Observações" class="form-control"
+                                      formControlName="comments"></textarea>
+                                  </div>
+                                </div>
+                                <div class="card bg-light mb-12" *ngIf="subclass.value.groups.length > 0">
+                                  <div class="card-body">
+                                    <label for="">Grupos</label>
+                                    <br>
+                                    <div class="form-group" formArrayName="groups">
+                                      <div *ngFor="let group of subclass.get('groups').controls; index as g">
+                                        <div [formGroupName]="g">
+                                          <div class="form-row">
+                                            <div class="form-group col-md-1">
+                                              <label for="">Código</label>
+                                              <input id="codTopic" type="text" placeholder="Código" class="form-control"
+                                                formControlName="codTopic" />
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                              <label for="">Assunto</label>
+                                              <textarea rows="3" placeholder="Assunto" class="form-control"
+                                                formControlName="topic"></textarea>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                              <label for="">Fase Corrente</label>
+                                              <br>
+                                              <div class="row col-12">
+                                                <div class="col-lg-8">
+                                                  <input id="currentValue" type="number" placeholder="Anos"
+                                                    class="form-control" formControlName="currentValue" />
+                                                </div>
+                                                <div class="col-lg-4"
+                                                  style="display: flex; justify-content: center; align-items: center;">
+                                                  Anos
+                                                </div>
+                                              </div>
+                                              <label for="">Objetivo</label>
+                                              <input id="currentLabel" type="text" placeholder="Objetivo"
+                                                class="form-control" formControlName="currentLabel" />
+                                            </div>
+                                            <div class="form-group mb-2 col-2">
+                                              <label for="">Fase Intermediária</label>
+                                              <br>
+                                              <div class="row col-12">
+                                                <div class="col-lg-8">
+                                                  <input id="intermediateValue" type="number" placeholder="Anos"
+                                                    class="form-control" formControlName="intermediateValue" />
+                                                </div>
+                                                <div class="col-lg-4"
+                                                  style="display: flex; justify-content: center; align-items: center;">
+                                                  Anos
+                                                </div>
+                                              </div>
+                                              <label for="">Objetivo</label>
+                                              <input id="intermediateLabel" type="text" placeholder="Objetivo"
+                                                class="form-control" formControlName="intermediateLabel" />
+                                            </div>
+                                            <div class="form-group mb-2 col-2">
+                                              <label for="">Destinação Final</label>
+                                              <input id="finalLabel" type="text" placeholder="Destinação Final"
+                                                class="form-control" formControlName="final" />
+                                            </div>
+                                            <div class="form-group mb-2 col-2">
+                                              <label for="">Observações</label>
+                                              <textarea id="finalLabel" rows="3" placeholder="Observações"
+                                                class="form-control" formControlName="comments"></textarea>
+                                            </div>
+                                          </div>
+                                          <div class="card bg-light mb-12"
+                                            *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
+                                            <div class="card-body">
+                                              <label for="">Sub Grupos</label>
+                                              <br>
+                                              <div class="form-group" formArrayName="subgroups">
+                                                <div
+                                                  *ngFor="let subgroup of group.get('subgroups').controls; index as sg">
+                                                  <span>
+                                                    <button type="button" class="btn btn-danger btn-sm pull-right"
+                                                      (click)="removeSubGroup(subgroup, sg)">
+                                                      <i class="fa fa-trash"></i>
+                                                    </button>
+                                                    <br />
+                                                  </span>
+                                                  <div [formGroupName]="sg">
+                                                    <div class="form-row">
+                                                      <div class="form-group col-md-1">
+                                                        <label for="">Código</label>
+                                                        <input id="codTopic" type="text" placeholder="Código"
+                                                          class="form-control" formControlName="codTopic" />
+                                                      </div>
+                                                      <div class="form-group col-md-3">
+                                                        <label for="">Assunto</label>
+                                                        <textarea rows="3" placeholder="Assunto" class="form-control"
+                                                          formControlName="topic"></textarea>
+                                                      </div>
+                                                      <div class="form-group col-md-2">
+                                                        <label for="">Fase Corrente</label>
+                                                        <br>
+                                                        <div class="row col-12">
+                                                          <div class="col-lg-8">
+                                                            <input id="currentValue" type="number" placeholder="Anos"
+                                                              class="form-control" formControlName="currentValue" />
+                                                          </div>
+                                                          <div class="col-lg-4"
+                                                            style="display: flex; justify-content: center; align-items: center;">
+                                                            Anos
+                                                          </div>
+                                                        </div>
+                                                        <label for="">Objetivo</label>
+                                                        <input id="currentLabel" type="text" placeholder="Objetivo"
+                                                          class="form-control" formControlName="currentLabel" />
+                                                      </div>
+                                                      <div class="form-group mb-2 col-2">
+                                                        <label for="">Fase Intermediária</label>
+                                                        <br>
+                                                        <div class="row col-12">
+                                                          <div class="col-lg-8">
+                                                            <input id="intermediateValue" type="number"
+                                                              placeholder="Anos" class="form-control"
+                                                              formControlName="intermediateValue" />
+                                                          </div>
+                                                          <div class="col-lg-4"
+                                                            style="display: flex; justify-content: center; align-items: center;">
+                                                            Anos
+                                                          </div>
+                                                        </div>
+                                                        <label for="">Objetivo</label>
+                                                        <input id="intermediateLabel" type="text" placeholder="Objetivo"
+                                                          class="form-control" formControlName="intermediateLabel" />
+                                                      </div>
+                                                      <div class="form-group mb-2 col-2">
+                                                        <label for="">Destinação Final</label>
+                                                        <input id="finalLabel" type="text"
+                                                          placeholder="Destinação Final" class="form-control"
+                                                          formControlName="final" />
+                                                      </div>
+                                                      <div class="form-group mb-2 col-2">
+                                                        <label for="">Observações</label>
+                                                        <textarea id="finalLabel" rows="3" placeholder="Observações"
+                                                          class="form-control" formControlName="comments"></textarea>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <br />
+                    <button type="button" [routerLink]="['/documents-structur']" class="btn btn-default"
+                      style="float: right;margin-right: 10px;">Voltar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
