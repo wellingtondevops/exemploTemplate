@@ -92,7 +92,7 @@
                         </div>
                       </div>
                       <div>
-                        <button class="btn btn-sm btn-success" (click)="addSubClass(class)"><i
+                        <button class="btn btn-sm btn-success" type="button" (click)="addSubClass(class)"><i
                             class="fa fa-plus"></i>&emsp;SubClasse</button>
                         <br>
                       </div>
@@ -167,7 +167,7 @@
                                   </div>
                                 </div>
                                 <div>
-                                  <button class="btn btn-sm btn-success" (click)="addGroup(subclass)"><i
+                                  <button type="button" class="btn btn-sm btn-success" (click)="addGroup(subclass)"><i
                                       class="fa fa-plus"></i>&emsp;Grupo</button>
                                 </div>
                                 <div class="card bg-light mb-12" *ngIf="subclass.value.groups.length > 0">
@@ -241,7 +241,7 @@
                                             </div>
                                           </div>
                                           <div>
-                                            <button class="btn btn-sm btn-success" (click)="addSubGroup(group)"><i
+                                            <button type="button" class="btn btn-sm btn-success" (click)="addSubGroup(group)"><i
                                                 class="fa fa-plus"></i>&emsp;Sub Grupo</button>
                                           </div>
                                           <div class="card bg-light mb-12"
@@ -336,7 +336,7 @@
                     </div>
                   </div>
                   <br />
-                  <button class="btn btn-success" (click)="addClass()"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-success" type="button" (click)="addClass()"><i class="fa fa-plus"></i></button>
                   <div class="col-lg-12">
                     <br />
                     <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>

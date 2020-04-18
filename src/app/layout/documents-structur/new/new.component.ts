@@ -100,6 +100,7 @@ export class NewComponent implements OnInit {
 
   addClass(): void {
     this.classes = this.documentStructurForm.get('classes') as FormArray;
+    console.log(this.classes)
     this.classes.push(this.createClass());
   }
 
@@ -113,6 +114,7 @@ export class NewComponent implements OnInit {
   }
 
   addSubClass(classe): void {
+    console.log(classe)
     let classeN = classe.get('subclasses') as FormArray;
     classeN.push(this.createSubClass());
   }

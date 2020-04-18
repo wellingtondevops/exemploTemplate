@@ -85,7 +85,7 @@
                             formControlName="comments"></textarea>
                         </div>
                       </div>
-                      <div class="card bg-light mb-12" *ngIf="class.value.subclasses.length > 0">
+                      <div class="card bg-light mb-12" >
                         <div class="card-body">
                           <label for="">Sub Classes</label>
                           <br>
@@ -219,13 +219,6 @@
                                               <div class="form-group" formArrayName="subgroups">
                                                 <div
                                                   *ngFor="let subgroup of group.get('subgroups').controls; index as sg">
-                                                  <span>
-                                                    <button type="button" class="btn btn-danger btn-sm pull-right"
-                                                      (click)="removeSubGroup(subgroup, sg)">
-                                                      <i class="fa fa-trash"></i>
-                                                    </button>
-                                                    <br />
-                                                  </span>
                                                   <div [formGroupName]="sg">
                                                     <div class="form-row">
                                                       <div class="form-group col-md-1">
