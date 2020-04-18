@@ -6,11 +6,13 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { DocumentStructur } from 'src/app/models/document-structur';
 import * as moment from 'moment';
+import { routerTransition } from 'src/app/router.animations';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  styleUrls: ['./edit.component.scss'],
+  animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
   id: String;
@@ -134,30 +136,57 @@ export class EditComponent implements OnInit {
   }
 
   createGroup(item): FormGroup {
+    if(item){
+      return this.fb.group({
+        codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
+        topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
+        currentLabel: item.currentLabel ? item.currentLabel : '',
+        currentValue: item.currentValue ? item.currentValue : '',
+        intermediateLabel: item.intermediateLabel ? item.intermediateLabel : '',
+        intermediateValue: item.intermediateValue ? item.intermediateValue : '',
+        final: item.final ? item.final : '',
+        comments: item.comments ? item.comments : '',
+        subgroups: this.fb.array([])
+      });
+    }
     return this.fb.group({
-      codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
-      topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
-      currentLabel: item.currentLabel ? item.currentLabel : '',
-      currentValue: item.currentValue ? item.currentValue : '',
-      intermediateLabel: item.intermediateLabel ? item.intermediateLabel : '',
-      intermediateValue: item.intermediateValue ? item.intermediateValue : '',
-      final: item.final ? item.final : '',
-      comments: item.comments ? item.comments : '',
+      codTopic: this.fb.control('', Validators.required),
+      topic: this.fb.control('', Validators.required),
+      currentLabel: '',
+      currentValue: '',
+      intermediateLabel: '',
+      intermediateValue: '',
+      final: '',
+      comments: '',
       subgroups: this.fb.array([])
     });
+    
   }
 
   createSubGroup(item): FormGroup {
+    if(item){
+      return this.fb.group({
+        codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
+        topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
+        currentLabel: item.currentLabel ? item.currentLabel : '',
+        currentValue: item.currentValue ? item.currentValue : '',
+        intermediateLabel: item.intermediateLabel ? item.intermediateLabel : '',
+        intermediateValue: item.intermediateValue ? item.intermediateValue : '',
+        final: item.final ? item.final : '',
+        comments: item.comments ? item.comments : '',
+      });
+    }
     return this.fb.group({
-      codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
-      topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
-      currentLabel: item.currentLabel ? item.currentLabel : '',
-      currentValue: item.currentValue ? item.currentValue : '',
-      intermediateLabel: item.intermediateLabel ? item.intermediateLabel : '',
-      intermediateValue: item.intermediateValue ? item.intermediateValue : '',
-      final: item.final ? item.final : '',
-      comments: item.comments ? item.comments : '',
+      codTopic: this.fb.control('', Validators.required),
+      topic: this.fb.control('', Validators.required),
+      currentLabel: '',
+      currentValue: '',
+      intermediateLabel: '',
+      intermediateValue: '',
+      final: '',
+      comments: '',
     });
+    
   }
   
   addClassExist(item): void {
@@ -177,7 +206,7 @@ export class EditComponent implements OnInit {
 
   addSubGroupExist(c, s, g, subgroup): void {
     let classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups').controls[g].get('subgroups') as FormArray;
-    classeN.push(this.createGroup(subgroup));
+    classeN.push(this.createSubGroup(subgroup));
   }
 
   addClass(classe = null): void {
@@ -202,6 +231,7 @@ export class EditComponent implements OnInit {
 
   removeGroup(subclass, e) {
     var groups = <FormArray>subclass.controls['groups'];
+    console.log(groups)
     groups.removeAt(e)
   }
 
@@ -211,7 +241,9 @@ export class EditComponent implements OnInit {
   }
 
   removeSubGroup(group, e) {
+    console.log(group)
     var subgroups = <FormArray>group.controls['subgroups'];
+    console.log(subgroups)
     subgroups.removeAt(e)
   }
 

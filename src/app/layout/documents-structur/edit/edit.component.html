@@ -254,7 +254,7 @@
                                                   *ngFor="let subgroup of group.get('subgroups').controls; index as sg">
                                                   <span>
                                                     <button type="button" class="btn btn-danger btn-sm pull-right"
-                                                      (click)="removeSubGroup(subgroup, sg)">
+                                                      (click)="removeSubGroup(group, sg)">
                                                       <i class="fa fa-trash"></i>
                                                     </button>
                                                     <br />
