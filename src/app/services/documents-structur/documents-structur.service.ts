@@ -23,6 +23,10 @@ export class DocumentsStructurService {
     return this.http.get<DocumentStructur>(`${url}/templates/${id}`).pipe(tap(data => data));
   }
 
+  delete(id){
+    return this.http.delete<Document>(`${url}/templates/${id}`).pipe(tap(data => data));
+  }
+
   newDocumentStructur(formdata) {
     return this.http.post<DocumentStructur>(`${url}/templates`, formdata).pipe(tap(data => data));
   }

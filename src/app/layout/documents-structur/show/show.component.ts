@@ -8,7 +8,11 @@ import { DocumentStructur } from 'src/app/models/document-structur';
 import { routerTransition } from 'src/app/router.animations';
 import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
 import * as moment from 'moment';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
+const MODALS = {
+  focusFirst: NgbdModalConfirmComponent
+};
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
@@ -54,6 +58,7 @@ export class ShowComponent implements OnInit {
     this.documentStructurSrv.documentStructur(id).subscribe(data => {
       console.log(data)
       if (data._id) {
+        this.documentStructur = data;
         this.documentStructurForm.patchValue({
           _id: data._id,
           structureName: data.structureName,
@@ -152,4 +157,36 @@ export class ShowComponent implements OnInit {
     classeN.push(this.createGroup(subgroup));
   }
 
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Estrutura de Documento foi deletada com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar a estrutura de documento?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas a estrutura de documento serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe(item => {
+      this.delete(item);
+    });
+  }
+
+  editDocumentStructur(document) {
+    this._route.navigate(['/documents-structur/edit', document]);
+  }
+
+  delete(id) {
+    this.loading = true;
+    this.documentStructurSrv.delete(id).subscribe(
+      data => {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Estrutura de documento deletada com sucesso.');
+        this._route.navigate(['/documents-structur']);
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      }
+    );
+  }
 }
