@@ -65,6 +65,7 @@ export class ShowComponent implements OnInit {
   getArquive() {
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
+      console.log(data);
       this.picture(this.archive._id);
       this.loading = false;
     }, error => {
