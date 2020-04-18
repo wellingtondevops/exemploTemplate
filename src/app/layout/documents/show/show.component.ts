@@ -49,7 +49,6 @@ export class ShowComponent implements OnInit {
     private companiesSrv: CompaniesService,
   ) {
     this.loading = true;
-    console.log(this.loading)
     this.documentForm = this.fb.group({
       _id: '',
       company: this.fb.control({ value: '', disabled: true }, [Validators.required]),

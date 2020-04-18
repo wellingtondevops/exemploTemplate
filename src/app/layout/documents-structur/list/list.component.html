@@ -1,0 +1,13 @@
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Estrutura de Documentos'" [icon]="'fa-table'" [btnNew]="'Nova Estrutura de Documentos'"
+    [permissionBtnNew]="['DAENERYS']" [routerTo]="'/documents-structur/new'"></app-page-header>
+  <app-datatables [data]="documentsStructur" (setPage)="setPageDocumentsStructur($event)" (show)="getDocumentStructur($event)" [columns]="columns">
+  </app-datatables>
+</div>

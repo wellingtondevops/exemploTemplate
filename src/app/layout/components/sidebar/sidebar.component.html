@@ -84,6 +84,16 @@
           </li>
         </ul>
       </li>
+      <li class="nested" [class.expand]="showMenu === 'pages'">
+        <ul class="submenu">
+          <li>
+            <a [routerLink]="['/documents-structur']">
+              <i class="fa fa-monument"></i>&nbsp;
+              <span>{{ 'Estrutura de Documentos' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
     </div>
   </div>
 
