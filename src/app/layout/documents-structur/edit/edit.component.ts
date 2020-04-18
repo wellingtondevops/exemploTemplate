@@ -37,10 +37,11 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {
     this.documentStructurForm = this.fb.group({
+      _id: this.fb.control(''),
       structureName: this.fb.control('', Validators.required),
-      classes: this.fb.array(this.classes)
+      classes: this.fb.array(this.classes),
+      dateCreated: this.fb.control('')
     });
-    // this.addClass();
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocumentStructur(this.id);
@@ -48,7 +49,6 @@ export class EditComponent implements OnInit {
 
   getDocumentStructur(id) {
     this.documentStructurSrv.documentStructur(id).subscribe(data => {
-      console.log(data)
       if (data._id) {
         this.documentStructur = data;
         this.documentStructurForm.patchValue({
@@ -241,9 +241,7 @@ export class EditComponent implements OnInit {
   }
 
   removeSubGroup(group, e) {
-    console.log(group)
     var subgroups = <FormArray>group.controls['subgroups'];
-    console.log(subgroups)
     subgroups.removeAt(e)
   }
 
@@ -252,13 +250,13 @@ export class EditComponent implements OnInit {
     this.subgroups.push(this.createSubGroup(null));
   }
 
-  postDocumentStructur() {
+  updateDocumentStructur() {
     this.loading = true;
     console.log(this.documentStructurForm.value)
-    this.documentStructurSrv.newDocumentStructur(this.documentStructurForm.value).subscribe(res => {
+    this.documentStructurSrv.update(this.documentStructurForm.value).subscribe(res => {
       if (res._id) {
         this.loading = false;
-        this.successMsgSrv.successMessages('Estrutura documental criada com sucesso.');
+        this.successMsgSrv.successMessages('Estrutura documental atualizada com sucesso.');
         this._route.navigate(['/documents-structur']);
       }
     }, error => {
