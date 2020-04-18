@@ -12,22 +12,22 @@ const routes: Routes = [
   {
     path: '',
     component: ListComponent,
-    canActivate: [DaenerysTywinGuard]
+    canActivate: [DaenerysGuard]
   },
   {
     path: 'get/:id',
     component: ShowComponent,
-    canActivate: [DaenerysTywinGuard]
+    canActivate: [DaenerysGuard]
   },
   {
     path: 'new',
     component: NewComponent,
-    /* canActivate: [DaenerysGuard] */
+    canActivate: [DaenerysGuard]
   },
   {
     path: 'edit/:id',
     component: EditComponent,
-    /* canActivate: [DaenerysGuard] */
+    canActivate: [DaenerysGuard]
   },
 ];
 
