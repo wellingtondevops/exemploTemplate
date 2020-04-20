@@ -28,7 +28,7 @@ export class DocumentsStructurService {
   }
 
   update(documentStructur){
-    return this.http.put<DocumentStructur>(`${url}/templates/${documentStructur._id}`, documentStructur).pipe(tap(data => data));
+    return this.http.patch<DocumentStructur>(`${url}/templates/${documentStructur._id}`, documentStructur).pipe(tap(data => data));
   }
 
   newDocumentStructur(formdata) {
