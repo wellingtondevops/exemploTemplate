@@ -36,8 +36,12 @@
   </div>
   <br>
   <div class="row">
+    <div class="col-lg-4">
+      <h5 style="text-align: center;">Fases</h5>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-lg-4" style="display: flex;">
-      <h5>Fases</h5>
       <div class="col-xs-4">
         <div class="card bg-light">
           <div class="card-header">
@@ -55,8 +59,10 @@
             Intermediária
           </div>
           <div class="card-body">
-            <label *ngIf="archive && archive.startDateIntermediate">Início: {{returnDate(archive.startDateIntermediate)}}</label>
-            <label *ngIf="archive && archive.finalDateIntermediate">Fim: {{returnDate(archive.finalDateIntermediate)}}</label>
+            <label *ngIf="archive && archive.startDateIntermediate">Início:
+              {{returnDate(archive.startDateIntermediate)}}</label>
+            <label *ngIf="archive && archive.finalDateIntermediate">Fim:
+              {{returnDate(archive.finalDateIntermediate)}}</label>
           </div>
         </div>
       </div>
@@ -67,7 +73,8 @@
           </div>
           <div class="card-body">
             <label *ngIf="archive && archive.finalFase">{{archive.finalFase}}</label>
-            <label *ngIf="archive && archive.finalDateIntermediate">Início: {{returnDate(archive.finalDateIntermediate)}}</label>
+            <label *ngIf="archive && archive.finalDateIntermediate">Início:
+              {{returnDate(archive.finalDateIntermediate)}}</label>
           </div>
         </div>
       </div>
