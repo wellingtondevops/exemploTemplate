@@ -43,8 +43,8 @@
             Fase Corrente
           </div>
           <div class="card-body">
-            <label *ngIf="archive && archive.startDateCurrent">Início: {{archive.startDateCurrent}}</label>
-            <label *ngIf="archive && archive.finalDateCurrent">Fim: {{archive.finalDateCurrent}}</label>
+            <label *ngIf="archive && archive.startDateCurrent">Início: {{returnDate(archive.startDateCurrent)}}</label>
+            <label *ngIf="archive && archive.finalDateCurrent">Fim: {{returnDate(archive.finalDateCurrent)}}</label>
           </div>
         </div>
       </div>
@@ -54,8 +54,8 @@
             Fase Intermediária
           </div>
           <div class="card-body">
-            <label *ngIf="archive && archive.startDateIntermediate">Início: {{archive.startDateIntermediate}}</label>
-            <label *ngIf="archive && archive.finalDateIntermediate">Fim: {{archive.finalDateIntermediate}}</label>
+            <label *ngIf="archive && archive.startDateIntermediate">Início: {{returnDate(archive.startDateIntermediate)}}</label>
+            <label *ngIf="archive && archive.finalDateIntermediate">Fim: {{returnDate(archive.finalDateIntermediate)}}</label>
           </div>
         </div>
       </div>
@@ -65,8 +65,8 @@
             Dest. Final
           </div>
           <div class="card-body">
-            <label *ngIf="archive && archive.finalFase">{{archive.finalFase}}</label>
-            <label *ngIf="archive && archive.finalDateIntermediate">Início: {{archive.finalDateIntermediate}}</label>
+            <label *ngIf="archive && archive.finalFase">{{returnDate(archive.finalFase)}}</label>
+            <label *ngIf="archive && archive.finalDateIntermediate">Início: {{returnDate(archive.finalDateIntermediate)}}</label>
           </div>
         </div>
       </div>
