@@ -75,10 +75,10 @@
   <br>
   <div class="row" *ngIf="!loading">
     <div class="col-4">
-      <p style="font-size:12px">{{archive.sponsor.name}}</p>
-      <p style="font-size:12px">{{archive.sponsor.cnpj}}</p>
-      <p style="font-size:12px">Autor: {{archive.author.email}}</p>
-      <p style="font-size:12px">Data da criação: {{returnDateCreate(archive.create)}}</p>
+      {{archive.sponsor.name}}<br>
+      {{archive.sponsor.cnpj}}<br>
+      Autor: {{archive.author.email}}<br>
+      Data da criação: {{returnDateCreate(archive.create)}}
     </div>
   </div>
 </div>
