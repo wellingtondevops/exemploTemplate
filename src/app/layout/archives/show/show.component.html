@@ -35,24 +35,50 @@
     </div>
   </div>
   <br>
-  <div class="row" *ngIf="!loading">
-    <div class="col-4">
-      <div class="card bg-light mb-12">
-        <div class="card-body">
-          <div class="col-12">
-            <form [formGroup]="archiveCreateForm" role="FormGroup" >
-              <div class="form-group">
-                <label for="">Indexado por</label>
-                <input class="form-control"  formControlName="indexBy" readonly />
-              </div>
-              <div class="form-group">
-                <label for="">Em</label>
-                <input class="form-control" formControlName="create" readonly />
-              </div>
-            </form>
+  <div class="row">
+    <div class="col-lg-4" style="display: flex;">
+      <div class="col-xs-4">
+        <div class="card bg-light">
+          <div class="card-header">
+            Fase Corrente
+          </div>
+          <div class="card-body">
+            <label *ngIf="archive && archive.startDateCurrent">Início: {{archive.startDateCurrent}}</label>
+            <label *ngIf="archive && archive.finalDateCurrent">Fim: {{archive.finalDateCurrent}}</label>
           </div>
         </div>
       </div>
+      <div class="col-xs-4">
+        <div class="card bg-light">
+          <div class="card-header">
+            Fase Intermediária
+          </div>
+          <div class="card-body">
+            <label *ngIf="archive && archive.startDateIntermediate">Início: {{archive.startDateIntermediate}}</label>
+            <label *ngIf="archive && archive.finalDateIntermediate">Fim: {{archive.finalDateIntermediate}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="card bg-light">
+          <div class="card-header">
+            Dest. Final
+          </div>
+          <div class="card-body">
+            <label *ngIf="archive && archive.finalFase">{{archive.finalFase}}</label>
+            <label *ngIf="archive && archive.finalDateIntermediate">Início: {{archive.finalDateIntermediate}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="!loading">
+    <div class="col-4">
+      <p style="font-size:12px">{{archive.sponsor.name}}</p>
+      <p style="font-size:12px">{{archive.sponsor.cnpj}}</p>
+      <p style="font-size:12px">Autor: {{archive.author.email}}</p>
+      <p style="font-size:12px">Data da criação: {{returnDateCreate(archive.create)}}</p>
     </div>
   </div>
 </div>
