@@ -9,8 +9,7 @@
   <app-page-header *ngIf="!loading" [heading]="'Arquivo'" [icon]="'fa-user'"></app-page-header>
   <div style="margin-bottom: 10px" *ngIf="!loading">
     <app-button-back [redirectTo]="'archives'"></app-button-back>
-    <app-buttons-custom [id]="archive._id" [permissionEdit]="['DAENERYS']"
-      [permissionDelete]="['DAENERYS']">
+    <app-buttons-custom [id]="archive._id" [permissionEdit]="['DAENERYS']" [permissionDelete]="['DAENERYS']">
     </app-buttons-custom>
     <br />
   </div>
@@ -31,7 +30,29 @@
           </app-form-upload>
         </div>
       </form>
-        <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload"></app-modal-progress-right-bottom>
+      <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+      </app-modal-progress-right-bottom>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="!loading">
+    <div class="col-4">
+      <div class="card bg-light mb-12">
+        <div class="card-body">
+          <div class="col-12">
+            <form [formGroup]="archiveCreateForm" role="FormGroup" >
+              <div class="form-group">
+                <label for="">Indexado por</label>
+                <input class="form-control"  formControlName="indexBy" readonly />
+              </div>
+              <div class="form-group">
+                <label for="">Em</label>
+                <input class="form-control" formControlName="create" readonly />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

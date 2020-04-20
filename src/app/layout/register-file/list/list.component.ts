@@ -279,6 +279,7 @@ export class ListComponent implements OnInit {
       pageNumber: 0
     }
     this.registerSrv.listregister(volume_id, page).subscribe(data => {
+      console.log(data.items)
       this.registers = this.newRegisters(data.items);
       if (this.registers.length !== 0) {
         this.getDoctype(this.registers[0].doct._id);

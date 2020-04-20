@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { Archive } from 'src/app/models/archive';
-import { Validators, FormControl, FormGroup } from '@angular/forms';
+import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { FilesService } from 'src/app/services/files/files.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
@@ -10,6 +10,8 @@ import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import * as $ from 'jquery';
+import * as moment from 'moment';
+import { routerTransition } from 'src/app/router.animations';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -18,7 +20,8 @@ const MODALS = {
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss']
+  styleUrls: ['./show.component.scss'],
+  animations: [routerTransition()]
 })
 export class ShowComponent implements OnInit {
   progressModal = {
@@ -34,6 +37,7 @@ export class ShowComponent implements OnInit {
   file: any = '';
   savedFile: boolean = false;
   height: number = 0;
+  archiveCreateForm: FormGroup;
   @ViewChild("content") content: TemplateRef<any>;
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
@@ -52,11 +56,17 @@ export class ShowComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private modalService: NgbModal,
+    private fb: FormBuilder,
   ) { }
 
 
 
   ngOnInit() {
+    this.archiveCreateForm = this.fb.group({
+      create: this.fb.control(''),
+      createBy: this.fb.control(''),
+      indexBy: this.fb.control('')
+    });
     this.height = $("nav.sidebar").height()
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
@@ -65,7 +75,11 @@ export class ShowComponent implements OnInit {
   getArquive() {
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
-      console.log(data);
+      this.archiveCreateForm.patchValue({
+        create: moment(data.create).format('DD/MM/YYYY hh:mm'),
+        indexBy: data.author.email
+        //createBy: data.sponsor.name
+      })
       this.picture(this.archive._id);
       this.loading = false;
     }, error => {

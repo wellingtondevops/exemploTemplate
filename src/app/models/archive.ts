@@ -22,6 +22,19 @@ export class Archive {
   doct: Doctype;
   tag: string[];
   create: string;
+  author: Author;
+  sponsor: Sponsor;
+}
+
+class Author {
+  _id: string;
+  email: string;
+}
+
+class Sponsor {
+  _id: string;
+  name: string;
+  cnpj: string;
 }
 
 export class ArchivesList {
