@@ -37,10 +37,11 @@
   <br>
   <div class="row">
     <div class="col-lg-4" style="display: flex;">
+      <h5>Fases</h5>
       <div class="col-xs-4">
         <div class="card bg-light">
           <div class="card-header">
-            Fase Corrente
+            Corrente
           </div>
           <div class="card-body">
             <label *ngIf="archive && archive.startDateCurrent">Início: {{returnDate(archive.startDateCurrent)}}</label>
@@ -51,7 +52,7 @@
       <div class="col-xs-4">
         <div class="card bg-light">
           <div class="card-header">
-            Fase Intermediária
+            Intermediária
           </div>
           <div class="card-body">
             <label *ngIf="archive && archive.startDateIntermediate">Início: {{returnDate(archive.startDateIntermediate)}}</label>
