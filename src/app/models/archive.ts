@@ -24,6 +24,11 @@ export class Archive {
   create: string;
   author: Author;
   sponsor: Sponsor;
+  startDateCurrent: string;
+  finalDateCurrent: string;
+  startDateIntermediate: string;
+  finalDateIntermediate: string;
+  finalFase: string;
 }
 
 class Author {
