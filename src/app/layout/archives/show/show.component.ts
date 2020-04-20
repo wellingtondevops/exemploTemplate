@@ -72,6 +72,10 @@ export class ShowComponent implements OnInit {
     this.getArquive();
   }
 
+  returnDateCreate(create){
+    return moment(create).format('DD/MM/YYYY hh:mm')
+  }
+
   getArquive() {
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
