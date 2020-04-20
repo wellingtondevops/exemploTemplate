@@ -7,14 +7,15 @@ import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import _ from 'lodash';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-list',
@@ -24,6 +25,9 @@ import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-m
 })
 export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
+  @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
+  @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
+  @ViewChild('instanceStorehouse') instanceStorehouse: NgbTypeahead;
   archives: Archive[];
   archivesCol: any[];
   page = new Page();
@@ -35,6 +39,13 @@ export class ListComponent implements OnInit {
   departaments: any = [];
   storehouses: any = [];
   documents: any = [];
+  document: any;
+  focusDepartament$ = new Subject<string>();
+  clickDepartament$ = new Subject<string>();
+  focusDocument$ = new Subject<string>();
+  clickDocument$ = new Subject<string>();
+  focusStorehouse$ = new Subject<string>();
+  clickStorehouse$ = new Subject<string>();
 
   constructor(
     private archiveSrv: ArquivesService,
@@ -120,7 +131,8 @@ export class ListComponent implements OnInit {
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
-      this.archives = data.items;
+      var resultWithIndex = this.newRegisters(data.items);
+      this.archives = resultWithIndex;
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -140,9 +152,12 @@ export class ListComponent implements OnInit {
   showView(value) {
     if (value.type === 'click') {
       this._route.navigate(['/archives/get', value.row._id]);
+    }
+    /* if (value.type === 'click') {
+      this._route.navigate(['/archives/get', value.row._id]);
     } else if (value.type === 'mouseenter') {
       this.toggleExpandRow(value.row)
-    }
+    } */
   }
 
   guardType(value) {
@@ -156,7 +171,7 @@ export class ListComponent implements OnInit {
   }
 
   getArchive() {
-    if(this.searchForm.value.company){
+    if (this.searchForm.value.company) {
       this.setPage({ offset: 0 })
     }
   }
@@ -204,21 +219,16 @@ export class ListComponent implements OnInit {
     );
   }
 
-  searchDepartament = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(departament => {
-        if (this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined') {
-          this.warningMsg.showWarning('Selecione uma empresa.', 4000);
-          return
-        };
-        var res;
-        if (departament.length < 2) [];
-        else res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
-        return res;
-      })
-    );
+  searchDepartament = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickDepartament$.pipe(filter(() => !this.instanceDepartament.isPopupOpen()));
+    const inputFocus$ = this.focusDepartament$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(departament => (departament === '' ? this.departaments
+        : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+      )))
+  }
 
   getStoreHouses() {
     this.storehousesSrv.searchStorehouses().subscribe(
@@ -233,7 +243,18 @@ export class ListComponent implements OnInit {
     );
   }
 
-  searchStorehouse = (text$: Observable<string>) =>
+  searchStorehouse = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickStorehouse$.pipe(filter(() => !this.instanceStorehouse.isPopupOpen()));
+    const inputFocus$ = this.focusStorehouse$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(storehouse => (storehouse === '' ? this.storehouses
+        : _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+      )))
+  }
+
+  /* searchStorehouse = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -243,7 +264,7 @@ export class ListComponent implements OnInit {
         else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
-    );
+    ); */
 
   getDocuments(company_id) {
     this.documentsSrv.searchDocuments(company_id).subscribe(
@@ -258,7 +279,18 @@ export class ListComponent implements OnInit {
     );
   }
 
-  searchDocument = (text$: Observable<string>) =>
+  searchDocument = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickDocument$.pipe(filter(() => !this.instanceDocument.isPopupOpen()));
+    const inputFocus$ = this.focusDocument$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(document => (document === '' ? this.documents
+        : _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10)
+      )))
+  }
+
+/*   searchDocument = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -268,7 +300,26 @@ export class ListComponent implements OnInit {
         else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
         return res;
       })
-    );
+    ); */
+
+  newRegisters(registers) {
+    registers.map(item => {
+      item.index = this.mapLabel(item.doct.label, item.tag);
+    })
+    return registers
+  }
+
+  mapLabel(labels, tags) {
+    var obj = ''
+    labels.map((item, i) => {
+      if (i === (labels.length - 1)) {
+        obj += `${item.namefield}: ${tags[i]}`
+      } else {
+        obj += `${item.namefield}: ${tags[i]} | `
+      }
+    })
+    return obj
+  }
 }
 
 @Pipe({
