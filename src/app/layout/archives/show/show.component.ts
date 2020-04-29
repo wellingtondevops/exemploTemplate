@@ -80,6 +80,19 @@ export class ShowComponent implements OnInit {
     return moment(create).format('DD/MM/YYYY')
   }
 
+  setStartCurrentDate(){
+    this.loading = true;
+    this.archiveSrv.patchStartCurrentDate(this.id).subscribe(res => {
+      console.log(res)
+      this.loading = false;
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log("ERROR ", error)
+    })
+  }
+  
+
   getArquive() {
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
