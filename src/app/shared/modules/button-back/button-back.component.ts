@@ -18,4 +18,5 @@ export class ButtonBackComponent {
         this._route.navigate([`/${this.redirectTo}`]);
     }
 
+
 }
