@@ -59,12 +59,9 @@ export class ShowComponent implements OnInit {
     private fb: FormBuilder,
   ) { }
 
-
-
   ngOnInit() {
     this.archiveCreateForm = this.fb.group({
       create: this.fb.control(''),
-      createBy: this.fb.control(''),
       indexBy: this.fb.control('')
     });
     this.height = $("nav.sidebar").height()
@@ -80,13 +77,26 @@ export class ShowComponent implements OnInit {
     return moment(create).format('DD/MM/YYYY')
   }
 
+  setStartCurrentDate(){
+    this.loading = true;
+    this.archiveSrv.patchStartCurrentDate(this.id).subscribe(res => {
+      this.getArquive();
+      this.loading = false;
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log("ERROR ", error)
+    })
+  }
+  
+
   getArquive() {
+    this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
       this.archiveCreateForm.patchValue({
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),
         indexBy: data.author.email
-        //createBy: data.sponsor.name
       })
       this.picture(this.archive._id);
       this.loading = false;
