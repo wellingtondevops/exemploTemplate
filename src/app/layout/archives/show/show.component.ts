@@ -59,8 +59,6 @@ export class ShowComponent implements OnInit {
     private fb: FormBuilder,
   ) { }
 
-
-
   ngOnInit() {
     this.archiveCreateForm = this.fb.group({
       create: this.fb.control(''),
