@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit {
     }
 
     isAdmin() {
-        var res = false;
+        let res = false;
         JSON.parse(window.localStorage.getItem('profiles')).map(item => {
             if (item === 'DAENERYS') {
                 res = true;
@@ -51,8 +51,8 @@ export class SidebarComponent implements OnInit {
         return res;
     }
 
-    isSnow(){
-        var res = false;
+    isSnow() {
+        let res = false;
         JSON.parse(window.localStorage.getItem('profiles')).map(item => {
             if (item === 'SNOW') {
                 res = true;
@@ -62,7 +62,7 @@ export class SidebarComponent implements OnInit {
     }
 
     isTywin() {
-        var res = false;
+        let res = false;
         JSON.parse(window.localStorage.getItem('profiles')).map(item => {
             if (item === 'TYWIN') {
                 res = true;

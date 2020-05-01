@@ -1,4 +1,4 @@
-import { FormControl } from "@angular/forms";
+import { FormControl } from '@angular/forms';
 
 export function requiredFileType( type: string ) {
   return function (control: FormControl) {
@@ -10,7 +10,7 @@ export function requiredFileType( type: string ) {
           requiredFileType: true
         };
       }
-      
+
       return null;
     }
 

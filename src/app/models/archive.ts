@@ -1,5 +1,5 @@
-import { Doctype } from "./doctype";
-import { Departament } from "./departament";
+import { Doctype } from './doctype';
+import { Departament } from './departament';
 
 export class Archive {
   _links: {

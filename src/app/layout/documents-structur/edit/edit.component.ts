@@ -57,21 +57,21 @@ export class EditComponent implements OnInit {
           classes: data.classes,
           dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
         });
-        let classes = data.classes;
+        const classes = data.classes;
         classes.map((classe, i) => {
-          this.addClassExist(classe)
+          this.addClassExist(classe);
           classe.subclasses.map((subclasse, s) => {
             this.addSubClassExist(i, subclasse);
             subclasse.groups.map((group, g) => {
               this.addGroupExist(i, s, group);
               group.subgroups.map((subgroup, sg) => {
-                this.addSubGroupExist(i, s, g, subgroup)
-              })
-            })
-          })
-        })
+                this.addSubGroupExist(i, s, g, subgroup);
+              });
+            });
+          });
+        });
       }
-    })
+    });
   }
 
   get structureName() {
@@ -79,7 +79,7 @@ export class EditComponent implements OnInit {
   }
 
   createClass(item = null): FormGroup {
-    if(item){
+    if (item) {
       return this.fb.group({
         codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
         topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
@@ -104,11 +104,11 @@ export class EditComponent implements OnInit {
       comments: '',
       subclasses: this.fb.array([])
     });
-    
+
   }
 
   createSubClass(item = null): FormGroup {
-    if(item) {
+    if (item) {
       return this.fb.group({
         codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
         topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
@@ -132,11 +132,11 @@ export class EditComponent implements OnInit {
       comments: '',
       groups: this.fb.array([])
     });
-   
+
   }
 
   createGroup(item): FormGroup {
-    if(item){
+    if (item) {
       return this.fb.group({
         codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
         topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
@@ -160,11 +160,11 @@ export class EditComponent implements OnInit {
       comments: '',
       subgroups: this.fb.array([])
     });
-    
+
   }
 
   createSubGroup(item): FormGroup {
-    if(item){
+    if (item) {
       return this.fb.group({
         codTopic: this.fb.control(item.codTopic ? item.codTopic : '', Validators.required),
         topic: this.fb.control(item.topic ? item.topic : '', Validators.required),
@@ -186,26 +186,26 @@ export class EditComponent implements OnInit {
       final: '',
       comments: '',
     });
-    
+
   }
-  
+
   addClassExist(item): void {
     this.classes = this.documentStructurForm.get('classes') as FormArray;
     this.classes.push(this.createClass(item));
   }
 
   addSubClassExist(i, subclass = null): void {
-    let classeN = this.classes.controls[i].get('subclasses') as FormArray;
+    const classeN = this.classes.controls[i].get('subclasses') as FormArray;
     classeN.push(this.createSubClass(subclass));
   }
 
   addGroupExist(c, s, group): void {
-    let classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups') as FormArray;
+    const classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups') as FormArray;
     classeN.push(this.createGroup(group));
   }
 
   addSubGroupExist(c, s, g, subgroup): void {
-    let classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups').controls[g].get('subgroups') as FormArray;
+    const classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups').controls[g].get('subgroups') as FormArray;
     classeN.push(this.createSubGroup(subgroup));
   }
 
@@ -219,20 +219,20 @@ export class EditComponent implements OnInit {
   }
 
   removeSubClass(classe, e) {
-    var subclasses = <FormArray>classe.controls['subclasses'];
-    subclasses.removeAt(e)
+    const subclasses = <FormArray>classe.controls['subclasses'];
+    subclasses.removeAt(e);
   }
 
   addSubClass(classe): void {
-    console.log(classe)
-    let classeN = classe.get('subclasses') as FormArray;
+    console.log(classe);
+    const classeN = classe.get('subclasses') as FormArray;
     classeN.push(this.createSubClass(null));
   }
 
   removeGroup(subclass, e) {
-    var groups = <FormArray>subclass.controls['groups'];
-    console.log(groups)
-    groups.removeAt(e)
+    const groups = <FormArray>subclass.controls['groups'];
+    console.log(groups);
+    groups.removeAt(e);
   }
 
   addGroup(e): void {
@@ -241,8 +241,8 @@ export class EditComponent implements OnInit {
   }
 
   removeSubGroup(group, e) {
-    var subgroups = <FormArray>group.controls['subgroups'];
-    subgroups.removeAt(e)
+    const subgroups = <FormArray>group.controls['subgroups'];
+    subgroups.removeAt(e);
   }
 
   addSubGroup(e): void {
@@ -252,7 +252,7 @@ export class EditComponent implements OnInit {
 
   updateDocumentStructur() {
     this.loading = true;
-    console.log(this.documentStructurForm.value)
+    console.log(this.documentStructurForm.value);
     this.documentStructurSrv.update(this.documentStructurForm.value).subscribe(res => {
       if (res._id) {
         this.loading = false;
@@ -263,7 +263,7 @@ export class EditComponent implements OnInit {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    })
+    });
   }
 
 }

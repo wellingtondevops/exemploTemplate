@@ -55,12 +55,12 @@ export class ListComponent implements OnInit {
         this._route.navigate(['/companies/get', company._id]);
     }
 
-    getCompanies(){
-        this.setPageCompanies({ offset: 0 })
+    getCompanies() {
+        this.setPageCompanies({ offset: 0 });
     }
 
-    setPageCompanies(pageInfo){
-        this.loading = true 
+    setPageCompanies(pageInfo) {
+        this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
         this.companiesSrv.searchCompany(this.searchForm.value, this.page).subscribe(data => {
@@ -70,7 +70,7 @@ export class ListComponent implements OnInit {
             this.companies = data;
             this.loading = false;
         }, error => {
-            console.log('ERROR: ', error)
+            console.log('ERROR: ', error);
             this.loading = false;
         });
     }
@@ -93,7 +93,7 @@ export class ListComponent implements OnInit {
     } */
 
     setPage(pageInfo) {
-        this.loading = true 
+        this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
         this.companiesSrv.companies(this.page).subscribe(data => {
@@ -103,7 +103,7 @@ export class ListComponent implements OnInit {
             this.companies = data;
             this.loading = false;
         }, error => {
-            console.log('ERROR: ', error)
+            console.log('ERROR: ', error);
             this.loading = false;
         });
     }

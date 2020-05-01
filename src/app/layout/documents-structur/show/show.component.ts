@@ -48,7 +48,7 @@ export class ShowComponent implements OnInit {
       structureName: this.fb.control({ value: '', disabled: true }),
       classes: this.fb.array([]),
       dateCreated: this.fb.control('')
-    })
+    });
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocumentStructur(this.id);
@@ -56,7 +56,7 @@ export class ShowComponent implements OnInit {
 
   getDocumentStructur(id) {
     this.documentStructurSrv.documentStructur(id).subscribe(data => {
-      console.log(data)
+      console.log(data);
       if (data._id) {
         this.documentStructur = data;
         this.documentStructurForm.patchValue({
@@ -65,21 +65,21 @@ export class ShowComponent implements OnInit {
           classes: data.classes,
           dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
         });
-        let classes = data.classes;
+        const classes = data.classes;
         classes.map((classe, i) => {
-          this.addClass(classe)
+          this.addClass(classe);
           classe.subclasses.map((subclasse, s) => {
             this.addSubClass(i, subclasse);
             subclasse.groups.map((group, g) => {
               this.addGroup(i, s, group);
               group.subgroups.map((subgroup, sg) => {
-                this.addSubGroup(i, s, g, subgroup)
-              })
-            })
-          })
-        })
+                this.addSubGroup(i, s, g, subgroup);
+              });
+            });
+          });
+        });
       }
-    })
+    });
   }
 
   createClass(item): FormGroup {
@@ -143,17 +143,17 @@ export class ShowComponent implements OnInit {
   }
 
   addSubClass(i, subclass = null): void {
-    let classeN = this.classes.controls[i].get('subclasses') as FormArray;
+    const classeN = this.classes.controls[i].get('subclasses') as FormArray;
     classeN.push(this.createSubClass(subclass));
   }
 
   addGroup(c, s, group): void {
-    let classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups') as FormArray;
+    const classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups') as FormArray;
     classeN.push(this.createGroup(group));
   }
 
   addSubGroup(c, s, g, subgroup): void {
-    let classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups').controls[g].get('subgroups') as FormArray;
+    const classeN = this.classes.controls[c].get('subclasses').controls[s].get('groups').controls[g].get('subgroups') as FormArray;
     classeN.push(this.createGroup(subgroup));
   }
 

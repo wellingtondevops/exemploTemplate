@@ -24,12 +24,12 @@ const MODALS = {
 export class FormUploadComponent implements ControlValueAccessor {
   @Input() archive;
   @Input() savedFile;
-  progress: boolean = true;
+  progress = true;
   onChange: Function;
   file: File | null = null;
   url: any = '';
   urlFile: any = '';
-  isPdf: boolean = false;
+  isPdf = false;
   urlGoogle: any;
   @Output() postFile = new EventEmitter();
   @Output() deleteFile = new EventEmitter();
@@ -47,25 +47,25 @@ export class FormUploadComponent implements ControlValueAccessor {
     const file = event && event.item(0);
     if (!file.name.match(/\.(JPG|JPEG|TIFF|PNG|TIF|PJPEG|PDF|GIF|jpg|jpeg|png|tiff|pjpeg|pdf|gif|tif)$/)) {
       this.removeFile();
-      var error = {
+      const error = {
         status: 404,
         message: 'Formato de arquivo não suportado.'
-      }
+      };
       this.errorMsg.showError(error);
-      
+
     } else {
       this.onChange(file);
       this.file = file;
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(event[0]); // read file as data url
-  
+
       reader.onload = (event) => { // called once readAsDataURL is completed
         this.url = event.currentTarget;
         this.url = this.url.result;
-  
-      }
+
+      };
     }
- 
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -76,7 +76,7 @@ export class FormUploadComponent implements ControlValueAccessor {
         this.file = change.currentValue;
         this.urlFile = change.currentValue.url;
         this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
-        var url = `https://docs.google.com/viewer?url=${this.archive.url}&embedded=true`;
+        const url = `https://docs.google.com/viewer?url=${this.archive.url}&embedded=true`;
         console.log(url);
         this.urlGoogle = this.sanitizer.bypassSecurityTrustResourceUrl(url);
         console.log('urlGoogle', this.urlGoogle);
@@ -99,20 +99,20 @@ export class FormUploadComponent implements ControlValueAccessor {
 
   saveFile() {
     this.progress = true;
-    this.postFile.emit(this.file)
+    this.postFile.emit(this.file);
   }
 
-  deletFile(){
+  deletFile() {
     console.log('deletFile');
     console.log(this.file);
-    this.deleteFile.emit(this.file)
+    this.deleteFile.emit(this.file);
   }
 
-  removeFile(){
+  removeFile() {
     this.host.nativeElement.value = '';
     this.file = null;
     this.url = null;
     this.nameFile = null;
   }
-  
+
 }

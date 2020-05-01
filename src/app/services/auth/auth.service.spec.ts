@@ -11,8 +11,16 @@ describe('LoginService', () => {
     }
   ));
 
-  it('should be created', () => {
+  it('should be login user', () => {
     const service: AuthService = TestBed.get(AuthService);
-    expect(service).toBeTruthy();
+    let logged = false;
+    service.login({email: 'gedearchive@gmail.com', password: '1c922d'}).subscribe(res => {
+      if (res.accessToken) {
+        logged = true;
+      }
+    }, error => {
+
+    });
+    expect(logged).toBeTruthy();
   });
 });

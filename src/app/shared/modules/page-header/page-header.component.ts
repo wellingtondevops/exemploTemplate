@@ -19,14 +19,14 @@ export class PageHeaderComponent implements OnInit {
     constructor() {
     }
 
-    ngOnInit(){
+    ngOnInit() {
     }
 
-    permissionOfBtnNew(){
-        var res: Boolean = false;
-        for(var item in this.permissionBtnNew){
+    permissionOfBtnNew() {
+        let res: Boolean = false;
+        for (const item in this.permissionBtnNew) {
             JSON.parse(localStorage.getItem('profiles')).forEach(element => {
-                if(element === this.permissionBtnNew[item]) {
+                if (element === this.permissionBtnNew[item]) {
                     res = true;
                     return;
                 }

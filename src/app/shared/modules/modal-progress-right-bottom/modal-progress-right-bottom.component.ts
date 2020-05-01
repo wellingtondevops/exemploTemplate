@@ -8,27 +8,27 @@ import * as $ from 'jquery';
 })
 export class ModalProgressRightBottomComponent implements OnInit {
   @Input() progress: any;
-  returnColorProgress: string = 'primary'
+  returnColorProgress = 'primary';
   closeResult: string;
-  first: boolean = false;
-  @Input() error: boolean = false;
+  first = false;
+  @Input() error = false;
 
   constructor() { }
 
   ngOnInit() {
     $(document).ready(function () {
       // var $modal = $('#right-bottom');
-      $(".cus-modal").click(function () {
-        $('body').removeClass('cus-modal-open')
-        $(".in").removeClass("in");
-      })
+      $('.cus-modal').click(function () {
+        $('body').removeClass('cus-modal-open');
+        $('.in').removeClass('in');
+      });
     });
   }
 
   openModal() {
     $('body').addClass('cus-modal-open');
-    var target = "#right-bottom";
-    $("#" + $(target).addClass("in"));
+    const target = '#right-bottom';
+    $('#' + $(target).addClass('in'));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -36,13 +36,13 @@ export class ModalProgressRightBottomComponent implements OnInit {
     for (const propName in changes) {
       const change = changes[propName];
       if (this.error) {
-        this.returnColorProgress = 'danger'
+        this.returnColorProgress = 'danger';
       }
       if (this.progress.message === 100 && !this.error) {
-        this.returnColorProgress = 'success'
+        this.returnColorProgress = 'success';
       }
       this.progress.message !== 0 ? this.openModal() : '';
-      
+
     }
   }
 

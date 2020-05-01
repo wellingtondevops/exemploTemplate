@@ -26,19 +26,19 @@ const MODALS = {
 export class ShowComponent implements OnInit {
   progressModal = {
     customClass: 'modal-style'
-  }
+  };
   id: string;
   archive: Archive;
   uploadResponse: any = { status: 'progress', message: 0 };
   error: string;
   loading: Boolean = true;
-  first: boolean = true;
+  first = true;
   errorUpload: boolean = null;
   file: any = '';
-  savedFile: boolean = false;
-  height: number = 0;
+  savedFile = false;
+  height = 0;
   archiveCreateForm: FormGroup;
-  @ViewChild("content") content: TemplateRef<any>;
+  @ViewChild('content') content: TemplateRef<any>;
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
     volume: new FormControl(''),
@@ -67,17 +67,17 @@ export class ShowComponent implements OnInit {
       createBy: this.fb.control(''),
       indexBy: this.fb.control('')
     });
-    this.height = $("nav.sidebar").height()
+    this.height = $('nav.sidebar').height();
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
   }
 
-  returnDateCreate(create){
-    return moment(create).format('DD/MM/YYYY hh:mm')
+  returnDateCreate(create) {
+    return moment(create).format('DD/MM/YYYY hh:mm');
   }
 
-  returnDate(create){
-    return moment(create).format('DD/MM/YYYY')
+  returnDate(create) {
+    return moment(create).format('DD/MM/YYYY');
   }
 
   getArquive() {
@@ -86,14 +86,14 @@ export class ShowComponent implements OnInit {
       this.archiveCreateForm.patchValue({
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),
         indexBy: data.author.email
-        //createBy: data.sponsor.name
-      })
+        // createBy: data.sponsor.name
+      });
       this.picture(this.archive._id);
       this.loading = false;
     }, error => {
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   picture(archive_id) {
@@ -102,19 +102,19 @@ export class ShowComponent implements OnInit {
       $('.file').css('height', 'auto');
     }, (error) => {
       $('.file').css('height', this.height - 30);
-    })
+    });
   }
 
   mapLabel(labels, tags) {
-    var obj = ''
+    let obj = '';
     labels.map((item, i) => {
       if (i === (labels.length - 1)) {
-        obj += `${item.namefield}: ${tags[i]}`
+        obj += `${item.namefield}: ${tags[i]}`;
       } else {
-        obj += `${item.namefield}: ${tags[i]} | `
+        obj += `${item.namefield}: ${tags[i]} | `;
       }
-    })
-    return obj
+    });
+    return obj;
   }
 
   postFile(data) {
@@ -124,7 +124,7 @@ export class ShowComponent implements OnInit {
       company: this.archive.company._id,
       storehouse: this.archive.storehouse._id,
       file: data
-    })
+    });
     this.submit();
   }
 
@@ -153,8 +153,8 @@ export class ShowComponent implements OnInit {
       this.uploadResponse.status = 'progress';
       this.errorUpload = true;
       this.errorMsg.errorMessages(error);
-      console.log("ERROR ", error)
-    })
+      console.log('ERROR ', error);
+    });
   }
 
   open(name: string, file) {
@@ -182,10 +182,10 @@ export class ShowComponent implements OnInit {
       this.successMsgSrv.successMessages('Arquivo deletado com sucesso.');
       this.file = null;
       this.archive = null;
-      window.location.reload()
+      window.location.reload();
     }, error => {
-      console.log(error)
+      console.log(error);
       this.errorMsg.errorMessages(error);
-    })
+    });
   }
 }

@@ -24,11 +24,11 @@ export class ButtonsCustomComponent implements OnInit {
         });
     }
 
-    permissionOfEdit(){
-        var res: Boolean = false;
-        for(var item in this.permissionEdit){
+    permissionOfEdit() {
+        let res: Boolean = false;
+        for (const item in this.permissionEdit) {
             JSON.parse(localStorage.getItem('profiles')).forEach(element => {
-                if(element === this.permissionEdit[item]) {
+                if (element === this.permissionEdit[item]) {
                     res = true;
                     return;
                 }
@@ -37,11 +37,11 @@ export class ButtonsCustomComponent implements OnInit {
         return res;
     }
 
-    permissionOfDelete(){
-        var res: Boolean = false;
-        for(var item in this.permissionDelete){
+    permissionOfDelete() {
+        let res: Boolean = false;
+        for (const item in this.permissionDelete) {
             JSON.parse(localStorage.getItem('profiles')).forEach(element => {
-                if(element === this.permissionDelete[item]) {
+                if (element === this.permissionDelete[item]) {
                     res = true;
                     return;
                 }

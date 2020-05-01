@@ -41,10 +41,10 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setPageDocumentsStructur({ offset: 0 })
+    this.setPageDocumentsStructur({ offset: 0 });
   }
 
-  getDocumentStructur(documentStructur){
+  getDocumentStructur(documentStructur) {
     this._route.navigate(['/documents-structur/get', documentStructur._id]);
   }
 
@@ -53,7 +53,7 @@ export class ListComponent implements OnInit {
     this.page.pageNumber = pageInfo.offset;
     this.documentStructurSrv.documentsStructur(this.page).subscribe(
       data => {
-        console.log(data)
+        console.log(data);
         this.documentsStructur = data;
         this.page.pageNumber = data._links.currentPage - 1;
         this.page.totalElements = data._links.foundItems;

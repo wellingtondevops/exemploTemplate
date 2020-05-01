@@ -24,7 +24,7 @@ export class NewComponent implements OnInit {
   labels: any = [];
   public retentionList: any = RedemptionEnum;
   public typeFieldList: any = TypeFieldListEnum;
-  companies: any = []
+  companies: any = [];
 
   constructor(
     private _route: Router,
@@ -67,7 +67,7 @@ export class NewComponent implements OnInit {
 
   returnId(object) {
     this.documentForm.value[object] = _.filter(this.documentForm.value[object], function (value, key) {
-      if (key === '_id') return value;
+      if (key === '_id') { return value; }
     })[0];
   }
 
@@ -105,18 +105,17 @@ export class NewComponent implements OnInit {
           debounceTime(200),
           distinctUntilChanged(),
           map(company => {
-              var res;
-              if (company.length < 2) [];
-              else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+              let res;
+              if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
               return res;
           })
-      );
+      )
 
   postDocument() {
     this.loading = true;
     this.returnId('company');
 
-    var documentForm = _.omitBy(this.documentForm.value, _.isNil);
+    const documentForm = _.omitBy(this.documentForm.value, _.isNil);
     this.documentSrv.newDocument(documentForm).subscribe(
       data => {
         if (data._id) {

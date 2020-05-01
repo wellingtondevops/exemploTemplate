@@ -57,7 +57,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         // this.usersList();
-        this.setPage({ offset: 0 })
+        this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
             name: this.fb.control(null, Validators.required),
             email: this.fb.control(null),
@@ -92,8 +92,8 @@ export class ListComponent implements OnInit {
         this._route.navigate(['/users/get', user._id]);
     }
 
-    getUsers(){
-        this.setPageUsers({ offset: 0 })
+    getUsers() {
+        this.setPageUsers({ offset: 0 });
     }
 
     setPageUsers(pageInfo) {

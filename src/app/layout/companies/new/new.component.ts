@@ -102,7 +102,7 @@ export class NewComponent implements OnInit {
 
     postCompany() {
         this.loading = true;
-        var company = _.omitBy(this.companyForm.value, _.isNil);
+        const company = _.omitBy(this.companyForm.value, _.isNil);
         this.companiesSrv.newCompany(company).subscribe(
             data => {
                 if (data._id) {
@@ -123,7 +123,7 @@ export class NewComponent implements OnInit {
     createDepartamentPost(departaments, company_id) {
         if (_.isArray(departaments) && departaments.length > 1) {
             departaments.map(departament => {
-                var item = {
+                const item = {
                     company: company_id,
                     departamentName: departament.departamentName
                 };
@@ -133,7 +133,7 @@ export class NewComponent implements OnInit {
     }
 
     newDepartament(departament) {
-        var result: Boolean = false;
+        let result: Boolean = false;
         this.departamentSrv.newDepartament(departament).subscribe(
             data => {
                 if (data._id) {

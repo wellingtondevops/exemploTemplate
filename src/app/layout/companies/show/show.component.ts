@@ -122,11 +122,11 @@ export class ShowComponent implements OnInit {
                     cnpj: data.cnpj ? data.cnpj : null,
                     cpf: data.cpf ? data.cpf : null
                 });
-                if(data.cnpj) {
-                    this.hiddenCNPJ = false
+                if (data.cnpj) {
+                    this.hiddenCNPJ = false;
                 }
-                if(data.cpf) {
-                    this.hiddenCPF = false
+                if (data.cpf) {
+                    this.hiddenCPF = false;
                 }
                 /* this.company.departaments.map(item => {
                     this.addDepartament(item);

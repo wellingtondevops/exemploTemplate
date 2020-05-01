@@ -10,5 +10,5 @@ export class File {
   name: string;
   _links: {
     self: string;
-  }
+  };
 }

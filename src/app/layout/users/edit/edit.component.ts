@@ -76,8 +76,8 @@ export class EditComponent implements OnInit {
   }
 
   returnDocts(item) {
-    let docts = []
-    docts.push({ _id: item })
+    const docts = [];
+    docts.push({ _id: item });
     return docts;
   }
 
@@ -124,24 +124,23 @@ export class EditComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
-        if (company.length < 2) [];
-        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        let res;
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
   getDocuments(e = null, i = null) {
-    console.log(i)
+    console.log(i);
     if (e && e.item) {
       this.documentsSrv.searchDocuments(e.item._id).subscribe(
         data => {
           // console.log('data',data);
           if (i) {
-            console.log('if', data)
+            console.log('if', data);
             this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
           } else {
-            console.log('else', data)
+            console.log('else', data);
             this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
           }
           if (!this.user) {
@@ -157,7 +156,7 @@ export class EditComponent implements OnInit {
     } else {
       this.documentsSrv.doctsUser(this.id).subscribe(
         data => {
-          console.log('doctsUser',data);
+          console.log('doctsUser', data);
           this.documentsAll = data;
           if (!this.user) {
             this.getUser();
@@ -177,15 +176,14 @@ export class EditComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(document => {
-        var res;
-        if (document.length < 2) [];
-        else res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
+        let res;
+        if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
   returnIdCompanyPermissions() {
-    let newArray = [];
+    const newArray = [];
     this.userForm.value.permissions.map((item) => {
       newArray.push({ company: item.company._id, docts: item.docts });
     });
@@ -207,11 +205,11 @@ export class EditComponent implements OnInit {
         };
 
         if (this.user.profiles.indexOf('DAENERYS') === 0) {
-          this.isViewPermission = false
+          this.isViewPermission = false;
           this.permissions = [];
-          this.userForm.value.permissions = []
+          this.userForm.value.permissions = [];
         } else {
-          this.isViewPermission = true
+          this.isViewPermission = true;
         }
 
         this.userForm.patchValue({
@@ -235,17 +233,17 @@ export class EditComponent implements OnInit {
 
   returnDoctsArray(permissions) {
     return permissions.map(item => {
-      return { company: item.company, docts: [item.docts] }
-    })
+      return { company: item.company, docts: [item.docts] };
+    });
   }
 
   isAdminSelect() {
     if (this.userForm.get('profiles').value === 'DAENERYS') {
       this.permissions = [];
-      this.userForm.value.permissions = []
-      this.isViewPermission = false
+      this.userForm.value.permissions = [];
+      this.isViewPermission = false;
     } else {
-      this.isViewPermission = true
+      this.isViewPermission = true;
     }
   }
 

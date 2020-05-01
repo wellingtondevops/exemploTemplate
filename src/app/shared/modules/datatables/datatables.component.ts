@@ -35,7 +35,7 @@ export class DatatablesComponent implements OnInit {
         for (const propName in changes) {
             const change = changes[propName];
             this.items = change.currentValue.items;
-            if(change.currentValue._links && change.currentValue._links.foundItems && change.currentValue._links.currentPage){
+            if (change.currentValue._links && change.currentValue._links.foundItems && change.currentValue._links.currentPage) {
               this.page.totalElements = change.currentValue._links.foundItems;
             this.page.pageNumber = change.currentValue._links.currentPage - 1;
             }

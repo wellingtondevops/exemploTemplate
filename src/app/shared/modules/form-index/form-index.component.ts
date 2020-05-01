@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Injectable, SimpleChanges, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Document } from '../../../models/document'
+import { Document } from '../../../models/document';
 import { Archive } from 'src/app/models/archive';
 import { isArray } from 'util';
 
@@ -39,32 +39,32 @@ export class FormIndexComponent {
             } else {
                 const change = changes[propName];
                 this.archive = change.currentValue;
-                if(this.archive && this.archive.doct){
+                if (this.archive && this.archive.doct) {
                     this.model = this.objectModel(this.archive.doct.label, this.archive.tag);
                     this.fields = this.arrayLabelForm(this.archive.doct.label, this.archive.tag);
                 }
-                
+
             }
         }
     }
 
     typeInput(element) {
-        var type = 'input'
+        let type = 'input';
         switch (element) {
             case 'DATA':
-                type = 'input'
-                break
+                type = 'input';
+                break;
             case 'TEXTO':
-                type = 'input'
-                break
+                type = 'input';
+                break;
         }
-        return type
+        return type;
     }
 
     arrayLabelForm(labels, tag) {
-        var array = labels.map((element, i) => {
-            var value = tag ? tag[i] : '';
-            var result = {
+        const array = labels.map((element, i) => {
+            const value = tag ? tag[i] : '';
+            const result = {
                 id: `formindex${i}`,
                 key: element.namefield,
                 type: this.typeInput(element.typeField),
@@ -76,27 +76,27 @@ export class FormIndexComponent {
                     disabled: value ? true : false,
                     keydown: (field, e) => {
                         if (e.which === 13) {
-                            var number = i + 1
+                            const number = i + 1;
                             document.getElementById(`formindex${number}`).focus();
                             e.preventDefault();
                         }
                     }
                 }
-            }
+            };
             if (i == 0) {
                 result['focus'] = true;
             }
-            return result
+            return result;
         });
-        return array
+        return array;
     }
 
     objectModel(labels, tag) {
-        var newObj = {}
+        const newObj = {};
         labels.map((element, i) => {
-            newObj[element.namefield] = tag ? tag[i] : ''
-        })
-        return newObj
+            newObj[element.namefield] = tag ? tag[i] : '';
+        });
+        return newObj;
     }
 
     postArchive(model) {

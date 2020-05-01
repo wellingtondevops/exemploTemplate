@@ -8,21 +8,21 @@ import { Observable } from 'rxjs';
 export class TywinGuardService {
   constructor(private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      if (!TywinGuardService.isTywin()) {
-          this.router.navigate(['/not-authorized']);
-          return false;
-      }
-      return true;
-  }
-
   static isTywin() {
-      var access = false;
+      let access = false;
       JSON.parse(window.localStorage.getItem('profiles')).map(item => {
           if (item === 'TYWIN') {
               access = true;
           }
       });
       return access;
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+      if (!TywinGuardService.isTywin()) {
+          this.router.navigate(['/not-authorized']);
+          return false;
+      }
+      return true;
   }
 }

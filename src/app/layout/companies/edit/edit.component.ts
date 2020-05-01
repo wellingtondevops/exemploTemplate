@@ -137,7 +137,7 @@ export class EditComponent implements OnInit {
 
     updateCompany() {
         this.loading = true;
-        var company = _.omitBy(this.companyForm.value, _.isNil);
+        const company = _.omitBy(this.companyForm.value, _.isNil);
         console.log(company);
         this.companiesSrv.updateCompany(company).subscribe(
             data => {

@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: 'import-volumes',
     component: ImportVolumeComponent,
-    canActivate:[DaenerysTywinGuard]
+    canActivate: [DaenerysTywinGuard]
   }
 ];
 

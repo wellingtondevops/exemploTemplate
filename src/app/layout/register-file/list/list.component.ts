@@ -78,7 +78,7 @@ export class ListComponent implements OnInit {
       next: ''
     },
     items: []
-  }
+  };
   volumes: VolumeList = {
     _links: {
       currentPage: 1,
@@ -112,7 +112,7 @@ export class ListComponent implements OnInit {
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
     { name: 'Referência', prop: 'reference', width: 70 },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }*/
-  ]
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -134,7 +134,7 @@ export class ListComponent implements OnInit {
     this.typeDocumentForm = this.fb.group({
       typeDocument: this.fb.control('', [Validators.required]),
       location: ''
-    })
+    });
     this.registerFileForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
       storehouse: this.fb.control('', [Validators.required]),
@@ -211,7 +211,7 @@ export class ListComponent implements OnInit {
   getTypeDocuments(company_id) {
     this.documentsSrv.searchDocuments(company_id).subscribe(data => {
       this.typeDocuments = data.items;
-    })
+    });
   }
 
   getVolumesList() {
@@ -220,8 +220,8 @@ export class ListComponent implements OnInit {
     this.document = null;
     this.storeHouse_id = this.registerFileForm.value.storehouse._id;
     this.company_id = this.registerFileForm.value.company._id;
-    var departament = this.registerFileForm.value.departament._id;
-    var location = this.registerFileForm.value.location;
+    const departament = this.registerFileForm.value.departament._id;
+    const location = this.registerFileForm.value.location;
     /* var searchValue = _.omitBy(this.registerFileForm.value, _.isNil); */
     this.volumesSrv.listvolume(this.storeHouse_id, this.company_id, location, departament, this.page).subscribe(
       data => {
@@ -237,7 +237,7 @@ export class ListComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    }
+    };
   }
 
   setPage(pageInfo) {
@@ -254,7 +254,7 @@ export class ListComponent implements OnInit {
     }, error => {
       console.log('ERROR: ', error);
       this.errorMsg.errorMessages(error);
-    })
+    });
   }
 
   getVolume(volume) {
@@ -265,27 +265,27 @@ export class ListComponent implements OnInit {
       }
     });
     this.loading = true;
-    this.getRegisterVolume(volume._id)
+    this.getRegisterVolume(volume._id);
     this.volumesSrv.volume(volume._id).subscribe(data => {
-      this.volume = data
+      this.volume = data;
     }, error => {
-      console.log(error)
-    })
+      console.log(error);
+    });
     this.tab.select('tab2');
   }
 
   getRegisterVolume(volume_id) {
-    var page = {
+    const page = {
       pageNumber: 0
-    }
+    };
     this.registerSrv.listregister(volume_id, page).subscribe(data => {
-      console.log(data.items)
+      console.log(data.items);
       this.registers = this.newRegisters(data.items);
       if (this.registers.length !== 0) {
         this.getDoctype(this.registers[0].doct._id);
         this.getTypeDocuments(this.volume.company._id);
       } else {
-        this.warningMsgSrv.showWarning('Insira um tipo de documento ao volume para continuar indexando.', true)
+        this.warningMsgSrv.showWarning('Insira um tipo de documento ao volume para continuar indexando.', true);
         this.notDocument = true;
         this.loading = false;
       }
@@ -297,26 +297,26 @@ export class ListComponent implements OnInit {
     }, error => {
       console.log('ERROR:', error);
       this.loading = false;
-    })
+    });
   }
 
   newRegisters(registers) {
     registers.map(item => {
       item.index = this.mapLabel(item.doct.label, item.tag);
-    })
-    return registers
+    });
+    return registers;
   }
 
   mapLabel(labels, tags) {
-    var obj = ''
+    let obj = '';
     labels.map((item, i) => {
       if (i === (labels.length - 1)) {
-        obj += `${item.namefield}: ${tags[i]}`
+        obj += `${item.namefield}: ${tags[i]}`;
       } else {
-        obj += `${item.namefield}: ${tags[i]} | `
+        obj += `${item.namefield}: ${tags[i]} | `;
       }
-    })
-    return obj
+    });
+    return obj;
   }
 
   getDoctype(doctype_id) {
@@ -329,8 +329,8 @@ export class ListComponent implements OnInit {
         }
       });
     }, error => {
-      console.log('ERROR', error)
-    })
+      console.log('ERROR', error);
+    });
   }
 
   setPageRegisters(pageInfo) {
@@ -370,22 +370,22 @@ export class ListComponent implements OnInit {
     const company = this.company_id;
     const tag = _.values(data);
     let uniqueness = '';
-    let labelsTrueLength = _.filter(this.document.label, ['uniq', true])
+    const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);
     this.document.label.map((label, i) => {
       if (label.uniq) {
         if (i === (labelsTrueLength.length - 1)) {
-          uniqueness += `${tag[i]}`
+          uniqueness += `${tag[i]}`;
         } else {
-          uniqueness += `${tag[i]}-`
+          uniqueness += `${tag[i]}-`;
         }
       }
-    })
-    var volume = this.volume._id;
+    });
+    const volume = this.volume._id;
     console.log('arquive to index', { tag, company, doct, storehouse, uniqueness, volume });
     this.archivesSrv.newArchive({ tag, company, doct, storehouse, uniqueness, volume }).subscribe(data => {
       if (data._id) {
-        console.log('success', data)
-        this.getRegisterVolume(this.volume._id)
+        console.log('success', data);
+        this.getRegisterVolume(this.volume._id);
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
       }
@@ -393,7 +393,7 @@ export class ListComponent implements OnInit {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    })
+    });
   }
 
   // Alert
@@ -414,34 +414,32 @@ export class ListComponent implements OnInit {
           ? []
           : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
       )
-    );
+    )
 
   searchTypeDocument = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       map(typeDocument => {
-        var res;
-        if (typeDocument.length < 2) [];
-        else res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10);
+        let res;
+        if (typeDocument.length < 2) { []; } else { res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res = [];
-        if (company.length < 2) [];
-        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        let res = [];
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
         if (res.length > 0) {
           this.getDepartaments(res[0]._id);
         }
         return res;
       })
-    );
+    )
 
   searchDepartament = (text$: Observable<string>) =>
     text$.pipe(
@@ -452,7 +450,7 @@ export class ListComponent implements OnInit {
           ? []
           : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
       )
-    );
+    )
 }
 @Pipe({
   name: 'enumToArray'

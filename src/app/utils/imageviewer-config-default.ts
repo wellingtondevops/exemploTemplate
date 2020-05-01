@@ -1,4 +1,4 @@
-import { ImageViewerConfig, createButtonConfig } from "@hallysonh/ngx-imageviewer";
+import { ImageViewerConfig, createButtonConfig } from '@hallysonh/ngx-imageviewer';
 
 export const ImageViewerConfigDefault: ImageViewerConfig = {
   width: 800, // component default width

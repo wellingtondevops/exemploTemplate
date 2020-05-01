@@ -35,13 +35,13 @@ export class DocumentsService {
         return this.http.delete<Document>(`${url}/docts/${document}`).pipe(tap(data => data));
     }
 
-    searchDocuments(company_id = null){
-      if(company_id){
+    searchDocuments(company_id = null) {
+      if (company_id) {
         return this.http.get<DocumentList>(`${url}/listdocts?company=${company_id}`).pipe(tap(data => data));
       } else {
         return this.http.get<DocumentList>(`${url}/listdocts`).pipe(tap(data => data));
       }
-        
+
     }
 
     searchDocts(formdata, page = null) {
@@ -58,7 +58,7 @@ export class DocumentsService {
         }
       }
 
-    doctsUser(user_id){
+    doctsUser(user_id) {
       return this.http.get<PermissionsUser>(`${url}/users/permissions/${user_id}`).pipe(
         tap(data => data)
       );
