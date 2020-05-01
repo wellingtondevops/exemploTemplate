@@ -51,7 +51,7 @@
             <label *ngIf="archive && archive.startDateCurrent">Início: {{returnDate(archive.startDateCurrent)}}</label>
             <label *ngIf="archive && archive.finalDateCurrent">Fim: {{returnDate(archive.finalDateCurrent)}}</label>
             <br>
-            <button *ngIf="archive.doct.dcurrentValue && archive.doct.dcurrentValue === 0" class="btn btn-danger btn-sm" (click)="setStartCurrentDate()">Final Corrente</button>
+            <button *ngIf="archive && archive.doct && archive.doct.dcurrentValue === 0" class="btn btn-danger btn-sm" (click)="setStartCurrentDate()">Final Corrente</button>
             <br>
           </div>
         </div>
