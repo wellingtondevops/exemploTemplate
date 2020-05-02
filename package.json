@@ -3,19 +3,22 @@
   "version": "7.0.0",
   "license": "Apache",
   "engines": {
-    "node": "10.20.0",
-    "npm": "6.9.0"
+    "node": "10.13.0",
+    "npm": "6.4.1"
   },
   "scripts": {
     "ng": "ng",
     "server": "ng serve",
+    "build": "ng build --prod",
+    "gitbuild": "ng build --prod --base-href /start-angular/SB-Admin-BS4-Angular-7/master/dist/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build": "ng build --prod",
-    "start": "ng serve"
+    "start": "node server.js",
+    "postinstall": "ng build --aot --prod"
   },
+
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.0.0",
