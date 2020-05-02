@@ -20,7 +20,7 @@ export class DepartamentsService {
       .pipe(
           tap(data => data)
       );
-    } else if(page) {
+    } else if (page) {
       return this.http.get<DepartamentList>(`${url}/departaments?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
@@ -28,7 +28,7 @@ export class DepartamentsService {
     }
   }
 
-  departament(id){
+  departament(id) {
     return this.http.get<Departament>(`${url}/departaments/${id}`)
       .pipe(
           tap(data => data)
@@ -56,15 +56,15 @@ export class DepartamentsService {
     );
   }
 
-  searchDepartaments(company_id){
-    var urlNew = company_id ? `${url}/listdepartaments?company=${company_id}` : `${url}/listdepartaments`
+  searchDepartaments(company_id) {
+    const urlNew = company_id ? `${url}/listdepartaments?company=${company_id}` : `${url}/listdepartaments`;
     return this.http.get<DepartamentList>(urlNew)
     .pipe(
         tap(data => data)
     );
   }
 
-  searchDepartament(formdata, page){
+  searchDepartament(formdata, page) {
     if (page) {
       return this.http.post<DepartamentList>(`${url}/departaments/search?_page=${page.pageNumber}&size=10`, formdata)
       .pipe(

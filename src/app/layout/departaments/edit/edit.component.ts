@@ -82,7 +82,7 @@ export class EditComponent implements OnInit {
       }
     );
   }
-  
+
   editDepartament(departament) {
     this._route.navigate(['/departaments/edit', departament._id]);
   }
@@ -115,7 +115,7 @@ export class EditComponent implements OnInit {
   updateDepartament() {
     this.returnId('company');
     this.loading = true;
-    var departament = _.omitBy(this.departamentForm.value, _.isNil);
+    const departament = _.omitBy(this.departamentForm.value, _.isNil);
     this.departamentsSrv.update(departament).subscribe(
       data => {
         if (data._id) {

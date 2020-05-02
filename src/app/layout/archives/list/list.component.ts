@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
   archives: Archive[];
   archivesCol: any[];
   page = new Page();
-  loading: boolean = false;
+  loading = false;
   searchForm: FormGroup;
   companies: any = [];
   company_id: string;
@@ -88,14 +88,14 @@ export class ListComponent implements OnInit {
   /*   get departament() {
       return this.searchForm.get('departament');
     }
-  
+
     get storehouse() {
       return this.searchForm.get('storehouse');
     } */
 
   returnId(object) {
-    var result = _.filter(this.searchForm.value[object], function (value, key) {
-      if (key === '_id') return value;
+    const result = _.filter(this.searchForm.value[object], function (value, key) {
+      if (key === '_id') { return value; }
     })[0];
     return result;
   }
@@ -103,7 +103,7 @@ export class ListComponent implements OnInit {
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    var newSearch = {
+    const newSearch = {
       company: null,
       storehouse: null,
       departament: null,
@@ -125,13 +125,13 @@ export class ListComponent implements OnInit {
     newSearch.endDate = this.searchForm.value.endDate;
     newSearch.initDate = this.searchForm.value.initDate;
 
-    var searchValue = _.omitBy(newSearch, _.isNil);
+    const searchValue = _.omitBy(newSearch, _.isNil);
 
     this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
-      var resultWithIndex = this.newRegisters(data.items);
+      const resultWithIndex = this.newRegisters(data.items);
       this.archives = resultWithIndex;
       this.loading = false;
     }, error => {
@@ -172,7 +172,7 @@ export class ListComponent implements OnInit {
 
   getArchive() {
     if (this.searchForm.value.company) {
-      this.setPage({ offset: 0 })
+      this.setPage({ offset: 0 });
     }
   }
 
@@ -199,12 +199,11 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res = [];
-        if (company.length < 2) [];
-        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        let res = [];
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
   getDepartaments(company_id) {
     this.departamentsSrv.searchDepartaments(company_id).subscribe(
@@ -227,7 +226,7 @@ export class ListComponent implements OnInit {
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map(departament => (departament === '' ? this.departaments
         : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
-      )))
+      )));
   }
 
   getStoreHouses() {
@@ -251,7 +250,7 @@ export class ListComponent implements OnInit {
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map(storehouse => (storehouse === '' ? this.storehouses
         : _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
-      )))
+      )));
   }
 
   /* searchStorehouse = (text$: Observable<string>) =>
@@ -287,7 +286,7 @@ export class ListComponent implements OnInit {
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map(document => (document === '' ? this.documents
         : _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10)
-      )))
+      )));
   }
 
 /*   searchDocument = (text$: Observable<string>) =>
@@ -305,20 +304,20 @@ export class ListComponent implements OnInit {
   newRegisters(registers) {
     registers.map(item => {
       item.index = this.mapLabel(item.doct.label, item.tag);
-    })
-    return registers
+    });
+    return registers;
   }
 
   mapLabel(labels, tags) {
-    var obj = ''
+    let obj = '';
     labels.map((item, i) => {
       if (i === (labels.length - 1)) {
-        obj += `${item.namefield}: ${tags[i]}`
+        obj += `${item.namefield}: ${tags[i]}`;
       } else {
-        obj += `${item.namefield}: ${tags[i]} | `
+        obj += `${item.namefield}: ${tags[i]} | `;
       }
-    })
-    return obj
+    });
+    return obj;
   }
 }
 

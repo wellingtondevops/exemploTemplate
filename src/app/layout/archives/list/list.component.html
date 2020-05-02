@@ -1,11 +1,13 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
+  <div *ngIf="loading">
+    <ngx-loading [show]="loading" [config]="{
       backdropBorderRadius: '3px',
       fullScreenBackdrop: true,
       primaryColour: '#222',
       secondaryColour: '#222',
       tertiaryColour: '#222'
   }"></ngx-loading>
+  </div>
   <app-page-header [heading]="'Arquivos'" [icon]="'fa-table'"></app-page-header>
   <ngb-accordion #acc="ngbAccordion" activeIds="archives-0">
     <ngb-panel id="archives-0">
@@ -17,9 +19,9 @@
           <div class="row col-12">
             <div class="form-group mb-2 col-3">
               <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text" class="form-control" formControlName="company"
-                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
+              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text"
+                class="form-control" formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
               <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                 <div *ngIf="!company.valid">
                   Empresa é obrigatório.
@@ -30,8 +32,7 @@
               <label for="typeahead-focus">Departamento</label>
               <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                 formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
-                [ngbTypeahead]="searchDepartament" style="width: 100%"
-                #instanceDepartament="ngbTypeahead"
+                [ngbTypeahead]="searchDepartament" style="width: 100%" #instanceDepartament="ngbTypeahead"
                 (focus)="focusDepartament$.next($any($event).target.value)"
                 (click)="clickDepartament$.next($any($event).target.value)" />
             </div>
@@ -41,7 +42,7 @@
             </div>
             <div class="form-group mb-2 col-1">
               <label for="status">Status</label>
-              <select class="form-control col-12" id="status" formControlName="status" >
+              <select class="form-control col-12" id="status" formControlName="status">
                 <option *ngFor="let item of statusList | enumToArray" [value]="item">
                   {{ item }}</option>
               </select>
@@ -50,10 +51,9 @@
               <label for="typeahead-focus">Depósito</label>
               <input id="typeahead-focus" autoFocus="true" type="text" class="form-control" formControlName="storehouse"
                 [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
-                style="width: 100%"
-                #instanceStorehouse="ngbTypeahead"
+                style="width: 100%" #instanceStorehouse="ngbTypeahead"
                 (focus)="focusStorehouse$.next($any($event).target.value)"
-                (click)="clickStorehouse$.next($any($event).target.value)"  />
+                (click)="clickStorehouse$.next($any($event).target.value)" />
             </div>
           </div>
           <div class="row col-12">
@@ -72,7 +72,7 @@
             <div class="form-group mb-2 col-3" style="padding-right: 0;">
               <div class="row col-12" style="padding-right: 0;">
                 <label for="initDate">Data Inicial</label>
-                <input id="initDate" type="date" class="form-control col-12" formControlName="initDate"/>
+                <input id="initDate" type="date" class="form-control col-12" formControlName="initDate" />
               </div>
 
               <div class="row col-12" style="padding-right: 0;">
@@ -83,7 +83,7 @@
           </div>
           <div class="row col-12" style="justify-content: center; margin-top: 10px;">
             <div class="form-group mb-2">
-              <button type="submit" class="btn btn-default" [disabled]="company.invalid" >
+              <button type="submit" class="btn btn-default" [disabled]="company.invalid">
                 <i class="fa fa-search"></i>
               </button>
             </div>

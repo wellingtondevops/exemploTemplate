@@ -19,15 +19,15 @@ export class DocumentsStructurService {
     }
   }
 
-  documentStructur(id){
+  documentStructur(id) {
     return this.http.get<DocumentStructur>(`${url}/templates/${id}`).pipe(tap(data => data));
   }
 
-  delete(id){
+  delete(id) {
     return this.http.delete<Document>(`${url}/templates/${id}`).pipe(tap(data => data));
   }
 
-  update(documentStructur){
+  update(documentStructur) {
     return this.http.patch<DocumentStructur>(`${url}/templates/${documentStructur._id}`, documentStructur).pipe(tap(data => data));
   }
 

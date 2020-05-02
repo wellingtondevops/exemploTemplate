@@ -20,7 +20,7 @@ export class Class {
   intermediateValue: string;
   final: string;
   comments: string;
-  subclasses: SubClass[]
+  subclasses: SubClass[];
 }
 
 export class SubClass {
@@ -32,7 +32,7 @@ export class SubClass {
   intermediateValue: string;
   final: string;
   comments: string;
-  groups: Group[]
+  groups: Group[];
 }
 
 export class Group {
@@ -44,7 +44,7 @@ export class Group {
   intermediateValue: string;
   final: string;
   comments: string;
-  subgroups: SubGroup[]
+  subgroups: SubGroup[];
 }
 
 export class SubGroup {

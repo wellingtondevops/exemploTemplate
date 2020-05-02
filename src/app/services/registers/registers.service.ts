@@ -20,12 +20,12 @@ export class RegistersService {
       return this.http.get<RegistersList>(`${url}/listregisters?volume=${volume}&_page=${page.pageNumber}&size=10`)
       .pipe(
         tap(data => data)
-      )
+      );
     } else {
       return this.http.get<RegistersList>(`${url}/listregisters?volume=${volume}&size=10`)
         .pipe(
           tap(data => data)
-        )
+        );
     }
   }
 }

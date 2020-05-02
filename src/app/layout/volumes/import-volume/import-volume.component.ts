@@ -37,7 +37,7 @@ export class ImportVolumeComponent implements OnInit {
   departaments: any = [];
   loading: Boolean = true;
   rowsFile: any = [];
-  hiddenReference: boolean = true;
+  hiddenReference = true;
 
   constructor(
     private errorMsg: ErrorMessagesService,
@@ -97,29 +97,29 @@ export class ImportVolumeComponent implements OnInit {
       const file = event && event.item(0);
       if (!file.name.match(/\.(xls|xlsx|XLS|XLSX)$/)) {
         this.removeFile();
-        var error = {
+        const error = {
           status: 404,
           message: 'Formato de arquivo não suportado.'
-        }
+        };
         this.errorMsg.showError(error);
 
       } else {
         this.file = file;
-        let fileReader = new FileReader();
+        const fileReader = new FileReader();
         fileReader.onload = (e) => {
           this.arrayBuffer = fileReader.result;
-          var data = new Uint8Array(this.arrayBuffer);
-          var arr = new Array();
-          for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-          var bstr = arr.join("");
-          var workbook = XLSX.read(bstr, { type: "binary" });
-          var first_sheet_name = workbook.SheetNames[0];
-          var worksheet = workbook.Sheets[first_sheet_name];
-          var item = XLSX.utils.sheet_to_json(worksheet, { raw: true })
+          const data = new Uint8Array(this.arrayBuffer);
+          const arr = new Array();
+          for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+          const bstr = arr.join('');
+          const workbook = XLSX.read(bstr, { type: 'binary' });
+          const first_sheet_name = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[first_sheet_name];
+          const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
           item.map(row => {
             this.rowsFile.push(row);
-          })
-        }
+          });
+        };
         fileReader.readAsArrayBuffer(this.file);
       }
     }
@@ -128,7 +128,7 @@ export class ImportVolumeComponent implements OnInit {
 
   returnId(object) {
     this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
-      if (key === '_id') return value;
+      if (key === '_id') { return value; }
     })[0];
   }
 
@@ -142,8 +142,8 @@ export class ImportVolumeComponent implements OnInit {
     this.returnId('storehouse');
     this.returnId('departament');
 
-    let numImports = 0
-    let totalImports = this.rowsFile.length;
+    let numImports = 0;
+    const totalImports = this.rowsFile.length;
 
     this.rowsFile.map(row => {
       if (row.location) {
@@ -161,7 +161,7 @@ export class ImportVolumeComponent implements OnInit {
         this.volumeForm.controls['seal'].patchValue(row.seal);
       }
       this.volumeForm.value.uniqueField = this.returnUniqField();
-      let volume = _.omitBy(this.volumeForm.value, _.isNil);
+      const volume = _.omitBy(this.volumeForm.value, _.isNil);
       this.volumesSrv.newVolume(volume).subscribe(
         data => {
           if (data._id) {
@@ -177,7 +177,7 @@ export class ImportVolumeComponent implements OnInit {
           this.errorMsg.errorMessagesImport(error);
         }
       );
-    })
+    });
   }
 
   changeGuardType() {
@@ -244,7 +244,7 @@ export class ImportVolumeComponent implements OnInit {
           ? []
           : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
       )
-    );
+    )
 
   formatter = (x: { name: string }) => x.name;
 
@@ -253,7 +253,7 @@ export class ImportVolumeComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
+        let res;
         if (company.length < 2) {
           res = [];
         } else {
@@ -264,7 +264,7 @@ export class ImportVolumeComponent implements OnInit {
         }
         return res;
       })
-    );
+    )
 
   searchDepartament = (text$: Observable<string>) =>
     text$.pipe(
@@ -275,11 +275,11 @@ export class ImportVolumeComponent implements OnInit {
         if (departament.length < 2) {
           res = [];
         } else {
-          res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+          res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
         }
         return res;
       })
-    );
+    )
 }
 /* @Pipe({
   name: 'enumToArray'

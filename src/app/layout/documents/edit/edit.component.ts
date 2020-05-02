@@ -109,18 +109,18 @@ export class EditComponent implements OnInit {
           retention: data.retention,
           retentionTime: data.retentionTime,
           label: data.label
-        })
+        });
         this.document.label.map(item => {
           this.addLabelExist(item);
         });
-        this.loading = false
+        this.loading = false;
       }
-    })
+    });
   }
 
   updateDocument() {
     this.loading = true;
-    var document = _.omitBy(this.documentForm.value, _.isNil);
+    const document = _.omitBy(this.documentForm.value, _.isNil);
     this.documentsSrv.updateDocument(document).subscribe(
       data => {
         if (data._id) {
@@ -133,7 +133,7 @@ export class EditComponent implements OnInit {
         this.loading = false;
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
-      })
+      });
   }
 
   returnId(object) {

@@ -105,7 +105,7 @@ export class ShowComponent implements OnInit {
     this.documentSrv.document(this.id).subscribe(
       data => {
         this.document = data;
-        console.log('document',this.document)
+        console.log('document', this.document);
         this.documentForm.patchValue({
           _id: this.document._id,
           label: this.document.label ? this.document.label : [],
@@ -160,7 +160,7 @@ export class ShowComponent implements OnInit {
       }
     );
   }
-  
+
   formatter = (x: { name: string }) => x.name;
 
   searchCompany = (text$: Observable<string>) =>

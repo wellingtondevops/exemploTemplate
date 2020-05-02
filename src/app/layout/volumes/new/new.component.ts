@@ -165,7 +165,7 @@ export class NewComponent implements OnInit {
 
     returnId(object) {
         this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
-            if (key === '_id') return value;
+            if (key === '_id') { return value; }
         })[0];
     }
 
@@ -174,7 +174,7 @@ export class NewComponent implements OnInit {
         this.returnId('storehouse');
         this.returnId('departament');
         this.volumeForm.value.uniqueField = this.returnUniqField();
-        var volume = _.omitBy(this.volumeForm.value, _.isNil);
+        const volume = _.omitBy(this.volumeForm.value, _.isNil);
         this.volumesSrv.newVolume(volume).subscribe(
             data => {
                 if (data._id) {
@@ -198,7 +198,7 @@ export class NewComponent implements OnInit {
                     ? []
                     : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
             )
-        );
+        )
 
     formatter = (x: { name: string }) => x.name;
 
@@ -207,7 +207,7 @@ export class NewComponent implements OnInit {
             debounceTime(200),
             distinctUntilChanged(),
             map(company => {
-                var res;
+                let res;
                 if (company.length < 2) {
                     res = [];
                 } else {
@@ -218,7 +218,7 @@ export class NewComponent implements OnInit {
                 }
                 return res;
             })
-        );
+        )
 
     searchDepartament = (text$: Observable<string>) =>
         text$.pipe(
@@ -229,11 +229,11 @@ export class NewComponent implements OnInit {
                 if (departament.length < 2) {
                     res = [];
                 } else {
-                    res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+                    res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
                 }
                 return res;
             })
-        );
+        )
 }
 @Pipe({
     name: 'enumToArray'

@@ -34,7 +34,7 @@ export class ShowComponent implements OnInit {
   profilesList: any;
   loading: Boolean = true;
   permissions: any = [];
-  isViewPermission: boolean = false;
+  isViewPermission = false;
   documentsAll: any = [];
   companies: any = [];
 
@@ -73,12 +73,11 @@ export class ShowComponent implements OnInit {
     debounceTime(200),
     distinctUntilChanged(),
     map(company => {
-      var res;
-      if (company.length < 2) [];
-      else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+      let res;
+      if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
       return res;
     })
-  );
+  )
 
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
@@ -105,8 +104,8 @@ export class ShowComponent implements OnInit {
   }
 
   returnDocts(item) {
-    let docts = []
-    docts.push({ _id: item })
+    const docts = [];
+    docts.push({ _id: item });
     return docts;
   }
 
@@ -132,7 +131,7 @@ export class ShowComponent implements OnInit {
     this.documentsSrv.doctsUser(this.id).subscribe(
       data => {
         this.documentsAll = data;
-        console.log(this.documentsAll)
+        console.log(this.documentsAll);
         if (!this.user) {
           this.getUser();
         }
@@ -183,8 +182,8 @@ export class ShowComponent implements OnInit {
 
   returnDoctsArray(permissions) {
     return permissions.map(item => {
-      return { company: item.company, docts: [item.docts] }
-    })
+      return { company: item.company, docts: [item.docts] };
+    });
   }
 
   getUser() {
@@ -202,11 +201,11 @@ export class ShowComponent implements OnInit {
         };
 
         if (this.user.profiles.indexOf('DAENERYS') === 0) {
-          this.isViewPermission = false
+          this.isViewPermission = false;
           this.permissions = [];
-          this.userForm.value.permissions = []
+          this.userForm.value.permissions = [];
         } else {
-          this.isViewPermission = true
+          this.isViewPermission = true;
         }
 
         this.userForm.patchValue({

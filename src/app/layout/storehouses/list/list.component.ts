@@ -92,7 +92,7 @@ export class ListComponent implements OnInit {
     }
 
     isDaenerys() {
-        return DaenerysGuardService.isDaenerys()
+        return DaenerysGuardService.isDaenerys();
     }
 
     delete(data) {
@@ -111,11 +111,11 @@ export class ListComponent implements OnInit {
     }
 
     getStoreHouses() {
-        this.setPageStoreHouses({ offset: 0 })
+        this.setPageStoreHouses({ offset: 0 });
     }
 
     setPageStoreHouses(pageInfo) {
-        this.loading = true
+        this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
         this.storeHousesSrv.searchStorehouse(this.searchForm.value, this.page).subscribe(data => {
@@ -125,7 +125,7 @@ export class ListComponent implements OnInit {
             this.storehouses = data;
             this.loading = false;
         }, error => {
-            console.log('ERROR: ', error)
+            console.log('ERROR: ', error);
             this.loading = false;
         });
     }

@@ -81,7 +81,7 @@ export class ErrorMessagesService {
   }
 
   showError(error, disableTimeOut = false) {
-    if(disableTimeOut){
+    if (disableTimeOut) {
       this.toastr.error(`Erro ${error.status}`, error.message, {
         disableTimeOut: disableTimeOut
       });

@@ -12,10 +12,11 @@ export class ButtonBackComponent {
 
     constructor(
         private _route: Router
-    ){}
+    ) {}
 
     redirect() {
         this._route.navigate([`/${this.redirectTo}`]);
     }
+
 
 }

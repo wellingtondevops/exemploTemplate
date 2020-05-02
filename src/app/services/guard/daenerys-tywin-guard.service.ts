@@ -17,7 +17,7 @@ export class DaenerysTywinGuardService {
     }
 
     isDaenerysOrTywin() {
-        var access = false;
+        let access = false;
         JSON.parse(window.localStorage.getItem('profiles')).map(item => {
             if (item === 'DAENERYS' || item === 'TYWIN') {
                 access = true;

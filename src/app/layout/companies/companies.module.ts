@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule, FormUploadModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
 import { CompaniesRoutingModule } from './companies-routing.module';
 import { ListComponent } from './list/list.component';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
@@ -24,7 +24,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         DatatablesModule,
         TranslateModule,
         TextMaskModule,
-        FormUploadModule,
         ButtonBackModule,
         ButtonsCustomModule,
         NgxLoadingModule.forRoot({})

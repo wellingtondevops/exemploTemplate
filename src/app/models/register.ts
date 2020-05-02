@@ -7,9 +7,9 @@ export class Register {
         _id: string;
         label: [Label];
         tag: []
-    }
+    };
   }
-  
+
   export class RegistersList {
     _links: {
       self: string;
@@ -20,10 +20,10 @@ export class Register {
     };
     items: Register[];
   }
-  
+
   export class Label {
       namefield: string;
       typeField: string;
       _id: string;
-      uniq: boolean
+      uniq: boolean;
   }

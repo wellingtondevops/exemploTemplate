@@ -80,7 +80,7 @@ export class VolumesService {
       return this.http.get<VolumeList>(`${url}/listvolumes?storehouse=${storehouse_id}&company=${company_id}&location=${location}&departament=${departament}&size=10`)
         .pipe(
           tap(data => data)
-        )
+        );
     }
   }
 }

@@ -89,14 +89,14 @@ export class ListComponent implements OnInit {
       company: this.fb.control(null, Validators.required),
       departament: this.fb.control(null),
       status: this.fb.control(null),
-      location: this.fb.control(""),
+      location: this.fb.control(''),
       storehouse: this.fb.control(null),
       reference: this.fb.control(null),
       endDate: this.fb.control(null),
       initDate: this.fb.control(null),
       guardType: this.fb.control(null),
     });
-    
+
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
@@ -111,14 +111,14 @@ export class ListComponent implements OnInit {
   }
 
   returnId(object) {
-    var result = _.filter(this.searchForm.value[object], function (value, key) {
-      if (key === '_id') return value;
+    const result = _.filter(this.searchForm.value[object], function (value, key) {
+      if (key === '_id') { return value; }
     })[0];
-    return result
+    return result;
   }
 
   getVolumes() {
-    this.setPageVolumes({ offset: 0 })
+    this.setPageVolumes({ offset: 0 });
   }
 
   formatter = (x: { name: string }) => x.name;
@@ -126,8 +126,8 @@ export class ListComponent implements OnInit {
   setPageVolumes(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    
-    var newForm = {
+
+    const newForm = {
       company: null,
       storehouse: null,
       departament: null,
@@ -137,7 +137,7 @@ export class ListComponent implements OnInit {
       endDate: null,
       initDate: null,
       guardType: null
-    }
+    };
 
     this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
     this.searchForm.value.storehouse ? newForm.storehouse = this.returnId('storehouse') : null;
@@ -147,9 +147,9 @@ export class ListComponent implements OnInit {
     this.searchForm.value.reference ? newForm.reference = this.searchForm.value.reference : null;
     this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
     this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;
-    this.searchForm.value.guardType ? newForm.guardType = this.searchForm.value.guardType: null;
+    this.searchForm.value.guardType ? newForm.guardType = this.searchForm.value.guardType : null;
 
-    var searchValue = _.omitBy(newForm, _.isNil);
+    const searchValue = _.omitBy(newForm, _.isNil);
 
     this.volumeSrv.searchVolumes(searchValue, this.page).subscribe(
       data => {
@@ -205,15 +205,14 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res = [];
-        if (company.length < 2) [];
-        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        let res = [];
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
         if (res.length > 0) {
           this.getDepartaments(res[0]._id);
         }
         return res;
       })
-    );
+    )
 
   getDepartaments(company_id) {
     this.departamentsSrv.searchDepartaments(company_id).subscribe(
@@ -235,14 +234,13 @@ export class ListComponent implements OnInit {
       map(departament => {
         if (this.searchForm.value.company === '' || this.searchForm.value.company._id === 'undefined') {
           this.warningMsg.showWarning('Selecione uma empresa.', 4000);
-          return
-        };
-        var res;
-        if (departament.length < 2) [];
-        else res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
+          return;
+        }
+        let res;
+        if (departament.length < 2) { []; } else { res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
   getStoreHouses() {
     this.storehousesSrv.searchStorehouses().subscribe(
@@ -262,10 +260,9 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(storehouse => {
-        var res;
-        if (storehouse.length < 2) [];
-        else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
+        let res;
+        if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 }

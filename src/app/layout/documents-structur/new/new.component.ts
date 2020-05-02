@@ -100,7 +100,7 @@ export class NewComponent implements OnInit {
 
   addClass(): void {
     this.classes = this.documentStructurForm.get('classes') as FormArray;
-    console.log(this.classes)
+    console.log(this.classes);
     this.classes.push(this.createClass());
   }
 
@@ -109,19 +109,19 @@ export class NewComponent implements OnInit {
   }
 
   removeSubClass(classe, e) {
-    var subclasses = <FormArray>classe.controls['subclasses'];
-    subclasses.removeAt(e)
+    const subclasses = <FormArray>classe.controls['subclasses'];
+    subclasses.removeAt(e);
   }
 
   addSubClass(classe): void {
-    console.log(classe)
-    let classeN = classe.get('subclasses') as FormArray;
+    console.log(classe);
+    const classeN = classe.get('subclasses') as FormArray;
     classeN.push(this.createSubClass());
   }
 
   removeGroup(subclass, e) {
-    var groups = <FormArray>subclass.controls['groups'];
-    groups.removeAt(e)
+    const groups = <FormArray>subclass.controls['groups'];
+    groups.removeAt(e);
   }
 
   addGroup(e): void {
@@ -130,8 +130,8 @@ export class NewComponent implements OnInit {
   }
 
   removeSubGroup(group, e) {
-    var subgroups = <FormArray>group.controls['subgroups'];
-    subgroups.removeAt(e)
+    const subgroups = <FormArray>group.controls['subgroups'];
+    subgroups.removeAt(e);
   }
 
   addSubGroup(e): void {
@@ -141,7 +141,7 @@ export class NewComponent implements OnInit {
 
   postDocumentStructur() {
     this.loading = true;
-    console.log(this.documentStructurForm.value)
+    console.log(this.documentStructurForm.value);
     this.documentStructurSrv.newDocumentStructur(this.documentStructurForm.value).subscribe(res => {
       if (res._id) {
         this.loading = false;
@@ -152,7 +152,7 @@ export class NewComponent implements OnInit {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    })
+    });
   }
 
 }

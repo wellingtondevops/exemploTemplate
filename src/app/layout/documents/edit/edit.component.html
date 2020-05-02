@@ -1,12 +1,13 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
+  <div *ngIf="loading"><ngx-loading [show]="loading" [config]="{
           backdropBorderRadius: '3px',
           fullScreenBackdrop: true,
           primaryColour: '#222',
           secondaryColour: '#222',
           tertiaryColour: '#222'
-      }"></ngx-loading>
-  <app-page-header *ngIf="!loading" [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header>
+      }"></ngx-loading></div>
+
+  <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header>
   <div class="card bg-light mb-12">
     <div class="card-body" *ngIf="!loading">
       <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="updateDocument()">

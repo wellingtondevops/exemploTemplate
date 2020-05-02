@@ -25,7 +25,7 @@ export class NewComponent implements OnInit {
   loading: Boolean = false;
   companies: any = [];
   documentsAll: any = [];
-  searchSubscribe: string = '';
+  searchSubscribe = '';
   permissions: any = [];
 
   constructor(
@@ -103,17 +103,16 @@ export class NewComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
-        if (company.length < 2) [];
-        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        let res;
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
   getDocuments(e) {
     _.remove(this.companies, (item) => {
-      return item._id === e.item._id
-    })
+      return item._id === e.item._id;
+    });
     console.log('companies', this.companies);
     this.documentsSrv.searchDocuments(e.item._id).subscribe(
       data => {
@@ -133,15 +132,14 @@ export class NewComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(document => {
-        var res;
-        if (document.length < 2) [];
-        else res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
+        let res;
+        if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
   returnIdCompanyPermissions() {
-    let newArray = [];
+    const newArray = [];
     this.userForm.value.permissions.map((item) => {
       newArray.push({ company: item.company._id, docts: item.docts });
     });
@@ -149,10 +147,10 @@ export class NewComponent implements OnInit {
   }
 
   isAdminSelect() {
-    if(this.userForm.get('profiles').value === 'DAENERYS') {
-      return true
+    if (this.userForm.get('profiles').value === 'DAENERYS') {
+      return true;
     }
-    return false
+    return false;
   }
 
   postUser() {

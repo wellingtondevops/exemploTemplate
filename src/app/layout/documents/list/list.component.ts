@@ -52,7 +52,7 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.getCompanies();
     // this.setPage({ offset: 0 });
-    
+
     this.searchForm = this.fb.group({
       name: this.fb.control(null),
       company: this.fb.control(null, [Validators.required]),
@@ -95,17 +95,17 @@ export class ListComponent implements OnInit {
   } */
 
   getDocuments() {
-    this.setPageDocuments({ offset: 0 })
+    this.setPageDocuments({ offset: 0 });
   }
 
   returnId(object) {
     this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
-      if (key === '_id') return value;
+      if (key === '_id') { return value; }
     })[0];
   }
 
   setPageDocuments(pageInfo) {
-    this.loading = true
+    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
     console.log(this.searchForm.value);
     this.returnId('company');
@@ -117,7 +117,7 @@ export class ListComponent implements OnInit {
       this.documents = data;
       this.loading = false;
     }, error => {
-      console.log('ERROR: ', error)
+      console.log('ERROR: ', error);
       this.loading = false;
     });
   }
@@ -155,10 +155,10 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res = [];
-        if (company.length < 2) [];
+        const res = [];
+        if (company.length < 2) { []; }
         return _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
 
       })
-    );
+    )
 }

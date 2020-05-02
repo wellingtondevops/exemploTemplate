@@ -83,11 +83,11 @@ export class ListComponent implements OnInit {
   }
 
   getDepartaments() {
-    this.setPageDepartaments({ offset: 0 })
+    this.setPageDepartaments({ offset: 0 });
   }
 
   setPageDepartaments(pageInfo) {
-    this.loading = true
+    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
     this.returnId('company');
     this.departmentService.searchDepartament(this.searchForm.value, this.page).subscribe(data => {
@@ -97,14 +97,14 @@ export class ListComponent implements OnInit {
       this.departaments = data;
       this.loading = false;
     }, error => {
-      console.log('ERROR: ', error)
+      console.log('ERROR: ', error);
       this.loading = false;
     });
   }
 
   returnId(object) {
     this.searchForm.value[object] = _.filter(this.searchForm.value[object], function (value, key) {
-      if (key === '_id') return value;
+      if (key === '_id') { return value; }
     })[0];
   }
 
@@ -136,11 +136,11 @@ export class ListComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res = [];
-        if (company.length < 2) [];
+        const res = [];
+        if (company.length < 2) { []; }
         return _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
 
       })
-    );
+    )
 
 }

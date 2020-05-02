@@ -114,7 +114,7 @@ export class ShowComponent implements OnInit {
     getVolume() {
         this.volumesSrv.volume(this.id).subscribe(
             data => {
-                console.log(data)
+                console.log(data);
                 this.loading = false;
                 this.volume = data;
                 this.volumeForm.patchValue({
@@ -188,7 +188,7 @@ export class ShowComponent implements OnInit {
     getDepartament(id) {
         this.departamentsSrv.searchDepartaments(id).subscribe(
             data => {
-                console.log('departaments', data)
+                console.log('departaments', data);
                 this.departaments = data.items;
             },
             error => {
@@ -234,7 +234,7 @@ export class ShowComponent implements OnInit {
                     ? []
                     : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
             )
-        );
+        )
 
     changeGuardType() {
         switch (this.volumeForm.value.guardType) {
@@ -275,7 +275,7 @@ export class ShowComponent implements OnInit {
             this.delete(item);
         });
     }
-    
+
     formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>

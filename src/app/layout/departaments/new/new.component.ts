@@ -67,14 +67,14 @@ export class NewComponent implements OnInit {
 
   returnId(object) {
     this.departamentForm.value[object] = _.filter(this.departamentForm.value[object], function (value, key) {
-      if (key === '_id') return value;
+      if (key === '_id') { return value; }
     })[0];
   }
 
   postDepartament() {
     this.returnId('company');
 
-    var departament = _.omitBy(this.departamentForm.value, _.isNil);
+    const departament = _.omitBy(this.departamentForm.value, _.isNil);
     this.departamentsSrv.newDepartament(departament).subscribe(
       data => {
         if (data._id) {
@@ -94,11 +94,10 @@ export class NewComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       map(company => {
-        var res;
-        if (company.length < 2) [];
-        else res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        let res;
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
         return res;
       })
-    );
+    )
 
 }

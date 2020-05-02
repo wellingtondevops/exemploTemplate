@@ -15,7 +15,7 @@ export class Company {
   answerable: string;
   departaments: Departament[];
   typePerson: string;
-  cpf:string;
+  cpf: string;
   cnpj: string;
   dateCreated: string;
 }
