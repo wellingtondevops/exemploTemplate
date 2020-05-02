@@ -12,6 +12,8 @@ export class Document {
     __v: number;
     dateCreated: string;
     company: Company;
+    dcurrentValue: number;
+    dcurrentLabel: string;
     label: Label[];
 }
 

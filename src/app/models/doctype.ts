@@ -7,6 +7,8 @@ export class Doctype {
   _id: string;
   name: string;
   retention: string;
+  dcurrentValue: number;
+  dcurrentLabel: string;
   __v: number;
   dateCreated: string;
   label: Label[];
