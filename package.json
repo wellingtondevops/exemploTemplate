@@ -9,14 +9,12 @@
   "scripts": {
     "ng": "ng",
     "server": "ng serve",
-    "build": "ng build --prod",
-    "gitbuild": "ng build --prod --base-href /start-angular/SB-Admin-BS4-Angular-7/master/dist/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start": "node server.js",
-    "postinstall": "ng build --aot --prod"
+    "build": "ng build --prod",
+    "start": "node server.js"
   },
   "private": true,
   "dependencies": {
