@@ -34,4 +34,8 @@ export class DocumentsStructurService {
   newDocumentStructur(formdata) {
     return this.http.post<DocumentStructur>(`${url}/templates`, formdata).pipe(tap(data => data));
   }
+
+  list(){
+    return this.http.get<DocumentsStructurList>(`${url}/templates/list`).pipe(tap(data => data));
+  }
 }

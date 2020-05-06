@@ -11,6 +11,7 @@ import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
+import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
 
 @Component({
   selector: 'app-new',
@@ -21,10 +22,12 @@ import _ from 'lodash';
 export class NewComponent implements OnInit {
   loading: Boolean = false;
   documentForm: FormGroup;
+  doctStructForm: FormGroup;
   labels: any = [];
   public retentionList: any = RedemptionEnum;
   public typeFieldList: any = TypeFieldListEnum;
   companies: any = [];
+  doctStructs: any = [];
 
   constructor(
     private _route: Router,
@@ -33,23 +36,32 @@ export class NewComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
+    private doctStructsSrv: DocumentsStructurService
   ) {
 
   }
 
   formatter = (x: { name: string }) => x.name;
 
+  formatterDoctStruct = (x: { structureName: string }) => x.structureName;
+
   get company() {
     return this.documentForm.get('company');
   }
+
   get name() {
     return this.documentForm.get('name');
   }
+
   get retentionTime() {
     return this.documentForm.get('retentionTime');
   }
   get retention() {
     return this.documentForm.get('retention');
+  }
+
+  get doctStruct() {
+    return this.doctStructForm.get('doctStruct');
   }
 
   ngOnInit() {
@@ -61,7 +73,12 @@ export class NewComponent implements OnInit {
       label: this.fb.array(this.labels)
     });
 
+    this.doctStructForm = this.fb.group({
+      doctStruct: this.fb.control('', Validators.required),
+    })
+
     this.getCompanies();
+    this.getDoctStructs();
     this.addLabel();
   }
 
@@ -100,16 +117,39 @@ export class NewComponent implements OnInit {
     );
   }
 
+  getDoctStructs() {
+    this.doctStructsSrv.list().subscribe(
+      data => {
+        this.doctStructs = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    )
+  }
+
+  searchDoctStruct = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(doctStruct => {
+        let res;
+        if (doctStruct.length < 2) { []; } else { res = _.filter(this.doctStructs, v => v.structureName.toLowerCase().indexOf(doctStruct.toLowerCase()) > -1).slice(0, 10); }
+        return res;
+      })
+    )
+
   searchCompany = (text$: Observable<string>) =>
-      text$.pipe(
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(company => {
-              let res;
-              if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
-              return res;
-          })
-      )
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(company => {
+        let res;
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        return res;
+      })
+    )
 
   postDocument() {
     this.loading = true;
@@ -130,6 +170,14 @@ export class NewComponent implements OnInit {
         console.log('ERROR: ', error);
       }
     );
+  }
+
+  selectDoctStruct(doctStruct) {
+    console.log(doctStruct.item);
+  }
+
+  doctStructSelect() {
+
   }
 }
 @Pipe({
