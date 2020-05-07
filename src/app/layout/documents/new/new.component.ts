@@ -28,6 +28,7 @@ export class NewComponent implements OnInit {
   public typeFieldList: any = TypeFieldListEnum;
   companies: any = [];
   doctStructs: any = [];
+  structs: any = [];
 
   constructor(
     private _route: Router,
@@ -60,10 +61,6 @@ export class NewComponent implements OnInit {
     return this.documentForm.get('retention');
   }
 
-  get doctStruct() {
-    return this.doctStructForm.get('doctStruct');
-  }
-
   ngOnInit() {
     this.documentForm = this.fb.group({
       company: this.fb.control('', Validators.required),
@@ -74,7 +71,9 @@ export class NewComponent implements OnInit {
     });
 
     this.doctStructForm = this.fb.group({
-      doctStruct: this.fb.control('', Validators.required),
+      id_Structure: this.fb.control(''),
+      id_child: this.fb.control(''),
+      company: this.fb.control('')
     })
 
     this.getCompanies();
@@ -152,16 +151,35 @@ export class NewComponent implements OnInit {
     )
 
   postDocument() {
+
+
     this.loading = true;
     this.returnId('company');
-
+    this.doctStructForm.setValue({
+      id_child: this.doctStructForm.value.id_child,
+      id_Structure: this.doctStructForm.value.id_Structure._id,
+      company: this.documentForm.value.company
+    })
     const documentForm = _.omitBy(this.documentForm.value, _.isNil);
     this.documentSrv.newDocument(documentForm).subscribe(
       data => {
         if (data._id) {
-          this.loading = false;
-          this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
-          this._route.navigate(['/documents']);
+          let hasDoctStruct;
+          if (this.doctStructForm.value.id_Structure && this.doctStructForm.value.id_child) {
+            hasDoctStruct = this.postDoctStruct(this.doctStructForm.value)
+            if (hasDoctStruct) {
+              this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+              this._route.navigate(['/documents']);
+            } else {
+              console.log('ERROR: ', hasDoctStruct);
+              this.errorMsg.errorMessages(hasDoctStruct);
+              console.log('ERROR: ', hasDoctStruct);
+            }
+          } else {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+            this._route.navigate(['/documents']);
+          }
         }
       },
       error => {
@@ -172,12 +190,28 @@ export class NewComponent implements OnInit {
     );
   }
 
-  selectDoctStruct(doctStruct) {
-    console.log(doctStruct.item);
+  postDoctStruct(doctStructData) {
+    return new Promise((resolve, reject) => {
+      this.documentSrv.postDoctStruct(doctStructData).subscribe(res => {
+        if (res._id) {
+          return resolve(true);
+        }
+      }, error => {
+        return reject(error);
+      })
+    })
   }
 
-  doctStructSelect() {
-
+  selectDoctStruct(doctStruct) {
+    this.loading = true;
+    this.documentSrv.listStructurs(doctStruct.item._id).subscribe(res => {
+      this.loading = false;
+      this.structs = res;
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    })
   }
 }
 @Pipe({
