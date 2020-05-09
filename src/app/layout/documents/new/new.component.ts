@@ -155,7 +155,7 @@ export class NewComponent implements OnInit {
 
   postDocument() {
     this.loading = true;
-    if (this.documentForm.value.dcurrentValue > 0 ) {
+    if (this.documentForm.value.dcurrentValue > 0) {
       this.documentForm.value.label.push({
         "namefield": "DATA DO DOCUMENTO",
         "typeField": "DATA",
@@ -163,41 +163,40 @@ export class NewComponent implements OnInit {
         "timeControl": true
       })
     }
-    console.log(this.documentForm.value);
-    /* this.returnId('company');
-     this.doctStructForm.setValue({
-       id_child: this.doctStructForm.value.id_child,
-       id_Structure: this.doctStructForm.value.id_Structure._id,
-       company: this.documentForm.value.company
-     })
-     const documentForm = _.omitBy(this.documentForm.value, _.isNil);
-     this.documentSrv.newDocument(documentForm).subscribe(
-       data => {
-         if (data._id) {
-           let hasDoctStruct;
-           if (this.doctStructForm.value.id_Structure && this.doctStructForm.value.id_child) {
-             hasDoctStruct = this.postDoctStruct(this.doctStructForm.value)
-             if (hasDoctStruct) {
-               this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
-               this._route.navigate(['/documents']);
-             } else {
-               console.log('ERROR: ', hasDoctStruct);
-               this.errorMsg.errorMessages(hasDoctStruct);
-               console.log('ERROR: ', hasDoctStruct);
-             }
-           } else {
-             this.loading = false;
-             this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
-             this._route.navigate(['/documents']);
-           }
-         }
-       },
-       error => {
-         this.loading = false;
-         this.errorMsg.errorMessages(error);
-         console.log('ERROR: ', error);
-       }
-     ); */
+    this.returnId('company');
+    this.doctStructForm.setValue({
+      id_child: this.doctStructForm.value.id_child,
+      id_Structure: this.doctStructForm.value.id_Structure._id,
+      company: this.documentForm.value.company
+    })
+    const documentForm = _.omitBy(this.documentForm.value, _.isNil);
+    this.documentSrv.newDocument(documentForm).subscribe(
+      data => {
+        if (data._id) {
+          let hasDoctStruct;
+          if (this.doctStructForm.value.id_Structure && this.doctStructForm.value.id_child) {
+            hasDoctStruct = this.postDoctStruct(this.doctStructForm.value)
+            if (hasDoctStruct) {
+              this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+              this._route.navigate(['/documents']);
+            } else {
+              console.log('ERROR: ', hasDoctStruct);
+              this.errorMsg.errorMessages(hasDoctStruct);
+              console.log('ERROR: ', hasDoctStruct);
+            }
+          } else {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+            this._route.navigate(['/documents']);
+          }
+        }
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
   }
 
   postDoctStruct(doctStructData) {
