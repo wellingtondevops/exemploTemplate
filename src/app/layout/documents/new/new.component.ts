@@ -67,7 +67,10 @@ export class NewComponent implements OnInit {
       name: this.fb.control('', [Validators.required]),
       retention: this.fb.control('', [Validators.required]),
       retentionTime: this.fb.control('', [Validators.required]),
-      label: this.fb.array(this.labels)
+      label: this.fb.array(this.labels),
+      dcurrentValue: this.fb.control(0),
+      dintermediateValue: this.fb.control(0),
+      dfinal: this.fb.control('')
     });
 
     this.doctStructForm = this.fb.group({
@@ -151,43 +154,50 @@ export class NewComponent implements OnInit {
     )
 
   postDocument() {
-
-
     this.loading = true;
-    this.returnId('company');
-    this.doctStructForm.setValue({
-      id_child: this.doctStructForm.value.id_child,
-      id_Structure: this.doctStructForm.value.id_Structure._id,
-      company: this.documentForm.value.company
-    })
-    const documentForm = _.omitBy(this.documentForm.value, _.isNil);
-    this.documentSrv.newDocument(documentForm).subscribe(
-      data => {
-        if (data._id) {
-          let hasDoctStruct;
-          if (this.doctStructForm.value.id_Structure && this.doctStructForm.value.id_child) {
-            hasDoctStruct = this.postDoctStruct(this.doctStructForm.value)
-            if (hasDoctStruct) {
-              this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
-              this._route.navigate(['/documents']);
-            } else {
-              console.log('ERROR: ', hasDoctStruct);
-              this.errorMsg.errorMessages(hasDoctStruct);
-              console.log('ERROR: ', hasDoctStruct);
-            }
-          } else {
-            this.loading = false;
-            this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
-            this._route.navigate(['/documents']);
-          }
-        }
-      },
-      error => {
-        this.loading = false;
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-      }
-    );
+    if (this.documentForm.value.dcurrentValue > 0 ) {
+      this.documentForm.value.label.push({
+        "namefield": "DATA DO DOCUMENTO",
+        "typeField": "DATA",
+        "uniq": true,
+        "timeControl": true
+      })
+    }
+    console.log(this.documentForm.value);
+    /* this.returnId('company');
+     this.doctStructForm.setValue({
+       id_child: this.doctStructForm.value.id_child,
+       id_Structure: this.doctStructForm.value.id_Structure._id,
+       company: this.documentForm.value.company
+     })
+     const documentForm = _.omitBy(this.documentForm.value, _.isNil);
+     this.documentSrv.newDocument(documentForm).subscribe(
+       data => {
+         if (data._id) {
+           let hasDoctStruct;
+           if (this.doctStructForm.value.id_Structure && this.doctStructForm.value.id_child) {
+             hasDoctStruct = this.postDoctStruct(this.doctStructForm.value)
+             if (hasDoctStruct) {
+               this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+               this._route.navigate(['/documents']);
+             } else {
+               console.log('ERROR: ', hasDoctStruct);
+               this.errorMsg.errorMessages(hasDoctStruct);
+               console.log('ERROR: ', hasDoctStruct);
+             }
+           } else {
+             this.loading = false;
+             this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+             this._route.navigate(['/documents']);
+           }
+         }
+       },
+       error => {
+         this.loading = false;
+         this.errorMsg.errorMessages(error);
+         console.log('ERROR: ', error);
+       }
+     ); */
   }
 
   postDoctStruct(doctStructData) {
