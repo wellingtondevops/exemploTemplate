@@ -24,6 +24,7 @@ export class EditComponent implements OnInit {
   document: Document;
   loading: Boolean = true;
   documentForm: FormGroup;
+  doctStructForm: FormGroup;
   companies: any = [];
   labels: any = [];
   public retentionList: any = RedemptionEnum;
@@ -60,8 +61,17 @@ export class EditComponent implements OnInit {
       name: this.fb.control('', [Validators.required]),
       retention: this.fb.control('', [Validators.required]),
       retentionTime: this.fb.control('', [Validators.required]),
-      label: this.fb.array(this.labels)
+      label: this.fb.array(this.labels),
+      dcurrentValue: this.fb.control(0),
+      dintermediateValue: this.fb.control(0),
+      dfinal: this.fb.control('')
     });
+
+    this.doctStructForm = this.fb.group({
+      id_Structure: this.fb.control(''),
+      id_child: this.fb.control(''),
+      company: this.fb.control('')
+    })
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocument();
@@ -108,7 +118,10 @@ export class EditComponent implements OnInit {
           company: data.company,
           retention: data.retention,
           retentionTime: data.retentionTime,
-          label: data.label
+          label: data.label,
+          dcurrentValue: data.dcurrentValue,
+          dintermediateValue: data.dintermediateValue,
+          dfinal:  data.dfinal
         });
         this.document.label.map(item => {
           this.addLabelExist(item);
