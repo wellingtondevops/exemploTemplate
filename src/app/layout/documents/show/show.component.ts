@@ -113,7 +113,7 @@ export class ShowComponent implements OnInit {
           company: this.document.company,
           retention: this.document.retention,
           retentionTime: this.document.retentionTime,
-          dateCreated: moment(this.document.dateCreated).format('YYYY-MM-DD'),
+          dateCreated: moment(this.document.dateCreated).format('DD/MM/YYYY'),
         });
         this.document.label.map(item => {
           this.addLabel(item);
