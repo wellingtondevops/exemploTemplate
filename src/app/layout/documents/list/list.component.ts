@@ -107,7 +107,6 @@ export class ListComponent implements OnInit {
   setPageDocuments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    console.log(this.searchForm.value);
     this.returnId('company');
 
     this.documentSrv.searchDocts(this.searchForm.value, this.page).subscribe(data => {

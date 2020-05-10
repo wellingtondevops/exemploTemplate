@@ -182,7 +182,7 @@ export class NewComponent implements OnInit {
             } else {
               console.log('ERROR: ', hasDoctStruct);
               this.errorMsg.errorMessages(hasDoctStruct);
-              console.log('ERROR: ', hasDoctStruct);
+              this.loading = false;
             }
           } else {
             this.loading = false;
