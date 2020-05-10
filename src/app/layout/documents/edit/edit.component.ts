@@ -133,6 +133,14 @@ export class EditComponent implements OnInit {
 
   updateDocument() {
     this.loading = true;
+    if (this.documentForm.value.dcurrentValue > 0) {
+      this.documentForm.value.label.push({
+        "namefield": "DATA DO DOCUMENTO",
+        "typeField": "DATA",
+        "uniq": true,
+        "timeControl": true
+      })
+    }
     const document = _.omitBy(this.documentForm.value, _.isNil);
     this.documentsSrv.updateDocument(document).subscribe(
       data => {
