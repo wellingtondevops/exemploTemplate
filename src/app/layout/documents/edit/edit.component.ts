@@ -4,7 +4,6 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { RedemptionEnum } from 'src/app/models/redemption.enum';
 import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { Document } from 'src/app/models/document';
 import _ from 'lodash';
@@ -27,7 +26,6 @@ export class EditComponent implements OnInit {
   doctStructForm: FormGroup;
   companies: any = [];
   labels: any = [];
-  public retentionList: any = RedemptionEnum;
   public typeFieldList: any = TypeFieldListEnum;
 
   constructor(
@@ -47,20 +45,12 @@ export class EditComponent implements OnInit {
   get name() {
     return this.documentForm.get('name');
   }
-  get retentionTime() {
-    return this.documentForm.get('retentionTime');
-  }
-  get retention() {
-    return this.documentForm.get('retention');
-  }
 
   ngOnInit() {
     this.documentForm = this.fb.group({
       _id: '',
       company: this.fb.control('', [Validators.required]),
       name: this.fb.control('', [Validators.required]),
-      retention: this.fb.control('', [Validators.required]),
-      retentionTime: this.fb.control('', [Validators.required]),
       label: this.fb.array(this.labels),
       dcurrentValue: this.fb.control(0),
       dintermediateValue: this.fb.control(0),
@@ -116,8 +106,6 @@ export class EditComponent implements OnInit {
           _id: data._id,
           name: data.name,
           company: data.company,
-          retention: data.retention,
-          retentionTime: data.retentionTime,
           label: data.label,
           dcurrentValue: data.dcurrentValue,
           dintermediateValue: data.dintermediateValue,

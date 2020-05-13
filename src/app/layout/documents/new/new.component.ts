@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { RedemptionEnum } from 'src/app/models/redemption.enum';
 import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { routerTransition } from 'src/app/router.animations';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
@@ -24,7 +23,6 @@ export class NewComponent implements OnInit {
   documentForm: FormGroup;
   doctStructForm: FormGroup;
   labels: any = [];
-  public retentionList: any = RedemptionEnum;
   public typeFieldList: any = TypeFieldListEnum;
   companies: any = [];
   doctStructs: any = [];
@@ -54,19 +52,10 @@ export class NewComponent implements OnInit {
     return this.documentForm.get('name');
   }
 
-  get retentionTime() {
-    return this.documentForm.get('retentionTime');
-  }
-  get retention() {
-    return this.documentForm.get('retention');
-  }
-
   ngOnInit() {
     this.documentForm = this.fb.group({
       company: this.fb.control('', Validators.required),
       name: this.fb.control('', [Validators.required]),
-      retention: this.fb.control('', [Validators.required]),
-      retentionTime: this.fb.control('', [Validators.required]),
       label: this.fb.array(this.labels),
       dcurrentValue: this.fb.control(0),
       dintermediateValue: this.fb.control(0),

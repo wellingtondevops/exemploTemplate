@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { RedemptionEnum } from 'src/app/models/redemption.enum';
 import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
@@ -34,7 +33,6 @@ export class ShowComponent implements OnInit {
   documentForm: FormGroup;
   labels: any = [];
   id: string;
-  public retentionList: any = RedemptionEnum;
   public typeFieldList: any = TypeFieldListEnum;
   company: Company;
 
@@ -53,8 +51,6 @@ export class ShowComponent implements OnInit {
       _id: '',
       company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-      retention: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-      retentionTime: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       dateCreated: this.fb.control({ value: '', disabled: true}),
       label: this.fb.array(this.labels),
       dcurrentValue: this.fb.control({ value: 0, disabled: true}),
@@ -113,8 +109,6 @@ export class ShowComponent implements OnInit {
           label: this.document.label ? this.document.label : [],
           name: this.document.name,
           company: this.document.company,
-          retention: this.document.retention,
-          retentionTime: this.document.retentionTime,
           dateCreated: moment(this.document.dateCreated).format('DD/MM/YYYY'),
           dcurrentValue: this.document.dcurrentValue,
           dintermediateValue: this.document.dintermediateValue,
