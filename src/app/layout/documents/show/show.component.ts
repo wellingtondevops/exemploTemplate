@@ -53,6 +53,7 @@ export class ShowComponent implements OnInit {
       name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       dateCreated: this.fb.control({ value: '', disabled: true}),
       label: this.fb.array(this.labels),
+      dcurrentLabel: this.fb.control({ value: '', disabled: true}),
       dcurrentValue: this.fb.control({ value: 0, disabled: true}),
       dintermediateValue: this.fb.control({ value: 0, disabled: true}),
       dfinal: this.fb.control({ value: '', disabled: true})
@@ -110,6 +111,7 @@ export class ShowComponent implements OnInit {
           name: this.document.name,
           company: this.document.company,
           dateCreated: moment(this.document.dateCreated).format('DD/MM/YYYY'),
+          dcurrentLabel: this.document.dcurrentLabel,
           dcurrentValue: this.document.dcurrentValue,
           dintermediateValue: this.document.dintermediateValue,
           dfinal: this.document.dfinal

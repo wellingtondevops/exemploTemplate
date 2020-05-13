@@ -12,13 +12,13 @@
   <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header>
   <div class="card bg-light mb-12">
     <div class="card-body" *ngIf="!loading">
-      <ngb-tabset>
-        <ngb-tab title="Documento">
+      <ngb-tabset #tab>
+        <ngb-tab title="Documento" id="tab1">
           <ng-template ngbTabContent>
+            <br>
             <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="updateDocument()">
               <div class="row">
                 <div class="col-xl-6">
-
                   <div class="form-group">
                     <label for="typeahead-format">Empresa</label>
                     <input id="typeahead-format" class="form-control" formControlName="company"
@@ -56,6 +56,8 @@
                         <div class="col-lg-4">
                           <div class="form-group">
                             <label for="labelDcurrentValue">Fase Corrente</label>
+                            <input id="dcurrentLabel" type="text" placeholder="Texto" class="form-control"
+                              formControlName="dcurrentLabel" />
                             <input id="dcurrentValue" type="number" placeholder="Fase Corrente" class="form-control"
                               formControlName="dcurrentValue" />
                           </div>
@@ -70,8 +72,8 @@
                         <div class="col-lg-4">
                           <div class="form-group">
                             <label for="labelDfinal">Final</label>
-                            <input id="dfinal" type="text" placeholder="Final" class="form-control"
-                              formControlName="dfinal" />
+                            <textarea id="dfinal" type="text" placeholder="Final" class="form-control"
+                              formControlName="dfinal"></textarea>
                           </div>
                         </div>
                       </div>
@@ -124,11 +126,37 @@
               <div class="pull-right">
                 <button type="button" [routerLink]="['/documents/get', document._id]" class="btn btn-danger"
                   style="margin-right:10px">Cancelar</button>
-                <button type="submit" class="btn btn-primary"
-                  [disabled]="name.invalid || retention.invalid || retentionTime.invalid">
+                <button type="submit" class="btn btn-primary" [disabled]="name.invalid">
                   Salvar
                 </button>
               </div>
+            </form>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab2" [disabled]="tabIndex" title="Estrutura de Documentos">
+          <ng-template ngbTabContent>
+            <form [formGroup]="doctStructForm" role="FormGroup" (ngSubmit)="doctStructSelect()">
+              <br>
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <label for="typeahead-basic">Estrutura de Documento</label>
+                    <input id="typeahead-basic" type="text" class="form-control" formControlName="id_Structure"
+                      [resultTemplate]="rtDoctStruct" (selectItem)="selectDoctStruct($event)"
+                      [inputFormatter]="formatterDoctStruct" [ngbTypeahead]="searchDoctStruct" />
+                  </div>
+                  <div class="form-group">
+                    <label for="id_child">Código do Tópico</label>
+                    <select class="form-control" id="id_child" formControlName="id_child">
+                      <option *ngFor="let struct of structs" [value]="struct._id">
+                        {{ struct.codTopic }} - {{ struct.topic }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <ng-template #rtDoctStruct let-r="result" let-t="doctStruct" class="custom-typeahead">
+                <ngb-highlight [result]="r.structureName" [term]="t"></ngb-highlight>
+              </ng-template>
             </form>
           </ng-template>
         </ngb-tab>

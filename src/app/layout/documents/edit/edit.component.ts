@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -11,6 +11,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit',
@@ -19,6 +20,7 @@ import { Observable } from 'rxjs';
   animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
+  @ViewChild('tab') private tab: NgbTabset;
   id: string;
   document: Document;
   loading: Boolean = true;
@@ -53,6 +55,7 @@ export class EditComponent implements OnInit {
       name: this.fb.control('', [Validators.required]),
       label: this.fb.array(this.labels),
       dcurrentValue: this.fb.control(0),
+      dcurrentLabel: this.fb.control(''),
       dintermediateValue: this.fb.control(0),
       dfinal: this.fb.control('')
     });
@@ -108,6 +111,7 @@ export class EditComponent implements OnInit {
           company: data.company,
           label: data.label,
           dcurrentValue: data.dcurrentValue,
+          dcurrentLabel: data.dcurrentLabel,
           dintermediateValue: data.dintermediateValue,
           dfinal:  data.dfinal
         });
@@ -127,6 +131,13 @@ export class EditComponent implements OnInit {
         "typeField": "DATA",
         "uniq": true,
         "timeControl": true
+      })
+    } else {
+      this.documentForm.value.label.filter((item, index) => {
+        console.log(item)
+        if(item.namefield === 'DATA DO DOCUMENTO') {
+          this.documentForm.value.label.splice(index, 1);
+        }
       })
     }
     const document = _.omitBy(this.documentForm.value, _.isNil);

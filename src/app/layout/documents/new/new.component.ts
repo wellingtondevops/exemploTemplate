@@ -1,4 +1,4 @@
-import { Component, OnInit, PipeTransform, Pipe } from '@angular/core';
+import { Component, OnInit, PipeTransform, Pipe, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
 import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-new',
@@ -19,6 +20,7 @@ import { DocumentsStructurService } from 'src/app/services/documents-structur/do
   animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
+  @ViewChild('tab') private tab: NgbTabset;
   loading: Boolean = false;
   documentForm: FormGroup;
   doctStructForm: FormGroup;
@@ -27,6 +29,7 @@ export class NewComponent implements OnInit {
   companies: any = [];
   doctStructs: any = [];
   structs: any = [];
+  tabIndex: Boolean = false;
 
   constructor(
     private _route: Router,
@@ -58,6 +61,7 @@ export class NewComponent implements OnInit {
       name: this.fb.control('', [Validators.required]),
       label: this.fb.array(this.labels),
       dcurrentValue: this.fb.control(0),
+      dcurrentLabel: this.fb.control(''),
       dintermediateValue: this.fb.control(0),
       dfinal: this.fb.control('')
     });
@@ -151,7 +155,15 @@ export class NewComponent implements OnInit {
         "uniq": true,
         "timeControl": true
       })
+    } else {
+      this.documentForm.value.label.filter((item, index) => {
+        console.log(item)
+        if(item.namefield === 'DATA DO DOCUMENTO') {
+          this.documentForm.value.label.splice(index, 1);
+        }
+      })
     }
+
     this.returnId('company');
     this.doctStructForm.setValue({
       id_child: this.doctStructForm.value.id_child,
