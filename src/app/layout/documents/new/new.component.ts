@@ -157,7 +157,6 @@ export class NewComponent implements OnInit {
       })
     } else {
       this.documentForm.value.label.filter((item, index) => {
-        console.log(item)
         if(item.namefield === 'DATA DO DOCUMENTO') {
           this.documentForm.value.label.splice(index, 1);
         }
@@ -165,18 +164,15 @@ export class NewComponent implements OnInit {
     }
 
     this.returnId('company');
-    this.doctStructForm.setValue({
-      id_child: this.doctStructForm.value.id_child,
-      id_Structure: this.doctStructForm.value.id_Structure._id,
-      company: this.documentForm.value.company
-    })
+    this.doctStructForm.value.company = this.documentForm.value.company
     const documentForm = _.omitBy(this.documentForm.value, _.isNil);
     this.documentSrv.newDocument(documentForm).subscribe(
       data => {
         if (data._id) {
           let hasDoctStruct;
-          if (this.doctStructForm.value.id_Structure && this.doctStructForm.value.id_child) {
+          if (this.doctStructForm.value.id_Structure !== '' && this.doctStructForm.value.id_child !== '') {
             hasDoctStruct = this.postDoctStruct(this.doctStructForm.value)
+            console.log(hasDoctStruct)
             if (hasDoctStruct) {
               this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
               this._route.navigate(['/documents']);
@@ -207,8 +203,9 @@ export class NewComponent implements OnInit {
           return resolve(true);
         }
       }, error => {
-        return reject(error);
+        return reject(false);
       })
+      return resolve(false)
     })
   }
 
