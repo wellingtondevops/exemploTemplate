@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
 import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { DocumentStructur, Topic } from 'src/app/models/document-structur';
 
 @Component({
   selector: 'app-new',
@@ -30,6 +31,8 @@ export class NewComponent implements OnInit {
   doctStructs: any = [];
   structs: any = [];
   tabIndex: Boolean = false;
+  topic: Topic;
+  topicForm: FormGroup;
 
   constructor(
     private _route: Router,
@@ -70,6 +73,17 @@ export class NewComponent implements OnInit {
       id_Structure: this.fb.control(''),
       id_child: this.fb.control(''),
       company: this.fb.control('')
+    })
+
+    this.topicForm = this.fb.group({
+      comments: this.fb.control({ value: '', disabled: true }),
+      final: this.fb.control({ value: '', disabled: true }),
+      intermediateValue: this.fb.control({ value: 0, disabled: true }),
+      intermediateLabel: this.fb.control({ value: '', disabled: true }),
+      currentValue: this.fb.control({ value: 0, disabled: true }),
+      currentLabel: this.fb.control({ value: '', disabled: true }),
+      topic: this.fb.control({ value: '', disabled: true }),
+      codTopic: this.fb.control({ value: '', disabled: true }),
     })
 
     this.getCompanies();
@@ -194,6 +208,26 @@ export class NewComponent implements OnInit {
         console.log('ERROR: ', error);
       }
     );
+  }
+
+  onChangeTopic(){
+    this.doctStructForm.value.id_Structure = this.doctStructForm.value.id_Structure._id;
+    this.doctStructsSrv.showTopic(this.doctStructForm.value).subscribe(data => {
+      this.topic = data;
+      this.topicForm.patchValue({
+        comments: data.comments,
+        final: data.final,
+        intermediateLabel: data.intermediateLabel,
+        intermediateValue: data.intermediateValue,
+        currentValue: data.currentValue,
+        currentLabel: data.currentLabel,
+        topic: data.topic,
+        codTopic: data.codTopic
+      })
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    })
   }
 
   postDoctStruct(doctStructData) {

@@ -142,7 +142,7 @@
                   </div>
                   <div class="form-group">
                     <label for="id_child">Código do Tópico</label>
-                    <select class="form-control" id="id_child" formControlName="id_child">
+                    <select class="form-control" id="id_child" formControlName="id_child" (change)="onChangeTopic()">
                       <option *ngFor="let struct of structs" [value]="struct._id">
                         {{ struct.codTopic }} - {{ struct.topic }}</option>
                     </select>
@@ -153,6 +153,67 @@
                 <ngb-highlight [result]="r.structureName" [term]="t"></ngb-highlight>
               </ng-template>
             </form>
+            <div *ngIf="topic">
+              <div class="card bg-light mb-12">
+                <div class="card-header">
+                  Tópico
+                </div>
+                <div class="card-body">
+                  <div class="col-lg-12">
+                    <form [formGroup]="topicForm">
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <div class="form-group">
+                            <label for="codTopic">Código</label>
+                            <input id="codTopic" type="text" placeholder="Código" class="form-control"
+                              formControlName="codTopic" disable="true" />
+                          </div>
+                        </div>
+                        <div class="col-lg-2">
+                          <div class="form-group">
+                            <label for="topic">Tópico</label>
+                            <textarea id="topic" type="text" placeholder="Tópico" class="form-control"
+                              formControlName="topic" ></textarea>
+                          </div>
+                        </div>
+                        <div class="col-lg-2">
+                          <div class="form-group">
+                            <label for="currentLabel">Fase Corrente</label>
+                            <textarea id="currentLabel" type="text" placeholder="Fase Corrente" class="form-control"
+                              formControlName="currentLabel" ></textarea>
+                            <input id="currentValue" type="text" placeholder="Fase Corrente" class="form-control"
+                            formControlName="currentValue">
+                          </div>
+                        </div>
+                        <div class="col-lg-2">
+                          <div class="form-group">
+                            <label for="currentLabel">Fase Intermédiaria</label>
+                            <textarea id="intermediateLabel" type="text" placeholder="Fase Corrente" class="form-control"
+                              formControlName="intermediateLabel" ></textarea>
+                            <input id="intermediateValue" type="text" placeholder="Fase Corrente" class="form-control"
+                            formControlName="intermediateValue">
+                          </div>
+                        </div>
+                        <div class="col-lg-2">
+                          <div class="form-group">
+                            <label for="final">Final</label>
+                            <textarea id="final" type="text" placeholder="Final" class="form-control"
+                              formControlName="final" ></textarea>
+                          </div>
+                        </div>
+                        <div class="col-lg-2">
+                          <div class="form-group">
+                            <label for="comments">Comentário</label>
+                            <textarea id="comments" type="text" placeholder="Comentário" class="form-control"
+                              formControlName="comments" ></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </ng-template>
         </ngb-tab>
       </ngb-tabset>

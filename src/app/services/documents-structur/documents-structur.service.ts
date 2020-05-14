@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { DocumentsStructurList, DocumentStructur } from 'src/app/models/document-structur';
+import { DocumentsStructurList, DocumentStructur, Topic } from 'src/app/models/document-structur';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -37,5 +37,9 @@ export class DocumentsStructurService {
 
   list(){
     return this.http.get<DocumentsStructurList>(`${url}/templates/list`).pipe(tap(data => data));
+  }
+
+  showTopic(formdata){
+    return this.http.post<any>(`${url}/docts/showObjectStruture`, formdata).pipe(tap(data => data));
   }
 }
