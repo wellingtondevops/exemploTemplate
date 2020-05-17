@@ -66,7 +66,9 @@ export class NewComponent implements OnInit {
       dcurrentValue: this.fb.control(0),
       dcurrentLabel: this.fb.control(''),
       dintermediateValue: this.fb.control(0),
-      dfinal: this.fb.control('')
+      dfinal: this.fb.control(''),
+      refStructureId: this.fb.control(''),
+      refTemplateId: this.fb.control('')
     });
 
     this.doctStructForm = this.fb.group({
@@ -171,7 +173,7 @@ export class NewComponent implements OnInit {
       })
     } else {
       this.documentForm.value.label.filter((item, index) => {
-        if(item.namefield === 'DATA DO DOCUMENTO') {
+        if (item.namefield === 'DATA DO DOCUMENTO') {
           this.documentForm.value.label.splice(index, 1);
         }
       })
@@ -210,7 +212,33 @@ export class NewComponent implements OnInit {
     );
   }
 
-  onChangeTopic(){
+  onChangeStruct() {
+    this.doctStructForm.value.id_Structure = this.doctStructForm.value.id_Structure._id;
+    if (!this.doctStructForm.value.id_Structure ||
+      this.doctStructForm.value.id_Structure === '') {
+      this.documentForm.patchValue({
+        name: ''
+      })
+      this.structs = [];
+      this.documentForm.get('name').enable();
+      this.topic = null
+      this.doctStructForm.patchValue({
+        id_child: ''
+      })
+      this.topicForm.patchValue({
+        comments: '',
+        final: '',
+        intermediateValue: 0,
+        intermediateLabel: '',
+        currentValue: 0,
+        currentLabel: '',
+        topic: '',
+        codTopic: ''
+      })
+    }
+  }
+
+  onChangeTopic() {
     this.doctStructForm.value.id_Structure = this.doctStructForm.value.id_Structure._id;
     this.doctStructsSrv.showTopic(this.doctStructForm.value).subscribe(data => {
       this.topic = data;
@@ -224,6 +252,20 @@ export class NewComponent implements OnInit {
         topic: data.topic,
         codTopic: data.codTopic
       })
+      if (this.doctStructForm.value.id_Structure &&
+        this.doctStructForm.value.id_Structure !== '' &&
+        this.doctStructForm.value.id_child &&
+        this.doctStructForm.value.id_child !== '') {
+        this.documentForm.patchValue({
+          name: `${this.topicForm.value.codTopic} ${this.topicForm.value.topic}`
+        })
+        this.documentForm.get('name').disable();
+      } else {
+        this.documentForm.patchValue({
+          name: ''
+        })
+        this.documentForm.get('name').enable();
+      }
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
