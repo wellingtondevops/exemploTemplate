@@ -259,7 +259,6 @@ export class NewComponent implements OnInit {
         this.documentForm.patchValue({
           name: `${this.topicForm.value.codTopic} ${this.topicForm.value.topic}`
         })
-        this.documentForm.get('name').disable();
       } else {
         this.documentForm.patchValue({
           name: ''
