@@ -185,23 +185,8 @@ export class NewComponent implements OnInit {
     this.documentSrv.newDocument(documentForm).subscribe(
       data => {
         if (data._id) {
-          let hasDoctStruct;
-          if (this.doctStructForm.value.id_Structure !== '' && this.doctStructForm.value.id_child !== '') {
-            hasDoctStruct = this.postDoctStruct(this.doctStructForm.value)
-            console.log(hasDoctStruct)
-            if (hasDoctStruct) {
-              this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
-              this._route.navigate(['/documents']);
-            } else {
-              console.log('ERROR: ', hasDoctStruct);
-              this.errorMsg.errorMessages(hasDoctStruct);
-              this.loading = false;
-            }
-          } else {
-            this.loading = false;
-            this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
-            this._route.navigate(['/documents']);
-          }
+          this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+          this._route.navigate(['/documents']);
         }
       },
       error => {
@@ -257,7 +242,11 @@ export class NewComponent implements OnInit {
         this.doctStructForm.value.id_child &&
         this.doctStructForm.value.id_child !== '') {
         this.documentForm.patchValue({
-          name: `${this.topicForm.value.codTopic} ${this.topicForm.value.topic}`
+          name: `${this.topicForm.value.codTopic} ${this.topicForm.value.topic}`,
+          dcurrentValue: data.currentValue,
+          dcurrentLabel: data.currentLabel,
+          dintermediateValue: data.intermediateValue,
+          dfinal: data.final,
         })
       } else {
         this.documentForm.patchValue({
