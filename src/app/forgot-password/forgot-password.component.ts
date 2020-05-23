@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../router.animations';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ForgotPasswordService } from '../services/forgot-password/forgot-password.service';
+import { SuccessMessagesService } from '../utils/success-messages/success-messages.service';
+import { ErrorMessagesService } from '../utils/error-messages/error-messages.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,6 +17,9 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private fogotPasswordSrv: ForgotPasswordService,
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService
   ) { }
 
   ngOnInit() {
@@ -24,7 +30,15 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onResetPass(){
-    
+    this.loading = true;
+    this.fogotPasswordSrv.forgotPassword(this.resetPassForm.value.email).subscribe(res => {
+      this.successMsgSrv.successMessages(res);
+      this.loading = false;
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
   }
 
 }
