@@ -39,23 +39,44 @@
             </div>
 
             <div class="form-group">
-              <label for="retention">Tipo do Tempo de Guarda</label>
-              <select class="form-control" id="retention" formControlName="retention">
-                <option *ngFor="let retention of retentionList | enumToArray" [value]="retention">
-                  {{ retention | translate }}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="">Tempo de Guarda</label>
-              <input id="retentionTime" type="number" placeholder="Tempo de Guarda" class="form-control"
-                formControlName="retentionTime" />
-            </div>
-            <div class="form-group">
               <label for="">Criado em</label>
               <input id="dateCreated" type="text" placeholder="Criado em" class="form-control"
                 formControlName="dateCreated" />
             </div>
+
+            <div class="card bg-light mb-12">
+              <div class="card-header">
+                Fases
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="labelDcurrentValue">Fase Corrente</label>
+                      <input id="dcurrentLabel" type="text" placeholder="Texto" class="form-control"
+                              formControlName="dcurrentLabel" />
+                      <input id="dcurrentValue" type="number" placeholder="Fase Corrente" class="form-control"
+                        formControlName="dcurrentValue" />
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="labelDintermediateValue">Fase Intermédiaria</label>
+                      <input id="dintermediateValue" type="number" placeholder="Fase Intermédiaria"
+                        class="form-control" formControlName="dintermediateValue" />
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="labelDfinal">Final</label>
+                      <textarea id="dfinal" type="text" placeholder="Final" class="form-control"
+                        formControlName="dfinal" ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
 
           <div class="col-xl-6">

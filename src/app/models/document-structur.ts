@@ -58,6 +58,17 @@ export class SubGroup {
   comments: string;
 }
 
+export class Topic {
+  codTopic: string;
+  topic: string;
+  currentLabel: string;
+  currentValue: number;
+  intermediateLabel: string;
+  intermediateValue: string;
+  final: string;
+  comments: string;
+}
+
 export class DocumentsStructurList {
   _links: Pagination;
   items: DocumentStructur[];

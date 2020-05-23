@@ -14,6 +14,9 @@ export class Document {
     company: Company;
     dcurrentValue: number;
     dcurrentLabel: string;
+    dintermediateValue: number;
+    dintermediateLabel: string;
+    dfinal: string;
     label: Label[];
 }
 

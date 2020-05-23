@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { RedemptionEnum } from 'src/app/models/redemption.enum';
 import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { Document } from 'src/app/models/document';
 import _ from 'lodash';
@@ -12,6 +11,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit',
@@ -20,13 +20,14 @@ import { Observable } from 'rxjs';
   animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
+  @ViewChild('tab') private tab: NgbTabset;
   id: string;
   document: Document;
   loading: Boolean = true;
   documentForm: FormGroup;
+  doctStructForm: FormGroup;
   companies: any = [];
   labels: any = [];
-  public retentionList: any = RedemptionEnum;
   public typeFieldList: any = TypeFieldListEnum;
 
   constructor(
@@ -46,22 +47,24 @@ export class EditComponent implements OnInit {
   get name() {
     return this.documentForm.get('name');
   }
-  get retentionTime() {
-    return this.documentForm.get('retentionTime');
-  }
-  get retention() {
-    return this.documentForm.get('retention');
-  }
 
   ngOnInit() {
     this.documentForm = this.fb.group({
       _id: '',
       company: this.fb.control('', [Validators.required]),
       name: this.fb.control('', [Validators.required]),
-      retention: this.fb.control('', [Validators.required]),
-      retentionTime: this.fb.control('', [Validators.required]),
-      label: this.fb.array(this.labels)
+      label: this.fb.array(this.labels),
+      dcurrentValue: this.fb.control(0),
+      dcurrentLabel: this.fb.control(''),
+      dintermediateValue: this.fb.control(0),
+      dfinal: this.fb.control('')
     });
+
+    this.doctStructForm = this.fb.group({
+      id_Structure: this.fb.control(''),
+      id_child: this.fb.control(''),
+      company: this.fb.control('')
+    })
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocument();
@@ -106,9 +109,11 @@ export class EditComponent implements OnInit {
           _id: data._id,
           name: data.name,
           company: data.company,
-          retention: data.retention,
-          retentionTime: data.retentionTime,
-          label: data.label
+          label: data.label,
+          dcurrentValue: data.dcurrentValue,
+          dcurrentLabel: data.dcurrentLabel,
+          dintermediateValue: data.dintermediateValue,
+          dfinal:  data.dfinal
         });
         this.document.label.map(item => {
           this.addLabelExist(item);
@@ -120,6 +125,21 @@ export class EditComponent implements OnInit {
 
   updateDocument() {
     this.loading = true;
+    if (this.documentForm.value.dcurrentValue > 0) {
+      this.documentForm.value.label.push({
+        "namefield": "DATA DO DOCUMENTO",
+        "typeField": "DATA",
+        "uniq": true,
+        "timeControl": true
+      })
+    } else {
+      this.documentForm.value.label.filter((item, index) => {
+        console.log(item)
+        if(item.namefield === 'DATA DO DOCUMENTO') {
+          this.documentForm.value.label.splice(index, 1);
+        }
+      })
+    }
     const document = _.omitBy(this.documentForm.value, _.isNil);
     this.documentsSrv.updateDocument(document).subscribe(
       data => {
