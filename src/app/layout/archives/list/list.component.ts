@@ -16,6 +16,7 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { SaveLocal } from '../../../storage/saveLocal'
 
 @Component({
   selector: 'app-list',
@@ -56,7 +57,8 @@ export class ListComponent implements OnInit {
     private departamentsSrv: DepartamentsService,
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
-    private warningMsg: WarningMessagesService
+    private warningMsg: WarningMessagesService,
+    private localStorageSrv: SaveLocal
   ) { }
 
   ngOnInit() {
@@ -64,7 +66,7 @@ export class ListComponent implements OnInit {
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
       departament: this.fb.control(null),
-      status: this.fb.control(null),
+      status: this.fb.control('ATIVO'),
       location: this.fb.control(null),
       storehouse: this.fb.control(null),
       doct: this.fb.control(null),
@@ -73,10 +75,25 @@ export class ListComponent implements OnInit {
       initDate: this.fb.control(null)
     });
 
+    const archive = JSON.parse(this.localStorageSrv.get('archive'));
+
+    if (archive && archive.company) {
+      this.searchForm.patchValue({
+        company: archive.company,
+        departament: archive.departament,
+        status: archive.status,
+        location: archive.location,
+        storehouse: archive.storehouse,
+        doct: archive.doct,
+        search: archive.search,
+        endDate: archive.endDate,
+        initDate: archive.initDate
+      })
+    }
+
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
-    // this.getDocuments();
   }
 
   formatter = (x: { name: string }) => x.name;
@@ -84,14 +101,6 @@ export class ListComponent implements OnInit {
   get company() {
     return this.searchForm.get('company');
   }
-
-  /*   get departament() {
-      return this.searchForm.get('departament');
-    }
-
-    get storehouse() {
-      return this.searchForm.get('storehouse');
-    } */
 
   returnId(object) {
     const result = _.filter(this.searchForm.value[object], function (value, key) {
@@ -103,6 +112,9 @@ export class ListComponent implements OnInit {
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+
+    this.localStorageSrv.save('archive', this.searchForm.value)
+
     const newSearch = {
       company: null,
       storehouse: null,
@@ -174,6 +186,21 @@ export class ListComponent implements OnInit {
     if (this.searchForm.value.company) {
       this.setPage({ offset: 0 });
     }
+  }
+
+  clear() {
+    this.localStorageSrv.clear('archive');
+    this.searchForm.patchValue({
+      company: null,
+      departament: null,
+      status: 'ATIVO',
+      location: null,
+      storehouse: null,
+      doct: null,
+      search: null,
+      endDate: null,
+      initDate: null
+    })
   }
 
   getCompanies() {
@@ -289,17 +316,17 @@ export class ListComponent implements OnInit {
       )));
   }
 
-/*   searchDocument = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(document => {
-        var res;
-        if (document.length < 2) [];
-        else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
-        return res;
-      })
-    ); */
+  /*   searchDocument = (text$: Observable<string>) =>
+      text$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        map(document => {
+          var res;
+          if (document.length < 2) [];
+          else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
+          return res;
+        })
+      ); */
 
   newRegisters(registers) {
     registers.map(item => {

@@ -76,8 +76,11 @@
 
           <div class="row col-12" style="justify-content: center; margin-top: 10px;">
             <div class="form-group mb-2">
-              <button type="submit" class="btn btn-default" [disabled]="company.invalid">
+              <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                 <i class="fa fa-search"></i>
+              </button>
+              <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
+               Limpar Campos
               </button>
             </div>
           </div>

@@ -9,10 +9,15 @@ import { HeaderComponent } from './components/header/header.component';
 import { NgbdModalConfirmComponent } from '../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbdModalConfirmModule } from '../shared';
 import { Masks } from '../utils/masks';
-import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
-    imports: [CommonModule, LayoutRoutingModule, TranslateModule, NgbDropdownModule, NgbdModalConfirmModule],
+    imports: [
+      CommonModule,
+      LayoutRoutingModule,
+      TranslateModule,
+      NgbDropdownModule,
+      NgbdModalConfirmModule
+    ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
     entryComponents: [NgbdModalConfirmComponent],
     providers: [Masks]
