@@ -59,7 +59,7 @@ export class ImportVolumeComponent implements OnInit {
       volumeType: this.fb.control('', [Validators.required]),
       departament: this.fb.control(null),
       uniqueField: this.fb.control(''),
-      location: this.fb.control('', [Validators.required]),
+      LOCALIZACAO: this.fb.control('', [Validators.required]),
       reference: this.fb.control(null),
       seal: this.fb.control(null)
     });
@@ -69,8 +69,8 @@ export class ImportVolumeComponent implements OnInit {
     this.getCompanies();
     this.getStoreHouses();
   }
-  get location() {
-    return this.volumeForm.get('location');
+  get LOCALIZACAO() {
+    return this.volumeForm.get('LOCALIZACAO');
   }
   get volumeType() {
     return this.volumeForm.get('volumeType');
@@ -133,7 +133,7 @@ export class ImportVolumeComponent implements OnInit {
   }
 
   returnUniqField() {
-    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse._id}`;
+    return `${this.volumeForm.value.LOCALIZACAO}-${this.volumeForm.value.storehouse._id}`;
   }
 
   postVolume() {
@@ -146,8 +146,8 @@ export class ImportVolumeComponent implements OnInit {
     const totalImports = this.rowsFile.length;
 
     this.rowsFile.map(row => {
-      if (row.location) {
-        this.volumeForm.controls['location'].patchValue(row.location);
+      if (row.LOCALIZACAO) {
+        this.volumeForm.controls['LOCALIZACAO'].patchValue(row.LOCALIZACAO);
       }
       if (!this.hiddenReference && !row.reference) {
         this.errorMsg.errorMessages(`Referência é obrigatória para guarda simples.`);

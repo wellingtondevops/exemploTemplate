@@ -20,6 +20,8 @@ import { Observable } from 'rxjs';
 import _ from 'lodash';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
+import { SaveLocal } from '../../../storage/saveLocal'
+
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -79,23 +81,39 @@ export class ListComponent implements OnInit {
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
+    private localStorageSrv: SaveLocal
   ) {
     this.guardTypeList = GuardyTypeVolumeEnum;
   }
 
   ngOnInit() {
+
     // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
       departament: this.fb.control(null),
-      status: this.fb.control(null),
+      status: this.fb.control('ATIVO'),
       location: this.fb.control(''),
       storehouse: this.fb.control(null),
       reference: this.fb.control(null),
       endDate: this.fb.control(null),
       initDate: this.fb.control(null),
-      guardType: this.fb.control(null),
+      guardType: this.fb.control('GERENCIADA'),
     });
+    const volume = JSON.parse(this.localStorageSrv.get('volume'));
+    if(volume && volume.company){
+      this.searchForm.patchValue({
+        company: volume.company,
+        departament: volume.departament,
+        status: volume.status,
+        location: volume.location,
+        storehouse: volume.storehouse,
+        reference: volume.reference,
+        endDate: volume.endDate,
+        initDate: volume.initDate,
+        guardType: volume.guardType
+      })
+    }
 
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
@@ -116,6 +134,21 @@ export class ListComponent implements OnInit {
     })[0];
     return result;
   }
+  
+  clear(){
+    this.localStorageSrv.clear('volume');
+    this.searchForm.patchValue({
+      company: null,
+      departament: null,
+      status: 'ATIVO',
+      location: null,
+      storehouse: null,
+      reference: null,
+      endDate: null,
+      initDate: null,
+      guardType: 'GERENCIADA'
+    })
+  }
 
   getVolumes() {
     this.setPageVolumes({ offset: 0 });
@@ -126,6 +159,8 @@ export class ListComponent implements OnInit {
   setPageVolumes(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+
+    this.localStorageSrv.save('volume', this.searchForm.value)
 
     const newForm = {
       company: null,
@@ -167,7 +202,7 @@ export class ListComponent implements OnInit {
     );
   }
 
-  setPage(pageInfo) {
+  /* setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
@@ -185,7 +220,7 @@ export class ListComponent implements OnInit {
         this.loading = false;
       }
     );
-  }
+  } */
 
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
