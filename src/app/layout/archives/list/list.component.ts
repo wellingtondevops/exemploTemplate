@@ -64,7 +64,7 @@ export class ListComponent implements OnInit {
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
       departament: this.fb.control(null),
-      status: this.fb.control(null),
+      status: this.fb.control('ATIVO'),
       location: this.fb.control(null),
       storehouse: this.fb.control(null),
       doct: this.fb.control(null),

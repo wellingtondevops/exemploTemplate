@@ -92,13 +92,13 @@ export class ListComponent implements OnInit {
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
       departament: this.fb.control(null),
-      status: this.fb.control(null),
+      status: this.fb.control('ATIVO'),
       location: this.fb.control(''),
       storehouse: this.fb.control(null),
       reference: this.fb.control(null),
       endDate: this.fb.control(null),
       initDate: this.fb.control(null),
-      guardType: this.fb.control(null),
+      guardType: this.fb.control('GERENCIADA'),
     });
     const volume = JSON.parse(this.localStorageSrv.get('volume'));
     if(volume && volume.company){
@@ -140,13 +140,13 @@ export class ListComponent implements OnInit {
     this.searchForm.patchValue({
       company: null,
       departament: null,
-      status: null,
+      status: 'ATIVO',
       location: null,
       storehouse: null,
       reference: null,
       endDate: null,
       initDate: null,
-      guardType: null
+      guardType: 'GERENCIADA'
     })
   }
 
