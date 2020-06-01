@@ -10,7 +10,6 @@ import { AuthGuard } from './shared';
 import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { TokenInterceptorService } from './interceptos/token-interceptor.service';
-import { StoreModule } from '@ngrx/store';
 
 @NgModule({
     imports: [
@@ -21,8 +20,7 @@ import { StoreModule } from '@ngrx/store';
         LanguageTranslationModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        ToastrModule.forRoot(),
-        StoreModule.forRoot({}, {})
+        ToastrModule.forRoot()
     ],
     declarations: [AppComponent],
     providers: [

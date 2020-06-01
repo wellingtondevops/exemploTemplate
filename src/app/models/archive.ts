@@ -1,6 +1,5 @@
 import { Doctype } from './doctype';
 import { Departament } from './departament';
-
 export class Archive {
   _links: {
     self: string

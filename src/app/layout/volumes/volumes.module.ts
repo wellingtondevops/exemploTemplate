@@ -13,21 +13,20 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { ImportVolumeComponent } from './import-volume/import-volume.component';
 
 @NgModule({
-    declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent],
-    imports: [
-        CommonModule,
-        VolumesRoutingModule,
-        PageHeaderModule,
-        ReactiveFormsModule,
-        FormsModule,
-        DatatablesModule,
-        NgbModule,
-        TranslateModule,
-        ButtonBackModule,
-        ButtonsCustomModule,
-        NgxLoadingModule,
-        NgxLoadingModule.forRoot({})
-    ],
-    providers: [NgbActiveModal]
+  declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent],
+  imports: [
+    CommonModule,
+    VolumesRoutingModule,
+    PageHeaderModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatatablesModule,
+    NgbModule,
+    TranslateModule,
+    ButtonBackModule,
+    ButtonsCustomModule,
+    NgxLoadingModule.forRoot({})
+  ],
+  providers: [NgbActiveModal]
 })
-export class VolumesModule {}
+export class VolumesModule { }
