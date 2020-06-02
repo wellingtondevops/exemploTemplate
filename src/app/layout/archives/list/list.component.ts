@@ -89,6 +89,7 @@ export class ListComponent implements OnInit {
         endDate: archive.endDate,
         initDate: archive.initDate
       })
+      this.selectedCompany(archive.company._id)
     }
 
     this.statusList = StatusVolumeEnum;
@@ -217,8 +218,13 @@ export class ListComponent implements OnInit {
   }
 
   selectedCompany(e) {
-    this.getDocuments(e.item._id);
-    this.getDepartaments(e.item._id);
+    if (e && e.item && e.item._id) {
+      this.getDocuments(e.item._id);
+      this.getDepartaments(e.item._id);
+    } else {
+      this.getDocuments(e);
+      this.getDepartaments(e);
+    }
   }
 
   searchCompany = (text$: Observable<string>) =>
