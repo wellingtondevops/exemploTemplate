@@ -83,4 +83,18 @@ export class VolumesService {
         );
     }
   }
+
+  postSheetVolume(volume) {
+    return this.http.post<Volume>(`${url}/sheetvolumes`, volume)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  getSheetVolumes(volume) {
+    return this.http.get<Volume>(`${url}/sheetvolumes`)
+      .pipe(
+        tap(data => data)
+      );
+  }
 }
