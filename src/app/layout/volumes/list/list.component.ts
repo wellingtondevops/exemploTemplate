@@ -235,6 +235,14 @@ export class ListComponent implements OnInit {
     );
   }
 
+  selectedCompany(e) {
+    if (e && e.item && e.item._id) {
+      this.getDepartaments(e.item._id);
+    } else {
+      this.getDepartaments(e);
+    }
+  }
+
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -242,9 +250,6 @@ export class ListComponent implements OnInit {
       map(company => {
         let res = [];
         if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
-        if (res.length > 0) {
-          this.getDepartaments(res[0]._id);
-        }
         return res;
       })
     )

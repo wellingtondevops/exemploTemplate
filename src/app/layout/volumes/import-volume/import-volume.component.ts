@@ -197,6 +197,14 @@ export class ImportVolumeComponent implements OnInit {
     this.nameFile = null;
   }
 
+  selectedCompany(e) {
+    if (e && e.item && e.item._id) {
+      this.getDepartament(e.item._id);
+    } else {
+      this.getDepartament(e);
+    }
+  }
+
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(
       data => {
@@ -258,9 +266,6 @@ export class ImportVolumeComponent implements OnInit {
           res = [];
         } else {
           res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-          if (res[0]._id) {
-            this.getDepartament(res[0]._id);
-          }
         }
         return res;
       })
