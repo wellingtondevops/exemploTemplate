@@ -3,7 +3,6 @@
         <h2 class="page-header">
             {{heading}}
             <span style="float:right">
-                <button *ngIf="heading === 'Volumes'" style="margin-right: 10px;" class="btn btn-primary" [routerLink]="['/volumes/import-volumes']" >Importar Volume</button>
                 <button *ngIf="permissionOfBtnNew()" class="btn btn-primary"  [routerLink]="[routerTo]">{{ btnNew }}</button>
             </span>
         </h2>
