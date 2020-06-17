@@ -6,6 +6,7 @@ import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
 import { ImportVolumeComponent } from './import-volume/import-volume.component';
+import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
   {
     path: 'import-volumes',
     component: ImportVolumeComponent,
+    canActivate: [DaenerysTywinGuard]
+  },
+  {
+    path: 'errors-volumes/:id',
+    component: ErrorsVolumesComponent,
     canActivate: [DaenerysTywinGuard]
   }
 ];
