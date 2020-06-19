@@ -35,7 +35,7 @@ const routes: Routes = [
     canActivate: [DaenerysTywinGuard]
   },
   {
-    path: 'errors-volumes/:id',
+    path: 'errors-volumes',
     component: ErrorsVolumesComponent,
     canActivate: [DaenerysTywinGuard]
   }

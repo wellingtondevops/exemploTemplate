@@ -178,7 +178,7 @@ export class ImportVolumeComponent implements OnInit {
               msgError: error.error.message,
               location: row.location
             })
-            
+
           }
         }
       );
@@ -188,10 +188,10 @@ export class ImportVolumeComponent implements OnInit {
 
   postErrors() {
     this.volumesSrv.postSheetVolume(this.errorsBox).subscribe(data => {
-      this.openCardStatus = true;
-      console.log(data)
-      this.urlErrors = `/volumes/errors-volumes/${data._id}`
-      console.log(this.urlErrors)
+      if (data._id) {
+        this.openCardStatus = true;
+        this.urlErrors = `/volumes/errors-volumes`
+      }
     }, error => {
       console.log('ERROR', error)
     })
