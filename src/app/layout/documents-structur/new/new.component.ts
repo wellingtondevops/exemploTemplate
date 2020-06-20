@@ -129,8 +129,8 @@ export class NewComponent implements OnInit {
     this.groups.push(this.createGroup());
   }
 
-  removeSubGroup(group, e) {
-    const subgroups = <FormArray>group.controls['subgroups'];
+  removeSubGroup(subgroup, e) {
+    const subgroups = <FormArray>subgroup.controls['subgroups'];
     subgroups.removeAt(e);
   }
 
