@@ -27,9 +27,9 @@
 
           <div class="form-group">
             <label for="typeahead-basic">Empresa</label>
-            <input id="typeahead-basic" (selectItem)="selectedCompany($event)" type="text" class="form-control" formControlName="company"
-              [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-              [ngClass]="{ 'is-invalid': !company.valid }" />
+            <input id="typeahead-basic" (selectItem)="selectedCompany($event)" type="text" class="form-control"
+              formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+              [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" />
             <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
               <div *ngIf="!company.valid">
                 Empresa é obrigatório.
@@ -105,8 +105,9 @@
           </ng-template>
         </div>
         <div class="pull-right">
-          <button type="button" [routerLink]="['/volumes']" class="btn btn-default"
-            style="margin-right:10px">Voltar</button>
+          <button type="button" [routerLink]="['/volumes']" class="btn btn-default" style="margin-right:10px">
+            Voltar
+          </button>
           <button type="submit" class="btn btn-primary" [disabled]="
                   company.invalid ||
                   storehouse.invalid ||
@@ -117,6 +118,8 @@
           </button>
         </div>
       </form>
+      <app-modal-import-right-bottom *ngIf="openCardStatus" [visible]="openCardStatus" [urlErrors]="urlErrors">
+      </app-modal-import-right-bottom>
     </div>
   </div>
 </div>

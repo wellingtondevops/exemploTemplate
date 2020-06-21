@@ -91,6 +91,18 @@ export class VolumesService {
       );
   }
 
+  searchSheetErrorsVolumes(search, page) {
+    if (page) {
+      return this.http.post<any>(`${url}/sheetvolumes/search?_page=${page.pageNumber}&size=10`, search).pipe(
+        tap(data => data)
+      );
+    } else {
+      return this.http.post<any>(`${url}/sheetvolumes/search?size=10`, search).pipe(
+        tap(data => data)
+      );
+    }
+  }
+
   getSheetVolumes(volume) {
     return this.http.get<Volume>(`${url}/sheetvolumes`)
       .pipe(

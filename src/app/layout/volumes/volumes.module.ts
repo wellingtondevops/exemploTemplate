@@ -11,9 +11,11 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ImportVolumeComponent } from './import-volume/import-volume.component';
-
+import { ModalImportRightBottomModule } from 'src/app/shared/modules/modal-import-right-bottom/modal-import-right-bottom.module';
+import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent],
+  declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent, ErrorsVolumesComponent],
   imports: [
     CommonModule,
     VolumesRoutingModule,
@@ -21,7 +23,9 @@ import { ImportVolumeComponent } from './import-volume/import-volume.component';
     ReactiveFormsModule,
     FormsModule,
     DatatablesModule,
+    NgxDatatableModule,
     NgbModule,
+    ModalImportRightBottomModule,
     TranslateModule,
     ButtonBackModule,
     ButtonsCustomModule,
