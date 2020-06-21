@@ -37,6 +37,12 @@
             </a>
           </li>
           <li *ngIf="permissionAdmin || permissionArquivador">
+            <a [routerLink]="['/volumes/errors-volumes']"class="list-group-item">
+              <i class="fa fa-exclamation-circle"></i>&nbsp;
+              <span>{{ 'Erros Importação' | translate }}</span>
+            </a>
+          </li>
+          <li *ngIf="permissionAdmin || permissionArquivador">
             <a [routerLink]="['/volumes']" class="list-group-item">
               <i class="fa fa-list"></i>&nbsp;
               <span>{{ 'Volumes' | translate }}</span>

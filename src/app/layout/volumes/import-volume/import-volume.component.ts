@@ -38,6 +38,12 @@ export class ImportVolumeComponent implements OnInit {
   loading: Boolean = true;
   rowsFile: any = [];
   hiddenReference = true;
+  errorsBox = {
+    sheet: '',
+    logErrors: []
+  };
+  openCardStatus: boolean = false;
+  urlErrors: string;
 
   constructor(
     private errorMsg: ErrorMessagesService,
@@ -142,10 +148,7 @@ export class ImportVolumeComponent implements OnInit {
     this.returnId('storehouse');
     this.returnId('departament');
 
-    let numImports = 0;
-    const totalImports = this.rowsFile.length;
-
-    this.rowsFile.map(row => {
+    this.rowsFile.map((row, index) => {
       if (row.LOCALIZACAO) {
         this.volumeForm.controls['location'].patchValue(row.LOCALIZACAO);
       }
@@ -160,24 +163,38 @@ export class ImportVolumeComponent implements OnInit {
       if (row.seal) {
         this.volumeForm.controls['seal'].patchValue(row.seal);
       }
+
       this.volumeForm.value.uniqueField = this.returnUniqField();
       const volume = _.omitBy(this.volumeForm.value, _.isNil);
       this.volumesSrv.newVolume(volume).subscribe(
         data => {
-          if (data._id) {
-            numImports++;
-            if (numImports === totalImports) {
-              this.loading = false;
-              this.successMsgSrv.successMessages('Volumes cadastrados com sucesso.');
-            }
-          }
-        },
-        error => {
+        }, error => {
           this.loading = false;
-          this.errorMsg.errorMessagesImport(error);
+          console.log('ERROR', error)
+          if (error.error && error.error.message && error.error.message.indexOf('Caixa já Cadastrado')) {
+            this.errorsBox.sheet = this.nameFile;
+            this.errorsBox.logErrors.push({
+              row: index + 2,
+              msgError: error.error.message,
+              location: row.location
+            })
+          }
         }
       );
     });
+    this.postErrors()
+    this.loading = false;
+  }
+
+  postErrors() {
+    this.volumesSrv.postSheetVolume(this.errorsBox).subscribe(data => {
+      if (data._id) {
+        this.openCardStatus = true;
+        this.urlErrors = `/volumes/errors-volumes`
+      }
+    }, error => {
+      console.log('ERROR', error)
+    })
   }
 
   changeGuardType() {
