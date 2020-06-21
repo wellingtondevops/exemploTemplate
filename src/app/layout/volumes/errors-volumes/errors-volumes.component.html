@@ -6,7 +6,7 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-  <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" ></app-page-header>
+  <app-page-header [heading]="'Volumes'" [icon]="'fa-table'"></app-page-header>
   <ngb-accordion #acc="ngbAccordion" activeIds="volumes-0">
     <ngb-panel id="volumes-0">
       <ng-template ngbPanelTitle>
@@ -17,7 +17,13 @@
           <div class="row col-12">
             <div class="form-group mb-2 col-6">
               <label for="sheet">Nome da Planilha</label>
-              <input id="sheet" class="form-control col-12" formControlName="sheet" />
+              <input id="sheet" class="form-control col-12" formControlName="sheet"
+                [ngClass]="{ 'is-invalid': !sheet.valid }" />
+              <div *ngIf="sheet.invalid && (sheet.dirty || sheet.touched)" class="invalid-feedback">
+                <div *ngIf="!sheet.valid">
+                  Nome da Planilha é obrigatório.
+                </div>
+              </div>
             </div>
             <div class="form-group mb-2 col-3">
               <label for="initDate">Data Inicial</label>
@@ -32,11 +38,11 @@
 
           <div class="row col-12" style="justify-content: center; margin-top: 10px;">
             <div class="form-group mb-2">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary" [disabled]="sheet.invalid">
                 <i class="fa fa-search"></i>
               </button>
               <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
-               Limpar Campos
+                Limpar Campos
               </button>
             </div>
           </div>
@@ -46,6 +52,21 @@
   </ngb-accordion>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
+      <ngx-datatable #myTable class="material" [rows]="errorsVolumes" [columnMode]="'force'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+        [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'>
+        <ngx-datatable-column name="Nome da Planilha" [width]="200" prop="sheet"></ngx-datatable-column>
+        <ngx-datatable-column name="Nome da Planilha" [width]="200" prop="_id">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <button class="btn btn-primary btn-xs" (click)="getFile(value)">Download</button>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Criado em" [width]="300" prop="dateCreated">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date: 'dd/MM/yyyy' }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
     </div>
   </div>
 </div>

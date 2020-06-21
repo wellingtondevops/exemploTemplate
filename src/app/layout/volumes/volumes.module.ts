@@ -13,6 +13,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { ImportVolumeComponent } from './import-volume/import-volume.component';
 import { ModalImportRightBottomModule } from 'src/app/shared/modules/modal-import-right-bottom/modal-import-right-bottom.module';
 import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent, ErrorsVolumesComponent],
   imports: [
@@ -22,6 +23,7 @@ import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.componen
     ReactiveFormsModule,
     FormsModule,
     DatatablesModule,
+    NgxDatatableModule,
     NgbModule,
     ModalImportRightBottomModule,
     TranslateModule,

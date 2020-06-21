@@ -178,12 +178,12 @@ export class ImportVolumeComponent implements OnInit {
               msgError: error.error.message,
               location: row.location
             })
-
           }
         }
       );
     });
     this.postErrors()
+    this.loading = false;
   }
 
   postErrors() {

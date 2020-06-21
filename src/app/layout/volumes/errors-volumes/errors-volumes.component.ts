@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Page } from 'src/app/models/page';
+import { VolumesService } from 'src/app/services/volumes/volumes.service';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { environment } from '../../../../environments/environment';
+const url = environment.apiUrl;
 
 @Component({
   selector: 'app-errors-volumes',
@@ -10,25 +15,59 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   animations: [routerTransition()]
 })
 export class ErrorsVolumesComponent implements OnInit {
+  @ViewChild('myTable') table: any;
   searchForm: FormGroup;
+  page = new Page();
+  loading: Boolean = false;
+  errorsVolumes: any[];
   
   constructor(
     private _route: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private volumeSrv: VolumesService,
+    private errorMsg: ErrorMessagesService
   ) { }
 
   ngOnInit() {
-    // this.id = this.route.snapshot.paramMap.get('id');
     this.searchForm = this.fb.group({
-      sheet: this.fb.control(null),
-      endDate: this.fb.control(null),
-      initDate: this.fb.control(null),
+      sheet: this.fb.control('', Validators.required),
+      endDate: this.fb.control(''),
+      initDate: this.fb.control(''),
     });
   }
 
-  getErrors(){
+  get sheet() {
+    return this.searchForm.get('sheet');
+  }
 
+  getErrors(){
+    console.log(this.searchForm.value)
+    this.setPage({ offset: 0 })
+  }
+
+  setPage(pageInfo) {
+    this.loading = true;
+    this.page.pageNumber = pageInfo.offset;
+
+    this.volumeSrv.searchSheetErrorsVolumes(this.searchForm.value, this.page).subscribe(
+      data => {
+        this.errorsVolumes = data.items;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+  }
+
+  getFile(id){
+    window.location.href = `${url}/sheetvolumes/excel/${id}`
   }
 
 }
