@@ -23,18 +23,18 @@
             </div>
           </div>
           <div class="col-12">
-            <div class="card bg-light mb-12">
+            <label for="">Classes</label>
+            <br>
+            <div class="card bg-light mb-12 card-primary">
               <div class="card-body">
-                <label for="">Classes</label>
-                <br>
                 <div class="form-group" formArrayName="classes">
                   <div *ngFor="let class of classes.controls; index as i">
-
                     <span *ngIf="i > 0">
                       <button type="button" class="btn btn-danger btn-sm pull-right" (click)="removeClass(i)">
                         <i class="fa fa-trash"></i>
                       </button>
-                      <br />
+                      <br>
+                      <br>
                     </span>
                     <div [formGroupName]="i">
                       <div class="form-row">
@@ -92,11 +92,13 @@
                         </div>
                       </div>
                       <div>
-                        <button class="btn btn-sm btn-success" type="button" (click)="addSubClass(class)"><i
+                        <button class="btn btn-sm btn-secundary" type="button" (click)="addSubClass(class)"><i
                             class="fa fa-plus"></i>&emsp;SubClasse</button>
                         <br>
+                        <br>
+                        <br>
                       </div>
-                      <div class="card bg-light mb-12" *ngIf="class.value.subclasses.length > 0">
+                      <div class="card bg-light mb-12 card-secundary" *ngIf="class.value.subclasses.length > 0">
                         <div class="card-body">
                           <label for="">Sub Classes</label>
                           <br>
@@ -107,7 +109,7 @@
                                   (click)="removeSubClass(class, s)">
                                   <i class="fa fa-trash"></i>
                                 </button>
-                                <br />
+                                <br>
                               </span>
                               <div [formGroupName]="s">
                                 <div class="form-row">
@@ -167,10 +169,12 @@
                                   </div>
                                 </div>
                                 <div>
-                                  <button type="button" class="btn btn-sm btn-success" (click)="addGroup(subclass)"><i
+                                  <button type="button" class="btn btn-sm btn-warning" (click)="addGroup(subclass)"><i
                                       class="fa fa-plus"></i>&emsp;Grupo</button>
+                                  <br>
+                                  <br>
                                 </div>
-                                <div class="card bg-light mb-12" *ngIf="subclass.value.groups.length > 0">
+                                <div class="card bg-light mb-12 card-warning" *ngIf="subclass.value.groups.length > 0">
                                   <div class="card-body">
                                     <label for="">Grupos</label>
                                     <br>
@@ -181,7 +185,8 @@
                                             (click)="removeGroup(subclass, g)">
                                             <i class="fa fa-trash"></i>
                                           </button>
-                                          <br />
+                                          <br>
+                                          <br>
                                         </span>
                                         <div [formGroupName]="g">
                                           <div class="form-row">
@@ -241,10 +246,13 @@
                                             </div>
                                           </div>
                                           <div>
-                                            <button type="button" class="btn btn-sm btn-success" (click)="addSubGroup(group)"><i
-                                                class="fa fa-plus"></i>&emsp;Sub Grupo</button>
+                                            <button type="button" class="btn btn-sm btn-info"
+                                              (click)="addSubGroup(group)"><i class="fa fa-plus"></i>&emsp;Sub
+                                              Grupo</button>
+                                            <br>
+                                            <br>
                                           </div>
-                                          <div class="card bg-light mb-12"
+                                          <div class="card bg-light mb-12 card-info"
                                             *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
                                             <div class="card-body">
                                               <label for="">Sub Grupos</label>
@@ -335,16 +343,16 @@
                       </div>
                     </div>
                   </div>
-                  <br />
-                  <button class="btn btn-success" type="button" (click)="addClass()"><i class="fa fa-plus"></i></button>
-                  <div class="col-lg-12">
-                    <br />
-                    <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>
-                    <button type="button" [routerLink]="['/documents-structur']" class="btn btn-default"
-                      style="float: right;margin-right: 10px;">Voltar</button>
-                  </div>
                 </div>
               </div>
+            </div>
+            <br />
+            <button class="btn btn-primary" type="button" (click)="addClass()"><i class="fa fa-plus"></i></button>
+            <div class="col-lg-12">
+              <br />
+              <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>
+              <button type="button" [routerLink]="['/documents-structur']" class="btn btn-default"
+                style="float: right;margin-right: 10px;">Voltar</button>
             </div>
           </div>
         </div>
