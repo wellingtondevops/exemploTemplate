@@ -147,6 +147,7 @@ export class ImportVolumeComponent implements OnInit {
     this.returnId('company');
     this.returnId('storehouse');
     this.returnId('departament');
+    var totalRow = this.rowsFile.length
 
     this.rowsFile.map((row, index) => {
       if (row.LOCALIZACAO) {
@@ -171,18 +172,25 @@ export class ImportVolumeComponent implements OnInit {
         }, error => {
           this.loading = false;
           console.log('ERROR', error)
-          if (error.error && error.error.message && error.error.message.indexOf('Caixa já Cadastrado')) {
+          if (error.error && error.error.message && error.error.message.indexOf('Cadastrado')) {
             this.errorsBox.sheet = this.nameFile;
             this.errorsBox.logErrors.push({
               row: index + 2,
               msgError: error.error.message,
               location: row.location
             })
+            console.log(this.errorsBox)
+            console.log(index)
+            console.log(totalRow)
+            
           }
         }
       );
+      if (index + 2 === totalRow) {
+        this.postErrors()
+      }
     });
-    this.postErrors()
+
     this.loading = false;
   }
 
