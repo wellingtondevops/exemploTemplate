@@ -109,4 +109,11 @@ export class VolumesService {
         tap(data => data)
       );
   }
+
+  import(volumes){
+    return this.http.post<Volume>(`${url}/volumes/import`, volumes)
+      .pipe(
+        tap(data => data)
+      );
+  }
 }

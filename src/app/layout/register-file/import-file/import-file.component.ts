@@ -275,6 +275,9 @@ export class ImportFileComponent implements OnInit {
     this.rowsFile.map(item => {
       this.postArquive(item);
     });
+    if(this.errorsToPostArchive.length > 0){
+      console.log(this.errorsToPostArchive)
+    }
   }
 
   getVolume(location) {
@@ -309,9 +312,15 @@ export class ImportFileComponent implements OnInit {
     const volume_id = await this.getVolume({ location: data.LOCALIZACAO });
     if (volume_id) {
       const checkColumnsAndLabelsLength = this.checkLengthColumnsAndLabels(this.columns.length, this.labels.length);
-      if (!checkColumnsAndLabelsLength) { return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 }); }
+      if (!checkColumnsAndLabelsLength) {
+        this.loading = false
+        return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+      }
       const checkColumnsAndLabels = this.checkColumnsAndLabels(this.columns, this.labels);
-      if (!checkColumnsAndLabels) { return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 }); }
+      if (!checkColumnsAndLabels) {
+        this.loading = false
+        return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+      }
 
       const tag = _.values(newRow);
       let uniqueness = '';
@@ -328,15 +337,14 @@ export class ImportFileComponent implements OnInit {
       const { company, doct, storehouse, departament } = this.importFileForm.value;
       this.archivesSrv.newArchive({ tag, company, departament, doct, storehouse, uniqueness, volume: volume_id }).subscribe(res => {
         if (res._id) {
-          this.loading = false;
           this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
         }
       }, error => {
-        this.loading = false;
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
         this.errorsToPostArchive.push(error);
       });
+      this.loading = false
     }
   }
 }

@@ -64,9 +64,9 @@ export class ImportVolumeComponent implements OnInit {
       guardType: this.fb.control('', [Validators.required]),
       volumeType: this.fb.control('', [Validators.required]),
       departament: this.fb.control(null),
-      uniqueField: this.fb.control(''),
-      location: this.fb.control('', [Validators.required]),
+      volumes: this.fb.control(null, [Validators.required]),
       reference: this.fb.control(null),
+      sheetName: this.fb.control(null),
       seal: this.fb.control(null)
     });
   }
@@ -75,8 +75,8 @@ export class ImportVolumeComponent implements OnInit {
     this.getCompanies();
     this.getStoreHouses();
   }
-  get location() {
-    return this.volumeForm.get('location');
+  get volumes() {
+    return this.volumeForm.get('volumes');
   }
   get volumeType() {
     return this.volumeForm.get('volumeType');
@@ -133,13 +133,9 @@ export class ImportVolumeComponent implements OnInit {
 
 
   returnId(object) {
-    this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
-      if (key === '_id') { return value; }
-    })[0];
-  }
-
-  returnUniqField() {
-    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse._id}`;
+    this.volumeForm.controls[object].patchValue(_.filter(this.volumeForm.value[object], function (value, key) {
+      if (key === '_id') { console.log(value);return value; }
+    })[0]);
   }
 
   postVolume() {
@@ -147,169 +143,142 @@ export class ImportVolumeComponent implements OnInit {
     this.returnId('company');
     this.returnId('storehouse');
     this.returnId('departament');
-    var totalRow = this.rowsFile.length
 
-    this.rowsFile.map((row, index) => {
-      if (row.LOCALIZACAO) {
-        this.volumeForm.controls['location'].patchValue(row.LOCALIZACAO);
+    this.volumeForm.controls['sheetName'].patchValue(this.nameFile);
+    this.volumeForm.controls['volumes'].patchValue(this.rowsFile);
+
+    const volumes = _.omitBy(this.volumeForm.value, _.isNil);
+    this.volumesSrv.import(volumes).subscribe(
+      data => {
+        if(data){
+          console.log()
+        }
+      }, error => {
+        this.loading = false;
+        console.log('ERROR', error)
+        /* if (error.error && error.error.message && error.error.message.indexOf('Cadastrado')) {
+          this.errorsBox.sheet = this.nameFile;
+        } */
       }
-      if (!this.hiddenReference && !row.reference) {
-        this.errorMsg.errorMessages(`Referência é obrigatória para guarda simples.`);
+    );
+  }
+
+postErrors() {
+  this.volumesSrv.postSheetVolume(this.errorsBox).subscribe(data => {
+    if (data._id) {
+      this.openCardStatus = true;
+      this.urlErrors = `/volumes/errors-volumes`
+    }
+  }, error => {
+    console.log('ERROR', error)
+  })
+}
+
+changeGuardType() {
+  switch (this.volumeForm.value.guardType) {
+    case 'SIMPLES':
+      this.hiddenReference = false;
+      break;
+    case 'GERENCIADA':
+      this.hiddenReference = true;
+      break;
+  }
+}
+
+removeFile() {
+  // this.host.nativeElement.value = '';
+  this.file = null;
+  this.nameFile = null;
+}
+
+selectedCompany(e) {
+  if (e && e.item && e.item._id) {
+    this.getDepartament(e.item._id);
+  } else {
+    this.getDepartament(e);
+  }
+}
+
+getCompanies() {
+  this.companiesSrv.searchCompanies().subscribe(
+    data => {
+      this.companies = data.items;
+    },
+    error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    }
+  );
+}
+
+getStoreHouses() {
+  this.storeHousesSrv.searchStorehouses().subscribe(
+    data => {
+      this.loading = false;
+      this.storeHouses = data.items;
+    },
+    error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    }
+  );
+}
+
+getDepartament(id) {
+  this.departamentsSrv.searchDepartaments(id).subscribe(
+    data => {
+      this.departaments = data.items;
+    },
+    error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    }
+  );
+}
+
+search = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(storehouse =>
+      storehouse.length < 2
+        ? []
+        : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+    )
+  )
+
+formatter = (x: { name: string }) => x.name;
+
+searchCompany = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(company => {
+      let res;
+      if (company.length < 2) {
+        res = [];
       } else {
-        if (row.reference) {
-          this.volumeForm.controls['reference'].patchValue(row.reference);
-        }
+        res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
       }
-
-      if (row.seal) {
-        this.volumeForm.controls['seal'].patchValue(row.seal);
-      }
-
-      this.volumeForm.value.uniqueField = this.returnUniqField();
-      const volume = _.omitBy(this.volumeForm.value, _.isNil);
-      this.volumesSrv.newVolume(volume).subscribe(
-        data => {
-        }, error => {
-          this.loading = false;
-          console.log('ERROR', error)
-          if (error.error && error.error.message && error.error.message.indexOf('Cadastrado')) {
-            this.errorsBox.sheet = this.nameFile;
-            this.errorsBox.logErrors.push({
-              row: index + 2,
-              msgError: error.error.message,
-              location: row.location
-            })
-            console.log(this.errorsBox)
-            console.log(index)
-            console.log(totalRow)
-            
-          }
-        }
-      );
-      if (index + 2 === totalRow) {
-        this.postErrors()
-      }
-    });
-
-    this.loading = false;
-  }
-
-  postErrors() {
-    this.volumesSrv.postSheetVolume(this.errorsBox).subscribe(data => {
-      if (data._id) {
-        this.openCardStatus = true;
-        this.urlErrors = `/volumes/errors-volumes`
-      }
-    }, error => {
-      console.log('ERROR', error)
+      return res;
     })
-  }
+  )
 
-  changeGuardType() {
-    switch (this.volumeForm.value.guardType) {
-      case 'SIMPLES':
-        this.hiddenReference = false;
-        break;
-      case 'GERENCIADA':
-        this.hiddenReference = true;
-        break;
-    }
-  }
-
-  removeFile() {
-    // this.host.nativeElement.value = '';
-    this.file = null;
-    this.nameFile = null;
-  }
-
-  selectedCompany(e) {
-    if (e && e.item && e.item._id) {
-      this.getDepartament(e.item._id);
-    } else {
-      this.getDepartament(e);
-    }
-  }
-
-  getCompanies() {
-    this.companiesSrv.searchCompanies().subscribe(
-      data => {
-        this.companies = data.items;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
+searchDepartament = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(departament => {
+      let res;
+      if (departament.length < 2) {
+        res = [];
+      } else {
+        res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
       }
-    );
-  }
-
-  getStoreHouses() {
-    this.storeHousesSrv.searchStorehouses().subscribe(
-      data => {
-        this.loading = false;
-        this.storeHouses = data.items;
-      },
-      error => {
-        this.loading = false;
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-      }
-    );
-  }
-
-  getDepartament(id) {
-    this.departamentsSrv.searchDepartaments(id).subscribe(
-      data => {
-        this.departaments = data.items;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-      }
-    );
-  }
-
-  search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(storehouse =>
-        storehouse.length < 2
-          ? []
-          : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
-      )
-    )
-
-  formatter = (x: { name: string }) => x.name;
-
-  searchCompany = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(company => {
-        let res;
-        if (company.length < 2) {
-          res = [];
-        } else {
-          res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-        }
-        return res;
-      })
-    )
-
-  searchDepartament = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(departament => {
-        let res;
-        if (departament.length < 2) {
-          res = [];
-        } else {
-          res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
-        }
-        return res;
-      })
-    )
+      return res;
+    })
+  )
 }
 /* @Pipe({
   name: 'enumToArray'
