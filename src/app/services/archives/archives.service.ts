@@ -55,4 +55,18 @@ export class ArquivesService {
         tap(data => data)
       );
   }
+
+  searchImportErrors(formData, page, size = 10){
+    if (page) {
+      return this.http.post<any>(`${url}/sheetarchives/search?_page=${page.pageNumber}&size=${size}`, formData)
+        .pipe(
+          tap(data => data)
+        );
+    } else {
+      return this.http.post<any>(`${url}/sheetarchives/search`, formData)
+        .pipe(
+          tap(data => data)
+        );
+    }
+  }
 }

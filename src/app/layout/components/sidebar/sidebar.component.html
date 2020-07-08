@@ -71,6 +71,12 @@
             </a>
           </li>
           <li *ngIf="permissionAdmin || permissionArquivador">
+            <a [routerLink]="['/file/errors-archives']" class="list-group-item">
+              <i class="fa fa-exclamation-circle"></i>&nbsp;
+              <span>{{ 'Erros Importação de Arquivo' | translate }}</span>
+            </a>
+          </li>
+          <li *ngIf="permissionAdmin || permissionArquivador">
             <a [routerLink]="['/file/register']" class="list-group-item">
               <i class="fa fa-plus"></i>&nbsp;
               <span>{{ 'Registrar Arquivo' | translate }}</span>
