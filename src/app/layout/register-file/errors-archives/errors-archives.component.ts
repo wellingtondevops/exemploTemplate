@@ -53,7 +53,6 @@ export class ErrorsArchivesComponent implements OnInit {
   }
 
   getErrors() {
-    console.log(this.searchForm.value)
     this.setPage({ offset: 0 })
   }
 

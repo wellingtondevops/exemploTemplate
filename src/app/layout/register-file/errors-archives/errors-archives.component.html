@@ -52,7 +52,7 @@
   </ngb-accordion>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <ngx-datatable #myTable class="material" [rows]="errorsVolumes" [columnMode]="'force'" [headerHeight]="50"
+      <ngx-datatable #myTable class="material" [rows]="errorsArchives" [columnMode]="'force'" [headerHeight]="50"
         [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
         [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'>
         <ngx-datatable-column name="Nome da Planilha" [width]="200" prop="sheet"></ngx-datatable-column>
