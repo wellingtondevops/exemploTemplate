@@ -13,6 +13,8 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
+const url = environment.apiUrl;
 import _ from 'lodash';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 
@@ -345,16 +347,23 @@ export class ImportFileComponent implements OnInit {
   }
 
   postArchiveNew(archives) {
+    this.loading = true;
     this.archivesSrv.import(archives).subscribe(data => {
+      this.loading = false;
       if (data) {
         this.importedSuccess = data.Imported ? data.imported : 0;
         this.errorsImported = data.Errors ? data.Errors : 0;
-        this.urlErrors = data.sheetError ? data.sheetError : null;
+        this.urlErrors = data.sheetError ? `${url}${data.sheetError}` : null;
         this.openCardStatus = true;
       }
     }, error => {
       console.log('ERROR: ', error)
+      this.loading = false;
     })
+  }
+
+  closeModalImport(data) {
+    this.openCardStatus = data;
   }
 
   /* async postArquive(data) {

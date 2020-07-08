@@ -111,7 +111,7 @@ export class VolumesService {
   }
 
   import(volumes){
-    return this.http.post<Volume>(`${url}/volumes/import`, volumes)
+    return this.http.post<any>(`${url}/volumes/import`, volumes)
       .pipe(
         tap(data => data)
       );

@@ -14,6 +14,8 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { routerTransition } from 'src/app/router.animations';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+const url = environment.apiUrl;
 import _ from 'lodash';
 
 
@@ -38,12 +40,10 @@ export class ImportVolumeComponent implements OnInit {
   loading: Boolean = true;
   rowsFile: any = [];
   hiddenReference = true;
-  errorsBox = {
-    sheet: '',
-    logErrors: []
-  };
   openCardStatus: boolean = false;
   urlErrors: string;
+  importedSuccess: number = 0;
+  errorsImported: number = 0;
 
   constructor(
     private errorMsg: ErrorMessagesService,
@@ -133,25 +133,27 @@ export class ImportVolumeComponent implements OnInit {
 
 
   returnId(object) {
-    this.volumeForm.controls[object].patchValue(_.filter(this.volumeForm.value[object], function (value, key) {
+    return _.filter(this.volumeForm.value[object], function (value, key) {
       if (key === '_id') { return value; }
-    })[0]);
+    })[0];
   }
 
   postVolume() {
     this.loading = true;
-    this.returnId('company');
-    this.returnId('storehouse');
-    this.returnId('departament');
+    const company = this.returnId('company');
+    const storehouse = this.returnId('storehouse');
+    const departament = this.returnId('departament');
 
-    this.volumeForm.controls['sheetName'].patchValue(this.nameFile);
-    this.volumeForm.controls['volumes'].patchValue(this.rowsFile);
-
-    const volumes = _.omitBy(this.volumeForm.value, _.isNil);
-    this.volumesSrv.import(volumes).subscribe(
+    const sheetName = this.nameFile;
+    const volumes = this.rowsFile;
+    this.volumesSrv.import({ sheetName, volumes, company, storehouse, departament }).subscribe(
       data => {
+        this.loading = false;
         if (data) {
-          console.log(data)
+          this.importedSuccess = data.Imported ? data.Imported : 0;
+          this.errorsImported = data.Errors ? data.Errors : 0;
+          this.urlErrors = data.sheetError ? `${url}${data.sheetError}` : null;
+          this.openCardStatus = true;
         }
       }, error => {
         this.loading = false;
@@ -195,6 +197,11 @@ export class ImportVolumeComponent implements OnInit {
         console.log('ERROR: ', error);
       }
     );
+  }
+
+  closeModalImport(data) {
+    console.log('closeModalImport', data)
+    this.openCardStatus = data;
   }
 
   getStoreHouses() {
