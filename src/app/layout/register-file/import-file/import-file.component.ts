@@ -13,6 +13,8 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
+const url = environment.apiUrl;
 import _ from 'lodash';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 
@@ -25,6 +27,7 @@ import { ArquivesService } from 'src/app/services/archives/archives.service';
 export class ImportFileComponent implements OnInit {
   file: File | null = null;
   importFileForm: FormGroup;
+  nameFile: string;
   arrayBuffer: any;
   loading: Boolean = false;
   company_id: string;
@@ -35,6 +38,10 @@ export class ImportFileComponent implements OnInit {
   departaments: any = [];
   columns: any = [];
   errorsToPostArchive: any = [];
+  openCardStatus: boolean = false;
+  urlErrors: string;
+  importedSuccess: number = 0;
+  errorsImported: number = 0;
   companies: any = {
     _links: {
       self: '',
@@ -146,7 +153,7 @@ export class ImportFileComponent implements OnInit {
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
     this.loading = true;
     if (event) {
-      // this.nameFile = event.item(0).name;
+      this.nameFile = event.item(0).name;
       const file = event && event.item(0);
       if (!file.name.match(/\.(xls|xlsx|XLS|XLSX)$/)) {
         // this.removeFile();
@@ -261,20 +268,58 @@ export class ImportFileComponent implements OnInit {
   }
 
   returnId(object) {
-    this.importFileForm.value[object] = _.filter(this.importFileForm.value[object], function (value, key) {
+    return _.filter(this.importFileForm.value[object], function (value, key) {
       if (key === '_id') { return value; }
     })[0];
   }
 
   postImportArchive() {
+    const company = this.returnId('company');
+    const storehouse = this.returnId('storehouse');
+    const departament = this.returnId('departament');
+    const doct = this.returnId('doct');
 
-    this.returnId('company');
-    this.returnId('storehouse');
-    this.returnId('departament');
-    this.returnId('doct');
-    this.rowsFile.map(item => {
+    const rowsFile = this.rowsFile.map(item => {
+      const volume = item.LOCALIZACAO;
+      const newRow = _.omit(item, ['LOCALIZACAO']);
+
+      /* const volume_id = await this.getVolume({ location: data.LOCALIZACAO });
+      if (volume_id) {
+        const checkColumnsAndLabelsLength = this.checkLengthColumnsAndLabels(this.columns.length, this.labels.length);
+        if (!checkColumnsAndLabelsLength) {
+          this.loading = false
+          return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+        }
+        const checkColumnsAndLabels = this.checkColumnsAndLabels(this.columns, this.labels);
+        if (!checkColumnsAndLabels) {
+          this.loading = false
+          return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+        } */
+      const tag = _.values(newRow);
+      let uniqueness = '';
+      const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);
+      this.document.label.map((label, i) => {
+        if (label.uniq) {
+          if (i === (labelsTrueLength.length - 1)) {
+            uniqueness += `${tag[i]}`;
+          } else {
+            uniqueness += `${tag[i]}-`;
+          }
+        }
+      });
+      return { ...item, tag, uniqueness }
+    })
+
+    const archives = rowsFile;
+
+    // const archives = _.omitBy(this.importFileForm.value, _.isNil);
+    this.postArchiveNew({ archives, company, storehouse, doct, departament, sheetName: this.nameFile })
+    /* this.rowsFile.map(item => {
       this.postArquive(item);
     });
+    if(this.errorsToPostArchive.length > 0){
+      console.log(this.errorsToPostArchive)
+    } */
   }
 
   getVolume(location) {
@@ -301,7 +346,27 @@ export class ImportFileComponent implements OnInit {
     });
   }
 
-  async postArquive(data) {
+  postArchiveNew(archives) {
+    this.loading = true;
+    this.archivesSrv.import(archives).subscribe(data => {
+      this.loading = false;
+      if (data) {
+        this.importedSuccess = data.Imported ? data.imported : 0;
+        this.errorsImported = data.Errors ? data.Errors : 0;
+        this.urlErrors = data.sheetError ? `${url}${data.sheetError}` : null;
+        this.openCardStatus = true;
+      }
+    }, error => {
+      console.log('ERROR: ', error)
+      this.loading = false;
+    })
+  }
+
+  closeModalImport(data) {
+    this.openCardStatus = data;
+  }
+
+  /* async postArquive(data) {
     this.loading = true;
     const volume = data.LOCALIZACAO;
     const newRow = _.omit(data, ['LOCALIZACAO']);
@@ -309,9 +374,15 @@ export class ImportFileComponent implements OnInit {
     const volume_id = await this.getVolume({ location: data.LOCALIZACAO });
     if (volume_id) {
       const checkColumnsAndLabelsLength = this.checkLengthColumnsAndLabels(this.columns.length, this.labels.length);
-      if (!checkColumnsAndLabelsLength) { return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 }); }
+      if (!checkColumnsAndLabelsLength) {
+        this.loading = false
+        return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+      }
       const checkColumnsAndLabels = this.checkColumnsAndLabels(this.columns, this.labels);
-      if (!checkColumnsAndLabels) { return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 }); }
+      if (!checkColumnsAndLabels) {
+        this.loading = false
+        return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
+      }
 
       const tag = _.values(newRow);
       let uniqueness = '';
@@ -328,15 +399,14 @@ export class ImportFileComponent implements OnInit {
       const { company, doct, storehouse, departament } = this.importFileForm.value;
       this.archivesSrv.newArchive({ tag, company, departament, doct, storehouse, uniqueness, volume: volume_id }).subscribe(res => {
         if (res._id) {
-          this.loading = false;
           this.successMsgSrv.successMessages('Arquivo indexado com sucesso.');
         }
       }, error => {
-        this.loading = false;
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
         this.errorsToPostArchive.push(error);
       });
+      this.loading = false
     }
-  }
+  } */
 }

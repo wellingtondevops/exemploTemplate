@@ -9,6 +9,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { ListComponent, EnumToArrayPipe } from './list/list.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ImportFileComponent } from './import-file/import-file.component';
+import { ModalImportRightBottomModule } from 'src/app/shared/modules/modal-import-right-bottom/modal-import-right-bottom.module';
 
 @NgModule({
   declarations: [ListComponent, EnumToArrayPipe, ImportFileComponent],
@@ -25,6 +26,7 @@ import { ImportFileComponent } from './import-file/import-file.component';
     TranslateModule,
     ButtonsCustomModule,
     NgxDatatableModule,
+    ModalImportRightBottomModule,
     NgxLoadingModule.forRoot({})
   ],
   providers: [NgbActiveModal]

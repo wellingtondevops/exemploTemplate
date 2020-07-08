@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import * as $ from 'jquery';
 
 @Component({
@@ -8,10 +8,16 @@ import * as $ from 'jquery';
 })
 export class ModalImportRightBottomComponent implements OnInit {
   @Input() visible: any;
+  @Input() errors: any;
+  @Input() imported: any;
   returnColorProgress = 'primary';
   closeResult: string;
   first = false;
-  @Input() urlErrors: string;
+  @Input() urlErrors: any;
+  errorTotal: any;
+  importedTotal: any;
+  urlErrorsString: any;
+  @Output() closeModl: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -25,20 +31,31 @@ export class ModalImportRightBottomComponent implements OnInit {
     });
   }
 
+  getFile(){
+    window.location = this.urlErrors;
+  }
+
   openModal() {
     $('body').addClass('cus-modal-open');
-    const target = '#right-bottom';
-    $('#' + $(target).addClass('in'));
+    const target = 'right-bottom';
+    $(`#${target}`).addClass('in');
+  }
+
+  closeModal(){
+    $('body').removeClass('cus-modal-open');
+    const target = 'right-bottom';
+    $(`#${target}`).removeClass('in');
+  }
+
+  setVisible(){
+    this.closeModl.emit(false);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // tslint:disable-next-line:forin
     for (const propName in changes) {
-      console.log(propName)
       const change = changes[propName];
-      console.log(change)
-      this.visible ? this.openModal() : '';
-      console.log(this.urlErrors)
+      this.visible ? this.openModal() : this.closeModal() ;
     }
   }
 

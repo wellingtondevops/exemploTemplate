@@ -14,9 +14,10 @@
           <form [formGroup]="importFileForm" role="FormGroup" class="form-inline" (ngSubmit)="postImportArchive()">
             <div class="form-group mb-2 col-6">
               <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" id="company" type="text" class="form-control"
-                formControlName="company" [resultTemplate]="rtCompany1" [inputFormatter]="formatter"
-                [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
+              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" id="company"
+                type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany1"
+                [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }"
+                style="width: 100%" />
               <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                 <div *ngIf="!company.valid">
                   Empresa é obrigatório.
@@ -81,6 +82,9 @@
               </button>
             </div>
           </form>
+          <app-modal-import-right-bottom *ngIf="openCardStatus" [visible]="openCardStatus" [imported]="importedSuccess"
+            [errors]="errorsImported" [urlErrors]="urlErrors" (closeModl)="closeModalImport($event)">
+          </app-modal-import-right-bottom>
         </div>
       </div>
     </div>

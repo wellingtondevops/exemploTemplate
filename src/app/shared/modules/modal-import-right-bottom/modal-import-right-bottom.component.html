@@ -3,10 +3,18 @@
   <div class="cus-modal right-bottom" id="right-bottom" role="dialog">
     <div class="cus-modal-dialog">
       <div class="cus-modal-content">
-        <div class="cus-modal-body"> <a class="cus-close">×</a>
-          <h5 class="modal-title">Status da Importação</h5>
+        <div class="cus-modal-body"> <a class="cus-close" (click)="setVisible()">×</a>
+          <p>Status da Importação</p>
           <br>
-          <a [routerLink]="[urlErrors]">Ver erros da Importação</a>
+          <p style="color: green">
+            Importados com sucesso: {{ imported }}
+          </p>
+          <p style="color: red">
+            Erros: {{ errors }}
+          </p>
+          <button *ngIf="urlErrors" class="btn btn-sm btn-link" (click)="getFile()">
+            Download erros da Importação
+          </button>
         </div>
       </div>
     </div>

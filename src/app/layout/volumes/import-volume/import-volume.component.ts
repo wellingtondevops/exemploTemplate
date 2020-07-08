@@ -14,6 +14,8 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { routerTransition } from 'src/app/router.animations';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+const url = environment.apiUrl;
 import _ from 'lodash';
 
 
@@ -38,12 +40,10 @@ export class ImportVolumeComponent implements OnInit {
   loading: Boolean = true;
   rowsFile: any = [];
   hiddenReference = true;
-  errorsBox = {
-    sheet: '',
-    logErrors: []
-  };
   openCardStatus: boolean = false;
   urlErrors: string;
+  importedSuccess: number = 0;
+  errorsImported: number = 0;
 
   constructor(
     private errorMsg: ErrorMessagesService,
@@ -64,9 +64,9 @@ export class ImportVolumeComponent implements OnInit {
       guardType: this.fb.control('', [Validators.required]),
       volumeType: this.fb.control('', [Validators.required]),
       departament: this.fb.control(null),
-      uniqueField: this.fb.control(''),
-      location: this.fb.control('', [Validators.required]),
+      volumes: this.fb.control(null, [Validators.required]),
       reference: this.fb.control(null),
+      sheetName: this.fb.control(null),
       seal: this.fb.control(null)
     });
   }
@@ -75,8 +75,8 @@ export class ImportVolumeComponent implements OnInit {
     this.getCompanies();
     this.getStoreHouses();
   }
-  get location() {
-    return this.volumeForm.get('location');
+  get volumes() {
+    return this.volumeForm.get('volumes');
   }
   get volumeType() {
     return this.volumeForm.get('volumeType');
@@ -133,76 +133,33 @@ export class ImportVolumeComponent implements OnInit {
 
 
   returnId(object) {
-    this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
+    return _.filter(this.volumeForm.value[object], function (value, key) {
       if (key === '_id') { return value; }
     })[0];
   }
 
-  returnUniqField() {
-    return `${this.volumeForm.value.location}-${this.volumeForm.value.storehouse._id}`;
-  }
-
   postVolume() {
     this.loading = true;
-    this.returnId('company');
-    this.returnId('storehouse');
-    this.returnId('departament');
-    var totalRow = this.rowsFile.length
+    const company = this.returnId('company');
+    const storehouse = this.returnId('storehouse');
+    const departament = this.returnId('departament');
 
-    this.rowsFile.map((row, index) => {
-      if (row.LOCALIZACAO) {
-        this.volumeForm.controls['location'].patchValue(row.LOCALIZACAO);
-      }
-      if (!this.hiddenReference && !row.reference) {
-        this.errorMsg.errorMessages(`Referência é obrigatória para guarda simples.`);
-      } else {
-        if (row.reference) {
-          this.volumeForm.controls['reference'].patchValue(row.reference);
+    const sheetName = this.nameFile;
+    const volumes = this.rowsFile;
+    this.volumesSrv.import({ sheetName, volumes, company, storehouse, departament }).subscribe(
+      data => {
+        this.loading = false;
+        if (data) {
+          this.importedSuccess = data.Imported ? data.Imported : 0;
+          this.errorsImported = data.Errors ? data.Errors : 0;
+          this.urlErrors = data.sheetError ? `${url}${data.sheetError}` : null;
+          this.openCardStatus = true;
         }
+      }, error => {
+        this.loading = false;
+        console.log('ERROR', error)
       }
-
-      if (row.seal) {
-        this.volumeForm.controls['seal'].patchValue(row.seal);
-      }
-
-      this.volumeForm.value.uniqueField = this.returnUniqField();
-      const volume = _.omitBy(this.volumeForm.value, _.isNil);
-      this.volumesSrv.newVolume(volume).subscribe(
-        data => {
-        }, error => {
-          this.loading = false;
-          console.log('ERROR', error)
-          if (error.error && error.error.message && error.error.message.indexOf('Cadastrado')) {
-            this.errorsBox.sheet = this.nameFile;
-            this.errorsBox.logErrors.push({
-              row: index + 2,
-              msgError: error.error.message,
-              location: row.location
-            })
-            console.log(this.errorsBox)
-            console.log(index)
-            console.log(totalRow)
-            
-          }
-        }
-      );
-      if (index + 2 === totalRow) {
-        this.postErrors()
-      }
-    });
-
-    this.loading = false;
-  }
-
-  postErrors() {
-    this.volumesSrv.postSheetVolume(this.errorsBox).subscribe(data => {
-      if (data._id) {
-        this.openCardStatus = true;
-        this.urlErrors = `/volumes/errors-volumes`
-      }
-    }, error => {
-      console.log('ERROR', error)
-    })
+    );
   }
 
   changeGuardType() {
@@ -240,6 +197,11 @@ export class ImportVolumeComponent implements OnInit {
         console.log('ERROR: ', error);
       }
     );
+  }
+
+  closeModalImport(data) {
+    console.log('closeModalImport', data)
+    this.openCardStatus = data;
   }
 
   getStoreHouses() {
