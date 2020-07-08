@@ -6,7 +6,11 @@
         <div class="cus-modal-body"> <a class="cus-close">×</a>
           <h5 class="modal-title">Status da Importação</h5>
           <br>
-          <a [routerLink]="[urlErrors]">Ver erros da Importação</a>
+          <p>
+            Importados com sucesso: {{ imported }} <br/>
+            Erros: {{ errors }}
+          </p>
+          <a *ngIf="urlErrors" [routerLink]="[urlErrors]">Download erros da Importação</a>
         </div>
       </div>
     </div>

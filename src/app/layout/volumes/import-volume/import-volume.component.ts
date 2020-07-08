@@ -134,7 +134,7 @@ export class ImportVolumeComponent implements OnInit {
 
   returnId(object) {
     this.volumeForm.controls[object].patchValue(_.filter(this.volumeForm.value[object], function (value, key) {
-      if (key === '_id') { console.log(value);return value; }
+      if (key === '_id') { return value; }
     })[0]);
   }
 
@@ -150,135 +150,121 @@ export class ImportVolumeComponent implements OnInit {
     const volumes = _.omitBy(this.volumeForm.value, _.isNil);
     this.volumesSrv.import(volumes).subscribe(
       data => {
-        if(data){
-          console.log()
+        if (data) {
+          console.log(data)
         }
       }, error => {
         this.loading = false;
         console.log('ERROR', error)
-        /* if (error.error && error.error.message && error.error.message.indexOf('Cadastrado')) {
-          this.errorsBox.sheet = this.nameFile;
-        } */
       }
     );
   }
 
-postErrors() {
-  this.volumesSrv.postSheetVolume(this.errorsBox).subscribe(data => {
-    if (data._id) {
-      this.openCardStatus = true;
-      this.urlErrors = `/volumes/errors-volumes`
+  changeGuardType() {
+    switch (this.volumeForm.value.guardType) {
+      case 'SIMPLES':
+        this.hiddenReference = false;
+        break;
+      case 'GERENCIADA':
+        this.hiddenReference = true;
+        break;
     }
-  }, error => {
-    console.log('ERROR', error)
-  })
-}
-
-changeGuardType() {
-  switch (this.volumeForm.value.guardType) {
-    case 'SIMPLES':
-      this.hiddenReference = false;
-      break;
-    case 'GERENCIADA':
-      this.hiddenReference = true;
-      break;
   }
-}
 
-removeFile() {
-  // this.host.nativeElement.value = '';
-  this.file = null;
-  this.nameFile = null;
-}
-
-selectedCompany(e) {
-  if (e && e.item && e.item._id) {
-    this.getDepartament(e.item._id);
-  } else {
-    this.getDepartament(e);
+  removeFile() {
+    // this.host.nativeElement.value = '';
+    this.file = null;
+    this.nameFile = null;
   }
-}
 
-getCompanies() {
-  this.companiesSrv.searchCompanies().subscribe(
-    data => {
-      this.companies = data.items;
-    },
-    error => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
+  selectedCompany(e) {
+    if (e && e.item && e.item._id) {
+      this.getDepartament(e.item._id);
+    } else {
+      this.getDepartament(e);
     }
-  );
-}
+  }
 
-getStoreHouses() {
-  this.storeHousesSrv.searchStorehouses().subscribe(
-    data => {
-      this.loading = false;
-      this.storeHouses = data.items;
-    },
-    error => {
-      this.loading = false;
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    }
-  );
-}
+  getCompanies() {
+    this.companiesSrv.searchCompanies().subscribe(
+      data => {
+        this.companies = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
 
-getDepartament(id) {
-  this.departamentsSrv.searchDepartaments(id).subscribe(
-    data => {
-      this.departaments = data.items;
-    },
-    error => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-    }
-  );
-}
+  getStoreHouses() {
+    this.storeHousesSrv.searchStorehouses().subscribe(
+      data => {
+        this.loading = false;
+        this.storeHouses = data.items;
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
 
-search = (text$: Observable<string>) =>
-  text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map(storehouse =>
-      storehouse.length < 2
-        ? []
-        : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+  getDepartament(id) {
+    this.departamentsSrv.searchDepartaments(id).subscribe(
+      data => {
+        this.departaments = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(storehouse =>
+        storehouse.length < 2
+          ? []
+          : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+      )
     )
-  )
 
-formatter = (x: { name: string }) => x.name;
+  formatter = (x: { name: string }) => x.name;
 
-searchCompany = (text$: Observable<string>) =>
-  text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map(company => {
-      let res;
-      if (company.length < 2) {
-        res = [];
-      } else {
-        res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-      }
-      return res;
-    })
-  )
+  searchCompany = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(company => {
+        let res;
+        if (company.length < 2) {
+          res = [];
+        } else {
+          res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        }
+        return res;
+      })
+    )
 
-searchDepartament = (text$: Observable<string>) =>
-  text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map(departament => {
-      let res;
-      if (departament.length < 2) {
-        res = [];
-      } else {
-        res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
-      }
-      return res;
-    })
-  )
+  searchDepartament = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(departament => {
+        let res;
+        if (departament.length < 2) {
+          res = [];
+        } else {
+          res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
+        }
+        return res;
+      })
+    )
 }
 /* @Pipe({
   name: 'enumToArray'

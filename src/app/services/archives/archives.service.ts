@@ -48,4 +48,11 @@ export class ArquivesService {
         tap(data => data)
       );
   }
+
+  import(archives){
+    return this.http.post<any>(`${url}/archives/import`, archives)
+      .pipe(
+        tap(data => data)
+      );
+  }
 }

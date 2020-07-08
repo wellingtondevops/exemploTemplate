@@ -81,6 +81,8 @@
               </button>
             </div>
           </form>
+          <app-modal-import-right-bottom *ngIf="openCardStatus" [visible]="openCardStatus" [imported]="importedSuccess" [errors]="errorsImported" [urlErrors]="urlErrors">
+          </app-modal-import-right-bottom>
         </div>
       </div>
     </div>

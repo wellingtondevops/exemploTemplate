@@ -8,6 +8,8 @@ import * as $ from 'jquery';
 })
 export class ModalImportRightBottomComponent implements OnInit {
   @Input() visible: any;
+  @Input() errors: number;
+  @Input() imported: number;
   returnColorProgress = 'primary';
   closeResult: string;
   first = false;
