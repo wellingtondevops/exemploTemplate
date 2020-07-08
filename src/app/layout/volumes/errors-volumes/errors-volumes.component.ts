@@ -6,6 +6,7 @@ import { Page } from 'src/app/models/page';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { environment } from '../../../../environments/environment';
+import { SaveLocal } from 'src/app/storage/saveLocal';
 const url = environment.apiUrl;
 
 @Component({
@@ -26,15 +27,24 @@ export class ErrorsVolumesComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private volumeSrv: VolumesService,
-    private errorMsg: ErrorMessagesService
+    private errorMsg: ErrorMessagesService,
+    private localStorageSrv: SaveLocal
   ) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
-      sheet: this.fb.control('', Validators.required),
+      sheet: this.fb.control(null, Validators.required),
       endDate: this.fb.control(''),
       initDate: this.fb.control(''),
     });
+    const volumeSearch = JSON.parse(this.localStorageSrv.get('volumeSearchError'));
+    if(volumeSearch && volumeSearch.sheet){
+      this.searchForm.patchValue({
+        sheet: volumeSearch.sheet,
+        initDate: volumeSearch.initDate,
+        endDate: volumeSearch.endDate
+      })
+    }
   }
 
   get sheet() {
@@ -42,7 +52,6 @@ export class ErrorsVolumesComponent implements OnInit {
   }
 
   getErrors(){
-    console.log(this.searchForm.value)
     this.setPage({ offset: 0 })
   }
 
@@ -68,6 +77,15 @@ export class ErrorsVolumesComponent implements OnInit {
 
   getFile(id){
     window.location.href = `${url}/sheetvolumes/excel/${id}`
+  }
+
+  clear(){
+    this.localStorageSrv.clear('volumeSearchError');
+    this.searchForm.patchValue({
+      sheet: null,
+      endDate: null,
+      initDate: null
+    })
   }
 
 }

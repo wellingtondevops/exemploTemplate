@@ -7,6 +7,7 @@ import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { environment } from '../../../../environments/environment';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
+import { SaveLocal } from 'src/app/storage/saveLocal';
 const url = environment.apiUrl;
 
 @Component({
@@ -27,7 +28,8 @@ export class ErrorsArchivesComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private archivesSrv: ArquivesService,
-    private errorMsg: ErrorMessagesService
+    private errorMsg: ErrorMessagesService,
+    private localStorageSrv: SaveLocal
   ) { }
 
   ngOnInit() {
@@ -36,6 +38,14 @@ export class ErrorsArchivesComponent implements OnInit {
       endDate: this.fb.control(''),
       initDate: this.fb.control(''),
     });
+    const archiveSearch = JSON.parse(this.localStorageSrv.get('archiveSearchError'));
+    if(archiveSearch && archiveSearch.sheet){
+      this.searchForm.patchValue({
+        sheet: archiveSearch.sheet,
+        initDate: archiveSearch.initDate,
+        endDate: archiveSearch.endDate
+      })
+    }
   }
 
   get sheet() {
@@ -69,6 +79,15 @@ export class ErrorsArchivesComponent implements OnInit {
 
   getFile(id) {
     window.location.href = `${url}/sheetarchives/excel/${id}`
+  }
+
+  clear(){
+    this.localStorageSrv.clear('archiveSearchError');
+    this.searchForm.patchValue({
+      sheet: null,
+      endDate: null,
+      initDate: null
+    })
   }
 
 }
