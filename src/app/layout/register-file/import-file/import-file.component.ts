@@ -358,6 +358,7 @@ export class ImportFileComponent implements OnInit {
       }
     }, error => {
       console.log('ERROR: ', error)
+      this.errorMsg.errorMessages(error);
       this.loading = false;
     })
   }

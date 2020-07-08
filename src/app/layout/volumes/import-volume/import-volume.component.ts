@@ -65,9 +65,6 @@ export class ImportVolumeComponent implements OnInit {
       volumeType: this.fb.control('', [Validators.required]),
       departament: this.fb.control(null),
       volumes: this.fb.control(null, [Validators.required]),
-      reference: this.fb.control(null),
-      sheetName: this.fb.control(null),
-      seal: this.fb.control(null)
     });
   }
 
@@ -143,10 +140,12 @@ export class ImportVolumeComponent implements OnInit {
     const company = this.returnId('company');
     const storehouse = this.returnId('storehouse');
     const departament = this.returnId('departament');
+    const guardType = this.volumeForm.value.guardType;
+    const volumeType = this.volumeForm.value.volumeType;
 
     const sheetName = this.nameFile;
     const volumes = this.rowsFile;
-    this.volumesSrv.import({ sheetName, volumes, company, storehouse, departament }).subscribe(
+    this.volumesSrv.import({ sheetName, volumes, company, storehouse, departament, volumeType, guardType }).subscribe(
       data => {
         this.loading = false;
         if (data) {
@@ -158,6 +157,7 @@ export class ImportVolumeComponent implements OnInit {
       }, error => {
         this.loading = false;
         console.log('ERROR', error)
+        this.errorMsg.errorMessages(error);
       }
     );
   }
