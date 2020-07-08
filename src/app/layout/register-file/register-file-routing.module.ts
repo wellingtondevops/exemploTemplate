@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { ListComponent } from './list/list.component';
 import { Routes, RouterModule } from '@angular/router';
-import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
 import { ImportFileComponent } from './import-file/import-file.component';
+import { ErrorsArchivesComponent } from './errors-archives/errors-archives.component';
 
 const routes: Routes = [
   {
@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'import',
     component: ImportFileComponent
+  },
+  {
+    path: 'errors-archives',
+    component: ErrorsArchivesComponent
   }
 ];
 
