@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
+import { DaenerysTywinSnowGuardService as DaenerysTywinSnowGuard } from 'src/app/services/guard/daenerys-tywin-snow-guard.service';
 import { ImportVolumeComponent } from './import-volume/import-volume.component';
 import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.component';
 
@@ -12,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     component: ListComponent,
-    canActivate: [DaenerysTywinGuard]
+    canActivate: [DaenerysTywinSnowGuard]
   },
   {
     path: 'get/:id',
