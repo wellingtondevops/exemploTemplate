@@ -6,43 +6,44 @@ import { Page } from 'src/app/models/page';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { environment } from '../../../../environments/environment';
+import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { SaveLocal } from 'src/app/storage/saveLocal';
 const url = environment.apiUrl;
 
 @Component({
-  selector: 'app-errors-volumes',
-  templateUrl: './errors-volumes.component.html',
-  styleUrls: ['./errors-volumes.component.scss'],
+  selector: 'app-errors-archives',
+  templateUrl: './errors-archives.component.html',
+  styleUrls: ['./errors-archives.component.scss'],
   animations: [routerTransition()]
 })
-export class ErrorsVolumesComponent implements OnInit {
+export class ErrorsArchivesComponent implements OnInit {
   @ViewChild('myTable') table: any;
   searchForm: FormGroup;
   page = new Page();
   loading: Boolean = false;
-  errorsVolumes: any[];
-  
+  errorsArchives: any[];
+
   constructor(
     private _route: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private volumeSrv: VolumesService,
+    private archivesSrv: ArquivesService,
     private errorMsg: ErrorMessagesService,
     private localStorageSrv: SaveLocal
   ) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
-      sheet: this.fb.control(null, Validators.required),
+      sheet: this.fb.control('', Validators.required),
       endDate: this.fb.control(''),
       initDate: this.fb.control(''),
     });
-    const volumeSearch = JSON.parse(this.localStorageSrv.get('volumeSearchError'));
-    if(volumeSearch && volumeSearch.sheet){
+    const archiveSearch = JSON.parse(this.localStorageSrv.get('archiveSearchError'));
+    if(archiveSearch && archiveSearch.sheet){
       this.searchForm.patchValue({
-        sheet: volumeSearch.sheet,
-        initDate: volumeSearch.initDate,
-        endDate: volumeSearch.endDate
+        sheet: archiveSearch.sheet,
+        initDate: archiveSearch.initDate,
+        endDate: archiveSearch.endDate
       })
     }
   }
@@ -51,7 +52,7 @@ export class ErrorsVolumesComponent implements OnInit {
     return this.searchForm.get('sheet');
   }
 
-  getErrors(){
+  getErrors() {
     this.setPage({ offset: 0 })
   }
 
@@ -59,9 +60,9 @@ export class ErrorsVolumesComponent implements OnInit {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
-    this.volumeSrv.searchSheetErrorsVolumes(this.searchForm.value, this.page).subscribe(
+    this.archivesSrv.searchImportErrors(this.searchForm.value, this.page).subscribe(
       data => {
-        this.errorsVolumes = data.items;
+        this.errorsArchives = data.items;
         this.page.pageNumber = data._links.currentPage;
         this.page.totalElements = data._links.foundItems;
         this.page.size = data._links.totalPage;
@@ -75,12 +76,12 @@ export class ErrorsVolumesComponent implements OnInit {
     );
   }
 
-  getFile(id){
-    window.location.href = `${url}/sheetvolumes/excel/${id}`
+  getFile(id) {
+    window.location.href = `${url}/sheetarchives/excel/${id}`
   }
 
   clear(){
-    this.localStorageSrv.clear('volumeSearchError');
+    this.localStorageSrv.clear('archiveSearchError');
     this.searchForm.patchValue({
       sheet: null,
       endDate: null,

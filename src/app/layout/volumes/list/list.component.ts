@@ -137,6 +137,7 @@ export class ListComponent implements OnInit {
   
   clear(){
     this.localStorageSrv.clear('volume');
+    
     this.searchForm.patchValue({
       company: null,
       departament: null,
