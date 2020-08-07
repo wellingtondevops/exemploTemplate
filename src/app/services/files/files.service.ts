@@ -13,7 +13,7 @@ export class FilesService {
     constructor(private http: HttpClient) { }
 
     file(form) {
-        return this.http.post<any>(`${apiUrlUpload}/post`,
+        return this.http.post<any>(`${apiUrlUpload}/api/posts`,
             form,
             {
                 reportProgress: true,
@@ -22,6 +22,7 @@ export class FilesService {
                 switch (event.type) {
                     case HttpEventType.UploadProgress:
                         const progress = Math.round(100 * (event.loaded / event.total));
+                        console.log(progress)
                         return { status: 'progress', message: progress };
                     case HttpEventType.Response:
                         return event.body;
@@ -32,7 +33,7 @@ export class FilesService {
     }
 
     delete(file_id) {
-        return this.http.delete(`${apiUrlUpload}/posts/${file_id}`).pipe(
+        return this.http.delete(`${apiUrlUpload}/api/posts/${file_id}`).pipe(
             tap(data => data)
         );
     }
