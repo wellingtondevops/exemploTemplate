@@ -58,8 +58,8 @@
           </div>
           <div class="row col-12">
             <div class="form-group mb-2 col-3">
-              <label for="typeahead-focus">Documento</label>
-              <input id="typeahead-focus" autoFocus="true" type="text" class="form-control" formControlName="doct"
+              <label for="typeahead-config">Documento</label>
+              <input id="typeahead-config" autoFocus="true" type="text" class="form-control" formControlName="doct"
                 [resultTemplate]="rtDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
                 style="width: 100%" #instanceDocument="ngbTypeahead"
                 (focus)="focusDocument$.next($any($event).target.value)"

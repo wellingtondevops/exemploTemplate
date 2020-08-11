@@ -15,7 +15,7 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal'
 
 @Component({
@@ -58,8 +58,13 @@ export class ListComponent implements OnInit {
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
-    private localStorageSrv: SaveLocal
-  ) { }
+    private localStorageSrv: SaveLocal,
+    config: NgbTypeaheadConfig
+  ) { 
+    config.showHint = true;
+    config.container = "body";
+    config.focusFirst = false;
+  }
 
   ngOnInit() {
     // this.setPage({ offset: 0 });
