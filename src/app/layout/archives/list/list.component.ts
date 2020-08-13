@@ -29,6 +29,8 @@ export class ListComponent implements OnInit {
   @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
   @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
   @ViewChild('instanceStorehouse') instanceStorehouse: NgbTypeahead;
+  @ViewChild('searchTypeahead')
+  private readonly typeahead: NgbTypeahead;
   archives: Archive[];
   archivesCol: any[];
   page = new Page();
@@ -356,6 +358,24 @@ export class ListComponent implements OnInit {
       }
     });
     return obj;
+  }
+
+  typeaheadKeydown() {
+    if (!this.typeahead.isPopupOpen()) {
+      return;
+    }
+
+    setTimeout(() => {
+      const popup = document.getElementById(this.typeahead.popupId),
+        activeElements = popup.getElementsByClassName('active');
+      if (activeElements.length === 1) {
+        const elem = <HTMLElement>activeElements[0];
+        elem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+    });
   }
 }
 

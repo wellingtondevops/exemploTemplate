@@ -1,3 +1,4 @@
 .dropdown-menu.show {
-  z-index: 9999;
+  max-height: 400px !important;
+  overflow-y: auto !important;
 }

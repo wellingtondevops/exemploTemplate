@@ -58,8 +58,8 @@
           </div>
           <div class="row col-12">
             <div class="form-group mb-2 col-3">
-              <label for="typeahead-config">Documento</label>
-              <input id="typeahead-config" autoFocus="true" type="text" class="form-control" formControlName="doct"
+              <label for="typeahead-scrollable">Documento</label>
+              <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control" formControlName="doct"
                 [resultTemplate]="rtDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
                 style="width: 100%" #instanceDocument="ngbTypeahead"
                 (focus)="focusDocument$.next($any($event).target.value)"
@@ -101,7 +101,7 @@
           <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
           </ng-template>
-          <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+          <ng-template #rtDocument  let-r="result" let-t="doct" class="custom-typeahead" >
             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
           </ng-template>
         </form>
@@ -142,7 +142,13 @@
     <ngx-datatable-column name="Documento" [width]="200" prop="doct.name"></ngx-datatable-column>
     <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name"></ngx-datatable-column>
     <ngx-datatable-column name="Indexação" [width]="300" prop="index"></ngx-datatable-column>
-    <ngx-datatable-column name="Criado em" [width]="300" prop="create">
+    <ngx-datatable-column name="Anexo" [width]="300" prop="picture">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <i *ngIf="value" class="fa fa-3x fa-paperclip"></i>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Páginas" [width]="200" prop="picture.page"></ngx-datatable-column>
+    <ngx-datatable-column name="Criado em" [width]="200" prop="create">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value | date: 'dd/MM/yyyy' }}
       </ng-template>
