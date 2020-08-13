@@ -73,8 +73,14 @@
             </ng-template>
             <fieldset class="form-group mb-2 col-12">
               <label style="justify-content:left;-webkit-box-pack: initial!important" for="exampleInputFile">Importar
-                Arquivo</label>
-              <input type="file" class="form-control-file" id="exampleInputFile">
+                Planilha</label>
+              <input type="file" class="form-control-file" id="importxls">
+            </fieldset>
+            <fieldset class="form-group mb-2 col-12">
+              <label style="justify-content:left;-webkit-box-pack: initial!important" for="exampleInputFile">Importar
+                Arquivos</label>
+              <input type="file" class="files" name="files" multiple class="form-control-file"
+                id="importfiles">
             </fieldset>
             <div class="form-group mb-2 col-12">
               <button type="submit" class="btn btn-primary">
@@ -82,6 +88,8 @@
               </button>
             </div>
           </form>
+          <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+          </app-modal-progress-right-bottom>
           <app-modal-import-right-bottom *ngIf="openCardStatus" [visible]="openCardStatus" [imported]="importedSuccess"
             [errors]="errorsImported" [urlErrors]="urlErrors" (closeModl)="closeModalImport($event)">
           </app-modal-import-right-bottom>

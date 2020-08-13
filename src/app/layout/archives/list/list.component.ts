@@ -15,7 +15,7 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal'
 
 @Component({
@@ -29,6 +29,8 @@ export class ListComponent implements OnInit {
   @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
   @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
   @ViewChild('instanceStorehouse') instanceStorehouse: NgbTypeahead;
+  @ViewChild('searchTypeahead')
+  private readonly typeahead: NgbTypeahead;
   archives: Archive[];
   archivesCol: any[];
   page = new Page();
@@ -58,8 +60,13 @@ export class ListComponent implements OnInit {
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
-    private localStorageSrv: SaveLocal
-  ) { }
+    private localStorageSrv: SaveLocal,
+    config: NgbTypeaheadConfig
+  ) { 
+    config.showHint = true;
+    config.container = "body";
+    config.focusFirst = false;
+  }
 
   ngOnInit() {
     // this.setPage({ offset: 0 });
@@ -351,6 +358,24 @@ export class ListComponent implements OnInit {
       }
     });
     return obj;
+  }
+
+  typeaheadKeydown() {
+    if (!this.typeahead.isPopupOpen()) {
+      return;
+    }
+
+    setTimeout(() => {
+      const popup = document.getElementById(this.typeahead.popupId),
+        activeElements = popup.getElementsByClassName('active');
+      if (activeElements.length === 1) {
+        const elem = <HTMLElement>activeElements[0];
+        elem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+    });
   }
 }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import * as XLSX from 'ts-xlsx';
@@ -17,6 +17,7 @@ import { environment } from '../../../../environments/environment';
 const url = environment.apiUrl;
 import _ from 'lodash';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
+import { FilesService } from 'src/app/services/files/files.service';
 
 @Component({
   selector: 'app-import-file',
@@ -26,8 +27,13 @@ import { ArquivesService } from 'src/app/services/archives/archives.service';
 })
 export class ImportFileComponent implements OnInit {
   file: File | null = null;
+  files: [File] | null = null;
   importFileForm: FormGroup;
+  uploadResponse: any = { status: 'progress', message: 0 };
+  nameFileXls: string;
   nameFile: string;
+  savedFile = false;
+  errorUpload: boolean = null;
   arrayBuffer: any;
   loading: Boolean = false;
   company_id: string;
@@ -67,6 +73,7 @@ export class ImportFileComponent implements OnInit {
     private registerSrv: RegistersService,
     private departamentsSrv: DepartamentsService,
     private archivesSrv: ArquivesService,
+    private filesSrv: FilesService,
   ) {
     this.importFileForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
@@ -150,47 +157,74 @@ export class ImportFileComponent implements OnInit {
   }
 
   // file select
-  @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
+  @HostListener('change', ['$event']) emitFiles(event: any = null) {
     this.loading = true;
-    if (event) {
-      this.nameFile = event.item(0).name;
-      const file = event && event.item(0);
-      if (!file.name.match(/\.(xls|xlsx|XLS|XLSX)$/)) {
-        // this.removeFile();
-        const error = {
-          status: 404,
-          message: 'Formato de arquivo não suportado.'
-        };
-        this.errorMsg.showError(error);
+    if (event.target.id === 'importxls') {
+      event = event.target.files
+      if (event) {
+        this.nameFileXls = event.item(0).name;
+        const file = event && event.item(0);
+        if (!file.name.match(/\.(xls|xlsx|XLS|XLSX)$/)) {
+          // this.removeFile();
+          const error = {
+            status: 404,
+            message: 'Formato de arquivo não suportado.'
+          };
+          this.errorMsg.showError(error);
 
-      } else {
-        this.file = file;
-        const fileReader = new FileReader();
-        fileReader.onload = (e) => {
-          this.arrayBuffer = fileReader.result;
-          const data = new Uint8Array(this.arrayBuffer);
-          const arr = new Array();
-          for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
-          const bstr = arr.join('');
-          const workbook = XLSX.read(bstr, { type: 'binary' });
-          // nome da aba
-          const first_sheet_name = workbook.SheetNames[0];
-          // nome das colunas (primeira linha)
-          const first_row = workbook.SheetNames[1];
-          // console.log(first_row)
-          const worksheet = workbook.Sheets[first_sheet_name];
-          // console.log('worksheet',worksheet);
-          this.columns = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
-          // I want to get top row only.
-          // console.log(XLSX.utils.decode_row('A1'));
-          this.workbook = worksheet;
-          const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-          item.map(row => {
-            this.rowsFile.push(row);
-          });
-        };
-        fileReader.readAsArrayBuffer(this.file);
+        } else {
+          this.file = file;
+          const fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            this.arrayBuffer = fileReader.result;
+            const data = new Uint8Array(this.arrayBuffer);
+            const arr = new Array();
+            for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+            const bstr = arr.join('');
+            const workbook = XLSX.read(bstr, { type: 'binary' });
+            // nome da aba
+            const first_sheet_name = workbook.SheetNames[0];
+            // nome das colunas (primeira linha)
+            const first_row = workbook.SheetNames[1];
+            // console.log(first_row)
+            const worksheet = workbook.Sheets[first_sheet_name];
+            // console.log('worksheet',worksheet);
+            this.columns = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
+            // I want to get top row only.
+            // console.log(XLSX.utils.decode_row('A1'));
+            this.workbook = worksheet;
+            const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+            item.map(row => {
+              this.rowsFile.push(row);
+            });
+          };
+          fileReader.readAsArrayBuffer(this.file);
+        }
       }
+    } else if (event.target.id === 'importfiles') {
+      this.files = event.target.files
+      /* files.forEach(file => {
+        // this.nameFile = file.name;
+        if (!file.name.match(/\.(PNG|PDF|png|pdf)$/)) {
+          // this.removeFile();
+          const error = {
+            status: 404,
+            message: 'Formato de arquivo não suportado.'
+          };
+          this.errorMsg.showError(error);
+
+        } else {
+          const reader = new FileReader();
+          reader.readAsDataURL(file); // read file as data url
+
+          reader.onload = (event) => { // called once readAsDataURL is completed
+            console.log(event)
+            this.files.push(file);
+            // this.url = event.currentTarget;
+            // this.url = this.url.result;
+          };
+        }
+      }) */
     }
     this.loading = false;
   }
@@ -313,13 +347,46 @@ export class ImportFileComponent implements OnInit {
     const archives = rowsFile;
 
     // const archives = _.omitBy(this.importFileForm.value, _.isNil);
-    this.postArchiveNew({ archives, company, storehouse, doct, departament, sheetName: this.nameFile })
+    this.postArchiveNew({ archives, company, storehouse, doct, departament, sheetName: this.nameFileXls })
     /* this.rowsFile.map(item => {
       this.postArquive(item);
     });
     if(this.errorsToPostArchive.length > 0){
       console.log(this.errorsToPostArchive)
     } */
+    this.submit(company, storehouse, departament, doct)
+  }
+
+  submit(company, storehouse, departament, doct) {
+    // this.loading = true;
+    const formData = new FormData();
+    for (let i = 0; i < this.files.length; i++){
+      formData.append('files', this.files[i]);
+    }
+    formData.append('storehouse', storehouse);
+    formData.append('departament', departament);
+    formData.append('doct', doct);
+    formData.append('company', company);
+    console.log(formData);
+    this.filesSrv.file(formData).subscribe(data => {
+      console.log(data)
+      if (data.status && data.status === 'progress') {
+        this.uploadResponse.message = data.message;
+        this.uploadResponse.status = data.status;
+        this.errorUpload = false;
+      }
+      if (Array(data)) {
+        this.savedFile = true;
+        this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+      }
+    }, error => {
+      this.loading = false;
+      this.uploadResponse.message = 10;
+      this.uploadResponse.status = 'progress';
+      this.errorUpload = true;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR ', error);
+    });
   }
 
   getVolume(location) {
@@ -371,7 +438,7 @@ export class ImportFileComponent implements OnInit {
     this.loading = true;
     const volume = data.LOCALIZACAO;
     const newRow = _.omit(data, ['LOCALIZACAO']);
-
+ 
     const volume_id = await this.getVolume({ location: data.LOCALIZACAO });
     if (volume_id) {
       const checkColumnsAndLabelsLength = this.checkLengthColumnsAndLabels(this.columns.length, this.labels.length);
@@ -384,7 +451,7 @@ export class ImportFileComponent implements OnInit {
         this.loading = false
         return this.errorMsg.showError({ message: 'As colunas não corresponde aos dados do documento, verifique o arquivo importado', status: 404 });
       }
-
+ 
       const tag = _.values(newRow);
       let uniqueness = '';
       const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);

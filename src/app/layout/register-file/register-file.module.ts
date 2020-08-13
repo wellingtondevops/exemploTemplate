@@ -9,6 +9,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { ListComponent, EnumToArrayPipe } from './list/list.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ImportFileComponent } from './import-file/import-file.component';
+import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
 import { ModalImportRightBottomModule } from 'src/app/shared/modules/modal-import-right-bottom/modal-import-right-bottom.module';
 import { ErrorsArchivesComponent } from './errors-archives/errors-archives.component';
 
@@ -28,6 +29,7 @@ import { ErrorsArchivesComponent } from './errors-archives/errors-archives.compo
     ButtonsCustomModule,
     NgxDatatableModule,
     ModalImportRightBottomModule,
+    ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({})
   ],
   providers: [NgbActiveModal]
