@@ -76,10 +76,10 @@ export class FormUploadComponent implements ControlValueAccessor {
         this.file = change.currentValue;
         this.urlFile = change.currentValue.url;
         this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
-        const url = `https://docs.google.com/viewer?url=${this.archive.url}&embedded=true`;
-        console.log(url);
-        this.urlGoogle = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-        console.log('urlGoogle', this.urlGoogle);
+        //const url = `https://docs.google.com/gview?url=${this.archive.url}&embedded=true`;
+        //console.log(url);
+        //this.urlGoogle = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        // console.log('urlGoogle', this.urlGoogle);
       }
     }
   }
