@@ -77,7 +77,7 @@ export class ShowComponent implements OnInit {
     return moment(create).format('DD/MM/YYYY');
   }
 
-  setStartCurrentDate(){
+  setStartCurrentDate() {
     this.loading = true;
     this.archiveSrv.patchStartCurrentDate(this.id).subscribe(res => {
       this.getArquive();
@@ -85,10 +85,10 @@ export class ShowComponent implements OnInit {
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
-      console.log("ERROR ", error)
-    })
+      console.log('ERROR ', error);
+    });
   }
-  
+
 
   getArquive() {
     this.loading = true;
@@ -97,10 +97,12 @@ export class ShowComponent implements OnInit {
       this.archiveCreateForm.patchValue({
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),
         indexBy: data.author.email
-      })
-      this.picture(this.archive._id);
+      });
+      this.file = data.picture;
+      $('.file').css('height', 'auto');
       this.loading = false;
     }, error => {
+      $('.file').css('height', this.height - 30);
       console.log('ERROR: ', error);
       this.loading = false;
     });

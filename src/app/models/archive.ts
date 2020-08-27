@@ -17,6 +17,12 @@ export class Archive {
     _id: string,
     location: string
   };
+  picture: {
+    _id: string,
+    url: string,
+    name: string,
+    page: number
+  }
   departament: Departament;
   doct: Doctype;
   tag: string[];

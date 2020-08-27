@@ -6,10 +6,10 @@ import { FormUploadComponent } from './form-upload.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewerModule } from '@hallysonh/ngx-imageviewer';
 import { ButtonsCustomModule } from '../buttons/buttons-custom.module';
-
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, NgbModule, ImageViewerModule, ButtonsCustomModule],
+    imports: [CommonModule, NgxExtendedPdfViewerModule, RouterModule, NgbModule, ImageViewerModule, ButtonsCustomModule],
     declarations: [FormUploadComponent],
     exports: [FormUploadComponent]
 })

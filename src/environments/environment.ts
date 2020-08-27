@@ -3,8 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiUrl: 'http://localhost:3000',
-  apiUrlUpload: 'http://localhost:2000',
+
+  apiUrl: 'https://apiqa.archio.com.br',
+  apiUrlUpload: 'https://archioqa.appspot.com',
+
   production: false
 };
 

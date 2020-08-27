@@ -137,18 +137,18 @@
       </ng-template>
     </ngx-datatable-column> -->
     <ngx-datatable-column name="Departamento" [width]="200" prop="departament.name"></ngx-datatable-column>
-    <ngx-datatable-column name="Posição" [width]="200" prop="volume.location"></ngx-datatable-column>
-    <ngx-datatable-column name="status" [width]="150" prop="status"></ngx-datatable-column>
+    <ngx-datatable-column name="Posição" [width]="100" prop="volume.location"></ngx-datatable-column>
+    <ngx-datatable-column name="Status" [width]="100" prop="status"></ngx-datatable-column>
     <ngx-datatable-column name="Documento" [width]="200" prop="doct.name"></ngx-datatable-column>
     <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name"></ngx-datatable-column>
-    <ngx-datatable-column name="Indexação" [width]="300" prop="index"></ngx-datatable-column>
-    <ngx-datatable-column name="Anexo" [width]="300" prop="picture">
+    <ngx-datatable-column name="Indexação" [width]="320" prop="index"></ngx-datatable-column>
+    <ngx-datatable-column name="Anexo" [width]="100" prop="picture">
       <ng-template let-value="value" ngx-datatable-cell-template>
-        <i *ngIf="value" class="fa fa-3x fa-paperclip"></i>
+        <i *ngIf="value" class="fa fa-file-pdf-o" style="font-size:48px;color:rgb(190, 36, 36)"></i>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Páginas" [width]="200" prop="picture.page"></ngx-datatable-column>
-    <ngx-datatable-column name="Criado em" [width]="200" prop="create">
+    <ngx-datatable-column name="Páginas" [width]="70" prop="picture.page"></ngx-datatable-column>
+    <ngx-datatable-column name="Criado em" [width]="150" prop="create">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value | date: 'dd/MM/yyyy' }}
       </ng-template>
