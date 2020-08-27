@@ -98,9 +98,11 @@ export class ShowComponent implements OnInit {
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),
         indexBy: data.author.email
       });
-      this.picture(this.archive._id);
+      this.file = data.picture;
+      $('.file').css('height', 'auto');
       this.loading = false;
     }, error => {
+      $('.file').css('height', this.height - 30);
       console.log('ERROR: ', error);
       this.loading = false;
     });
@@ -124,7 +126,6 @@ export class ShowComponent implements OnInit {
         obj += `${item.namefield}: ${tags[i]} | `;
       }
     });
-    console.log(obj);
     return obj;
   }
 
