@@ -10,6 +10,11 @@ export class User {
   permissions: Permission[];
   dateCreated: string;
   profiles: string[];
+  profile: {
+    _id: string;
+  };
+  download: boolean;
+  print: boolean
 }
 
 export class UserList {
