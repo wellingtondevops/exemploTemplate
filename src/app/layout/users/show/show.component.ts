@@ -50,7 +50,6 @@ export class ShowComponent implements OnInit {
     private documentsSrv: DocumentsService,
     private companiesSrv: CompaniesService,
   ) {
-    this.profilesList = ProfileEnum;
   }
 
   ngOnInit() {
@@ -59,6 +58,9 @@ export class ShowComponent implements OnInit {
       email: this.fb.control({ value: '', disabled: true }, [Validators.required, Validators.email]),
       name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       profiles: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      profile: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      download: this.fb.control({ value: '', disabled: true }),
+      print: this.fb.control({ value: '', disabled: true }),
       dateCreated: this.fb.control({ value: '', disabled: true }),
       permissions: this.fb.array(this.permissions)
     });
@@ -66,6 +68,15 @@ export class ShowComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompanies();
     this.getDocuments();
+    this.getProfiles();
+  }
+
+  getProfiles(){
+    this.userSrv.profiles().subscribe(data => {
+      this.profilesList = data.items
+    }, error => {
+      console.log(error)
+    })
   }
 
   searchCompany = (text$: Observable<string>) =>
@@ -196,6 +207,9 @@ export class ShowComponent implements OnInit {
           email: data.email,
           name: data.email,
           profiles: data.profiles,
+          profile: data.profile._id,
+          download: data.download,
+          print: data.print,
           dateCreated: data.dateCreated,
           permissions: data.permissions
         };
@@ -213,6 +227,9 @@ export class ShowComponent implements OnInit {
           email: data.email,
           name: data.name,
           profiles: data.profiles,
+          download: data.download,
+          print: data.print,
+          profile: data.profile,
           dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
           permissions: this.user.permissions
         });
