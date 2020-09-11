@@ -210,7 +210,7 @@ export class EditComponent implements OnInit {
           email: data.email,
           name: data.email,
           profiles: data.profiles,
-          profile: data.profile._id,
+          profile: data.profile,
           print: data.print,
           download: data.download,
           dateCreated: data.dateCreated,

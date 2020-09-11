@@ -45,7 +45,7 @@
               <select class="form-control" id="profile" formControlName="profiles"
                 [ngClass]="{ 'is-invalid': !profiles.valid && !profiles.disabled }">
                 <option *ngFor="let profile of profilesList" [value]="profile._id">
-                  {{ profile.profileName | translate }}</option>
+                  {{ profile.profilePlaceHolder | translate }}</option>
               </select>
               <div *ngIf="profiles.invalid && (profiles.dirty || profiles.touched)" class="invalid-feedback">
                 <div *ngIf="!profiles.valid">

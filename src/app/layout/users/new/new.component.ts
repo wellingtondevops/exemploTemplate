@@ -46,8 +46,8 @@ export class NewComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required]),
-      download: this.fb.control('', [Validators.required]),
-      print: this.fb.control('', [Validators.required]),
+      download: this.fb.control(true, [Validators.required]),
+      print: this.fb.control(true, [Validators.required]),
       permissions: this.fb.array(this.permissions)
     });
 

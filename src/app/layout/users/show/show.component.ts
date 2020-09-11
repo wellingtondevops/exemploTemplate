@@ -207,7 +207,7 @@ export class ShowComponent implements OnInit {
           email: data.email,
           name: data.email,
           profiles: data.profiles,
-          profile: data.profile._id,
+          profile: data.profile,
           download: data.download,
           print: data.print,
           dateCreated: data.dateCreated,
