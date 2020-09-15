@@ -4,7 +4,7 @@
   <hr />
   <div class="row">
     <div class="col-lg-6">
-      <a *ngIf="permissionPesquisador || permissionArquivador || permissionAdmin" [routerLink]="['/archives']"
+      <a *ngIf="isArchivesSearch" [routerLink]="['/archives']"
         [routerLinkActive]="['router-link-active']" class="col-sm-12">
         <div>
           <div class="card text-white bg-dark mb-3">
@@ -18,7 +18,7 @@
       </a>
     </div>
     <div class="col-lg-6">
-      <a *ngIf="permissionPesquisador || permissionArquivador || permissionAdmin" [routerLink]="['/volumes']"
+      <a *ngIf="isVolumesSearch" [routerLink]="['/volumes']"
         [routerLinkActive]="['router-link-active']" class="col-sm-12">
         <div>
           <div class="card text-white bg-dark mb-3">
@@ -32,7 +32,7 @@
       </a>
     </div>
 
-    <a *ngIf="permissionAdmin" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
+    <a *ngIf="isUsers" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
       <div>
         <div class="card text-white bg-dark mb-3">
           <div class="card-header"><i class="fa fa-users fa-4x" aria-hidden="true"></i></div>
@@ -57,7 +57,7 @@
       </div>
     </a>
 
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/storehouses']"
+    <a *ngIf="isStorehouses" [routerLink]="['/storehouses']"
       [routerLinkActive]="['router-link-active']" class="col-sm-4">
       <div>
         <div class="card text-white bg-dark mb-3">
@@ -70,7 +70,7 @@
       </div>
     </a>
 
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/companies']"
+    <a *ngIf="isCompanies" [routerLink]="['/companies']"
       [routerLinkActive]="['router-link-active']" class="col-sm-4">
       <div>
         <div class="card text-white bg-dark mb-3">
@@ -83,7 +83,7 @@
       </div>
     </a>
 
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/volumes']"
+    <a *ngIf="isVolumesSearch" [routerLink]="['/volumes']"
       [routerLinkActive]="['router-link-active']" class="col-sm-4">
       <div>
         <div class="card text-white bg-dark mb-3">
@@ -96,7 +96,7 @@
       </div>
     </a>
 
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/documents']"
+    <a *ngIf="isDocuments" [routerLink]="['/documents']"
       [routerLinkActive]="['router-link-active']" class="col-sm-4">
       <div>
         <div class="card text-white bg-dark mb-3">
@@ -109,7 +109,7 @@
       </div>
     </a>
 
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/archives']"
+    <a *ngIf="isArchivesRegister" [routerLink]="['/archives']"
       [routerLinkActive]="['router-link-active']" class="col-sm-4">
       <div class="card text-white bg-dark mb-3">
         <div class="card-header"><i class="fa fa-wpforms fa-4x" aria-hidden="true"></i></div>
