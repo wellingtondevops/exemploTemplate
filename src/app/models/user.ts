@@ -2,7 +2,7 @@ import { Pagination } from './pagination';
 
 export class User {
   _links: {
-    self: string
+    self: string;
   };
   _id: string;
   email: string;
@@ -10,6 +10,9 @@ export class User {
   permissions: Permission[];
   dateCreated: string;
   profiles: string[];
+  profile: Profile;
+  download: boolean;
+  print: boolean
 }
 
 export class UserList {
@@ -20,6 +23,11 @@ export class UserList {
 export class Permission {
   company: IdName;
   docts: [string[]];
+}
+
+class Profile {
+  _id: string;
+  profilePlaceHolder: string;
 }
 
 

@@ -21,7 +21,7 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 export class NewComponent implements OnInit {
   user: Object;
   userForm: FormGroup;
-  profilesList: any;
+  profilesList: any = [];
   loading: Boolean = false;
   companies: any = [];
   documentsAll: any = [];
@@ -37,7 +37,7 @@ export class NewComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private documentsSrv: DocumentsService,
   ) {
-    this.profilesList = ProfileEnum;
+    // this.profilesList = ProfileEnum;
   }
 
   ngOnInit() {
@@ -46,10 +46,21 @@ export class NewComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required]),
+      download: this.fb.control(true, [Validators.required]),
+      print: this.fb.control(true, [Validators.required]),
       permissions: this.fb.array(this.permissions)
     });
 
     this.getCompanies();
+    this.getProfiles();
+  }
+
+  getProfiles(){
+    this.userSrv.profiles().subscribe(data => {
+      this.profilesList = data.items
+    }, error => {
+      console.log(error)
+    })
   }
 
   createPermission(): FormGroup {
@@ -156,7 +167,6 @@ export class NewComponent implements OnInit {
   postUser() {
     this.loading = true;
     this.returnIdCompanyPermissions();
-    console.log(this.userForm.value);
     this.userSrv.newUser(this.userForm.value).subscribe(
       data => {
         if (data._id) {

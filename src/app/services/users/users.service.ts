@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User, UserList } from '../../models/user';
+import { Profiles } from '../../models/profiles';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -65,6 +66,13 @@ export class UsersService {
 
   newUser(user) {
     return this.http.post<User>(`${url}/users`, user)
+    .pipe(
+      tap(data => data)
+    );
+  }
+
+  profiles(){
+    return this.http.get<Profiles>(`${url}/profiles/list`)
     .pipe(
       tap(data => data)
     );

@@ -23,7 +23,7 @@ export class EditComponent implements OnInit {
   id: String;
   user: User;
   userForm: FormGroup;
-  profilesList: any;
+  profilesList: any = [];
   loading: Boolean = true;
   permissions: any = [];
   companies: any = [];
@@ -40,7 +40,6 @@ export class EditComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private documentsSrv: DocumentsService,
   ) {
-    this.profilesList = ProfileEnum;
   }
 
   ngOnInit() {
@@ -49,6 +48,8 @@ export class EditComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required]),
+      print: this.fb.control('',[Validators.required] ),
+      download: this.fb.control('',[Validators.required] ),
       company: this.fb.control(''),
       permissions: this.fb.array(this.permissions)
     });
@@ -56,6 +57,15 @@ export class EditComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocuments();
     this.getCompanies();
+    this.getProfiles();
+  }
+
+  getProfiles(){
+    this.userSrv.profiles().subscribe(data => {
+      this.profilesList = data.items
+    }, error => {
+      console.log(error)
+    })
   }
 
   get name() {
@@ -200,6 +210,9 @@ export class EditComponent implements OnInit {
           email: data.email,
           name: data.email,
           profiles: data.profiles,
+          profile: data.profile,
+          print: data.print,
+          download: data.download,
           dateCreated: data.dateCreated,
           permissions: this.returnDoctsArray(data.permissions)
         };
@@ -217,6 +230,9 @@ export class EditComponent implements OnInit {
           email: this.user.email,
           name: data.name,
           profiles: data.profiles,
+          profile: data.profile._id,
+          print: data.print,
+          download: data.download,
           permissions: this.user.permissions
         });
         this.user.permissions.map(item => {
