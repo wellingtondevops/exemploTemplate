@@ -47,7 +47,7 @@ export class EditComponent implements OnInit {
       _id: '',
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
-      profiles: this.fb.control('', [Validators.required]),
+      profile: this.fb.control('', [Validators.required]),
       print: this.fb.control('',[Validators.required] ),
       download: this.fb.control('',[Validators.required] ),
       company: this.fb.control(''),
@@ -74,8 +74,8 @@ export class EditComponent implements OnInit {
   get email() {
     return this.userForm.get('email');
   }
-  get profiles() {
-    return this.userForm.get('profiles');
+  get profile() {
+    return this.userForm.get('profile');
   }
 
   createPermission(): FormGroup {
@@ -229,7 +229,6 @@ export class EditComponent implements OnInit {
           _id: this.user._id,
           email: this.user.email,
           name: data.name,
-          profiles: data.profiles,
           profile: data.profile._id,
           print: data.print,
           download: data.download,
