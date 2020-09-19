@@ -57,7 +57,6 @@ export class ShowComponent implements OnInit {
       _id: '',
       email: this.fb.control({ value: '', disabled: true }, [Validators.required, Validators.email]),
       name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-      profiles: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       profile: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       download: this.fb.control({ value: '', disabled: true }),
       print: this.fb.control({ value: '', disabled: true }),
@@ -110,8 +109,8 @@ export class ShowComponent implements OnInit {
     return this.userForm.get('email');
   }
 
-  get profiles() {
-    return this.userForm.get('profiles');
+  get profile() {
+    return this.userForm.get('profile');
   }
 
   returnDocts(item) {
@@ -206,8 +205,8 @@ export class ShowComponent implements OnInit {
           _id: data._id,
           email: data.email,
           name: data.email,
-          profiles: data.profiles,
           profile: data.profile,
+          profiles: data.profiles,
           download: data.download,
           print: data.print,
           dateCreated: data.dateCreated,
@@ -226,10 +225,10 @@ export class ShowComponent implements OnInit {
           _id: data._id,
           email: data.email,
           name: data.name,
-          profiles: data.profiles,
+          // profiles: data.profiles,
+          profile: data.profile._id,
           download: data.download,
           print: data.print,
-          profile: data.profile,
           dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
           permissions: this.user.permissions
         });

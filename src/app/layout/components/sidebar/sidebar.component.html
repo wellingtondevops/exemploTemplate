@@ -23,7 +23,7 @@
       <span>{{ 'Departamentos' | translate }}</span>
     </a>
 
-    <div class="nested-menu" [routerLinkActive]="['router-link-active']">
+    <div *ngIf="isVolumesImport || isVolumesErrors || isVolumesSearch" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('volumes')">
         <i class="fa fa-file"></i>&nbsp;
         <span>{{ 'Volumes' | translate }}</span>
@@ -57,7 +57,7 @@
       <i class="fa fa-book"></i>&nbsp;
       <span>{{ 'Documentos' | translate }}</span>
     </a>
-    <div class="nested-menu" [routerLinkActive]="['router-link-active']">
+    <div *ngIf="isArchivesImport || isArchivesError || isArchivesRegister" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('archives')">
         <i class="fa fa-file"></i>&nbsp;
         <span>{{ 'Arquivos' | translate }}</span>
@@ -98,7 +98,7 @@
       <i class="fa fa-truck"></i>&nbsp;
       <span>{{ 'Movimentações' | translate }}</span>
     </a>
-    <div class="nested-menu" [routerLinkActive]="['router-link-active']">
+    <div *ngIf="isUsers || isTemplates" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('pages')">
         <i class="fa fa-cog"></i>&nbsp;
         <span>{{ 'Configurações' | translate }}</span>

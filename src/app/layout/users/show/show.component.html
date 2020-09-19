@@ -42,13 +42,13 @@
 
             <div class="form-group">
               <label for="">Perfil do Usuário</label>
-              <select class="form-control" id="profile" formControlName="profiles"
-                [ngClass]="{ 'is-invalid': !profiles.valid && !profiles.disabled }">
+              <select class="form-control" id="profile" formControlName="profile"
+                [ngClass]="{ 'is-invalid': !profile.valid && !profile.disabled }">
                 <option *ngFor="let profile of profilesList" [value]="profile._id">
                   {{ profile.profilePlaceHolder | translate }}</option>
               </select>
-              <div *ngIf="profiles.invalid && (profiles.dirty || profiles.touched)" class="invalid-feedback">
-                <div *ngIf="!profiles.valid">
+              <div *ngIf="profile.invalid && (profile.dirty || profile.touched)" class="invalid-feedback">
+                <div *ngIf="!profile.valid">
                   Perfil do Usuário é obrigatório.
                 </div>
               </div>
