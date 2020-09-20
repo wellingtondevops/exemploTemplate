@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: '',
     component: ListComponent,
-    canActivate: [DaenerysTywinSnowGuard, VolumesSearchGuardService]
+    canActivate: [VolumesSearchGuardService]
   },
   {
     path: 'get/:id',
@@ -36,12 +36,12 @@ const routes: Routes = [
   {
     path: 'import-volumes',
     component: ImportVolumeComponent,
-    canActivate: [DaenerysTywinGuard, VolumesImportGuardService]
+    canActivate: [VolumesImportGuardService]
   },
   {
     path: 'errors-volumes',
     component: ErrorsVolumesComponent,
-    canActivate: [DaenerysTywinGuard, VolumesErrorGuardService]
+    canActivate: [VolumesErrorGuardService]
   }
 ];
 

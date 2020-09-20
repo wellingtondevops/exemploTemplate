@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
 import { Archive, ArchivesList } from 'src/app/models/archive';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ResponseContentType } from '@angular/http';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -49,14 +50,14 @@ export class ArquivesService {
       );
   }
 
-  import(archives){
+  import(archives) {
     return this.http.post<any>(`${url}/archives/import`, archives)
       .pipe(
         tap(data => data)
       );
   }
 
-  searchImportErrors(formData, page, size = 10){
+  searchImportErrors(formData, page, size = 10) {
     if (page) {
       return this.http.post<any>(`${url}/sheetarchives/search?_page=${page.pageNumber}&size=${size}`, formData)
         .pipe(
@@ -68,5 +69,16 @@ export class ArquivesService {
           tap(data => data)
         );
     }
+  }
+
+  export(formData) {
+    return this.http.post<any>(`${url}/exportarchives`, formData, {
+      headers: new HttpHeaders().set('Accept', 'text/csv'),
+      observe: 'response',
+      responseType: 'blob' as 'json'
+    })
+      .pipe(
+        tap(data => data)
+      );
   }
 }

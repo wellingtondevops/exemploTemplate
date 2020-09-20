@@ -17,6 +17,8 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal'
+//import { FileSaverService } from 'ngx-filesaver';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-list',
@@ -52,6 +54,7 @@ export class ListComponent implements OnInit {
 
   constructor(
     private archiveSrv: ArquivesService,
+    // private _FileSaverService: FileSaverService,
     private errorMsg: ErrorMessagesService,
     private _route: Router,
     private fb: FormBuilder,
@@ -62,7 +65,7 @@ export class ListComponent implements OnInit {
     private warningMsg: WarningMessagesService,
     private localStorageSrv: SaveLocal,
     config: NgbTypeaheadConfig
-  ) { 
+  ) {
     config.showHint = true;
     config.container = "body";
     config.focusFirst = false;
@@ -358,6 +361,44 @@ export class ListComponent implements OnInit {
       }
     });
     return obj;
+  }
+
+  exportArchives() {
+    this.localStorageSrv.save('archive', this.searchForm.value)
+
+    const newSearch = {
+      company: null,
+      storehouse: null,
+      departament: null,
+      doct: null,
+      location: null,
+      status: null,
+      search: null,
+      endDate: null,
+      initDate: null,
+    };
+
+    this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
+    this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
+    this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
+    this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
+    newSearch.location = this.searchForm.value.location;
+    newSearch.status = this.searchForm.value.status;
+    newSearch.search = this.searchForm.value.search;
+    newSearch.endDate = this.searchForm.value.endDate;
+    newSearch.initDate = this.searchForm.value.initDate;
+
+    const searchValue = _.omitBy(newSearch, _.isNil);
+    console.log(searchValue);
+    this.archiveSrv.export(searchValue).subscribe(data => {
+      console.log(data);
+      let xlsx = new Blob([data], { type: "application/xlsx" });
+      let filename ="arquivos_export.xlsx";
+      saveAs(xlsx, filename);
+      //this._FileSaverService.save((<any>data).body, filename);
+    }, error => {
+      console.log('ERROR: ', error);
+    })
   }
 
   typeaheadKeydown() {

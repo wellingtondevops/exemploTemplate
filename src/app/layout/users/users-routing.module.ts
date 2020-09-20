@@ -12,22 +12,22 @@ const routes: Routes = [
     {
         path: '',
         component: ListComponent,
-        canActivate: [DaenerysGuard, UsersGuardService]
+        canActivate: [UsersGuardService]
     },
     {
         path: 'get/:id',
         component: ShowComponent,
-        canActivate: [DaenerysGuard, UsersGuardService]
+        canActivate: [UsersGuardService]
     },
     {
         path: 'edit/:id',
         component: EditComponent,
-        canActivate: [DaenerysGuard, UsersGuardService]
+        canActivate: [UsersGuardService]
     },
     {
         path: 'new',
         component: NewComponent,
-        canActivate: [DaenerysGuard, UsersGuardService]
+        canActivate: [UsersGuardService]
     },
     {
         path: 'alter',
