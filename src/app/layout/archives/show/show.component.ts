@@ -93,7 +93,6 @@ export class ShowComponent implements OnInit {
   getArquive() {
     this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
-      console.log('getArchive',data);
       this.archive = data;
       this.archiveCreateForm.patchValue({
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),

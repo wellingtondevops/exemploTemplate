@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArchivesSearchGuardService {
+export class ArchivesShowGuardService {
 
   constructor(private router: Router) {}
 
-    static isArchivesSearch() {
-        let access = JSON.parse(window.localStorage.getItem('routes'))[0].archivesSearch;
-        console.log(access)
+    static isArchivesShow() {
+        let access = JSON.parse(window.localStorage.getItem('routes'))[0].archivesShow;
         return access;
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        if (!ArchivesSearchGuardService.isArchivesSearch()) {
+        if (!ArchivesShowGuardService.isArchivesShow()) {
             this.router.navigate(['/not-authorized']);
             return false;
         }

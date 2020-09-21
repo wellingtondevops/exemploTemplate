@@ -47,7 +47,7 @@
         <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>
       </div> -->
             <img
-                *ngIf="archive.url"
+                *ngIf="archive && archive.url"
                 [src]="archive.url"
                 style="margin-right: 10px; width: 100%"
             />

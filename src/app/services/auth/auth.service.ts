@@ -6,20 +6,22 @@ import { Auth } from '../../models/auth';
 const url = environment.apiUrl;
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AuthService {
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-    login(user) {
-        return this.http.post<Auth>(`${url}/users/authenticate`, user).pipe(
-            tap(data => {
-                window.localStorage.setItem('id', data.id);
-                window.localStorage.setItem('email', data.email);
-                window.localStorage.setItem('token', data.accessToken);
-                window.localStorage.setItem('profiles', JSON.stringify(data.profile));
-                window.localStorage.setItem('routes', JSON.stringify(data.routes));
-            })
-        );
-    }
+  login(user) {
+    return this.http.post<Auth>(`${url}/users/authenticate`, user).pipe(
+      tap(data => {
+        console.log(data);
+        window.localStorage.setItem('id', data.id);
+        window.localStorage.setItem('email', data.email);
+        window.localStorage.setItem('token', data.accessToken);
+        window.localStorage.setItem('profiles', JSON.stringify(data.profile));
+        window.localStorage.setItem('routes', JSON.stringify(data.routes));
+        //window.localStorage.setItem('print', dat)
+      })
+    );
+  }
 }
