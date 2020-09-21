@@ -23,6 +23,7 @@ const MODALS = {
   styleUrls: ['./show.component.scss'],
   animations: [routerTransition()]
 })
+
 export class ShowComponent implements OnInit {
   progressModal = {
     customClass: 'modal-style'
@@ -39,6 +40,7 @@ export class ShowComponent implements OnInit {
   height = 0;
   archiveCreateForm: FormGroup;
   @ViewChild('content') content: TemplateRef<any>;
+  
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
     volume: new FormControl(''),

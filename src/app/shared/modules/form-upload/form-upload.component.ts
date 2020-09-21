@@ -32,6 +32,7 @@ export class FormUploadComponent implements ControlValueAccessor {
   isPdf = false;
   urlGoogle: any;
   download: boolean = false;
+  print: boolean = false;
   @Output() postFile = new EventEmitter();
   @Output() deleteFile = new EventEmitter();
   nameFile: string;
@@ -44,7 +45,8 @@ export class FormUploadComponent implements ControlValueAccessor {
   }
 
   ngOnInit(){
-    //this.download = window.localStorage.getItem('actions')
+    this.download = JSON.parse(window.localStorage.getItem('actions'))[0].download
+    this.print = JSON.parse(window.localStorage.getItem('actions'))[0].print
   }
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
