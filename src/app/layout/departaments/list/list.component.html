@@ -7,7 +7,7 @@
           tertiaryColour: '#222'
       }"></ngx-loading>
   <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
-    [permissionBtnNew]="['DAENERYS', 'TYWIN']" [routerTo]="'/departaments/new'"></app-page-header>
+    [permissionBtnNew]="permissionNew" [routerTo]="'/departaments/new'"></app-page-header>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <ngb-accordion #acc="ngbAccordion" activeIds="departaments-0">

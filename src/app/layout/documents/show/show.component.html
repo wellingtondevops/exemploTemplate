@@ -10,8 +10,8 @@
   <div style="margin-bottom: 10px" *ngIf="!loading">
     <app-button-back [redirectTo]="'documents'"></app-button-back>
     <app-buttons-custom  [id]="document._id" (edit)="editDocument(document._id)"
-      (delete)="open('focusFirst', document._id)" [permissionEdit]="['DAENERYS', 'TYWIN']"
-      [permissionDelete]="['DAENERYS', 'TYWIN']">
+      (delete)="open('focusFirst', document._id)" [permissionEdit]="permissionEdit"
+      [permissionDelete]="permissionDelete">
     </app-buttons-custom>
     <br />
   </div>

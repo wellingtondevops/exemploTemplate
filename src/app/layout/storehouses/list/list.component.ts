@@ -14,156 +14,158 @@ import { Page } from 'src/app/models/page';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 const MODALS = {
-    focusFirst: NgbdModalConfirmComponent
+  focusFirst: NgbdModalConfirmComponent
 };
 
 @Component({
-    selector: 'app-list',
-    templateUrl: './list.component.html',
-    styleUrls: ['./list.component.scss'],
-    animations: [routerTransition()]
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss'],
+  animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-    searchForm: FormGroup;
-    closeResult: string;
-    storehouses: StorehousesList = {
-        _links: {
-            currentPage: 0,
-            foundItems: 0,
-            next: '',
-            self: '',
-            totalPage: 0
-        },
-        items: []
+  searchForm: FormGroup;
+  closeResult: string;
+  storehouses: StorehousesList = {
+    _links: {
+      currentPage: 0,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    },
+    items: []
+  };
+  page = new Page();
+  loading: Boolean = true;
+
+  columns = [{ name: 'Nome', prop: 'name' }, { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
+  permissionNew: boolean = false;
+
+  constructor(
+    private _route: Router,
+    private storeHousesSrv: StorehousesService,
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService,
+    private pipes: Pipes,
+    private toastr: ToastrService,
+    private modalService: NgbModal,
+    public modal: NgbActiveModal,
+    private fb: FormBuilder,
+  ) { }
+
+  ngOnInit() {
+    // this.setPage({ offset: 0 });
+    // this.getStoreHouses();
+    this.searchForm = this.fb.group({
+      name: this.fb.control(null),
+    });
+    this.getStoreHouses();
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+  }
+
+  getStoreHouse(storeHouse) {
+    this._route.navigate(['/storehouses/get', storeHouse._id]);
+  }
+
+  toasterClickedHandler() {
+    console.log('Toastr clicked');
+  }
+
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Depósito foi deletado com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Depósito?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao Depósito serão deletadas.'
     };
-    page = new Page();
-    loading: Boolean = true;
+    modalRef.componentInstance.delete.subscribe(item => {
+      this.delete(item);
+    });
+  }
 
-    columns = [{ name: 'Nome', prop: 'name' }, { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
+  d(data) {
+    console.log(data);
+  }
 
-    constructor(
-        private _route: Router,
-        private storeHousesSrv: StorehousesService,
-        private successMsgSrv: SuccessMessagesService,
-        private errorMsg: ErrorMessagesService,
-        private pipes: Pipes,
-        private toastr: ToastrService,
-        private modalService: NgbModal,
-        public modal: NgbActiveModal,
-        private fb: FormBuilder,
-    ) { }
+  c(data) {
+    console.log(data);
+  }
 
-    ngOnInit() {
-        // this.setPage({ offset: 0 });
-        // this.getStoreHouses();
-        this.searchForm = this.fb.group({
-            name: this.fb.control(null),
-        });
-        this.getStoreHouses();
-    }
+  isDaenerys() {
+    return DaenerysGuardService.isDaenerys();
+  }
 
-    getStoreHouse(storeHouse) {
-        this._route.navigate(['/storehouses/get', storeHouse._id]);
-    }
+  delete(data) {
+    this.loading = true;
+    this.storeHousesSrv.deleteStoreHouse(data).subscribe(
+      response => {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Depósito deletado com sucesso.');
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      }
+    );
+  }
 
-    toasterClickedHandler() {
-        console.log('Toastr clicked');
-    }
+  getStoreHouses() {
+    this.setPageStoreHouses({ offset: 0 });
+  }
 
-    open(name: string, storeHouse) {
-        const modalRef = this.modalService.open(MODALS[name]);
-        modalRef.componentInstance.item = storeHouse;
-        modalRef.componentInstance.data = {
-            msgConfirmDelete: 'Depósito foi deletado com sucesso.',
-            msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Depósito?',
-            msgQuestionDeleteTwo: 'Todas as informações associadas ao Depósito serão deletadas.'
-        };
-        modalRef.componentInstance.delete.subscribe(item => {
-            this.delete(item);
-        });
-    }
+  setPageStoreHouses(pageInfo) {
+    this.loading = true;
+    this.page.pageNumber = pageInfo.offset;
 
-    d(data) {
-        console.log(data);
-    }
+    this.storeHousesSrv.searchStorehouse(this.searchForm.value, this.page).subscribe(data => {
+      this.page.pageNumber = data._links.currentPage - 1;
+      this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
+      this.storehouses = data;
+      this.loading = false;
+    }, error => {
+      console.log('ERROR: ', error);
+      this.loading = false;
+    });
+  }
 
-    c(data) {
-        console.log(data);
-    }
+  /* getStoreHouses() {
+      this.storeHousesSrv.storeHouses(null).subscribe(
+          data => {
+              this.loading = false;
+              this.storehouses = data;
+              this.page.pageNumber = data._links.currentPage;
+              this.page.totalElements = data._links.foundItems;
+              this.page.size = data._links.totalPage;
+          },
+          error => {
+              this.loading = false;
+              this.errorMsg.errorMessages(error);
+              console.log('ERROR:', error);
+          }
+      );
+  } */
 
-    isDaenerys() {
-        return DaenerysGuardService.isDaenerys();
-    }
+  setPage(pageInfo) {
+    this.loading = true;
+    this.page.pageNumber = pageInfo.offset;
 
-    delete(data) {
-        this.loading = true;
-        this.storeHousesSrv.deleteStoreHouse(data).subscribe(
-            response => {
-                this.loading = false;
-                this.successMsgSrv.successMessages('Depósito deletado com sucesso.');
-            },
-            error => {
-                this.loading = false;
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR:', error);
-            }
-        );
-    }
-
-    getStoreHouses() {
-        this.setPageStoreHouses({ offset: 0 });
-    }
-
-    setPageStoreHouses(pageInfo) {
-        this.loading = true;
-        this.page.pageNumber = pageInfo.offset;
-
-        this.storeHousesSrv.searchStorehouse(this.searchForm.value, this.page).subscribe(data => {
-            this.page.pageNumber = data._links.currentPage - 1;
-            this.page.totalElements = data._links.foundItems;
-            this.page.size = data._links.totalPage;
-            this.storehouses = data;
-            this.loading = false;
-        }, error => {
-            console.log('ERROR: ', error);
-            this.loading = false;
-        });
-    }
-
-    /* getStoreHouses() {
-        this.storeHousesSrv.storeHouses(null).subscribe(
-            data => {
-                this.loading = false;
-                this.storehouses = data;
-                this.page.pageNumber = data._links.currentPage;
-                this.page.totalElements = data._links.foundItems;
-                this.page.size = data._links.totalPage;
-            },
-            error => {
-                this.loading = false;
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR:', error);
-            }
-        );
-    } */
-
-    setPage(pageInfo) {
-        this.loading = true;
-        this.page.pageNumber = pageInfo.offset;
-
-        this.storeHousesSrv.storeHouses(this.page).subscribe(
-            data => {
-                this.storehouses = data;
-                this.page.pageNumber = data._links.currentPage - 1;
-                this.page.totalElements = data._links.foundItems;
-                this.page.size = data._links.totalPage;
-                this.loading = false;
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-                this.loading = false;
-            }
-        );
-    }
+    this.storeHousesSrv.storeHouses(this.page).subscribe(
+      data => {
+        this.storehouses = data;
+        this.page.pageNumber = data._links.currentPage - 1;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
+  }
 }

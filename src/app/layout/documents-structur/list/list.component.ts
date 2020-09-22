@@ -31,6 +31,7 @@ export class ListComponent implements OnInit {
     { name: 'Nome', prop: 'structureName' },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
 ];
+  permissionNew: boolean = false;
 
   constructor(
     private documentStructurSrv: DocumentsStructurService,
@@ -42,6 +43,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.setPageDocumentsStructur({ offset: 0 });
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
   }
 
   getDocumentStructur(documentStructur) {

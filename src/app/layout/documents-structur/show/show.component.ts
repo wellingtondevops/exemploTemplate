@@ -29,6 +29,8 @@ export class ShowComponent implements OnInit {
   subclasses: any = [];
   groups: any = [];
   subgroups: any = [];
+  permissionEdit: boolean = false;
+  permissionDelete: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,6 +54,8 @@ export class ShowComponent implements OnInit {
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocumentStructur(this.id);
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
   }
 
   getDocumentStructur(id) {

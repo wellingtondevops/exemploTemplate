@@ -9,7 +9,7 @@
     <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
     <div style="margin-bottom: 10px" *ngIf="!loading">
         <app-button-back [redirectTo]="'companies'"></app-button-back>
-        <app-buttons-custom [id]="company._id" [permissionEdit]="['DAENERYS']" [permissionDelete]="['DAENERYS']"
+        <app-buttons-custom [id]="company._id" [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"
             (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)">
         </app-buttons-custom>
         <br />
