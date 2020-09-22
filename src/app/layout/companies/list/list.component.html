@@ -9,7 +9,7 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
-    <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'" [permissionBtnNew]="['DAENERYS']" [routerTo]="'/companies/new'"></app-page-header>
+    <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'" [permissionBtnNew]="permissionNew" [routerTo]="'/companies/new'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <ngb-accordion #acc="ngbAccordion" activeIds="companies-0">

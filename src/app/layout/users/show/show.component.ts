@@ -37,6 +37,8 @@ export class ShowComponent implements OnInit {
   isViewPermission = false;
   documentsAll: any = [];
   companies: any = [];
+  permissionEdit: boolean = false;
+  permissionDelete: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,6 +70,8 @@ export class ShowComponent implements OnInit {
     this.getCompanies();
     this.getDocuments();
     this.getProfiles();
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
   }
 
   getProfiles(){

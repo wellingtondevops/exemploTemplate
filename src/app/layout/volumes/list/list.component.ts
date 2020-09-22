@@ -65,6 +65,7 @@ export class ListComponent implements OnInit {
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
+  permissionNew: boolean = false;
 
   constructor(
     private el: ElementRef,
@@ -118,6 +119,7 @@ export class ListComponent implements OnInit {
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
   }
 
   get company() {
