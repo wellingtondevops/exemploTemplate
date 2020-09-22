@@ -22,286 +22,290 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
 const MODALS = {
-    focusFirst: NgbdModalConfirmComponent
+  focusFirst: NgbdModalConfirmComponent
 };
 @Component({
-    selector: 'app-show',
-    templateUrl: './show.component.html',
-    styleUrls: ['./show.component.scss'],
-    animations: [routerTransition()]
+  selector: 'app-show',
+  templateUrl: './show.component.html',
+  styleUrls: ['./show.component.scss'],
+  animations: [routerTransition()]
 })
 export class ShowComponent implements OnInit {
-    companies: any = [];
-    volumeForm: FormGroup;
-    company: Company;
-    storeHouses: any = [];
-    volumeTypeList: any = [];
-    guardTypeList: any = [];
-    storeHouse: Storehouse;
-    departaments: any = [];
-    statusList: any = [];
-    id: String;
-    volume: Volume;
-    changeUp = false;
-    hiddenReference: Boolean = true;
-    public loading: Boolean = false;
+  companies: any = [];
+  volumeForm: FormGroup;
+  company: Company;
+  storeHouses: any = [];
+  volumeTypeList: any = [];
+  guardTypeList: any = [];
+  storeHouse: Storehouse;
+  departaments: any = [];
+  statusList: any = [];
+  id: String;
+  volume: Volume;
+  changeUp = false;
+  hiddenReference: Boolean = true;
+  public loading: Boolean = false;
+  permissionEdit: boolean = false;
+  permissionDelete: boolean = false;
 
-    constructor(
-        private route: ActivatedRoute,
-        private storeHousesSrv: StorehousesService,
-        private departamentsSrv: DepartamentsService,
-        private volumesSrv: VolumesService,
-        private companiesSrv: CompaniesService,
-        private successMsgSrv: SuccessMessagesService,
-        private errorMsg: ErrorMessagesService,
-        private fb: FormBuilder,
-        private modalService: NgbModal,
-        public modal: NgbActiveModal,
-        private _route: Router
-    ) {
-        this.statusList = StatusVolumeEnum;
-        this.volumeTypeList = VolumeTypeEnum;
-        this.guardTypeList = GuardyTypeVolumeEnum;
+  constructor(
+    private route: ActivatedRoute,
+    private storeHousesSrv: StorehousesService,
+    private departamentsSrv: DepartamentsService,
+    private volumesSrv: VolumesService,
+    private companiesSrv: CompaniesService,
+    private successMsgSrv: SuccessMessagesService,
+    private errorMsg: ErrorMessagesService,
+    private fb: FormBuilder,
+    private modalService: NgbModal,
+    public modal: NgbActiveModal,
+    private _route: Router
+  ) {
+    this.statusList = StatusVolumeEnum;
+    this.volumeTypeList = VolumeTypeEnum;
+    this.guardTypeList = GuardyTypeVolumeEnum;
 
-        this.volumeForm = this.fb.group({
-            _id: this.fb.control(''),
-            storehouse: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            /* description: this.fb.control({ value: '', disabled: true }, [Validators.required]), */
-            guardType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            volumeType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            uniqueField: this.fb.control(''),
-            status: this.fb.control({ value: '', disabled: true }),
-            location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            reference: this.fb.control({ value: '', disabled: true })
+    this.volumeForm = this.fb.group({
+      _id: this.fb.control(''),
+      storehouse: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      /* description: this.fb.control({ value: '', disabled: true }, [Validators.required]), */
+      guardType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      volumeType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      uniqueField: this.fb.control(''),
+      status: this.fb.control({ value: '', disabled: true }),
+      location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      reference: this.fb.control({ value: '', disabled: true })
+    });
+  }
+
+  ngOnInit() {
+    this.getCompanies();
+    this.getStoreHouses();
+    this.loading = true;
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.getVolume();
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
+  }
+
+  /* get description() {
+      return this.volumeForm.get('description');
+  } */
+  get location() {
+    return this.volumeForm.get('location');
+  }
+  get volumeType() {
+    return this.volumeForm.get('volumeType');
+  }
+  get guardType() {
+    return this.volumeForm.get('guardType');
+  }
+  get companyIpt() {
+    return this.volumeForm.get('company');
+  }
+  get storehouse() {
+    return this.volumeForm.get('storehouse');
+  }
+  get reference() {
+    return this.volumeForm.get('reference');
+  }
+  get departament() {
+    return this.volumeForm.get('departament');
+  }
+
+  getVolume() {
+    this.volumesSrv.volume(this.id).subscribe(
+      data => {
+        console.log(data);
+        this.loading = false;
+        this.volume = data;
+        this.volumeForm.patchValue({
+          _id: this.volume._id,
+          departament: this.volume.departament,
+          storehouse: this.volume.storehouse,
+          company: data.company,
+          guardType: data.guardType,
+          volumeType: data.volumeType,
+          uniqueField: data.uniqueField,
+          location: data.location,
+          status: data.status,
+          reference: data.reference
         });
-    }
+        this.getDepartament(data.company._id);
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR', error);
+      }
+    );
+  }
 
-    ngOnInit() {
-        this.getCompanies();
-        this.getStoreHouses();
-        this.loading = true;
-        this.id = this.route.snapshot.paramMap.get('id');
-        this.getVolume();
+  changeUpdate() {
+    !this.changeUp ? (this.changeUp = true) : (this.changeUp = false);
+    if (this.changeUp) {
+      this.volumeForm.reset({
+        _id: this.volume._id,
+        location: { value: this.volume.location, disabled: false },
+        company: { value: this.volume.company, disabled: false },
+        departament: { value: this.volume.departament, disabled: false },
+        storehouse: { value: this.volume.storehouse, disabled: false },
+        status: { value: this.volume.status, disabled: false },
+        guardType: { value: this.volume.guardType, disabled: false },
+        volumeType: { value: this.volume.volumeType, disabled: false },
+        reference: { value: this.volume.reference, disabled: false },
+        dateCreated: { value: moment(this.volume.dateCreated).format('YYYY-MM-DD'), disabled: true }
+      });
     }
+  }
 
-    /* get description() {
-        return this.volumeForm.get('description');
-    } */
-    get location() {
-        return this.volumeForm.get('location');
-    }
-    get volumeType() {
-        return this.volumeForm.get('volumeType');
-    }
-    get guardType() {
-        return this.volumeForm.get('guardType');
-    }
-    get companyIpt() {
-        return this.volumeForm.get('company');
-    }
-    get storehouse() {
-        return this.volumeForm.get('storehouse');
-    }
-    get reference() {
-        return this.volumeForm.get('reference');
-    }
-    get departament() {
-        return this.volumeForm.get('departament');
-    }
+  returnUniqField() {
+    return `${this.volumeForm.value.location}-${this.volumeForm.value.company}`;
+  }
 
-    getVolume() {
-        this.volumesSrv.volume(this.id).subscribe(
-            data => {
-                console.log(data);
-                this.loading = false;
-                this.volume = data;
-                this.volumeForm.patchValue({
-                    _id: this.volume._id,
-                    departament: this.volume.departament,
-                    storehouse: this.volume.storehouse,
-                    company: data.company,
-                    guardType: data.guardType,
-                    volumeType: data.volumeType,
-                    uniqueField: data.uniqueField,
-                    location: data.location,
-                    status: data.status,
-                    reference: data.reference
-                });
-                this.getDepartament(data.company._id);
-            },
-            error => {
-                this.loading = false;
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR', error);
-            }
-        );
-    }
+  getCompanies() {
+    this.companiesSrv.companies(null).subscribe(
+      data => {
+        this.companies = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
 
-    changeUpdate() {
-        !this.changeUp ? (this.changeUp = true) : (this.changeUp = false);
-        if (this.changeUp) {
-            this.volumeForm.reset({
-                _id: this.volume._id,
-                location: { value: this.volume.location, disabled: false },
-                company: { value: this.volume.company, disabled: false },
-                departament: { value: this.volume.departament, disabled: false },
-                storehouse: { value: this.volume.storehouse, disabled: false },
-                status: { value: this.volume.status, disabled: false },
-                guardType: { value: this.volume.guardType, disabled: false },
-                volumeType: { value: this.volume.volumeType, disabled: false },
-                reference: { value: this.volume.reference, disabled: false },
-                dateCreated: { value: moment(this.volume.dateCreated).format('YYYY-MM-DD'), disabled: true }
-            });
+  getStoreHouses() {
+    this.storeHousesSrv.storeHouses(null).subscribe(
+      data => {
+        this.storeHouses = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  getDepartament(id) {
+    this.departamentsSrv.searchDepartaments(id).subscribe(
+      data => {
+        console.log('departaments', data);
+        this.departaments = data.items;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  returnId(object) {
+    this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
+      if (key === '_id') {
+        return value;
+      }
+    })[0];
+  }
+
+  updateVolume() {
+    this.returnId('company');
+    this.returnId('storehouse');
+
+    this.volumeForm.value.uniqueField = this.returnUniqField();
+
+    this.volumesSrv.updateVolume(this.volumeForm.value).subscribe(
+      data => {
+        if (data._id) {
+          this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
         }
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(storehouse =>
+        storehouse.length < 2
+          ? []
+          : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+      )
+    )
+
+  changeGuardType() {
+    switch (this.volumeForm.value.guardType) {
+      case 'SIMPLES':
+        this.hiddenReference = false;
+        break;
+      case 'GERENCIADA':
+        this.hiddenReference = true;
+        break;
     }
+  }
 
-    returnUniqField() {
-        return `${this.volumeForm.value.location}-${this.volumeForm.value.company}`;
-    }
+  editVolume(volume) {
+    this._route.navigate(['/volumes/edit', volume]);
+  }
 
-    getCompanies() {
-        this.companiesSrv.companies(null).subscribe(
-            data => {
-                this.companies = data.items;
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            }
-        );
-    }
+  delete(volume) {
+    this.volumesSrv.deleteVolume(volume).subscribe(
+      response => {
+        this.successMsgSrv.successMessages('Volume deletado com sucesso.');
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      }
+    );
+  }
 
-    getStoreHouses() {
-        this.storeHousesSrv.storeHouses(null).subscribe(
-            data => {
-                this.storeHouses = data.items;
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            }
-        );
-    }
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Volume foi deletado com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Volume?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao volume serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe(item => {
+      this.delete(item);
+    });
+  }
 
-    getDepartament(id) {
-        this.departamentsSrv.searchDepartaments(id).subscribe(
-            data => {
-                console.log('departaments', data);
-                this.departaments = data.items;
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            }
-        );
-    }
+  formatter = (x: { name: string }) => x.name;
 
-    returnId(object) {
-        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
-            if (key === '_id') {
-                return value;
-            }
-        })[0];
-    }
-
-    updateVolume() {
-        this.returnId('company');
-        this.returnId('storehouse');
-
-        this.volumeForm.value.uniqueField = this.returnUniqField();
-
-        this.volumesSrv.updateVolume(this.volumeForm.value).subscribe(
-            data => {
-                if (data._id) {
-                    this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
-                }
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            }
-        );
-    }
-
-    search = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(storehouse =>
-                storehouse.length < 2
-                    ? []
-                    : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
-            )
-        )
-
-    changeGuardType() {
-        switch (this.volumeForm.value.guardType) {
-            case 'SIMPLES':
-                this.hiddenReference = false;
-                break;
-            case 'GERENCIADA':
-                this.hiddenReference = true;
-                break;
+  searchCompany = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(company => {
+        let res;
+        if (company.length < 2) {
+          [];
+        } else {
+          const res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
         }
-    }
+        this.getDepartament(this.volumeForm.value.company._id);
+        return res;
+      })
+    )
 
-    editVolume(volume) {
-        this._route.navigate(['/volumes/edit', volume]);
-    }
-
-    delete(volume) {
-        this.volumesSrv.deleteVolume(volume).subscribe(
-            response => {
-                this.successMsgSrv.successMessages('Volume deletado com sucesso.');
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR:', error);
-            }
-        );
-    }
-
-    open(name: string, storeHouse) {
-        const modalRef = this.modalService.open(MODALS[name]);
-        modalRef.componentInstance.item = storeHouse;
-        modalRef.componentInstance.data = {
-            msgConfirmDelete: 'Volume foi deletado com sucesso.',
-            msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Volume?',
-            msgQuestionDeleteTwo: 'Todas as informações associadas ao volume serão deletadas.'
-        };
-        modalRef.componentInstance.delete.subscribe(item => {
-            this.delete(item);
-        });
-    }
-
-    formatter = (x: { name: string }) => x.name;
-
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(company => {
-                let res;
-                if (company.length < 2) {
-                    [];
-                } else {
-                    const res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-                }
-                this.getDepartament(this.volumeForm.value.company._id);
-                return res;
-            })
-        )
-
-    searchDepartament = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(departament =>
-                departament.length < 2
-                    ? []
-                    : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
-            )
-        )
+  searchDepartament = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(departament =>
+        departament.length < 2
+          ? []
+          : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+      )
+    )
 }

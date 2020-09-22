@@ -7,7 +7,7 @@
             tertiaryColour: '#222'
         }"></ngx-loading>
   <app-page-header [heading]="'Documentos'" [icon]="'fa-table'" [btnNew]="'Novo Documento'"
-    [routerTo]="'/documents/new'" [permissionBtnNew]="['DAENERYS', 'TYWIN']"></app-page-header>
+    [routerTo]="'/documents/new'" [permissionBtnNew]="permissionNew"></app-page-header>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <ngb-accordion #acc="ngbAccordion" activeIds="documents-0">

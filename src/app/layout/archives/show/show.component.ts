@@ -23,6 +23,7 @@ const MODALS = {
   styleUrls: ['./show.component.scss'],
   animations: [routerTransition()]
 })
+
 export class ShowComponent implements OnInit {
   progressModal = {
     customClass: 'modal-style'
@@ -38,7 +39,10 @@ export class ShowComponent implements OnInit {
   savedFile = false;
   height = 0;
   archiveCreateForm: FormGroup;
+  permissionEdit: boolean = false;
+  permissionDelete: boolean = false;
   @ViewChild('content') content: TemplateRef<any>;
+  
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
     volume: new FormControl(''),
@@ -67,7 +71,10 @@ export class ShowComponent implements OnInit {
     this.height = $('nav.sidebar').height();
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
   }
+
 
   returnDateCreate(create) {
     return moment(create).format('DD/MM/YYYY hh:mm');
@@ -93,7 +100,6 @@ export class ShowComponent implements OnInit {
   getArquive() {
     this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
-      console.log('getArchive',data);
       this.archive = data;
       this.archiveCreateForm.patchValue({
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),

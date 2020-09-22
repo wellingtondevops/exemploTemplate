@@ -9,7 +9,7 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
-    <app-page-header [heading]="'Depósitos'" [icon]="'fa-table'" [btnNew]="'Novo Depósito'" [permissionBtnNew]="['DAENERYS']" [routerTo]="'/storehouses/new'"></app-page-header>
+    <app-page-header [heading]="'Depósitos'" [icon]="'fa-table'" [btnNew]="'Novo Depósito'" [permissionBtnNew]="permissionNew" [routerTo]="'/storehouses/new'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <ngb-accordion #acc="ngbAccordion" activeIds="storehouses-0">

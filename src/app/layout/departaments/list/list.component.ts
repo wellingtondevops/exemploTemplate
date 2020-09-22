@@ -37,6 +37,7 @@ export class ListComponent implements OnInit {
     { name: 'Criado por', prop: 'author.name' },
     /* { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
+  permissionNew: boolean = false;
 
   constructor(
     private el: ElementRef,
@@ -59,6 +60,7 @@ export class ListComponent implements OnInit {
     });
     this.getDepartaments();
     this.getCompanies();
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
   }
 
   get company() {

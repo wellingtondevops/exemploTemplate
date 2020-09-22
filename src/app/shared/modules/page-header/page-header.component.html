@@ -3,7 +3,7 @@
         <h2 class="page-header">
             {{heading}}
             <span style="float:right">
-                <button *ngIf="permissionOfBtnNew()" class="btn btn-primary"  [routerLink]="[routerTo]">{{ btnNew }}</button>
+                <button *ngIf="permissionBtnNew" class="btn btn-primary"  [routerLink]="[routerTo]">{{ btnNew }}</button>
             </span>
         </h2>
     </div>
