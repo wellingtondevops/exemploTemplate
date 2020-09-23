@@ -11,17 +11,18 @@ import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.componen
 import { VolumesImportGuardService } from 'src/app/services/guard/volumes-import-guard.service';
 import { VolumesSearchGuardService } from 'src/app/services/guard/volumes-search-guard.service';
 import { VolumesErrorGuardService } from 'src/app/services/guard/volumes-error-guard.service';
+import { VolumesShowGuardService } from 'src/app/services/guard/volumes-show-guard.service';
 
 const routes: Routes = [
   {
     path: '',
     component: ListComponent,
-    canActivate: [DaenerysTywinSnowGuard, VolumesSearchGuardService]
+    canActivate: [VolumesSearchGuardService]
   },
   {
     path: 'get/:id',
     component: ShowComponent,
-    canActivate: [DaenerysTywinSnowGuard]
+    canActivate: [VolumesShowGuardService]
   },
   {
     path: 'edit/:id',
@@ -36,12 +37,12 @@ const routes: Routes = [
   {
     path: 'import-volumes',
     component: ImportVolumeComponent,
-    canActivate: [DaenerysTywinGuard, VolumesImportGuardService]
+    canActivate: [VolumesImportGuardService]
   },
   {
     path: 'errors-volumes',
     component: ErrorsVolumesComponent,
-    canActivate: [DaenerysTywinGuard, VolumesErrorGuardService]
+    canActivate: [VolumesErrorGuardService]
   }
 ];
 
