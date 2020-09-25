@@ -55,12 +55,12 @@ export class NewComponent implements OnInit {
     this.getProfiles();
   }
 
-  getProfiles(){
+  getProfiles() {
     this.userSrv.profiles().subscribe(data => {
-      this.profilesList = data.items
+      this.profilesList = data.items;
     }, error => {
-      console.log(error)
-    })
+      console.log(error);
+    });
   }
 
   createPermission(): FormGroup {

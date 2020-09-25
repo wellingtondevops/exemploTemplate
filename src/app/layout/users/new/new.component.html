@@ -84,6 +84,8 @@
                           </div>
                         </div>
                       </div>
+
+
                       <div class="input-group">
                         <label>Documentos</label>
                         <type-ahead class="form-control multi" [multi]="true" [complex]="true" idField="_id"
@@ -118,8 +120,9 @@
         </div>
         <div class="col-lg-12">
           <br />
-          <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>
-          <button type="button" [routerLink]="['/users']" class="btn btn-default"
+          <button type="submit" class="btn btn-primary" style="float: right"[disabled]="email.invalid || name.invalid ||
+          profiles.invalid" >Salvar</button>
+          <button type="button" [routerLink]="['/users/id']" class="btn btn-default"
             style="float: right;margin-right: 10px;">Voltar</button>
         </div>
       </form>
