@@ -10,7 +10,7 @@ export class VolumesShowGuardService {
   constructor(private router: Router) { }
 
   static isVolumesShow() {
-    let access = JSON.parse(window.localStorage.getItem('routes'))[0].volumesShow;
+    let access = JSON.parse(window.localStorage.getItem('routes'))[0].volumeShow;
     return access;
   }
 
