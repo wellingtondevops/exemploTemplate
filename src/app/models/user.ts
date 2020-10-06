@@ -12,7 +12,7 @@ export class User {
   profiles: string[];
   profile: Profile;
   download: boolean;
-  print: boolean
+  print: boolean;
 }
 
 export class UserList {

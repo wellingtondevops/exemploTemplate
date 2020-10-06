@@ -19,7 +19,8 @@ export class AuthService {
                 window.localStorage.setItem('token', data.accessToken);
                 window.localStorage.setItem('profiles', JSON.stringify(data.profile));
                 window.localStorage.setItem('routes', JSON.stringify(data.routes));
-                window.localStorage.setItem('actions', JSON.stringify(data.actions))
+                window.localStorage.setItem('actions', JSON.stringify(data.actions));
+                window.localStorage.setItem('userExternal', JSON.stringify(data.userExternal));
             })
         );
     }

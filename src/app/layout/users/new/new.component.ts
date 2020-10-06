@@ -27,6 +27,7 @@ export class NewComponent implements OnInit {
   documentsAll: any = [];
   searchSubscribe = '';
   permissions: any = [];
+  userExternal: boolean = false;
 
   constructor(
     private _route: Router,
@@ -50,6 +51,12 @@ export class NewComponent implements OnInit {
       print: this.fb.control(true, [Validators.required]),
       permissions: this.fb.array(this.permissions)
     });
+
+    this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
+    
+    if(this.userExternal) {
+      this.addPermission();
+    }
 
     this.getCompanies();
     this.getProfiles();

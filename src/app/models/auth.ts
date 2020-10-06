@@ -6,6 +6,7 @@ export interface Auth {
   profile: string;
   routes: Route[];
   actions: Action[];
+  userExternal: boolean;
 }
 
 class Route {
