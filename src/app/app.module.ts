@@ -10,6 +10,7 @@ import { AuthGuard } from './shared';
 import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { TokenInterceptorService } from './interceptos/token-interceptor.service';
+import { TermsOfUseComponent } from './layout/terms-of-use/terms-of-use.component';
 
 @NgModule({
     imports: [
