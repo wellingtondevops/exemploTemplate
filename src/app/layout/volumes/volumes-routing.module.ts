@@ -12,37 +12,38 @@ import { VolumesImportGuardService } from 'src/app/services/guard/volumes-import
 import { VolumesSearchGuardService } from 'src/app/services/guard/volumes-search-guard.service';
 import { VolumesErrorGuardService } from 'src/app/services/guard/volumes-error-guard.service';
 import { VolumesShowGuardService } from 'src/app/services/guard/volumes-show-guard.service';
+import { TermsService } from 'src/app/services/guard/terms.service';
 
 const routes: Routes = [
   {
     path: '',
     component: ListComponent,
-    canActivate: [VolumesSearchGuardService]
+    canActivate: [VolumesSearchGuardService, TermsService]
   },
   {
     path: 'get/:id',
     component: ShowComponent,
-    canActivate: [VolumesShowGuardService]
+    canActivate: [VolumesShowGuardService, TermsService]
   },
   {
     path: 'edit/:id',
     component: EditComponent,
-    canActivate: [DaenerysTywinGuard]
+    canActivate: [DaenerysTywinGuard, TermsService]
   },
   {
     path: 'new',
     component: NewComponent,
-    canActivate: [DaenerysTywinGuard]
+    canActivate: [DaenerysTywinGuard, TermsService]
   },
   {
     path: 'import-volumes',
     component: ImportVolumeComponent,
-    canActivate: [VolumesImportGuardService]
+    canActivate: [VolumesImportGuardService, TermsService]
   },
   {
     path: 'errors-volumes',
     component: ErrorsVolumesComponent,
-    canActivate: [VolumesErrorGuardService]
+    canActivate: [VolumesErrorGuardService, TermsService]
   }
 ];
 

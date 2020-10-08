@@ -28,9 +28,14 @@ export class LoginComponent implements OnInit {
     onLoggedin() {
         this.loading = true;
         this.AuthSrv.login(this.loginForm.value).subscribe(
-            () => {
+            (data) => {
+                console.log(data);
                 this.loading = false;
-                this.router.navigate(['/dashboard']);
+                if (data.acceptanceTerm) {
+                  this.router.navigate(['/dashboard']);
+                } else {
+                  this.router.navigate(['/terms-of-use']);
+                }
                 localStorage.setItem('isLoggedin', 'true');
             },
             error => {

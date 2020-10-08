@@ -13,6 +13,8 @@ export class User {
   profile: Profile;
   download: boolean;
   print: boolean;
+  DateAcceptanceTerm: string;
+  acceptanceTerm: boolean;
 }
 
 export class UserList {

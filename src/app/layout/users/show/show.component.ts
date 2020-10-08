@@ -37,8 +37,8 @@ export class ShowComponent implements OnInit {
   isViewPermission = false;
   documentsAll: any = [];
   companies: any = [];
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,16 +70,16 @@ export class ShowComponent implements OnInit {
     this.getCompanies();
     this.getDocuments();
     this.getProfiles();
-    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
-    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
   }
 
-  getProfiles(){
+  getProfiles() {
     this.userSrv.profiles().subscribe(data => {
-      this.profilesList = data.items
+      this.profilesList = data.items;
     }, error => {
-      console.log(error)
-    })
+      console.log(error);
+    });
   }
 
   searchCompany = (text$: Observable<string>) =>
@@ -214,7 +214,9 @@ export class ShowComponent implements OnInit {
           download: data.download,
           print: data.print,
           dateCreated: data.dateCreated,
-          permissions: data.permissions
+          permissions: data.permissions,
+          acceptanceTerm: data.acceptanceTerm,
+          DateAcceptanceTerm: data.DateAcceptanceTerm
         };
 
         if (this.user.profiles.indexOf('DAENERYS') === 0) {
