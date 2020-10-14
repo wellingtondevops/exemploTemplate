@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class VolumesShowGuardService {
+export class TermsService {
 
   constructor(private router: Router) { }
 
-  static isVolumesShow() {
-    let access = JSON.parse(window.localStorage.getItem('routes'))[0].volumeShow;
+  static isTerms() {
+    const access = JSON.parse(window.localStorage.getItem('acceptanceTerm'));
     return access;
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (!VolumesShowGuardService.isVolumesShow()) {
-      this.router.navigate(['/not-authorized']);
+    if (!TermsService.isTerms()) {
+      this.router.navigate(['/terms-of-use']);
       return false;
     }
     return true;

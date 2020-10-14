@@ -6,29 +6,32 @@ export interface Auth {
   profile: string;
   routes: Route[];
   actions: Action[];
+  userExternal: boolean;
+  DateAcceptanceTerm: string;
+  acceptanceTerm: boolean;
 }
 
 class Route {
-  archivesError: true
-  archivesImport: true
-  archivesRegister: true
-  archivesSearch: true
-  companies: true
-  departaments: true
-  documents: true
-  moves: true
-  requesters: true
-  storehouses: true
-  templates: true
-  users: true
-  volumesError: true
-  volumesImport: true
-  volumesSearch: true
+  archivesError: true;
+  archivesImport: true;
+  archivesRegister: true;
+  archivesSearch: true;
+  companies: true;
+  departaments: true;
+  documents: true;
+  moves: true;
+  requesters: true;
+  storehouses: true;
+  templates: true;
+  users: true;
+  volumesError: true;
+  volumesImport: true;
+  volumesSearch: true;
 }
 
 class Action {
-  write: boolean
-  delete: boolean
-  change: boolean
-  read: boolean
+  write: boolean;
+  delete: boolean;
+  change: boolean;
+  read: boolean;
 }
