@@ -23,7 +23,7 @@ export class TermsOfUseComponent implements OnInit {
   }
 
   updateUser() {
-    const dateNow = moment().format('DD/MM/YYYY');
+    const dateNow = moment().format('YYYY-MM-DD');
     const user = {
       _id: window.localStorage.getItem('id'),
       DateAcceptanceTerm: dateNow,
