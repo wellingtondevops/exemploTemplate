@@ -57,7 +57,7 @@ export class NewComponent implements OnInit {
             company: this.fb.control('', [Validators.required]),
             guardType: this.fb.control('', [Validators.required]),
             volumeType: this.fb.control('', [Validators.required]),
-            departament: this.fb.control(null),
+            departament: this.fb.control('', [Validators.required]),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
             reference: this.fb.control(null)

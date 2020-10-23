@@ -16,7 +16,7 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
-import { SaveLocal } from '../../../storage/saveLocal'
+import { SaveLocal } from '../../../storage/saveLocal';
 
 @Component({
   selector: 'app-list',
@@ -49,6 +49,9 @@ export class ListComponent implements OnInit {
   clickDocument$ = new Subject<string>();
   focusStorehouse$ = new Subject<string>();
   clickStorehouse$ = new Subject<string>();
+  fileXls: string;
+  archiveExport: string;
+  nameArchiveExport: string;
 
   constructor(
     private archiveSrv: ArquivesService,
@@ -62,9 +65,9 @@ export class ListComponent implements OnInit {
     private warningMsg: WarningMessagesService,
     private localStorageSrv: SaveLocal,
     config: NgbTypeaheadConfig
-  ) { 
+  ) {
     config.showHint = true;
-    config.container = "body";
+    config.container = 'body';
     config.focusFirst = false;
   }
 
@@ -72,11 +75,11 @@ export class ListComponent implements OnInit {
     // this.setPage({ offset: 0 });
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
-      departament: this.fb.control(null),
+      departament: this.fb.control(null, [Validators.required]),
       status: this.fb.control('ATIVO'),
-      location: this.fb.control(null),
-      storehouse: this.fb.control(null),
-      doct: this.fb.control(null),
+      location: this.fb.control('', Validators.required),
+      storehouse: this.fb.control('', [Validators.required]),
+      doct: this.fb.control(null, Validators.required),
       search: this.fb.control(null, Validators.required),
       endDate: this.fb.control(null),
       initDate: this.fb.control(null)
@@ -95,8 +98,8 @@ export class ListComponent implements OnInit {
         search: archive.search,
         endDate: archive.endDate,
         initDate: archive.initDate
-      })
-      this.selectedCompany(archive.company._id)
+      });
+      this.selectedCompany(archive.company._id);
     }
 
     this.statusList = StatusVolumeEnum;
@@ -108,6 +111,18 @@ export class ListComponent implements OnInit {
 
   get company() {
     return this.searchForm.get('company');
+  }
+  get departament() {
+    return this.searchForm.get('departament');
+  }
+  get doct() {
+    return this.searchForm.get('doct');
+  }
+  get location() {
+      return this.searchForm.get('location');
+  }
+  get storehouse() {
+      return this.searchForm.get('storehouse');
   }
 
   returnId(object) {
@@ -121,7 +136,7 @@ export class ListComponent implements OnInit {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
-    this.localStorageSrv.save('archive', this.searchForm.value)
+    this.localStorageSrv.save('archive', this.searchForm.value);
 
     const newSearch = {
       company: null,
@@ -208,7 +223,7 @@ export class ListComponent implements OnInit {
       search: null,
       endDate: null,
       initDate: null
-    })
+    });
   }
 
   getCompanies() {
@@ -240,7 +255,9 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res = [];
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else {
+          res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        }
         return res;
       })
     )
@@ -358,6 +375,53 @@ export class ListComponent implements OnInit {
       }
     });
     return obj;
+  }
+
+  exportArchives() {
+    this.loading = true;
+    this.localStorageSrv.save('archive', this.searchForm.value);
+
+    const newSearch = {
+      company: null,
+      storehouse: null,
+      departament: null,
+      doct: null,
+      location: null,
+      status: null,
+      search: null,
+      endDate: null,
+      initDate: null,
+    };
+
+    this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
+    this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
+    this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
+    this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
+    newSearch.location = this.searchForm.value.location;
+    newSearch.status = this.searchForm.value.status;
+    newSearch.search = this.searchForm.value.search;
+    newSearch.endDate = this.searchForm.value.endDate;
+    newSearch.initDate = this.searchForm.value.initDate;
+
+    const searchValue = _.omitBy(newSearch, _.isNil);
+    console.log(searchValue);
+    this.archiveSrv.export(searchValue).subscribe(data => {
+      this.loading = false;
+      this.showPdf(data.file, data.name);
+    }, error => {
+      this.loading = false;
+      console.log('ERROR: ', error);
+    });
+  }
+
+  showPdf(base64, name) {
+    const linkSource = 'data:application/pdf;base64, ' + base64;
+    const downloadLink = document.createElement('a');
+    const fileName = name;
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 
   typeaheadKeydown() {
