@@ -68,7 +68,7 @@
               <div *ngFor="let permissions of permissions.controls; index as i">
                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
                   <div class="card-body">
-                    <button type="button" class="btn btn-danger btn-xs pull-right" (click)="removePermission(i)">
+                    <button *ngIf="!userExternal" type="button" class="btn btn-danger btn-xs pull-right" (click)="removePermission(i)">
                       <i class="fa fa-trash"></i>
                     </button>
                     <br />
@@ -97,7 +97,7 @@
               </div>
             </div>
             <div>
-              <button type="button" (click)="addPermission()" class="btn btn-success btn-xs pull-right"
+              <button *ngIf="!userExternal" type="button" (click)="addPermission()" class="btn btn-success btn-xs pull-right"
                 style="margin-top: 2%; margin-bottom: 2%">
                 <i class="fa fa-plus"></i>
               </button>

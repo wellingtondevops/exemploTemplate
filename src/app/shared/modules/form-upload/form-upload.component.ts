@@ -5,7 +5,7 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 
 const MODALS = {
-    focusFirst: NgbdModalConfirmComponent
+  focusFirst: NgbdModalConfirmComponent
 };
 
 
@@ -31,6 +31,8 @@ export class FormUploadComponent implements ControlValueAccessor {
   urlFile: any = '';
   isPdf = false;
   urlGoogle: any;
+  download: boolean = false;
+  print: boolean = false;
   @Output() postFile = new EventEmitter();
   @Output() deleteFile = new EventEmitter();
   nameFile: string;
@@ -40,6 +42,11 @@ export class FormUploadComponent implements ControlValueAccessor {
     public sanitizer: DomSanitizer,
     private errorMsg: ErrorMessagesService,
   ) {
+  }
+
+  ngOnInit(){
+    this.download = JSON.parse(window.localStorage.getItem('actions'))[0].download
+    this.print = JSON.parse(window.localStorage.getItem('actions'))[0].print
   }
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
@@ -73,13 +80,12 @@ export class FormUploadComponent implements ControlValueAccessor {
     for (const propName in changes) {
       const change = changes[propName];
       if (propName === 'archive') {
-        this.file = change.currentValue;
-        this.urlFile = change.currentValue.url;
-        this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
-        //const url = `https://docs.google.com/gview?url=${this.archive.url}&embedded=true`;
-        //console.log(url);
-        //this.urlGoogle = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-        // console.log('urlGoogle', this.urlGoogle);
+        if (change.currentValue) {
+          this.file = change.currentValue;
+          this.urlFile = change.currentValue.url;
+          this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
+          console.log(this.file)
+        }
       }
     }
   }

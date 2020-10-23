@@ -12,7 +12,9 @@ export class User {
   profiles: string[];
   profile: Profile;
   download: boolean;
-  print: boolean
+  print: boolean;
+  DateAcceptanceTerm: string;
+  acceptanceTerm: boolean;
 }
 
 export class UserList {

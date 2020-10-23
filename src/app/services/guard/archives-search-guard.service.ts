@@ -11,6 +11,7 @@ export class ArchivesSearchGuardService {
 
     static isArchivesSearch() {
         let access = JSON.parse(window.localStorage.getItem('routes'))[0].archivesSearch;
+        console.log(access)
         return access;
     }
 

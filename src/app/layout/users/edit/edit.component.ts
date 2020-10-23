@@ -29,6 +29,7 @@ export class EditComponent implements OnInit {
   companies: any = [];
   documentsAll: any = [];
   isViewPermission: boolean;
+  userExternal = false;
 
   constructor(
     private _route: Router,
@@ -40,6 +41,11 @@ export class EditComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private documentsSrv: DocumentsService,
   ) {
+    this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
+
+    /* if (this.userExternal) {
+      this.addPermission();
+    } */
   }
 
   ngOnInit() {
@@ -48,24 +54,25 @@ export class EditComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       profile: this.fb.control('', [Validators.required]),
-      print: this.fb.control('',[Validators.required] ),
-      download: this.fb.control('',[Validators.required] ),
+      print: this.fb.control('', [Validators.required]),
+      download: this.fb.control('', [Validators.required]),
       company: this.fb.control(''),
       permissions: this.fb.array(this.permissions)
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
+
     this.getDocuments();
     this.getCompanies();
     this.getProfiles();
   }
 
-  getProfiles(){
+  getProfiles() {
     this.userSrv.profiles().subscribe(data => {
-      this.profilesList = data.items
+      this.profilesList = data.items;
     }, error => {
-      console.log(error)
-    })
+      console.log(error);
+    });
   }
 
   get name() {
@@ -214,6 +221,8 @@ export class EditComponent implements OnInit {
           print: data.print,
           download: data.download,
           dateCreated: data.dateCreated,
+          DateAcceptanceTerm: data.DateAcceptanceTerm,
+          acceptanceTerm: data.acceptanceTerm,
           permissions: this.returnDoctsArray(data.permissions)
         };
 

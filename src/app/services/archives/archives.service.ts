@@ -72,11 +72,7 @@ export class ArquivesService {
   }
 
   export(formData) {
-    return this.http.post<any>(`${url}/exportarchives`, formData, {
-      headers: new HttpHeaders().set('Accept', 'text/csv'),
-      observe: 'response',
-      responseType: 'blob' as 'json'
-    })
+    return this.http.post<any>(`${url}/exportarchives/excelBase64`, formData)
       .pipe(
         tap(data => data)
       );

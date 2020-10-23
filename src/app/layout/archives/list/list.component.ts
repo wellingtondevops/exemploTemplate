@@ -16,9 +16,7 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
-import { SaveLocal } from '../../../storage/saveLocal'
-//import { FileSaverService } from 'ngx-filesaver';
-import { saveAs } from 'file-saver';
+import { SaveLocal } from '../../../storage/saveLocal';
 
 @Component({
   selector: 'app-list',
@@ -51,10 +49,12 @@ export class ListComponent implements OnInit {
   clickDocument$ = new Subject<string>();
   focusStorehouse$ = new Subject<string>();
   clickStorehouse$ = new Subject<string>();
+  fileXls: string;
+  archiveExport: string;
+  nameArchiveExport: string;
 
   constructor(
     private archiveSrv: ArquivesService,
-    // private _FileSaverService: FileSaverService,
     private errorMsg: ErrorMessagesService,
     private _route: Router,
     private fb: FormBuilder,
@@ -67,7 +67,7 @@ export class ListComponent implements OnInit {
     config: NgbTypeaheadConfig
   ) {
     config.showHint = true;
-    config.container = "body";
+    config.container = 'body';
     config.focusFirst = false;
   }
 
@@ -98,8 +98,8 @@ export class ListComponent implements OnInit {
         search: archive.search,
         endDate: archive.endDate,
         initDate: archive.initDate
-      })
-      this.selectedCompany(archive.company._id)
+      });
+      this.selectedCompany(archive.company._id);
     }
 
     this.statusList = StatusVolumeEnum;
@@ -124,7 +124,7 @@ export class ListComponent implements OnInit {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
-    this.localStorageSrv.save('archive', this.searchForm.value)
+    this.localStorageSrv.save('archive', this.searchForm.value);
 
     const newSearch = {
       company: null,
@@ -211,7 +211,7 @@ export class ListComponent implements OnInit {
       search: null,
       endDate: null,
       initDate: null
-    })
+    });
   }
 
   getCompanies() {
@@ -243,7 +243,9 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res = [];
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else {
+          res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        }
         return res;
       })
     )
@@ -364,7 +366,8 @@ export class ListComponent implements OnInit {
   }
 
   exportArchives() {
-    this.localStorageSrv.save('archive', this.searchForm.value)
+    this.loading = true;
+    this.localStorageSrv.save('archive', this.searchForm.value);
 
     const newSearch = {
       company: null,
@@ -391,14 +394,22 @@ export class ListComponent implements OnInit {
     const searchValue = _.omitBy(newSearch, _.isNil);
     console.log(searchValue);
     this.archiveSrv.export(searchValue).subscribe(data => {
-      console.log(data);
-      let xlsx = new Blob([data], { type: "application/xlsx" });
-      let filename ="arquivos_export.xlsx";
-      saveAs(xlsx, filename);
-      //this._FileSaverService.save((<any>data).body, filename);
+      this.loading = false;
+      this.showPdf(data.file, data.name);
     }, error => {
+      this.loading = false;
       console.log('ERROR: ', error);
-    })
+    });
+  }
+
+  showPdf(base64, name) {
+    const linkSource = 'data:application/pdf;base64, ' + base64;
+    const downloadLink = document.createElement('a');
+    const fileName = name;
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 
   typeaheadKeydown() {

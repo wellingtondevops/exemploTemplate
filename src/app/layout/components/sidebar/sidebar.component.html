@@ -1,133 +1,202 @@
-<nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
-  <div class="list-group">
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']"
+<nav
+    class="sidebar"
+    [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }"
+>
+    <div class="list-group">
+        <!-- <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
       <i class="fa fa-envelope"></i>&nbsp;
       <span>{{ 'Solicitantes ' | translate }}</span>
-    </a>
-    <a *ngIf="isStorehouses" [routerLink]="['/storehouses']"
-      [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-home"></i>&nbsp;
-      <span>{{ 'Depósitos' | translate }}</span>
-    </a>
+    </a> -->
+        <a
+            *ngIf="isStorehouses"
+            [routerLink]="['/storehouses']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+        >
+            <i class="fa fa-home"></i>&nbsp;
+            <span>{{ "Depósitos" | translate }}</span>
+        </a>
 
-    <a *ngIf="isCompanies" [routerLink]="['/companies']"
-      [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-building"></i>&nbsp;
-      <span>{{ 'Empresas' | translate }}</span>
-    </a>
+        <a
+            *ngIf="isCompanies"
+            [routerLink]="['/companies']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+        >
+            <i class="fa fa-building"></i>&nbsp;
+            <span>{{ "Empresas" | translate }}</span>
+        </a>
 
-    <a *ngIf="isDepartaments" [routerLink]="['/departaments']"
-      [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-server"></i>&nbsp;
-      <span>{{ 'Departamentos' | translate }}</span>
-    </a>
+        <a
+            *ngIf="isDepartaments"
+            [routerLink]="['/departaments']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+        >
+            <i class="fa fa-server"></i>&nbsp;
+            <span>{{ "Departamentos" | translate }}</span>
+        </a>
+        <div
+            *ngIf="isVolumesImport || isVolumesErrors || isVolumesSearch"
+            class="nested-menu"
+            [routerLinkActive]="['router-link-active']"
+        >
+            <a class="list-group-item" (click)="addExpandClass('volumes')">
+                <i class="fa fa-archive"></i>&nbsp;
+                <span>{{ "Volumes" | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'volumes'">
+                <ul class="submenu">
+                    <li *ngIf="isVolumesImport">
+                        <a
+                            [routerLink]="['/volumes/import-volumes']"
+                            class="list-group-item"
+                        >
+                            <i class="fa fa-file-excel-o"></i>&nbsp;
+                            <span>{{ "Importar Volumes" | translate }}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isVolumesErrors">
+                        <a
+                            [routerLink]="['/volumes/errors-volumes']"
+                            class="list-group-item"
+                        >
+                            <i class="fa fa-exclamation-circle"></i>&nbsp;
+                            <span>{{ "Erros Importação" | translate }}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isVolumesSearch">
+                        <a [routerLink]="['/volumes']" class="list-group-item">
+                            <i class="fa fa-list"></i>&nbsp;
+                            <span>{{ "Volumes" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
 
-    <div *ngIf="isVolumesImport || isVolumesErrors || isVolumesSearch" class="nested-menu" [routerLinkActive]="['router-link-active']">
-      <a class="list-group-item" (click)="addExpandClass('volumes')">
-        <i class="fa fa-file"></i>&nbsp;
-        <span>{{ 'Volumes' | translate }}</span>
-      </a>
-      <li class="nested" [class.expand]="showMenu === 'volumes'">
-        <ul class="submenu">
-          <li *ngIf="isVolumesImport">
-            <a [routerLink]="['/volumes/import-volumes']"class="list-group-item">
-              <i class="fa fa-file-excel-o"></i>&nbsp;
-              <span>{{ 'Importar Volumes' | translate }}</span>
+        <a
+            *ngIf="isDocuments"
+            [routerLink]="['/documents']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+        >
+            <i class="fa fa-book"></i>&nbsp;
+            <span>{{ "Documentos" | translate }}</span>
+        </a>
+        <a
+            *ngIf="isTemplates"
+            [routerLink]="['/documents-structur']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+        >
+            <i class="fa fa-list-ol"></i>&nbsp;
+            <span>{{ "Plano de Classificação" | translate }}</span>
+        </a>
+        <div
+            *ngIf="
+                isArchivesImport ||
+                isArchivesError ||
+                isArchivesRegister ||
+                isArchivesSearch
+            "
+            class="nested-menu"
+            [routerLinkActive]="['router-link-active']"
+        >
+            <a class="list-group-item" (click)="addExpandClass('archives')">
+                <i class="fa fa-file"></i>&nbsp;
+                <span>{{ "Arquivos" | translate }}</span>
             </a>
-          </li>
-          <li *ngIf="isVolumesErrors">
-            <a [routerLink]="['/volumes/errors-volumes']"class="list-group-item">
-              <i class="fa fa-exclamation-circle"></i>&nbsp;
-              <span>{{ 'Erros Importação' | translate }}</span>
+            <li class="nested" [class.expand]="showMenu === 'archives'">
+                <ul class="submenu">
+                    <li *ngIf="isArchivesImport">
+                        <a
+                            [routerLink]="['/file/import']"
+                            class="list-group-item"
+                        >
+                            <i class="fa fa-file-excel-o"></i>&nbsp;
+                            <span>{{ "Importar Arquivos" | translate }}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isArchivesError">
+                        <a
+                            [routerLink]="['/file/errors-archives']"
+                            class="list-group-item"
+                        >
+                            <i class="fa fa-exclamation-circle"></i>&nbsp;
+                            <span>{{
+                                "Erros Importação de Arquivo" | translate
+                            }}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isArchivesRegister">
+                        <a
+                            [routerLink]="['/file/register']"
+                            class="list-group-item"
+                        >
+                            <i class="fa fa-plus"></i>&nbsp;
+                            <span>{{ "Registrar Arquivo" | translate }}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isArchivesSearch">
+                        <a
+                            [routerLink]="['/archives']"
+                            [routerLinkActive]="['router-link-active']"
+                            class="list-group-item"
+                        >
+                            <i class="fa fa-search"></i>&nbsp;
+                            <span>{{ "Procurar Arquivos" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <a
+            *ngIf="permissionAdmin || permissionArquivador"
+            [routerLink]="['/not-found']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+        >
+            <i class="fa fa-truck"></i>&nbsp;
+            <span>{{ "Movimentações" | translate }}</span>
+        </a>
+        <div
+            *ngIf="isUsers || isTemplates"
+            class="nested-menu"
+            [routerLinkActive]="['router-link-active']"
+        >
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <i class="fa fa-cog"></i>&nbsp;
+                <span>{{ "Configurações" | translate }}</span>
             </a>
-          </li>
-          <li *ngIf="isVolumesSearch">
-            <a [routerLink]="['/volumes']" class="list-group-item">
-              <i class="fa fa-list"></i>&nbsp;
-              <span>{{ 'Volumes' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </li>
+            <li
+                *ngIf="isUsers"
+                class="nested"
+                [class.expand]="showMenu === 'pages'"
+            >
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/users']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ "Usuários" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
     </div>
 
-    <a *ngIf="isDocuments" [routerLink]="['/documents']"
-      [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-book"></i>&nbsp;
-      <span>{{ 'Documentos' | translate }}</span>
-    </a>
-    <div *ngIf="isArchivesImport || isArchivesError || isArchivesRegister" class="nested-menu" [routerLinkActive]="['router-link-active']">
-      <a class="list-group-item" (click)="addExpandClass('archives')">
-        <i class="fa fa-file"></i>&nbsp;
-        <span>{{ 'Arquivos' | translate }}</span>
-      </a>
-      <li class="nested" [class.expand]="showMenu === 'archives'">
-        <ul class="submenu">
-          <li *ngIf="isArchivesImport">
-            <a [routerLink]="['/file/import']" class="list-group-item">
-              <i class="fa fa-file-excel-o"></i>&nbsp;
-              <span>{{ 'Importar Arquivos' | translate }}</span>
-            </a>
-          </li>
-          <li *ngIf="isArchivesError">
-            <a [routerLink]="['/file/errors-archives']" class="list-group-item">
-              <i class="fa fa-exclamation-circle"></i>&nbsp;
-              <span>{{ 'Erros Importação de Arquivo' | translate }}</span>
-            </a>
-          </li>
-          <li *ngIf="isArchivesRegister">
-            <a [routerLink]="['/file/register']" class="list-group-item">
-              <i class="fa fa-plus"></i>&nbsp;
-              <span>{{ 'Registrar Arquivo' | translate }}</span>
-            </a>
-          </li>
-          <li *ngIf="isArchivesSearch">
-            <a [routerLink]="['/archives']"
-              [routerLinkActive]="['router-link-active']" class="list-group-item">
-              <i class="fa fa-search"></i>&nbsp;
-              <span>{{ 'Procurar Arquivos' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </li>
+    <div
+        class="toggle-button"
+        [ngClass]="{ collapsed: collapsed }"
+        (click)="toggleCollapsed()"
+    >
+        <i
+            class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"
+        ></i
+        >&nbsp;
+        <span></span>
     </div>
-
-    <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']"
-      [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-truck"></i>&nbsp;
-      <span>{{ 'Movimentações' | translate }}</span>
-    </a>
-    <div *ngIf="isUsers || isTemplates" class="nested-menu" [routerLinkActive]="['router-link-active']">
-      <a class="list-group-item" (click)="addExpandClass('pages')">
-        <i class="fa fa-cog"></i>&nbsp;
-        <span>{{ 'Configurações' | translate }}</span>
-      </a>
-      <li *ngIf="isUsers" class="nested" [class.expand]="showMenu === 'pages'">
-        <ul class="submenu">
-          <li>
-            <a [routerLink]="['/users']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'Usuários' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li *ngIf="isTemplates" class="nested" [class.expand]="showMenu === 'pages'">
-        <ul class="submenu">
-          <li>
-            <a [routerLink]="['/documents-structur']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'Estrutura de Documentos' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </div>
-  </div>
-
-  <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()">
-    <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i>&nbsp;
-    <span></span>
-  </div>
 </nav>

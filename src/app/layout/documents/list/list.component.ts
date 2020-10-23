@@ -39,6 +39,7 @@ export class ListComponent implements OnInit {
     /* { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
   loading: Boolean = true;
+  permissionNew: boolean = false;
 
   constructor(
     private _route: Router,
@@ -58,6 +59,7 @@ export class ListComponent implements OnInit {
       company: this.fb.control(null, [Validators.required]),
     });
     this.getDocuments();
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
   }
 
   get company() {

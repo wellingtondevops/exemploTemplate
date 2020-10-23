@@ -10,7 +10,7 @@
     <div style="margin-bottom: 10px">
         <app-button-back [redirectTo]="'storehouses'"></app-button-back>
         <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)" (delete)="open('focusFirst', storeHouse._id)"
-            [permissionEdit]="['DAENERYS']" [permissionDelete]="['DAENERYS']">
+            [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete">
         </app-buttons-custom>
         <br />
     </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
-import { ArchivesSearchGuardService } from 'src/app/services/guard/archives-search-guard.service'
+import { ArchivesSearchGuardService } from 'src/app/services/guard/archives-search-guard.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,15 +16,19 @@ export class DashboardComponent implements OnInit {
   permissionAdmin: boolean;
   permissionPesquisador: boolean;
   permissionArquivador: boolean;
-  isArchivesSearch: boolean = false;
-  isArchivesRegister: boolean = false;
-  isVolumesSearch: boolean = false;
-  isUsers: boolean = false;
-  isStorehouses: boolean = false;
-  isCompanies: boolean = false;
-  isDocuments: boolean = false;
+  isArchivesSearch = false;
+  isArchivesRegister = false;
+  isVolumesSearch = false;
+  isUsers = false;
+  isStorehouses = false;
+  isCompanies = false;
+  isDocuments = false;
+  acceptanceTerm = false;
 
-  constructor(public daenerysGuard: DaenerysGuard) {
+  constructor(
+    public daenerysGuard: DaenerysGuard,
+    public router: Router,
+    ) {
     this.sliders.push(
       {
         imagePath: 'assets/images/slider1.jpg',
@@ -103,7 +108,7 @@ export class DashboardComponent implements OnInit {
     return res;
   }
 
-  isArchiveRegister(){
+  isArchiveRegister() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].archivesRegister) {
       res = true;
@@ -111,7 +116,7 @@ export class DashboardComponent implements OnInit {
     return res;
   }
 
-  isVolumeSearch(){
+  isVolumeSearch() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].volumesSearch) {
       res = true;
@@ -119,7 +124,7 @@ export class DashboardComponent implements OnInit {
     return res;
   }
 
-  isUser(){
+  isUser() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].users) {
       res = true;
@@ -127,7 +132,7 @@ export class DashboardComponent implements OnInit {
     return res;
   }
 
-  isStorehouse(){
+  isStorehouse() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].storehouses) {
       res = true;
@@ -135,7 +140,7 @@ export class DashboardComponent implements OnInit {
     return res;
   }
 
-  isCompany(){
+  isCompany() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].companies) {
       res = true;
@@ -143,7 +148,7 @@ export class DashboardComponent implements OnInit {
     return res;
   }
 
-  isDocument(){
+  isDocument() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].documents) {
       res = true;

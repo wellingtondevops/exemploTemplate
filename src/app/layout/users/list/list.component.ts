@@ -43,6 +43,7 @@ export class ListComponent implements OnInit {
         { name: 'E-mail', prop: 'email' },
         { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
+  permissionNew: boolean = false;
 
     constructor(
         private usersSrv: UsersService,
@@ -62,6 +63,7 @@ export class ListComponent implements OnInit {
             name: this.fb.control(null, Validators.required),
             email: this.fb.control(null),
         });
+        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
     }
 
     get name() {

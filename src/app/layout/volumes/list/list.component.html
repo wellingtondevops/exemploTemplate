@@ -7,7 +7,7 @@
             tertiaryColour: '#222'
         }"></ngx-loading>
   <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'"
-    [permissionBtnNew]="['DAENERYS', 'TYWIN']" [routerTo]="'/volumes/new'"></app-page-header>
+    [permissionBtnNew]="permissionNew" [routerTo]="'/volumes/new'"></app-page-header>
   <ngb-accordion #acc="ngbAccordion" activeIds="volumes-0">
     <ngb-panel id="volumes-0">
       <ng-template ngbPanelTitle>

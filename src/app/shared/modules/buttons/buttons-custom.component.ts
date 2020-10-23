@@ -11,8 +11,8 @@ export class ButtonsCustomComponent implements OnInit {
     @Output() edit = new EventEmitter();
     @Output() delete = new EventEmitter();
     @Input() id: string;
-    @Input() permissionEdit: any;
-    @Input() permissionDelete: any;
+    @Input() permissionEdit: boolean = false;
+    @Input() permissionDelete: boolean = false;
 
     public radioGroupForm: FormGroup;
 
@@ -22,32 +22,6 @@ export class ButtonsCustomComponent implements OnInit {
         this.radioGroupForm = this.formBuilder.group({
             model: 1
         });
-    }
-
-    permissionOfEdit() {
-        let res: Boolean = false;
-        for (const item in this.permissionEdit) {
-            JSON.parse(localStorage.getItem('profiles')).forEach(element => {
-                if (element === this.permissionEdit[item]) {
-                    res = true;
-                    return;
-                }
-            });
-        }
-        return res;
-    }
-
-    permissionOfDelete() {
-        let res: Boolean = false;
-        for (const item in this.permissionDelete) {
-            JSON.parse(localStorage.getItem('profiles')).forEach(element => {
-                if (element === this.permissionDelete[item]) {
-                    res = true;
-                    return;
-                }
-            });
-        }
-        return res;
     }
 
     editView() {
