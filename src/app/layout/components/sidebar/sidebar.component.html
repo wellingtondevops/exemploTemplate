@@ -172,7 +172,7 @@
                 <span>{{ "Configurações" | translate }}</span>
             </a>
             <li
-                *ngIf="isUsers"
+                *ngIf="isUsers|| isMenuService"
                 class="nested"
                 [class.expand]="showMenu === 'pages'"
             >
@@ -181,6 +181,26 @@
                         <a [routerLink]="['/users']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ "Usuários" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="submenu">
+                    <li>
+                        <a
+                        *ngIf="isMenuService"
+                        [routerLink]="['#']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ "Serviços" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="submenu">
+                    <li>
+                        <a
+                        *ngIf="isCompanyService"
+                        [routerLink]="['#']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ "Cadastro de Valores" | translate }}</span>
                         </a>
                     </li>
                 </ul>

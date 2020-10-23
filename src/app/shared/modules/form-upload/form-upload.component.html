@@ -55,9 +55,9 @@
         <!-- Abaixo é possivel controlar a exibição dos botões -->
         <div *ngIf="isPdf && urlFile" style="width: 100%; height: 510px">
             <ngx-extended-pdf-viewer
-                [src]="urlFile"                
-                [showSidebarButton]="true"                
-                [showSecondaryToolbarButton]="false"                                
+                [src]="urlFile"
+                [showSidebarButton]="true"
+                [showSecondaryToolbarButton]="false"
                 [showOpenFileButton]="false"
                 [showDownloadButton]="download"
                 [showBookmarkButton]="false"
@@ -66,12 +66,12 @@
                 [printResolution]="300"
                 [useBrowserLocale]="true"
                 [height]="'80vh'"
-                
+
             ></ngx-extended-pdf-viewer>
         </div>
     </div>
     <div class="row">
-        <div *ngIf="!file && !archive && !url">
+        <div *ngIf="!file && !archive && !url && !isUsers">
             <span class="btn fake-btn">Escolha o arquivo</span>
             <span>{{ file ? file.name : " ou arraste o arquivo aqui" }}</span>
             <input class="file-input" type="file" />

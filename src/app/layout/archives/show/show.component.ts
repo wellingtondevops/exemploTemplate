@@ -39,10 +39,11 @@ export class ShowComponent implements OnInit {
   savedFile = false;
   height = 0;
   archiveCreateForm: FormGroup;
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
+  isUsers = false;
   @ViewChild('content') content: TemplateRef<any>;
-  
+
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
     volume: new FormControl(''),
@@ -71,10 +72,20 @@ export class ShowComponent implements OnInit {
     this.height = $('nav.sidebar').height();
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
-    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
-    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
-  }
 
+
+
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+    this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
+  }
+//   isUser() {
+//     let res = false;
+//     if (JSON.parse(window.localStorage.getItem('routes'))[0].users) {
+//       res = true;
+//     }
+//     return res;
+//   }
 
   returnDateCreate(create) {
     return moment(create).format('DD/MM/YYYY hh:mm');
