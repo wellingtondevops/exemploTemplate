@@ -75,11 +75,11 @@ export class ListComponent implements OnInit {
     // this.setPage({ offset: 0 });
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
-      departament: this.fb.control(null),
+      departament: this.fb.control(null, [Validators.required]),
       status: this.fb.control('ATIVO'),
-      location: this.fb.control(null),
-      storehouse: this.fb.control(null),
-      doct: this.fb.control(null),
+      location: this.fb.control('', Validators.required),
+      storehouse: this.fb.control('', [Validators.required]),
+      doct: this.fb.control(null, Validators.required),
       search: this.fb.control(null, Validators.required),
       endDate: this.fb.control(null),
       initDate: this.fb.control(null)
@@ -111,6 +111,18 @@ export class ListComponent implements OnInit {
 
   get company() {
     return this.searchForm.get('company');
+  }
+  get departament() {
+    return this.searchForm.get('departament');
+  }
+  get doct() {
+    return this.searchForm.get('doct');
+  }
+  get location() {
+      return this.searchForm.get('location');
+  }
+  get storehouse() {
+      return this.searchForm.get('storehouse');
   }
 
   returnId(object) {

@@ -86,10 +86,11 @@
               <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                 <i class="fa fa-search"></i>
               </button>
-              <button type="button" style="margin-left: 5px;" class="btn btn-default" (click)="clear()">
+              <button type="button" style="margin-left: 5px;"[disabled]="company.invalid" class="btn btn-default" (click)="clear()" >
                 Limpar Campos
               </button>
-              <button type="button" style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()">
+              <button [disabled]="company.invalid || doct.invalid"
+                type="button" style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()">
                 <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
               </button>
             </div>
