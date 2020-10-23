@@ -18,9 +18,12 @@
         <app-button-back [redirectTo]="'archives'"></app-button-back>
 
         <app-buttons-custom
+
+
             [id]="archive._id"
             [permissionEdit]="permissionEdit"
             [permissionDelete]="permissionDelete"
+            [isUser]="isUsers"
         >
         </app-buttons-custom>
         <br />

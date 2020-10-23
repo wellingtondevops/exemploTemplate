@@ -66,6 +66,7 @@ export class ListComponent implements OnInit {
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
   permissionNew: boolean = false;
+  isUsers: boolean=false;
 
   constructor(
     private el: ElementRef,
@@ -120,6 +121,7 @@ export class ListComponent implements OnInit {
     this.getCompanies();
     this.getStoreHouses();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+    this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
   }
 
   get company() {
@@ -136,10 +138,10 @@ export class ListComponent implements OnInit {
     })[0];
     return result;
   }
-  
+
   clear(){
     this.localStorageSrv.clear('volume');
-    
+
     this.searchForm.patchValue({
       company: null,
       departament: null,

@@ -45,8 +45,9 @@ export class ShowComponent implements OnInit {
   changeUp = false;
   hiddenReference: Boolean = true;
   public loading: Boolean = false;
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
+  isUsers = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -86,8 +87,9 @@ export class ShowComponent implements OnInit {
     this.loading = true;
     this.id = this.route.snapshot.paramMap.get('id');
     this.getVolume();
-    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
-    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+    this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
   }
 
   /* get description() {

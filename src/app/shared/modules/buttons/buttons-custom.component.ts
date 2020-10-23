@@ -11,8 +11,9 @@ export class ButtonsCustomComponent implements OnInit {
     @Output() edit = new EventEmitter();
     @Output() delete = new EventEmitter();
     @Input() id: string;
-    @Input() permissionEdit: boolean = false;
-    @Input() permissionDelete: boolean = false;
+    @Input() permissionEdit = false;
+    @Input() permissionDelete = false;
+    @Input() isUser = false;
 
     public radioGroupForm: FormGroup;
 

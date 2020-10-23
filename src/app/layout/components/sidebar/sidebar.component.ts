@@ -16,19 +16,25 @@ export class SidebarComponent implements OnInit {
   permissionAdmin: boolean;
   permissionPesquisador: boolean;
   permissionArquivador: boolean;
-  isArchivesSearch: boolean = false;
-  isArchivesRegister: boolean = false;
-  isVolumesSearch: boolean = false;
-  isVolumesErrors: boolean = false;
-  isVolumesImport: boolean = false;
-  isUsers: boolean = false;
-  isStorehouses: boolean = false;
-  isCompanies: boolean = false;
-  isDocuments: boolean = false;
-  isDepartaments: boolean = false;
-  isArchivesError: boolean = false;
-  isArchivesImport: boolean = false;
-  isTemplates: boolean = false;
+  isArchivesSearch = false;
+  isArchivesRegister = false;
+  isVolumesSearch = false;
+  isVolumesErrors = false;
+  isVolumesImport = false;
+  isUsers = false;
+  isStorehouses = false;
+  isCompanies = false;
+  isDocuments = false;
+  isDepartaments = false;
+  isArchivesError = false;
+  isArchivesImport = false;
+  isTemplates = false;
+  isMenuService = false;
+  isMenuServicesShows = false;
+  isCompanyService = false;
+  isCompanyServicesShows = false;
+
+
 
   @Output() collapsedEvent = new EventEmitter<boolean>();
 
@@ -61,6 +67,10 @@ export class SidebarComponent implements OnInit {
     this.isVolumesImport = this.isVolumeImport();
     this.isArchivesError = this.isArchiveError();
     this.isTemplates = this.isTemplate();
+    this.isMenuService = this.isMenuServices();
+    this.isMenuServicesShows = this.isMenuServicesShow();
+    this.isCompanyService = this.isCompanyServices();
+    this.isCompanyServicesShows = this.isCompanyServicesShow();
   }
 
   eventCalled() {
@@ -113,7 +123,7 @@ export class SidebarComponent implements OnInit {
     return res;
   }
 
-  isTemplate(){
+  isTemplate() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].templates) {
       res = true;
@@ -177,7 +187,7 @@ export class SidebarComponent implements OnInit {
     return res;
   }
 
-  isDepartament(){
+  isDepartament() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].departaments) {
       res = true;
@@ -185,7 +195,7 @@ export class SidebarComponent implements OnInit {
     return res;
   }
 
-  isArchiveError(){
+  isArchiveError() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].archivesError) {
       res = true;
@@ -193,7 +203,7 @@ export class SidebarComponent implements OnInit {
     return res;
   }
 
-  isArchiveImport(){
+  isArchiveImport() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].archivesImport) {
       res = true;
@@ -201,6 +211,42 @@ export class SidebarComponent implements OnInit {
     return res;
   }
 
+  isMenuServices() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].menuServices) {
+      res = true;
+    }
+    return res;
+  }
+  isMenuServicesShow() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].menuServicesShow) {
+      res = true;
+    }
+    return res;
+  }
+  is() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].menuServices) {
+      res = true;
+    }
+    return res;
+  }
+  isCompanyServices() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].companyServices) {
+      res = true;
+    }
+    return res;
+  }
+
+  isCompanyServicesShow() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].companyServicesShow) {
+      res = true;
+    }
+    return res;
+  }
   addExpandClass(element: any) {
     if (element === this.showMenu) {
       this.showMenu = '0';
