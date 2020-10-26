@@ -187,6 +187,16 @@
                 <ul class="submenu">
                     <li>
                         <a
+                        *ngIf="isCompanyService"
+                        [routerLink]="['#']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ "Solicitantes" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="submenu">
+                    <li>
+                        <a
                         *ngIf="isMenuService"
                         [routerLink]="['#']">
                             <i class="fa fa-monument"></i>&nbsp;
