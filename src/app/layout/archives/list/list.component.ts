@@ -369,9 +369,9 @@ export class ListComponent implements OnInit {
     let obj = '';
     labels.map((item, i) => {
       if (i === (labels.length - 1)) {
-        obj += `${item.namefield}: ${tags[i]}`;
+        obj += `<u><b>${item.namefield}:</b></u> ${tags[i]}`;
       } else {
-        obj += `${item.namefield}: ${tags[i]} | `;
+        obj += `<u><b>${item.namefield}:</b></u> ${tags[i]} - `;
       }
     });
     return obj;
