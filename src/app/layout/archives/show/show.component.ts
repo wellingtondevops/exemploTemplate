@@ -42,6 +42,8 @@ export class ShowComponent implements OnInit {
   permissionEdit = false;
   permissionDelete = false;
   isUsers = false;
+  startCurrentDate = false;
+  inputStartCurrentDate = '';
   @ViewChild('content') content: TemplateRef<any>;
 
   uploadFile = new FormGroup({
@@ -72,8 +74,8 @@ export class ShowComponent implements OnInit {
     this.height = $('nav.sidebar').height();
     this.id = this.route.snapshot.paramMap.get('id');
     this.getArquive();
-
-
+    this.startCurrentDate = JSON.parse(window.localStorage.getItem('routes'))[0].startcurrentdate;
+    console.log(this.startCurrentDate);
 
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
@@ -96,8 +98,9 @@ export class ShowComponent implements OnInit {
   }
 
   setStartCurrentDate() {
+    const data = {startCurrentDate: moment(this.inputStartCurrentDate).format('DD/MM/YYYY')};
     this.loading = true;
-    this.archiveSrv.patchStartCurrentDate(this.id).subscribe(res => {
+    this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
       this.getArquive();
       this.loading = false;
     }, error => {

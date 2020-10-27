@@ -22,7 +22,8 @@ export class Archive {
     url: string,
     name: string,
     page: number
-  }
+  };
+  startcurrentdate: string;
   departament: Departament;
   doct: Doctype;
   tag: string[];

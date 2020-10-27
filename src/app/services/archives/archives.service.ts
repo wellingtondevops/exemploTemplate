@@ -43,8 +43,8 @@ export class ArquivesService {
       );
   }
 
-  patchStartCurrentDate(archive_id) {
-    return this.http.patch<Archive>(`${url}/archives/startcurrentdate/${archive_id}`, {})
+  patchStartCurrentDate(archive_id, data) {
+    return this.http.patch<Archive>(`${url}/archives/startcurrentdate/${archive_id}`, data)
       .pipe(
         tap(data => data)
       );
