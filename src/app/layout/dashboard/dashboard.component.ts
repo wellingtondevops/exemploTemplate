@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
   isCompanies = false;
   isDocuments = false;
   acceptanceTerm = false;
+  isMoves = false ;
 
   constructor(
     public daenerysGuard: DaenerysGuard,
@@ -75,6 +76,7 @@ export class DashboardComponent implements OnInit {
     this.isArchivesRegister = this.isArchiveRegister();
     this.isVolumesSearch = this.isVolumeSearch();
     this.isUsers = this.isUser();
+    this.isMoves = this.isMove();
     this.isStorehouses = this.isStorehouse();
     this.isCompanies = this.isCompany();
     this.isDocuments = this.isDocument();
@@ -151,6 +153,13 @@ export class DashboardComponent implements OnInit {
   isDocument() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].documents) {
+      res = true;
+    }
+    return res;
+  }
+  isMove() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].moves) {
       res = true;
     }
     return res;

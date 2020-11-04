@@ -154,7 +154,7 @@
         </div>
 
         <a
-            *ngIf="permissionAdmin || permissionArquivador"
+            *ngIf="isMoves"
             [routerLink]="['/not-found']"
             [routerLinkActive]="['router-link-active']"
             class="list-group-item"
