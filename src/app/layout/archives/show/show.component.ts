@@ -139,9 +139,9 @@ export class ShowComponent implements OnInit {
     let obj = '';
     labels.map((item, i) => {
       if (i === (labels.length - 1)) {
-        obj += `<u>${item.namefield}:</u> ${tags[i]}`;
+        obj += `${item.namefield}: ${tags[i]}`;
       } else {
-        obj += `<u>${item.namefield}:</u> ${tags[i]} <br> `;
+        obj += `${item.namefield}: ${tags[i]} | `;
       }
     });
     return obj;

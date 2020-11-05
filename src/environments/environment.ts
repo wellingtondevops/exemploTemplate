@@ -4,7 +4,8 @@
 
 export const environment = {
 
-    apiUrl: 'https://main.archio.com.br',
+    // apiUrl: 'https://main.archio.com.br',
+    apiUrl: 'http://localhost:3000',
     exportUrl: 'https://export.archio.com.br',
     apiUrlUpload: 'https://archioqa.appspot.com',
 
