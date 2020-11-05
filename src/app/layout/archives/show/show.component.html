@@ -39,7 +39,7 @@
                     </div>
                     <div>
                         <label>
-                            DEPARTAMENTO: {{ archive.departament.name }}</label
+                            DEPARTAMENTO:{{ archive.departament.name }}</label
                         >
                     </div>
                     <div>
@@ -116,8 +116,7 @@
                         <br />
                         <button
                             *ngIf="
-                                archive &&
-                                archive.startDateCurrent === undefined && startCurrentDate
+                                archive
                             "
                             class="btn btn-danger btn-sm"
                             (click)="setStartCurrentDate()"
