@@ -9,6 +9,9 @@ export class Doctype {
   retention: string;
   dcurrentValue: number;
   dcurrentLabel: string;
+  dintermediateValue: number;
+  dintermediateLabel: string;
+  dfinal: string;
   __v: number;
   dateCreated: string;
   label: Label[];

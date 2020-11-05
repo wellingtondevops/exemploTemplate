@@ -49,6 +49,7 @@ export class ShowComponent implements OnInit {
     volume: new FormControl(''),
     company: new FormControl(''),
     archive: new FormControl(''),
+    document: new FormControl(''),
     file: new FormControl(null, [Validators.required])
   });
 
@@ -111,6 +112,7 @@ export class ShowComponent implements OnInit {
   getArquive() {
     this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
+      console.log(data);
       this.archive = data;
       this.archiveCreateForm.patchValue({
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),
@@ -153,6 +155,7 @@ export class ShowComponent implements OnInit {
       volume: this.archive.volume._id,
       company: this.archive.company._id,
       storehouse: this.archive.storehouse._id,
+      document: this.archive.doct._id,
       file: data
     });
     this.submit();
@@ -161,10 +164,11 @@ export class ShowComponent implements OnInit {
   submit() {
     // this.loading = true;
     const formData = new FormData();
-    formData.append('file', this.uploadFile.get('file').value);
+    formData.append('files', this.uploadFile.get('file').value);
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
     formData.append('volume', this.uploadFile.get('volume').value);
     formData.append('archive', this.uploadFile.get('archive').value);
+    formData.append('document', this.uploadFile.get('document').value);
     formData.append('company', this.uploadFile.get('company').value);
     this.filesSrv.file(formData).subscribe(data => {
       if (data.status && data.status === 'progress') {

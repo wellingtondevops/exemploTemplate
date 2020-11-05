@@ -12,6 +12,7 @@ import { EditComponent } from './edit/edit.component';
 import { AlterPasswordComponent } from './alter-password/alter-password.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
@@ -26,6 +27,7 @@ import { TypeaheadModule } from 'ngx-type-ahead';
         DatatablesModule,
         ButtonsCustomModule,
         ButtonBackModule,
+        NgSelectModule,
         TypeaheadModule,
         NgxLoadingModule.forRoot({})
     ],

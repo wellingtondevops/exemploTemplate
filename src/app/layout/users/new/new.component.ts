@@ -11,6 +11,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import _ from 'lodash';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
+import { NgSelectConfig } from '@ng-select/ng-select';
+import { TypeaheadSettings } from 'ngx-type-ahead';
 
 @Component({
   selector: 'app-new',
@@ -27,7 +29,7 @@ export class NewComponent implements OnInit {
   documentsAll: any = [];
   searchSubscribe = '';
   permissions: any = [];
-  userExternal: boolean = false;
+  userExternal = false;
 
   constructor(
     private _route: Router,
@@ -37,6 +39,7 @@ export class NewComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
     private documentsSrv: DocumentsService,
+    private config: NgSelectConfig,
   ) {
     // this.profilesList = ProfileEnum;
   }
@@ -53,8 +56,8 @@ export class NewComponent implements OnInit {
     });
 
     this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
-    
-    if(this.userExternal) {
+
+    if (this.userExternal) {
       this.addPermission();
     }
 
