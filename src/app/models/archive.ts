@@ -35,6 +35,7 @@ export class Archive {
   startDateIntermediate: string;
   finalDateIntermediate: string;
   finalFase: string;
+  exportUrl: string;
 }
 
 class Author {
