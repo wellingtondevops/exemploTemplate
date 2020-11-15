@@ -67,7 +67,7 @@ export class ListComponent implements OnInit {
     });
     this.getCompanies();
     this.getRequesters();
-
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
   }
 
   getRequesters() {
