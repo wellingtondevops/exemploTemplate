@@ -56,7 +56,7 @@ export class RequestersService {
       );
   }
 
-  searchRequester(formdata, page) {
+  searchRequesters(formdata, page) {
     if (page) {
       return this.http.post<RequesterSearchList>(`${url}/users/requesters/search?_page=${page.pageNumber}&size=10`, formdata)
         .pipe(
