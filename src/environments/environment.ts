@@ -6,7 +6,7 @@ export const environment = {
 
   apiUrl: 'http://localhost:3000',
   apiUrlUpload: 'http://localhost:2000',
-
+  exportUrl: 'https://export.archio.com.br',
   production: false
 };
 
