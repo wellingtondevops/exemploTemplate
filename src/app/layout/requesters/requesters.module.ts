@@ -9,6 +9,7 @@ import { RequestersRoutingModule } from './requesters-routing.module';
 import { ButtonBackModule, ButtonsCustomModule, DatatablesModule, PageHeaderModule } from 'src/app/shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
+import { TypeaheadModule } from 'ngx-type-ahead';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, EditComponent, NewComponent],
@@ -23,6 +24,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     NgbModule,
     ButtonsCustomModule,
     ButtonBackModule,
+    TypeaheadModule,
     NgxLoadingModule.forRoot({})
   ],
   providers: [NgbActiveModal]
