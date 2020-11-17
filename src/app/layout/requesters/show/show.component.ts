@@ -135,7 +135,6 @@ export class ShowComponent implements OnInit {
     this.documentsSrv.doctsUser(this.id).subscribe(
       data => {
         this.documentsAll = data;
-        console.log(this.documentsAll);
         if (!this.requester) {
           this.getRequester();
         }
@@ -170,8 +169,7 @@ export class ShowComponent implements OnInit {
           permissions: this.requester.permissions
         });
 
-        this.requester.permissions.map((item, i) => {
-          console.log(i);
+        this.requester.permissions.map(item => {
           this.addPermissionExist(item);
         });
 
