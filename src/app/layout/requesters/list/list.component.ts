@@ -73,6 +73,9 @@ export class ListComponent implements OnInit {
   getRequesters() {
     this.setPageRequesters({ offset: 0 });
   }
+  getRequester(requester){
+    this._route.navigate(['/requesters/get', requester._id]);
+  }
 
   setPageRequesters(pageInfo) {
     this.loading = true;
