@@ -66,7 +66,7 @@ export class ShowComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompanies();
     this.getDocuments();
-    this.getRequester();
+    // this.getRequester();
     // this.getProfiles();
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
@@ -170,7 +170,8 @@ export class ShowComponent implements OnInit {
           permissions: this.requester.permissions
         });
 
-        this.requester.permissions.map(item => {
+        this.requester.permissions.map((item, i) => {
+          console.log(i);
           this.addPermissionExist(item);
         });
 

@@ -73,12 +73,10 @@
                           (selectItem)="getDocuments($event)" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                           [ngbTypeahead]="searchCompany" />
                       </div>
-
                       <label>Documentos</label>
                       <type-ahead class="form-control" [multi]="true" [complex]="true" idField="_id"
                         formControlName="docts" [suggestions]="documentsAll[i].docts">
                       </type-ahead>
-
                     </div>
                     <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                       <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
