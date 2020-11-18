@@ -14,6 +14,8 @@ import * as moment from 'moment';
 import _ from 'lodash';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { UsersService } from 'src/app/services/users/users.service';
+import { User } from 'src/app/models/user';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -38,6 +40,7 @@ export class ShowComponent implements OnInit {
   companies: any = [];
   permissionEdit = false;
   permissionDelete = false;
+  user: User;
 
 
   constructor(
@@ -51,6 +54,7 @@ export class ShowComponent implements OnInit {
     public modal: NgbActiveModal,
     private documentsSrv: DocumentsService,
     private companiesSrv: CompaniesService,
+    private userSrv: UsersService,
   ) { }
 
   ngOnInit() {
@@ -63,13 +67,16 @@ export class ShowComponent implements OnInit {
       permissions: this.fb.array(this.permissions)
     });
 
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompanies();
     this.getDocuments();
-    // this.getRequester();
-    // this.getProfiles();
-    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
-    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+  }
+
+  editRequester(requester) {
+    this._route.navigate(['/requesters/edit', requester]);
   }
 
   searchCompany = (text$: Observable<string>) =>
@@ -138,6 +145,9 @@ export class ShowComponent implements OnInit {
         if (!this.requester) {
           this.getRequester();
         }
+        if (!this.user) {
+          this.getUser();
+        }
       },
       error => {
         this.errorMsg.errorMessages(error);
@@ -171,6 +181,31 @@ export class ShowComponent implements OnInit {
 
         this.requester.permissions.map(item => {
           this.addPermissionExist(item);
+        });
+
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  getUser() {
+    this.userSrv.user(this.id).subscribe(
+      data => {
+        this.user = data;
+        this.loading = false;
+        if (this.user.profiles.indexOf('DAENERYS') === 0) {
+          this.isViewPermission = false;
+          // this.permissions = [];
+        } else {
+          this.isViewPermission = true;
+        }
+
+        this.user.permissions.map(item => {
+          // this.addPermissionExist(item);
         });
 
       },
