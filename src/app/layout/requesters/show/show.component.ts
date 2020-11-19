@@ -175,6 +175,7 @@ export class ShowComponent implements OnInit {
           _id: data._id,
           email: data.email,
           name: data.name,
+          fone: data.fone,
           dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
           permissions: this.requester.permissions
         });
@@ -215,5 +216,34 @@ export class ShowComponent implements OnInit {
         console.log('ERROR: ', error);
       }
     );
+  }
+
+  delete(data) {
+    this.loading = true;
+    this.userSrv.deleteUser(data).subscribe(
+      response => {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Solicitante deletado com sucesso.');
+        this._route.navigate(['/requesters']);
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      }
+    );
+  }
+
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Solicitante foi deletado com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Solicitante?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao usuário serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe(item => {
+      this.delete(item);
+    });
   }
 }

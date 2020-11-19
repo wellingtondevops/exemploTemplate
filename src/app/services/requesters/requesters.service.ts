@@ -49,8 +49,8 @@ export class RequestersService {
       );
   }
 
-  updateRequester(storeHouse) {
-    return this.http.put<Requester>(`${url}/users/requesters/${storeHouse._id}`, storeHouse)
+  updateRequester(requester) {
+    return this.http.put<Requester>(`${url}/users/requesters/${requester._id}`, requester)
       .pipe(
         tap(data => data)
       );

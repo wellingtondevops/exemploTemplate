@@ -11,11 +11,13 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import * as moment from 'moment';
 import _ from 'lodash';
+import { routerTransition } from 'src/app/router.animations';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  styleUrls: ['./edit.component.scss'],
+  animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
   id: String;
@@ -52,10 +54,23 @@ export class EditComponent implements OnInit {
 
     this.getDocuments();
     this.getCompanies();
-    // this.getProfiles();
-
+    if (!this.requester) {
+      this.getRequester();
+    }
   }
-  
+
+  get name() {
+    return this.requesterForm.get('name');
+  }
+
+  get email() {
+    return this.requesterForm.get('email');
+  }
+
+  get fone() {
+    return this.requesterForm.get('fone');
+  }
+
   createPermission(): FormGroup {
     return this.fb.group({
       company: '',
@@ -119,19 +134,14 @@ export class EditComponent implements OnInit {
     )
 
   getDocuments(e = null, i = null) {
-    console.log(i);
     if (e && e.item) {
       this.documentsSrv.searchDocuments(e.item._id).subscribe(
         data => {
-          // console.log('data',data);
           if (i) {
-            console.log('if', data);
             this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
           } else {
-            console.log('else', data);
             this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
           }
-
         },
         error => {
           this.errorMsg.errorMessages(error);
@@ -142,11 +152,8 @@ export class EditComponent implements OnInit {
     } else {
       this.documentsSrv.doctsUser(this.id).subscribe(
         data => {
-          console.log('doctsUser', data);
           this.documentsAll = data;
-          if (!this.requester) {
-            this.getRequester();
-          }
+
         },
         error => {
           this.errorMsg.errorMessages(error);
@@ -168,39 +175,69 @@ export class EditComponent implements OnInit {
       })
     )
 
-    getRequester() {
-      this.requesterSrv.requester(this.id).subscribe(
-        data => {
-          this.loading = false;
-          this.requester = {
-            _links: data._links,
-            _id: data._id,
-            email: data.email,
-            name: data.email,
-            fone: data.fone,
-            dateCreated: data.dateCreated,
-            permissions: data.permissions
-          };
-  
-          this.requesterForm.patchValue({
-            _id: data._id,
-            email: data.email,
-            name: data.name,
-            dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
-            permissions: this.requester.permissions
-          });
-  
-          this.requester.permissions.map(item => {
-            this.addPermissionExist(item);
-          });
-  
-        },
-        error => {
-          this.loading = false;
-          this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
-        }
-      );
-    }
+  returnDoctsArray(permissions) {
+    return permissions.map(item => {
+      return { company: item.company, docts: [item.docts] };
+    });
+  }
+
+  getRequester() {
+    this.requesterSrv.requester(this.id).subscribe(
+      data => {
+        this.loading = false;
+        this.requester = {
+          _links: data._links,
+          _id: data._id,
+          email: data.email,
+          name: data.email,
+          fone: data.fone,
+          dateCreated: data.dateCreated,
+          permissions: this.returnDoctsArray(data.permissions)
+        };
+
+        this.requesterForm.patchValue({
+          _id: data._id,
+          email: data.email,
+          name: data.name,
+          fone: data.fone,
+          permissions: this.requester.permissions
+        });
+
+        this.requester.permissions.map(item => {
+          this.addPermissionExist(item);
+        });
+
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      }
+    );
+  }
+
+  updateRequester() {
+    this.loading = true;
+    this.requesterSrv.updateRequester(this.requesterForm.value).subscribe(
+      data => {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Solicitante alterado com sucesso.');
+        this.requester = data;
+
+        this.requesterForm.patchValue({
+          _id: data._id,
+          email: data.email,
+          name: data.name,
+          fone: data.fone,
+          permissions: this.requester.permissions
+        });
+
+        this._route.navigate(['/requesters']);
+      }, error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+      })
+  }
 
 }
