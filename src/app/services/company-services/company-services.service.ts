@@ -8,7 +8,7 @@ const url = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
 })
-export class ServicesService {
+export class CompanyServicesService {
 
   constructor(
     private http: HttpClient
@@ -16,12 +16,12 @@ export class ServicesService {
 
   services(page) {
     if (page) {
-      return this.http.get<ServiceList>(`${url}/companyservices?_page=${page.pageNumber}&size=10`)
+      return this.http.get<ServiceList>(`${url}/companyservices/list?_page=${page.pageNumber}&size=10`)
         .pipe(
           tap(data => data)
         );
     } else {
-      return this.http.get<ServiceList>(`${url}/companyservices?size=10`)
+      return this.http.get<ServiceList>(`${url}/companyservices/list?size=10`)
         .pipe(
           tap(data => data)
         );
@@ -50,7 +50,7 @@ export class ServicesService {
   }
 
   updateService(service) {
-    return this.http.put<Service>(`${url}/users/requesters/${service._id}`, service)
+    return this.http.put<Service>(`${url}/companyservices/${service._id}`, service)
       .pipe(
         tap(data => data)
       );
@@ -58,12 +58,12 @@ export class ServicesService {
 
   searchServices(formdata, page) {
     if (page) {
-      return this.http.post<ServiceSearchList>(`${url}/users/requesters/search?_page=${page.pageNumber}&size=10`, formdata)
+      return this.http.post<ServiceSearchList>(`${url}/companyservices/search?_page=${page.pageNumber}&size=10`, formdata)
         .pipe(
           tap(data => data)
         );
     } else {
-      return this.http.post<ServiceSearchList>(`${url}/users/requesters/search?size=10`, formdata)
+      return this.http.post<ServiceSearchList>(`${url}/companyservices/search?size=10`, formdata)
         .pipe(
           tap(data => data)
         );

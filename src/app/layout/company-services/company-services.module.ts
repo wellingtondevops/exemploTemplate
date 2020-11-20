@@ -5,7 +5,7 @@ import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ServicesRoutingModule } from './services-routing.module';
+import { CompanyServicesRoutingModule } from './company-services-routing.module';
 import { ButtonBackModule, ButtonsCustomModule, DatatablesModule, PageHeaderModule } from 'src/app/shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -15,7 +15,7 @@ import { NgxLoadingModule } from 'ngx-loading';
   imports: [
     NgbModule,
     CommonModule,
-    ServicesRoutingModule,
+    CompanyServicesRoutingModule,
     PageHeaderModule,
     ReactiveFormsModule,
     FormsModule,
@@ -27,4 +27,4 @@ import { NgxLoadingModule } from 'ngx-loading';
 ],
 providers: [NgbActiveModal]
 })
-export class ServicesModule { }
+export class CompanyServicesModule { }
