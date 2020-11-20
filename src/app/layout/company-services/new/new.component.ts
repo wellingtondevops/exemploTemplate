@@ -137,7 +137,9 @@ export class NewComponent implements OnInit {
     this.serviceForm.value.company = this.serviceForm.value.company._id;
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
-      newArray.push({ description: item.description, price: item.price });
+      var priceStr = item.price.replace(',','.')
+      var priceFloat = parseFloat(priceStr)
+      newArray.push({ description: item.description, price: priceFloat });
     });
     this.serviceForm.value.services = newArray;
   }
