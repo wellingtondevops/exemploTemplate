@@ -6,17 +6,18 @@
           secondaryColour: '#222',
           tertiaryColour: '#222'
       }"></ngx-loading>
-  <app-page-header [heading]="'Serviços da Companhia'" [icon]="'fa-table'" [btnNew]="'Novo Serviço'"
-    [permissionBtnNew]="permissionNew" [routerTo]="'/companyservices/new'"></app-page-header>
-  <ngb-accordion #acc="ngbAccordion" activeIds="users-0">
-    <ngb-panel id="users-0">
+  <app-page-header [heading]="'Serviços Empresariais'" [icon]="'fa-table'" [btnNew]="'Novo Serviço'"
+    [permissionBtnNew]="permissionNew" [routerTo]="'/company-services/new'"></app-page-header>
+
+  <ngb-accordion #acc="ngbAccordion" activeIds="company-service-0">
+    <ngb-panel id="company-service-0">
       <ng-template ngbPanelTitle>
         <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
       </ng-template>
       <ng-template ngbPanelContent>
         <form [formGroup]="searchForm" (ngSubmit)="setPageCompanyServices()" role="FormGroup" class="form-inline">
           <div class="row col-12">
-            <div class="form-group mb-2 col-8">
+            <div class="form-group mb-2 col-8" *ngIf="companies">
               <label for="typeahead-basic">Empresa</label>
               <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
                 formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"

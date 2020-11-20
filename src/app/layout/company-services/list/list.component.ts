@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Page } from 'src/app/models/page';
-import { ServiceSearchList } from 'src/app/models/service';
+import { CompanyServiceSearchList } from 'src/app/models/service';
 import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { CompanyServicesService } from 'src/app/services/company-services/company-services.service';
@@ -22,7 +22,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 })
 export class ListComponent implements OnInit {
   searchForm: FormGroup;
-  services: ServiceSearchList;
+  services: CompanyServiceSearchList;
   page = new Page();
   loading: Boolean = true;
 

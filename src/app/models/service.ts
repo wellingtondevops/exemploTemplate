@@ -1,10 +1,9 @@
 import { Pagination } from './pagination';
 
-export class Service {
-  description: {
-    _id: string;
-    descriptionService: string;
-  };
+export class CompanyServices {
+  link: {
+    self: string;
+  }
   _id: string;
   datePrice: string;
   price: number;
@@ -13,16 +12,27 @@ export class Service {
     _id: string;
     name: string;
   };
-  mailSignup:string;
+  services: Service[];
+  mailSignup: string;
   dateCreated: string;
 }
 
-export class ServiceList {
+class Service {
+  description: {
+    _id: string;
+    descriptionService: string;
+  };
+  _id: string;
+  datePrice: string;
+  price: number
+}
+
+export class CompanyServiceList {
   _links: Pagination;
   items: Company[];
 }
 
-export class ServiceSearchList {
+export class CompanyServiceSearchList {
   _links: Pagination;
   items: Company[];
 }
