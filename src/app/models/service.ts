@@ -15,6 +15,7 @@ export class CompanyServices {
   services: Service[];
   mailSignup: string;
   dateCreated: string;
+  _links: any;
 }
 
 class Service {

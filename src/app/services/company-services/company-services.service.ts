@@ -36,7 +36,7 @@ export class CompanyServicesService {
   }
 
   service(id) {
-    return this.http.get<CompanyServices>(`${url}/companyservices/${id}`)
+    return this.http.get<any>(`${url}/companyservices/${id}`)
       .pipe(
         tap(data => data)
       );

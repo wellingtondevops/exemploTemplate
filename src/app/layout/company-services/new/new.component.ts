@@ -47,19 +47,6 @@ export class NewComponent implements OnInit {
     });
     this.getCompanies();
     this.addService();
-
-    /* var newServices = [];
-    this.serviceForm.get('services').valueChanges.subscribe(data => {console.log(data)});
-    /* (this.serviceForm.get('services') as FormArray).valueChanges.subscribe(value => {
-      newServices = value
-      newServices.map(item => {
-        if (item.price) {
-          item.price = `${item.price}-teste`
-          console.log(item.price)
-        }
-      })
-
-    }); */ 
   }
 
   /* changePrice(event) {
