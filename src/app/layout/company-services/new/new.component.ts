@@ -120,7 +120,7 @@ export class NewComponent implements OnInit {
       })
     )
 
-  returnFormatCompanyPermissions() {
+  returnFormatCompanyServices() {
     this.serviceForm.value.company = this.serviceForm.value.company._id;
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
@@ -133,7 +133,7 @@ export class NewComponent implements OnInit {
 
   postCompanyService() {
     this.loading = true;
-    this.returnFormatCompanyPermissions();
+    this.returnFormatCompanyServices();
 
     this.companyServiceSrv.newService(this.serviceForm.value).subscribe(
       data => {
