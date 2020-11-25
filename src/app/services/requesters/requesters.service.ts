@@ -49,14 +49,14 @@ export class RequestersService {
       );
   }
 
-  updateRequester(storeHouse) {
-    return this.http.put<Requester>(`${url}/users/requesters/${storeHouse._id}`, storeHouse)
+  updateRequester(requester) {
+    return this.http.put<Requester>(`${url}/users/requesters/${requester._id}`, requester)
       .pipe(
         tap(data => data)
       );
   }
 
-  searchRequester(formdata, page) {
+  searchRequesters(formdata, page) {
     if (page) {
       return this.http.post<RequesterSearchList>(`${url}/users/requesters/search?_page=${page.pageNumber}&size=10`, formdata)
         .pipe(

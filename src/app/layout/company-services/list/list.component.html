@@ -1,0 +1,45 @@
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Serviços Empresariais'" [icon]="'fa-table'" [btnNew]="'Novo Serviço'"
+    [permissionBtnNew]="permissionNew" [routerTo]="'/company-services/new'"></app-page-header>
+
+  <ngb-accordion #acc="ngbAccordion" activeIds="company-service-0">
+    <ngb-panel id="company-service-0">
+      <ng-template ngbPanelTitle>
+        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <form [formGroup]="searchForm" (ngSubmit)="setPageCompanyServices()" role="FormGroup" class="form-inline">
+          <div class="row col-12">
+            <div class="form-group mb-2 col-8" *ngIf="companies">
+              <label for="typeahead-basic">Empresa</label>
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                [ngbTypeahead]="searchCompany" style="width: 100%" [ngClass]="{ 'is-invalid': !company.valid }" />
+              <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                <div *ngIf="!company.valid">
+                  Empresa é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-2 col-4" style="padding-top: 3%;">
+              <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          </ng-template>
+        </form>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+  <br />
+  <app-datatables [data]="services" (setPage)="setPageCompanyServices($event)" (show)="getCompanyService($event)"
+    [columns]="columns"></app-datatables>
+</div>

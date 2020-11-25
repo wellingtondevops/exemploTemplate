@@ -1,0 +1,65 @@
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"></ngx-loading>
+  <app-page-header [heading]="'Novo Serviço Empresarial'" [icon]="'fa-user'"></app-page-header>
+  <div style="margin-bottom: 10px" *ngIf="companyservice">
+    <app-button-back [redirectTo]="'company-services'"></app-button-back>
+    <app-buttons-custom [id]="companyservice._id" (edit)="editService(companyservice._id)" (delete)="open('focusFirst', companyservice._id)"
+      [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"></app-buttons-custom>
+    <br />
+  </div>
+  <div class="card bg-light">
+    <div class="card-body">
+      <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="postCompanyService()">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label for="typeahead-basic">Empresa</label>
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                [ngbTypeahead]="searchCompany" style="width: 100%" [ngClass]="{ 'is-invalid': !company.valid }" />
+              <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                <div *ngIf="!company.valid">
+                  Empresa é obrigatório.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <label style="float: left;">Serviços</label>
+            <div class="form-group" id="services" formArrayName="services">
+              <div *ngFor="let service of services.controls; index as i">
+                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                  <div class="card-body">
+                    <div [formGroupName]="i">
+                      <div class="form-group">
+                        <label for="description">Descrição</label>
+                        <input class="form-control" formControlName="description" />
+                      </div>
+                      <div class="form-group">
+                        <label for="price">Preço</label>
+                        <input class="form-control" type="text" [textMask]="{mask: mask}" formControlName="price" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary" style="float: right" [disabled]="company.invalid">Salvar</button>
+        <button type="button" [routerLink]="['/company-services']" class="btn btn-default"
+          style="float: right;margin-right: 10px;">Voltar</button>
+        <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>

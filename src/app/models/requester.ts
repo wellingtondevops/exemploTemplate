@@ -9,7 +9,7 @@ export class Requester {
   email: string;
   fone: any;
   dateCreated: string;
-  permissions: string;
+  permissions: Permission[];
 }
 
 export class RequesterList {
@@ -20,6 +20,11 @@ export class RequesterList {
 export class RequesterSearchList {
   _links: Pagination;
   items: Requester[];
+}
+
+export class Permission {
+  company: string;
+  docts: [string[]];
 }
 
 
