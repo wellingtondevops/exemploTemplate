@@ -5,6 +5,7 @@ import { Archive, ArchivesList } from 'src/app/models/archive';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ResponseContentType } from '@angular/http';
 const url = environment.apiUrl;
+const urlExport = environment.exportUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +44,8 @@ export class ArquivesService {
       );
   }
 
-  patchStartCurrentDate(archive_id) {
-    return this.http.patch<Archive>(`${url}/archives/startcurrentdate/${archive_id}`, {})
+  patchStartCurrentDate(archive_id, data) {
+    return this.http.patch<Archive>(`${url}/archives/startcurrentdate/${archive_id}`, data)
       .pipe(
         tap(data => data)
       );
@@ -72,7 +73,7 @@ export class ArquivesService {
   }
 
   export(formData) {
-    return this.http.post<any>(`${url}/exportarchives/excelBase64`, formData)
+    return this.http.post<any>(`${urlExport}/exportarchives/excelBase64`, formData)
       .pipe(
         tap(data => data)
       );

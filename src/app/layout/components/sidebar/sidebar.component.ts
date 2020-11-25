@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit {
   isMenuServicesShows = false;
   isCompanyService = false;
   isCompanyServicesShows = false;
+  isMoves = false ;
 
 
 
@@ -71,6 +72,7 @@ export class SidebarComponent implements OnInit {
     this.isMenuServicesShows = this.isMenuServicesShow();
     this.isCompanyService = this.isCompanyServices();
     this.isCompanyServicesShows = this.isCompanyServicesShow();
+    this.isMoves = this.isMove();
   }
 
   eventCalled() {
@@ -96,6 +98,14 @@ export class SidebarComponent implements OnInit {
     });
     return res;
   }
+  isMove() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].moves) {
+      res = true;
+    }
+    return res;
+  }
+
 
   isTywin() {
     let res = false;

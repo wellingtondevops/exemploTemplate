@@ -39,7 +39,7 @@
                     </div>
                     <div>
                         <label>
-                            DEPARTAMENTO: {{ archive.departament.name }}</label
+                            DEPARTAMENTO:{{ archive.departament.name }}</label
                         >
                     </div>
                     <div>
@@ -112,10 +112,11 @@
                             {{ returnDate(archive.finalDateCurrent) }}</label
                         >
                         <br />
+                        <input type="date" class="form-control" *ngIf="startCurrentDate" [(ngModel)]="inputStartCurrentDate" />
+                        <br />
                         <button
                             *ngIf="
-                                archive &&
-                                archive.startDateCurrent === undefined
+                                archive
                             "
                             class="btn btn-danger btn-sm"
                             (click)="setStartCurrentDate()"

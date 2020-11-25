@@ -154,7 +154,7 @@
         </div>
 
         <a
-            *ngIf="permissionAdmin || permissionArquivador"
+            *ngIf="isMoves"
             [routerLink]="['/not-found']"
             [routerLinkActive]="['router-link-active']"
             class="list-group-item"
@@ -188,7 +188,7 @@
                     <li>
                         <a
                         *ngIf="isCompanyService"
-                        [routerLink]="['#']">
+                        [routerLink]="['/requesters']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ "Solicitantes" | translate }}</span>
                         </a>
@@ -198,9 +198,9 @@
                     <li>
                         <a
                         *ngIf="isMenuService"
-                        [routerLink]="['#']">
+                        [routerLink]="['/company-services']">
                             <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ "Serviços" | translate }}</span>
+                            <span>{{ "Serviços Empresariais" | translate }}</span>
                         </a>
                     </li>
                 </ul>
