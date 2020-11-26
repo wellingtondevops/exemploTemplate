@@ -5,20 +5,20 @@ import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CompanyServicesRoutingModule } from './company-services-routing.module';
 import { ButtonBackModule, ButtonsCustomModule, DatatablesModule, PageHeaderModule } from 'src/app/shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
+import { MenuServicesRoutingModule } from '../menu-services/menu-services-routing.module';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, EditComponent, NewComponent],
   imports: [
     NgbModule,
     CommonModule,
-    CompanyServicesRoutingModule,
+    MenuServicesRoutingModule,
     PageHeaderModule,
     TranslateModule,
     ReactiveFormsModule,

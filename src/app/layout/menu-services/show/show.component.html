@@ -1,3 +1,30 @@
-<p>
-  show works!
-</p>
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Dados do Menu'" [icon]="'fa-user'"></app-page-header>
+  <div style="margin-bottom: 10px" *ngIf="service">
+    <app-button-back [redirectTo]="'menu-services'"></app-button-back>
+    <app-buttons-custom [id]="service._id" [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"
+      (edit)="editMenu(service._id)" (delete)="open('focusFirst', service._id)">
+    </app-buttons-custom>
+    <br />
+  </div>
+  <div class="card bg-light mb-12">
+    <div class="card-body">
+      <form [formGroup]="serviceForm" role="FormGroup" >
+        <div class="form-content">
+          <div class="form-group">
+            <label for="">Descrição</label>
+            <input id="descriptionService" type="text" placeholder="Descrição" class="form-control"
+              formControlName="descriptionService" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

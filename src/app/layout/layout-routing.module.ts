@@ -12,6 +12,7 @@ const routes: Routes = [
             { path: 'users', loadChildren: './users/users.module#UsersModule' },
             { path: 'requesters', loadChildren: './requesters/requesters.module#RequestersModule' },
             { path: 'company-services', loadChildren: './company-services/company-services.module#CompanyServicesModule' },
+            { path: 'menu-services', loadChildren: './menu-services/menu-services.module#MenuServicesModule' },
             { path: 'departaments', loadChildren: './departaments/departaments.module#DepartamentsModule' },
             { path: 'companies', loadChildren: './companies/companies.module#CompaniesModule' },
             { path: 'documents-structur', loadChildren: './documents-structur/documents-structur.module#DocumentsStructurModule' },
