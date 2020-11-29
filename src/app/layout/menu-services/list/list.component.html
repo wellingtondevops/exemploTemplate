@@ -1,0 +1,36 @@
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Menu'" [icon]="'fa-table'" [btnNew]="'Novo Menu'"
+    [permissionBtnNew]="permissionNew" [routerTo]="'/menu-services/new'"></app-page-header>
+
+  <ngb-accordion #acc="ngbAccordion" activeIds="menu-service-0">
+    <ngb-panel id="menu-service-0">
+      <ng-template ngbPanelTitle>
+        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <form [formGroup]="searchForm" (ngSubmit)="setPageMenu()" role="FormGroup" class="form-inline">
+          <div class="row col-12">
+            <div class="form-group mb-2 col-8">
+              <label for="labelName">Descrição</label>
+              <input id="descriptionService" autoFocus="true" type="text" class="form-control" formControlName="descriptionService"
+                style="width: 100%" />
+            </div>
+            <div class="form-group mb-2 col-4" style="padding-top: 3%;">
+              <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+  <br />
+  <app-datatables [data]="services" (setPage)="setPageMenu($event)" (show)="getMenu($event)"
+    [columns]="columns"></app-datatables>
+</div>
