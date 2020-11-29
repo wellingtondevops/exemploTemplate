@@ -1,30 +1,31 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ArquivesService } from 'src/app/services/archives/archives.service';
-import { Archive } from 'src/app/models/archive';
-import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { FilesService } from 'src/app/services/files/files.service';
-import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
-import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { PicturesService } from 'src/app/services/pictures/pictures.service';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import * as $ from 'jquery';
 import * as moment from 'moment';
+import { Archive } from 'src/app/models/archive';
 import { routerTransition } from 'src/app/router.animations';
+import { ArquivesService } from 'src/app/services/archives/archives.service';
+import { FilesService } from 'src/app/services/files/files.service';
+import { PicturesService } from 'src/app/services/pictures/pictures.service';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import * as $ from 'jquery';
+import _ from 'lodash';
+
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
 };
 
 @Component({
-  selector: 'app-show',
-  templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss'],
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss'],
   animations: [routerTransition()]
 })
-
-export class ShowComponent implements OnInit {
+export class EditComponent implements OnInit {
   progressModal = {
     customClass: 'modal-style'
   };
@@ -44,6 +45,7 @@ export class ShowComponent implements OnInit {
   isUsers = false;
   startCurrentDate = false;
   inputStartCurrentDate = '';
+  document: any;
   @ViewChild('content') content: TemplateRef<any>;
 
   uploadFile = new FormGroup({
@@ -77,17 +79,18 @@ export class ShowComponent implements OnInit {
     this.getArquive();
     this.startCurrentDate = JSON.parse(window.localStorage.getItem('routes'))[0].startcurrentdate;
 
+
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
   }
-  //   isUser() {
-  //     let res = false;
-  //     if (JSON.parse(window.localStorage.getItem('routes'))[0].users) {
-  //       res = true;
-  //     }
-  //     return res;
-  //   }
+//   isUser() {
+//     let res = false;
+//     if (JSON.parse(window.localStorage.getItem('routes'))[0].users) {
+//       res = true;
+//     }
+//     return res;
+//   }
 
   returnDateCreate(create) {
     return moment(create).format('DD/MM/YYYY hh:mm');
@@ -98,7 +101,7 @@ export class ShowComponent implements OnInit {
   }
 
   setStartCurrentDate() {
-    const data = { startCurrentDate: moment(this.inputStartCurrentDate).format('DD/MM/YYYY') };
+    const data = {startCurrentDate: moment(this.inputStartCurrentDate).format('DD/MM/YYYY')};
     this.loading = true;
     this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
       this.getArquive();
@@ -115,6 +118,7 @@ export class ShowComponent implements OnInit {
     this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
+      this.document = data.doct;
       this.archiveCreateForm.patchValue({
         create: moment(data.create).format('DD/MM/YYYY hh:mm'),
         indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
@@ -160,6 +164,36 @@ export class ShowComponent implements OnInit {
       file: data
     });
     this.submit();
+  }
+
+  updateArchive(data) {
+    this.loading = true;
+    /* const storehouse = this.storeHouse_id;
+    const doct = this.document._id;
+    const company = this.company_id; */
+    const tag = _.values(data);
+    let uniqueness = '';
+    const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);
+    this.document.label.map((label, i) => {
+      if (label.uniq) {
+        if (i === (labelsTrueLength.length - 1)) {
+          uniqueness += `${tag[i]}`;
+        } else {
+          uniqueness += `${tag[i]}-`;
+        }
+      }
+    });
+    this.archiveSrv.updateArchive(this.id, { tag, uniqueness }).subscribe(data => {
+      if (data._id) {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
+        this._route.navigate(['/archives']);
+      }
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    });
   }
 
   submit() {
@@ -224,7 +258,7 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  editArchive(archive) {
-    this._route.navigate(['/archives/edit', archive])
+  editArchive(archive){
+    this._route.navigate(['/archives/edit', archive]);
   }
 }

@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="postArchive(model)">
     <div class="form-group col-12">
         <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-        <button type="submit" *ngIf="!archive" class="btn btn-primary">Salvar</button>
+        <button type="submit" *ngIf="edit" class="btn btn-primary">Salvar</button>
     </div>
 </form>

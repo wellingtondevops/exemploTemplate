@@ -14,6 +14,7 @@ import { isArray } from 'util';
 export class FormIndexComponent {
     @Input() data: Document;
     @Input() isArchive: Boolean = false;
+    @Input() edit: Boolean = false;
     @Output() sendArchive = new EventEmitter();
     firstMoment: Boolean = false;
     document: Document;
@@ -73,7 +74,7 @@ export class FormIndexComponent {
                     label: element.namefield,
                     placeholder: element.namefield,
                     required: false,
-                    disabled: value ? true : false,
+                    disabled: !this.edit ? true : false,
                     keydown: (field, e) => {
                         if (e.which === 13) {
                             const number = i + 1;
