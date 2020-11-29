@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { ShowComponent } from './show/show.component';
+import { EditComponent } from './edit/edit.component';
 import { DaenerysTywinSnowGuardService as DaenerysTywinSnowGuard } from 'src/app/services/guard/daenerys-tywin-snow-guard.service';
 import { ArchivesSearchGuardService } from 'src/app/services/guard/archives-search-guard.service';
 import { ArchivesShowGuardService } from 'src/app/services/guard/archives-show-guard.service';
@@ -17,6 +18,11 @@ const routes: Routes = [
     path: 'get/:id',
     component: ShowComponent,
     canActivate: [ArchivesShowGuardService, TermsService]
+  },
+  {
+    path: 'edit/:id',
+    component: EditComponent,
+    /* canActivate: [ArchivesShowGuardService, TermsService] */
   }
 ];
 

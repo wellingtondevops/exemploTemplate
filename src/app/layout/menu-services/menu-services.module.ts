@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
-import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ButtonBackModule, ButtonsCustomModule, DatatablesModule, PageHeaderModule } from 'src/app/shared';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxLoadingModule } from 'ngx-loading';
-import { TypeaheadModule } from 'ngx-type-ahead';
+import { EditComponent } from './edit/edit.component';
+import { MenuServicesRoutingModule } from './menu-services-routing.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
-import { MenuServicesRoutingModule } from '../menu-services/menu-services-routing.module';
+import { NgxLoadingModule } from 'ngx-loading';
+import { TypeaheadModule } from 'ngx-type-ahead';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [ShowComponent, ListComponent, EditComponent, NewComponent],
+  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent],
   imports: [
     NgbModule,
     CommonModule,
@@ -32,4 +32,4 @@ import { MenuServicesRoutingModule } from '../menu-services/menu-services-routin
   ],
   providers: [NgbActiveModal, CurrencyPipe]
 })
-export class CompanyServicesModule { }
+export class MenuServicesModule { }

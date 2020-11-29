@@ -10,9 +10,10 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, EnumToArrayPipe],
+  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent],
   imports: [
     NgbModule,
     CommonModule,
