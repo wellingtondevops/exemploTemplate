@@ -12,13 +12,14 @@ import { TypeaheadModule } from 'ngx-type-ahead';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MenuServicesRoutingModule } from '../menu-services/menu-services-routing.module';
+import { CompanyServicesRoutingModule } from './company-services-routing.module';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, EditComponent, NewComponent],
   imports: [
     NgbModule,
     CommonModule,
-    MenuServicesRoutingModule,
+    CompanyServicesRoutingModule,
     PageHeaderModule,
     TranslateModule,
     ReactiveFormsModule,
