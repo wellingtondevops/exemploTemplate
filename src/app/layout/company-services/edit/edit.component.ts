@@ -11,6 +11,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import _ from 'lodash';
 import * as moment from 'moment';
 import { routerTransition } from 'src/app/router.animations';
+import { Masks } from 'src/app/utils/masks';
 
 @Component({
   selector: 'app-edit',
@@ -28,13 +29,14 @@ export class EditComponent implements OnInit {
   searchSubscribe = '';
   services: any = [];
   userExternal = false;
-  public mask = [/[1-4]/, /\d/, /\d/, /\d/, ',', /\d/, /\d/]
+  // public mask = [/[1-4]/, /\d/, /\d/, /\d/, ',', /\d/, /\d/]
   permissionEdit: any;
   permissionDelete: any;
   id: any;
 
 
   constructor(
+    private mask: Masks,
     private route: ActivatedRoute,
     private _route: Router,
     private fb: FormBuilder,
@@ -48,6 +50,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {
     this.serviceForm = this.fb.group({
+      _id: '',
       company: this.fb.control({ value: '' }, [Validators.required]),
       services: this.fb.array(this.services)
     });
@@ -73,6 +76,7 @@ export class EditComponent implements OnInit {
       };
 
       this.serviceForm.patchValue({
+        _id: data._id,
         company: data.company,
         services: data.services
       });
@@ -162,6 +166,7 @@ export class EditComponent implements OnInit {
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
       var priceStr = item.price.replace(',', '.')
+      priceStr = priceStr.replace('R$', '')
       var priceFloat = parseFloat(priceStr)
       newArray.push({ description: item.description, price: priceFloat });
     });
