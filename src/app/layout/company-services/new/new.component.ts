@@ -10,6 +10,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import _ from 'lodash';
 import { CompanyServicesService } from 'src/app/services/company-services/company-services.service';
 import { CurrencyPipe } from '@angular/common';
+import { Masks } from 'src/app/utils/masks';
 
 @Component({
   selector: 'app-new',
@@ -27,9 +28,10 @@ export class NewComponent implements OnInit {
   searchSubscribe = '';
   services: any = [];
   userExternal = false;
-  public mask = [/[1-4]/, /\d/, /\d/, /\d/, ',',/\d/,/\d/]
+  // public mask = [/[1-4]/, /\d/, /\d/, /\d/, ',',/\d/,/\d/]
 
   constructor(
+    private mask: Masks,
     private _route: Router,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -125,11 +127,12 @@ export class NewComponent implements OnInit {
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
       var priceStr = item.price.replace(',','.')
+      priceStr = priceStr.replace('R$', '')
       var priceFloat = parseFloat(priceStr)
       newArray.push({ description: item.description, price: priceFloat });
     });
     this.serviceForm.value.services = newArray;
-  }
+  } 
 
   postCompanyService() {
     this.loading = true;

@@ -9,7 +9,7 @@
   <app-page-header [heading]="'Dados do Menu'" [icon]="'fa-user'"></app-page-header>
   <div class="card bg-light mb-12">
     <div class="card-body">
-      <form [formGroup]="serviceForm" role="FormGroup">
+      <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="updateMenu()">
         <div class="form-content">
           <div class="form-group">
             <label for="">Descrição</label>

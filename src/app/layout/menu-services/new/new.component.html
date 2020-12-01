@@ -9,7 +9,7 @@
   <app-page-header [heading]="'Novo Menu'" [icon]="'fa-user'"></app-page-header>
   <div class="card bg-light mb-12">
     <div class="card-body">
-      <form [formGroup]="serviceForm" role="FormGroup">
+      <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="postMenuService()">
         <div class="form-content">
           <div class="form-group">
             <label for="">Descrição</label>
@@ -24,8 +24,8 @@
           </div>
         </div>
         <div class="pull-right">
-          <button type="button" [routerLink]="['/menu-services/get', service._id]" class="btn btn-danger"
-            style="margin-right:10px">Cancelar</button>
+          <button type="button" [routerLink]="['/menu-services']" class="btn btn-default"
+          style="float: right;margin-right: 10px;">Voltar</button>
           <button type="submit" class="btn btn-primary" [disabled]="descriptionService.invalid">
             Salvar
           </button>

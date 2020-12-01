@@ -60,10 +60,10 @@ export class ListComponent implements OnInit {
   }
 
   getMenus() {
-    this.setPageCompanyServices({ offset: 0 });
+    this.setPageMenu({ offset: 0 });
   }
 
-  setPageCompanyServices(pageInfo) {
+  setPageMenu(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
     if (this.descriptionService.valid) {

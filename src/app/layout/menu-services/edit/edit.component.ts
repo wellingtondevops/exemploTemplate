@@ -72,4 +72,19 @@ export class EditComponent implements OnInit {
     this._route.navigate(['/menu-services/edit', service]);
   }
 
+  updateMenu() {
+    this.loading = true;
+    this.menuSrv.updateService(this.serviceForm.value).subscribe(data => {
+      if (data._id) {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Menu alterado com sucesso.');
+        this._route.navigate(['/menu-services']);
+      }
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+    })
+  }
+
 }

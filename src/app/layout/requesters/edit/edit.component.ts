@@ -73,6 +73,7 @@ export class EditComponent implements OnInit {
 
   createPermission(): FormGroup {
     return this.fb.group({
+      _id: '',
       company: '',
       docts: ''
     });
@@ -86,6 +87,7 @@ export class EditComponent implements OnInit {
 
   createPermissionExist(item): FormGroup {
     return this.fb.group({
+      _id: item._id,
       company: item.company,
       docts: item.docts
     });
@@ -177,7 +179,7 @@ export class EditComponent implements OnInit {
 
   returnDoctsArray(permissions) {
     return permissions.map(item => {
-      return { company: item.company, docts: [item.docts] };
+      return { _id: item._id, company: item.company, docts: [item.docts] };
     });
   }
 

@@ -22,7 +22,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 })
 export class ListComponent implements OnInit {
   searchForm: FormGroup;
-  services: CompanyServiceSearchList;
+  services: any = [];
   page = new Page();
   loading: Boolean = true;
 
