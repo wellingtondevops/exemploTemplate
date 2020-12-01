@@ -50,7 +50,7 @@ export class CompanyServicesService {
   }
 
   updateService(service) {
-    return this.http.put<CompanyServices>(`${url}/companyservices/${service._id}`, service)
+    return this.http.patch<CompanyServices>(`${url}/companyservices/${service._id}`, service)
       .pipe(
         tap(data => data)
       );

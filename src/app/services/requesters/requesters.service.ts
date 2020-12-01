@@ -50,7 +50,7 @@ export class RequestersService {
   }
 
   updateRequester(requester) {
-    return this.http.put<Requester>(`${url}/users/requesters/${requester._id}`, requester)
+    return this.http.patch<Requester>(`${url}/users/requesters/${requester._id}`, requester)
       .pipe(
         tap(data => data)
       );

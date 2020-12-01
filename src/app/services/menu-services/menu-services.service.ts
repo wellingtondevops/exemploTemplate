@@ -50,7 +50,7 @@ export class MenuService {
   }
 
   updateService(service) {
-    return this.http.put<Menu>(`${url}/menuservices/${service._id}`, service)
+    return this.http.patch<Menu>(`${url}/menuservices/${service._id}`, service)
       .pipe(
         tap(data => data)
       );
