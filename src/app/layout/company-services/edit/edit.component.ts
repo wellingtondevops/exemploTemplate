@@ -95,6 +95,7 @@ export class EditComponent implements OnInit {
     let newItems = [];
     items.forEach((item, i) => {
       newItems.push({
+        _id: item._id,
         description: item.description.descriptionService,
         price: item.price,
       })
@@ -104,6 +105,7 @@ export class EditComponent implements OnInit {
 
   createServiceExist(item): FormGroup {
     return this.fb.group({
+      _id: item._id,
       description: item.description,
       price: item.price
     });
@@ -120,6 +122,7 @@ export class EditComponent implements OnInit {
 
   createService(): FormGroup {
     return this.fb.group({
+      _id: '',
       description: '',
       price: ''
     });
@@ -165,10 +168,17 @@ export class EditComponent implements OnInit {
     this.serviceForm.value.company = this.serviceForm.value.company._id;
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
-      var priceStr = item.price.replace(',', '.')
-      priceStr = priceStr.replace('R$', '')
-      var priceFloat = parseFloat(priceStr)
-      newArray.push({ description: item.description, price: priceFloat });
+      if (typeof(item.price) === "string") {
+        if (item.price.indexOf(',') && item.price.indexOf('R$')) {
+          var priceStr = item.price.replace(',', '.')
+          priceStr = priceStr.replace('R$', '')
+          var priceFloat = parseFloat(priceStr)
+          newArray.push({ description: item.description, price: priceFloat });
+        }
+      } else {
+        newArray.push({ description: item.description, price: item.price });
+      }
+
     });
     this.serviceForm.value.services = newArray;
   }
