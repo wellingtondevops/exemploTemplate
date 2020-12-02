@@ -16,11 +16,11 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
   animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
-  loading: boolean = false;
+  loading = false;
   serviceForm: FormGroup;
   service: Menu;
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
   id: string;
 
   constructor(
@@ -62,10 +62,10 @@ export class EditComponent implements OnInit {
       this.serviceForm.patchValue({
         _id: data._id,
         descriptionService: data.descriptionService
-      })
+      });
     }, error => {
       console.log('ERROR:', error);
-    })
+    });
   }
 
   editMenu(service) {
@@ -78,13 +78,13 @@ export class EditComponent implements OnInit {
       if (data._id) {
         this.loading = false;
         this.successMsgSrv.successMessages('Menu alterado com sucesso.');
-        this._route.navigate(['/menu-services']);
+        this._route.navigate(['/menu-services/get', data._id]);
       }
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    })
+    });
   }
 
 }

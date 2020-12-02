@@ -6,7 +6,7 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-  <app-page-header [heading]="'Novo Serviço Empresarial'" [icon]="'fa-user'"></app-page-header>
+  <app-page-header [heading]="'Valore de Serviços'" [icon]="'fa-user'"></app-page-header>
   <div style="margin-bottom: 10px" *ngIf="companyservice">
     <app-button-back [redirectTo]="'company-services'"></app-button-back>
     <app-buttons-custom [id]="companyservice._id" (edit)="editService(companyservice._id)" (delete)="open('focusFirst', companyservice._id)"

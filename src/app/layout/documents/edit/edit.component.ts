@@ -64,7 +64,7 @@ export class EditComponent implements OnInit {
       id_Structure: this.fb.control(''),
       id_child: this.fb.control(''),
       company: this.fb.control('')
-    })
+    });
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocument();
@@ -127,18 +127,18 @@ export class EditComponent implements OnInit {
     this.loading = true;
     if (this.documentForm.value.dcurrentValue > 0) {
       this.documentForm.value.label.push({
-        "namefield": "DATA DO DOCUMENTO",
-        "typeField": "DATA",
-        "uniq": true,
-        "timeControl": true
-      })
+        'namefield': 'DATA DO DOCUMENTO',
+        'typeField': 'DATA',
+        'uniq': true,
+        'timeControl': true
+      });
     } else {
       this.documentForm.value.label.filter((item, index) => {
-        console.log(item)
-        if(item.namefield === 'DATA DO DOCUMENTO') {
+        console.log(item);
+        if (item.namefield === 'DATA DO DOCUMENTO') {
           this.documentForm.value.label.splice(index, 1);
         }
-      })
+      });
     }
     const document = _.omitBy(this.documentForm.value, _.isNil);
     this.documentsSrv.updateDocument(document).subscribe(
@@ -146,7 +146,7 @@ export class EditComponent implements OnInit {
         if (data._id) {
           this.loading = false;
           this.successMsgSrv.successMessages('Documento alterada com sucesso.');
-          this._route.navigate(['/documents']);
+          this._route.navigate(['/documents/get', data._id]);
         }
       },
       error => {

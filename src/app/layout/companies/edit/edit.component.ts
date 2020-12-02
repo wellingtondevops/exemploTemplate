@@ -144,7 +144,7 @@ export class EditComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.successMsgSrv.successMessages('Empresa alterada com sucesso.');
-                    this._route.navigate(['/companies']);
+                    this._route.navigate(['/companies/get', data._id]);
                 }
             },
             error => {

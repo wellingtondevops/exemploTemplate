@@ -121,7 +121,7 @@ export class EditComponent implements OnInit {
         if (data._id) {
           this.loading = false;
           this.successMsgSrv.successMessages('Departamento alterada com sucesso.');
-          this._route.navigate(['/departaments']);
+          this._route.navigate(['/departaments/get', data._id]);
         }
       },
       error => {

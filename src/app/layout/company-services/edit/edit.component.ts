@@ -81,24 +81,24 @@ export class EditComponent implements OnInit {
         services: data.services
       });
 
-      console.log(data.services)
+      console.log(data.services);
 
       this.companyservice.services.map(item => {
         this.addServiceExist(item);
       });
     }, error => {
       console.log('ERROR:', error);
-    })
+    });
   }
 
   getDescriptionService(items) {
-    let newItems = [];
+    const newItems = [];
     items.forEach((item, i) => {
       newItems.push({
         _id: item._id,
         description: item.description.descriptionService,
         price: item.price,
-      })
+      });
     });
     return newItems;
   }
@@ -168,11 +168,11 @@ export class EditComponent implements OnInit {
     this.serviceForm.value.company = this.serviceForm.value.company._id;
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
-      if (typeof(item.price) === "string") {
+      if (typeof(item.price) === 'string') {
         if (item.price.indexOf(',') && item.price.indexOf('R$')) {
-          var priceStr = item.price.replace(',', '.')
-          priceStr = priceStr.replace('R$', '')
-          var priceFloat = parseFloat(priceStr)
+          let priceStr = item.price.replace(',', '.');
+          priceStr = priceStr.replace('R$', '');
+          const priceFloat = parseFloat(priceStr);
           newArray.push({ description: item.description, price: priceFloat });
         }
       } else {
@@ -192,7 +192,7 @@ export class EditComponent implements OnInit {
         if (data._id) {
           this.loading = false;
           this.successMsgSrv.successMessages('Serviço Empresarial alterado com sucesso.');
-          this._route.navigate(['/company-services']);
+          this._route.navigate(['/company-services/get', data._id]);
         }
       },
       error => {

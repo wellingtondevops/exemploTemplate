@@ -11,6 +11,7 @@ import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
+import { SaveLocal } from '../../../storage/saveLocal';
 
 @Component({
   selector: 'app-list',
@@ -39,7 +40,7 @@ export class ListComponent implements OnInit {
     /* { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
   loading: Boolean = true;
-  permissionNew: boolean = false;
+  permissionNew = false;
 
   constructor(
     private _route: Router,
@@ -48,6 +49,7 @@ export class ListComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private pipes: Pipes,
     private fb: FormBuilder,
+    private localStorageSrv: SaveLocal
   ) { }
 
   ngOnInit() {
@@ -59,7 +61,7 @@ export class ListComponent implements OnInit {
       company: this.fb.control(null, [Validators.required]),
     });
     this.getDocuments();
-    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
 
   get company() {

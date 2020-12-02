@@ -40,7 +40,7 @@
         </div>
       </div>
       <br>
-      <div class="col-lg-4">
+      <div class="col-lg-4" >
         <h5>ÍNDICES</h5>
       </div>
       <div class="card bg-light mb-12">
@@ -63,10 +63,10 @@
     </div>
   </div>
   <br>
-  <div class="col-lg-4">
+  <div class="col-lg-4" *ngIf="!loading">
     <h5>TEMPORALIDADE</h5>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="!loading">
     <div class="col-lg-4" style="display: flex;">
       <div class="col-xs-4">
         <div class="card bg-light">
