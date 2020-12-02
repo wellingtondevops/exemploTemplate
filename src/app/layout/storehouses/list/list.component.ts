@@ -40,7 +40,7 @@ export class ListComponent implements OnInit {
   loading: Boolean = true;
 
   columns = [{ name: 'Nome', prop: 'name' }, { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
-  permissionNew: boolean = false;
+  permissionNew = false;
 
   constructor(
     private _route: Router,
@@ -61,7 +61,7 @@ export class ListComponent implements OnInit {
       name: this.fb.control(null),
     });
     this.getStoreHouses();
-    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
 
   getStoreHouse(storeHouse) {

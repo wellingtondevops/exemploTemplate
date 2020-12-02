@@ -71,7 +71,7 @@ export class EditComponent implements OnInit {
                     name: { value: this.storeHouse.name, disabled: true }
                 });
                 this.successMsgSrv.successMessages('Depósito alterado com sucesso.');
-                this._route.navigate(['/storehouses']);
+                this._route.navigate(['/storehouses/get', data._id]);
             },
             error => {
                 this.loading = false;

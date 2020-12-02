@@ -1,4 +1,4 @@
-<div class="file-drop-area">
+<!-- <div class="file-drop-area"> -->
     <!--  <div class="row">
         <div class="col-lg-6">
             <!-- <h5>Arquivo</h5> -->
@@ -52,6 +52,7 @@
                 style="margin-right: 10px; width: 100%"
             />
         </div>
+        <br>
         <!-- Abaixo é possivel controlar a exibição dos botões -->
         <div *ngIf="isPdf && urlFile" style="width: 100%; height: 510px">
             <ngx-extended-pdf-viewer
@@ -65,7 +66,8 @@
                 [showPresentationModeButton]="false"
                 [printResolution]="300"
                 [useBrowserLocale]="true"
-                [height]="'80vh'"
+                [height]="'90vh'"
+
 
             ></ngx-extended-pdf-viewer>
         </div>
@@ -77,4 +79,4 @@
             <input class="file-input" type="file" />
         </div>
     </div>
-</div>
+<!-- </div> -->

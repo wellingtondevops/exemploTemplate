@@ -187,7 +187,7 @@ export class EditComponent implements OnInit {
       if (data._id) {
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
-        this._route.navigate(['/archives']);
+        this._route.navigate(['/archives/get', data._id]);
       }
     }, error => {
       this.loading = false;
@@ -258,7 +258,7 @@ export class EditComponent implements OnInit {
     });
   }
 
-  editArchive(archive){
+  editArchive(archive) {
     this._route.navigate(['/archives/edit', archive]);
   }
 }

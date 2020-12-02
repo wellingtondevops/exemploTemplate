@@ -225,6 +225,6 @@ export class ShowComponent implements OnInit {
   }
 
   editArchive(archive) {
-    this._route.navigate(['/archives/edit', archive])
+    this._route.navigate(['/archives/edit', archive]);
   }
 }

@@ -6,7 +6,7 @@
   tertiaryColour: '#222'
 }"></ngx-loading>
 <div [@routerTransition]>
-  <app-page-header [heading]="'Estrutura Documental'" [icon]="'fa-paper'"></app-page-header>
+  <app-page-header [heading]="'Plano de Classificação'" [icon]="'fa-paper'"></app-page-header>
   <div style="margin-bottom: 10px" *ngIf="documentStructur">
     <app-button-back [redirectTo]="'documents-structur'"></app-button-back>
     <app-buttons-custom [id]="documentStructur._id" (edit)="editDocumentStructur(documentStructur._id)"

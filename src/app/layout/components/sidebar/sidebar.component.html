@@ -109,6 +109,11 @@
       <i class="fa fa-truck"></i>&nbsp;
       <span>{{ "Movimentações" | translate }}</span>
     </a>
+    <a *ngIf="isReports" [routerLink]="['*']" [routerLinkActive]="['router-link-active']"
+    class="list-group-item">
+    <i class="fa fa-bars"></i>&nbsp;
+    <span>{{ "Relatórios" | translate }}</span>
+  </a>
     <div *ngIf="isUsers || isTemplates" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('pages')">
         <i class="fa fa-cog"></i>&nbsp;
@@ -135,7 +140,7 @@
           <li>
             <a *ngIf="isMenuService" [routerLink]="['/company-services']">
               <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ "Serviços Empresariais" | translate }}</span>
+              <span>{{ "Valores dos Serviços" | translate }}</span>
             </a>
           </li>
         </ul>
@@ -143,18 +148,18 @@
           <li>
             <a *ngIf="isMenuService" [routerLink]="['/menu-services']">
               <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ "Menu" | translate }}</span>
+              <span>{{ "Serviços" | translate }}</span>
             </a>
           </li>
         </ul>
-        <ul class="submenu">
+        <!-- <ul class="submenu">
           <li>
             <a *ngIf="isCompanyService" [routerLink]="['#']">
               <i class="fa fa-monument"></i>&nbsp;
               <span>{{ "Cadastro de Valores" | translate }}</span>
             </a>
           </li>
-        </ul>
+        </ul> -->
       </li>
     </div>
   </div>

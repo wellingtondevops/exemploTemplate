@@ -234,12 +234,12 @@ export class EditComponent implements OnInit {
           permissions: this.requester.permissions
         });
 
-        this._route.navigate(['/requesters']);
+        this._route.navigate(['/requesters/get', data._id]);
       }, error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
-      })
+      });
   }
 
 }
