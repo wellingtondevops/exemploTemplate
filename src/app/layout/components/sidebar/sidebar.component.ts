@@ -34,7 +34,8 @@ export class SidebarComponent implements OnInit {
   isCompanyService = false;
   isCompanyServicesShows = false;
   isMoves = false ;
-  isReports = false;
+  isReport = false;
+  isTotalCollection = false;
 
 
 
@@ -74,7 +75,8 @@ export class SidebarComponent implements OnInit {
     this.isCompanyService = this.isCompanyServices();
     this.isCompanyServicesShows = this.isCompanyServicesShow();
     this.isMoves = this.isMove();
-    this.isReports = this.isReport();
+    this.isReport = this.isReports();
+    this.isTotalCollection = this.isTotalCollections();
   }
 
   eventCalled() {
@@ -107,14 +109,20 @@ export class SidebarComponent implements OnInit {
     }
     return res;
   }
-  isReport() {
+  isReports() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].reports) {
       res = true;
     }
     return res;
   }
-
+  isTotalCollections() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].totalcollection) {
+      res = true;
+    }
+    return res;
+  }
   isTywin() {
     let res = false;
     JSON.parse(window.localStorage.getItem('profiles')).map(item => {
