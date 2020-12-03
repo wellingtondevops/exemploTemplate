@@ -109,11 +109,36 @@
       <i class="fa fa-truck"></i>&nbsp;
       <span>{{ "Movimentações" | translate }}</span>
     </a>
-    <a *ngIf="isReports" [routerLink]="['*']" [routerLinkActive]="['router-link-active']"
-    class="list-group-item">
+
+
+
+
+
+
+
+  <div *ngIf="isReport" class="nested-menu"
+  [routerLinkActive]="['router-link-active']">
+  <a class="list-group-item" (click)="addExpandClass('relatorios')">
     <i class="fa fa-bars"></i>&nbsp;
     <span>{{ "Relatórios" | translate }}</span>
   </a>
+  <li class="nested" [class.expand]="showMenu === 'relatorios'">
+    <ul class="submenu">
+      <li *ngIf="isTotalCollection">
+        <a [routerLink]="['*']" class="list-group-item">
+          <i class="fa fa-sticky-note"></i>&nbsp;
+          <span>{{ "Totais do Acervo" | translate }}</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+</div>
+
+
+
+
+
+
     <div *ngIf="isUsers || isTemplates" class="nested-menu" [routerLinkActive]="['router-link-active']">
       <a class="list-group-item" (click)="addExpandClass('pages')">
         <i class="fa fa-cog"></i>&nbsp;
