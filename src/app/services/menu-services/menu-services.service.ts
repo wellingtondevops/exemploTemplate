@@ -28,6 +28,12 @@ export class MenuService {
     }
   }
 
+  listSelect() {
+    return this.http.get<MenuList>(`${url}/menuservices?_page=0`).pipe(
+      tap(data => data)
+    );
+  }
+
   newService(service) {
     return this.http.post<Menu>(`${url}/menuservices`, service)
       .pipe(

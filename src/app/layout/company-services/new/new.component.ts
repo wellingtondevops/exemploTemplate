@@ -11,6 +11,8 @@ import _ from 'lodash';
 import { CompanyServicesService } from 'src/app/services/company-services/company-services.service';
 import { CurrencyPipe } from '@angular/common';
 import { Masks } from 'src/app/utils/masks';
+import { MenuService } from 'src/app/services/menu-services/menu-services.service';
+import { MenuList } from 'src/app/models/menu';
 
 @Component({
   selector: 'app-new',
@@ -28,6 +30,7 @@ export class NewComponent implements OnInit {
   searchSubscribe = '';
   services: any = [];
   userExternal = false;
+  menuServices: any = [];
   // public mask = [/[1-4]/, /\d/, /\d/, /\d/, ',',/\d/,/\d/]
 
   constructor(
@@ -38,7 +41,8 @@ export class NewComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
     private companyServiceSrv: CompanyServicesService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private menuSrv: MenuService
   ) {
   }
 
@@ -49,33 +53,12 @@ export class NewComponent implements OnInit {
     });
     this.getCompanies();
     this.addService();
+    this.getMenuServices();
   }
-
-  /* changePrice(event) {
-    return `${event.target.value}-teste`
-  }
-
-
-  onValueChanged(data?: any): void {
-    var diff = _.omitBy(data, function (v, k) {
-      // console.log(k, v)
-      console.log(this.services.value)
-      this.services[k] = `${v}-teste`
-      //return lastFormValue[k] === v;
-    });
-    console.log(this.services)
-    this.serviceForm.setValue({
-      services: this.services
-    })
-    //this.lastFormValue = this.myFormArray.value; // Update for future requests
-    // diff will contain the properties if the form that changed.
-
-  } */
 
   get company() {
     return this.serviceForm.get('company');
   }
-
 
   createService(): FormGroup {
     return this.fb.group({
@@ -83,8 +66,6 @@ export class NewComponent implements OnInit {
       price: ''
     });
   }
-
-
 
   addService(): void {
     this.services = this.serviceForm.get('services') as FormArray;
@@ -94,8 +75,6 @@ export class NewComponent implements OnInit {
   removeService(e) {
     this.services.removeAt(e);
   }
-
-
 
   formatter = (x: { name: string }) => x.name;
 
@@ -132,7 +111,28 @@ export class NewComponent implements OnInit {
       newArray.push({ description: item.description, price: priceFloat });
     });
     this.serviceForm.value.services = newArray;
-  } 
+  }
+
+  formatterMenuService = (x: { descriptionService: string }) => x.descriptionService;
+
+  getMenuServices () {
+    this.menuSrv.listSelect().subscribe(data => {
+      this.menuServices = data.items
+    }, error => {
+      console.log('ERROR: ', error)
+    })
+  }
+
+  searchMenu = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(menu => {
+        let res;
+        if (menu.length < 2) { []; } else { res = _.filter(this.menuServices, v => v.descriptionService.toLowerCase().indexOf(menu.toLowerCase()) > -1).slice(0, 10); }
+        return res;
+      })
+    )
 
   postCompanyService() {
     this.loading = true;

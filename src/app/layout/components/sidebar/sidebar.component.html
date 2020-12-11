@@ -110,29 +110,22 @@
       <span>{{ "Movimentações" | translate }}</span>
     </a>
 
-
-
-
-
-
-
-  <div *ngIf="isReport" class="nested-menu"
-  [routerLinkActive]="['router-link-active']">
-  <a class="list-group-item" (click)="addExpandClass('relatorios')">
-    <i class="fa fa-bars"></i>&nbsp;
-    <span>{{ "Relatórios" | translate }}</span>
-  </a>
-  <li class="nested" [class.expand]="showMenu === 'relatorios'">
-    <ul class="submenu">
-      <li *ngIf="isTotalCollection">
-        <a [routerLink]="['*']" class="list-group-item">
-          <i class="fa fa-sticky-note"></i>&nbsp;
-          <span>{{ "Totais do Acervo" | translate }}</span>
-        </a>
+    <div *ngIf="isReport" class="nested-menu" [routerLinkActive]="['router-link-active']">
+      <a class="list-group-item" (click)="addExpandClass('relatorios')">
+        <i class="fa fa-bars"></i>&nbsp;
+        <span>{{ "Relatórios" | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'relatorios'">
+        <ul class="submenu">
+          <li *ngIf="isTotalCollection">
+            <a [routerLink]="['/reports']" class="list-group-item">
+              <i class="fa fa-sticky-note"></i>&nbsp;
+              <span>{{ "Totais do Acervo" | translate }}</span>
+            </a>
+          </li>
+        </ul>
       </li>
-    </ul>
-  </li>
-</div>
+    </div>
 
 
 
