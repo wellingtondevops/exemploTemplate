@@ -7,10 +7,12 @@ import { ButtonBackModule, ButtonsCustomModule, DatatablesModule, PageHeaderModu
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [ReportsComponent],
   imports: [
+    NgxPrintModule,
     NgbModule,
     CommonModule,
     ReportsRoutingModule,
