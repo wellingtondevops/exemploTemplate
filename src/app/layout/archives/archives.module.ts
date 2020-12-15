@@ -11,6 +11,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
 import { EditComponent } from './edit/edit.component';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent],
@@ -28,6 +29,7 @@ import { EditComponent } from './edit/edit.component';
     FormIndexModule,
     ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({}),
-  ]
+  ],
+  providers: [CaseInsensitive]
 })
 export class ArchivesModule { }
