@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
 import { routerTransition } from 'src/app/router.animations';
+import { CaseInsensitive } from '../../../utils/case-insensitive'
 
 @Component({
   selector: 'app-new',
@@ -31,7 +32,8 @@ export class NewComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private utilCase: CaseInsensitive
   ) {
     this.departamentForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
@@ -95,7 +97,7 @@ export class NewComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res;
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )

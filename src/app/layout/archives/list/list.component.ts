@@ -17,6 +17,7 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
+import { CaseInsensitive } from '../../../utils/case-insensitive'
 
 @Component({
   selector: 'app-list',
@@ -64,6 +65,7 @@ export class ListComponent implements OnInit {
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
     private localStorageSrv: SaveLocal,
+    private utilCase: CaseInsensitive,
     config: NgbTypeaheadConfig
   ) {
     config.showHint = true;
@@ -282,7 +284,7 @@ export class ListComponent implements OnInit {
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map(departament => (departament === '' ? this.departaments
-        : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+        : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
       )));
   }
 
@@ -306,7 +308,7 @@ export class ListComponent implements OnInit {
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map(storehouse => (storehouse === '' ? this.storehouses
-        : _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+        : _.filter(this.storehouses, v => this.utilCase.replaceSpecialChars(v.name.toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
       )));
   }
 
