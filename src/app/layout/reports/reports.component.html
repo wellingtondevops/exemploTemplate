@@ -55,7 +55,8 @@
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary"> Pesquisar</button>
-                <button *ngIf="reports" style="margin-left: 10px" class="btn btn-primary" printSectionId="print-section" ngxPrint>Imprimir Relatório</button>
+                <button *ngIf="reports" style="margin-left: 10px" class="btn btn-primary" printSectionId="print-section"
+                  ngxPrint>Imprimir Relatório</button>
               </div>
             </form>
           </ng-template>
@@ -68,18 +69,24 @@
     <div class="col-lg-12">
       <div style="margin-top: 15px" id="print-section">
         <div class="card">
-          <div class="card-header">
-            Relatório de Fechamento
-          </div>
+          <div class="card-header"><b>Cliente</b></div>
           <div class="card-body">
-            <span><b>Cliente: {{ reports.companyName }}</b></span>
+            <span><b>{{ reports.companyName }}</b></span>
             <span class="pull-right"><b>Período: {{ reports.initialPeriod }} À {{ reports.finalPeriod }}</b></span>
             <br />
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-header">
+            <b>Descrição</b>
+          </div>
+          <div class="card-body">
             <table class="table">
               <thead>
                 <tr>
                   <th>
-                    Descrição
+
                   </th>
                   <th>
                     Totais do Acervo
@@ -92,20 +99,22 @@
               <tbody>
                 <tr>
                   <td>Volumes</td>
-                  <td>Arquivos</td>
-                  <td>Total de Páginas Digitalizadas no Período</td>
-                  <td>Espaço de Armazenamento Utilizado</td>
+                  <td>{{ reports.totalDepartamentVolumes }}</td>
+                  <td>{{ reports.peridoDepartamentVolumes }}</td>
                 </tr>
                 <tr>
-                  <td>{{ reports.totalDepartamentVolumes }}</td>
+                  <td>Arquivos</td>
                   <td>{{ reports.totalDocumentArchives }}</td>
                   <td>{{ reports.totalDocumentPages }}</td>
-                  <td>{{ reports.usedSpace }}</td>
                 </tr>
                 <tr>
-                  <td>{{ reports.peridoDepartamentVolumes }}</td>
+                  <td>Total de Páginas Digitalizadas no Período</td>
                   <td>{{ reports.periodDocumentArchives }}</td>
                   <td>{{ reports.periodDocumentPages }}</td>
+                </tr>
+                <tr>
+                  <td>Espaço de Armazenamento Utilizado</td>
+                  <td>{{ reports.usedSpace }}</td>
                 </tr>
               </tbody>
             </table>
@@ -145,6 +154,13 @@
                   <td>{{ departament.totalArchives}}</td>
                   <td>{{ departament.periodArchives}}</td>
                 </tr>
+                <tr>
+                  <td>Totais</td>
+                  <td>{{ reports.totalDepartamentVolumes }}</td>
+                  <td>{{ reports.peridoDepartamentVolumes }}</td>
+                  <td>{{ reports.totalDepartamentArchives }}</td>
+                  <td>{{ reports.peridoDepartamentArchives }}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -182,6 +198,13 @@
                   <td>{{ document.periodArquivos}}</td>
                   <td>{{ document.totalPageArchive}}</td>
                   <td>{{ document.periodPageArchive}}</td>
+                </tr>
+                <tr>
+                  <td>Totais</td>
+                  <td>{{ reports.totalDocumentArchives }}</td>
+                  <td>{{ reports.periodDocumentArchives }}</td>
+                  <td>{{ reports.totalDocumentPages }}</td>
+                  <td>{{ reports.periodDocumentPages }}</td>
                 </tr>
               </tbody>
             </table>
