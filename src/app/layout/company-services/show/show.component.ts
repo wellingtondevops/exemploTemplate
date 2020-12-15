@@ -33,9 +33,9 @@ export class ShowComponent implements OnInit {
   searchSubscribe = '';
   services: any = [];
   userExternal = false;
-  public mask = [/[1-4]/, /\d/, /\d/, /\d/, ',', /\d/, /\d/]
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
+  public mask = [/[1-4]/, /\d/, /\d/, /\d/, ',', /\d/, /\d/];
+  permissionEdit = false;
+  permissionDelete = false;
   id: any;
 
 
@@ -55,7 +55,7 @@ export class ShowComponent implements OnInit {
 
   ngOnInit() {
     this.serviceForm = this.fb.group({
-      company: this.fb.control({ value: '', disabled: true },[Validators.required]),
+      company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       services: this.fb.array(this.services)
     });
     this.id = this.route.snapshot.paramMap.get('id');
@@ -65,7 +65,7 @@ export class ShowComponent implements OnInit {
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
   }
 
-  editService(service){
+  editService(service) {
     this._route.navigate(['/company-services/edit', service]);
   }
 
@@ -90,16 +90,16 @@ export class ShowComponent implements OnInit {
 
     }, error => {
       console.log('ERROR:', error);
-    })
+    });
   }
 
   getDescriptionService(items) {
-    let newItems = [];
+    const newItems = [];
     items.forEach((item, i) => {
       newItems.push({
         description: item.description.descriptionService,
         price: item.price,
-      })
+      });
     });
     return newItems;
   }
@@ -167,8 +167,8 @@ export class ShowComponent implements OnInit {
     this.serviceForm.value.company = this.serviceForm.value.company._id;
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
-      var priceStr = item.price.replace(',', '.')
-      var priceFloat = parseFloat(priceStr)
+      const priceStr = item.price.replace(',', '.');
+      const priceFloat = parseFloat(priceStr);
       newArray.push({ description: item.description, price: priceFloat });
     });
     this.serviceForm.value.services = newArray;
