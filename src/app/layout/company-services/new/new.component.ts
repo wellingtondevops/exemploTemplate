@@ -105,9 +105,9 @@ export class NewComponent implements OnInit {
     this.serviceForm.value.company = this.serviceForm.value.company._id;
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
-      var priceStr = item.price.replace(',','.')
-      priceStr = priceStr.replace('R$', '')
-      var priceFloat = parseFloat(priceStr)
+      let priceStr = item.price.replace(',', '.');
+      priceStr = priceStr.replace('R$', '');
+      const priceFloat = parseFloat(priceStr);
       newArray.push({ description: item.description, price: priceFloat });
     });
     this.serviceForm.value.services = newArray;
@@ -117,10 +117,10 @@ export class NewComponent implements OnInit {
 
   getMenuServices () {
     this.menuSrv.listSelect().subscribe(data => {
-      this.menuServices = data.items
+      this.menuServices = data.items;
     }, error => {
-      console.log('ERROR: ', error)
-    })
+      console.log('ERROR: ', error);
+    });
   }
 
   searchMenu = (text$: Observable<string>) =>
