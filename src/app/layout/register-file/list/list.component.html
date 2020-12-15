@@ -115,7 +115,7 @@
                       <br>
                       <br>
                       <p>Insira os dados do documento abaixo ou importe um arquivo xlsx</p>
-                      <app-form-index [data]="document" [isArchive]="false" (sendArchive)="postArchive($event)">
+                      <app-form-index [data]="document"  [edit]="true" [isArchive]="false" (sendArchive)="postArchive($event)">
                       </app-form-index>
                       <br>
                     </div>
