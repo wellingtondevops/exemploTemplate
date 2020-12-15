@@ -153,6 +153,8 @@ export class ListComponent implements OnInit {
 
   formatter = (x: { name: string }) => x.name;
 
+  
+
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
