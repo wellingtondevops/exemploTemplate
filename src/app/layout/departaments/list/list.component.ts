@@ -29,7 +29,16 @@ export class ListComponent implements OnInit {
   searchForm: FormGroup;
   height: any;
   loading: Boolean = true;
-  departaments: DepartamentList;
+  departaments: DepartamentList = {
+    _links: {
+      currentPage: 0,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    },
+    items: []
+  };
   page = new Page();
   companies: any = [];
   columns = [

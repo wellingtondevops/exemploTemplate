@@ -12,6 +12,7 @@ import _ from 'lodash';
 import * as moment from 'moment';
 import { routerTransition } from 'src/app/router.animations';
 import { Masks } from 'src/app/utils/masks';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-edit',
@@ -44,7 +45,8 @@ export class EditComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
     private companyServiceSrv: CompanyServicesService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private utilCase: CaseInsensitive
   ) {
   }
 
@@ -159,7 +161,7 @@ export class EditComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res;
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )

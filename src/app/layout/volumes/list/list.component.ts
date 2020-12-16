@@ -21,6 +21,7 @@ import _ from 'lodash';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { SaveLocal } from '../../../storage/saveLocal'
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 
 const MODALS = {
@@ -83,7 +84,8 @@ export class ListComponent implements OnInit {
     private storehousesSrv: StorehousesService,
     private documentsSrv: DocumentsService,
     private warningMsg: WarningMessagesService,
-    private localStorageSrv: SaveLocal
+    private localStorageSrv: SaveLocal,
+    private utilCase: CaseInsensitive
   ) {
     this.guardTypeList = GuardyTypeVolumeEnum;
   }
@@ -254,7 +256,7 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res = [];
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -282,7 +284,7 @@ export class ListComponent implements OnInit {
           return;
         }
         let res;
-        if (departament.length < 2) { []; } else { res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10); }
+        if (departament.length < 2) { []; } else { res = _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -306,7 +308,7 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
       map(storehouse => {
         let res;
-        if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10); }
+        if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )

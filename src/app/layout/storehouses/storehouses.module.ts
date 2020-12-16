@@ -10,6 +10,7 @@ import { EditComponent } from './edit/edit.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgxLoadingModule } from 'ngx-loading';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EditComponent],
@@ -26,6 +27,6 @@ import { NgxLoadingModule } from 'ngx-loading';
         ButtonBackModule,
         NgxLoadingModule.forRoot({})
     ],
-    providers: [NgbActiveModal]
+    providers: [NgbActiveModal, CaseInsensitive]
 })
 export class StorehousesModule {}

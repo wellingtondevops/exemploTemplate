@@ -15,6 +15,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import _ from 'lodash';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -56,7 +57,8 @@ export class ListComponent implements OnInit {
     private modalService: NgbModal,
     public modal: NgbActiveModal,
     private fb: FormBuilder,
-    private companiesSrv: CompaniesService
+    private companiesSrv: CompaniesService,
+    private utilCase: CaseInsensitive
   ) { }
 
   ngOnInit() {
@@ -118,7 +120,7 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         if (company.length < 1) { []; }
-        return _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
 
       })
     )

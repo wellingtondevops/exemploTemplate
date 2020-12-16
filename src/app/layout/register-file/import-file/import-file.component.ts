@@ -18,6 +18,7 @@ const url = environment.apiUrl;
 import _ from 'lodash';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { FilesService } from 'src/app/services/files/files.service';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-import-file',
@@ -74,6 +75,7 @@ export class ImportFileComponent implements OnInit {
     private departamentsSrv: DepartamentsService,
     private archivesSrv: ArquivesService,
     private filesSrv: FilesService,
+    private utilCase: CaseInsensitive
   ) {
     this.importFileForm = this.fb.group({
       company: this.fb.control('', [Validators.required]),
@@ -236,7 +238,7 @@ export class ImportFileComponent implements OnInit {
       map(storehouse =>
         storehouse.length < 2
           ? []
-          : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+          : _.filter(this.storeHouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
       )
     )
 
@@ -246,7 +248,7 @@ export class ImportFileComponent implements OnInit {
       distinctUntilChanged(),
       map(typeDocument => {
         let res;
-        if (typeDocument.length < 2) { []; } else { res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10); }
+        if (typeDocument.length < 2) { []; } else { res = _.filter(this.typeDocuments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(typeDocument.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -262,7 +264,7 @@ export class ImportFileComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res = [];
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )

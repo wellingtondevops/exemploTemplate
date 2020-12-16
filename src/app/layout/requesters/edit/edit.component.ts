@@ -12,6 +12,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import * as moment from 'moment';
 import _ from 'lodash';
 import { routerTransition } from 'src/app/router.animations';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-edit',
@@ -38,6 +39,7 @@ export class EditComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
     private documentsSrv: DocumentsService,
+    private utilCase: CaseInsensitive
   ) { }
 
   ngOnInit() {
@@ -130,7 +132,7 @@ export class EditComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res;
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -172,7 +174,7 @@ export class EditComponent implements OnInit {
       distinctUntilChanged(),
       map(document => {
         let res;
-        if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10); }
+        if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )

@@ -20,6 +20,7 @@ import _ from 'lodash';
 import { Doctype } from 'src/app/models/doctype';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 
 interface Alert {
@@ -127,7 +128,8 @@ export class ListComponent implements OnInit {
     private registerSrv: RegistersService,
     private archivesSrv: ArquivesService,
     private warningMsgSrv: WarningMessagesService,
-    private departamentsSrv: DepartamentsService
+    private departamentsSrv: DepartamentsService,
+    private utilCase: CaseInsensitive
   ) { }
 
   ngOnInit() {
@@ -412,7 +414,7 @@ export class ListComponent implements OnInit {
       map(storehouse =>
         storehouse.length < 2
           ? []
-          : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+          : _.filter(this.storeHouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
       )
     )
 
@@ -422,7 +424,7 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
       map(typeDocument => {
         let res;
-        if (typeDocument.length < 2) { []; } else { res = _.filter(this.typeDocuments, v => v.name.toLowerCase().indexOf(typeDocument.toLowerCase()) > -1).slice(0, 10); }
+        if (typeDocument.length < 2) { []; } else { res = _.filter(this.typeDocuments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(typeDocument.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -433,7 +435,7 @@ export class ListComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res = [];
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         if (res.length > 0) {
           this.getDepartaments(res[0]._id);
         }
@@ -448,7 +450,7 @@ export class ListComponent implements OnInit {
       map(departament =>
         departament.length < 2
           ? []
-          : _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10)
+          : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
       )
     )
 }

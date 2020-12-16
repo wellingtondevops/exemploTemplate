@@ -10,6 +10,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
@@ -25,6 +26,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ButtonsCustomModule,
     ButtonBackModule,
     NgxLoadingModule.forRoot({})
-  ]
+  ],
+  providers: [CaseInsensitive]
 })
 export class DocumentsModule { }

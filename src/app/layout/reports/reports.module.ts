@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPrintModule } from 'ngx-print';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [ReportsComponent],
@@ -24,6 +25,7 @@ import { NgxPrintModule } from 'ngx-print';
     ButtonsCustomModule,
     ButtonBackModule,
     NgxLoadingModule.forRoot({})
-  ]
+  ],
+  providers: [CaseInsensitive]
 })
 export class ReportsModule { }
