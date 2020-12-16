@@ -13,6 +13,7 @@ import { CurrencyPipe } from '@angular/common';
 import { Masks } from 'src/app/utils/masks';
 import { MenuService } from 'src/app/services/menu-services/menu-services.service';
 import { MenuList } from 'src/app/models/menu';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-new',
@@ -42,7 +43,8 @@ export class NewComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private companyServiceSrv: CompanyServicesService,
     private currencyPipe: CurrencyPipe,
-    private menuSrv: MenuService
+    private menuSrv: MenuService,
+    private utilCase: CaseInsensitive
   ) {
   }
 
@@ -96,7 +98,7 @@ export class NewComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res;
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )

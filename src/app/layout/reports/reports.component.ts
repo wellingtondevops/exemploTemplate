@@ -12,6 +12,7 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 import _ from 'lodash'
 import * as moment from 'moment'
 import { ReportsService } from 'src/app/services/reports/reports.service';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-reports',
@@ -32,7 +33,8 @@ export class ReportsComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private pipes: Pipes,
     private fb: FormBuilder,
-    private localStorageSrv: SaveLocal
+    private localStorageSrv: SaveLocal,
+    private utilCase: CaseInsensitive
   ) { }
 
   ngOnInit() {
@@ -87,7 +89,7 @@ export class ReportsComponent implements OnInit {
       map(company => {
         const res = [];
         if (company.length < 2) { []; }
-        return _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
       })
     )
 

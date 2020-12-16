@@ -13,6 +13,7 @@ import { AlterPasswordComponent } from './alter-password/alter-password.componen
 import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
     declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
@@ -31,6 +32,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
         TypeaheadModule,
         NgxLoadingModule.forRoot({})
     ],
-    providers: [NgbActiveModal]
+    providers: [NgbActiveModal, CaseInsensitive]
 })
 export class UsersModule {}

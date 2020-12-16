@@ -12,6 +12,7 @@ import { ImportFileComponent } from './import-file/import-file.component';
 import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
 import { ModalImportRightBottomModule } from 'src/app/shared/modules/modal-import-right-bottom/modal-import-right-bottom.module';
 import { ErrorsArchivesComponent } from './errors-archives/errors-archives.component';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [ListComponent, EnumToArrayPipe, ImportFileComponent, ErrorsArchivesComponent],
@@ -32,6 +33,6 @@ import { ErrorsArchivesComponent } from './errors-archives/errors-archives.compo
     ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [NgbActiveModal]
+  providers: [NgbActiveModal, CaseInsensitive]
 })
 export class RegisterFileModule { }

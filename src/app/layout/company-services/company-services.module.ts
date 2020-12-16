@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MenuServicesRoutingModule } from '../menu-services/menu-services-routing.module';
 import { CompanyServicesRoutingModule } from './company-services-routing.module';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, EditComponent, NewComponent],
@@ -31,6 +32,6 @@ import { CompanyServicesRoutingModule } from './company-services-routing.module'
     TextMaskModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [NgbActiveModal, CurrencyPipe]
+  providers: [NgbActiveModal, CurrencyPipe, CaseInsensitive]
 })
 export class CompanyServicesModule { }

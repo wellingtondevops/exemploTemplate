@@ -9,6 +9,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-edit',
@@ -30,6 +31,7 @@ export class EditComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
+    private utilCase: CaseInsensitive
   ) {
     this.departamentForm = this.fb.group({
       _id: this.fb.control(''),
@@ -106,7 +108,7 @@ export class EditComponent implements OnInit {
         if (company.length < 2) {
           [];
         } else {
-          res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+          res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
         }
         return res;
       })

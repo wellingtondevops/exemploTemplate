@@ -16,6 +16,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { Router } from '@angular/router';
 import { Page } from 'src/app/models/page';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
     selector: 'app-new',
@@ -46,7 +47,8 @@ export class NewComponent implements OnInit {
         private companiesSrv: CompaniesService,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private utilCase: CaseInsensitive
     ) {
         this.statusList = StatusVolumeEnum;
         this.volumeTypeList = VolumeTypeEnum;
@@ -196,7 +198,7 @@ export class NewComponent implements OnInit {
             map(storehouse =>
                 storehouse.length < 2
                     ? []
-                    : _.filter(this.storeHouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10)
+                    : _.filter(this.storeHouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
             )
         )
 
@@ -211,7 +213,7 @@ export class NewComponent implements OnInit {
                 if (company.length < 2) {
                     res = [];
                 } else {
-                    res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+                    res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
                     if (res[0]._id) {
                         this.getDepartament(res[0]._id);
                     }
@@ -229,7 +231,7 @@ export class NewComponent implements OnInit {
                 if (departament.length < 2) {
                     res = [];
                 } else {
-                    res = _.filter(this.departaments, v => v.name.toLowerCase().indexOf(departament.toLowerCase()) > -1).slice(0, 10);
+                    res = _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10);
                 }
                 return res;
             })

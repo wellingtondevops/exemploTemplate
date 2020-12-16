@@ -13,6 +13,7 @@ import _ from 'lodash';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { TypeaheadSettings } from 'ngx-type-ahead';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-new',
@@ -38,6 +39,7 @@ export class NewComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private documentsSrv: DocumentsService,
     private config: NgSelectConfig,
+    private utilCase: CaseInsensitive
   ) { }
 
   ngOnInit() {
@@ -106,7 +108,7 @@ export class NewComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res;
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -135,7 +137,7 @@ export class NewComponent implements OnInit {
         distinctUntilChanged(),
         map(document => {
           let res;
-          if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10); }
+          if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
           return res;
         })
       )

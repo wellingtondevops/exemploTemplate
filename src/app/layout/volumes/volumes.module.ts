@@ -14,6 +14,7 @@ import { ImportVolumeComponent } from './import-volume/import-volume.component';
 import { ModalImportRightBottomModule } from 'src/app/shared/modules/modal-import-right-bottom/modal-import-right-bottom.module';
 import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent, ErrorsVolumesComponent],
   imports: [
@@ -31,6 +32,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     ButtonsCustomModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [NgbActiveModal]
+  providers: [NgbActiveModal, CaseInsensitive]
 })
 export class VolumesModule { }

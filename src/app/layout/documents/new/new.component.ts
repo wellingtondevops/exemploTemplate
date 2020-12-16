@@ -13,6 +13,7 @@ import _ from 'lodash';
 import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentStructur, Topic } from 'src/app/models/document-structur';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-new',
@@ -41,7 +42,8 @@ export class NewComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
-    private doctStructsSrv: DocumentsStructurService
+    private doctStructsSrv: DocumentsStructurService,
+    private utilCase: CaseInsensitive
   ) {
 
   }
@@ -146,7 +148,7 @@ export class NewComponent implements OnInit {
       distinctUntilChanged(),
       map(doctStruct => {
         let res;
-        if (doctStruct.length < 2) { []; } else { res = _.filter(this.doctStructs, v => v.structureName.toLowerCase().indexOf(doctStruct.toLowerCase()) > -1).slice(0, 10); }
+        if (doctStruct.length < 2) { []; } else { res = _.filter(this.doctStructs, v => (this.utilCase.replaceSpecialChars(v.structureName).toLowerCase().indexOf(doctStruct.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -157,7 +159,7 @@ export class NewComponent implements OnInit {
       distinctUntilChanged(),
       map(company => {
         let res;
-        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
+        if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )

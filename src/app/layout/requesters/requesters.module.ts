@@ -10,6 +10,7 @@ import { ButtonBackModule, ButtonsCustomModule, DatatablesModule, PageHeaderModu
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, EditComponent, NewComponent],
@@ -27,6 +28,6 @@ import { TypeaheadModule } from 'ngx-type-ahead';
     TypeaheadModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [NgbActiveModal]
+  providers: [NgbActiveModal, CaseInsensitive]
 })
 export class RequestersModule { }

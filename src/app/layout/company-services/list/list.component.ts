@@ -10,6 +10,7 @@ import { CompanyServiceSearchList } from 'src/app/models/service';
 import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { CompanyServicesService } from 'src/app/services/company-services/company-services.service';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
@@ -42,6 +43,7 @@ export class ListComponent implements OnInit {
     private modalService: NgbModal,
     public modal: NgbActiveModal,
     private fb: FormBuilder,
+    private utilCase: CaseInsensitive
   ) { }
 
   ngOnInit() {
@@ -80,7 +82,7 @@ export class ListComponent implements OnInit {
       map(company => {
         const res = [];
         if (company.length < 2) { []; }
-        return _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
 
       })
     )
