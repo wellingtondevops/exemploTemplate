@@ -12,6 +12,7 @@ import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-edit',
@@ -38,6 +39,7 @@ export class EditComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
+    private utilCase: CaseInsensitive
   ) {
   }
 
@@ -187,7 +189,7 @@ export class EditComponent implements OnInit {
         if (company.length < 2) {
           [];
         } else {
-          res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+          res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
         }
         return res;
       })

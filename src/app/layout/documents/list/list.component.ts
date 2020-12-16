@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
 import { SaveLocal } from '../../../storage/saveLocal';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-list',
@@ -49,7 +50,8 @@ export class ListComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private pipes: Pipes,
     private fb: FormBuilder,
-    private localStorageSrv: SaveLocal
+    private localStorageSrv: SaveLocal,
+    private utilCase: CaseInsensitive
   ) { }
 
   ngOnInit() {
@@ -162,7 +164,7 @@ export class ListComponent implements OnInit {
       map(company => {
         const res = [];
         if (company.length < 2) { []; }
-        return _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+        return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
 
       })
     )
