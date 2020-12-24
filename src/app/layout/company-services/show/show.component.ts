@@ -107,7 +107,12 @@ export class ShowComponent implements OnInit {
   createServiceExist(item): FormGroup {
     return this.fb.group({
       description: { value: item.description, disabled: true },
-      price: { value: item.price, disabled: true }
+      price: {
+        value: item.price.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }), disabled: true
+      }
     });
   }
 

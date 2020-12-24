@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
@@ -14,6 +14,9 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MenuServicesRoutingModule } from '../menu-services/menu-services-routing.module';
 import { CompanyServicesRoutingModule } from './company-services-routing.module';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import localePt from '@angular/common/locales/pt';
+import {registerLocaleData} from '@angular/common';
+registerLocaleData(localePt)
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, EditComponent, NewComponent],
@@ -32,6 +35,12 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     TextMaskModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [NgbActiveModal, CurrencyPipe, CaseInsensitive]
+  providers: [NgbActiveModal, CurrencyPipe,
+  { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+  {
+    provide: LOCALE_ID, 
+    useValue: "pt-BR"
+  }
+  CaseInsensitive]
 })
 export class CompanyServicesModule { }
