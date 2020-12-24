@@ -181,9 +181,8 @@ export class EditComponent implements OnInit {
   updateCompanyService() {
     this.loading = true;
     this.returnFormatCompanyServices();
-    console.log(this.serviceForm.value)
 
-    /* this.companyServiceSrv.updateService(this.serviceForm.value).subscribe(
+    this.companyServiceSrv.updateService(this.serviceForm.value).subscribe(
       data => {
         if (data._id) {
           this.loading = false;
@@ -196,7 +195,7 @@ export class EditComponent implements OnInit {
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
       }
-    ); */
+    );
   }
 
 }
