@@ -99,7 +99,7 @@ export class EditComponent implements OnInit {
       newItems.push({
         _id: item._id,
         description: item.description.descriptionService,
-        price: item.price,
+        price: item.price
       });
     });
     return newItems;
@@ -109,7 +109,7 @@ export class EditComponent implements OnInit {
     return this.fb.group({
       _id: item._id,
       description: item.description,
-      price: item.price
+      price: String(item.price).replace('.',',')
     });
   }
 
@@ -170,17 +170,10 @@ export class EditComponent implements OnInit {
     this.serviceForm.value.company = this.serviceForm.value.company._id;
     const newArray = [];
     this.serviceForm.value.services.map((item) => {
-      if (typeof(item.price) === 'string') {
-        if (item.price.indexOf(',') && item.price.indexOf('R$')) {
-          let priceStr = item.price.replace(',', '.');
-          priceStr = priceStr.replace('R$', '');
-          const priceFloat = parseFloat(priceStr);
-          newArray.push({ description: item.description, price: priceFloat });
-        }
-      } else {
-        newArray.push({ description: item.description, price: item.price });
-      }
-
+      let priceStr = item.price.replace(',', '.');
+      priceStr = priceStr.replace('R$', '');
+      const priceFloat = parseFloat(priceStr);
+      newArray.push({ description: item.description, price: priceFloat });
     });
     this.serviceForm.value.services = newArray;
   }
