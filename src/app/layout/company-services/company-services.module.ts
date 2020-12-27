@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
