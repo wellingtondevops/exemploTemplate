@@ -1,15 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MovimentsRoutingModule } from './moviments-routing.module';
-import { ShowComponent } from '../companies/show/show.component';
-import { ListComponent } from '../companies/list/list.component';
+import { ShowComponent } from './show/show.component';
+import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxLoadingModule } from 'ngx-loading';
+import { PageHeaderModule, DatatablesModule, ModalImportRightBottomModule, ButtonBackModule, ButtonsCustomModule } from 'src/app/shared';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent],
   imports: [
     CommonModule,
-    MovimentsRoutingModule
-  ]
+    MovimentsRoutingModule,
+    PageHeaderModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatatablesModule,
+    NgxDatatableModule,
+    NgbModule,
+    TranslateModule,
+    ButtonBackModule,
+    ButtonsCustomModule,
+    NgxLoadingModule.forRoot({})
+  ],
+  providers: [ CaseInsensitive ]
 })
 export class MovimentsModule { }

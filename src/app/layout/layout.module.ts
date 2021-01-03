@@ -9,9 +9,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { NgbdModalConfirmComponent } from '../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbdModalConfirmModule } from '../shared';
 import { Masks } from '../utils/masks';
-import { MovimentsComponent } from './moviments/moviments.component';
-import { ShowComponent } from './moviments/show/show.component';
-import { ListComponent } from './moviments/list/list.component';
 
 @NgModule({
     imports: [
@@ -21,7 +18,7 @@ import { ListComponent } from './moviments/list/list.component';
       NgbDropdownModule,
       NgbdModalConfirmModule
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, MovimentsComponent, ShowComponent, ListComponent],
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
     entryComponents: [NgbdModalConfirmComponent],
     providers: [Masks]
 })

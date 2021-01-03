@@ -6,7 +6,10 @@ import { Injectable } from '@angular/core';
 
 export class Pipes {
   datePipe(value: any, ...args: any[]) {
-    return new Date(value).toLocaleDateString('pt-BR').split(',')[0];
+    if(value){
+      return new Date(value).toLocaleDateString('pt-BR').split(',')[0];
+    }
+    return null
   }
   guardType(value: any, ...args: any[]) {
     let res = '';
