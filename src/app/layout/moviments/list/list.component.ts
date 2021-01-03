@@ -117,11 +117,11 @@ export class ListComponent implements OnInit {
   setPageMoviments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-
+    let newValue = this.searchForm;
     this.localStorageSrv.save('moviment', this.searchForm.value)
-    this.searchForm.value.company ? this.searchForm.value.company = this.returnId('company') : null;
+    newValue.value.company ? newValue.value.company = this.returnId('company') : null;
 
-    const searchValue = _.omitBy(this.searchForm.value, _.isNil);
+    const searchValue = _.omitBy(newValue.value, _.isNil);
 
     this.movimentsSrv.searchMoviments(searchValue, this.page).subscribe(
       data => {
