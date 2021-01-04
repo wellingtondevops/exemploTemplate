@@ -63,11 +63,9 @@ export class ListComponent implements OnInit {
     private warningMsg: WarningMessagesService,
     private localStorageSrv: SaveLocal,
     private utilCase: CaseInsensitive
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.searchForm = this.fb.group({
-      company: this.fb.control(null, Validators.required),
+      company: this.fb.control('', Validators.required),
       name: this.fb.control(null, Validators.required),
       demand: this.fb.control(false),
       processed: this.fb.control(false),
@@ -75,7 +73,9 @@ export class ListComponent implements OnInit {
       endDate: this.fb.control(null),
       nr: this.fb.control(null)
     });
+   }
 
+  ngOnInit() {
     this.getCompanies();
   }
 
@@ -102,7 +102,7 @@ export class ListComponent implements OnInit {
 
   clear(){
     this.localStorageSrv.clear('moviment');
-
+    console.log('clear')
     this.searchForm.patchValue({
       company: null,
       demand: null,
@@ -119,11 +119,11 @@ export class ListComponent implements OnInit {
     this.page.pageNumber = pageInfo.offset;
     let newValue = this.searchForm;
     this.localStorageSrv.save('moviment', this.searchForm.value)
-    newValue.value.company ? newValue.value.company = this.returnId('company') : null;
+    newValue.value.company ? newValue.value.company = this.searchForm.value.company._id : null;
 
-    const searchValue = _.omitBy(newValue.value, _.isNil);
+    // const searchValue = _.omitBy(newValue.value, _.isNil);
 
-    this.movimentsSrv.searchMoviments(searchValue, this.page).subscribe(
+    this.movimentsSrv.searchMoviments(this.searchForm.value, this.page).subscribe(
       data => {
         this.moviments = data;
         this.page.pageNumber = data._links.currentPage;

@@ -14,63 +14,64 @@
         <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
       </ng-template>
       <ng-template ngbPanelContent>
-        <form [formGroup]="searchForm" (ngSubmit)="getMoviments()" role="FormGroup" class="form-inline">
-          <div class="row col-12">
-            <div class="form-group mb-2 col-3">
+        <form [formGroup]="searchForm" (ngSubmit)="getMoviments()" role="FormGroup">
+          <div class="form-row">
+            <div class="form-group col-lg-6">
               <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" autoFocus="true" type="text"
-                class="form-control" formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="company"
+                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
               <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                 <div *ngIf="!company.valid">
                   Empresa é obrigatório.
                 </div>
               </div>
             </div>
-            <div class="form-group mb-2 col-3">
+            <div class="form-group col-lg-3">
               <label for="requester">Nome do Solicitante</label>
-              <input id="requester" type="text" class="form-control" formControlName="name">
+              <input id="requester" type="text" class="form-control" style="width: 100%" formControlName="name">
             </div>
-            <div class="form-group mb-2 col-2">
-              <div class="col-12">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" formControlName="demand" [value]="demand" id="demand">
-                  <label class="form-check-label" for="demand">
-                    Solicitada
-                  </label>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" formControlName="processed" [value]="demand" id="processed">
-                  <label class="form-check-label" for="processed">
-                    Processada
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="form-group mb-2 col-3">
-              <div class="col-12">
-                <label for="initDate">Data Inicial</label>
-                <input id="initDate" type="date" class="form-control col-12" formControlName="initDate" />
-              </div>
-              <div class="col-12">
-                <label for="endDate">Data Final</label>
-                <input id="endDate" type="date" class="form-control col-12" formControlName="endDate" />
-              </div>
-            </div>
-            <div class="form-group mb-2 col-3">
+            <div class="form-group col-lg-3">
               <label for="requester">Número da Solicitação</label>
-              <input id="requester" type="text" class="form-control" formControlName="nr">
+              <input id="requester" type="text" class="form-control" style="width: 100%" formControlName="nr">
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-group col-lg-6">
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="demand" [value]="demand" id="demand">
+                <label class="form-check-label" for="demand">
+                  Solicitada
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="processed" [value]="demand"
+                  id="processed">
+                <label class="form-check-label" for="processed">
+                  Processada
+                </label>
+              </div>
+            </div>
+            <div class="form-group col-lg-3">
+              <label for="initDate">Data Inicial</label>
+              <input id="initDate" type="date" class="form-control" formControlName="initDate" />
+            </div>
+            <div class="form-group col-lg-3">
+              <label for="endDate">Data Final</label>
+              <input id="endDate" type="date" class="form-control" formControlName="endDate" />
+            </div>
+          </div>
+          <div class="form-row">
 
+          </div>
           <div class="row col-12" style="justify-content: center; margin-top: 10px;">
             <div class="form-group mb-2">
               <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                 <i class="fa fa-search"></i>
               </button>
-              <button style="margin-left: 5px;" [disabled]="company.invalid" type="button" class="btn btn-default" (click)="clear()">
+              <button style="margin-left: 5px;" [disabled]="company.invalid" type="button" class="btn btn-default"
+                (click)="clear()">
                 Limpar Campos
               </button>
             </div>
