@@ -105,6 +105,7 @@ export class ListComponent implements OnInit {
     console.log('clear')
     this.searchForm.patchValue({
       company: null,
+      name: null,
       demand: null,
       processed: null,
       initDate: null,
@@ -117,13 +118,27 @@ export class ListComponent implements OnInit {
   setPageMoviments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    let newValue = this.searchForm;
+    const newSearch = {
+      company: null,
+      name: null,
+      demand: null,
+      processed: null,
+      initDate: null,
+      endDate: null,
+      nr: null
+    };
     this.localStorageSrv.save('moviment', this.searchForm.value)
-    newValue.value.company ? newValue.value.company = this.searchForm.value.company._id : null;
+    this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
+    this.searchForm.value.name ? newSearch.name = this.searchForm.value.name : null;
+    this.searchForm.value.demand ? newSearch.demand = this.searchForm.value.demand : null;
+    this.searchForm.value.processed ? newSearch.processed = this.searchForm.value.processed : null;
+    this.searchForm.value.initDate ? newSearch.initDate = this.searchForm.value.initDate : null;
+    this.searchForm.value.endDate ? newSearch.endDate = this.searchForm.value.endDate : null;
+    this.searchForm.value.nr ? newSearch.nr = this.searchForm.value.nr : null;
 
-    // const searchValue = _.omitBy(newValue.value, _.isNil);
+    const searchValue = _.omitBy(newSearch, _.isNil);
 
-    this.movimentsSrv.searchMoviments(this.searchForm.value, this.page).subscribe(
+    this.movimentsSrv.searchMoviments(searchValue, this.page).subscribe(
       data => {
         this.moviments = data;
         this.page.pageNumber = data._links.currentPage;
