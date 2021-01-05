@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -14,7 +14,11 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { Moviment } from '../../../models/moviment';
 import _ from 'lodash';
 import { MovimentsService } from 'src/app/services/moviments/moviments.service';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
+const MODALS = {
+  focusFirst: NgbdModalConfirmComponent
+};
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
@@ -46,25 +50,73 @@ export class ShowComponent implements OnInit {
     private modalService: NgbModal,
     public modal: NgbActiveModal,
     private _route: Router
-  ) { }
+  ) {
+    this.movimentForm = this.fb.group({
+      _id: this.fb.control(''),
+      company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      requester: this.fb.control({ value: '', disabled: true }),
+      author: this.fb.control({ value: '', disabled: true }),
+      demandDate: this.fb.control({ value: '' }),
+      itens: this.fb.control({ value: '' }),
+      processed: this.fb.control({ value: false }),
+      title: this.fb.control({ value: '' }),
+      demand: this.fb.control({ value: false }),
+      normal: this.fb.control({ value: false, disabled: true }),
+      emergency: this.fb.control({ value: false }),
+      moveVolume: this.fb.control({ value: false, disabled: true }),
+      moveArchive: this.fb.control({ value: false }),
+      digital: this.fb.control({ value: false }),
+      delivery: this.fb.control({ value: false, disabled: true }),
+      withdraw: this.fb.control({ value: false }),
+      low: this.fb.control({ value: false }),
+      loan: this.fb.control({ value: false, disabled: true }),
+      nr: this.fb.control({ value: '' })
+    });
+  }
 
   ngOnInit() {
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     this.getCompanies();
     this.loading = true;
     this.id = this.route.snapshot.paramMap.get('id');
     this.getMoviment();
   }
+  get companyIpt() {
+    return this.movimentForm.get('company');
+  }
 
-  getMoviment(){
+  getMoviment() {
     this.loading = true;
     this.movimentsSrv.moviment(this.id).subscribe(
       data => {
         this.loading = false;
         this.moviment = data;
+        this.movimentForm.patchValue({
+          _id: this.moviment._id,
+          company: this.moviment.company,
+          requester: this.moviment.requester.name,
+          author: this.moviment.author,
+          demandDate: this.moviment.demandDate,
+          itens: this.moviment.itens,
+          processed: this.moviment.processed,
+          title: this.moviment.title,
+          demand: this.moviment.demand,
+          normal: this.moviment.normal ? 'Normal' : '',
+          emergency: this.moviment.emergency,
+          moveVolume: this.moviment.moveVolume ? 'Caixas' : '',
+          moveArchive: this.moviment.moveArchive,
+          digital: this.moviment.digital,
+          delivery: this.moviment.delivery ? 'Entrega' : '',
+          withdraw: this.moviment.withdraw,
+          low: this.moviment.low,
+          loan: this.moviment.loan ? 'Empréstimo' : '',
+          nr: this.moviment.nr
+        });
       }, error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
-        console.log('ERROR: ',error);
+        console.log('ERROR: ', error);
       }
     )
   }
@@ -97,5 +149,34 @@ export class ShowComponent implements OnInit {
         return res;
       })
     )
+
+  delete(moviment) {
+    this.movimentsSrv.deleteMoviment(moviment).subscribe(
+      response => {
+        this.successMsgSrv.successMessages('Movimento deletado com sucesso.');
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR:', error);
+      }
+    );
+  }
+
+  editMoviment(moviment) {
+    this._route.navigate(['/moviments/edit', moviment]);
+  }
+
+  open(name: string, storeHouse) {
+    const modalRef = this.modalService.open(MODALS[name]);
+    modalRef.componentInstance.item = storeHouse;
+    modalRef.componentInstance.data = {
+      msgConfirmDelete: 'Movimento foi deletado com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Movimento?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao movimento serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe(item => {
+      this.delete(item);
+    });
+  }
 
 }

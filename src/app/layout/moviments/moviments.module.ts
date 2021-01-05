@@ -11,9 +11,10 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
 import { PageHeaderModule, DatatablesModule, ModalImportRightBottomModule, ButtonBackModule, ButtonsCustomModule } from 'src/app/shared';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent],
+  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent],
   imports: [
     CommonModule,
     MovimentsRoutingModule,
