@@ -5,7 +5,7 @@ import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -28,6 +28,6 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     ButtonsCustomModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [ CaseInsensitive ]
+  providers: [ NgbActiveModal, CaseInsensitive ]
 })
 export class MovimentsModule { }
