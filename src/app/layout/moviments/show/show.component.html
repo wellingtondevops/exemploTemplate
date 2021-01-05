@@ -10,13 +10,13 @@
   <div style="margin-bottom: 10px">
     <app-button-back [redirectTo]="'moviments'"></app-button-back>
     <app-buttons-custom *ngIf="moviment" [id]="moviment._id" (edit)="editMoviment(moviment._id)"
-      (delete)="open('focusFirst', moviment._id)" [permissionEdit]="permissionEdit"
+      (delete)="open('focusFirst', moviment._id)" [permissionEdit]="false"
       [permissionDelete]="permissionDelete && !processed"></app-buttons-custom>
     <br />
   </div>
   <div class="card bg-light mb-12">
     <div class="card-body">
-      <ngb-tabset #tab>
+      <ngb-tabset #tab *ngIf="moviment">
         <ngb-tab title="Movimentação" id="tab1">
           <ng-template ngbTabContent>
             <br />
@@ -48,7 +48,8 @@
                 </div>
                 <div class="form-group col">
                   <label for="">Tipo da Movimentação</label>
-                  <input type="text" class="form-control" formControlName="moveVolume">
+                  <input type="text" *ngIf="moviment && moviment.moveVolume" class="form-control" formControlName="moveVolume">
+                  <input type="text" *ngIf="moviment && moviment.moveArchive" class="form-control" formControlName="moveArchive">
                 </div>
                 <div class="form-group col">
                   <label for="">Prazo</label>

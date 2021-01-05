@@ -105,7 +105,7 @@ export class ShowComponent implements OnInit {
           normal: this.moviment.normal ? 'Normal' : '',
           emergency: this.moviment.emergency,
           moveVolume: this.moviment.moveVolume ? 'Caixas' : '',
-          moveArchive: this.moviment.moveArchive,
+          moveArchive: this.moviment.moveArchive ? 'Arquivos' : '',
           digital: this.moviment.digital,
           delivery: this.moviment.delivery ? 'Entrega' : '',
           withdraw: this.moviment.withdraw,
