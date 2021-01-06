@@ -17,7 +17,7 @@
   <div class="card bg-light mb-12">
     <div class="card-body">
       <ngb-tabset #tab *ngIf="moviment">
-        <ngb-tab title="Movimentação" id="tab1">
+        <ngb-tab title="Movimentação Nr {{moviment.nr}}" id="tab1">
           <ng-template ngbTabContent>
             <br />
             <form [formGroup]="movimentForm" role="FormGroup">

@@ -40,6 +40,7 @@ export class ListComponent implements OnInit {
   page = new Page();
   loading: Boolean = false;
   companies: any = [];
+  permissionNew: boolean = false;
 
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
@@ -76,6 +77,7 @@ export class ListComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
     this.getCompanies();
   }
 
