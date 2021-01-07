@@ -127,7 +127,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  setPage(pageInfo) {
+  /* setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
@@ -147,15 +147,13 @@ export class ListComponent implements OnInit {
         this.loading = false;
       }
     );
-  }
+  } */
 
   getDocument(document) {
     this._route.navigate(['/documents/get', document._id]);
   }
 
   formatter = (x: { name: string }) => x.name;
-
-  
 
   searchCompany = (text$: Observable<string>) =>
     text$.pipe(
