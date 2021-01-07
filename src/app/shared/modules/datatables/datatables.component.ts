@@ -21,7 +21,7 @@ export class DatatablesComponent implements OnInit {
 
   constructor() {
     this.page.pageNumber = 0;
-    this.page.size = 50;
+    this.page.size = 10;
   }
 
   ngOnInit() { }
