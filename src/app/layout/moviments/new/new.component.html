@@ -17,12 +17,13 @@
         <ngb-tab title="Movimentação" id="tab1">
           <ng-template ngbTabContent>
             <br />
-            <form [formGroup]="movimentForm" role="FormGroup">
+            <form [formGroup]="movimentForm" role="FormGroup" (ngSubmit)="newMoviment()">
               <div class="form-row">
                 <div class="form-group col">
                   <label for="typeahead-basic">Empresa</label>
                   <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                    [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                    [resultTemplate]="rtCompany" (selectItem)="getCompany($event)" [inputFormatter]="formatter"
+                    [ngbTypeahead]="searchCompany"
                     [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
                   <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
                     <div *ngIf="!companyIpt.valid">
@@ -31,45 +32,87 @@
                   </div>
                 </div>
                 <div class="form-group col">
-                  <label for="">Nome do Solicitante</label>
-                  <input type="text" class="form-control" formControlName="requester">
+                  <label for="typeahead-basic">Nome do Solicitante</label>
+                  <input id="typeahead-basic" type="text" class="form-control" formControlName="requester"
+                    [resultTemplate]="rtRequester" [inputFormatter]="formatter" [ngbTypeahead]="searchRequester"
+                    [ngClass]="{ 'is-invalid': !requesterIpt.valid && !requesterIpt.disabled }" />
+                  <div *ngIf="requesterIpt.invalid && (requesterIpt.dirty || requesterIpt.touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="!requesterIpt.valid">
+                      Nome do Solicitante é obrigatória.
+                    </div>
+                  </div>
                 </div>
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtRequester let-r="result" let-t="requester" class="custom-typeahead">
                   <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                 </ng-template>
               </div>
               <div class="form-row">
                 <div class="form-group col">
                   <label for="">Natureza da Movimentação</label>
-                  <select formControlName="moveNature" class="form-control">
-                    <option [value]="loan">Baixa</option>
-                    <option [value]="low">Empréstimo</option>
+                  <select [ngClass]="{ 'is-invalid': !moveNatureIpt.valid }" formControlName="moveNature"
+                    class="form-control">
+                    <option value="loan">Baixa</option>
+                    <option value="low">Empréstimo</option>
                   </select>
+                  <div *ngIf="moveNatureIpt.invalid && (moveNatureIpt.dirty || moveNatureIpt.touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="!moveNatureIpt.valid">
+                      Natureza da Movimentação é obrigatório.
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group col">
                   <label for="">Tipo da Movimentação</label>
-                  <select formControlName="move" class="form-control">
-                    <option [value]="moveArchive">Arquivo</option>
-                    <option [value]="moveVolume">Caixa</option>
+                  <select [ngClass]="{ 'is-invalid': !moveIpt.valid }" formControlName="move" class="form-control">
+                    <option value="moveArchive">Arquivo</option>
+                    <option value="moveVolume">Caixa</option>
                   </select>
+                  <div *ngIf="moveIpt.invalid && (moveIpt.dirty || moveIpt.touched)" class="invalid-feedback">
+                    <div *ngIf="!moveIpt.valid">
+                      Tipo da Movimentação é obrigatório.
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group col">
                   <label for="">Prazo</label>
-                  <select formControlName="deadline" class="form-control">
-                    <option [value]="normal">Normal</option>
-                    <option [value]="emergency">Emergencial</option>
+                  <select [ngClass]="{ 'is-invalid': !deadlineIpt.valid }" formControlName="deadline"
+                    class="form-control">
+                    <option value="normal">Normal</option>
+                    <option value="emergency">Emergencial</option>
                   </select>
+                  <div *ngIf="deadlineIpt.invalid && (deadlineIpt.dirty || deadlineIpt.touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="!deadlineIpt.valid">
+                      Prazo é obrigatório.
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group col">
                   <label for="">Formato da Entrega</label>
-                  <select formControlName="deliveryFormat" class="form-control">
-                    <option [value]="digital">Digital</option>
-                    <option [value]="withdraw">Entrega</option>
-                    <option [value]="delivery">Retirada</option>
+                  <select [ngClass]="{ 'is-invalid': !deliveryFormatIpt.valid }" formControlName="deliveryFormat"
+                    class="form-control">
+                    <option value="digital">Digital</option>
+                    <option value="withdraw">Entrega</option>
+                    <option value="delivery">Retirada</option>
                   </select>
+                  <div *ngIf="deliveryFormatIpt.invalid && (deliveryFormatIpt.dirty || deliveryFormatIpt.touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="!deliveryFormatIpt.valid">
+                      Formato da Entrega é obrigatório.
+                    </div>
+                  </div>
                 </div>
               </div>
-              <button class="btn btn-primary pull-right" type="submit">Salvar</button>
+              <button class="btn btn-primary pull-right" [disabled]="companyIpt.invalid ||
+              requesterIpt.invalid ||
+              deliveryFormatIpt.invalid ||
+              deadlineIpt.invalid ||
+              moveIpt.invalid ||
+              moveNatureIpt.invalid" type="submit">Salvar</button>
             </form>
           </ng-template>
         </ngb-tab>
