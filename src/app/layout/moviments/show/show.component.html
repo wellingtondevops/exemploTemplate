@@ -44,7 +44,8 @@
               <div class="form-row">
                 <div class="form-group col">
                   <label for="">Natureza da Movimentação</label>
-                  <input type="text" class="form-control" formControlName="loan">
+                  <input type="text" class="form-control" *ngIf="moviment && moviment.loan" formControlName="loan">
+                  <input type="text" class="form-control" *ngIf="moviment && moviment.low" formControlName="low">
                 </div>
                 <div class="form-group col">
                   <label for="">Tipo da Movimentação</label>
@@ -53,11 +54,14 @@
                 </div>
                 <div class="form-group col">
                   <label for="">Prazo</label>
-                  <input type="text" class="form-control" formControlName="normal">
+                  <input type="text" class="form-control" *ngIf="moviment && moviment.normal" formControlName="normal">
+                  <input type="text" class="form-control" *ngIf="moviment && moviment.emergency" formControlName="emergency">
                 </div>
                 <div class="form-group col">
                   <label for="">Formato da Entrega</label>
-                  <input type="text" class="form-control" formControlName="delivery">
+                  <input type="text" class="form-control" *ngIf="moviment && moviment.delivery" formControlName="delivery">
+                  <input type="text" class="form-control" *ngIf="moviment && moviment.withdraw" formControlName="withdraw">
+                  <input type="text" class="form-control" *ngIf="moviment && moviment.digital" formControlName="digital">
                 </div>
               </div>
               <button class="btn btn-primary pull-right" (click)="searchBox()"

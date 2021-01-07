@@ -96,8 +96,8 @@
                   <select [ngClass]="{ 'is-invalid': !deliveryFormatIpt.valid }" formControlName="deliveryFormat"
                     class="form-control">
                     <option value="digital">Digital</option>
-                    <option value="withdraw">Entrega</option>
-                    <option value="delivery">Retirada</option>
+                    <option value="withdraw">Retirada</option>
+                    <option value="delivery">Entrega</option>
                   </select>
                   <div *ngIf="deliveryFormatIpt.invalid && (deliveryFormatIpt.dirty || deliveryFormatIpt.touched)"
                     class="invalid-feedback">
