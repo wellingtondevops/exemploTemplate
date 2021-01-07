@@ -40,10 +40,10 @@ export class ListComponent implements OnInit {
   page = new Page();
   loading: Boolean = false;
   companies: any = [];
-  permissionNew: boolean = false;
+  permissionNew = false;
 
   columns = [
-    {name: 'Nr. Solicitação', prop: 'nr', width: 70},
+    {name: 'Nr. Movimentação', prop: 'nr', width: 70},
     { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Nome', prop: 'requester.name' },
     { name: 'Status da Operação', prop: 'title' },
@@ -78,7 +78,7 @@ export class ListComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
     this.getCompanies();
   }
 
@@ -103,9 +103,9 @@ export class ListComponent implements OnInit {
     return result;
   }
 
-  clear(){
+  clear() {
     this.localStorageSrv.clear('moviment');
-    console.log('clear')
+    console.log('clear');
     this.searchForm.patchValue({
       company: null,
       name: null,
@@ -114,9 +114,9 @@ export class ListComponent implements OnInit {
       initDate: null,
       endDate: null,
       nr: null
-    })
+    });
   }
-  
+
 
   setPageMoviments(pageInfo) {
     this.loading = true;
@@ -130,7 +130,7 @@ export class ListComponent implements OnInit {
       endDate: null,
       nr: null
     };
-    this.localStorageSrv.save('moviment', this.searchForm.value)
+    this.localStorageSrv.save('moviment', this.searchForm.value);
     this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
     this.searchForm.value.name ? newSearch.name = this.searchForm.value.name : null;
     this.searchForm.value.demand ? newSearch.demand = this.searchForm.value.demand : null;
