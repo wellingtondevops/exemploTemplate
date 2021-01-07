@@ -100,9 +100,9 @@ export class NewComponent implements OnInit {
       requester: this.movimentForm.value.requester._id,
       loan: this.movimentForm.value.moveNature === 'loan' ? true : false,
       low: this.movimentForm.value.moveNature === 'low' ? true : false,
-      withdraw: this.movimentForm.value.delivery === 'withdraw' ? true : false,
-      delivery: this.movimentForm.value.delivery === 'delivery' ? true : false,
-      digital: this.movimentForm.value.delivery === 'digital' ? true : false,
+      withdraw: this.movimentForm.value.deliveryFormat === 'withdraw' ? true : false,
+      delivery: this.movimentForm.value.deliveryFormat === 'delivery' ? true : false,
+      digital: this.movimentForm.value.deliveryFormat === 'digital' ? true : false,
       moveArchive: this.movimentForm.value.move === 'moveArchive' ? true : false,
       moveVolume: this.movimentForm.value.move === 'moveVolume' ? true : false,
       emergency: this.movimentForm.value.deadline === 'emergency' ? true : false,
@@ -151,7 +151,6 @@ export class NewComponent implements OnInit {
   }
 
   getCompany(company) {
-    console.log(company)
     this.getRequesters(company.item._id);
   }
 
