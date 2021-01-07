@@ -1,0 +1,83 @@
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Dados do Volume'" [icon]="'fa-user'"></app-page-header>
+  <div style="margin-bottom: 10px">
+    <app-button-back [redirectTo]="'moviments'"></app-button-back>
+    <app-buttons-custom *ngIf="moviment" [id]="moviment._id" (edit)="editMoviment(moviment._id)"
+      (delete)="open('focusFirst', moviment._id)" [permissionEdit]="false"
+      [permissionDelete]="permissionDelete && !processed"></app-buttons-custom>
+    <br />
+  </div>
+  <div class="card bg-light mb-12">
+    <div class="card-body">
+      <ngb-tabset #tab *ngIf="moviment">
+        <ngb-tab title="Movimentação Nr {{moviment.nr}}" id="tab1">
+          <ng-template ngbTabContent>
+            <br />
+            <form [formGroup]="movimentForm" role="FormGroup">
+              <div class="form-row">
+                <div class="form-group col">
+                  <label for="typeahead-basic">Empresa</label>
+                  <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                    [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                    [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
+                  <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
+                    <div *ngIf="!companyIpt.valid">
+                      Empresa é obrigatória.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col">
+                  <label for="">Nome do Solicitante</label>
+                  <input type="text" class="form-control" formControlName="requester">
+                </div>
+                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+                  <label for="">Natureza da Movimentação</label>
+                  <input type="text" class="form-control" formControlName="loan">
+                </div>
+                <div class="form-group col">
+                  <label for="">Tipo da Movimentação</label>
+                  <input type="text" *ngIf="moviment && moviment.moveVolume" class="form-control" formControlName="moveVolume">
+                  <input type="text" *ngIf="moviment && moviment.moveArchive" class="form-control" formControlName="moveArchive">
+                </div>
+                <div class="form-group col">
+                  <label for="">Prazo</label>
+                  <input type="text" class="form-control" formControlName="normal">
+                </div>
+                <div class="form-group col">
+                  <label for="">Formato da Entrega</label>
+                  <input type="text" class="form-control" formControlName="delivery">
+                </div>
+              </div>
+              <button class="btn btn-primary pull-right" (click)="searchBox()"
+                *ngIf="moviment && moviment.moveVolume || moviment.moveArchive">Pesquisar Caixas</button>
+            </form>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab2" title="Ver Arquivos">
+          <ng-template ngbTabContent>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab3" title="Ver Volumes">
+          <ng-template ngbTabContent>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab4" title="Processar Movimentação">
+          <ng-template ngbTabContent>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>

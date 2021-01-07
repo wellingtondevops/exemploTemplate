@@ -173,7 +173,7 @@ export class EditComponent implements OnInit {
       let priceStr = item.price.replace(',', '.');
       priceStr = priceStr.replace('R$', '');
       const priceFloat = parseFloat(priceStr);
-      newArray.push({ description: item.description, price: priceFloat });
+      newArray.push({ description: item.description, price: priceFloat, _id: item._id });
     });
     this.serviceForm.value.services = newArray;
   }

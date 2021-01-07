@@ -10,6 +10,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'users', loadChildren: './users/users.module#UsersModule' },
+            { path: 'moviments', loadChildren: './moviments/moviments.module#MovimentsModule' },
             { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
             { path: 'requesters', loadChildren: './requesters/requesters.module#RequestersModule' },
             { path: 'company-services', loadChildren: './company-services/company-services.module#CompanyServicesModule' },

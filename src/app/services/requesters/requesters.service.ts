@@ -69,4 +69,11 @@ export class RequestersService {
         );
     }
   }
+
+  listRequesterByCompany(company) {
+    return this.http.get<RequesterSearchList>(`${url}/listrequesters?company=${company}`)
+      .pipe(
+        tap(data => data)
+      );
+  }
 }
