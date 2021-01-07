@@ -43,6 +43,7 @@ export class ListComponent implements OnInit {
   permissionNew: boolean = false;
 
   columns = [
+    {name: 'Nr. Solicitação', prop: 'nr', width: 70},
     { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Nome', prop: 'requester.name' },
     { name: 'Status da Operação', prop: 'title' },
