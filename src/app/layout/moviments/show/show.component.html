@@ -65,7 +65,9 @@
                 </div>
               </div>
               <button class="btn btn-primary pull-right" (click)="searchBox()"
-                *ngIf="moviment && moviment.moveVolume || moviment.moveArchive">Pesquisar Caixas</button>
+                *ngIf="moviment && moviment.moveVolume ">Pesquisar Caixas</button>
+                <button class="btn btn-primary pull-right" (click)="searchBox()"
+                *ngIf="moviment &&  moviment.moveArchive">Pesquisar Arquivos</button>
             </form>
           </ng-template>
         </ngb-tab>
