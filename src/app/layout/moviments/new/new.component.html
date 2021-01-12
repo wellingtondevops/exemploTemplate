@@ -55,8 +55,8 @@
                   <label for="">Natureza da Movimentação</label>
                   <select [ngClass]="{ 'is-invalid': !moveNatureIpt.valid }" formControlName="moveNature"
                     class="form-control">
-                    <option value="loan">Baixa</option>
-                    <option value="low">Empréstimo</option>
+                    <option value="loan">Empréstimo</option>
+                    <option value="low">Baixo</option>
                   </select>
                   <div *ngIf="moveNatureIpt.invalid && (moveNatureIpt.dirty || moveNatureIpt.touched)"
                     class="invalid-feedback">
@@ -112,7 +112,7 @@
               deliveryFormatIpt.invalid ||
               deadlineIpt.invalid ||
               moveIpt.invalid ||
-              moveNatureIpt.invalid" type="submit">Salvar</button>
+              moveNatureIpt.invalid" type="submit" >Salvar</button>
             </form>
           </ng-template>
         </ngb-tab>
