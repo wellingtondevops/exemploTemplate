@@ -38,9 +38,8 @@ export class ListComponent implements OnInit {
     { name: 'Empresa', prop: 'company.name' },
     { name: 'Nome', prop: 'name' },
     { name: 'Retenção', prop: 'retention' },
-    /* { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
-  loading: Boolean = true;
+  loading: Boolean = false;
   permissionNew = false;
 
   constructor(
@@ -56,13 +55,12 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.getCompanies();
-    // this.setPage({ offset: 0 });
 
     this.searchForm = this.fb.group({
       name: this.fb.control(null),
       company: this.fb.control(null, [Validators.required]),
     });
-    this.getDocuments();
+
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
 
@@ -83,23 +81,6 @@ export class ListComponent implements OnInit {
     );
   }
 
-  /* documentsList() {
-      this.documentSrv.documents(null).subscribe(
-          data => {
-              this.loading = false;
-              this.documents = data;
-              this.page.pageNumber = data._links.currentPage;
-              this.page.totalElements = data._links.foundItems;
-              this.page.size = data._links.totalPage;
-          },
-          error => {
-              this.loading = false;
-              this.errorMsg.errorMessages(error);
-              console.log('ERROR: ', error);
-          }
-      );
-  } */
-
   getDocuments() {
     this.setPageDocuments({ offset: 0 });
   }
@@ -113,10 +94,13 @@ export class ListComponent implements OnInit {
   setPageDocuments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    this.returnId('company');
+    const newForm = {
+      company: this.searchForm.value.company._id,
+      name: this.searchForm.value.name ? this.searchForm.value.name : null,
+    };
 
-    this.documentSrv.searchDocts(this.searchForm.value, this.page).subscribe(data => {
-      this.page.pageNumber = data._links.currentPage - 1;
+    this.documentSrv.searchDocts(newForm, this.page).subscribe(data => {
+      this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
       this.documents = data;
@@ -126,28 +110,6 @@ export class ListComponent implements OnInit {
       this.loading = false;
     });
   }
-
-  /* setPage(pageInfo) {
-    this.loading = true;
-    this.page.pageNumber = pageInfo.offset;
-
-    this.documentSrv.documents(this.page).subscribe(
-      data => {
-        this.loading = false;
-        this.documents = data;
-        this.page.pageNumber = data._links.currentPage - 1;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-        this.loading = false;
-      },
-      error => {
-        this.loading = false;
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-        this.loading = false;
-      }
-    );
-  } */
 
   getDocument(document) {
     this._route.navigate(['/documents/get', document._id]);
