@@ -20,6 +20,7 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 import { SaveLocal } from 'src/app/storage/saveLocal';
 import { SelectionType } from 'src/app/models/selection.types'
 import { ColumnMode } from 'src/app/models/column-mode.types'
+import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 
 @Component({
   selector: 'app-search-volumes',
@@ -47,6 +48,7 @@ export class SearchVolumesComponent implements OnInit {
   };
   selected: any = []
   page = new Page();
+  guardTypeList: any = [];
 
   constructor(
     private localStorageSrv: SaveLocal,
@@ -58,7 +60,9 @@ export class SearchVolumesComponent implements OnInit {
     private warningMsg: WarningMessagesService,
     private utilCase: CaseInsensitive,
     private pipes: Pipes
-  ) { }
+  ) { 
+    this.guardTypeList = GuardyTypeVolumeEnum;
+  }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
@@ -66,8 +70,8 @@ export class SearchVolumesComponent implements OnInit {
       departament: this.fb.control(null),
       location: this.fb.control(null),
       storehouse: this.fb.control(null),
-      doct: this.fb.control(null),
-      search: this.fb.control(null),
+      guardType: this.fb.control(null),
+      reference: this.fb.control(null),
       initDate: this.fb.control(null),
       endDate: this.fb.control(null)
     });
@@ -85,17 +89,19 @@ export class SearchVolumesComponent implements OnInit {
   formatter = (x: { name: string }) => x.name;
 
   clear() {
-    this.localStorageSrv.clear('search-archive');
+    this.localStorageSrv.clear('search-volume');
     this.searchForm.patchValue({
       departament: null,
       location: null,
       storehouse: null,
-      doct: null,
+      guardType: null,
       initDate: null,
       endDate: null,
-      search: null
+      reference: null
     });
   }
+
+  
 
   getCompany() {
     this.movimentsSrc.company(this.id).subscribe(data => {
@@ -146,27 +152,6 @@ export class SearchVolumesComponent implements OnInit {
       })
     )
 
-  getDocuments() {
-    this.movimentsSrc.documents(this.id).subscribe(data => {
-      this.documents = data.items;
-    }, error => {
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error);
-      this.loading = false;
-    })
-  }
-
-  searchDoct = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(doct => {
-        let res;
-        if (doct.length < 2) { []; } else { res = _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(doct.toLowerCase())) > -1).slice(0, 10); }
-        return res;
-      })
-    )
-
   getStorehouse() {
     this.movimentsSrc.storehouses(this.id).subscribe(data => {
       console.log(data);
@@ -204,19 +189,19 @@ export class SearchVolumesComponent implements OnInit {
       departament: null,
       location: null,
       storehouse: null,
-      doct: null,
+      guardType: null,
       initDate: null,
       endDate: null,
-      search: null
+      reference: null
     };
-    this.localStorageSrv.save('moviment', this.searchForm.value);
+    this.localStorageSrv.save('search-volume', this.searchForm.value);
     this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
     this.searchForm.value.location ? newSearch.location = this.searchForm.value.name : null;
     this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('departament') : null;
-    this.searchForm.value.doct ? newSearch.doct = this.returnId('departament') : null;
+    this.searchForm.value.guardType ? newSearch.guardType = this.searchForm.value.guardType : null;
     this.searchForm.value.initDate ? newSearch.initDate = this.searchForm.value.initDate : null;
     this.searchForm.value.endDate ? newSearch.endDate = this.searchForm.value.endDate : null;
-    this.searchForm.value.search ? newSearch.search = this.searchForm.value.search : null;
+    this.searchForm.value.reference ? newSearch.reference = this.searchForm.value.search : null;
 
     const searchValue = _.omitBy(newSearch, _.isNil);
 
@@ -249,5 +234,15 @@ export class SearchVolumesComponent implements OnInit {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
     console.log(this.selected)
+  }
+
+  guardType(value) {
+    let res = '';
+    switch (value) {
+      case 'GERENCIADA':
+        res = 'G';
+        break;
+    }
+    return res;
   }
 }

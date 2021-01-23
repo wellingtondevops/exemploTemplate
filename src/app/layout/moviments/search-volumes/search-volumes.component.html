@@ -20,7 +20,7 @@
         <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
       </ng-template>
       <ng-template ngbPanelContent>
-        <form [formGroup]="searchForm" role="FormGroup" (submit)="getSearchArchives()">
+        <form [formGroup]="searchForm" role="FormGroup" (submit)="getSearchVolumes()">
           <div class="form-row">
             <div class="form-group col">
               <label for="typeahead-basic">Empresa</label>
@@ -59,26 +59,25 @@
           </div>
           <div class="form-row">
             <div class="form-group col">
-              <label for="typeahead-basic">Documento</label>
-              <input id="typeahead-basic" type="text" class="form-control" formControlName="doct"
-                [resultTemplate]="rtDoct" [inputFormatter]="formatter" [ngbTypeahead]="searchDoct" />
+              <label for="">Tipo de Guarda</label>
+              <select class="form-control" id="guardType" formControlName="guardType"
+                [ngClass]="{ 'is-invalid': !guardType.valid }" (change)="changeGuardType()">
+                <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
+                  {{ guardT | translate }}</option>
+              </select>
             </div>
-            <ng-template #rtDoct let-r="result" let-t="document" class="custom-typeahead">
-              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-            </ng-template>
+
             <div class="form-group col">
-              <label for="location">Índice</label>
-              <input type="text" class="form-control" formControlName="search" />
+              <label for="location">Refeência</label>
+              <input type="text" class="form-control" formControlName="reference" />
             </div>
-            <div class="col-3">
-              <div class="form-group col">
-                <label for="location">Data Inicial</label>
-                <input type="text" class="form-control" formControlName="initDate" />
-              </div>
-              <div class="form-group col">
-                <label for="location">Data Final</label>
-                <input type="text" class="form-control" formControlName="endDate" />
-              </div>
+            <div class="form-group col">
+              <label for="location">Data Inicial</label>
+              <input type="text" class="form-control" formControlName="initDate" />
+            </div>
+            <div class="form-group col">
+              <label for="location">Data Final</label>
+              <input type="text" class="form-control" formControlName="endDate" />
             </div>
           </div>
           <div class="form-row" style="display: flex;justify-content: center;">
@@ -98,7 +97,7 @@
     <div class="col col-xl-12 col-lg-12">
       <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'" [headerHeight]="50"
         [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-        [offset]="page.pageNumber" [limit]="10" (page)="setPageArchives($event)" [selected]="selected"
+        [offset]="page.pageNumber" [limit]="10" (page)="setPageVolumes($event)" [selected]="selected"
         [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)">
         <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
           [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
@@ -108,15 +107,15 @@
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Departamento" prop="departament.name"></ngx-datatable-column>
-        <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
         <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
-        <ngx-datatable-column name="Documento" prop="doct.name"></ngx-datatable-column>
-        <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
+        <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
+        <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column>
         <ngx-datatable-column name="Criado em" prop="create">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value | date: 'dd/MM/yyyy' }}
           </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
         <ngx-datatable-column name="Suspensa" prop="indDemand">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value ? 'Sim' : 'Não' }}

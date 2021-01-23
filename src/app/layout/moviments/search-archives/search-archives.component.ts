@@ -76,6 +76,7 @@ export class SearchArchivesComponent implements OnInit {
     this.getCompany();
     this.getDepartaments();
     this.getStorehouse();
+    this.getDocuments();
   }
 
   get companyIpt() {
@@ -209,7 +210,7 @@ export class SearchArchivesComponent implements OnInit {
       endDate: null,
       search: null
     };
-    this.localStorageSrv.save('moviment', this.searchForm.value);
+    this.localStorageSrv.save('search-archive', this.searchForm.value);
     this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
     this.searchForm.value.location ? newSearch.location = this.searchForm.value.name : null;
     this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('departament') : null;
