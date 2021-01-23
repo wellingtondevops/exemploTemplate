@@ -9,7 +9,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
-import { PageHeaderModule, DatatablesModule, ModalImportRightBottomModule, ButtonBackModule, ButtonsCustomModule } from 'src/app/shared';
+import { PageHeaderModule, ModalImportRightBottomModule, ButtonBackModule, ButtonsCustomModule, DatatablesModule } from 'src/app/shared';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { EditComponent } from './edit/edit.component';
 import { SearchVolumesComponent } from './search-volumes/search-volumes.component';

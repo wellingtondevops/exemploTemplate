@@ -73,14 +73,14 @@ export class MovimentsService {
   }
 
   searchVolumes(data, id, page) {
-    return this.http.post<MovimentSearchVolumes>(`${url}/demands/${id}/searchVolumes?_page=${page.pageNumber}&size=10`, data)
+    return this.http.post<any>(`${url}/demands/${id}/searchVolumes?_page=${page.pageNumber}&size=10`, data)
       .pipe(
         tap(data => data)
       );
   }
 
   searchArchives(data, id, page) {
-    return this.http.post<MovimentSearchArchives>(`${url}/demands/${id}/searchArchives?_page=${page.pageNumber}&size=10`, data)
+    return this.http.post<any>(`${url}/demands/${id}/searchArchives?_page=${page.pageNumber}`, data)
       .pipe(
         tap(data => data)
       );
@@ -93,15 +93,22 @@ export class MovimentsService {
       );
   }
 
-  departaments(id){
+  departaments(id) {
     return this.http.get<any>(`${url}/demands/${id}/listDepartaments`)
       .pipe(
         tap(data => data)
       );
   }
 
-  documents(id){
+  documents(id) {
     return this.http.get<any>(`${url}/demands/${id}/listDocuments`)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  storehouses(id) {
+    return this.http.get<any>(`${url}/demands/${id}/listStorehouses`)
       .pipe(
         tap(data => data)
       );
