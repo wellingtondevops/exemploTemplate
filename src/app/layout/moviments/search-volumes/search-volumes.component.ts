@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -244,5 +244,14 @@ export class SearchVolumesComponent implements OnInit {
         break;
     }
     return res;
+  }
+}
+@Pipe({
+  name: 'enumToArray'
+})
+export class EnumToArrayPipe implements PipeTransform {
+  transform(data: Object) {
+      const keys = Object.keys(data);
+      return keys.slice(keys.length / 2);
   }
 }

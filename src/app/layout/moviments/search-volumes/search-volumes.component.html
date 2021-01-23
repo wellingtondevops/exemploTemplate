@@ -60,8 +60,7 @@
           <div class="form-row">
             <div class="form-group col">
               <label for="">Tipo de Guarda</label>
-              <select class="form-control" id="guardType" formControlName="guardType"
-                [ngClass]="{ 'is-invalid': !guardType.valid }" (change)="changeGuardType()">
+              <select class="form-control" id="guardType" formControlName="guardType">
                 <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                   {{ guardT | translate }}</option>
               </select>
