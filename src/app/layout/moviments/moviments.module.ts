@@ -12,9 +12,11 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { PageHeaderModule, DatatablesModule, ModalImportRightBottomModule, ButtonBackModule, ButtonsCustomModule } from 'src/app/shared';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { EditComponent } from './edit/edit.component';
+import { SearchVolumesComponent } from './search-volumes/search-volumes.component';
+import { SearchArchivesComponent } from './search-archives/search-archives.component';
 
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent],
+  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent, SearchVolumesComponent, SearchArchivesComponent],
   imports: [
     CommonModule,
     MovimentsRoutingModule,

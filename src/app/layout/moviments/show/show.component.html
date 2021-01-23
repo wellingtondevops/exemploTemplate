@@ -64,9 +64,9 @@
                   <input type="text" class="form-control" *ngIf="moviment && moviment.digital" formControlName="digital">
                 </div>
               </div>
-              <button class="btn btn-primary pull-right" (click)="searchBox()"
+              <button class="btn btn-primary pull-right" [routerLink]="['/moviments/searchvolumes', moviment._id]"
                 *ngIf="moviment && moviment.moveVolume ">Pesquisar Caixas</button>
-                <button class="btn btn-primary pull-right" (click)="searchBox()"
+                <button class="btn btn-primary pull-right" [routerLink]="['/moviments/searcharchives', moviment._id]"
                 *ngIf="moviment &&  moviment.moveArchive">Pesquisar Arquivos</button>
             </form>
           </ng-template>

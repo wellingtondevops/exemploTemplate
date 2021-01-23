@@ -1,0 +1,74 @@
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Arquivos'" [icon]="'fa-user'"></app-page-header>
+  <div style="margin-bottom: 10px">
+    <app-button-back [redirectTo]="'moviments/get'" [id]="this.id"></app-button-back>
+    <!-- <app-buttons-custom *ngIf="moviment" [id]="moviment._id" (edit)="editMoviment(moviment._id)"
+      (delete)="open('focusFirst', moviment._id)" [permissionEdit]="false"
+      [permissionDelete]="permissionDelete && !processed"></app-buttons-custom> -->
+    <br />
+  </div>
+  <ngb-accordion #acc="ngbAccordion" activeIds="moviments-0">
+    <ngb-panel id="moviments-0">
+      <ng-template ngbPanelTitle>
+        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <form [formGroup]="searchForm" role="FormGroup">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="typeahead-basic">Empresa</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
+              <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
+                <div *ngIf="!companyIpt.valid">
+                  Empresa é obrigatória.
+                </div>
+              </div>
+            </div>
+            <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+            <div class="form-group col">
+              <label for="typeahead-basic">Departamento</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
+                [resultTemplate]="rtDepartament" [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" />
+            </div>
+            <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+            <div class="form-group col">
+              <label for="location">Posição</label>
+              <input type="text" class="form-control" formControlName="location" />
+            </div>
+            <div class="form-group col">
+              <label for="typeahead-basic">Depósito</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
+                [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
+            </div>
+            <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="typeahead-basic">Documento</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="doct"
+                [resultTemplate]="rtDoct" [inputFormatter]="formatter" [ngbTypeahead]="searchDoct" />
+            </div>
+            <ng-template #rtDoct let-r="result" let-t="document" class="custom-typeahead">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+          </div>
+        </form>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

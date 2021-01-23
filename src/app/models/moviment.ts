@@ -63,3 +63,20 @@ export class MovimentList {
   _links: Pagination;
   items: MovimentSearch[];
 }
+
+export class MovimentSearchVolumes {
+  location: string;
+	initDate: string;
+	endDate: string;
+	departament: string;
+	storehouse: string;
+	reference: string;
+}
+
+export class MovimentSearchArchives {
+  departament: string;
+  location: string;
+  storehouse: string;
+  doct: string;
+  search: string;
+}
