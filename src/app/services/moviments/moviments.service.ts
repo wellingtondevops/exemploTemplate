@@ -80,7 +80,7 @@ export class MovimentsService {
   }
 
   searchArchives(data, id, page) {
-    return this.http.post<any>(`${url}/demands/${id}/searchArchives?_page=${page.pageNumber}`, data)
+    return this.http.post<any>(`${url}/demands/${id}/searchArchives?_page=${page.pageNumber}&size=10`, data)
       .pipe(
         tap(data => data)
       );
@@ -107,8 +107,10 @@ export class MovimentsService {
       );
   }
 
-  storehouses(id) {
-    return this.http.get<any>(`${url}/demands/${id}/listStorehouses`)
+  generatMoviment(id, data) {
+    console.log('array');
+    console.log(data);
+    return this.http.post<any>(`${url}/demands/${id}/generatDemand`, { items: data })
       .pipe(
         tap(data => data)
       );

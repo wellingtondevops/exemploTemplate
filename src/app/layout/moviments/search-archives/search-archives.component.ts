@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesList, Company } from 'src/app/models/company';
@@ -20,6 +20,7 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 import { SaveLocal } from 'src/app/storage/saveLocal';
 import { SelectionType } from 'src/app/models/selection.types'
 import { ColumnMode } from 'src/app/models/column-mode.types'
+import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 
 @Component({
   selector: 'app-search-archives',
@@ -34,7 +35,7 @@ export class SearchArchivesComponent implements OnInit {
   departaments: DepartamentList;
   loading: Boolean = false;
   documents: DocumentList;
-  storehouses: StorehousesList;
+  storehouses: any;
   archives: ArchivesList = {
     _links: {
       currentPage: 0,
@@ -57,7 +58,9 @@ export class SearchArchivesComponent implements OnInit {
     private fb: FormBuilder,
     private warningMsg: WarningMessagesService,
     private utilCase: CaseInsensitive,
-    private pipes: Pipes
+    private pipes: Pipes,
+    private storehousesSrv: StorehousesService,
+    private _route: Router,
   ) { }
 
   ngOnInit() {
@@ -75,7 +78,7 @@ export class SearchArchivesComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompany();
     this.getDepartaments();
-    this.getStorehouse();
+    this.getStorehouses();
     this.getDocuments();
   }
 
@@ -96,6 +99,16 @@ export class SearchArchivesComponent implements OnInit {
       endDate: null,
       search: null
     });
+  }
+
+  getStorehouses() {
+    this.storehousesSrv.searchStorehouses().subscribe(data => {
+      this.storehouses = data.items;
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
   }
 
   getCompany() {
@@ -168,14 +181,6 @@ export class SearchArchivesComponent implements OnInit {
       })
     )
 
-  getStorehouse() {
-    this.movimentsSrc.storehouses(this.id).subscribe(data => {
-      console.log(data);
-    }, error => {
-      console.log(`ERROR: ${error}`);
-    })
-  }
-
   searchStorehouse = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -235,20 +240,23 @@ export class SearchArchivesComponent implements OnInit {
   }
 
   onSelect({ selected }) {
-    let disabledList = []
-
-    selected.forEach((item, index) => {
-      if (item.indDemand) {
-        disabledList.push(index)
-      }
-    })
-
-    disabledList.reverse().forEach(item => {
-      selected.splice(item, 1)
-    })
-
     this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-    console.log(this.selected)
+    selected.forEach(element => {
+      if(!element.indDemand){
+        this.selected.push(element._id);
+      }
+    });
+  }
+
+  include() {
+    this.loading = true;
+    this.movimentsSrc.generatMoviment(this.id, this.selected).subscribe(data => {
+      this.loading = false;
+      this._route.navigate(['/moviments']);
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
   }
 }

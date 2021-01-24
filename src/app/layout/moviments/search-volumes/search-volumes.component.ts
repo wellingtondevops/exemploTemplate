@@ -1,6 +1,6 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesList, Company } from 'src/app/models/company';
@@ -13,7 +13,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { DepartamentList } from 'src/app/models/departament';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { DocumentList } from 'src/app/models/document';
-import { StorehousesList } from 'src/app/models/storehouse';
+import { StorehousesSearchList } from 'src/app/models/storehouse';
 import { VolumeList } from 'src/app/models/volume';
 import { Page } from 'src/app/models/page';
 import { Pipes } from 'src/app/utils/pipes/pipes';
@@ -21,6 +21,7 @@ import { SaveLocal } from 'src/app/storage/saveLocal';
 import { SelectionType } from 'src/app/models/selection.types'
 import { ColumnMode } from 'src/app/models/column-mode.types'
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
+import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 
 @Component({
   selector: 'app-search-volumes',
@@ -35,7 +36,7 @@ export class SearchVolumesComponent implements OnInit {
   departaments: DepartamentList;
   loading: Boolean = false;
   documents: DocumentList;
-  storehouses: StorehousesList;
+  storehouses: any;
   volumes: VolumeList = {
     _links: {
       currentPage: 0,
@@ -51,6 +52,7 @@ export class SearchVolumesComponent implements OnInit {
   guardTypeList: any = [];
 
   constructor(
+    private _route: Router,
     private localStorageSrv: SaveLocal,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
@@ -59,8 +61,9 @@ export class SearchVolumesComponent implements OnInit {
     private fb: FormBuilder,
     private warningMsg: WarningMessagesService,
     private utilCase: CaseInsensitive,
-    private pipes: Pipes
-  ) { 
+    private pipes: Pipes,
+    private storehousesSrv: StorehousesService,
+  ) {
     this.guardTypeList = GuardyTypeVolumeEnum;
   }
 
@@ -79,7 +82,7 @@ export class SearchVolumesComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompany();
     this.getDepartaments();
-    this.getStorehouse();
+    this.getStorehouses();
   }
 
   get companyIpt() {
@@ -101,7 +104,15 @@ export class SearchVolumesComponent implements OnInit {
     });
   }
 
-  
+  getStorehouses() {
+    this.storehousesSrv.searchStorehouses().subscribe(data => {
+      this.storehouses = data.items;
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
+  }
 
   getCompany() {
     this.movimentsSrc.company(this.id).subscribe(data => {
@@ -151,14 +162,6 @@ export class SearchVolumesComponent implements OnInit {
         return res;
       })
     )
-
-  getStorehouse() {
-    this.movimentsSrc.storehouses(this.id).subscribe(data => {
-      console.log(data);
-    }, error => {
-      console.log(`ERROR: ${error}`);
-    })
-  }
 
   searchStorehouse = (text$: Observable<string>) =>
     text$.pipe(
@@ -219,21 +222,12 @@ export class SearchVolumesComponent implements OnInit {
   }
 
   onSelect({ selected }) {
-    let disabledList = []
-
-    selected.forEach((item, index) => {
-      if (item.indDemand) {
-        disabledList.push(index)
-      }
-    })
-
-    disabledList.reverse().forEach(item => {
-      selected.splice(item, 1)
-    })
-
     this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-    console.log(this.selected)
+    selected.forEach(element => {
+      if (!element.indDemand) {
+        this.selected.push(element._id);
+      }
+    });
   }
 
   guardType(value) {
@@ -245,13 +239,25 @@ export class SearchVolumesComponent implements OnInit {
     }
     return res;
   }
+
+  include() {
+    this.loading = true;
+    this.movimentsSrc.generatMoviment(this.id, this.selected).subscribe(data => {
+      this.loading = false;
+      this._route.navigate(['/moviments']);
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
+  }
 }
 @Pipe({
   name: 'enumToArray'
 })
 export class EnumToArrayPipe implements PipeTransform {
   transform(data: Object) {
-      const keys = Object.keys(data);
-      return keys.slice(keys.length / 2);
+    const keys = Object.keys(data);
+    return keys.slice(keys.length / 2);
   }
 }
