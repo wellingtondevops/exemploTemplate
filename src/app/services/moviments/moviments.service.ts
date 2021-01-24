@@ -4,7 +4,9 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User, UserList } from '../../models/user';
 import { Profiles } from '../../models/profiles';
-import { Moviment, MovimentList } from 'src/app/models/moviment';
+import { Moviment, MovimentList, MovimentSearchArchives, MovimentSearchVolumes } from 'src/app/models/moviment';
+import { Company } from 'src/app/models/company';
+import { Departament } from 'src/app/models/departament';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -17,56 +19,100 @@ export class MovimentsService {
   searchMoviments(formData, page) {
     if (page) {
       return this.http.post<MovimentList>(`${url}/demands/search?_page=${page.pageNumber}&size=10`, formData)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     } else {
       return this.http.post<MovimentList>(`${url}/demands/search?size=10`, formData)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     }
   }
 
   moviments(page) {
     if (page) {
       return this.http.get<MovimentList>(`${url}/demands?_page=${page.pageNumber}&size=10`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     } else {
       return this.http.get<MovimentList>(`${url}/demands?size=10`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     }
   }
 
   deleteMoviment(user) {
     return this.http.delete<Moviment>(`${url}/demands/${user}`)
-    .pipe(
-      tap(data => data)
-    );
+      .pipe(
+        tap(data => data)
+      );
   }
 
   updateMoviment(user) {
     return this.http.patch<Moviment>(`${url}/demands/${user._id}`, user)
-    .pipe(
-      tap(data => data)
-    );
+      .pipe(
+        tap(data => data)
+      );
   }
 
   moviment(id) {
     return this.http.get<Moviment>(`${url}/demands/${id}`)
-    .pipe(
+      .pipe(
         tap(data => data)
-    );
+      );
   }
 
   newMoviment(user) {
     return this.http.post<Moviment>(`${url}/demands`, user)
-    .pipe(
-      tap(data => data)
-    );
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  searchVolumes(data, id, page) {
+    return this.http.post<any>(`${url}/demands/${id}/searchVolumes?_page=${page.pageNumber}&size=10`, data)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  searchArchives(data, id, page) {
+    return this.http.post<any>(`${url}/demands/${id}/searchArchives?_page=${page.pageNumber}&size=10`, data)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  company(id) {
+    return this.http.get<any>(`${url}/demands/${id}/companyDemand`)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  departaments(id) {
+    return this.http.get<any>(`${url}/demands/${id}/listDepartaments`)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  documents(id) {
+    return this.http.get<any>(`${url}/demands/${id}/listDocuments`)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  generatMoviment(id, data) {
+    console.log('array');
+    console.log(data);
+    return this.http.post<any>(`${url}/demands/${id}/generatDemand`, { items: data })
+      .pipe(
+        tap(data => data)
+      );
   }
 }

@@ -9,12 +9,14 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
-import { PageHeaderModule, DatatablesModule, ModalImportRightBottomModule, ButtonBackModule, ButtonsCustomModule } from 'src/app/shared';
+import { PageHeaderModule, ModalImportRightBottomModule, ButtonBackModule, ButtonsCustomModule, DatatablesModule } from 'src/app/shared';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { EditComponent } from './edit/edit.component';
+import { EnumToArrayPipe, SearchVolumesComponent } from './search-volumes/search-volumes.component';
+import { SearchArchivesComponent } from './search-archives/search-archives.component';
 
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent],
+  declarations: [ShowComponent, EnumToArrayPipe, ListComponent, NewComponent, EditComponent, SearchVolumesComponent, SearchArchivesComponent],
   imports: [
     CommonModule,
     MovimentsRoutingModule,

@@ -1,0 +1,126 @@
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: true,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+      }"></ngx-loading>
+  <app-page-header [heading]="'Volumes'" [icon]="'fa-user'"></app-page-header>
+  <div style="margin-bottom: 10px">
+    <app-button-back [redirectTo]="'moviments/get'" [id]="this.id"></app-button-back>
+    <!-- <app-buttons-custom *ngIf="moviment" [id]="moviment._id" (edit)="editMoviment(moviment._id)"
+      (delete)="open('focusFirst', moviment._id)" [permissionEdit]="false"
+      [permissionDelete]="permissionDelete && !processed"></app-buttons-custom> -->
+    <br />
+  </div>
+  <ngb-accordion #acc="ngbAccordion" activeIds="searchvolumes-0">
+    <ngb-panel id="searchvolumes-0">
+      <ng-template ngbPanelTitle>
+        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <form [formGroup]="searchForm" role="FormGroup" (submit)="getSearchVolumes()">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="typeahead-basic">Empresa</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
+              <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
+                <div *ngIf="!companyIpt.valid">
+                  Empresa é obrigatória.
+                </div>
+              </div>
+            </div>
+            <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+            <div class="form-group col">
+              <label for="typeahead-basic">Departamento</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
+                [resultTemplate]="rtDepartament" [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" />
+            </div>
+            <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+            <div class="form-group col">
+              <label for="location">Posição</label>
+              <input type="text" class="form-control" formControlName="location" />
+            </div>
+            <div class="form-group col">
+              <label for="typeahead-basic">Depósito</label>
+              <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
+                [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
+            </div>
+            <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="">Tipo de Guarda</label>
+              <select class="form-control" id="guardType" formControlName="guardType">
+                <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
+                  {{ guardT | translate }}</option>
+              </select>
+            </div>
+
+            <div class="form-group col">
+              <label for="location">Refeência</label>
+              <input type="text" class="form-control" formControlName="reference" />
+            </div>
+            <div class="form-group col">
+              <label for="location">Data Inicial</label>
+              <input type="text" class="form-control" formControlName="initDate" />
+            </div>
+            <div class="form-group col">
+              <label for="location">Data Final</label>
+              <input type="text" class="form-control" formControlName="endDate" />
+            </div>
+          </div>
+          <div class="form-row" style="display: flex;justify-content: center;">
+            <button type="submit" class="btn btn-primary" [disabled]="companyIpt.invalid">
+              <i class="fa fa-search"></i>
+            </button>
+            <button style="margin-left: 5px;margin-right: 5px;" type="button" class="btn btn-default" (click)="clear()">
+              Limpar Campos
+            </button>
+            <button class="btn btn-success" (click)="include()">Incluir</button>
+          </div>
+        </form>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+  <div class="row" *ngIf="archives.items.length > 0">
+    <div class="col col-xl-12 col-lg-12">
+      <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+        [offset]="page.pageNumber" [limit]="10" (page)="setPageVolumes($event)" [selected]="selected"
+        [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)">
+        <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+          [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+          <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+            let-selectFn="selectFn">
+            <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Departamento" prop="departament.name"></ngx-datatable-column>
+        <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
+        <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
+        <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column>
+        <ngx-datatable-column name="Criado em" prop="create">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date: 'dd/MM/yyyy' }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
+        <ngx-datatable-column name="Suspensa" prop="indDemand">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value ? 'Sim' : 'Não' }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
