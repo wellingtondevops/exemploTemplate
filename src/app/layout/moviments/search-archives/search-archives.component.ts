@@ -230,8 +230,8 @@ export class SearchArchivesComponent implements OnInit {
     this.localStorageSrv.save('search-archive', this.searchForm.value);
     this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
     this.searchForm.value.location ? newSearch.location = this.searchForm.value.name : null;
-    this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('departament') : null;
-    this.searchForm.value.doct ? newSearch.doct = this.returnId('departament') : null;
+    this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
+    this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
     this.searchForm.value.initDate ? newSearch.initDate = this.searchForm.value.initDate : null;
     this.searchForm.value.endDate ? newSearch.endDate = this.searchForm.value.endDate : null;
     this.searchForm.value.search ? newSearch.search = this.searchForm.value.search : null;
@@ -244,7 +244,6 @@ export class SearchArchivesComponent implements OnInit {
       this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
-      this.getSearchArchives()
     }, error => {
       this.errorMsg.errorMessages(error);
       this.loading = false;
@@ -270,6 +269,7 @@ export class SearchArchivesComponent implements OnInit {
       this.successMsgSrv.showSuccess(data.message);
       this._route.navigate(['/moviments/searcharchives', this.id]);
       this.selected = [];
+      this.getSearchArchives();
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
