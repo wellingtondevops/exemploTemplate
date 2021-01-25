@@ -262,7 +262,7 @@ export class SearchArchivesComponent implements OnInit {
       if(!element.indDemand){
         selectedItens.push(element._id);
       } else {
-        this.warningMsgSrv.showWarning(`Esse arquivo já está indexado em outra movimentação nr ${element.nr}`, 5000)
+        this.warningMsgSrv.showWarning(`Esse arquivo já está indexado em outra movimentação nr ${element.demand.nr}`, 5000)
       }
     });
     this.loading = true;
