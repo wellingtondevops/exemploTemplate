@@ -80,7 +80,7 @@ export class SearchVolumesComponent implements OnInit {
     });
 
     const searchVolume = JSON.parse(this.localStorageSrv.get('search-volume'));
-    if(searchVolume && searchVolume.company){
+    if (searchVolume && searchVolume.company) {
       this.searchForm.patchValue({
         departament: searchVolume.departament,
         guardType: searchVolume.guardType,
@@ -201,7 +201,6 @@ export class SearchVolumesComponent implements OnInit {
   setPageVolumes(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    console.log(this.page)
     const newSearch = {
       departament: null,
       location: null,
@@ -236,12 +235,8 @@ export class SearchVolumesComponent implements OnInit {
   }
 
   onSelect({ selected }) {
-    this.selected.splice(0, this.selected.length);
-    selected.forEach(element => {
-      if (!element.indDemand) {
-        this.selected.push(element._id);
-      }
-    });
+    selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
   }
 
   guardType(value) {
@@ -255,12 +250,18 @@ export class SearchVolumesComponent implements OnInit {
   }
 
   include() {
+    var selectedItens = []
+    this.selected.forEach(element => {
+      if (!element.indDemand) {
+        selectedItens.push(element._id);
+      }
+    });
     this.loading = true;
-    this.movimentsSrc.generatMoviment(this.id, this.selected).subscribe(data => {
+    this.movimentsSrc.generatMoviment(this.id, selectedItens).subscribe(data => {
       this.loading = false;
-      this._route.navigate(['/moviments/searchvolumes', this.id]);
       this.successMsgSrv.showSuccess(data.message);
       this.selected = [];
+      this.getSearchVolumes()
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);

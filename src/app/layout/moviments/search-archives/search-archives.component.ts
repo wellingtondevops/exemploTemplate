@@ -75,7 +75,7 @@ export class SearchArchivesComponent implements OnInit {
       endDate: this.fb.control(null)
     });
     const searchArchive = JSON.parse(this.localStorageSrv.get('search-archive'));
-    if(searchArchive && searchArchive.company){
+    if (searchArchive && searchArchive.company) {
       this.searchForm.patchValue({
         departament: searchArchive.departament,
         doct: searchArchive.doct,
@@ -244,6 +244,7 @@ export class SearchArchivesComponent implements OnInit {
       this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
+      this.getSearchArchives()
     }, error => {
       this.errorMsg.errorMessages(error);
       this.loading = false;
@@ -252,17 +253,19 @@ export class SearchArchivesComponent implements OnInit {
   }
 
   onSelect({ selected }) {
-    this.selected.splice(0, this.selected.length);
-    selected.forEach(element => {
-      if(!element.indDemand){
-        this.selected.push(element._id);
-      }
-    });
+    selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
   }
 
   include() {
+    var selectedItens = []
+    this.selected.forEach(element => {
+      if(!element.indDemand){
+        selectedItens.push(element._id);
+      }
+    });
     this.loading = true;
-    this.movimentsSrc.generatMoviment(this.id, this.selected).subscribe(data => {
+    this.movimentsSrc.generatMoviment(this.id, selectedItens).subscribe(data => {
       this.loading = false;
       this.successMsgSrv.showSuccess(data.message);
       this._route.navigate(['/moviments/searcharchives', this.id]);
