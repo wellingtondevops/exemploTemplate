@@ -264,6 +264,7 @@ export class SearchArchivesComponent implements OnInit {
     this.loading = true;
     this.movimentsSrc.generatMoviment(this.id, this.selected).subscribe(data => {
       this.loading = false;
+      this.successMsgSrv.showSuccess(data.message);
       this._route.navigate(['/moviments/searcharchives', this.id]);
       this.selected = [];
     }, error => {
