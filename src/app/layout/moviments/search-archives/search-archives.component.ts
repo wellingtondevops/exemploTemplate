@@ -229,7 +229,7 @@ export class SearchArchivesComponent implements OnInit {
     };
     this.localStorageSrv.save('search-archive', this.searchForm.value);
     this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
-    this.searchForm.value.location ? newSearch.location = this.searchForm.value.name : null;
+    this.searchForm.value.location ? newSearch.location = this.searchForm.value.location : null;
     this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
     this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
     this.searchForm.value.initDate ? newSearch.initDate = this.searchForm.value.initDate : null;

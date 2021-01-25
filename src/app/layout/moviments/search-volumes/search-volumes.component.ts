@@ -212,7 +212,7 @@ export class SearchVolumesComponent implements OnInit {
     };
     this.localStorageSrv.save('search-volume', this.searchForm.value);
     this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
-    this.searchForm.value.location ? newSearch.location = this.searchForm.value.name : null;
+    this.searchForm.value.location ? newSearch.location = this.searchForm.value.location : null;
     this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
     this.searchForm.value.guardType ? newSearch.guardType = this.searchForm.value.guardType : null;
     this.searchForm.value.initDate ? newSearch.initDate = this.searchForm.value.initDate : null;
