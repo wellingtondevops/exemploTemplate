@@ -59,7 +59,7 @@ export class SearchVolumesComponent implements OnInit {
     private route: ActivatedRoute,
     private movimentsSrc: MovimentsService,
     private fb: FormBuilder,
-    private warningMsg: WarningMessagesService,
+    private warningMsgSrv: WarningMessagesService,
     private utilCase: CaseInsensitive,
     private pipes: Pipes,
     private storehousesSrv: StorehousesService,
@@ -254,6 +254,8 @@ export class SearchVolumesComponent implements OnInit {
     this.selected.forEach(element => {
       if (!element.indDemand) {
         selectedItens.push(element._id);
+      } else {
+        this.warningMsgSrv.warningMsg(`Essa caixa já está indexado em outra Solicitação nr ${element.nr}`)
       }
     });
     this.loading = true;

@@ -56,7 +56,7 @@ export class SearchArchivesComponent implements OnInit {
     private route: ActivatedRoute,
     private movimentsSrc: MovimentsService,
     private fb: FormBuilder,
-    private warningMsg: WarningMessagesService,
+    private warningMsgSrv: WarningMessagesService,
     private utilCase: CaseInsensitive,
     private pipes: Pipes,
     private storehousesSrv: StorehousesService,
@@ -261,6 +261,8 @@ export class SearchArchivesComponent implements OnInit {
     this.selected.forEach(element => {
       if(!element.indDemand){
         selectedItens.push(element._id);
+      } else {
+        this.warningMsgSrv.warningMsg(`Esse arquivo já está indexado em outra movimentação nr ${element.nr}`)
       }
     });
     this.loading = true;
