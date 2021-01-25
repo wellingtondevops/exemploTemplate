@@ -259,6 +259,7 @@ export class SearchVolumesComponent implements OnInit {
     this.movimentsSrc.generatMoviment(this.id, this.selected).subscribe(data => {
       this.loading = false;
       this._route.navigate(['/moviments/searchvolumes', this.id]);
+      this.selected = [];
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
