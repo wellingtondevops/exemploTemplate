@@ -74,6 +74,18 @@ export class SearchArchivesComponent implements OnInit {
       initDate: this.fb.control(null),
       endDate: this.fb.control(null)
     });
+    const searchArchive = JSON.parse(this.localStorageSrv.get('search-archive'));
+    if(searchArchive && searchArchive.company){
+      this.searchForm.patchValue({
+        departament: searchArchive.departament,
+        doct: searchArchive.doct,
+        location: searchArchive.location,
+        storehouse: searchArchive.storehouse,
+        search: searchArchive.search,
+        endDate: searchArchive.endDate,
+        initDate: searchArchive.initDate
+      })
+    }
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompany();

@@ -79,6 +79,19 @@ export class SearchVolumesComponent implements OnInit {
       endDate: this.fb.control(null)
     });
 
+    const searchVolume = JSON.parse(this.localStorageSrv.get('search-volume'));
+    if(searchVolume && searchVolume.company){
+      this.searchForm.patchValue({
+        departament: searchVolume.departament,
+        guardType: searchVolume.guardType,
+        location: searchVolume.location,
+        storehouse: searchVolume.storehouse,
+        reference: searchVolume.reference,
+        endDate: searchVolume.endDate,
+        initDate: searchVolume.initDate
+      })
+    }
+
     this.id = this.route.snapshot.paramMap.get('id');
     this.getCompany();
     this.getDepartaments();
@@ -188,6 +201,7 @@ export class SearchVolumesComponent implements OnInit {
   setPageVolumes(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    console.log(this.page)
     const newSearch = {
       departament: null,
       location: null,

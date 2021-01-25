@@ -98,7 +98,7 @@
     <div class="col col-xl-12 col-lg-12">
       <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'force'" [headerHeight]="50"
         [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-        [offset]="page.pageNumber" [limit]="10" (page)="setPageArchives($event)" [selected]="selected"
+        [offset]="page.pageNumber - 1" [limit]="page.size" (page)="setPageArchives($event)" [selected]="selected"
         [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)">
         <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
           [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">

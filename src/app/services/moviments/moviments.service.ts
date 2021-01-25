@@ -110,7 +110,7 @@ export class MovimentsService {
   generatMoviment(id, data) {
     console.log('array');
     console.log(data);
-    return this.http.post<any>(`${url}/demands/${id}/generatDemand`, { items: data })
+    return this.http.post<any>(`${url}/demands/${id}/generatDemand`, { itens: data })
       .pipe(
         tap(data => data)
       );

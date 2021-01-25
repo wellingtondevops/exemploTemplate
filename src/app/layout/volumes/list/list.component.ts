@@ -67,7 +67,7 @@ export class ListComponent implements OnInit {
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
   permissionNew: boolean = false;
-  isUsers: boolean=false;
+  isUsers: boolean = false;
 
   constructor(
     private el: ElementRef,
@@ -105,7 +105,7 @@ export class ListComponent implements OnInit {
       guardType: this.fb.control('GERENCIADA'),
     });
     const volume = JSON.parse(this.localStorageSrv.get('volume'));
-    if(volume && volume.company){
+    if (volume && volume.company) {
       this.searchForm.patchValue({
         company: volume.company,
         departament: volume.departament,
@@ -141,7 +141,7 @@ export class ListComponent implements OnInit {
     return result;
   }
 
-  clear(){
+  clear() {
     this.localStorageSrv.clear('volume');
 
     this.searchForm.patchValue({
@@ -166,7 +166,7 @@ export class ListComponent implements OnInit {
   setPageVolumes(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-
+    console.log(this.page);
     this.localStorageSrv.save('volume', this.searchForm.value)
 
     const newForm = {
