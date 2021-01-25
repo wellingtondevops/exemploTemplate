@@ -255,7 +255,7 @@ export class SearchVolumesComponent implements OnInit {
       if (!element.indDemand) {
         selectedItens.push(element._id);
       } else {
-        this.warningMsgSrv.warningMsg(`Essa caixa já está indexado em outra Solicitação nr ${element.nr}`)
+        this.warningMsgSrv.showWarning(`Essa caixa já está indexado em outra Solicitação nr ${element.nr}`, 5000)
       }
     });
     this.loading = true;
