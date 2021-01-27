@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ShowComponent } from '../moviments/show/show.component';
 import { NewComponent } from '../moviments/new/new.component';
 import { EditComponent } from '../moviments/edit/edit.component';
+import { SearchArchivesComponent } from './search-archives/search-archives.component';
+import { SearchVolumesComponent } from './search-volumes/search-volumes.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,14 @@ const routes: Routes = [
     path: 'edit/:id',
     component: EditComponent,
   },
+  {
+    path: 'searcharchives/:id',
+    component: SearchArchivesComponent,
+  },
+  {
+    path: 'searchvolumes/:id',
+    component: SearchVolumesComponent,
+  }
 ];
 
 @NgModule({

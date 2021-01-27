@@ -115,7 +115,7 @@ export class NewComponent implements OnInit {
         this.loading = false;
         this.moviment = data;
         this.successMsgSrv.successMessages('Movimentação cadastrado com sucesso.');
-        this._route.navigate(['/moviments'])
+        this._route.navigate(['/moviments/get', data._id])
       }, error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
