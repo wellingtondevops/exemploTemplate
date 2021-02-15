@@ -15,6 +15,13 @@ import { Moviment } from '../../../models/moviment';
 import _ from 'lodash';
 import { MovimentsService } from 'src/app/services/moviments/moviments.service';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { ArchivesList } from 'src/app/models/archive';
+import { Page } from 'src/app/models/page';
+import { DepartamentList } from 'src/app/models/departament';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { DocumentList } from 'src/app/models/document';
+import { VolumeList } from 'src/app/models/volume';
+import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -28,14 +35,26 @@ const MODALS = {
 export class ShowComponent implements OnInit {
   companies: any = [];
   movimentForm: FormGroup;
+  archiveForm: FormGroup;
+  volumeForm: FormGroup;
   company: Company;
+  departaments: DepartamentList;
+  documents: DocumentList;
+  storehouses: any;
   id: String;
   moviment: Moviment;
+  archives: ArchivesList;
+  volumes: VolumeList;
   changeUp = false;
   hiddenReference: Boolean = true;
   public loading: Boolean = false;
   permissionEdit = false;
   permissionDelete = false;
+  page = new Page();
+  pageVolumes = new Page();
+  pageArchives = new Page();
+  selected: any = [];
+  selectedVolumes: any = [];
   // isUsers = false;
 
   constructor(
@@ -46,10 +65,12 @@ export class ShowComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
+    private warningMsg: WarningMessagesService,
     private fb: FormBuilder,
     private modalService: NgbModal,
     public modal: NgbActiveModal,
-    private _route: Router
+    private _route: Router,
+    private utilCase: CaseInsensitive
   ) {
     this.movimentForm = this.fb.group({
       _id: this.fb.control(''),
@@ -72,6 +93,20 @@ export class ShowComponent implements OnInit {
       loan: this.fb.control({ value: false, disabled: true }),
       nr: this.fb.control({ value: '' })
     });
+
+    this.archiveForm = this.fb.group({
+      document: this.fb.control(''),
+      storehouse: this.fb.control(''),
+      location: this.fb.control(''),
+      search: this.fb.control('')
+    });
+
+    this.volumeForm = this.fb.group({
+      storehouse: this.fb.control(''),
+      departament: this.fb.control(''),
+      location: this.fb.control(''),
+      reference: this.fb.control('')
+    })
   }
 
   ngOnInit() {
@@ -81,7 +116,11 @@ export class ShowComponent implements OnInit {
     this.loading = true;
     this.id = this.route.snapshot.paramMap.get('id');
     this.getMoviment();
+    this.getDepartaments();
+    this.getStorehouses();
+    this.getDocuments();
   }
+
   get companyIpt() {
     return this.movimentForm.get('company');
   }
@@ -103,7 +142,7 @@ export class ShowComponent implements OnInit {
           title: this.moviment.title,
           demand: this.moviment.demand,
           normal: this.moviment.normal ? 'Normal' : '',
-          emergency: this.moviment.emergency? 'Emergêncial' : '',
+          emergency: this.moviment.emergency ? 'Emergêncial' : '',
           moveVolume: this.moviment.moveVolume ? 'Caixas' : '',
           moveArchive: this.moviment.moveArchive ? 'Arquivos' : '',
           digital: this.moviment.digital ? 'Digital' : '',
@@ -166,6 +205,82 @@ export class ShowComponent implements OnInit {
     this._route.navigate(['/moviments/edit', moviment]);
   }
 
+  returnArchiveId(object) {
+    const result = _.filter(this.archiveForm.value[object], function (value, key) {
+      if (key === '_id') { return value; }
+    })[0];
+    return result;
+  }
+
+  searchItensArchives(pageInfo = null) {
+    this.loading = true;
+
+    if (pageInfo && pageInfo.offset) {
+      this.page.pageNumber = pageInfo.offset;
+    } else {
+      this.page.pageNumber = 0
+    }
+
+
+    const newSearch = {
+      document: null,
+      storehouse: null,
+      location: null,
+      search: null
+    };
+    //this.localStorageSrv.save('moviment', this.searchForm.value);
+    this.archiveForm.value.document ? newSearch.document = this.returnArchiveId('document') : null;
+    this.archiveForm.value.storehouse ? newSearch.storehouse = this.returnArchiveId('storehouse') : null;
+    this.archiveForm.value.location ? newSearch.location = this.archiveForm.value.location : null;
+    this.archiveForm.value.search ? newSearch.search = this.archiveForm.value.search : null;
+
+    const searchValue = _.omitBy(newSearch, _.isNil);
+
+    this.movimentsSrv.showItensArchives(this.id, searchValue, this.page).subscribe(data => {
+      this.archives = data;
+      this.page.pageNumber = data._links.currentPage;
+      this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
+      this.loading = false;
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR:', error);
+    })
+  }
+
+  searchItensVolumes(pageInfo = null) {
+    this.loading = true;
+    this.page.pageNumber = pageInfo.offset ? pageInfo.offset : 0;
+
+    const newSearch = {
+      departament: null,
+      storehouse: null,
+      location: null,
+      search: null
+    };
+    //this.localStorageSrv.save('moviment', this.searchForm.value);
+    this.archiveForm.value.departament ? newSearch.departament = this.returnArchiveId('departament') : null;
+    this.archiveForm.value.storehouse ? newSearch.storehouse = this.returnArchiveId('storehouse') : null;
+    this.archiveForm.value.location ? newSearch.location = this.archiveForm.value.location : null;
+    this.archiveForm.value.search ? newSearch.search = this.archiveForm.value.search : null;
+
+    const searchValue = _.omitBy(newSearch, _.isNil);
+
+    this.movimentsSrv.showItensVolumes(this.id, searchValue, this.page).subscribe(data => {
+      this.archives = data;
+      console.log(data)
+      this.page.pageNumber = data._links.currentPage;
+      this.page.totalElements = data._links.foundItems;
+      this.page.size = data._links.totalPage;
+      this.loading = false;
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR:', error);
+    })
+  }
+
   open(name: string, storeHouse) {
     const modalRef = this.modalService.open(MODALS[name]);
     modalRef.componentInstance.item = storeHouse;
@@ -179,4 +294,106 @@ export class ShowComponent implements OnInit {
     });
   }
 
+  getDocuments() {
+    this.movimentsSrv.documents(this.id).subscribe(data => {
+      this.documents = data.items;
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
+  }
+
+  onSelect({ selected }) {
+    selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+  }
+
+  onSelectVolumes({ selectedVolumes }) {
+    selectedVolumes.splice(0, this.selectedVolumes.length);
+    this.selectedVolumes.push(...selectedVolumes);
+  }
+
+  getDepartaments() {
+    this.movimentsSrv.departaments(this.id).subscribe(data => {
+      this.departaments = data.items;
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
+  }
+
+  getStorehouses() {
+    this.storeHousesSrv.searchStorehouses().subscribe(data => {
+      this.storehouses = data.items;
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
+  }
+
+  searchDepartament = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(departament => {
+        let res;
+        if (departament.length < 2) { []; } else { res = _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10); }
+        return res;
+      })
+    )
+
+  searchDocument = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(document => {
+        let res;
+        if (document.length < 2) { []; } else { res = _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
+        return res;
+      })
+    )
+
+  searchStorehouse = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(storehouse => {
+        let res;
+        if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10); }
+        return res;
+      })
+    )
+
+  showItensVolumes(pageInfo = null){
+    this.loading = true;
+    this.pageVolumes.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
+
+    var volumeForm = {
+      departament: this.volumeForm.value.departament ? this.volumeForm.value.departament._id : '',
+      storehouse: this.volumeForm.value.storehouse ? this.volumeForm.value.storehouse._id : '',
+      reference: this.volumeForm.value.reference ? this.volumeForm.value.reference : '',
+      location: this.volumeForm.value.location ? this.volumeForm.value.location : '',
+    }
+
+    this.movimentsSrv.showItensVolumes(this.moviment._id, volumeForm, this.pageVolumes).subscribe(data => {
+      this.loading = false;
+      this.volumes = data;
+      this.pageVolumes.pageNumber = data._links.currentPage;
+      this.pageVolumes.totalElements = data._links.foundItems;
+      this.pageVolumes.size = data._links.totalPage;
+      if(data.items.length === 0){
+        this.warningMsg.showWarning('Lista de Volumes vazia', 50000);
+      }
+    }, error => {
+      this.loading = false;
+      console.log('ERROR', error);
+    })
+  }
+
+  removeVolumes(){
+    
+  }
 }

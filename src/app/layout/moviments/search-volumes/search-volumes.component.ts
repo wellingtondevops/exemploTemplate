@@ -117,6 +117,18 @@ export class SearchVolumesComponent implements OnInit {
     });
   }
 
+  remove() {
+    this.loading = true;
+    this.movimentsSrc.removeMoviment(this.id, { itens: this.selected }).subscribe(data => {
+      this.successMsgSrv.showSuccess(data.message);
+      this.loading = false;
+    }, error => {
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error);
+      this.loading = false;
+    })
+  }
+
   getStorehouses() {
     this.storehousesSrv.searchStorehouses().subscribe(data => {
       this.storehouses = data.items;

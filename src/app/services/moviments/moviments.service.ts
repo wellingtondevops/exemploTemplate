@@ -107,9 +107,28 @@ export class MovimentsService {
       );
   }
 
+  removeMoviment(id, data) {
+    return this.http.post<any>(`${url}/demands/${id}/removeItensDemand`, { itens: data })
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  showItensArchives(id, form, page = null) {
+    return this.http.post<any>(`${url}/demands/${id}/showItensArchives?_page=${page.pageNumber}`, form)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  showItensVolumes(id, form, page = null) {
+    return this.http.post<any>(`${url}/demands/${id}/showItensVolumes?_page=${page.pageNumber}`, form)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
   generatMoviment(id, data) {
-    console.log('array');
-    console.log(data);
     return this.http.post<any>(`${url}/demands/${id}/generatDemand`, { itens: data })
       .pipe(
         tap(data => data)
