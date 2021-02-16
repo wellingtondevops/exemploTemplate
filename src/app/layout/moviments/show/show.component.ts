@@ -55,6 +55,7 @@ export class ShowComponent implements OnInit {
   pageArchives = new Page();
   selected: any = [];
   selectedVolumes: any = [];
+  selectedArchives: any = [];
   // isUsers = false;
 
   constructor(
@@ -216,9 +217,9 @@ export class ShowComponent implements OnInit {
     this.loading = true;
 
     if (pageInfo && pageInfo.offset) {
-      this.page.pageNumber = pageInfo.offset;
+      this.pageArchives.pageNumber = pageInfo.offset;
     } else {
-      this.page.pageNumber = 0
+      this.pageArchives.pageNumber = 0
     }
 
 
@@ -236,11 +237,11 @@ export class ShowComponent implements OnInit {
 
     const searchValue = _.omitBy(newSearch, _.isNil);
 
-    this.movimentsSrv.showItensArchives(this.id, searchValue, this.page).subscribe(data => {
+    this.movimentsSrv.showItensArchives(this.id, searchValue, this.pageArchives).subscribe(data => {
       this.archives = data;
-      this.page.pageNumber = data._links.currentPage;
-      this.page.totalElements = data._links.foundItems;
-      this.page.size = data._links.totalPage;
+      this.pageArchives.pageNumber = data._links.currentPage;
+      this.pageArchives.totalElements = data._links.foundItems;
+      this.pageArchives.size = data._links.totalPage;
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -251,7 +252,7 @@ export class ShowComponent implements OnInit {
 
   searchItensVolumes(pageInfo = null) {
     this.loading = true;
-    this.page.pageNumber = pageInfo.offset ? pageInfo.offset : 0;
+    this.pageVolumes.pageNumber = pageInfo.offset ? pageInfo.offset : 0;
 
     const newSearch = {
       departament: null,
@@ -267,12 +268,12 @@ export class ShowComponent implements OnInit {
 
     const searchValue = _.omitBy(newSearch, _.isNil);
 
-    this.movimentsSrv.showItensVolumes(this.id, searchValue, this.page).subscribe(data => {
+    this.movimentsSrv.showItensVolumes(this.id, searchValue, this.pageVolumes).subscribe(data => {
       this.archives = data;
       console.log(data)
-      this.page.pageNumber = data._links.currentPage;
-      this.page.totalElements = data._links.foundItems;
-      this.page.size = data._links.totalPage;
+      this.pageVolumes.pageNumber = data._links.currentPage;
+      this.pageVolumes.totalElements = data._links.foundItems;
+      this.pageVolumes.size = data._links.totalPage;
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -304,14 +305,19 @@ export class ShowComponent implements OnInit {
     })
   }
 
-  onSelect({ selected }) {
+  /* onSelect({ selected }) {
+    console.log(selected)
     selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+  } */
+
+  onSelectVolumes({ selected }) {
+    this.selectedVolumes = selected;
   }
 
-  onSelectVolumes({ selectedVolumes }) {
-    selectedVolumes.splice(0, this.selectedVolumes.length);
-    this.selectedVolumes.push(...selectedVolumes);
+
+  onSelectArchives({ selected }) {
+    this.selectedArchives = selected;
   }
 
   getDepartaments() {
@@ -367,7 +373,7 @@ export class ShowComponent implements OnInit {
       })
     )
 
-  showItensVolumes(pageInfo = null){
+  showItensVolumes(pageInfo = null) {
     this.loading = true;
     this.pageVolumes.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
 
@@ -384,7 +390,7 @@ export class ShowComponent implements OnInit {
       this.pageVolumes.pageNumber = data._links.currentPage;
       this.pageVolumes.totalElements = data._links.foundItems;
       this.pageVolumes.size = data._links.totalPage;
-      if(data.items.length === 0){
+      if (data.items.length === 0) {
         this.warningMsg.showWarning('Lista de Volumes vazia', 50000);
       }
     }, error => {
@@ -393,7 +399,31 @@ export class ShowComponent implements OnInit {
     })
   }
 
-  removeVolumes(){
-    
+  removeVolumes() {
+    var ids = [];
+    this.selectedArchives.forEach(element => {
+      ids.push(element._id)
+    });
+    this.movimentsSrv.removeMoviment(this.moviment._id, { itens: ids }).subscribe(data => {
+      this.showItensVolumes();
+      this.selectedVolumes = [];
+      this.successMsgSrv.successMessages(data.message)
+    }, error => {
+      console.log('ERROR: ', error)
+    })
+  }
+
+  removeArchives() {
+    var ids = [];
+    this.selectedArchives.forEach(element => {
+      ids.push(element._id)
+    });
+    this.movimentsSrv.removeMoviment(this.moviment._id, { itens: ids }).subscribe(data => {
+      this.searchItensArchives();
+      this.selectedArchives = [];
+      this.successMsgSrv.successMessages(data.message)
+    }, error => {
+      console.log('ERROR: ', error)
+    })
   }
 }

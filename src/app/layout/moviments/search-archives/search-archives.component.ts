@@ -264,6 +264,7 @@ export class SearchArchivesComponent implements OnInit {
   }
 
   onSelect({ selected }) {
+    console.log(selected)
     selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
