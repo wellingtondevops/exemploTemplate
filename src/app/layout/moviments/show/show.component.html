@@ -70,142 +70,19 @@
                     formControlName="digital">
                 </div>
               </div>
-              <!-- <button class="btn btn-primary pull-right" [routerLink]="['/moviments/searchvolumes', moviment._id]"
+              <button class="btn btn-primary pull-right" [routerLink]="['/moviments/searchvolumes', moviment._id]"
                 *ngIf="moviment && moviment.moveVolume ">Pesquisar Caixas</button>
               <button class="btn btn-primary pull-right" [routerLink]="['/moviments/searcharchives', moviment._id]"
-                *ngIf="moviment &&  moviment.moveArchive">Pesquisar Arquivos</button> -->
+                *ngIf="moviment &&  moviment.moveArchive">Pesquisar Arquivos</button>
             </form>
           </ng-template>
         </ngb-tab>
-        <ngb-tab id="tab2" title="Ver Arquivos" *ngIf="moviment.moveArchive" (tabChange)="searchItensArchives()">
+        <ngb-tab id="tab2" title="Ver Arquivos">
           <ng-template ngbTabContent>
-            <br>
-            <form [formGroup]="archiveForm" role="FormGroup" (ngSubmit)="searchItensArchives()">
-              <div class="form-row">
-                <div class="form-group col">
-                  <label for="typeahead-basic">Documento</label>
-                  <input id="typeahead-basic" type="text" class="form-control" formControlName="document"
-                    [resultTemplate]="rtDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" />
-                </div>
-                <div class="form-group col">
-                  <label for="typeahead-basic">Depósito</label>
-                  <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
-                    [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
-                </div>
-                <div class="form-group col">
-                  <label for="location">Posição</label>
-                  <input type="text" class="form-control" formControlName="location" />
-                </div>
-                <div class="form-group col">
-                  <label for="search">Índice</label>
-                  <input type="text" class="form-control" formControlName="search" />
-                </div>
-              </div>
-              <div class="form-row" style="display: flex;justify-content: center;">
-                <button type="submit" class="btn btn-primary">
-                  <i class="fa fa-search"></i>
-                </button>
-                <button *ngIf="moviment.moveArchive && !moviment.processed" type="button" class="btn btn-danger" (click)="removeArchives()">Remover</button>
-              </div>
-              <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
-                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-              </ng-template>
-              <ng-template #rtDocument let-r="result" let-t="document" class="custom-typeahead">
-                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-              </ng-template>
-            </form>
-            <div class="row" *ngIf="archives && archives.items.length > 0">
-              <div class="col col-xl-12 col-lg-12" style="padding-top: 20px">
-                <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'force'"
-                  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
-                  [count]="pageArchives.totalElements" [offset]="pageArchives.pageNumber - 1" [limit]="10"
-                  (page)="searchItensArchives($event)" [selected]="selected" [selectionType]="'checkbox'"
-                  [selectAllRowsOnPage]="true"  [selectAllRowsOnPage]="false" (select)="onSelectArchives($event)">
-                  <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-                    [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
-                    <!-- <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                      let-selectFn="selectFn">
-                      <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-                    </ng-template> -->
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="Document" prop="doct.name"></ngx-datatable-column>
-                  <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
-                  <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
-                  <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
-                </ngx-datatable>
-              </div>
-            </div>
           </ng-template>
         </ngb-tab>
-        <ngb-tab id="tab3" title="Ver Volumes" *ngIf="moviment.moveVolume" (click)="showItensVolumes()">
+        <ngb-tab id="tab3" title="Ver Volumes">
           <ng-template ngbTabContent>
-            <br>
-            <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="showItensVolumes()">
-              <div class="form-row">
-                <div class="form-group col">
-                  <label for="typeahead-basic">Departamento</label>
-                  <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
-                    [resultTemplate]="rtDepartament" [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" />
-                </div>
-                <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
-                  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                </ng-template>
-                <div class="form-group col">
-                  <label for="location">Posição</label>
-                  <input type="text" class="form-control" formControlName="location" />
-                </div>
-                <div class="form-group col">
-                  <label for="typeahead-basic">Depósito</label>
-                  <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
-                    [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
-                </div>
-                <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
-                  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                </ng-template>
-                <div class="form-group col">
-                  <label for="reference">Referência</label>
-                  <input type="text" class="form-control" formControlName="reference" />
-                </div>
-              </div>
-              <div class="form-row" style="display: flex;justify-content: center;">
-                <button type="submit" class="btn btn-primary">
-                  <i class="fa fa-search"></i>
-                </button>
-                <button *ngIf="moviment.moveVolume && !moviment.processed" type="button" class="btn btn-danger" (click)="removeVolumes()">Remover</button>
-              </div>
-            </form>
-            <div class="row" *ngIf="volumes && volumes.items.length > 0">
-              <div class="col col-xl-12 col-lg-12">
-                <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'"
-                  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
-                  [count]="pageVolumes.totalElements" [offset]="pageVolumes.pageNumber - 1" [limit]="10"
-                  (page)="showItensVolumes($event)" [selected]="selected" [selectionType]="'checkbox'"
-                  [selectAllRowsOnPage]="false" (select)="onSelectVolumes($event)">
-                  <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-                    [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
-                    <!-- <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                      let-selectFn="selectFn">
-                      <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-                    </ng-template> -->
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="Departamento" prop="departament.name"></ngx-datatable-column>
-                  <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
-                  <ngx-datatable-column name="Posição" prop="location"></ngx-datatable-column>
-                  <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
-                  <!-- <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column> -->
-                  <ngx-datatable-column name="Criado em" prop="dateCreated">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                      {{ value | date: 'dd/MM/yyyy' }}
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <!-- <ngx-datatable-column name="Suspensa" prop="indDemand">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                      {{ value ? 'Sim' : 'Não' }}
-                    </ng-template>
-                  </ngx-datatable-column> -->
-                </ngx-datatable>
-              </div>
-            </div>
           </ng-template>
         </ngb-tab>
         <ngb-tab id="tab4" title="Processar Movimentação">
