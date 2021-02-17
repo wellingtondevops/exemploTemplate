@@ -16,7 +16,7 @@
   </div>
   <div class="card bg-light mb-12">
     <div class="card-body">
-      <ngb-tabset #tab *ngIf="moviment">
+      <ngb-tabset #tab *ngIf="moviment" (tabChange)="beforeChange($event)">
         <ngb-tab title="Movimentação Nr {{moviment.nr}}" id="tab1">
           <ng-template ngbTabContent>
             <br />
@@ -137,7 +137,7 @@
             </div>
           </ng-template>
         </ngb-tab>
-        <ngb-tab id="tab3" title="Ver Volumes" *ngIf="moviment.moveVolume" (click)="showItensVolumes()">
+        <ngb-tab id="tab3" title="Ver Volumes" *ngIf="moviment.moveVolume" (onChange)="showItensVolumes()">
           <ng-template ngbTabContent>
             <br>
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="showItensVolumes()">
