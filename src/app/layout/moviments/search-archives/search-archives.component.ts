@@ -18,8 +18,8 @@ import { ArchivesList } from 'src/app/models/archive';
 import { Page } from 'src/app/models/page';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { SaveLocal } from 'src/app/storage/saveLocal';
-import { SelectionType } from 'src/app/models/selection.types'
-import { ColumnMode } from 'src/app/models/column-mode.types'
+import { SelectionType } from 'src/app/models/selection.types';
+import { ColumnMode } from 'src/app/models/column-mode.types';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 
 @Component({
@@ -46,7 +46,7 @@ export class SearchArchivesComponent implements OnInit {
     },
     items: []
   };
-  selected: any = []
+  selected: any = [];
   page = new Page();
 
   constructor(
@@ -84,7 +84,7 @@ export class SearchArchivesComponent implements OnInit {
         search: searchArchive.search,
         endDate: searchArchive.endDate,
         initDate: searchArchive.initDate
-      })
+      });
     }
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -113,7 +113,7 @@ export class SearchArchivesComponent implements OnInit {
     });
   }
 
-  remove(){
+  remove() {
     this.loading = true;
     this.movimentsSrc.removeMoviment(this.id, {itens:this.selected}).subscribe(data => {
       this.successMsgSrv.showSuccess(data.message);
@@ -122,7 +122,7 @@ export class SearchArchivesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   getStorehouses() {
@@ -132,7 +132,7 @@ export class SearchArchivesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   getCompany() {
@@ -145,7 +145,7 @@ export class SearchArchivesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   getDepartaments() {
@@ -155,7 +155,7 @@ export class SearchArchivesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   searchCompany = (text$: Observable<string>) =>
@@ -191,7 +191,7 @@ export class SearchArchivesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   searchDoct = (text$: Observable<string>) =>
@@ -260,22 +260,22 @@ export class SearchArchivesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       this.loading = false;
       console.log(`ERROR: ${error}`)
-    })
+    });
   }
 
   onSelect({ selected }) {
-    console.log(selected)
+    console.log(selected);
     selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
 
   include() {
-    var selectedItens = []
+    const selectedItens = [];
     this.selected.forEach(element => {
-      if(!element.indDemand){
+      if (!element.indDemand) {
         selectedItens.push(element._id);
       } else {
-        this.warningMsgSrv.showWarning(`Esse arquivo já está indexado em outra movimentação nr ${element.demand.nr}`, 5000)
+        this.warningMsgSrv.showWarning(`Esse arquivo já está indexado em outra movimentação nr ${element.demand.nr}`, 5000);
       }
     });
     this.loading = true;
@@ -289,6 +289,6 @@ export class SearchArchivesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 }
