@@ -401,10 +401,10 @@ export class ShowComponent implements OnInit {
 
   removeVolumes() {
     var ids = [];
-    this.selectedArchives.forEach(element => {
+    this.selectedVolumes.forEach(element => {
       ids.push(element._id)
     });
-    this.movimentsSrv.removeMoviment(this.moviment._id, { itens: ids }).subscribe(data => {
+    this.movimentsSrv.removeMoviment(this.moviment._id, ids).subscribe(data => {
       this.showItensVolumes();
       this.selectedVolumes = [];
       this.successMsgSrv.successMessages(data.message)
@@ -418,7 +418,7 @@ export class ShowComponent implements OnInit {
     this.selectedArchives.forEach(element => {
       ids.push(element._id)
     });
-    this.movimentsSrv.removeMoviment(this.moviment._id, { itens: ids }).subscribe(data => {
+    this.movimentsSrv.removeMoviment(this.moviment._id, ids).subscribe(data => {
       this.searchItensArchives();
       this.selectedArchives = [];
       this.successMsgSrv.successMessages(data.message)

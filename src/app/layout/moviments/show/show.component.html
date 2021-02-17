@@ -175,7 +175,7 @@
               </div>
             </form>
             <div class="row" *ngIf="volumes && volumes.items.length > 0">
-              <div class="col col-xl-12 col-lg-12">
+              <div class="col col-xl-12 col-lg-12" style="padding-top: 20px">
                 <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'"
                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
                   [count]="pageVolumes.totalElements" [offset]="pageVolumes.pageNumber - 1" [limit]="10"
