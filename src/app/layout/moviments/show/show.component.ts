@@ -132,6 +132,7 @@ export class ShowComponent implements OnInit {
       data => {
         this.loading = false;
         this.moviment = data;
+        
         this.movimentForm.patchValue({
           _id: this.moviment._id,
           company: this.moviment.company,
@@ -250,38 +251,6 @@ export class ShowComponent implements OnInit {
     })
   }
 
-  searchItensVolumes(pageInfo = null) {
-    this.loading = true;
-    this.pageVolumes.pageNumber = pageInfo.offset ? pageInfo.offset : 0;
-
-    const newSearch = {
-      departament: null,
-      storehouse: null,
-      location: null,
-      search: null
-    };
-    //this.localStorageSrv.save('moviment', this.searchForm.value);
-    this.archiveForm.value.departament ? newSearch.departament = this.returnArchiveId('departament') : null;
-    this.archiveForm.value.storehouse ? newSearch.storehouse = this.returnArchiveId('storehouse') : null;
-    this.archiveForm.value.location ? newSearch.location = this.archiveForm.value.location : null;
-    this.archiveForm.value.search ? newSearch.search = this.archiveForm.value.search : null;
-
-    const searchValue = _.omitBy(newSearch, _.isNil);
-
-    this.movimentsSrv.showItensVolumes(this.id, searchValue, this.pageVolumes).subscribe(data => {
-      this.archives = data;
-      console.log(data)
-      this.pageVolumes.pageNumber = data._links.currentPage;
-      this.pageVolumes.totalElements = data._links.foundItems;
-      this.pageVolumes.size = data._links.totalPage;
-      this.loading = false;
-    }, error => {
-      this.loading = false;
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR:', error);
-    })
-  }
-
   open(name: string, storeHouse) {
     const modalRef = this.modalService.open(MODALS[name]);
     modalRef.componentInstance.item = storeHouse;
@@ -313,11 +282,13 @@ export class ShowComponent implements OnInit {
 
   onSelectVolumes({ selected }) {
     this.selectedVolumes = selected;
+    console.log(this.selectedVolumes)
   }
 
 
   onSelectArchives({ selected }) {
     this.selectedArchives = selected;
+    console.log(this.selectedVolumes)
   }
 
   getDepartaments() {
@@ -401,10 +372,10 @@ export class ShowComponent implements OnInit {
 
   removeVolumes() {
     var ids = [];
-    this.selectedArchives.forEach(element => {
+    this.selectedVolumes.forEach(element => {
       ids.push(element._id)
     });
-    this.movimentsSrv.removeMoviment(this.moviment._id, { itens: ids }).subscribe(data => {
+    this.movimentsSrv.removeMoviment(this.moviment._id, ids).subscribe(data => {
       this.showItensVolumes();
       this.selectedVolumes = [];
       this.successMsgSrv.successMessages(data.message)
@@ -418,12 +389,20 @@ export class ShowComponent implements OnInit {
     this.selectedArchives.forEach(element => {
       ids.push(element._id)
     });
-    this.movimentsSrv.removeMoviment(this.moviment._id, { itens: ids }).subscribe(data => {
+    this.movimentsSrv.removeMoviment(this.moviment._id, ids).subscribe(data => {
       this.searchItensArchives();
       this.selectedArchives = [];
       this.successMsgSrv.successMessages(data.message)
     }, error => {
       console.log('ERROR: ', error)
     })
+  }
+
+  beforeChange(data){
+    if(data.nextId === 'tab2'){
+      this.searchItensArchives();
+    } else if(data.nextId === 'tab3'){
+      this.showItensVolumes();
+    }
   }
 }
