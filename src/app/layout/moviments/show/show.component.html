@@ -154,6 +154,39 @@
         </ngb-tab>
         <ngb-tab id="tab4" title="Processar Movimentação">
           <ng-template ngbTabContent>
+            <br>
+            <p>Movimentação NR {{ moviment.nr }}</p>
+            <br>
+            <table class="table table-striped">
+              <tr>
+                <th>
+                  Empresa
+                </th>
+                <th>
+                  Solicitante
+                </th>
+                <th>
+                  Natureza da Movimentação
+                </th>
+                <th>
+                  Tipo da Movimentação
+                </th>
+                <th>
+                  Prazo
+                </th>
+                <th>
+                  Formato da Entrega
+                </th>
+              </tr>
+              <tr>
+                <td>{{ moviment.company.name }}</td>
+                <td>{{ moviment.requester.name }}</td>
+                <td>{{ moviment.low ? 'BAIXA' : 'EMPRESTIMO' }}</td>
+                <td>{{ moviment.moveVolume ? 'CAIXAS' : 'ARQUIVO' }}</td>
+                <td>{{ moviment.normal ? 'Normal' : 'Emergencial' }}</td>
+                <td></td>
+              </tr>
+            </table>
           </ng-template>
         </ngb-tab>
       </ngb-tabset>
