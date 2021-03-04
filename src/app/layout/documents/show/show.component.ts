@@ -35,8 +35,8 @@ export class ShowComponent implements OnInit {
   id: string;
   public typeFieldList: any = TypeFieldListEnum;
   company: Company;
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
 
   constructor(
     private _route: Router,
@@ -67,8 +67,8 @@ export class ShowComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocument();
     this.getCompanies();
-    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
-    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
   }
 
   get companyIpt() {
@@ -79,7 +79,8 @@ export class ShowComponent implements OnInit {
     return this.fb.group({
       namefield: { value: item.namefield, disabled: true },
       typeField: { value: item.typeField, disabled: true },
-      uniq: { value: item.uniq, disabled: true }
+      uniq: { value: item.uniq, disabled: true },
+      timeControl: { value: item.timeControl, disabled: true }
     });
   }
 
