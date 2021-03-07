@@ -12,6 +12,7 @@ export class ExtractComponent implements OnInit {
   id: string;
   moviment: Moviment;
   itemsVolume: any = [];
+  itemsArchive: any = [];
   
   constructor(
     private movimentsSrv: MovimentsService,
@@ -28,8 +29,11 @@ export class ExtractComponent implements OnInit {
     this.movimentsSrv.moviment(this.id).subscribe(
       data => {
         this.moviment = data;
-        if(this.moviment._id){
+        if(this.moviment._id && this.moviment.moveVolume){
           this.getItemsVolume();
+        }
+        if(this.moviment._id && this.moviment.moveArchive){
+          this.getItemsArchive()
         }
       }, error => {
         console.log('ERROR', error);
@@ -49,6 +53,14 @@ export class ExtractComponent implements OnInit {
   getItemsVolume(){
     this.movimentsSrv.showItensVolumes(this.moviment._id, null).subscribe(data => {
       this.itemsVolume = data.items;
+    }, error => {
+      console.log('ERROR', error);
+    })
+  }
+
+  getItemsArchive(){
+    this.movimentsSrv.showItensArchives(this.moviment._id, null).subscribe(data => {
+      this.itemsArchive = data.items;
     }, error => {
       console.log('ERROR', error);
     })
