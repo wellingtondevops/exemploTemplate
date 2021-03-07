@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -35,6 +35,7 @@ const MODALS = {
 export class ShowComponent implements OnInit {
   companies: any = [];
   movimentForm: FormGroup;
+  serviceForm: FormGroup;
   archiveForm: FormGroup;
   volumeForm: FormGroup;
   company: Company;
@@ -56,6 +57,8 @@ export class ShowComponent implements OnInit {
   selected: any = [];
   selectedVolumes: any = [];
   selectedArchives: any = [];
+  services: any = [];
+  servicesList: any = [];
   // isUsers = false;
 
   constructor(
@@ -108,6 +111,10 @@ export class ShowComponent implements OnInit {
       location: this.fb.control(''),
       reference: this.fb.control('')
     })
+
+    this.serviceForm = this.fb.group({
+      services: this.fb.array(this.services),
+    })
   }
 
   ngOnInit() {
@@ -120,6 +127,44 @@ export class ShowComponent implements OnInit {
     this.getDepartaments();
     this.getStorehouses();
     this.getDocuments();
+    this.getServices()
+    this.addService();
+  }
+
+  createService(): FormGroup {
+    return this.fb.group({
+      quantity: this.fb.control('', Validators.required),
+      service: this.fb.control('', Validators.required),
+      value: ''
+    });
+  }
+
+  addService(): void {
+    this.services = this.serviceForm.get('services') as FormArray;
+    this.services.push(this.createService());
+  }
+
+  removeService(e) {
+    this.services.removeAt(e);
+  }
+
+  getServices(){
+    this.movimentsSrv.services(this.id).subscribe(data => {
+      console.log(data);
+      this.servicesList = ['1', '2', '3', '4'];
+    }, error => {
+      console.log('ERROR', error)
+    })
+  }
+
+  /* formatter = (x: { name: string }) => x.name; */
+
+  serviceIpt(i) {
+    return (<FormGroup>this.serviceForm.get('services')).controls[i].get('service');
+  }
+
+  quantityIpt(i) {
+    return (<FormGroup>this.serviceForm.get('services')).controls[i].get('quantity');
   }
 
   get companyIpt() {
@@ -404,5 +449,18 @@ export class ShowComponent implements OnInit {
     } else if(data.nextId === 'tab3'){
       this.showItensVolumes();
     }
+  }
+
+  processMoviment(){
+    console.log(this.serviceForm.value)
+  }
+
+  extract(){
+    const url = this._route.serializeUrl(
+      this._route.createUrlTree(['/moviment-extract', this.moviment._id])
+    );
+  
+    window.open(url, '_blank');
+    // window.open(`/moviment-extract/${}`, '_blank')
   }
 }

@@ -122,14 +122,35 @@ export class MovimentsService {
   }
 
   showItensVolumes(id, form, page = null) {
-    return this.http.post<any>(`${url}/demands/${id}/showItensVolumes?_page=${page.pageNumber}`, form)
+    if (form && page) {
+      return this.http.post<any>(`${url}/demands/${id}/showItensVolumes?_page=${page.pageNumber}`, form)
+        .pipe(
+          tap(data => data)
+        );
+    } else {
+      return this.http.post<any>(`${url}/demands/${id}/showItensVolumes`, {})
+        .pipe(
+          tap(data => data)
+        );
+    }
+  }
+
+  generatMoviment(id, data) {
+    return this.http.post<any>(`${url}/demands/${id}/generatDemand`, { itens: data })
       .pipe(
         tap(data => data)
       );
   }
 
-  generatMoviment(id, data) {
-    return this.http.post<any>(`${url}/demands/${id}/generatDemand`, { itens: data })
+  countMove(id) {
+    return this.http.get<any>(`${url}/demands/${id}/countMove`)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  services(id) {
+    return this.http.get<any>(`${url}/demands/${id}/listSevices`)
       .pipe(
         tap(data => data)
       );

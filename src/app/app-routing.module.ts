@@ -5,6 +5,7 @@ import { AuthGuard } from './shared';
 const routes: Routes = [
     { path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard] },
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
+    { path: 'moviment-extract/:id', loadChildren: './extract/extract.module#ExtractModule' },
     { path: 'terms', loadChildren: './terms/terms.module#TermsModule' },
     { path: 'privacity-politic', loadChildren: './privacity-politic/privacity-politic.module#PrivacityPoliticModule' },
     { path: 'terms-of-use', loadChildren: './terms-of-use/terms-of-use.module#TermsOfUseModule' },

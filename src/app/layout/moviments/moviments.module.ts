@@ -15,6 +15,7 @@ import { EditComponent } from './edit/edit.component';
 import { EnumToArrayPipe, SearchVolumesComponent } from './search-volumes/search-volumes.component';
 import { SearchArchivesComponent } from './search-archives/search-archives.component';
 
+
 @NgModule({
   declarations: [ShowComponent, EnumToArrayPipe, ListComponent, NewComponent, EditComponent, SearchVolumesComponent, SearchArchivesComponent],
   imports: [

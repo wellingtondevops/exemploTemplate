@@ -115,7 +115,8 @@
                 <button type="submit" class="btn btn-primary">
                   <i class="fa fa-search"></i>
                 </button>
-                <button *ngIf="moviment.moveVolume && !moviment.processed" type="button" class="btn btn-danger" (click)="removeVolumes()">Remover</button>
+                <button *ngIf="moviment.moveVolume && !moviment.processed" type="button" class="btn btn-danger"
+                  (click)="removeVolumes()">Remover</button>
               </div>
             </form>
             <div class="row" *ngIf="volumes && volumes.items.length > 0">
@@ -154,10 +155,16 @@
         </ngb-tab>
         <ngb-tab id="tab4" title="Processar Movimentação">
           <ng-template ngbTabContent>
+            <div class="row">
+              <div class="col-lg-12">
+                <br>
+                <button class="btn btn-primary pull-right" (click)="extract()">Imprimir Extrato</button>
+              </div>
+            </div>
             <br>
             <p>Movimentação NR {{ moviment.nr }}</p>
             <br>
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
               <tr>
                 <th>
                   Empresa
@@ -187,6 +194,103 @@
                 <td></td>
               </tr>
             </table>
+            <table class="table table-striped table-bordered">
+              <tr>
+                <th></th>
+                <th>Quantidade de tipos de Caixas Movimentadas</th>
+              </tr>
+              <tr>
+                <td>Box</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Container</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Gaveta</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Mapoteca</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Total de Arquivos Movimentados</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Total Serviços</td>
+                <td></td>
+              </tr>
+            </table>
+            <!-- <table class="table table-striped table-bordered">
+              <tr>
+                <th>Serviços</th>
+                <th>Total </th>
+              </tr>
+            </table> -->
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <h5>Serviços</h5>
+                </div>
+                <form [formGroup]="serviceForm" (submit)="processMoviment()">
+                  <div formArrayName="services">
+                    <div *ngFor="let services of services.controls; index as i">
+                      <div class="row">
+                        <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                          <div class="card-body">
+                            <div class="form-row" [formGroupName]="i">
+                              <div class="form-group col-lg-1 col-md-1">
+                                <label for="btn-remove">&emsp;</label><br />
+                                <button type="button" class="btn btn-danger btn-xs pull-right"
+                                  (click)="removeService(i)">
+                                  <i class="fa fa-trash"></i>
+                                </button>
+                              </div>
+                              <div class="form-group col-lg-2 col-md-2">
+                                <label for="label-quantity">Quantidade</label>
+                                <input type="text" class="form-control" formControlName="quantity" />
+                                <div *ngIf="quantityIpt(i).invalid && (quantityIpt(i).dirty || quantityIpt(i).touched)"
+                                  class="invalid-feedback">
+                                  <div *ngIf="!quantityIpt(i).valid">
+                                    Quantidade é obrigatório.
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- <div class="form-group col-lg-7 col-md-7">
+                                <label for="typeahead-basic">Serviço</label>
+                                <input id="typeahead-basic" type="text" class="form-control" formControlName="service"
+                                  [resultTemplate]="rtService" [inputFormatter]="formatter"
+                                  [ngbTypeahead]="searchService" />
+                                <div *ngIf="serviceIpt(i).invalid && (serviceIpt(i).dirty || serviceIpt(i).touched)"
+                                  class="invalid-feedback">
+                                  <div *ngIf="!serviceIpt(i).valid">
+                                    Serviço é obrigatório.
+                                  </div>
+                                </div>
+                              </div> -->
+                              <div class="form-group col-lg-1 col-md-1">
+                                <label for="">Total</label>
+                                <input type="text" class="form-control" formControlName="value">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pull-right">
+                    <button type="button" class="btn btn-xs btn-success " (click)="addService()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+              </div>
+            </div>
           </ng-template>
         </ngb-tab>
       </ngb-tabset>
