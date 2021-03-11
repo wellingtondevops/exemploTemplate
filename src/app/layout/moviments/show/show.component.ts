@@ -113,7 +113,7 @@ export class ShowComponent implements OnInit {
     })
 
     this.serviceForm = this.fb.group({
-      services: this.fb.array(this.services),
+      servicesDemand: this.fb.array(this.services),
     })
   }
 
@@ -133,14 +133,15 @@ export class ShowComponent implements OnInit {
 
   createService(): FormGroup {
     return this.fb.group({
-      quantity: this.fb.control('', Validators.required),
-      service: this.fb.control('', Validators.required),
-      value: ''
+      quantityItem: this.fb.control('', Validators.required),
+      itemValue: this.fb.control('', Validators.required),
+      totalItem: this.fb.control('', Validators.required),
+      item: ''// this.fb.control('', Validators.required)
     });
   }
 
   addService(): void {
-    this.services = this.serviceForm.get('services') as FormArray;
+    this.services = this.serviceForm.get('servicesDemand') as FormArray;
     this.services.push(this.createService());
   }
 
@@ -148,23 +149,39 @@ export class ShowComponent implements OnInit {
     this.services.removeAt(e);
   }
 
-  getServices(){
+  returnValueItem(serviceI) {
+    // console.log(serviceI);
+    serviceI.patchValue({
+      quantityItem: serviceI.value.quantityItem,
+      itemValue: serviceI.value.item.price,
+    })
+  }
+
+  returnTotal(serviceI: FormGroup) {
+    let total = serviceI.value ? serviceI.value.item ? serviceI.value.item.price && serviceI.value.quantityItem ? serviceI.value.item.price * serviceI.value.quantityItem : 0 : 0 : 0;
+    serviceI.patchValue({
+      quantityItem: serviceI.value.quantityItem,
+      totalItem: total.toFixed(2),
+      itemValue: serviceI.value.item.price,
+    })
+  }
+
+  getServices() {
     this.movimentsSrv.services(this.id).subscribe(data => {
-      console.log(data);
-      this.servicesList = ['1', '2', '3', '4'];
+      this.servicesList = data;
     }, error => {
       console.log('ERROR', error)
     })
   }
 
-  /* formatter = (x: { name: string }) => x.name; */
+  formatterService = (x: { description: string }) => x.description;
 
   serviceIpt(i) {
-    return (<FormGroup>this.serviceForm.get('services')).controls[i].get('service');
+    return (<FormGroup>this.serviceForm.get('servicesDemand')).controls[i].get('item');
   }
 
-  quantityIpt(i) {
-    return (<FormGroup>this.serviceForm.get('services')).controls[i].get('quantity');
+  quantityItemIpt(i) {
+    return (<FormGroup>this.serviceForm.get('servicesDemand')).controls[i].get('quantityItem');
   }
 
   get companyIpt() {
@@ -177,7 +194,7 @@ export class ShowComponent implements OnInit {
       data => {
         this.loading = false;
         this.moviment = data;
-        
+
         this.movimentForm.patchValue({
           _id: this.moviment._id,
           company: this.moviment.company,
@@ -327,13 +344,11 @@ export class ShowComponent implements OnInit {
 
   onSelectVolumes({ selected }) {
     this.selectedVolumes = selected;
-    console.log(this.selectedVolumes)
   }
 
 
   onSelectArchives({ selected }) {
     this.selectedArchives = selected;
-    console.log(this.selectedVolumes)
   }
 
   getDepartaments() {
@@ -374,6 +389,17 @@ export class ShowComponent implements OnInit {
       map(document => {
         let res;
         if (document.length < 2) { []; } else { res = _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
+        return res;
+      })
+    )
+
+  searchService = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(service => {
+        let res;
+        if (service.length < 2) { []; } else { res = _.filter(this.servicesList, v => (this.utilCase.replaceSpecialChars(v.description).toLowerCase().indexOf(service.toLowerCase())) > -1).slice(0, 10); }
         return res;
       })
     )
@@ -443,23 +469,43 @@ export class ShowComponent implements OnInit {
     })
   }
 
-  beforeChange(data){
-    if(data.nextId === 'tab2'){
+  beforeChange(data) {
+    if (data.nextId === 'tab2') {
       this.searchItensArchives();
-    } else if(data.nextId === 'tab3'){
+    } else if (data.nextId === 'tab3') {
       this.showItensVolumes();
     }
   }
 
-  processMoviment(){
-    console.log(this.serviceForm.value)
+  processMoviment() {
+    this.loading = true;
+    let servicesDemand = [];
+    this.serviceForm.value.servicesDemand.map(item => {
+      servicesDemand.push({
+        item: item.item.description,
+        quantityItem: item.quantityItem,
+        itemValue: item.itemValue,
+        totalItem: Number(item.totalItem)
+      })
+    })
+
+    this.movimentsSrv.processMove(
+      this.moviment._id, { servicesDemand }
+      ).subscribe(data => {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Movimentação processada.')
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR: ', error)
+    })
   }
 
-  extract(){
+  extract() {
     const url = this._route.serializeUrl(
       this._route.createUrlTree(['/moviment-extract', this.moviment._id])
     );
-  
+
     window.open(url, '_blank');
     // window.open(`/moviment-extract/${}`, '_blank')
   }

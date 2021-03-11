@@ -155,4 +155,11 @@ export class MovimentsService {
         tap(data => data)
       );
   }
+
+  processMove(id, form){
+    return this.http.post<any>(`${url}/demands/${id}/processMove`, form)
+    .pipe(
+      tap(data => data)
+    );
+  }
 }
