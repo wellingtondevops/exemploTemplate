@@ -59,6 +59,13 @@ export class ShowComponent implements OnInit {
   selectedArchives: any = [];
   services: any = [];
   servicesList: any = [];
+  countMove = {
+    box: 0,
+    container: 0,
+    mapoteca: 0,
+    gaveta: 0,
+    totalArchiveMove: 0
+  };
   // isUsers = false;
 
   constructor(
@@ -129,6 +136,7 @@ export class ShowComponent implements OnInit {
     this.getDocuments();
     this.getServices()
     this.addService();
+    this.getCountMove();
   }
 
   createService(): FormGroup {
@@ -479,18 +487,19 @@ export class ShowComponent implements OnInit {
 
   processMoviment() {
     this.loading = true;
-    let servicesDemand = [];
+    let form = {servicesDemand:[], totalValueDemand: 0};
     this.serviceForm.value.servicesDemand.map(item => {
-      servicesDemand.push({
+      form.servicesDemand.push({
         item: item.item.description,
         quantityItem: item.quantityItem,
         itemValue: item.itemValue,
         totalItem: Number(item.totalItem)
       })
+      form.totalValueDemand = form.totalValueDemand + Number(item.totalItem)
     })
 
     this.movimentsSrv.processMove(
-      this.moviment._id, { servicesDemand }
+      this.moviment._id, form
       ).subscribe(data => {
         this.loading = false;
         this.successMsgSrv.successMessages('Movimentação processada.')
@@ -498,6 +507,15 @@ export class ShowComponent implements OnInit {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error)
+    })
+  }
+
+  getCountMove(){
+    this.movimentsSrv.countMove(this.id).subscribe(data => {
+      this.countMove = data;
+    }, error => {
+      console.log('ERROR: ', error);
+      this.errorMsg.errorMessages(error);
     })
   }
 
