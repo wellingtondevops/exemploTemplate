@@ -65,7 +65,9 @@
             REF
           </th>
         </tr>
-        <tr *ngFor="let items of itemsVolume">
+        <tr style="text-align: left;" *ngFor="let item of itemsVolume">
+          <td>{{ item.location }}</td>
+          <td></td>
         </tr>
       </table>
       <table class="table customer table-bordered" *ngIf="moviment.moveArchive">
@@ -80,7 +82,9 @@
             INDICES
           </th>
         </tr>
-        <tr *ngFor="let items of itemsArchives">
+        <tr style="text-align: left;" *ngFor="let item of itemsArchives">
+          <td>{{ item.location }}</td>
+          <td>{{ item.doct.name }}</td>
         </tr>
       </table>
       <p class="title">SERVIÇOS</p>
