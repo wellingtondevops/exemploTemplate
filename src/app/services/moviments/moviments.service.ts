@@ -115,10 +115,17 @@ export class MovimentsService {
   }
 
   showItensArchives(id, form, page = null) {
+    if(page){
     return this.http.post<any>(`${url}/demands/${id}/showItensArchives?_page=${page.pageNumber}`, form)
       .pipe(
         tap(data => data)
       );
+    } else {
+      return this.http.post<any>(`${url}/demands/${id}/showItensArchives`, form ? form : {})
+      .pipe(
+        tap(data => data)
+      );
+    }
   }
 
   showItensVolumes(id, form, page = null) {

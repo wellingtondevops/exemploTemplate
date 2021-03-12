@@ -11,8 +11,8 @@ import { MovimentsService } from 'src/app/services/moviments/moviments.service';
 export class ExtractComponent implements OnInit {
   id: string;
   moviment: Moviment;
-  itemsVolume: any = [];
-  itemsArchive: any = [];
+  itemsVolumes: any = [];
+  itemsArchives: any = [];
   
   constructor(
     private movimentsSrv: MovimentsService,
@@ -52,7 +52,7 @@ export class ExtractComponent implements OnInit {
 
   getItemsVolume(){
     this.movimentsSrv.showItensVolumes(this.moviment._id, null).subscribe(data => {
-      this.itemsVolume = data.items;
+      this.itemsVolumes = data.items;
     }, error => {
       console.log('ERROR', error);
     })
@@ -60,7 +60,7 @@ export class ExtractComponent implements OnInit {
 
   getItemsArchive(){
     this.movimentsSrv.showItensArchives(this.moviment._id, null).subscribe(data => {
-      this.itemsArchive = data.items;
+      this.itemsArchives = data.items;
     }, error => {
       console.log('ERROR', error);
     })

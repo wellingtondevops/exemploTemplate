@@ -65,7 +65,7 @@
             REF
           </th>
         </tr>
-        <tr style="text-align: left;" *ngFor="let item of itemsVolume">
+        <tr style="text-align: left;" *ngFor="let item of itemsVolumes">
           <td>{{ item.location }}</td>
           <td></td>
         </tr>
@@ -83,8 +83,9 @@
           </th>
         </tr>
         <tr style="text-align: left;" *ngFor="let item of itemsArchives">
-          <td>{{ item.location }}</td>
+          <td>{{ item.volume.location }}</td>
           <td>{{ item.doct.name }}</td>
+          <td>{{ item.tag }}</td>
         </tr>
       </table>
       <p class="title">SERVIÇOS</p>
@@ -95,18 +96,18 @@
           <th>VALOR UNITÁRIO</th>
           <th>VALOR</th>
         </tr>
-        <tr *ngFor="let service of moviment.servicesDemand">
+        <tr style="text-align: left;" *ngFor="let service of moviment.servicesDemand">
           <td>
-            {{ service.quantity }}
+            {{ service.quantityItem }}
           </td>
           <td>
-            {{ service.description }}
+            {{ service.item }}
           </td>
           <td>
-            {{ service.value }}
+            {{ service.itemValue }}
           </td>
           <td>
-            {{ service.value }}
+            {{ service.totalItem }}
           </td>
         </tr>
       </table>
