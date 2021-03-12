@@ -1,11 +1,15 @@
 <div *ngIf="moviment" style="background-color: white;">
   <div class="row">
     <div class="col-lg-12">
-      <p class="header">
+      <div class="header">
         <br>
         SMARTSCAN SERVIÇOS DIGITAIS LTDA.
-      </p>
-      <p class="sub-header">EXTRATO DE MOVIMENTAÇÃO</p>
+      </div>
+      <div class="sub-header">
+        EXTRATO DE MOVIMENTAÇÃO
+      </div>
+      <div class="sub-header pull-right">Movimentação Nr. {{ moviment.nr }}</div>
+      <br>
       <hr>
       <p class="title">CLIENTE</p>
       <table class="table customer" style="font-size: 12px;">
