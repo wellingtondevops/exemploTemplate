@@ -501,6 +501,7 @@ export class ShowComponent implements OnInit {
     this.movimentsSrv.processMove(
       this.moviment._id, form
       ).subscribe(data => {
+        this.getMoviment();
         this.loading = false;
         this.successMsgSrv.successMessages('Movimentação processada.')
     }, error => {
