@@ -232,6 +232,16 @@ export class ShowComponent implements OnInit {
     )
   }
 
+  delivery(){
+    if(this.moviment.withdraw){
+      return 'Retirada'
+    } else if (this.moviment.delivery){
+      return 'Entrega';
+    } else {
+      return 'Digital';
+    }
+  }
+
   getCompanies() {
     this.companiesSrv.companies(null).subscribe(
       data => {
