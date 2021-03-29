@@ -107,18 +107,18 @@
           <td>
             {{ service.item }}
           </td>
-          <td>
-            {{ service.itemValue }}
+          <td *ngIf="moviment.itemValue">
+            R$ {{ service.itemValue.toFixed(2) }}
           </td>
-          <td>
-            {{ service.totalItem }}
+          <td *ngIf="moviment.totalItem">
+            R$ {{ service.totalItem.toFixed(2) }}
           </td>
         </tr>
         <tr>
           <td></td>
           <td></td>
           <td>Total</td>
-          <td>{{ moviment.totalValueDemand }}</td>
+          <td *ngIf="moviment.totalValueDemand">R$ {{ moviment.totalValueDemand.toFixed(2) }}</td>
         </tr>
       </table>
     </div>
