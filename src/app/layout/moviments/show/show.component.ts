@@ -161,7 +161,7 @@ export class ShowComponent implements OnInit {
     // console.log(serviceI);
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
-      itemValue: serviceI.value.item.price,
+      itemValue: serviceI.value.item.price.toFixed(2),
     })
   }
 
@@ -170,7 +170,7 @@ export class ShowComponent implements OnInit {
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
       totalItem: total.toFixed(2),
-      itemValue: serviceI.value.item.price,
+      itemValue: serviceI.value.item.price.toFixed(2),
     })
   }
 
