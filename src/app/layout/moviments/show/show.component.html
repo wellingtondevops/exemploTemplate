@@ -11,7 +11,7 @@
     <app-button-back [redirectTo]="'moviments'"></app-button-back>
     <app-buttons-custom *ngIf="moviment" [id]="moviment._id" (edit)="editMoviment(moviment._id)"
       (delete)="open('focusFirst', moviment._id)" [permissionEdit]="false"
-      [permissionDelete]="permissionDelete && !processed"></app-buttons-custom>
+      [permissionDelete]="permissionDelete && !moviment.processed && !moviment.demand"></app-buttons-custom>
     <br />
   </div>
   <div class="card bg-light mb-12">
@@ -215,7 +215,7 @@
             <div class="row">
               <div class="col-lg-12">
                 <br>
-                <button class="btn btn-primary pull-right" *ngIf="moviment.processed" (click)="extract()">Imprimir Extrato</button>
+                <button class="btn btn-primary pull-right" *ngIf="moviment.processed && moviment.demand" (click)="extract()">Imprimir Extrato</button>
               </div>
             </div>
             <div class="row">
@@ -299,7 +299,7 @@
                 </table>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="moviment.demand">
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
