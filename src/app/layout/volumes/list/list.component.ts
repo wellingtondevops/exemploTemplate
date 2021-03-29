@@ -117,6 +117,8 @@ export class ListComponent implements OnInit {
         initDate: volume.initDate,
         guardType: volume.guardType
       })
+
+      this.getDepartaments(volume.company._id)
     }
 
     this.statusList = StatusVolumeEnum;
