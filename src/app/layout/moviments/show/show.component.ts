@@ -22,6 +22,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { DocumentList } from 'src/app/models/document';
 import { VolumeList } from 'src/app/models/volume';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+import * as moment from 'moment';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -36,6 +37,7 @@ export class ShowComponent implements OnInit {
   companies: any = [];
   movimentForm: FormGroup;
   serviceForm: FormGroup;
+  processForm: FormGroup;
   archiveForm: FormGroup;
   volumeForm: FormGroup;
   company: Company;
@@ -122,6 +124,11 @@ export class ShowComponent implements OnInit {
     this.serviceForm = this.fb.group({
       servicesDemand: this.fb.array(this.services),
     })
+
+    this.processForm = this.fb.group({
+      process: this.fb.control(''),
+      date: this.fb.control('')
+    })
   }
 
   ngOnInit() {
@@ -161,7 +168,7 @@ export class ShowComponent implements OnInit {
     // console.log(serviceI);
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
-      itemValue: serviceI.value.item.price,
+      itemValue: serviceI.value.item.price.toFixed(2),
     })
   }
 
@@ -170,7 +177,7 @@ export class ShowComponent implements OnInit {
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
       totalItem: total.toFixed(2),
-      itemValue: serviceI.value.item.price,
+      itemValue: serviceI.value.item.price.toFixed(2),
     })
   }
 
@@ -537,5 +544,38 @@ export class ShowComponent implements OnInit {
 
     window.open(url, '_blank');
     // window.open(`/moviment-extract/${}`, '_blank')
+  }
+
+  devolutionOrLowArchives(){
+    this.loading = true;
+    var itens = [];
+    this.selectedArchives.map(item => {
+      itens.push(item._id);
+    })
+    if(this.processForm.value.process === 'devolution'){
+      this.movimentsSrv.devolutions(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY') }).subscribe(
+        data =>{
+          console.log(data);
+          this.successMsgSrv.successMessages(data.message)
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+          console.log('ERROR: ', error);
+          this.errorMsg.errorMessages(error);
+        }
+      )
+    } else {
+      this.movimentsSrv.lows(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY')}).subscribe(
+        data =>{
+          console.log(data);
+          this.successMsgSrv.successMessages(data.message)
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+          console.log('ERROR: ', error);
+          this.errorMsg.errorMessages(error);
+        }
+      )
+    }
   }
 }
