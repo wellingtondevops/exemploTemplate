@@ -169,4 +169,18 @@ export class MovimentsService {
       tap(data => data)
     );
   }
+
+  lows(id, form){
+    return this.http.post<any>(`${url}/demands/${id}/lows`, form)
+    .pipe(
+      tap(data => data)
+    );
+  }
+
+  devolutions(id, form){
+    return this.http.post<any>(`${url}/demands/${id}/devolutions`, form)
+    .pipe(
+      tap(data => data)
+    );
+  }
 }
