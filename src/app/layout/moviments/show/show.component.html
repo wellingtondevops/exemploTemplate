@@ -108,11 +108,11 @@
                 </div>
                 <div class="form-group col-1" *ngIf="moviment.moveArchive && !moviment.processed">
                   <br />
-                  <button  type="button" class="btn btn-danger" style="margin-top: 7px"
+                  <button type="button" class="btn btn-danger" style="margin-top: 7px"
                     (click)="removeArchives()">Remover</button>
                 </div>
               </div>
-              
+
               <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
               </ng-template>
@@ -154,15 +154,20 @@
                   (page)="searchItensArchives($event)" [selected]="selected" [selectionType]="'checkbox'"
                   [selectAllRowsOnPage]="true" [selectAllRowsOnPage]="false" (select)="onSelectArchives($event)">
                   <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-                    [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
-                    <!-- <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                      let-selectFn="selectFn">
-                      <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-                    </ng-template> -->
-                  </ngx-datatable-column>
+                  [resizeable]="false">
+                  <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+                    let-selectFn="selectFn">
+                    <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+                  </ng-template>
+                  <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
+                    let-onCheckboxChangeFn="onCheckboxChangeFn">
+                    <input type="checkbox" [checked]="isSelected" [disabled]="isCheckable(row.status)" (change)="onCheckboxChangeFn($event)" />
+                  </ng-template>
+                </ngx-datatable-column>
                   <ngx-datatable-column name="Document" prop="doct.name"></ngx-datatable-column>
                   <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
                   <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
+                  <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
                   <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
                 </ngx-datatable>
               </div>
@@ -203,8 +208,8 @@
                   <button type="submit" class="btn btn-primary" style="margin-top: 7px">
                     <i class="fa fa-search"></i>
                   </button>
-                  <button *ngIf="moviment.moveVolume && !moviment.processed" style="margin-top: 7px" type="button" class="btn btn-danger"
-                    (click)="removeVolumes()">Remover</button>
+                  <button *ngIf="moviment.moveVolume && !moviment.processed" style="margin-top: 7px" type="button"
+                    class="btn btn-danger" (click)="removeVolumes()">Remover</button>
                 </div>
               </div>
             </form>
@@ -226,7 +231,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="col form-group">
+                <div class="col form-group">f
                   <input type="date" class="form-control" formControlName="date">
                 </div>
                 <div class="col">
@@ -242,15 +247,23 @@
                   (page)="showItensVolumes($event)" [selected]="selected" [selectionType]="'checkbox'"
                   [selectAllRowsOnPage]="false" (select)="onSelectVolumes($event)">
                   <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-                    [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="islow && !active ? true : false">
-                    <!-- <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+                    [resizeable]="false">
+                    <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
                       let-selectFn="selectFn">
                       <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-                    </ng-template> -->
+                    </ng-template>
+                    <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
+                      let-onCheckboxChangeFn="onCheckboxChangeFn">
+                      <input type="checkbox" [checked]="isSelected" [disabled]="isCheckable(row.status)" (change)="onCheckboxChangeFn($event)" />
+                    </ng-template>
                   </ngx-datatable-column>
+                  <!-- <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="true"
+                    [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+                  </ngx-datatable-column> -->
                   <ngx-datatable-column name="Departamento" prop="departament.name"></ngx-datatable-column>
                   <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
                   <ngx-datatable-column name="Posição" prop="location"></ngx-datatable-column>
+                  <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
                   <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
                   <!-- <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column> -->
                   <ngx-datatable-column name="Criado em" prop="dateCreated">
