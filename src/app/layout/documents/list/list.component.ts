@@ -60,6 +60,13 @@ export class ListComponent implements OnInit {
       name: this.fb.control(null),
       company: this.fb.control(null, [Validators.required]),
     });
+    const document = JSON.parse(this.localStorageSrv.get('document'));
+    if (document && document.company) {
+      this.searchForm.patchValue({
+        company: document.company,
+        name: document.name
+      })
+    }
 
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
@@ -94,11 +101,13 @@ export class ListComponent implements OnInit {
   setPageDocuments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    this.localStorageSrv.save('document', this.searchForm.value)
+    
     const newForm = {
       company: this.searchForm.value.company._id,
       name: this.searchForm.value.name ? this.searchForm.value.name : null,
     };
-
+    
     this.documentSrv.searchDocts(newForm, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
@@ -128,4 +137,13 @@ export class ListComponent implements OnInit {
 
       })
     )
+
+  clear() {
+    this.localStorageSrv.clear('document');
+
+    this.searchForm.patchValue({
+      company: null,
+      name: null
+    })
+  }
 }

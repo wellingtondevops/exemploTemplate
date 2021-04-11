@@ -537,6 +537,22 @@ export class ShowComponent implements OnInit {
     })
   }
 
+  isCheckable(status){
+    let isCheckable = true;
+    switch(status[0]){
+      case 'BAIXADO':
+        isCheckable = true;
+        break
+      case 'EMPRESTADO':
+        isCheckable = false;
+        break
+      case 'ATIVO':
+        isCheckable = true;
+        break
+    }
+    return isCheckable
+  }
+
   extract() {
     const url = this._route.serializeUrl(
       this._route.createUrlTree(['/moviment-extract', this.moviment._id])
@@ -557,6 +573,7 @@ export class ShowComponent implements OnInit {
         data =>{
           console.log(data);
           this.successMsgSrv.successMessages(data.message)
+          this.getMoviment();
           this.loading = false;
         }, error => {
           this.loading = false;
@@ -569,6 +586,42 @@ export class ShowComponent implements OnInit {
         data =>{
           console.log(data);
           this.successMsgSrv.successMessages(data.message)
+          this.getMoviment();
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+          console.log('ERROR: ', error);
+          this.errorMsg.errorMessages(error);
+        }
+      )
+    }
+  }
+
+  devolutionOrLowVolumes(){
+    this.loading = true;
+    var itens = [];
+    this.selectedVolumes.map(item => {
+      itens.push(item._id);
+    })
+    if(this.processForm.value.process === 'devolution'){
+      this.movimentsSrv.devolutions(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY') }).subscribe(
+        data =>{
+          console.log(data);
+          this.successMsgSrv.successMessages(data.message)
+          this.getMoviment();
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+          console.log('ERROR: ', error);
+          this.errorMsg.errorMessages(error);
+        }
+      )
+    } else {
+      this.movimentsSrv.lows(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY')}).subscribe(
+        data =>{
+          console.log(data);
+          this.successMsgSrv.successMessages(data.message)
+          this.getMoviment();
           this.loading = false;
         }, error => {
           this.loading = false;
