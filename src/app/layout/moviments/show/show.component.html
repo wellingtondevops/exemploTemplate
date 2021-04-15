@@ -154,20 +154,23 @@
                   (page)="searchItensArchives($event)" [selected]="selected" [selectionType]="'checkbox'"
                   [selectAllRowsOnPage]="true" [selectAllRowsOnPage]="false" (select)="onSelectArchives($event)">
                   <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-                  [resizeable]="false">
-                  <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                    let-selectFn="selectFn">
-                    <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-                  </ng-template>
-                  <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
-                    let-onCheckboxChangeFn="onCheckboxChangeFn">
-                    <input type="checkbox" [checked]="isSelected" [disabled]="isCheckable(row.status)" (change)="onCheckboxChangeFn($event)" />
-                  </ng-template>
-                </ngx-datatable-column>
+                    [resizeable]="false">
+                    <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+                      let-selectFn="selectFn">
+                      <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+                    </ng-template>
+                    <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
+                      let-onCheckboxChangeFn="onCheckboxChangeFn">
+                      <input type="checkbox" [checked]="isSelected" [disabled]="isCheckable(row.status)"
+                        (change)="onCheckboxChangeFn($event)" />
+                    </ng-template>
+                  </ngx-datatable-column>
                   <ngx-datatable-column name="Document" prop="doct.name"></ngx-datatable-column>
                   <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
                   <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
                   <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
+                  <ngx-datatable-column name="Devolução" prop="devolutions[0].dateDevolution"></ngx-datatable-column>
+                  <ngx-datatable-column name="Baixa" prop="lows[0].dateLows"></ngx-datatable-column>
                   <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
                 </ngx-datatable>
               </div>
@@ -231,7 +234,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="col form-group">f
+                <div class="col form-group">
                   <input type="date" class="form-control" formControlName="date">
                 </div>
                 <div class="col">
@@ -254,7 +257,8 @@
                     </ng-template>
                     <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
                       let-onCheckboxChangeFn="onCheckboxChangeFn">
-                      <input type="checkbox" [checked]="isSelected" [disabled]="isCheckable(row.status)" (change)="onCheckboxChangeFn($event)" />
+                      <input type="checkbox" [checked]="isSelected" [disabled]="isCheckable(row.status)"
+                        (change)="onCheckboxChangeFn($event)" />
                     </ng-template>
                   </ngx-datatable-column>
                   <!-- <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="true"
@@ -264,6 +268,16 @@
                   <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
                   <ngx-datatable-column name="Posição" prop="location"></ngx-datatable-column>
                   <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
+                  <ngx-datatable-column name="Devolução" prop="devolutions">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      <span *ngIf="value.length && value[0].dateDevolution">{{ value[0].dateDevolution | date: 'dd/MM/yyyy' }}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Baixa" prop="loans">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      <span *ngIf="value.length && value[0].dateLoan">{{ value[0].dateLoan | date: 'dd/MM/yyyy' }}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
                   <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
                   <!-- <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column> -->
                   <ngx-datatable-column name="Criado em" prop="dateCreated">
