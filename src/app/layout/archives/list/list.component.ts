@@ -327,7 +327,7 @@ export class ListComponent implements OnInit {
   getDocuments(company_id) {
     this.documentsSrv.searchDocuments(company_id).subscribe(
       data => {
-        this.documents = data.items;
+        this.documents.push({_id:0,name: 'Selecionar todos'}, ...data.items)
       },
       error => {
         this.errorMsg.errorMessages(error);

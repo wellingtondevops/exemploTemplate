@@ -538,16 +538,17 @@ export class ShowComponent implements OnInit {
   }
 
   isCheckable(status){
-    let isCheckable = true;
+    console.log(status)
+    let isCheckable = false;
     switch(status[0]){
       case 'BAIXADO':
-        isCheckable = true;
-        break
-      case 'EMPRESTADO':
         isCheckable = false;
         break
-      case 'ATIVO':
+      case 'EMPRESTADO':
         isCheckable = true;
+        break
+      case 'ATIVO':
+        isCheckable = false;
         break
     }
     return isCheckable

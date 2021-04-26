@@ -170,7 +170,11 @@
                   <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
                   <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
                   <ngx-datatable-column name="Devolução" prop="devolutions[0].dateDevolution"></ngx-datatable-column>
-                  <ngx-datatable-column name="Baixa" prop="lows[0].dateLows"></ngx-datatable-column>
+                  <ngx-datatable-column name="Baixa" prop="lows">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLoan | date: 'dd/MM/yyyy' }}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
                   <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
                 </ngx-datatable>
               </div>
@@ -216,7 +220,7 @@
                 </div>
               </div>
             </form>
-            <form [formGroup]="processForm" role="FormGroup" (ngSubmit)="devolutionOrLowVolumes()">
+            <form *ngIf="moviment.demand && !moviment.processed" [formGroup]="processForm" role="FormGroup" (ngSubmit)="devolutionOrLowVolumes()">
               <div class="form-row">
                 <div class="col-2">
                   <div class="form-check">
@@ -273,9 +277,9 @@
                       <span *ngIf="value.length && value[0].dateDevolution">{{ value[0].dateDevolution | date: 'dd/MM/yyyy' }}</span>
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column name="Baixa" prop="loans">
+                  <ngx-datatable-column name="Baixa" prop="lows">
                     <ng-template let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="value.length && value[0].dateLoan">{{ value[0].dateLoan | date: 'dd/MM/yyyy' }}</span>
+                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLoan | date: 'dd/MM/yyyy' }}</span>
                     </ng-template>
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>

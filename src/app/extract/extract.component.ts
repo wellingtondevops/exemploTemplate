@@ -22,7 +22,6 @@ export class ExtractComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getMoviment();
-    
   }
 
   getMoviment(){
