@@ -172,7 +172,8 @@
                   <ngx-datatable-column name="Devolução" prop="devolutions[0].dateDevolution"></ngx-datatable-column>
                   <ngx-datatable-column name="Baixa" prop="lows">
                     <ng-template let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLoan | date: 'dd/MM/yyyy' }}</span>
+                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLoan | date: 'dd/MM/yyyy'
+                        }}</span>
                     </ng-template>
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
@@ -210,17 +211,21 @@
                   <label for="reference">Referência</label>
                   <input type="text" class="form-control" formControlName="reference" />
                 </div>
-                <div class="form-group col-1">
+                <div class="form-group">
                   <br />
                   <button type="submit" class="btn btn-primary" style="margin-top: 7px">
                     <i class="fa fa-search"></i>
                   </button>
+                </div>
+                <div class="form-group">
+                  <br />
                   <button *ngIf="moviment.moveVolume && !moviment.processed" style="margin-top: 7px" type="button"
                     class="btn btn-danger" (click)="removeVolumes()">Remover</button>
                 </div>
               </div>
             </form>
-            <form *ngIf="moviment.demand && !moviment.processed" [formGroup]="processForm" role="FormGroup" (ngSubmit)="devolutionOrLowVolumes()">
+            <form *ngIf="moviment.demand && !moviment.processed" [formGroup]="processForm" role="FormGroup"
+              (ngSubmit)="devolutionOrLowVolumes()">
               <div class="form-row">
                 <div class="col-2">
                   <div class="form-check">
@@ -253,8 +258,8 @@
                   [count]="pageVolumes.totalElements" [offset]="pageVolumes.pageNumber - 1" [limit]="10"
                   (page)="showItensVolumes($event)" [selected]="selected" [selectionType]="'checkbox'"
                   [selectAllRowsOnPage]="false" (select)="onSelectVolumes($event)">
-                  <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-                    [resizeable]="false">
+                  <ngx-datatable-column *ngIf="moviment.demand && !moviment.processed" [width]="30" [sortable]="false"
+                    [canAutoResize]="false" [draggable]="false" [resizeable]="false">
                     <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
                       let-selectFn="selectFn">
                       <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
@@ -274,12 +279,14 @@
                   <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
                   <ngx-datatable-column name="Devolução" prop="devolutions">
                     <ng-template let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="value.length && value[0].dateDevolution">{{ value[0].dateDevolution | date: 'dd/MM/yyyy' }}</span>
+                      <span *ngIf="value.length && value[0].dateDevolution">{{ value[0].dateDevolution | date:
+                        'dd/MM/yyyy' }}</span>
                     </ng-template>
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Baixa" prop="lows">
                     <ng-template let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLoan | date: 'dd/MM/yyyy' }}</span>
+                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLoan | date: 'dd/MM/yyyy'
+                        }}</span>
                     </ng-template>
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>

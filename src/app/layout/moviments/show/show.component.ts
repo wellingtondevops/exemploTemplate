@@ -168,7 +168,7 @@ export class ShowComponent implements OnInit {
     // console.log(serviceI);
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
-      itemValue: serviceI.value.item.price.toFixed(2),
+      itemValue: serviceI.value.item.price ? serviceI.value.item.price.toFixed(2) : 0,
     })
   }
 
@@ -176,8 +176,8 @@ export class ShowComponent implements OnInit {
     let total = serviceI.value ? serviceI.value.item ? serviceI.value.item.price && serviceI.value.quantityItem ? serviceI.value.item.price * serviceI.value.quantityItem : 0 : 0 : 0;
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
-      totalItem: total.toFixed(2),
-      itemValue: serviceI.value.item.price.toFixed(2),
+      totalItem: total ? total.toFixed(2) : 0,
+      itemValue: serviceI.value.item.price ? serviceI.value.item.price.toFixed(2) : 0,
     })
   }
 
@@ -582,7 +582,7 @@ export class ShowComponent implements OnInit {
           this.errorMsg.errorMessages(error);
         }
       )
-    } else {
+    } else if (this.processForm.value.process === 'low') {
       this.movimentsSrv.lows(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY')}).subscribe(
         data =>{
           console.log(data);
@@ -595,6 +595,8 @@ export class ShowComponent implements OnInit {
           this.errorMsg.errorMessages(error);
         }
       )
+    } else {
+      this.warningMsg.showWarning('Selecione um tipo de processo.', 5000);
     }
   }
 
