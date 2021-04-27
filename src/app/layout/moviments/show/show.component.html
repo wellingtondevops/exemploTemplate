@@ -311,7 +311,7 @@
             <div class="row">
               <div class="col-lg-12">
                 <br>
-                <button class="btn btn-primary pull-right" *ngIf="moviment.processed && moviment.demand"
+                <button class="btn btn-primary pull-right" *ngIf="moviment.processed && !moviment.demand"
                   (click)="extract()">Imprimir Extrato</button>
               </div>
             </div>
