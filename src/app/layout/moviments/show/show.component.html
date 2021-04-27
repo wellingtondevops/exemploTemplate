@@ -71,7 +71,7 @@
                 </div>
               </div>
               <button class="btn btn-primary pull-right" [routerLink]="['/moviments/searchvolumes', moviment._id]"
-                *ngIf="moviment && moviment.moveVolume ">Pesquisar Caixas</button>
+                *ngIf="moviment && moviment.moveVolume " [disabled]="moviment.processed">Pesquisar Caixas</button>
               <button class="btn btn-primary pull-right" [routerLink]="['/moviments/searcharchives', moviment._id]"
                 *ngIf="moviment &&  moviment.moveArchive">Pesquisar Arquivos</button>
             </form>
@@ -224,7 +224,7 @@
                 </div>
               </div>
             </form>
-            <form *ngIf="moviment.demand && !moviment.processed" [formGroup]="processForm" role="FormGroup"
+            <form *ngIf=" moviment.processed" [formGroup]="processForm" role="FormGroup"
               (ngSubmit)="devolutionOrLowVolumes()">
               <div class="form-row">
                 <div class="col-2">
@@ -247,7 +247,7 @@
                   <input type="date" class="form-control" formControlName="date">
                 </div>
                 <div class="col">
-                  <button class="btn btn-success" type="submit">Processar</button>
+                  <button class="btn btn-success" type="submit" >Processar</button>
                 </div>
               </div>
             </form>
@@ -258,16 +258,24 @@
                   [count]="pageVolumes.totalElements" [offset]="pageVolumes.pageNumber - 1" [limit]="10"
                   (page)="showItensVolumes($event)" [selected]="selected" [selectionType]="'checkbox'"
                   [selectAllRowsOnPage]="false" (select)="onSelectVolumes($event)">
-                  <ngx-datatable-column *ngIf="moviment.demand && !moviment.processed" [width]="30" [sortable]="false"
+                  <ngx-datatable-column *ngIf="moviment.processed" [width]="30" [sortable]="false"
                     [canAutoResize]="false" [draggable]="false" [resizeable]="false">
                     <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
                       let-selectFn="selectFn">
+
                       <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+
                     </ng-template>
                     <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
                       let-onCheckboxChangeFn="onCheckboxChangeFn">
-                      <input type="checkbox" [checked]="isSelected" [disabled]="isCheckable(row.status)"
+
+
+                      <input type="checkbox"   [checked]="isSelected" [disabled]="isCheckable(row.status)"
                         (change)="onCheckboxChangeFn($event)" />
+
+
+
+
                     </ng-template>
                   </ngx-datatable-column>
                   <!-- <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="true"
@@ -285,7 +293,7 @@
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Baixa" prop="lows">
                     <ng-template let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLoan | date: 'dd/MM/yyyy'
+                      <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLows | date: 'dd/MM/yyyy'
                         }}</span>
                     </ng-template>
                   </ngx-datatable-column>

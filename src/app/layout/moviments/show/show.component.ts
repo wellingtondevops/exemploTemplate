@@ -119,16 +119,16 @@ export class ShowComponent implements OnInit {
       departament: this.fb.control(''),
       location: this.fb.control(''),
       reference: this.fb.control('')
-    })
+    });
 
     this.serviceForm = this.fb.group({
       servicesDemand: this.fb.array(this.services),
-    })
+    });
 
     this.processForm = this.fb.group({
       process: this.fb.control(''),
       date: this.fb.control('')
-    })
+    });
   }
 
   ngOnInit() {
@@ -141,9 +141,10 @@ export class ShowComponent implements OnInit {
     this.getDepartaments();
     this.getStorehouses();
     this.getDocuments();
-    this.getServices()
+    this.getServices();
     this.addService();
     this.getCountMove();
+
   }
 
   createService(): FormGroup {
@@ -169,24 +170,24 @@ export class ShowComponent implements OnInit {
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
       itemValue: serviceI.value.item.price ? serviceI.value.item.price.toFixed(2) : 0,
-    })
+    });
   }
 
   returnTotal(serviceI: FormGroup) {
-    let total = serviceI.value ? serviceI.value.item ? serviceI.value.item.price && serviceI.value.quantityItem ? serviceI.value.item.price * serviceI.value.quantityItem : 0 : 0 : 0;
+    const total = serviceI.value ? serviceI.value.item ? serviceI.value.item.price && serviceI.value.quantityItem ? serviceI.value.item.price * serviceI.value.quantityItem : 0 : 0 : 0;
     serviceI.patchValue({
       quantityItem: serviceI.value.quantityItem,
       totalItem: total ? total.toFixed(2) : 0,
       itemValue: serviceI.value.item.price ? serviceI.value.item.price.toFixed(2) : 0,
-    })
+    });
   }
 
   getServices() {
     this.movimentsSrv.services(this.id).subscribe(data => {
       this.servicesList = data;
     }, error => {
-      console.log('ERROR', error)
-    })
+      console.log('ERROR', error);
+    });
   }
 
   formatterService = (x: { description: string }) => x.description;
@@ -236,13 +237,13 @@ export class ShowComponent implements OnInit {
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
       }
-    )
+    );
   }
 
-  delivery(){
-    if(this.moviment.withdraw){
-      return 'Retirada'
-    } else if (this.moviment.delivery){
+  delivery() {
+    if (this.moviment.withdraw) {
+      return 'Retirada';
+    } else if (this.moviment.delivery) {
       return 'Entrega';
     } else {
       return 'Digital';
@@ -307,7 +308,7 @@ export class ShowComponent implements OnInit {
     if (pageInfo && pageInfo.offset) {
       this.pageArchives.pageNumber = pageInfo.offset;
     } else {
-      this.pageArchives.pageNumber = 0
+      this.pageArchives.pageNumber = 0;
     }
 
 
@@ -317,7 +318,7 @@ export class ShowComponent implements OnInit {
       location: null,
       search: null
     };
-    //this.localStorageSrv.save('moviment', this.searchForm.value);
+    // this.localStorageSrv.save('moviment', this.searchForm.value);
     this.archiveForm.value.document ? newSearch.document = this.returnArchiveId('document') : null;
     this.archiveForm.value.storehouse ? newSearch.storehouse = this.returnArchiveId('storehouse') : null;
     this.archiveForm.value.location ? newSearch.location = this.archiveForm.value.location : null;
@@ -335,7 +336,7 @@ export class ShowComponent implements OnInit {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR:', error);
-    })
+    });
   }
 
   open(name: string, storeHouse) {
@@ -358,7 +359,7 @@ export class ShowComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   /* onSelect({ selected }) {
@@ -383,7 +384,7 @@ export class ShowComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   getStorehouses() {
@@ -393,7 +394,7 @@ export class ShowComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   searchDepartament = (text$: Observable<string>) =>
@@ -441,57 +442,62 @@ export class ShowComponent implements OnInit {
     )
 
   showItensVolumes(pageInfo = null) {
+    const selectedItens = [];
     this.loading = true;
     this.pageVolumes.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
 
-    var volumeForm = {
+    const volumeForm = {
       departament: this.volumeForm.value.departament ? this.volumeForm.value.departament._id : '',
       storehouse: this.volumeForm.value.storehouse ? this.volumeForm.value.storehouse._id : '',
       reference: this.volumeForm.value.reference ? this.volumeForm.value.reference : '',
       location: this.volumeForm.value.location ? this.volumeForm.value.location : '',
-    }
+    };
 
     this.movimentsSrv.showItensVolumes(this.moviment._id, volumeForm, this.pageVolumes).subscribe(data => {
+
       this.loading = false;
       this.volumes = data;
+
       this.pageVolumes.pageNumber = data._links.currentPage;
       this.pageVolumes.totalElements = data._links.foundItems;
       this.pageVolumes.size = data._links.totalPage;
+      this.selected = [];
       if (data.items.length === 0) {
         this.warningMsg.showWarning('Lista de Volumes vazia', 50000);
       }
     }, error => {
       this.loading = false;
       console.log('ERROR', error);
-    })
+    });
   }
 
   removeVolumes() {
-    var ids = [];
+    const ids = [];
+    this.selected = [];
     this.selectedVolumes.forEach(element => {
-      ids.push(element._id)
+      ids.push(element._id);
     });
     this.movimentsSrv.removeMoviment(this.moviment._id, ids).subscribe(data => {
       this.showItensVolumes();
       this.selectedVolumes = [];
-      this.successMsgSrv.successMessages(data.message)
+      this.successMsgSrv.successMessages(data.message);
     }, error => {
-      console.log('ERROR: ', error)
-    })
+      console.log('ERROR: ', error);
+    });
   }
 
   removeArchives() {
-    var ids = [];
+    const ids = [];
     this.selectedArchives.forEach(element => {
-      ids.push(element._id)
+      ids.push(element._id);
     });
     this.movimentsSrv.removeMoviment(this.moviment._id, ids).subscribe(data => {
       this.searchItensArchives();
       this.selectedArchives = [];
-      this.successMsgSrv.successMessages(data.message)
+      this.successMsgSrv.successMessages(data.message);
     }, error => {
-      console.log('ERROR: ', error)
-    })
+      console.log('ERROR: ', error);
+    });
   }
 
   beforeChange(data) {
@@ -504,55 +510,56 @@ export class ShowComponent implements OnInit {
 
   processMoviment() {
     this.loading = true;
-    let form = {servicesDemand:[], totalValueDemand: 0};
+    const form = {servicesDemand: [], totalValueDemand: 0};
     this.serviceForm.value.servicesDemand.map(item => {
       form.servicesDemand.push({
         item: item.item.description,
         quantityItem: item.quantityItem,
         itemValue: item.itemValue,
         totalItem: Number(item.totalItem)
-      })
-      form.totalValueDemand = form.totalValueDemand + Number(item.totalItem)
-    })
+      });
+      form.totalValueDemand = form.totalValueDemand + Number(item.totalItem);
+    });
 
     this.movimentsSrv.processMove(
       this.moviment._id, form
       ).subscribe(data => {
         this.getMoviment();
         this.loading = false;
-        this.successMsgSrv.successMessages('Movimentação processada.')
+        this.successMsgSrv.successMessages('Movimentação processada.');
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
-      console.log('ERROR: ', error)
-    })
+      console.log('ERROR: ', error);
+    });
   }
 
-  getCountMove(){
+  getCountMove() {
     this.movimentsSrv.countMove(this.id).subscribe(data => {
       this.countMove = data;
     }, error => {
       console.log('ERROR: ', error);
       this.errorMsg.errorMessages(error);
-    })
+    });
   }
 
-  isCheckable(status){
-    console.log(status)
+  isCheckable(status) {
+    console.log(status);
     let isCheckable = false;
-    switch(status[0]){
+    switch (status[0]) {
       case 'BAIXADO':
-        isCheckable = false;
-        break
-      case 'EMPRESTADO':
         isCheckable = true;
-        break
-      case 'ATIVO':
+        break;
+      case 'EMPRESTADO':
         isCheckable = false;
-        break
+        break;
+      case 'ATIVO':
+        isCheckable = true;
+        break;
     }
-    return isCheckable
+    return isCheckable;
   }
+
 
   extract() {
     const url = this._route.serializeUrl(
@@ -563,17 +570,19 @@ export class ShowComponent implements OnInit {
     // window.open(`/moviment-extract/${}`, '_blank')
   }
 
-  devolutionOrLowArchives(){
+  devolutionOrLowArchives() {
     this.loading = true;
-    var itens = [];
+    const itens = [];
+    this.selected = [];
     this.selectedArchives.map(item => {
       itens.push(item._id);
-    })
-    if(this.processForm.value.process === 'devolution'){
+    });
+    if (this.processForm.value.process === 'devolution') {
       this.movimentsSrv.devolutions(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY') }).subscribe(
-        data =>{
+        data => {
           console.log(data);
-          this.successMsgSrv.successMessages(data.message)
+          this.successMsgSrv.successMessages(data.message);
+          this.selected = [];
           this.getMoviment();
           this.loading = false;
         }, error => {
@@ -581,12 +590,13 @@ export class ShowComponent implements OnInit {
           console.log('ERROR: ', error);
           this.errorMsg.errorMessages(error);
         }
-      )
+      );
     } else if (this.processForm.value.process === 'low') {
       this.movimentsSrv.lows(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY')}).subscribe(
-        data =>{
+        data => {
           console.log(data);
-          this.successMsgSrv.successMessages(data.message)
+          this.successMsgSrv.successMessages(data.message);
+          this.selected = [];
           this.getMoviment();
           this.loading = false;
         }, error => {
@@ -594,44 +604,54 @@ export class ShowComponent implements OnInit {
           console.log('ERROR: ', error);
           this.errorMsg.errorMessages(error);
         }
-      )
+      );
     } else {
       this.warningMsg.showWarning('Selecione um tipo de processo.', 5000);
     }
   }
 
-  devolutionOrLowVolumes(){
+  devolutionOrLowVolumes() {
     this.loading = true;
-    var itens = [];
+    const itens = [];
+    this.selected = [];
     this.selectedVolumes.map(item => {
       itens.push(item._id);
-    })
-    if(this.processForm.value.process === 'devolution'){
+    });
+    if (this.processForm.value.process === 'devolution') {
       this.movimentsSrv.devolutions(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY') }).subscribe(
-        data =>{
+        data => {
           console.log(data);
-          this.successMsgSrv.successMessages(data.message)
+          this.successMsgSrv.successMessages(data.message);
           this.getMoviment();
+
           this.loading = false;
+          this.selectedVolumes = [];
+          this.showItensVolumes();
+
+
         }, error => {
           this.loading = false;
           console.log('ERROR: ', error);
           this.errorMsg.errorMessages(error);
         }
-      )
+      );
     } else {
       this.movimentsSrv.lows(this.moviment._id, {itens: itens, dateAction: moment(this.processForm.value.date).format('DD/MM/YYYY')}).subscribe(
-        data =>{
+        data => {
+            this.selectedVolumes = [];
           console.log(data);
-          this.successMsgSrv.successMessages(data.message)
+          this.successMsgSrv.successMessages(data.message);
           this.getMoviment();
           this.loading = false;
+          this.selectedVolumes = [];
+          this.showItensVolumes();
+
         }, error => {
           this.loading = false;
           console.log('ERROR: ', error);
           this.errorMsg.errorMessages(error);
         }
-      )
+      );
     }
   }
 }
