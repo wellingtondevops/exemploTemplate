@@ -492,8 +492,12 @@ export class ShowComponent implements OnInit {
       ids.push(element._id);
     });
     this.movimentsSrv.removeMoviment(this.moviment._id, ids).subscribe(data => {
-      this.searchItensArchives();
-      this.selectedArchives = [];
+
+
+
+        this.selected = [];
+         this.searchItensArchives();
+        this.selectedArchives = [];
       this.successMsgSrv.successMessages(data.message);
     }, error => {
       console.log('ERROR: ', error);
@@ -584,6 +588,8 @@ export class ShowComponent implements OnInit {
           this.successMsgSrv.successMessages(data.message);
           this.selected = [];
           this.getMoviment();
+          this.searchItensArchives();
+          this.selectedArchives = [];
           this.loading = false;
         }, error => {
           this.loading = false;
@@ -598,6 +604,7 @@ export class ShowComponent implements OnInit {
           this.successMsgSrv.successMessages(data.message);
           this.selected = [];
           this.getMoviment();
+          this.searchItensArchives();
           this.loading = false;
         }, error => {
           this.loading = false;
