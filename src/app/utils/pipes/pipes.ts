@@ -6,10 +6,10 @@ import { Injectable } from '@angular/core';
 
 export class Pipes {
   datePipe(value: any, ...args: any[]) {
-    if(value){
+    if (value) {
       return new Date(value).toLocaleDateString('pt-BR').split(',')[0];
     }
-    return null
+    return null;
   }
   guardType(value: any, ...args: any[]) {
     let res = '';
@@ -23,6 +23,7 @@ export class Pipes {
     }
     return res;
   }
+
 
   status(value: any, ...args: any[]) {
     return `<i class="fa fa-circle color-${value[0]}"></i>`;

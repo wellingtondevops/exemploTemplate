@@ -79,7 +79,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     const moviment = JSON.parse(this.localStorageSrv.get('moviment'));
-    if(moviment && moviment.company){
+    if (moviment && moviment.company) {
       this.searchForm.patchValue({
         company: moviment.company,
         name: moviment.name,
@@ -88,7 +88,7 @@ export class ListComponent implements OnInit {
         nr: moviment.nr,
         endDate: moviment.endDate,
         initDate: moviment.initDate
-      })
+      });
     }
 
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
