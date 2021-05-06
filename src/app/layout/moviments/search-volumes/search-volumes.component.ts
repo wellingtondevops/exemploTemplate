@@ -18,8 +18,8 @@ import { VolumeList } from 'src/app/models/volume';
 import { Page } from 'src/app/models/page';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { SaveLocal } from 'src/app/storage/saveLocal';
-import { SelectionType } from 'src/app/models/selection.types'
-import { ColumnMode } from 'src/app/models/column-mode.types'
+import { SelectionType } from 'src/app/models/selection.types';
+import { ColumnMode } from 'src/app/models/column-mode.types';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 
@@ -47,7 +47,7 @@ export class SearchVolumesComponent implements OnInit {
     },
     items: []
   };
-  selected: any = []
+  selected: any = [];
   page = new Page();
   guardTypeList: any = [];
 
@@ -89,7 +89,7 @@ export class SearchVolumesComponent implements OnInit {
         reference: searchVolume.reference,
         endDate: searchVolume.endDate,
         initDate: searchVolume.initDate
-      })
+      });
     }
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -126,7 +126,7 @@ export class SearchVolumesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   getStorehouses() {
@@ -136,7 +136,7 @@ export class SearchVolumesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   getCompany() {
@@ -144,12 +144,12 @@ export class SearchVolumesComponent implements OnInit {
       this.companies = data.items;
       this.searchForm.patchValue({
         company: data.items[0]
-      })
+      });
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   getDepartaments() {
@@ -159,7 +159,7 @@ export class SearchVolumesComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 
   searchCompany = (text$: Observable<string>) =>
@@ -242,8 +242,8 @@ export class SearchVolumesComponent implements OnInit {
     }, error => {
       this.errorMsg.errorMessages(error);
       this.loading = false;
-      console.log(`ERROR: ${error}`)
-    })
+      console.log(`ERROR: ${error}`);
+    });
   }
 
   onSelect({ selected }) {
@@ -262,12 +262,12 @@ export class SearchVolumesComponent implements OnInit {
   }
 
   include() {
-    var selectedItens = []
+    const selectedItens = [];
     this.selected.forEach(element => {
       if (!element.indDemand) {
         selectedItens.push(element._id);
       } else {
-        this.warningMsgSrv.showWarning(`Essa caixa já está indexado em outra Solicitação nr ${element.demand.nr}`, 5000)
+        this.warningMsgSrv.showWarning(`Essa caixa já está indexado em outra Solicitação nr ${element.demand.nr}`, 5000);
       }
     });
     this.loading = true;
@@ -275,12 +275,12 @@ export class SearchVolumesComponent implements OnInit {
       this.loading = false;
       this.successMsgSrv.showSuccess(data.message);
       this.selected = [];
-      this.getSearchVolumes()
+      this.getSearchVolumes();
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
       this.loading = false;
-    })
+    });
   }
 }
 @Pipe({

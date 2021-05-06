@@ -107,15 +107,18 @@
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Departamento" prop="departament.name"></ngx-datatable-column>
+        <ngx-datatable-column name="Movimentação Aberta" prop="demand.nr"></ngx-datatable-column>
+
         <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
         <ngx-datatable-column name="Posição" prop="location"></ngx-datatable-column>
         <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column>
+        <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
         <ngx-datatable-column name="Criado em" prop="dateCreated">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value | date: 'dd/MM/yyyy' }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
+
         <!-- <ngx-datatable-column name="Suspensa" prop="indDemand">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value ? 'Sim' : 'Não' }}

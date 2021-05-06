@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
 import _ from 'lodash';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
-import { SaveLocal } from '../../../storage/saveLocal'
+import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 
@@ -57,17 +57,20 @@ export class ListComponent implements OnInit {
   page = new Page();
 
   columns = [
-    { name: 'Empresa', prop: 'company.name', width: 250 },
+    // { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Departamento', prop: 'departament.name' },
-    { name: 'Ármazem', prop: 'storehouse.name' },
     { name: 'Posição', prop: 'location', width: 70 },
+    { name: 'Status', prop: 'status', width: 70 },
+    { name: 'Guarda', prop: 'guardType', width: 70,  },
+    { name: 'Depósito', prop: 'storehouse.name' },
     { name: 'Referência', prop: 'reference', width: 70 },
+    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
   ];
-  permissionNew: boolean = false;
-  isUsers: boolean = false;
+  permissionNew = false;
+  isUsers = false;
 
   constructor(
     private el: ElementRef,
@@ -116,15 +119,15 @@ export class ListComponent implements OnInit {
         endDate: volume.endDate,
         initDate: volume.initDate,
         guardType: volume.guardType
-      })
+      });
 
-      this.getDepartaments(volume.company._id)
+      this.getDepartaments(volume.company._id);
     }
 
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();
-    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
     this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
   }
 
@@ -156,7 +159,7 @@ export class ListComponent implements OnInit {
       endDate: null,
       initDate: null,
       guardType: 'GERENCIADA'
-    })
+    });
   }
 
   getVolumes() {
@@ -169,7 +172,7 @@ export class ListComponent implements OnInit {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
     console.log(this.page);
-    this.localStorageSrv.save('volume', this.searchForm.value)
+    this.localStorageSrv.save('volume', this.searchForm.value);
 
     const newForm = {
       company: null,
