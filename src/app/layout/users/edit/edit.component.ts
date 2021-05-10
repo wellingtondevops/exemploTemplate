@@ -56,6 +56,7 @@ export class EditComponent implements OnInit {
       email: this.fb.control('', [Validators.required, Validators.email]),
       name: this.fb.control('', [Validators.required]),
       profile: this.fb.control('', [Validators.required]),
+      physicalDocuments:  this.fb.control('', [Validators.required]),
       print: this.fb.control('', [Validators.required]),
       download: this.fb.control('', [Validators.required]),
       company: this.fb.control(''),
@@ -85,6 +86,10 @@ export class EditComponent implements OnInit {
   }
   get profile() {
     return this.userForm.get('profile');
+  }
+
+  get physicalDocuments() {
+      return this.userForm.get('physicalDocuments');
   }
 
   createPermission(): FormGroup {
@@ -221,6 +226,7 @@ export class EditComponent implements OnInit {
           profiles: data.profiles,
           profile: data.profile,
           print: data.print,
+          physicalDocuments: data.physicalDocuments,
           download: data.download,
           dateCreated: data.dateCreated,
           DateAcceptanceTerm: data.DateAcceptanceTerm,
@@ -243,6 +249,7 @@ export class EditComponent implements OnInit {
           profile: data.profile._id,
           print: data.print,
           download: data.download,
+          physicalDocuments: data.physicalDocuments,
           permissions: this.user.permissions
         });
         this.user.permissions.map(item => {
