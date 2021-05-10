@@ -53,6 +53,7 @@ export class NewComponent implements OnInit {
       name: this.fb.control('', [Validators.required]),
       profiles: this.fb.control('', [Validators.required]),
       download: this.fb.control(true, [Validators.required]),
+      physicalDocuments: this.fb.control(true, [Validators.required]),
       print: this.fb.control(true, [Validators.required]),
       permissions: this.fb.array(this.permissions)
     });
@@ -107,6 +108,10 @@ export class NewComponent implements OnInit {
 
   get profiles() {
     return this.userForm.get('profiles');
+  }
+
+  get physicalDocuments() {
+      return this.userForm.get('physicalDocuments');
   }
 
   getCompanies() {

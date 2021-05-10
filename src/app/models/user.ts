@@ -12,6 +12,7 @@ export class User {
   profiles: string[];
   profile: Profile;
   download: boolean;
+  physicalDocuments: boolean;
   print: boolean;
   DateAcceptanceTerm: string;
   acceptanceTerm: boolean;
