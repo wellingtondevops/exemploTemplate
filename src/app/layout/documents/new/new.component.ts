@@ -77,7 +77,7 @@ export class NewComponent implements OnInit {
       id_Structure: this.fb.control(''),
       id_child: this.fb.control(''),
       company: this.fb.control('')
-    })
+    });
 
     this.topicForm = this.fb.group({
       comments: this.fb.control({ value: '', disabled: true }),
@@ -88,7 +88,7 @@ export class NewComponent implements OnInit {
       currentLabel: this.fb.control({ value: '', disabled: true }),
       topic: this.fb.control({ value: '', disabled: true }),
       codTopic: this.fb.control({ value: '', disabled: true }),
-    })
+    });
 
     this.getCompanies();
     this.getDoctStructs();
@@ -105,7 +105,8 @@ export class NewComponent implements OnInit {
     return this.fb.group({
       namefield: '',
       typeField: '',
-      uniq: ''
+      uniq: '',
+      timeControl: ''
     });
   }
 
@@ -139,7 +140,7 @@ export class NewComponent implements OnInit {
         this.errorMsg.errorMessages(error);
         console.log('ERROR: ', error);
       }
-    )
+    );
   }
 
   searchDoctStruct = (text$: Observable<string>) =>
@@ -166,23 +167,10 @@ export class NewComponent implements OnInit {
 
   postDocument() {
     this.loading = true;
-    if (this.documentForm.value.dcurrentValue > 0) {
-      this.documentForm.value.label.push({
-        "namefield": "DATA DO DOCUMENTO",
-        "typeField": "DATA",
-        "uniq": true,
-        "timeControl": true
-      })
-    } else {
-      this.documentForm.value.label.filter((item, index) => {
-        if (item.namefield === 'DATA DO DOCUMENTO') {
-          this.documentForm.value.label.splice(index, 1);
-        }
-      })
-    }
+
 
     this.returnId('company');
-    this.doctStructForm.value.company = this.documentForm.value.company
+    this.doctStructForm.value.company = this.documentForm.value.company;
     const documentForm = _.omitBy(this.documentForm.value, _.isNil);
     this.documentSrv.newDocument(documentForm).subscribe(
       data => {
@@ -205,13 +193,13 @@ export class NewComponent implements OnInit {
       this.doctStructForm.value.id_Structure === '') {
       this.documentForm.patchValue({
         name: ''
-      })
+      });
       this.structs = [];
       this.documentForm.get('name').enable();
-      this.topic = null
+      this.topic = null;
       this.doctStructForm.patchValue({
         id_child: ''
-      })
+      });
       this.topicForm.patchValue({
         comments: '',
         final: '',
@@ -221,7 +209,7 @@ export class NewComponent implements OnInit {
         currentLabel: '',
         topic: '',
         codTopic: ''
-      })
+      });
     }
   }
 
@@ -238,7 +226,7 @@ export class NewComponent implements OnInit {
         currentLabel: data.currentLabel,
         topic: data.topic,
         codTopic: data.codTopic
-      })
+      });
       if (this.doctStructForm.value.id_Structure &&
         this.doctStructForm.value.id_Structure !== '' &&
         this.doctStructForm.value.id_child &&
@@ -249,17 +237,17 @@ export class NewComponent implements OnInit {
           dcurrentLabel: data.currentLabel,
           dintermediateValue: data.intermediateValue,
           dfinal: data.final,
-        })
+        });
       } else {
         this.documentForm.patchValue({
           name: ''
-        })
+        });
         this.documentForm.get('name').enable();
       }
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    })
+    });
   }
 
   postDoctStruct(doctStructData) {
@@ -270,9 +258,9 @@ export class NewComponent implements OnInit {
         }
       }, error => {
         return reject(false);
-      })
-      return resolve(false)
-    })
+      });
+      return resolve(false);
+    });
   }
 
   selectDoctStruct(doctStruct) {
@@ -284,7 +272,7 @@ export class NewComponent implements OnInit {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
-    })
+    });
   }
 }
 @Pipe({

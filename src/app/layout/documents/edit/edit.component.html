@@ -1,166 +1,170 @@
 <div [@routerTransition]>
-  <div *ngIf="loading">
-    <ngx-loading [show]="loading" [config]="{
-          backdropBorderRadius: '3px',
-          fullScreenBackdrop: true,
-          primaryColour: '#222',
-          secondaryColour: '#222',
-          tertiaryColour: '#222'
-      }"></ngx-loading>
-  </div>
+    <div *ngIf="loading">
+      <ngx-loading [show]="loading" [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"></ngx-loading>
+    </div>
 
-  <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header>
-  <div class="card bg-light mb-12">
-    <div class="card-body" *ngIf="!loading">
-      <ngb-tabset #tab>
-        <ngb-tab title="Documento" id="tab1">
-          <ng-template ngbTabContent>
-            <br>
-            <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="updateDocument()">
-              <div class="row">
-                <div class="col-xl-6">
-                  <div class="form-group">
-                    <label for="typeahead-format">Empresa</label>
-                    <input id="typeahead-format" class="form-control" formControlName="company"
-                      [resultTemplate]="rtCompanyDoc" [inputFormatter]="formatter" [resultFormatter]="formatter"
-                      [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !companyIpt.valid }" />
-                    <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
-                      class="invalid-feedback">
-                      <div *ngIf="!companyIpt.valid">
-                        Empresa é obrigatória.
-                      </div>
-                    </div>
-                  </div>
-
-                  <ng-template #rtCompanyDoc let-r="result" let-t="company" class="custom-typeahead">
-                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                  </ng-template>
-
-                  <div class="form-group">
-                    <label for="">Nome</label>
-                    <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name"
-                      [ngClass]="{ 'is-invalid': !name.valid }" />
-                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                      <div *ngIf="!name.valid">
-                        Nome é obrigatório.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card bg-light mb-12">
-                    <div class="card-header">
-                      Fases
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label for="labelDcurrentValue">Fase Corrente</label>
-                            <input id="dcurrentLabel" type="text" placeholder="Texto" class="form-control"
-                              formControlName="dcurrentLabel" />
-                            <input id="dcurrentValue" type="number" placeholder="Fase Corrente" class="form-control"
-                              formControlName="dcurrentValue" />
-                          </div>
-                        </div>
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label for="labelDintermediateValue">Fase Intermédiaria</label>
-                            <input id="dintermediateValue" type="number" placeholder="Fase Intermédiaria"
-                              class="form-control" formControlName="dintermediateValue" />
-                          </div>
-                        </div>
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label for="labelDfinal">Final</label>
-                            <textarea id="dfinal" type="text" placeholder="Final" class="form-control"
-                              formControlName="dfinal"></textarea>
-                          </div>
+    <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header>
+    <div class="card bg-light mb-12">
+      <div class="card-body" *ngIf="!loading">
+        <ngb-tabset #tab>
+          <ngb-tab title="Documento" id="tab1">
+            <ng-template ngbTabContent>
+              <br>
+              <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="updateDocument()">
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label for="typeahead-format">Empresa</label>
+                      <input id="typeahead-format" class="form-control" formControlName="company"
+                        [resultTemplate]="rtCompanyDoc" [inputFormatter]="formatter" [resultFormatter]="formatter"
+                        [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !companyIpt.valid }" />
+                      <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!companyIpt.valid">
+                          Empresa é obrigatória.
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                </div>
+                    <ng-template #rtCompanyDoc let-r="result" let-t="company" class="custom-typeahead">
+                      <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
 
-                <div class="col-xl-6">
-                  <div class="form-group" formArrayName="label">
-                    <label for="">Índices</label>
-                    <div *ngFor="let label of labels.controls; index as i">
-                      <div class="card bg-light mb-12" style="margin-bottom: 5px">
-                        <div class="card-body">
-                          <button type="button" class="btn btn-danger btn-xs pull-right" (click)="removeLabel(i)">
-                            <i class="fa fa-trash"></i>
-                          </button>
-                          <br />
-                          <div [formGroupName]="i">
+                    <div class="form-group">
+                      <label for="">Nome</label>
+                      <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name"
+                        [ngClass]="{ 'is-invalid': !name.valid }" />
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                        <div *ngIf="!name.valid">
+                          Nome é obrigatório.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card bg-light mb-12">
+                      <div class="card-header">
+                        Fases
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-4">
                             <div class="form-group">
-                              <label for="">Nome do Índice</label>
-                              <input type="text" placeholder="Nome do Índice" class="form-control"
-                                formControlName="namefield" />
+                              <label for="labelDcurrentValue">Fase Corrente</label>
+                              <input id="dcurrentLabel" type="text" placeholder="Texto" class="form-control"
+                                formControlName="dcurrentLabel" />
+                              <input id="dcurrentValue" type="number" placeholder="Fase Corrente" class="form-control"
+                                formControlName="dcurrentValue" />
                             </div>
+                          </div>
+                          <div class="col-lg-4">
                             <div class="form-group">
-                              <label for="">Tipo de Índice</label>
-                              <select class="form-control" formControlName="typeField">
-                                <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
-                                  {{ typeFieldN | translate }}</option>
-                              </select>
+                              <label for="labelDintermediateValue">Fase Intermédiaria</label>
+                              <input id="dintermediateValue" type="number" placeholder="Fase Intermédiaria"
+                                class="form-control" formControlName="dintermediateValue" />
                             </div>
+                          </div>
+                          <div class="col-lg-4">
                             <div class="form-group">
-                              <div class="checkbox">
-                                <label> <input type="checkbox" formControlName="uniq" value="" />
-                                  Único </label>
+                              <label for="labelDfinal">Final</label>
+                              <textarea id="dfinal" type="text" placeholder="Final" class="form-control"
+                                formControlName="dfinal"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-xl-6">
+                    <div class="form-group" formArrayName="label">
+                      <label for="">Índices</label>
+                      <div *ngFor="let label of labels.controls; index as i">
+                        <div class="card bg-light mb-12" style="margin-bottom: 5px">
+                          <div class="card-body">
+                            <button type="button" class="btn btn-danger btn-xs pull-right" (click)="removeLabel(i)">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                            <br />
+                            <div [formGroupName]="i">
+                              <div class="form-group">
+                                <label for="">Nome do Índice</label>
+                                <input type="text" placeholder="Nome do Índice" class="form-control"
+                                  formControlName="namefield" />
+                              </div>
+                              <div class="form-group">
+                                <label for="">Tipo de Índice</label>
+                                <select class="form-control" formControlName="typeField">
+                                  <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
+                                    {{ typeFieldN | translate }}</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <div class="checkbox">
+                                  <label> <input type="checkbox" formControlName="uniq" value="" />
+                                    Único </label>
+                                </div>
+                                <div class="checkbox">
+                                  <label> <input type="checkbox" formControlName="timeControl" value="" />
+                                    Temporalidade </label>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      <button type="button" class="btn btn-success btn-xs" (click)="addLabel()">
-                        <i class="fa fa-plus"></i>
-                      </button>
+                      <div>
+                        <button type="button" class="btn btn-success btn-xs" (click)="addLabel()">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="pull-right">
-                <button type="button" [routerLink]="['/documents/get', document._id]" class="btn btn-danger"
-                  style="margin-right:10px">Cancelar</button>
-                <button type="submit" class="btn btn-primary" [disabled]="name.invalid">
-                  Salvar
-                </button>
-              </div>
-            </form>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab id="tab2" [disabled]="tabIndex" title="Estrutura de Documentos">
-          <ng-template ngbTabContent>
-            <form [formGroup]="doctStructForm" role="FormGroup" (ngSubmit)="doctStructSelect()">
-              <br>
-              <div class="row">
-                <div class="col-xl-6">
-                  <div class="form-group">
-                    <label for="typeahead-basic">Estrutura de Documento</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="id_Structure"
-                      [resultTemplate]="rtDoctStruct" (selectItem)="selectDoctStruct($event)"
-                      [inputFormatter]="formatterDoctStruct" [ngbTypeahead]="searchDoctStruct" />
-                  </div>
-                  <div class="form-group">
-                    <label for="id_child">Código do Tópico</label>
-                    <select class="form-control" id="id_child" formControlName="id_child">
-                      <option *ngFor="let struct of structs" [value]="struct._id">
-                        {{ struct.codTopic }} - {{ struct.topic }}</option>
-                    </select>
+                <div class="pull-right">
+                  <button type="button" [routerLink]="['/documents/get', document._id]" class="btn btn-danger"
+                    style="margin-right:10px">Cancelar</button>
+                  <button type="submit" class="btn btn-primary" [disabled]="name.invalid">
+                    Salvar
+                  </button>
+                </div>
+              </form>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="tab2" [disabled]="tabIndex" title="Estrutura de Documentos">
+            <ng-template ngbTabContent>
+              <form [formGroup]="doctStructForm" role="FormGroup" (ngSubmit)="doctStructSelect()">
+                <br>
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label for="typeahead-basic">Estrutura de Documento</label>
+                      <input id="typeahead-basic" type="text" class="form-control" formControlName="id_Structure"
+                        [resultTemplate]="rtDoctStruct" (selectItem)="selectDoctStruct($event)"
+                        [inputFormatter]="formatterDoctStruct" [ngbTypeahead]="searchDoctStruct" />
+                    </div>
+                    <div class="form-group">
+                      <label for="id_child">Código do Tópico</label>
+                      <select class="form-control" id="id_child" formControlName="id_child">
+                        <option *ngFor="let struct of structs" [value]="struct._id">
+                          {{ struct.codTopic }} - {{ struct.topic }}</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <ng-template #rtDoctStruct let-r="result" let-t="doctStruct" class="custom-typeahead">
-                <ngb-highlight [result]="r.structureName" [term]="t"></ngb-highlight>
-              </ng-template>
-            </form>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
+                <ng-template #rtDoctStruct let-r="result" let-t="doctStruct" class="custom-typeahead">
+                  <ngb-highlight [result]="r.structureName" [term]="t"></ngb-highlight>
+                </ng-template>
+              </form>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
     </div>
   </div>
-</div>
