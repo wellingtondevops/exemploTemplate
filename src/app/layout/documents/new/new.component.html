@@ -1,222 +1,227 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
-            backdropBorderRadius: '3px',
-            fullScreenBackdrop: true,
-            primaryColour: '#222',
-            secondaryColour: '#222',
-            tertiaryColour: '#222'
-        }"></ngx-loading>
-  <app-page-header [heading]="'Novo Documento'" [icon]="'fa-book'"></app-page-header>
-  <div class="card bg-light mb-12">
-    <div class="card-body">
-      <ngb-tabset #tab>
-        <ngb-tab title="Documento" id="tab1">
-          <ng-template ngbTabContent>
-            <br>
-            <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="postDocument()">
-              <div class="row">
-                <div class="col-xl-6">
-                  <div class="form-group">
-                    <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                      [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                      [ngClass]="{ 'is-invalid': !company.valid }" />
-                    <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                      <div *ngIf="!company.valid">
-                        Empresa é obrigatório.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="">Nome</label>
-                    <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name"
-                      [ngClass]="{ 'is-invalid': !name.valid }" />
-                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                      <div *ngIf="!name.valid">
-                        Nome é obrigatório.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card bg-light mb-12">
-                    <div class="card-header">
-                      Fases
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label for="labelDcurrentValue">Fase Corrente</label>
-                            <input id="dcurrentLabel" type="text" placeholder="Texto" class="form-control"
-                              formControlName="dcurrentLabel" />
-                            <input id="dcurrentValue" type="number" placeholder="Número" class="form-control"
-                              formControlName="dcurrentValue" />
-                          </div>
-                        </div>
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label for="labelDintermediateValue">Fase Intermédiaria</label>
-                            <input id="dintermediateValue" type="number" placeholder="Fase Intermédiaria"
-                              class="form-control" formControlName="dintermediateValue" />
-                          </div>
-                        </div>
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label for="labelDfinal">Final</label>
-                            <textarea id="dfinal" type="text" placeholder="Final" class="form-control"
-                              formControlName="dfinal"></textarea>
-                          </div>
+    <ngx-loading [show]="loading" [config]="{
+              backdropBorderRadius: '3px',
+              fullScreenBackdrop: true,
+              primaryColour: '#222',
+              secondaryColour: '#222',
+              tertiaryColour: '#222'
+          }"></ngx-loading>
+    <app-page-header [heading]="'Novo Documento'" [icon]="'fa-book'"></app-page-header>
+    <div class="card bg-light mb-12">
+      <div class="card-body">
+        <ngb-tabset #tab>
+          <ngb-tab title="Documento" id="tab1">
+            <ng-template ngbTabContent>
+              <br>
+              <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="postDocument()">
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label for="typeahead-basic">Empresa</label>
+                      <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                        [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                        [ngClass]="{ 'is-invalid': !company.valid }" />
+                      <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                        <div *ngIf="!company.valid">
+                          Empresa é obrigatório.
                         </div>
                       </div>
                     </div>
-                  </div>
+                    <div class="form-group">
+                      <label for="">Nome</label>
+                      <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name"
+                        [ngClass]="{ 'is-invalid': !name.valid }" />
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                        <div *ngIf="!name.valid">
+                          Nome é obrigatório.
+                        </div>
+                      </div>
+                    </div>
 
-                </div>
-
-                <div class="col-xl-6">
-                  <div class="form-group" formArrayName="label">
-                    <label for="">Índices</label>
-                    <div *ngFor="let label of labels.controls; index as i">
-                      <div class="card bg-light mb-12" style="margin-bottom: 5px">
-                        <div class="card-body">
-                          <button type="button" class="btn btn-danger btn-xs pull-right" (click)="removeLabel(i)">
-                            <i class="fa fa-trash"></i>
-                          </button>
-                          <br />
-                          <div [formGroupName]="i">
+                    <div class="card bg-light mb-12">
+                      <div class="card-header">
+                        Fases
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-4">
                             <div class="form-group">
-                              <label for="">Nome do Índice</label>
-                              <input type="text" placeholder="Nome do Índice" class="form-control"
-                                formControlName="namefield" />
+                              <label for="labelDcurrentValue">Fase Corrente</label>
+                              <input id="dcurrentLabel" type="text" placeholder="Texto" class="form-control"
+                                formControlName="dcurrentLabel" />
+                              <input id="dcurrentValue" type="number" placeholder="Número" class="form-control"
+                                formControlName="dcurrentValue" />
                             </div>
+                          </div>
+                          <div class="col-lg-4">
                             <div class="form-group">
-                              <label for="">Tipo do Índice</label>
-                              <select class="form-control" id="typefield" formControlName="typeField">
-                                <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
-                                  {{ typeFieldN | translate }}</option>
-                              </select>
+                              <label for="labelDintermediateValue">Fase Intermédiaria</label>
+                              <input id="dintermediateValue" type="number" placeholder="Fase Intermédiaria"
+                                class="form-control" formControlName="dintermediateValue" />
                             </div>
+                          </div>
+                          <div class="col-lg-4">
                             <div class="form-group">
-                              <div class="checkbox">
-                                <label> <input type="checkbox" formControlName="uniq" value="" />
-                                  Único </label>
+                              <label for="labelDfinal">Final</label>
+                              <textarea id="dfinal" type="text" placeholder="Final" class="form-control"
+                                formControlName="dfinal"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-xl-6">
+                    <div class="form-group" formArrayName="label">
+                      <label for="">Índices</label>
+                      <div *ngFor="let label of labels.controls; index as i">
+                        <div class="card bg-light mb-12" style="margin-bottom: 5px">
+                          <div class="card-body">
+                            <button type="button" class="btn btn-danger btn-xs pull-right" (click)="removeLabel(i)">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                            <br />
+                            <div [formGroupName]="i">
+                              <div class="form-group">
+                                <label for="">Nome do Índice</label>
+                                <input type="text" placeholder="Nome do Índice" class="form-control"
+                                  formControlName="namefield" />
+                              </div>
+                              <div class="form-group">
+                                <label for="">Tipo do Índice</label>
+                                <select class="form-control" id="typefield" formControlName="typeField">
+                                  <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
+                                    {{ typeFieldN | translate }}</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group">
+                                <div class="checkbox">
+                                  <label> <input type="checkbox" formControlName="uniq" value="" />
+                                    Único </label>
+                                </div>
+                                <div class="checkbox">
+                                  <label> <input type="checkbox" formControlName="timeControl" value="" />
+                                    Temporalidade </label>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                      </ng-template>
-                      <button type="button" class="btn btn-success btn-xs pull-right" (click)="addLabel()"
-                        style="margin-top: 2%; margin-bottom: 2%">
-                        <i class="fa fa-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="pull-right">
-                <button type="button" [routerLink]="['/documents']" class="btn btn-default"
-                  style="margin-right:10px">Voltar</button>
-                <button type="submit" class="btn btn-primary" [disabled]="name.invalid">
-                  Salvar
-                </button>
-              </div>
-            </form>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab id="tab2" [disabled]="tabIndex" title="Estrutura de Documentos">
-          <ng-template ngbTabContent>
-            <form [formGroup]="doctStructForm" role="FormGroup" (ngSubmit)="doctStructSelect()">
-              <br>
-              <div class="row">
-                <div class="col-xl-6">
-                  <div class="form-group">
-                    <label for="typeahead-basic">Estrutura de Documento</label>
-                    <input id="typeahead-basic" type="text" (change)="onChangeStruct()" class="form-control" formControlName="id_Structure"
-                      [resultTemplate]="rtDoctStruct" (selectItem)="selectDoctStruct($event)"
-                      [inputFormatter]="formatterDoctStruct" [ngbTypeahead]="searchDoctStruct" />
-                  </div>
-                  <div class="form-group">
-                    <label for="id_child">Código do Tópico</label>
-                    <select class="form-control" id="id_child" formControlName="id_child" (change)="onChangeTopic()">
-                      <option *ngFor="let struct of structs" [value]="struct._id">
-                        {{ struct.codTopic }} - {{ struct.topic }}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <ng-template #rtDoctStruct let-r="result" let-t="doctStruct" class="custom-typeahead">
-                <ngb-highlight [result]="r.structureName" [term]="t"></ngb-highlight>
-              </ng-template>
-            </form>
-            <div *ngIf="topic">
-              <div class="card bg-light mb-12">
-                <div class="card-header">
-                  Tópico
-                </div>
-                <div class="card-body">
-                  <div class="col-lg-12">
-                    <form [formGroup]="topicForm">
-                      <div class="row">
-                        <div class="col-lg-2">
-                          <div class="form-group">
-                            <label for="codTopic">Código</label>
-                            <input id="codTopic" type="text" placeholder="Código" class="form-control"
-                              formControlName="codTopic" />
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="form-group">
-                            <label for="topic">Tópico</label>
-                            <textarea id="topic" type="text" placeholder="Tópico" class="form-control"
-                              formControlName="topic" ></textarea>
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="form-group">
-                            <label for="currentLabel">Fase Corrente</label>
-                            <textarea id="currentLabel" type="text" placeholder="Fase Corrente" class="form-control"
-                              formControlName="currentLabel" ></textarea>
-                            <input id="currentValue" type="text" placeholder="Fase Corrente" class="form-control"
-                            formControlName="currentValue">
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="form-group">
-                            <label for="currentLabel">Fase Intermédiaria</label>
-                            <textarea id="intermediateLabel" type="text" placeholder="Fase Corrente" class="form-control"
-                              formControlName="intermediateLabel" ></textarea>
-                            <input id="intermediateValue" type="text" placeholder="Fase Corrente" class="form-control"
-                            formControlName="intermediateValue">
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="form-group">
-                            <label for="final">Final</label>
-                            <textarea id="final" type="text" placeholder="Final" class="form-control"
-                              formControlName="final" ></textarea>
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="form-group">
-                            <label for="comments">Comentário</label>
-                            <textarea id="comments" type="text" placeholder="Comentário" class="form-control"
-                              formControlName="comments" ></textarea>
-                          </div>
-                        </div>
+                      <div>
+                        <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                        </ng-template>
+                        <button type="button" class="btn btn-success btn-xs pull-right" (click)="addLabel()"
+                          style="margin-top: 2%; margin-bottom: 2%">
+                          <i class="fa fa-plus"></i>
+                        </button>
                       </div>
-                    </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="pull-right">
+                  <button type="button" [routerLink]="['/documents']" class="btn btn-default"
+                    style="margin-right:10px">Voltar</button>
+                  <button type="submit" class="btn btn-primary" [disabled]="name.invalid">
+                    Salvar
+                  </button>
+                </div>
+              </form>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="tab2" [disabled]="tabIndex" title="Estrutura de Documentos">
+            <ng-template ngbTabContent>
+              <form [formGroup]="doctStructForm" role="FormGroup" (ngSubmit)="doctStructSelect()">
+                <br>
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label for="typeahead-basic">Estrutura de Documento</label>
+                      <input id="typeahead-basic" type="text" (change)="onChangeStruct()" class="form-control" formControlName="id_Structure"
+                        [resultTemplate]="rtDoctStruct" (selectItem)="selectDoctStruct($event)"
+                        [inputFormatter]="formatterDoctStruct" [ngbTypeahead]="searchDoctStruct" />
+                    </div>
+                    <div class="form-group">
+                      <label for="id_child">Código do Tópico</label>
+                      <select class="form-control" id="id_child" formControlName="id_child" (change)="onChangeTopic()">
+                        <option *ngFor="let struct of structs" [value]="struct._id">
+                          {{ struct.codTopic }} - {{ struct.topic }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #rtDoctStruct let-r="result" let-t="doctStruct" class="custom-typeahead">
+                  <ngb-highlight [result]="r.structureName" [term]="t"></ngb-highlight>
+                </ng-template>
+              </form>
+              <div *ngIf="topic">
+                <div class="card bg-light mb-12">
+                  <div class="card-header">
+                    Tópico
+                  </div>
+                  <div class="card-body">
+                    <div class="col-lg-12">
+                      <form [formGroup]="topicForm">
+                        <div class="row">
+                          <div class="col-lg-2">
+                            <div class="form-group">
+                              <label for="codTopic">Código</label>
+                              <input id="codTopic" type="text" placeholder="Código" class="form-control"
+                                formControlName="codTopic" />
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <div class="form-group">
+                              <label for="topic">Tópico</label>
+                              <textarea id="topic" type="text" placeholder="Tópico" class="form-control"
+                                formControlName="topic" ></textarea>
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <div class="form-group">
+                              <label for="currentLabel">Fase Corrente</label>
+                              <textarea id="currentLabel" type="text" placeholder="Fase Corrente" class="form-control"
+                                formControlName="currentLabel" ></textarea>
+                              <input id="currentValue" type="text" placeholder="Fase Corrente" class="form-control"
+                              formControlName="currentValue">
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <div class="form-group">
+                              <label for="currentLabel">Fase Intermédiaria</label>
+                              <textarea id="intermediateLabel" type="text" placeholder="Fase Corrente" class="form-control"
+                                formControlName="intermediateLabel" ></textarea>
+                              <input id="intermediateValue" type="text" placeholder="Fase Corrente" class="form-control"
+                              formControlName="intermediateValue">
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <div class="form-group">
+                              <label for="final">Final</label>
+                              <textarea id="final" type="text" placeholder="Final" class="form-control"
+                                formControlName="final" ></textarea>
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <div class="form-group">
+                              <label for="comments">Comentário</label>
+                              <textarea id="comments" type="text" placeholder="Comentário" class="form-control"
+                                formControlName="comments" ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
     </div>
   </div>
-</div>

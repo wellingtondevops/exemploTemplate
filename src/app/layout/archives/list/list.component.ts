@@ -17,7 +17,8 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
-import { CaseInsensitive } from '../../../utils/case-insensitive'
+import { CaseInsensitive } from '../../../utils/case-insensitive';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-list',
@@ -327,7 +328,7 @@ export class ListComponent implements OnInit {
   getDocuments(company_id) {
     this.documentsSrv.searchDocuments(company_id).subscribe(
       data => {
-        this.documents.push({_id:0,name: 'Selecionar todos'}, ...data.items)
+        this.documents.push({_id: 0, name: 'Selecionar todos'}, ...data.items);
       },
       error => {
         this.errorMsg.errorMessages(error);
@@ -371,7 +372,7 @@ export class ListComponent implements OnInit {
     let obj = '';
     labels.map((item, i) => {
       if (i === (labels.length - 1)) {
-        obj += `<u><b>${item.namefield}:&nbsp</b></u> ${tags[i]}`;
+            obj += `<u><b>${item.namefield}:&nbsp</b></u> ${tags[i] || ''}</br>`;
       } else {
         obj += `<u><b>${item.namefield}:&nbsp</b></u>${tags[i]}</br>`;
       }
