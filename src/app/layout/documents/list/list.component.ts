@@ -35,9 +35,14 @@ export class ListComponent implements OnInit {
   };
   page = new Page();
   columns = [
-    { name: 'Empresa', prop: 'company.name' },
+
     { name: 'Nome', prop: 'name' },
-    { name: 'Retenção', prop: 'retention' },
+    { name: 'Fase Corrente', prop: 'dcurrentValue'},
+    { name: 'Fase Intermédiaria', prop: 'dintermediateValue'},
+    { name: 'Destinação Final', prop: 'dfinal'},
+
+
+
   ];
   loading: Boolean = false;
   permissionNew = false;
@@ -65,7 +70,7 @@ export class ListComponent implements OnInit {
       this.searchForm.patchValue({
         company: document.company,
         name: document.name
-      })
+      });
     }
 
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
@@ -101,13 +106,13 @@ export class ListComponent implements OnInit {
   setPageDocuments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    this.localStorageSrv.save('document', this.searchForm.value)
-    
+    this.localStorageSrv.save('document', this.searchForm.value);
+
     const newForm = {
       company: this.searchForm.value.company._id,
       name: this.searchForm.value.name ? this.searchForm.value.name : null,
     };
-    
+
     this.documentSrv.searchDocts(newForm, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
@@ -144,6 +149,6 @@ export class ListComponent implements OnInit {
     this.searchForm.patchValue({
       company: null,
       name: null
-    })
+    });
   }
 }
