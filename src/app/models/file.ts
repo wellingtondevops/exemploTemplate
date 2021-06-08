@@ -3,6 +3,7 @@ export class File {
   storehouse: string;
   volume: string;
   archive: string;
+  doct: string;
   createdAt: string;
   url: string;
   key: string;

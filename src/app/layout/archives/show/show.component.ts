@@ -48,10 +48,10 @@ export class ShowComponent implements OnInit {
 
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
-    volume: new FormControl(''),
+    volume: new FormControl(''),    
     company: new FormControl(''),
     archive: new FormControl(''),
-    document: new FormControl(''),
+    doct: new FormControl(''),
     file: new FormControl(null, [Validators.required])
   });
 
@@ -156,7 +156,7 @@ export class ShowComponent implements OnInit {
       volume: this.archive.volume._id,
       company: this.archive.company._id,
       storehouse: this.archive.storehouse._id,
-      document: this.archive.doct._id,
+      doct: this.archive.doct._id,
       file: data
     });
     this.submit();
@@ -169,7 +169,7 @@ export class ShowComponent implements OnInit {
     formData.append('storehouse', this.uploadFile.get('storehouse').value);
     formData.append('volume', this.uploadFile.get('volume').value);
     formData.append('archive', this.uploadFile.get('archive').value);
-    formData.append('document', this.uploadFile.get('document').value);
+    formData.append('doct', this.uploadFile.get('doct').value);
     formData.append('company', this.uploadFile.get('company').value);
     this.filesSrv.file(formData).subscribe(data => {
       if (data.status && data.status === 'progress') {
