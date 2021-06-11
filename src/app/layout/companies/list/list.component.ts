@@ -98,7 +98,7 @@ export class ListComponent implements OnInit {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
 
-    this.companiesSrv.companies(this.page).subscribe(data => {
+    this.companiesSrv.searchCompany(this.searchForm.value, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;

@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
   loading: Boolean = true;
   departaments: DepartamentList = {
     _links: {
-      currentPage: 0,
+      currentPage: 1,
       foundItems: 0,
       next: '',
       self: '',

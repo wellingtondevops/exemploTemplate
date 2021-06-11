@@ -14,23 +14,24 @@ export class CompaniesService {
     private http: HttpClient
   ) { }
 
-  searchCompany(formdata, page) {
+  searchCompany(formdata, page) { 
+
     if (page) {
       return this.http.post<CompaniesList>(`${url}/companies/search?_page=${page.pageNumber}&size=10`, formdata)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     } else {
       return this.http.post<CompaniesList>(`${url}/companies/search?size=10`, formdata)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     }
   }
 
   companies(page) {
     if (page) {
-      return this.http.get<CompaniesList>(`${url}/companies?_page=${page.pageNumber}&size=10`)
+      return this.http.get<CompaniesList>(`${url}/companies/?_page=${page.pageNumber}&size=10`)
       .pipe(
           tap(data => data)
       );
@@ -55,6 +56,9 @@ export class CompaniesService {
         tap(data => data)
     );
   }
+
+
+  
 
   newCompany(company) {
     return this.http.post<Company>(`${url}/companies`, company)
