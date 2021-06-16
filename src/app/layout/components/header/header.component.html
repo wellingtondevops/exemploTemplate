@@ -8,10 +8,59 @@
   </button>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto">
+      <!-- mensagens -->
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
+            <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+        </a>
+        <ul class="dropdown-menu-right messages" ngbDropdownMenu>
+            <li class="media">
+                <img
+                    alt="Generic placeholder image"
+                    class="d-flex align-self-center mr-3"
+                    src="https://storage.googleapis.com/archiobucket/ARCHIOFILES/icons/sucess.png"
+                />
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">Importação de Volumes</h5>
+                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                    <p class="last">Foram importados 58 Volumes com Suscesso!</p>
+                    
+                </div>
+            </li>
+            <li class="media">
+                <img
+                    alt="Generic placeholder image"
+                    class="d-flex align-self-center mr-3"
+                    src="https://storage.googleapis.com/archiobucket/ARCHIOFILES/icons/errors.png"
+                />
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">Importação Arquivos com erros</h5>
+                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                    <p class="last">Durante a importação ocorreram 25 erros, favor verificar na planilha!</p>
+                    <h5 class="mt-0 mb-1">Anexo    : <i class="fa fa-file-excel-o"></i></h5>
+                    
+                </div>
+            </li>
+            <li class="media">
+                <img
+                    alt="Generic placeholder image"
+                    class="d-flex align-self-center mr-3"
+                    src="https://storage.googleapis.com/archiobucket/ARCHIOFILES/icons/sucess.png"
+                />
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">Importação de Arquivos com Suscesso!</h5>
+                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                    <p class="last">Foram importados 58 Arquivos com Suscesso!</p>
+                </div>
+            </li>
+        </ul>
+    </li>
+      
       <li class="nav-item dropdown" ngbDropdown>
         <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
           <i class="fa fa-user"></i> {{ email }} <b class="caret"></b>
         </a>
+        
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" [routerLink]="['/users/alter']" [routerLinkActive]="['router-link-active']">
             <i class="fa fa-fw fa-user"></i> {{ 'Alter Dados' | translate }}
