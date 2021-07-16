@@ -79,9 +79,9 @@
                                 archive &&
                                 archive.startDateCurrent === undefined
                             ">{{ archive.doct.dcurrentLabel }}</label>
-            <label *ngIf="archive && archive.startDateCurrent">Início:
+            <label *ngIf="archive && archive.startDateCurrent==true">Início:
               {{ returnDate(archive.startDateCurrent) }}</label>
-            <label *ngIf="archive && archive.finalDateCurrent">Fim:
+            <label *ngIf="archive && archive.finalDateCurrent==true">Fim:
               {{ returnDate(archive.finalDateCurrent) }}</label>
             <br />
             <input type="date" class="form-control" *ngIf="startCurrentDate && archive.doct.currentControl===true" [(ngModel)]="inputStartCurrentDate" />
