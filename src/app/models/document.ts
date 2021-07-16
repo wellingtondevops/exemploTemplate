@@ -18,6 +18,7 @@ export class Document {
     dintermediateLabel: string;
     dfinal: string;
     label: Label[];
+    currentControl:boolean;
 }
 
 export class DocumentList {
