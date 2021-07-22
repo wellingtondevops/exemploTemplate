@@ -36,6 +36,7 @@ export class SidebarComponent implements OnInit {
   isMoves = false ;
   isReport = false;
   isTotalCollection = false;
+  isScan = false;
 
 
 
@@ -77,6 +78,7 @@ export class SidebarComponent implements OnInit {
     this.isMoves = this.isMove();
     this.isReport = this.isReports();
     this.isTotalCollection = this.isTotalCollections();
+    this.isScan = this.isScanning();
   }
 
   eventCalled() {
@@ -273,6 +275,15 @@ export class SidebarComponent implements OnInit {
     }
     return res;
   }
+
+  isScanning() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].scanning) {
+      res = true;
+    }
+    return res;
+  }
+
   addExpandClass(element: any) {
     if (element === this.showMenu) {
       this.showMenu = '0';
