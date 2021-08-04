@@ -11,9 +11,10 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { NewComponent } from './new/new.component';
+import { ShowComponent } from './show/show.component';
 
 @NgModule({
-    declarations: [ListComponent, NewComponent],
+    declarations: [ListComponent, NewComponent, ShowComponent],
     imports: [
         NgbModule,
         CommonModule,

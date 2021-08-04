@@ -16,7 +16,7 @@
                         <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
                     </ng-template>
                     <ng-template ngbPanelContent>
-                        <form [formGroup]="searchForm" (ngSubmit)="getBatches()" role="FormGroup" class="form-inline">
+                        <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form-inline">
                             <div class="row col-12">
                                 <div class="form-group mb-2 col-3">
                                     <label for="typeahead-basic">Empresa</label>
@@ -81,7 +81,7 @@
             </ngb-accordion>
             <br />
             <app-datatables [data]="batches" (setPage)="setPage($event)" [columns]="columns"
-                (show)="getCompany($event)"></app-datatables>
+                (show)="getBatch($event)"></app-datatables>
         </div>
     </div>
 </div>

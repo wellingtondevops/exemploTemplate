@@ -13,6 +13,8 @@ import { routerTransition } from '../../../router.animations';
 import _ from 'lodash';
 import { SaveLocal } from 'src/app/storage/saveLocal';
 import { Page } from 'src/app/models/page';
+import { BatchesList } from 'src/app/models/batch';
+import { BatchesService } from 'src/app/services/batches/batches.service';
 
 @Component({
   selector: 'app-list',
@@ -27,14 +29,22 @@ export class ListComponent implements OnInit {
   loading: Boolean = true;
   permissionNew: boolean = false;
   documents: any = [];
-  batches: any = [];
+  batches: BatchesList = {
+    _links: {
+      currentPage: 1,
+      foundItems: 0,
+      next: '',
+      self: '',
+      totalPage: 0
+    },
+    items: []
+  };;
   page = new Page();
 
   columns = [
-    { name: 'Nome', prop: 'name' },
-    /*{ name: 'CPF/CNPJ', prop: 'cpfCnpj' },*/
-    { name: 'E-mail', prop: 'email' },
-    { name: 'Telefone', prop: 'fone' },
+    { name: 'Empresa', prop: 'company.name' },
+    { name: 'Documento', prop: 'doct.name' },
+    { name: 'Lote', prop: 'batchNr' },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
   ];
 
@@ -47,6 +57,7 @@ export class ListComponent implements OnInit {
     private documentsSrv: DocumentsService,
     private utilCase: CaseInsensitive,
     private localStorageSrv: SaveLocal,
+    private batchesSrv: BatchesService,
   ) { }
 
   ngOnInit() {
@@ -85,20 +96,48 @@ export class ListComponent implements OnInit {
     this.getDocuments(e.item._id);
   }
 
-  setPage(pageInfo) {
+  setPage(pageInfo = null) {
     this.loading = true;
-    this.page.pageNumber = pageInfo.offset;
+    // this.page = null;
+    if (pageInfo) {
+      this.page.pageNumber = pageInfo.offset;
+    }
 
-    this.companiesSrv.searchCompany(this.searchForm.value, this.page).subscribe(data => {
+    this.localStorageSrv.save('batch', this.searchForm.value);
+
+    const newForm = {
+      company: null,
+      document: null,
+      batchNr: null,
+      endDate: null,
+      initDate: null,
+    };
+
+    this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
+    this.searchForm.value.document ? newForm.document = this.returnId('departament') : null;
+    this.searchForm.value.batchNr ? newForm.batchNr = this.searchForm.value.status : null;
+    this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
+    this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;
+
+    const searchValue = _.omitBy(newForm, _.isNil);
+
+    this.batchesSrv.searchBatches(searchValue, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
-      this.companies = data;
+      this.batches = data;
       this.loading = false;
     }, error => {
       console.log('ERROR: ', error);
       this.loading = false;
     });
+  }
+
+  returnId(object) {
+    const result = _.filter(this.searchForm.value[object], function (value, key) {
+      if (key === '_id') { return value; }
+    })[0];
+    return result;
   }
 
   getCompanies() {
@@ -165,5 +204,9 @@ export class ListComponent implements OnInit {
       endDate: null,
       initDate: null
     });
+  }
+
+  getBatch(batch){
+    this._route.navigate(['/batches/get', batch._id]);
   }
 }

@@ -1,5 +1,4 @@
 import { Pagination } from './pagination';
-import { Departament } from './departament';
 
 export class Batch {
   _links: {
@@ -7,16 +6,23 @@ export class Batch {
   };
   _id: string;
   name: string;
-  adress: string;
-  province: string;
-  city: string;
-  fone: string;
-  email: string;
-  answerable: string;
-  departaments: Departament[];
-  typePerson: string;
-  cpf: string;
-  cnpj: string;
+  company: {
+    _id: string;
+    name: string;
+  };
+  doct: {
+    _id: string;
+    name: string;
+  };
+  batchNr: number;
+  author: string;
+  mailSignup: string;
+  __v: number;
+  departament: string;
+  storehouse: string;
+  volume: string;
+  sourceVolume: boolean;
+  btnEdit: boolean;
   dateCreated: string;
 }
 
