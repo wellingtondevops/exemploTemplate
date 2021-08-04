@@ -23,6 +23,7 @@ const routes: Routes = [
             { path: 'archives', loadChildren: './archives/archives.module#ArchivesModule' },
             { path: 'volumes', loadChildren: './volumes/volumes.module#VolumesModule' },
             { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
+            { path: 'batches', loadChildren: './batches/batches.module#BatchesModule' },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },
