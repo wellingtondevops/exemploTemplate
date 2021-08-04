@@ -4,6 +4,7 @@ import { ListComponent } from './list/list.component';
 import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
 import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
 import { TermsService } from 'src/app/services/guard/terms.service';
+import { NewComponent } from './new/new.component';
 
 const routes: Routes = [
     {
@@ -21,11 +22,12 @@ const routes: Routes = [
       component: EditComponent,
       canActivate: [DaenerysGuard, CompaniesGuardService, TermsService]
     },
+    */
     {
       path: 'new',
       component: NewComponent,
-      canActivate: [DaenerysGuard, CompaniesGuardService, TermsService]
-    } */
+      canActivate: [DaenerysGuard, TermsService]
+    } 
 ];
 
 @NgModule({

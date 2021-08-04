@@ -10,9 +10,10 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { NewComponent } from './new/new.component';
 
 @NgModule({
-    declarations: [ListComponent],
+    declarations: [ListComponent, NewComponent],
     imports: [
         NgbModule,
         CommonModule,
