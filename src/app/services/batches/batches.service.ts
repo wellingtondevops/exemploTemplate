@@ -14,7 +14,7 @@ export class BatchesService {
     private http: HttpClient
   ) { }
 
-  searchBatches(formdata, page) { 
+  searchBatches(formdata, page) {
 
     if (page) {
       return this.http.post<BatchesList>(`${url}/batches/search?_page=${page.pageNumber}&size=10`, formdata)
@@ -22,7 +22,7 @@ export class BatchesService {
           tap(data => data)
         );
     } else {
-      return this.http.post<any>(`${url}/batches/search?size=10`, formdata)
+      return this.http.post<BatchesList>(`${url}/batches/search?size=10`, formdata)
         .pipe(
           tap(data => data)
         );
@@ -32,42 +32,56 @@ export class BatchesService {
   batches(page) {
     if (page) {
       return this.http.get<BatchesList>(`${url}/batches/?_page=${page.pageNumber}&size=10`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     } else {
       return this.http.get<BatchesList>(`${url}/batches?size=10`)
-      .pipe(
+        .pipe(
           tap(data => data)
-      );
+        );
     }
   }
 
   batch(id) {
     return this.http.get<Batch>(`${url}/batches/${id}`)
-    .pipe(
+      .pipe(
         tap(data => data)
-    );
+      );
   }
 
   newBatch(batch) {
     return this.http.post<Batch>(`${url}/batches`, batch)
-    .pipe(
-      tap(data => data)
-    );
+      .pipe(
+        tap(data => data)
+      );
   }
 
   updateBatch(batch) {
     return this.http.patch<Batch>(`${url}/batches/${batch._id}`, batch)
-    .pipe(
-      tap(data => data)
-    );
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  images(batch_id, page) {
+    if (page) {
+      return this.http.get<any>(`${url}/batches/${batch_id}/images?_page=${page.pageNumber}&size=10`)
+        .pipe(
+          tap(data => data)
+        );
+    } else {
+      return this.http.get<any>(`${url}/batches/${batch_id}/images?size=10`)
+        .pipe(
+          tap(data => data)
+        );
+    }
   }
 
   delete(batch) {
     return this.http.delete<Batch>(`${url}/batches/${batch}`)
-    .pipe(
-      tap(data => data)
-    );
+      .pipe(
+        tap(data => data)
+      );
   }
 }

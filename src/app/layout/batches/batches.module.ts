@@ -12,9 +12,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
+import { ControlComponent } from './control/control.component';
 
 @NgModule({
-    declarations: [ListComponent, NewComponent, ShowComponent],
+    declarations: [ListComponent, NewComponent, ShowComponent, ControlComponent],
     imports: [
         NgbModule,
         CommonModule,

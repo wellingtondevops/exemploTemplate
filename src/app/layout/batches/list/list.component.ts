@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { CompaniesList } from 'src/app/models/company';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
@@ -107,14 +106,14 @@ export class ListComponent implements OnInit {
 
     const newForm = {
       company: null,
-      document: null,
+      doct: null,
       batchNr: null,
       endDate: null,
       initDate: null,
     };
 
     this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
-    this.searchForm.value.document ? newForm.document = this.returnId('departament') : null;
+    this.searchForm.value.doct ? newForm.doct = this.returnId('doct') : null;
     this.searchForm.value.batchNr ? newForm.batchNr = this.searchForm.value.status : null;
     this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
     this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;

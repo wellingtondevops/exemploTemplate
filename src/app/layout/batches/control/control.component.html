@@ -1,0 +1,86 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"></ngx-loading>
+    <app-page-header [heading]="'Controle de Lote'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col-xl-4 col-lg-4">
+            <h5>Dados do Lote</h5>
+            <div class="card" *ngIf="batch">
+                <h5>Nr Lote - {{ batch.batchNr }}</h5>
+                <p style="font-size:12px">
+                    <b>EMPRESA</b>: {{ batch.company.name }}<br>
+                    <b>DOCUMENTO</b>: {{ batch.doct.name }}
+                </p>
+                <p style="font-size:12px" class="pull-right">
+                    Criado em: {{ batch.dateCreated }}
+                </p>
+            </div>
+            <h5>Funcionalidades</h5>
+
+            <div class="card" *ngIf="batch">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 col-xs-12" style="justify-content: center;
+                        align-items: center;
+                        display: flex;
+                        flex-direction: column;">
+                        <button class="btn btn-danger btn-xs" (click)="deleteBatch()">Excluir Lote</button>
+                        <button class="btn btn-warning btn-xs">Excluir Imagem</button>
+                        <button class="btn btn-success btn-xs">Indexar Lote</button>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-xs-12">
+                        <form action="" class="form-control" style="border:none;border-radius:none">
+                            <div class="col">
+                                <label for="">Thumbnail</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1"
+                                            checked>
+                                        auto
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                        2
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"
+                                            disabled>
+                                        10
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"
+                                            disabled>
+                                        20
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <h5>Importar Imagens</h5>
+            <div class="card">
+                <form class="form-control">
+                    <div class="form-group" style="font-weight: bolder;">
+                        <input style="font-size: 12px;" type="file" id="exampleInputFile">
+                    </div>
+                    <button class="btn btn-xs btn-primary">Importar</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-8 col-lg-8">
+        </div>
+    </div>
+</div>
