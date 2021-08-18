@@ -61,7 +61,7 @@ export class ControlComponent implements OnInit {
   openModal() {
     $('body').addClass('cus-modal-open');
     const target = '#right-bottom';
-    $('#' + $(target).addClass('in'));
+    $(target).addClass('in');
   }
 
   onFileChange(event) {
@@ -85,6 +85,7 @@ export class ControlComponent implements OnInit {
   }
 
   getBatchImages(pageInfo = null, size = 50) {
+    this.loading = true;
     if (pageInfo) {
       this.page.pageNumber = pageInfo;
     } 
@@ -94,6 +95,9 @@ export class ControlComponent implements OnInit {
       this.batchImages = data.items;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error)
     })
   }
 
@@ -104,7 +108,7 @@ export class ControlComponent implements OnInit {
     formData.append('batch', this.batch._id);
     formData.append('ind', 'false');
     for (var i = 0; i < this.myFiles.length; i++) {
-      this.progressInfos[i] = { value: 0, fileName: this.myFiles[i].name };
+      this.progressInfos.push({ value: 0, fileName: this.myFiles[i].name });
       this.openModal();
       formData.append("files", this.myFiles[i]);
       this.upload(formData, i)
@@ -123,9 +127,6 @@ export class ControlComponent implements OnInit {
       this.message = 'Could not upload the file:';
     });
   }
-
-
-
 
   deleteBatch() {
     this.loading = true;
