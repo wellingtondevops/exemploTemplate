@@ -95,7 +95,7 @@
                 <img *ngFor="let image of batchImages" [src]="image.url" class="img-thumbnail rounded" width="150"
                     [alt]="image.name">
             </div>
-            <ngb-pagination #pagination (pageChange)="getBatchImages($event, 50)" [(page)]="page.pageNumber" [pageSize]="page.size" [collectionSize]="page.totalElements"></ngb-pagination>
+            <ngb-pagination (pageChange)="getBatchImages($event)" [maxSize]="5" [(page)]="page.pageNumber" [pageSize]="50" [collectionSize]="page.totalElements"></ngb-pagination>
         </div>
         <!-- /.cus-modal-wrap -->
         <div class="block allModal">

@@ -84,18 +84,19 @@ export class ControlComponent implements OnInit {
     })
   }
 
-  getBatchImages(pageInfo = null, size = null) {
+  getBatchImages(pageInfo = null, size = 50) {
+    console.log(pageInfo)
     if (pageInfo) {
       this.page.pageNumber = pageInfo;
     } 
-    console.log(this.page)
+    
     this.batchesSrv.batchImages(this.id, this.page, size).subscribe(data => {
       this.loading = false;
       this.batchImages = data.items;
-      this.page.pageNumber = data._links.currentPage - 1;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
     })
+    console.log(this.page)
   }
 
   submit() {
