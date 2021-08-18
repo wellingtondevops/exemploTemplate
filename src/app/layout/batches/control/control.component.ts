@@ -85,7 +85,6 @@ export class ControlComponent implements OnInit {
   }
 
   getBatchImages(pageInfo = null, size = 50) {
-    console.log(pageInfo)
     if (pageInfo) {
       this.page.pageNumber = pageInfo;
     } 
@@ -96,7 +95,6 @@ export class ControlComponent implements OnInit {
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
     })
-    console.log(this.page)
   }
 
   submit() {
