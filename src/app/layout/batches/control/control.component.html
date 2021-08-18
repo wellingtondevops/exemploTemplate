@@ -6,7 +6,7 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-   
+
     <div class="row">
         <div class="col-xl-4 col-lg-4">
             <app-page-header [heading]="'Controle de Lote'" [icon]="'fa-table'"></app-page-header>
@@ -90,19 +90,19 @@
                 </form>
             </div>
         </div>
-        <div  *ngIf="batchImages" class="col-xl-8 col-lg-8">
-            <div>
-                <img *ngFor="let image of batchImages" [src]="image.url" class="img-thumbnail rounded" width="150"
-                    [alt]="image.name">
-            </div>
-            <ngb-pagination (pageChange)="getBatchImages($event)" [maxSize]="5" [(page)]="page.pageNumber" [pageSize]="50" [collectionSize]="page.totalElements"></ngb-pagination>
+        <div class="col-xl-8 col-lg-8">
+            <img *ngFor="let image of batchImages" [src]="image.url" id="{{ image._id }}" class="img-thumbnail rounded" width="150"
+                (click)="selectedImg($event)" [alt]="image.name">
+            <ngb-pagination (pageChange)="getBatchImages($event)" [maxSize]="5" [(page)]="page.pageNumber"
+                [pageSize]="50" [collectionSize]="page.totalElements"></ngb-pagination>
         </div>
         <!-- /.cus-modal-wrap -->
         <div class="block allModal">
             <div class="cus-modal right-bottom" id="right-bottom" role="dialog">
                 <div class="cus-modal-dialog">
                     <div class="cus-modal-content">
-                        <div class="cus-modal-body" style="font-size:10px"> <a class="cus-close" (click)="clearUpload()">×</a>
+                        <div class="cus-modal-body" style="font-size:10px"> <a class="cus-close"
+                                (click)="clearUpload()">×</a>
                             <h5 class="modal-title">Upload Arquivos</h5>
                             <br>
                             <div *ngFor="let progressInfo of progressInfos" class="mb-2">

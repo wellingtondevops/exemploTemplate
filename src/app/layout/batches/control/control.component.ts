@@ -64,6 +64,10 @@ export class ControlComponent implements OnInit {
     $(target).addClass('in');
   }
 
+  selectedImg(e) {
+    console.log(e.target.id)
+  }
+
   onFileChange(event) {
     for (var i = 0; i < event.target.files.length; i++) {
       // files
