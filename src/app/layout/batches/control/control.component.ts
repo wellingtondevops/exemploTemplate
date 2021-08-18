@@ -108,7 +108,7 @@ export class ControlComponent implements OnInit {
     formData.append('batch', this.batch._id);
     formData.append('ind', 'false');
     for (var i = 0; i < this.myFiles.length; i++) {
-      this.progressInfos.push({ value: 0, fileName: this.myFiles[i].name });
+      this.progressInfos.push({ value: 0, fileName: this.myFiles[i].name, error: false });
       this.openModal();
       formData.append("files", this.myFiles[i]);
       this.upload(formData, i)
@@ -123,8 +123,9 @@ export class ControlComponent implements OnInit {
         this.fileInfos[i] = event.body[0];
       }
     }, error => {
-      this.progressInfos[i].value = 0;
-      this.message = 'Could not upload the file:';
+      // this.progressInfos[i].value = 10;
+      this.progressInfos[i].error = true;
+      // this.message = 'Could not upload the file:';
     });
   }
 
