@@ -101,6 +101,11 @@ export class ControlComponent implements OnInit {
     })
   }
 
+  clearUpload(){
+    this.progressInfos = [];
+    this.myFiles = [];
+  }
+
   submit() {
     const formData = new FormData();
     formData.append('document', this.batch.doct._id);
@@ -108,7 +113,7 @@ export class ControlComponent implements OnInit {
     formData.append('batch', this.batch._id);
     formData.append('ind', 'false');
     for (var i = 0; i < this.myFiles.length; i++) {
-      this.progressInfos.push({ value: 0, fileName: this.myFiles[i].name, error: false });
+      this.progressInfos.push({ value: 0, fileName: this.myFiles[i].name, class: 'progress-bar progress-bar-info progress-bar-striped' });
       this.openModal();
       formData.append("files", this.myFiles[i]);
       this.upload(formData, i)
@@ -121,10 +126,12 @@ export class ControlComponent implements OnInit {
         this.progressInfos[i].value = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {
         this.fileInfos[i] = event.body[0];
+        this.progressInfos[i].class = 'progress-bar bg-success progress-bar-striped';
+        this.getBatchImages();
       }
     }, error => {
       // this.progressInfos[i].value = 10;
-      this.progressInfos[i].error = true;
+      this.progressInfos[i].class = 'progress-bar bg-danger progress-bar-striped';
       // this.message = 'Could not upload the file:';
     });
   }
