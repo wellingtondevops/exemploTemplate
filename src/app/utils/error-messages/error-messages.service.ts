@@ -16,30 +16,30 @@ export class ErrorMessagesService {
       status: 0
     };
     switch (error.status) {
-        case 400:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 403:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 404:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 405:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 500:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 0:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
+      case 400:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 403:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 404:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 405:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 500:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 0:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
     }
     this.showError(response, true);
     return response;
@@ -51,30 +51,34 @@ export class ErrorMessagesService {
       status: 0
     };
     switch (error.status) {
-        case 400:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 403:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 404:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 405:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 500:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
-        case 0:
-          response.message = error.error.message;
-          response.status = error.status;
-          break;
+      case 400:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 412:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 403:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 404:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 405:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 500:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
+      case 0:
+        response.message = error.error.message;
+        response.status = error.status;
+        break;
     }
     this.showError(response);
     return response;

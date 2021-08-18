@@ -43,6 +43,22 @@ export class BatchesService {
     }
   }
 
+  batchImages(id, page, size) {
+    !size ? size = 10 : '';
+    if (page) {
+      return this.http.get<BatchesList>(`${url}/batches/${id}/imagens?_page=${page.pageNumber}&size=${size}`)
+        .pipe(
+          tap(data => data)
+        );
+    } else {
+      return this.http.get<BatchesList>(`${url}/batches?size=10`)
+        .pipe(
+          tap(data => data)
+        );
+    }
+
+  }
+
   batch(id) {
     return this.http.get<Batch>(`${url}/batches/${id}`)
       .pipe(
