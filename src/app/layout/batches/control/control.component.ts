@@ -127,12 +127,11 @@ export class ControlComponent implements OnInit {
       } else if (event instanceof HttpResponse) {
         this.fileInfos[i] = event.body[0];
         this.progressInfos[i].class = 'progress-bar bg-success progress-bar-striped';
-        this.getBatchImages();
+        this.batchImages.push(event.body[0]);
+        this.page.totalElements++;
       }
     }, error => {
-      // this.progressInfos[i].value = 10;
       this.progressInfos[i].class = 'progress-bar bg-danger progress-bar-striped';
-      // this.message = 'Could not upload the file:';
     });
   }
 
