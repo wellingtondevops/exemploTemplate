@@ -12,6 +12,8 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { routerTransition } from '../../../router.animations';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import * as $ from 'jquery';
+import { Pipes } from 'src/app/utils/pipes/pipes';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 
 
 @Component({
@@ -44,6 +46,8 @@ export class ControlComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private batchesSrv: BatchesService,
     private filesSrv: FilesService,
+    private pipes: Pipes,
+    private domSanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -58,6 +62,14 @@ export class ControlComponent implements OnInit {
     this.getBatch();
   }
 
+  pdfThumbnail(img){
+    const fileURL = URL.createObjectURL(img.url);
+    return this.domSanitizer.bypassSecurityTrustHtml(
+      "<object data='" + fileURL + "' type='application/pdf' class='embed-responsive-item'>" +
+      "Object " + fileURL + " failed" +
+      "</object>");
+  }
+
   openModal() {
     $('body').addClass('cus-modal-open');
     const target = '#right-bottom';
@@ -66,6 +78,10 @@ export class ControlComponent implements OnInit {
 
   selectedImg(e) {
     console.log(e.target.id)
+  }
+
+  isPdf(img){
+    return this.pipes.isPdf(img.url)
   }
 
   onFileChange(event) {
