@@ -13,7 +13,7 @@ import { routerTransition } from '../../../router.animations';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import * as $ from 'jquery';
 import { Pipes } from 'src/app/utils/pipes/pipes';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { DomSanitizer } from '@angular/platform-browser'
 
 
 @Component({
@@ -62,14 +62,6 @@ export class ControlComponent implements OnInit {
     this.getBatch();
   }
 
-  pdfThumbnail(img){
-    const fileURL = URL.createObjectURL(img.url);
-    return this.domSanitizer.bypassSecurityTrustHtml(
-      "<object data='" + fileURL + "' type='application/pdf' class='embed-responsive-item'>" +
-      "Object " + fileURL + " failed" +
-      "</object>");
-  }
-
   openModal() {
     $('body').addClass('cus-modal-open');
     const target = '#right-bottom';
@@ -81,7 +73,15 @@ export class ControlComponent implements OnInit {
   }
 
   isPdf(img){
+    console.log(1)
     return this.pipes.isPdf(img.url)
+  }
+
+  sanitizeUrl(url){
+    let urlImg = this.domSanitizer.bypassSecurityTrustUrl(url);
+    return `<object data="${urlImg}" type="application/pdf" >
+    <embed src="${urlImg}" type="application/pdf" width="150"  />
+    </object>`
   }
 
   onFileChange(event) {

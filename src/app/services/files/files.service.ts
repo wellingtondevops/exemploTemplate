@@ -33,6 +33,7 @@ export class FilesService {
       }));
   }
 
+
   filesProgress(form): Observable<HttpEvent<any>> {
     const req = new HttpRequest('POST', `${apiUrlUpload}/api/posts`, form, {
       reportProgress: true,

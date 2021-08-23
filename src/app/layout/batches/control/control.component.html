@@ -92,8 +92,9 @@
         </div>
         <div class="col-xl-8 col-lg-8">
             <span *ngFor="let image of batchImages">
-                <!-- <div *ngIf="pipes.isPdf(image.url)" [innerHTML]="pdfThumbnail(image)">
-                </div> -->
+                <div *ngIf="pipes.isPdf(image.url)">
+                    <iframe [src]="image.url" width="150" ></iframe>
+                </div>
                 <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
                     class="img-thumbnail rounded" width="150" (click)="selectedImg($event)" [alt]="image.name">
             </span>
