@@ -7,6 +7,7 @@ export class Storehouse {
   _id: string;
   name: string;
   dateCreated: string;
+  mapStorehouse: boolean;
 }
 
 export class StorehousesList {
@@ -23,6 +24,7 @@ export class StorehousesSearchList {
     author: any;
     dateCreated: string;
     _links: any;
+    mapStorehouse: boolean;
   }];
 }
 

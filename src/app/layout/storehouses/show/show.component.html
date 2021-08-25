@@ -14,22 +14,51 @@
         </app-buttons-custom>
         <br />
     </div>
+
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
-                <div class="form-content">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input id="name" class="form-control"
-                            [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" formControlName="name" />
-                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                            <div *ngIf="!name.valid">
-                                Nome é obrigatório.
+
+            <ngb-tabset #tab (tabChange)="beforeChange($event)">
+                <ngb-tab title="Depósito" id="tab1">
+                  <ng-template ngbTabContent>
+                    <br />
+                    <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
+                        <div class="form-content">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input id="name" class="form-control"
+                                    [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" formControlName="name" />
+                                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                                    <div *ngIf="!name.valid">
+                                        Nome é obrigatório.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </form>
+                        <div class="form-group">
+                            <div class="checkbox">
+                              <label> <input type="checkbox" formControlName="mapStorehouse" value="" />
+                                mapear </label>
+                            </div>
+                          </div>
+                    </form>
+                  </ng-template>
+
+                </ngb-tab>
+                <ngb-tab title="Pesquisar Posições" id="tab2">
+                    <ng-template ngbTabContent>
+                        <br />
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab title="Cadastrar Posições" id="tab3" [disabled]="true">
+                    <ng-template ngbTabContent>
+                        <br />
+                        <p>asdasd</p>
+                    </ng-template>
+                </ngb-tab>
+
+            </ngb-tabset>
         </div>
     </div>
 </div>

@@ -22,6 +22,7 @@ export class ShowComponent implements OnInit {
   id: String;
   storeHouse: any;
   storeHouseForm: FormGroup;
+  mapHouseForm: FormGroup;
   changeUp = false;
   loading: Boolean = true;
   permissionEdit: boolean = false;
@@ -42,11 +43,15 @@ export class ShowComponent implements OnInit {
   get name() {
     return this.storeHouseForm.get('name');
   }
+  //get mapStoreHouse() {
+    //return this.mapHouseForm.get('mapStoreHouse');
+  //}
 
   ngOnInit() {
     this.storeHouseForm = this.fb.group({
       _id: '',
-      name: this.fb.control({ value: '', disabled: true }, [Validators.required])
+      name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      mapStorehouse: this.fb.control({ value: '', disabled: true }),
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -55,14 +60,22 @@ export class ShowComponent implements OnInit {
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
   }
 
+
+
   getStoreHouse() {
     this.storeHouseSrv.storehouse(this.id).subscribe(
       data => {
         this.loading = false;
-        this.storeHouse = data;
+        this.storeHouse = {
+            data,
+            mapStorehouse: data.mapStorehouse
+        };
         this.storeHouseForm.patchValue({
           _id: this.storeHouse._id,
-          name: data.name
+          name: data.name,
+          mapStorehouse: data.mapStorehouse,
+
+
         });
       },
       error => {
@@ -135,4 +148,5 @@ export class ShowComponent implements OnInit {
       }
     );
   }
+
 }

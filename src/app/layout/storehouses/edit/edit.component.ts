@@ -31,6 +31,9 @@ export class EditComponent implements OnInit {
     get name() {
         return this.storeHouseForm.get('name');
     }
+    get mapStoreHouse() {
+        return this.storeHouseForm.get('mapStorehouse')
+    }
 
     ngOnInit() {
         this.storeHouseForm = this.fb.group({
