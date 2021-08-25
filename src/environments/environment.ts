@@ -10,7 +10,7 @@
 // };
 export const environment = {
 
-  apiUrl: 'http://34.69.104.113:3000/',
+  apiUrl: 'http://localhost:3000/',
   apiUrlUpload: 'http://localhost:2000',
   exportUrl: 'http://34.69.67.148:4000/',
   production: false
