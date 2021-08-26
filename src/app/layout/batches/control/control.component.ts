@@ -78,10 +78,7 @@ export class ControlComponent implements OnInit {
   }
 
   sanitizeUrl(url){
-    let urlImg = this.domSanitizer.bypassSecurityTrustUrl(url);
-    return `<object data="${urlImg}" type="application/pdf" >
-    <embed src="${urlImg}" type="application/pdf" width="150"  />
-    </object>`
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   onFileChange(event) {

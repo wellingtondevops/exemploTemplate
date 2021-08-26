@@ -14,6 +14,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { ControlComponent } from './control/control.component';
+import { SafePipe } from 'src/app/utils/pipes/safe-pipe';
 
 @NgModule({
     declarations: [ListComponent, NewComponent, ShowComponent, ControlComponent],

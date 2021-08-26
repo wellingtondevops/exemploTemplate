@@ -91,13 +91,19 @@
             </div>
         </div>
         <div class="col-xl-8 col-lg-8">
+
             <span *ngFor="let image of batchImages">
-                <div *ngIf="pipes.isPdf(image.url)">
-                    <iframe [src]="image.url" width="150" ></iframe>
-                </div>
-                <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
-                    class="img-thumbnail rounded" width="150" (click)="selectedImg($event)" [alt]="image.name">
+                <span style="margin:5px" *ngIf="pipes.isPdf(image.url)">
+                    <iframe [src]="sanitizeUrl(image.url)"
+                        style="width: 150px;height: 195px;border: none !important;"></iframe>
+                </span>
+                <span style="margin:5px">
+                    <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
+                        class="img-thumbnail rounded" (click)="selectedImg($event)" [alt]="image.name"
+                        style="width: 150px !important;height: 195px!important;vertical-align: 0;">
+                </span>
             </span>
+
             <ngb-pagination (pageChange)="getBatchImages($event)" [maxSize]="5" [(page)]="page.pageNumber"
                 [pageSize]="50" [collectionSize]="page.totalElements"></ngb-pagination>
         </div>
