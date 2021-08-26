@@ -38,7 +38,8 @@ export class EditComponent implements OnInit {
     ngOnInit() {
         this.storeHouseForm = this.fb.group({
             _id: '',
-            name: this.fb.control('', [Validators.required])
+            name: this.fb.control('', [Validators.required]),
+            mapStorehouse: this.fb.control({ value: '', enabled: true }),
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
@@ -52,7 +53,8 @@ export class EditComponent implements OnInit {
                 this.storeHouse = data;
                 this.storeHouseForm.patchValue({
                     _id: this.storeHouse._id,
-                    name: data.name
+                    name: data.name,
+                    mapStorehouse: data.mapStorehouse,
                 });
             },
             error => {

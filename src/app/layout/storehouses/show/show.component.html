@@ -1,57 +1,89 @@
 <div [@routerTransition]>
-    <ngx-loading [show]="loading" [config]="{
+    <ngx-loading
+        [show]="loading"
+        [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
-        }"></ngx-loading>
-    <app-page-header [id]="storeHouse._id" [heading]="'Dados do Depósito'" [icon]="'fa-house'"></app-page-header>
+        }"
+    ></ngx-loading>
+    <app-page-header
+        [id]="storeHouse._id"
+        [heading]="'Dados do Depósito'"
+        [icon]="'fa-house'"
+    ></app-page-header>
     <div style="margin-bottom: 10px">
         <app-button-back [redirectTo]="'storehouses'"></app-button-back>
-        <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)" (delete)="open('focusFirst', storeHouse._id)"
-            [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete">
+        <app-buttons-custom
+            (edit)="editStoreHouse(storeHouse._id)"
+            (delete)="open('focusFirst', storeHouse._id)"
+            [permissionEdit]="permissionEdit"
+            [permissionDelete]="permissionDelete"
+        >
         </app-buttons-custom>
         <br />
     </div>
 
     <div class="card bg-light mb-12">
         <div class="card-body">
-
-            <ngb-tabset #tab (tabChange)="beforeChange($event)">
+            <ngb-tabset #tab>
                 <ngb-tab title="Depósito" id="tab1">
-                  <ng-template ngbTabContent>
-                    <br />
-                    <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
-                        <div class="form-content">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input id="name" class="form-control"
-                                    [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" formControlName="name" />
-                                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                                    <div *ngIf="!name.valid">
-                                        Nome é obrigatório.
+                    <ng-template ngbTabContent>
+                        <br />
+                        <form
+                            [formGroup]="storeHouseForm"
+                            role="FormGroup"
+                            (ngSubmit)="updateStoreHouse()"
+                        >
+                            <div class="form-content">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input
+                                        id="name"
+                                        class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                !name.valid && name.value === ''
+                                        }"
+                                        formControlName="name"
+                                    />
+                                    <div
+                                        *ngIf="
+                                            name.invalid &&
+                                            (name.dirty || name.touched)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="!name.valid">
+                                            Nome é obrigatório.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                              <label> <input type="checkbox" formControlName="mapStorehouse" value="" />
-                                mapear </label>
-                            </div>
-                          </div>
-                    </form>
-                  </ng-template>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            formControlName="mapStorehouse"
+                                            name=""
+                                            value=""/>
+                                        Mapear Depósito
 
-                </ngb-tab>
-                <ngb-tab title="Pesquisar Posições" id="tab2">
-                    <ng-template ngbTabContent>
-                        <br />
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
                     </ng-template>
                 </ngb-tab>
-
-                <ngb-tab title="Cadastrar Posições" id="tab3" [disabled]="true">
+                <div *ngIf="!mapStorehouse;">
+                    <ngb-tab title="Pesquisar Posições" id="tab2" #mapStorehouse [disabled]>
+                        <ng-template ngbTabContent>
+                            <br />
+                        </ng-template>
+                    </ngb-tab>
+                </div>
+                <ngb-tab title="Cadastrar Posições" id="tab3">
                     <ng-template ngbTabContent>
                         <br />
                         <p>asdasd</p>
@@ -59,6 +91,7 @@
                 </ngb-tab>
 
             </ngb-tabset>
+
         </div>
     </div>
 </div>
