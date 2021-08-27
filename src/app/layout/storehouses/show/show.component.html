@@ -35,11 +35,10 @@
                         <form
                             [formGroup]="storeHouseForm"
                             role="FormGroup"
-                            (ngSubmit)="updateStoreHouse()"
-                        >
+                            (ngSubmit)="updateStoreHouse()">
                             <div class="form-content">
                                 <div class="form-group">
-                                    <label for="name">Name</label>
+                                    <label for="name">Nome</label>
                                     <input
                                         id="name"
                                         class="form-control"
@@ -69,26 +68,75 @@
                                             name=""
                                             value=""/>
                                         Mapear Depósito
-
                                     </label>
                                 </div>
                             </div>
                         </form>
                     </ng-template>
                 </ngb-tab>
-                <div *ngIf="!mapStorehouse;">
-                    <ngb-tab title="Pesquisar Posições" id="tab2" #mapStorehouse [disabled]>
+
+                <div class="card bg-light mb-12" >
+                    <ngb-tab title="Pesquisar Posições" id="tab2" [disabled]= "!storeHouse.mapStorehouse">
                         <ng-template ngbTabContent>
                             <br />
+                        <form
+                            [formGroup]="storeHouseForm"
+                            role="FormGroup"
+                            (ngSubmit)="updateStoreHouse()"
+                        >
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-content">
+                                    <div class="form-group">
+                                        <label for="name">Nome</label>
+                                        <input
+                                            id="name"
+                                            class="form-control"
+                                            [ngClass]="{
+                                                'is-invalid':
+                                                    !name.valid && name.value === ''
+                                            }"
+                                            formControlName="name"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="input-name">Posição</label>
+                                    <input type="text" class="form-control" formControlName="position" />
+                                    <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="!name.valid">
+                                            Posição é obrigatória.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                            <div class="form-group mb-2">
+                                    <button type="submit"  class="btn btn-primary" [disabled]="">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <button type="button" style="margin-left: 5px;"[disabled]="" class="btn btn-default">
+                                        Limpar Campos
+                                    </button>
+                            </div>
+                        </div>
+                            </form>
                         </ng-template>
                     </ngb-tab>
                 </div>
-                <ngb-tab title="Cadastrar Posições" id="tab3">
-                    <ng-template ngbTabContent>
-                        <br />
-                        <p>asdasd</p>
-                    </ng-template>
-                </ngb-tab>
+
+                <div class="card bg-light mb-12">
+                    <ngb-tab title="Cadastrar Posições" id="tab3" [disabled]= "!storeHouse.mapStorehouse">
+                        <ng-template ngbTabContent>
+                            <br />
+                            <p>asdasd</p>
+                        </ng-template>
+                    </ngb-tab>
+                </div>
 
             </ngb-tabset>
 

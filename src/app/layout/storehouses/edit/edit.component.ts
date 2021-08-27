@@ -16,6 +16,7 @@ export class EditComponent implements OnInit {
     id: String;
     storeHouse: any;
     storeHouseForm: FormGroup;
+    mapHouseForm: FormGroup;
     changeUp = false;
     loading: Boolean = true;
 
@@ -30,9 +31,6 @@ export class EditComponent implements OnInit {
 
     get name() {
         return this.storeHouseForm.get('name');
-    }
-    get mapStoreHouse() {
-        return this.storeHouseForm.get('mapStorehouse')
     }
 
     ngOnInit() {

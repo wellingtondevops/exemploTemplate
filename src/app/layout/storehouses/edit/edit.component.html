@@ -15,15 +15,10 @@
     ></app-page-header>
     <div>
         <br />
-        <br />
     </div>
+    <br/>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <ngb-tabset #tab>
-                <ngb-tab title="Depósito" id="tab1">
-                    <ng-template ngbTabContent>
-                        <br />
-
                         <form
                             [formGroup]="storeHouseForm"
                             role="FormGroup"
@@ -87,17 +82,6 @@
                                 </button>
                             </div>
                         </form>
-                    </ng-template>
-                </ngb-tab>
-
-                <ngb-tab title="Pesquisar Posições" id="tab2" [disabled]="true">
-                    <ng-template> </ng-template>
-                </ngb-tab>
-
-                <ngb-tab title="Cadastrar Posições" id="tab3" [disabled]="true">
-                    <ng-template> </ng-template>
-                </ngb-tab>
-            </ngb-tabset>
         </div>
     </div>
 </div>

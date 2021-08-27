@@ -27,9 +27,6 @@ export class ShowComponent implements OnInit {
     loading: Boolean = true;
     permissionEdit = false;
     permissionDelete = false;
-    mapStorehouse: Boolean;
-
-
 
 
     constructor(
@@ -47,11 +44,6 @@ export class ShowComponent implements OnInit {
     get name() {
         return this.storeHouseForm.get('name');
     }
-    //get mapStorehouse(){
-      //  return this.mapHouseForm.get('mapStorehouse'),
-        //console.log(this.mapStorehouse);
-    //}
-
 
     ngOnInit() {
         this.storeHouseForm = this.fb.group({
@@ -70,6 +62,7 @@ export class ShowComponent implements OnInit {
         this.permissionDelete = JSON.parse(
             window.localStorage.getItem('actions')
         )[0].delete;
+
     }
 
     getStoreHouse() {
@@ -121,6 +114,7 @@ export class ShowComponent implements OnInit {
                     this.loading = false;
                     this.errorMsg.errorMessages(error);
                     console.log('ERROR: ', error);
+
                 }
             );
     }
