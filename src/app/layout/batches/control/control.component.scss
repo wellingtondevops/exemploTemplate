@@ -7,6 +7,9 @@ body {
     width: 100%;
   }
   
+  .btn {
+      width: 150px;
+  }
   
   .cus-modal {
     overflow-x: hidden;
@@ -78,7 +81,7 @@ body {
   .cus-modal.right-bottom .cus-modal-dialog {
     left: auto;
     right: 20px;
-    top: auto;
+    bottom: auto;
   }
   
   .cus-modal.center-bottom .cus-modal-dialog {

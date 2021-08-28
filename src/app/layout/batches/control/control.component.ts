@@ -72,12 +72,12 @@ export class ControlComponent implements OnInit {
     console.log(e.target.id)
   }
 
-  isPdf(img){
+  isPdf(img) {
     console.log(1)
     return this.pipes.isPdf(img.url)
   }
 
-  sanitizeUrl(url){
+  sanitizeUrl(url) {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
@@ -93,7 +93,7 @@ export class ControlComponent implements OnInit {
     this.batchesSrv.batch(this.id).subscribe(data => {
       this.loading = false;
       this.batch = data;
-      this.getBatchImages(1,50);
+      this.getBatchImages(1, 50);
     }, error => {
       console.log('ERROR: ', error);
       this.loading = false;
@@ -105,8 +105,8 @@ export class ControlComponent implements OnInit {
     this.loading = true;
     if (pageInfo) {
       this.page.pageNumber = pageInfo;
-    } 
-    
+    }
+
     this.batchesSrv.batchImages(this.id, this.page, size).subscribe(data => {
       this.loading = false;
       this.batchImages = data.items;
@@ -118,12 +118,16 @@ export class ControlComponent implements OnInit {
     })
   }
 
-  clearUpload(){
-    this.progressInfos = [];
+  clearUpload() {
+    // this.progressInfos = [];
+    this.myForm.patchValue({
+      file: '',
+    })
     this.myFiles = [];
   }
 
   submit() {
+    this.progressInfos = [];
     const formData = new FormData();
     formData.append('document', this.batch.doct._id);
     formData.append('company', this.batch.company._id);
@@ -134,6 +138,9 @@ export class ControlComponent implements OnInit {
       this.openModal();
       formData.append("files", this.myFiles[i]);
       this.upload(formData, i)
+      if(i === (this.myFiles.length - 1)){
+        this.clearUpload();
+      }
     }
   }
 
