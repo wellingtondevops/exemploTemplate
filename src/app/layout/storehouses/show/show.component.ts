@@ -1,4 +1,3 @@
-
 import { Page } from './../../../models/page';
 
 import { Component, OnInit } from '@angular/core';
@@ -10,9 +9,9 @@ import { routerTransition } from 'src/app/router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import _ from 'lodash';
-import { PositionList } from 'src/app/models/position';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PositionList } from 'src/app/models/position';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent,
@@ -77,8 +76,9 @@ export class ShowComponent implements OnInit {
                 Validators.required,
             ]),
             mapStorehouse: this.fb.control({ value: '', disabled: true }),
+            positionId: this.fb.control(null),
         });
-        //this.getPosicoes();
+        this.getPosicoes();
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
 
 
@@ -184,13 +184,47 @@ export class ShowComponent implements OnInit {
         );
     }
 
-    
+    getPosition(position) {
+        this._route.navigate(['/position/get', position.position]);
+      }
 
     getPosicoes() {
         this.setPagePositions({ offset: 0 });
     }
 
     setPagePositions(pageInfo) {
+        this.loading = true;
+        this.page.pageNumber = pageInfo.offset;
+
+        this.storeHouseSrv.searchPosition(this.storeHouseForm.value, this.page, this.id).subscribe(data => {
+          this.page.pageNumber = data._links.currentPage - 1;
+          this.page.totalElements = data._links.foundItems;
+          this.page.size = data._links.totalPage;
+          this.positions = data;
+          this.loading = false;
+        }, error => {
+          console.log('ERROR: ', error);
+          this.loading = false;
+        });
+      }
+
+      setPage(pageInfo) {
+          this.loading = true;
+          this.page.pageNumber = pageInfo.offset;
+
+          this.storeHouseSrv.searchPosition(this.storeHouseForm.value, this.page, this.id).subscribe(data => {
+              this.page.pageNumber = data._links.currentPage ;
+              this.page.totalElements = data._links.foundItems;
+              this.page.size = data._links.totalPage;
+              this.positions = data;
+              this.loading = false;
+          }, error => {
+              console.log('ERROR: ', error);
+              this.loading = false;
+          });
+      }
+
+   /* setPagePositions(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
         const newSearch = {
@@ -224,20 +258,5 @@ export class ShowComponent implements OnInit {
           console.log(`ERROR: ${error}`)
         });
       }
-
-    setPage(pageInfo) {
-        this.loading = true;
-        this.page.pageNumber = pageInfo.offset;
-
-        this.storeHouseSrv.searchPosition(this.storeHouseForm.value, this.page, this.id).subscribe(data => {
-            this.page.pageNumber = data._links.currentPage - 1;
-            this.page.totalElements = data._links.foundItems;
-            this.page.size = data._links.totalPage;
-            //this.positions = data;
-            this.loading = false;
-        }, error => {
-            console.log('ERROR: ', error);
-            this.loading = false;
-        });
-    }
+*/
 }

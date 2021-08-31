@@ -1,4 +1,4 @@
-import { PositionList } from './../../../../.history/src/app/models/storehouse_20210831112017';
+import { PositionList } from 'src/app/models/position';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
