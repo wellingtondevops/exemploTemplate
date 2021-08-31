@@ -40,16 +40,16 @@ export class ShowComponent implements OnInit {
             self: '',
             totalPage: 0,
         },
-        items: []
+        items: [],
     };
     page = new Page();
-        columns = [
-            { name: 'Posição', prop: 'position' },
-            { name: 'Empresa', prop: 'company.name' },
-            { name: 'Departamento', prop: 'departament.name' },
-            { name: 'Situação da Posição', prop: 'used' }
-        ];
-        permissionNew: boolean = false;
+    columns = [
+        { name: 'Posição', prop: 'position' },
+        { name: 'Empresa', prop: 'company.name' },
+        { name: 'Departamento', prop: 'departament.name' },
+        { name: 'Situação da Posição', prop: 'used' },
+    ];
+    permissionNew = false;
 
     constructor(
         private _route: Router,
@@ -66,21 +66,23 @@ export class ShowComponent implements OnInit {
     get name() {
         return this.storeHouseForm.get('name');
     }
-
-
+    get position() {
+        return this.storeHouseForm.get('position');
+    }
 
     ngOnInit() {
         this.storeHouseForm = this.fb.group({
             _id: '',
+            position: this.fb.control(null),
             name: this.fb.control({ value: '', disabled: true }, [
                 Validators.required,
             ]),
             mapStorehouse: this.fb.control({ value: '', disabled: true }),
-            positionId: this.fb.control(null),
         });
         this.getPosicoes();
-        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
-
+        this.permissionNew = JSON.parse(
+            window.localStorage.getItem('actions')
+        )[0].write;
 
         this.id = this.route.snapshot.paramMap.get('id');
         this.getStoreHouse();
@@ -90,7 +92,6 @@ export class ShowComponent implements OnInit {
         this.permissionDelete = JSON.parse(
             window.localStorage.getItem('actions')
         )[0].delete;
-
     }
 
     getStoreHouse() {
@@ -142,7 +143,6 @@ export class ShowComponent implements OnInit {
                     this.loading = false;
                     this.errorMsg.errorMessages(error);
                     console.log('ERROR: ', error);
-
                 }
             );
     }
@@ -186,7 +186,7 @@ export class ShowComponent implements OnInit {
 
     getPosition(position) {
         this._route.navigate(['/position/get', position.position]);
-      }
+    }
 
     getPosicoes() {
         this.setPagePositions({ offset: 0 });
@@ -196,67 +196,41 @@ export class ShowComponent implements OnInit {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
-        this.storeHouseSrv.searchPosition(this.storeHouseForm.value, this.page, this.id).subscribe(data => {
-          this.page.pageNumber = data._links.currentPage - 1;
-          this.page.totalElements = data._links.foundItems;
-          this.page.size = data._links.totalPage;
-          this.positions = data;
-          this.loading = false;
-        }, error => {
-          console.log('ERROR: ', error);
-          this.loading = false;
-        });
-      }
+        this.storeHouseSrv
+            .searchPosition(this.storeHouseForm.value, this.page, this.id)
+            .subscribe(
+                (data) => {
+                    this.page.pageNumber = data._links.currentPage - 1;
+                    this.page.totalElements = data._links.foundItems;
+                    this.page.size = data._links.totalPage;
+                    this.positions = data;
+                    this.loading = false;
+                },
+                (error) => {
+                    console.log('ERROR: ', error);
+                    this.loading = false;
+                }
+            );
+    }
 
-      setPage(pageInfo) {
-          this.loading = true;
-          this.page.pageNumber = pageInfo.offset;
-
-          this.storeHouseSrv.searchPosition(this.storeHouseForm.value, this.page, this.id).subscribe(data => {
-              this.page.pageNumber = data._links.currentPage ;
-              this.page.totalElements = data._links.foundItems;
-              this.page.size = data._links.totalPage;
-              this.positions = data;
-              this.loading = false;
-          }, error => {
-              console.log('ERROR: ', error);
-              this.loading = false;
-          });
-      }
-
-   /* setPagePositions(pageInfo) {
+    setPage(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
-        const newSearch = {
-            position: null,
-            departament: {
-                name: null,
-                _id: null,
-            },
-            company: {
-                name: null,
-                _id: null,
-            },
-            used: null,
-        };
-        this.searchForm.value.position ? newSearch.position = this.storeHouseForm.value.position : null;
-        this.searchForm.value.departament ? newSearch.departament = this.storeHouseForm.value.departament : null;
-        this.searchForm.value.company ? newSearch.company = this.storeHouseForm.value.company : null;
-        this.searchForm.value.used ? newSearch.used = this.storeHouseForm.value.used : null;
 
-        const searchValue = _.omitBy(newSearch, _.isNil);
-
-        this.storeHouseSrv.searchPosition(searchValue, this.id, this.page).subscribe(data => {
-          this.loading = false;
-          //this.positions = data;
-          this.page.pageNumber = data._links.currentPage;
-          this.page.totalElements = data._links.foundItems;
-          this.page.size = data._links.totalPage;
-        }, error => {
-          this.errorMsg.errorMessages(error);
-          this.loading = false;
-          console.log(`ERROR: ${error}`)
-        });
-      }
-*/
+        this.storeHouseSrv
+            .searchPosition(this.storeHouseForm.value, this.page, this.id)
+            .subscribe(
+                (data) => {
+                    this.page.pageNumber = data._links.currentPage;
+                    this.page.totalElements = data._links.foundItems;
+                    this.page.size = data._links.totalPage;
+                    this.positions = data;
+                    this.loading = false;
+                },
+                (error) => {
+                    console.log('ERROR: ', error);
+                    this.loading = false;
+                }
+            );
+    }
 }
