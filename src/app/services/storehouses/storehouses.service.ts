@@ -1,8 +1,11 @@
+import { PositionList } from './../../../../.history/src/app/models/storehouse_20210831112017';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Storehouse, StorehousesList, StorehousesSearchList } from '../../models/storehouse';
+
+import { Position } from 'src/app/models/position';
 const url = environment.apiUrl;
 
 @Injectable({
@@ -76,4 +79,20 @@ export class StorehousesService {
         );
     }
   }
+
+  searchPosition(formdata, page, id) {
+
+    if (page) {
+      return this.http.post<PositionList>(`${url}/storehouses/${id}/searchpositions?_page=${page.pageNumber}&size=10`, formdata)
+        .pipe(
+          tap(data => data)
+        );
+    } else {
+      return this.http.post<PositionList>(`${url}/storehouses/${id}/searchpositions?size=10`, formdata)
+        .pipe(
+          tap(data => data)
+        );
+    }
+  }
+
 }

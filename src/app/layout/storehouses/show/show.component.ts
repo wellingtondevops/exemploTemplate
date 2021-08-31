@@ -1,3 +1,6 @@
+
+import { Page } from './../../../models/page';
+
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
@@ -6,6 +9,8 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { routerTransition } from 'src/app/router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import _ from 'lodash';
+import { PositionList } from 'src/app/models/position';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -23,11 +28,29 @@ export class ShowComponent implements OnInit {
     storeHouse: any;
     storeHouseForm: FormGroup;
     mapHouseForm: FormGroup;
+    searchForm: FormGroup;
     changeUp = false;
     loading: Boolean = true;
     permissionEdit = false;
     permissionDelete = false;
-
+    positions: PositionList = {
+        _links: {
+            currentPage: 1,
+            foundItems: 0,
+            next: '',
+            self: '',
+            totalPage: 0,
+        },
+        items: []
+    };
+    page = new Page();
+        columns = [
+            { name: 'Posição', prop: 'position' },
+            { name: 'Empresa', prop: 'company.name' },
+            { name: 'Departamento', prop: 'departament.name' },
+            { name: 'Situação da Posição', prop: 'used' }
+        ];
+        permissionNew: boolean = false;
 
     constructor(
         private _route: Router,
@@ -45,6 +68,8 @@ export class ShowComponent implements OnInit {
         return this.storeHouseForm.get('name');
     }
 
+
+
     ngOnInit() {
         this.storeHouseForm = this.fb.group({
             _id: '',
@@ -53,6 +78,9 @@ export class ShowComponent implements OnInit {
             ]),
             mapStorehouse: this.fb.control({ value: '', disabled: true }),
         });
+        //this.getPosicoes();
+        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+
 
         this.id = this.route.snapshot.paramMap.get('id');
         this.getStoreHouse();
@@ -154,5 +182,62 @@ export class ShowComponent implements OnInit {
                 console.log('ERROR:', error);
             }
         );
+    }
+
+    
+
+    getPosicoes() {
+        this.setPagePositions({ offset: 0 });
+    }
+
+    setPagePositions(pageInfo) {
+        this.loading = true;
+        this.page.pageNumber = pageInfo.offset;
+        const newSearch = {
+            position: null,
+            departament: {
+                name: null,
+                _id: null,
+            },
+            company: {
+                name: null,
+                _id: null,
+            },
+            used: null,
+        };
+        this.searchForm.value.position ? newSearch.position = this.storeHouseForm.value.position : null;
+        this.searchForm.value.departament ? newSearch.departament = this.storeHouseForm.value.departament : null;
+        this.searchForm.value.company ? newSearch.company = this.storeHouseForm.value.company : null;
+        this.searchForm.value.used ? newSearch.used = this.storeHouseForm.value.used : null;
+
+        const searchValue = _.omitBy(newSearch, _.isNil);
+
+        this.storeHouseSrv.searchPosition(searchValue, this.id, this.page).subscribe(data => {
+          this.loading = false;
+          //this.positions = data;
+          this.page.pageNumber = data._links.currentPage;
+          this.page.totalElements = data._links.foundItems;
+          this.page.size = data._links.totalPage;
+        }, error => {
+          this.errorMsg.errorMessages(error);
+          this.loading = false;
+          console.log(`ERROR: ${error}`)
+        });
+      }
+
+    setPage(pageInfo) {
+        this.loading = true;
+        this.page.pageNumber = pageInfo.offset;
+
+        this.storeHouseSrv.searchPosition(this.storeHouseForm.value, this.page, this.id).subscribe(data => {
+            this.page.pageNumber = data._links.currentPage - 1;
+            this.page.totalElements = data._links.foundItems;
+            this.page.size = data._links.totalPage;
+            //this.positions = data;
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error);
+            this.loading = false;
+        });
     }
 }
