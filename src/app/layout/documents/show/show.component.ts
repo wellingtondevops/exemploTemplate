@@ -58,7 +58,8 @@ export class ShowComponent implements OnInit {
       dcurrentLabel: this.fb.control({ value: '', disabled: true}),
       dcurrentValue: this.fb.control({ value: 0, disabled: true}),
       dintermediateValue: this.fb.control({ value: 0, disabled: true}),
-      dfinal: this.fb.control({ value: '', disabled: true})
+      dfinal: this.fb.control({ value: '', disabled: true}),
+      currentControl: this.fb.control({value:'',disabled:true})
     });
 
   }
@@ -119,7 +120,8 @@ export class ShowComponent implements OnInit {
           dcurrentLabel: this.document.dcurrentLabel,
           dcurrentValue: this.document.dcurrentValue,
           dintermediateValue: this.document.dintermediateValue,
-          dfinal: this.document.dfinal
+          dfinal: this.document.dfinal,
+          currentControl:this.document.currentControl
         });
         this.document.label.map(item => {
           this.addLabel(item);

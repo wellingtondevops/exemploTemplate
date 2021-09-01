@@ -1,5 +1,9 @@
 import { Doctype } from './doctype';
 import { Departament } from './departament';
+import { Pagination } from './pagination';
+
+
+
 export class Archive {
   _links: {
     self: string
@@ -49,13 +53,17 @@ class Sponsor {
   cnpj: string;
 }
 
+// export class ArchivesList {
+//   _links: {
+//     self: string;
+//     totalPage: number;
+//     currentPage: number;
+//     foundItems: number;
+//     next: string;
+//   };
+//   items: Archive[];
+// }
 export class ArchivesList {
-  _links: {
-    self: string;
-    totalPage: number;
-    currentPage: number;
-    foundItems: number;
-    next: string;
-  };
+  _links: Pagination;
   items: Archive[];
 }

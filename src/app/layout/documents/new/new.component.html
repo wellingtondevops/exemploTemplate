@@ -52,6 +52,10 @@
                               <input id="dcurrentValue" type="number" placeholder="Número" class="form-control"
                                 formControlName="dcurrentValue" />
                             </div>
+                            <div class="checkbox">
+                              <label> <input type="checkbox" formControlName="currentControl" value="" />
+                                 Controlar Fase Corrente? </label>
+                            </div>
                           </div>
                           <div class="col-lg-4">
                             <div class="form-group">
@@ -92,7 +96,7 @@
                               <div class="form-group">
                                 <label for="">Tipo do Índice</label>
                                 <select class="form-control" id="typefield" formControlName="typeField">
-                                  <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN">
+                                  <option *ngFor="let typeFieldN of typeFieldList | enumToArray" [value]="typeFieldN" >
                                     {{ typeFieldN | translate }}</option>
                                 </select>
                               </div>
@@ -102,7 +106,7 @@
                                   <label> <input type="checkbox" formControlName="uniq" value="" />
                                     Único </label>
                                 </div>
-                                <div class="checkbox">
+                                <div class="checkbox" >
                                   <label> <input type="checkbox" formControlName="timeControl" value="" />
                                     Temporalidade </label>
                                 </div>
