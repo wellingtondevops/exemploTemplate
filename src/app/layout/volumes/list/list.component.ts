@@ -174,6 +174,7 @@ export class ListComponent implements OnInit {
     console.log(this.page);
     this.localStorageSrv.save('volume', this.searchForm.value);
 
+
     const newForm = {
       company: null,
       storehouse: null,

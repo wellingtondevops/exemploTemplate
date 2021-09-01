@@ -1,6 +1,6 @@
-import { Page } from './../../../models/page';
-
 import { Component, OnInit } from '@angular/core';
+import { SaveLocal } from './../../../storage/saveLocal';
+import { Page } from './../../../models/page';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
@@ -12,6 +12,8 @@ import _ from 'lodash';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PositionList } from 'src/app/models/position';
+import { NgIf } from '@angular/common';
+import { FLAGS } from '@angular/core/src/render3/interfaces/view';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent,
@@ -29,6 +31,7 @@ export class ShowComponent implements OnInit {
     mapHouseForm: FormGroup;
     searchForm: FormGroup;
     changeUp = false;
+    situacao: string;
     loading: Boolean = true;
     permissionEdit = false;
     permissionDelete = false;
@@ -43,6 +46,7 @@ export class ShowComponent implements OnInit {
         items: [],
     };
     page = new Page();
+
     columns = [
         { name: 'Posição', prop: 'position' },
         { name: 'Empresa', prop: 'company.name' },
@@ -60,7 +64,8 @@ export class ShowComponent implements OnInit {
         private errorMsg: ErrorMessagesService,
         private toastr: ToastrService,
         private modalService: NgbModal,
-        public modal: NgbActiveModal
+        public modal: NgbActiveModal,
+        private localStorageSrv: SaveLocal,
     ) {}
 
     get name() {
@@ -195,11 +200,10 @@ export class ShowComponent implements OnInit {
     setPagePositions(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
-
         this.storeHouseSrv
-            .searchPosition(this.storeHouseForm.value, this.page, this.id)
-            .subscribe(
-                (data) => {
+        .searchPosition(this.storeHouseForm.value, this.page, this.id)
+        .subscribe(
+            (data) => {
                     this.page.pageNumber = data._links.currentPage - 1;
                     this.page.totalElements = data._links.foundItems;
                     this.page.size = data._links.totalPage;
@@ -233,4 +237,14 @@ export class ShowComponent implements OnInit {
                 }
             );
     }
+
+    clear() {
+        this.localStorageSrv.clear('position');
+
+        this.storeHouseForm.patchValue({
+            position: null
+        });
+
+    }
+
 }
