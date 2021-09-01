@@ -51,7 +51,7 @@ export class ShowComponent implements OnInit {
         { name: 'Posição', prop: 'position' },
         { name: 'Empresa', prop: 'company.name' },
         { name: 'Departamento', prop: 'departament.name' },
-        { name: 'Situação da Posição', prop: 'used' },
+        //{ name: 'Situação da Posição', prop: 'used' },
     ];
     permissionNew = false;
 
