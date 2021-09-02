@@ -1,3 +1,4 @@
+import { ChartsModule } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -21,6 +22,7 @@ import { TokenInterceptorService } from './interceptos/token-interceptor.service
         LanguageTranslationModule,
         AppRoutingModule,
         ReactiveFormsModule,
+        ChartsModule,
         ToastrModule.forRoot()
     ],
     declarations: [AppComponent],

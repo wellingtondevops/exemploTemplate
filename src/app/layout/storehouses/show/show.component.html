@@ -46,11 +46,12 @@
                                             type="checkbox"
                                             formControlName="mapStorehouse"/>
                                         Mapear Depósito
-                                        <!--asdasda-->
+                                        
                                     </label>
                                 </div>
                             </div>
                         </form>
+                        <app-pie-chart></app-pie-chart>
                     </ng-template>
                 </ngb-tab>
 
@@ -88,13 +89,16 @@
                             (show)="getPosition($event)">
                         </app-datatables>
 
+
                     </ng-template>
                 </ngb-tab>
 
                     <ngb-tab title="Cadastrar Posições" id="tab3" [disabled]= "!storeHouse.mapStorehouse">
                         <ng-template ngbTabContent>
                             <br />
-                            <p>asdasd</p>
+
+
+
                         </ng-template>
                     </ngb-tab>
 

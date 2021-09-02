@@ -11,9 +11,11 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { PieChartComponent } from './show/graphics/pie-chart/pie-chart.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
-    declarations: [ListComponent, ShowComponent, NewComponent, EditComponent],
+    declarations: [ListComponent, ShowComponent, NewComponent, EditComponent, PieChartComponent],
     imports: [
         NgbModule,
         CommonModule,
@@ -24,6 +26,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
         DatatablesModule,
         NgbModule,
         ButtonsCustomModule,
+        ChartsModule,
         ButtonBackModule,
         NgxLoadingModule.forRoot({})
     ],
