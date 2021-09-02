@@ -103,9 +103,12 @@
                     </ng-template>
                 </ngb-tab>
 
-                    <ngb-tab title="Cadastrar Posições" id="tab3" [disabled]= "!storeHouse.mapStorehouse">
+                    <ngb-tab title="Mapa do Depósito" id="tab3" [disabled]= "!storeHouse.mapStorehouse">
                         <ng-template ngbTabContent>
                             <br />
+                            <div>
+                                <app-bar-chart></app-bar-chart>
+                            </div>
                         </ng-template>
                     </ngb-tab>
 

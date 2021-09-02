@@ -14,9 +14,10 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { PieChartComponent } from './show/graphics/pie-chart/pie-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { DoughnutChartComponent } from './show/graphics/doughnut-chart/doughnut-chart.component';
+import { BarChartComponent } from './show/graphics/bar-chart/bar-chart.component';
 
 @NgModule({
-    declarations: [ListComponent, ShowComponent, NewComponent, EditComponent, PieChartComponent, DoughnutChartComponent],
+    declarations: [ListComponent, ShowComponent, NewComponent, EditComponent, PieChartComponent, DoughnutChartComponent, BarChartComponent],
     imports: [
         NgbModule,
         CommonModule,
