@@ -13,9 +13,10 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { PieChartComponent } from './show/graphics/pie-chart/pie-chart.component';
 import { ChartsModule } from 'ng2-charts';
+import { DoughnutChartComponent } from './show/graphics/doughnut-chart/doughnut-chart.component';
 
 @NgModule({
-    declarations: [ListComponent, ShowComponent, NewComponent, EditComponent, PieChartComponent],
+    declarations: [ListComponent, ShowComponent, NewComponent, EditComponent, PieChartComponent, DoughnutChartComponent],
     imports: [
         NgbModule,
         CommonModule,

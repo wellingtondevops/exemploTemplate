@@ -46,12 +46,19 @@
                                             type="checkbox"
                                             formControlName="mapStorehouse"/>
                                         Mapear Depósito
-                                        
+
                                     </label>
                                 </div>
                             </div>
                         </form>
-                        <app-pie-chart></app-pie-chart>
+                        <div class="row">
+                            <div class="col-sm" display= none *ngIf="storeHouse.mapStorehouse">
+                                <app-pie-chart></app-pie-chart>
+                            </div>
+                            <div class="col-sm">
+                                <app-doughnut-chart></app-doughnut-chart>
+                            </div>
+                        </div>
                     </ng-template>
                 </ngb-tab>
 
@@ -61,44 +68,44 @@
                             <br />
                         <form [formGroup]="storeHouseForm" (ngSubmit)="getPosicoes()" role="FormGroup">
                             <div class="row">
-                                <div class="form-group col-4">
+                                <div class="form-group col-sm">
                                     <label for="typeahead-basic">Nome</label>
                                     <input id="typeahead-basic" type="text" class="form-control" formControlName="name"/>
                                 </div>
-                                <div class="form-group col-4">
+                                <div class="form-group col-sm">
                                     <label for="position">Posição</label>
                                     <input id="position" autoFocus="true" type="text" class="form-control" formControlName="position"
                                             style="width: 100%" />
                                 </div>
                             </div>
-                            <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                                <div class="form-group mb-2">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                    <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
-                                        Limpar Campos
-                                    </button>
+                            <div class="row" style="margin-left: 40%;">
+
+                                    <div class="form-group col align-self-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default" (click)="clear()">
+                                            Limpar Campos
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+
                         </form>
-                        <app-datatables
-                            [data]="positions"
-                            (setPage)="setPage($event)"
-                            [columns]="columns"
-                            (show)="getPosition($event)">
-                        </app-datatables>
 
-
+                        <div class="row">
+                            <app-datatables
+                                [data]="positions"
+                                (setPage)="setPage($event)"
+                                [columns]="columns"
+                                (show)="getPosition($event)">
+                            </app-datatables>
+                        </div>
                     </ng-template>
                 </ngb-tab>
 
                     <ngb-tab title="Cadastrar Posições" id="tab3" [disabled]= "!storeHouse.mapStorehouse">
                         <ng-template ngbTabContent>
                             <br />
-
-
-
                         </ng-template>
                     </ngb-tab>
 

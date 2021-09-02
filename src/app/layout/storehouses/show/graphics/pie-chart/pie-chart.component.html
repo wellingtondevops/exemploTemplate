@@ -1,7 +1,25 @@
-<div style="display: block">
-    <canvas baseChart
+<div>
+    <div>
+        <button
+            button
+            type="submit"
+            class="btn btn-primary"
+            (click)="pieChartLegend = !pieChartLegend">
+            Ocultar Legenda
+        </button>
+    </div>
+
+    <div class="chart">
+        <canvas
+            class="chart-pie"
+            baseChart
             [data]="pieChartData"
             [labels]="pieChartLabels"
-            [chartType]="pieChartType">
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [colors]="pieChartColors"
+            [legend]="pieChartLegend"
+        >
         </canvas>
+    </div>
 </div>
