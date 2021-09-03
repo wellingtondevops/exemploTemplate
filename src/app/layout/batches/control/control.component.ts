@@ -136,6 +136,7 @@ export class ControlComponent implements OnInit {
     for (var i = 0; i < this.myFiles.length; i++) {
       this.progressInfos.push({ value: 0, fileName: this.myFiles[i].name, class: 'progress-bar progress-bar-info progress-bar-striped' });
       this.openModal();
+      formData.delete("files");
       formData.append("files", this.myFiles[i]);
       this.upload(formData, i)
       if(i === (this.myFiles.length - 1)){
