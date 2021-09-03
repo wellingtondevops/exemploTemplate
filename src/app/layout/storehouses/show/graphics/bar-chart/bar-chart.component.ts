@@ -1,72 +1,114 @@
+import { map, subscribeOn } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { SaveLocal } from 'src/app/storage/saveLocal';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { FormGroup } from '@angular/forms';
+import { ChartsData } from './../../../../../models/charts';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
+
 
 @Component({
-  selector: 'app-bar-chart',
-  templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.scss'],
+    selector: 'app-bar-chart',
+    templateUrl: './bar-chart.component.html',
+    styleUrls: ['./bar-chart.component.scss'],
 })
 export class BarChartComponent implements OnInit {
-  public barChartOptions: ChartOptions = {
+    id: string;
+    chartstreet: string;
+    bars: any = [];
+    Street: string;
+    x: string;
+    y: number;
+    loading: Boolean = true;
+    chartBarForm: FormGroup;
+    storeHouse: any;
+
+    //barchart: ChartsData = {
+        //items: []
+   // };
+
+
+
+    public barChartOptions: ChartOptions = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
     plugins: {
-      datalabels: {
-        anchor: 'end',
-        align: 'end',
-      }
+        datalabels: {
+            anchor: 'end',
+            align: 'end',
+        }
     }
-  };
-  public barChartLabels: Label[] = ['',];
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
+};
+    public barChartLabels: Label[] = [''];
+    public barChartType: ChartType = 'bar';
+    public barChartLegend = true;
 
 
-  public barChartData: ChartDataSets[] = [
-    { data: [65,], label: 'Rua A' },
-    { data: [2854,], label: 'Rua B' },
-    { data: [2458,], label: 'Rua C' },
-    { data: [5428,], label: 'Rua D' },
-    { data: [2218,], label: 'Rua E' },
-    { data: [328,], label: 'Rua F' },
-    { data: [2458,], label: 'Rua G' },
-    { data: [7284,], label: 'Rua H' },
-    { data: [2488,], label: 'Rua I' },
-    { data: [2298,], label: 'Rua J' },
-    { data: [7848,], label: 'Rua K' },
-    { data: [6284,], label: 'Rua L' },
-    { data: [6225,], label: 'Rua M' },
-    { data: [285,], label: 'Rua N' },
-    { data: [6228,], label: 'Rua O' },
-    { data: [2168,], label: 'Rua P' },
-    { data: [2162,], label: 'Rua Q' },
-];
 
-  constructor() { }
+    public barChartData: ChartDataSets[] = [
+        { data: [], label: '[y]' },
+    ];
 
-  ngOnInit(): void {
-  }
 
-  // events
-  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    constructor(
+        private _route: Router,
+        private storeHouseSrv: StorehousesService,
+        private errorMsg: ErrorMessagesService,
+        private route: ActivatedRoute,
+        private localStorageSrv: SaveLocal,
+    ) { }
+
+
+    ngOnInit(){
+        this.id = this.route.snapshot.paramMap.get('id');
+
+
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+
+    if (archive && archive.chartstreet) {
+        this.chartBarForm.patchValue({
+        x: archive.x,
+        y: archive.y,
+        Street: archive.Street,
+        });
+    }
+    this.getChartData(this.id, this.chartstreet);
+}
+
+    getChartData(id, chartstreet) {
+        this.storeHouseSrv.chartsData(id, chartstreet).subscribe(
+            res => {
+                const Street = res[''].map(res => res.Street);
+                const y = res[''].map(res => res.y);
+            },
+            data => {
+                this.bars = data;
+                },
+            //error => {
+                //this.errorMsg.errorMessages(error);
+                //console.log('ERROR: ', error);
+                //this.loading = false;
+            //}
+        );
+}
+
+
+public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
-  }
+}
 
-  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
-  }
+}
 
-  public randomize(): void {
-    // Only Change 3 values
-    this.barChartData[0].data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      (Math.random() * 100),
-      56,
-      (Math.random() * 100),
-      40 ];
-  }
+getBarCharts(chartstreet) {
+    this._route.navigate(['/chartstreet/get', chartstreet.chartstreet]);
+
+
+}
 }

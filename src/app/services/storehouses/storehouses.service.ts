@@ -1,7 +1,8 @@
+import { ChartsData, Charts, ChartsItems } from './../../models/charts';
 import { PositionList } from 'src/app/models/position';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Storehouse, StorehousesList, StorehousesSearchList } from '../../models/storehouse';
 
@@ -93,6 +94,12 @@ export class StorehousesService {
           tap(data => data)
         );
     }
-  }
-
+}
+    chartsData(id, chartstreet) {
+        return this.http.get<ChartsData>(`${url}/storehouses/${id}/chartstreet`, chartstreet)
+            .pipe(
+                map(res => res),
+                tap(data => data)
+            );
+    }
 }
