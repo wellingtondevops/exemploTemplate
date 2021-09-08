@@ -1,17 +1,17 @@
 
-import { SaveLocal } from "src/app/storage/saveLocal";
-import { ErrorMessagesService } from "src/app/utils/error-messages/error-messages.service";
-import { FormGroup } from "@angular/forms";
+import { SaveLocal } from 'src/app/storage/saveLocal';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { FormGroup } from '@angular/forms';
 
-import { Router, ActivatedRoute } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
-import { StorehousesService } from "src/app/services/storehouses/storehouses.service";
-import { Chart } from "chart.js";
+import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
+import { Chart } from 'chart.js';
 
 @Component({
-    selector: "app-bar-chart",
-    templateUrl: "./bar-chart.component.html",
-    styleUrls: ["./bar-chart.component.scss"],
+    selector: 'app-bar-chart',
+    templateUrl: './bar-chart.component.html',
+    styleUrls: ['./bar-chart.component.scss'],
 })
 export class BarChartComponent implements OnInit {
     id: string;
@@ -37,14 +37,14 @@ export class BarChartComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.id = this.route.snapshot.paramMap.get("id");
+        this.id = this.route.snapshot.paramMap.get('id');
         this.loading = false;
 
         function dynamicColors() {
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            return 'rgba(' + r + ',' + g + ',' + b + ', 0.5)';
         }
 
         this.storeHouseSrv
@@ -52,22 +52,22 @@ export class BarChartComponent implements OnInit {
             .toPromise()
             .then((res) => {
                 this.result = res;
-                //console.log(this.result);
+                // console.log(this.result);
 
                 this.street = this.result.data.map((data: any) => data.Street);
                 this.qtdY = this.result.data.map((data: any) => data.y);
-                //console.log(this.street, this.qtdY);
+                // console.log(this.street, this.qtdY);
 
-                //SHOW CHARDS
-                this.canvas = document.getElementById("myChart");
-                this.ctx = this.canvas.getContext("2d");
+                // SHOW CHARDS
+                this.canvas = document.getElementById('myChart');
+                this.ctx = this.canvas.getContext('2d');
                 let myChart = new Chart(this.ctx, {
-                    type: "bar",
+                    type: 'bar',
                     data: {
                         labels: this.street,
                         datasets: [
                             {
-                                label: "Quantidade",
+                                label: 'Quantidade',
                                 data: this.qtdY,
                                 backgroundColor: dynamicColors,
 
@@ -89,7 +89,7 @@ export class BarChartComponent implements OnInit {
                 });
             });
 
-        const archive = JSON.parse(this.localStorageSrv.get("archive"));
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
 
         if (archive && archive.chartstreet) {
             this.chartBarForm.patchValue({
@@ -110,16 +110,16 @@ export class BarChartComponent implements OnInit {
                         Street: this.storeHouse.Street,
                     });
             }
-            //error => {
-            //this.errorMsg.errorMessages(error);
-            //console.log('ERROR: ', error);
-            //this.loading = false;
-            //}
+            // error => {
+            // this.errorMsg.errorMessages(error);
+            // console.log('ERROR: ', error);
+            // this.loading = false;
+            // }
         );
     }
 
     getBarCharts(chartstreet) {
-        this._route.navigate(["/chartstreet/get", chartstreet.chartstreet]);
+        this._route.navigate(['/chartstreet/get', chartstreet.chartstreet]);
     }
 
 }
