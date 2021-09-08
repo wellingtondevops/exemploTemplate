@@ -1,114 +1,125 @@
-import { map, subscribeOn } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { SaveLocal } from 'src/app/storage/saveLocal';
-import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { FormGroup } from '@angular/forms';
-import { ChartsData } from './../../../../../models/charts';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Label } from 'ng2-charts';
-import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 
+import { SaveLocal } from "src/app/storage/saveLocal";
+import { ErrorMessagesService } from "src/app/utils/error-messages/error-messages.service";
+import { FormGroup } from "@angular/forms";
+
+import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { StorehousesService } from "src/app/services/storehouses/storehouses.service";
+import { Chart } from "chart.js";
 
 @Component({
-    selector: 'app-bar-chart',
-    templateUrl: './bar-chart.component.html',
-    styleUrls: ['./bar-chart.component.scss'],
+    selector: "app-bar-chart",
+    templateUrl: "./bar-chart.component.html",
+    styleUrls: ["./bar-chart.component.scss"],
 })
 export class BarChartComponent implements OnInit {
     id: string;
+    chart: any = [];
     chartstreet: string;
-    bars: any = [];
-    Street: string;
-    x: string;
-    y: number;
+    bars: any;
     loading: Boolean = true;
     chartBarForm: FormGroup;
     storeHouse: any;
+    result: any;
+    street: any;
+    qtdY: any;
 
-    //barchart: ChartsData = {
-        //items: []
-   // };
-
-
-
-    public barChartOptions: ChartOptions = {
-    responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
-    scales: { xAxes: [{}], yAxes: [{}] },
-    plugins: {
-        datalabels: {
-            anchor: 'end',
-            align: 'end',
-        }
-    }
-};
-    public barChartLabels: Label[] = [''];
-    public barChartType: ChartType = 'bar';
-    public barChartLegend = true;
-
-
-
-    public barChartData: ChartDataSets[] = [
-        { data: [], label: '[y]' },
-    ];
-
+    canvas: any;
+    ctx: any;
 
     constructor(
         private _route: Router,
         private storeHouseSrv: StorehousesService,
         private errorMsg: ErrorMessagesService,
         private route: ActivatedRoute,
-        private localStorageSrv: SaveLocal,
-    ) { }
+        private localStorageSrv: SaveLocal
+    ) {}
 
+    ngOnInit() {
+        this.id = this.route.snapshot.paramMap.get("id");
+        this.loading = false;
 
-    ngOnInit(){
-        this.id = this.route.snapshot.paramMap.get('id');
+        function dynamicColors() {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        }
 
+        this.storeHouseSrv
+            .chartsData(this.id, this.chartstreet)
+            .toPromise()
+            .then((res) => {
+                this.result = res;
+                //console.log(this.result);
 
-        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+                this.street = this.result.data.map((data: any) => data.Street);
+                this.qtdY = this.result.data.map((data: any) => data.y);
+                //console.log(this.street, this.qtdY);
 
-    if (archive && archive.chartstreet) {
-        this.chartBarForm.patchValue({
-        x: archive.x,
-        y: archive.y,
-        Street: archive.Street,
-        });
+                //SHOW CHARDS
+                this.canvas = document.getElementById("myChart");
+                this.ctx = this.canvas.getContext("2d");
+                let myChart = new Chart(this.ctx, {
+                    type: "bar",
+                    data: {
+                        labels: this.street,
+                        datasets: [
+                            {
+                                label: "Quantidade",
+                                data: this.qtdY,
+                                backgroundColor: dynamicColors,
+
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Ruas',
+                            position: 'bottom',
+                        },
+                    },
+                });
+            });
+
+        const archive = JSON.parse(this.localStorageSrv.get("archive"));
+
+        if (archive && archive.chartstreet) {
+            this.chartBarForm.patchValue({
+                x: archive.x,
+                y: archive.y,
+                Street: archive.Street,
+            });
+        }
     }
-    this.getChartData(this.id, this.chartstreet);
-}
 
     getChartData(id, chartstreet) {
         this.storeHouseSrv.chartsData(id, chartstreet).subscribe(
-            res => {
-                const Street = res[''].map(res => res.Street);
-                const y = res[''].map(res => res.y);
-            },
-            data => {
-                this.bars = data;
-                },
+            (data) => {
+                this.loading = false;
+                (this.bars = data),
+                    this.chartBarForm.patchValue({
+                        y: this.storeHouse.y,
+                        Street: this.storeHouse.Street,
+                    });
+            }
             //error => {
-                //this.errorMsg.errorMessages(error);
-                //console.log('ERROR: ', error);
-                //this.loading = false;
+            //this.errorMsg.errorMessages(error);
+            //console.log('ERROR: ', error);
+            //this.loading = false;
             //}
         );
-}
+    }
 
+    getBarCharts(chartstreet) {
+        this._route.navigate(["/chartstreet/get", chartstreet.chartstreet]);
+    }
 
-public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
-}
-
-public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
-}
-
-getBarCharts(chartstreet) {
-    this._route.navigate(['/chartstreet/get', chartstreet.chartstreet]);
-
-
-}
 }
