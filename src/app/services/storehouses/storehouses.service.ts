@@ -1,4 +1,5 @@
-import { ChartsData, Charts, ChartsItems } from './../../models/charts';
+import { ChartsPieData } from 'src/app/models/chartspie';
+import { ChartsData } from './../../models/charts';
 import { PositionList } from 'src/app/models/position';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -102,4 +103,12 @@ export class StorehousesService {
                 tap(data => data)
             );
     }
+    chartsPieData(id, chartcompany) {
+        return this.http.get<ChartsPieData>(`${url}/storehouses/${id}/chartcompany`, chartcompany)
+            .pipe(
+                map(res => res),
+                tap(data => data)
+                );
+        }
+
 }
