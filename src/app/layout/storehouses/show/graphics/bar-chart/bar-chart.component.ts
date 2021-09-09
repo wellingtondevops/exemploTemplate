@@ -23,6 +23,8 @@ export class BarChartComponent implements OnInit {
     storeHouse: any;
     result: any;
     street: any;
+    Street: any;
+    y: any;
     qtdY: any;
 
     canvas: any;
@@ -56,6 +58,8 @@ export class BarChartComponent implements OnInit {
 
                 this.street = this.result.data.map((data: any) => data.Street);
                 this.qtdY = this.result.data.map((data: any) => data.y);
+                this.y = this.result.totalPositions.map((totalPositions: any) => totalPositions.y);
+                this.Street = this.result.totalPositions.map((totalPositions: any) => totalPositions.Street);
                 // console.log(this.street, this.qtdY);
 
                 // SHOW CHARDS
@@ -64,21 +68,38 @@ export class BarChartComponent implements OnInit {
                 let myChart = new Chart(this.ctx, {
                     type: 'bar',
                     data: {
-                        labels: this.street,
+                        labels: this.Street,
                         datasets: [
                             {
                                 label: 'Quantidade',
                                 data: this.qtdY,
-                                backgroundColor: dynamicColors,
-
+                                backgroundColor: 'rgba(255,0,0,0.3)',
+                                borderColor: 'rgb(255,0,0)',
+                                borderWidth: 1
                             },
-                        ],
+                            {
+                            label: 'Quantidade',
+                                data: this.y,
+                                backgroundColor: 'rgba(0,255,0,0.3)',
+                                //borderColor: 'rgb(0,255,0)',
+                                //borderWidth: 1
+                            },
+                        ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         legend: {
                             display: false,
+                        },
+                        scales:{
+                            xAxes:[{
+                                stacked: true,
+
+                            }],
+                            yAxes:[{
+                                stacked: true,
+                            }]
                         },
                         title: {
                             display: true,

@@ -42,12 +42,15 @@ export class PieChartComponent implements OnInit {
         this.id = this.route.snapshot.paramMap.get('id');
         this.loading = false;
 
-        function dynamicColors() {
+
+    function dynamicColors() {
             const r = Math.floor(Math.random() * 255);
             const g = Math.floor(Math.random() * 255);
             const b = Math.floor(Math.random() * 255);
-            return 'rgba(' + r + ',' + g + ',' + b + ', 0.5)';
+            return 'rgba(' + r + ',' + g + ',' + b + ', 0.3)';
         }
+    function poolColors(a) { let pool = []; let i; for (i = 0; i < a ; i++) { pool.push(dynamicColors()); } return pool; }
+
 
         this.storeHouseSrv
         .chartsPieData(this.id, this.chartcompany)
@@ -72,9 +75,9 @@ export class PieChartComponent implements OnInit {
                     {
                         label: 'Quantidade',
                         data: this.positions,
-                        //backgroundColor: dynamicColors,
-                        backgroundColor: ['rgba(100,100,100,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
-                    },
+
+                        backgroundColor: poolColors(this.positions.length),
+                        },
                 ],
             },
             options: {
