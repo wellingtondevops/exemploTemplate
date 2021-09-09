@@ -26,7 +26,7 @@ export class BarChartComponent implements OnInit {
     Street: any;
     y: any;
     qtdY: any;
-
+    q: any = [];
     canvas: any;
     ctx: any;
 
@@ -41,28 +41,21 @@ export class BarChartComponent implements OnInit {
     ngOnInit() {
         this.id = this.route.snapshot.paramMap.get('id');
         this.loading = false;
-
-        function dynamicColors() {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            return 'rgba(' + r + ',' + g + ',' + b + ', 0.3)';
-        }
-
         this.storeHouseSrv
             .chartsData(this.id, this.chartstreet)
             .toPromise()
             .then((res) => {
                 this.result = res;
-                // console.log(this.result);
-
                 this.street = this.result.data.map((data: any) => data.Street);
                 this.qtdY = this.result.data.map((data: any) => data.y);
                 this.y = this.result.totalPositions.map((totalPositions: any) => totalPositions.y);
                 this.Street = this.result.totalPositions.map((totalPositions: any) => totalPositions.Street);
-                // console.log(this.street, this.qtdY);
 
                 // SHOW CHARDS
+                for (let i = 0; this.y.length > i && this.qtdY.length > i ; i++) {
+                    let a = this.y[i] - this.qtdY[i];
+                    this.q.push(a);
+                }
                 this.canvas = document.getElementById('myChart');
                 this.ctx = this.canvas.getContext('2d');
                 let myChart = new Chart(this.ctx, {
@@ -71,18 +64,16 @@ export class BarChartComponent implements OnInit {
                         labels: this.Street,
                         datasets: [
                             {
-                                label: 'Quantidade',
+                                label: 'Quantidade Ocupada',
                                 data: this.qtdY,
                                 backgroundColor: 'rgba(255,0,0,0.3)',
                                 borderColor: 'rgb(255,0,0)',
                                 borderWidth: 1
                             },
                             {
-                            label: 'Quantidade',
-                                data: this.y,
+                            label: 'Quantidade Total',
+                                data: this.q,
                                 backgroundColor: 'rgba(0,255,0,0.3)',
-                                //borderColor: 'rgb(0,255,0)',
-                                //borderWidth: 1
                             },
                         ]
                     },
@@ -92,12 +83,12 @@ export class BarChartComponent implements OnInit {
                         legend: {
                             display: false,
                         },
-                        scales:{
-                            xAxes:[{
+                        scales: {
+                            xAxes: [{
                                 stacked: true,
 
                             }],
-                            yAxes:[{
+                            yAxes: [{
                                 stacked: true,
                             }]
                         },
@@ -109,16 +100,6 @@ export class BarChartComponent implements OnInit {
                     },
                 });
             });
-
-        const archive = JSON.parse(this.localStorageSrv.get('archive'));
-
-        if (archive && archive.chartstreet) {
-            this.chartBarForm.patchValue({
-                x: archive.x,
-                y: archive.y,
-                Street: archive.Street,
-            });
-        }
     }
 
     getChartData(id, chartstreet) {
