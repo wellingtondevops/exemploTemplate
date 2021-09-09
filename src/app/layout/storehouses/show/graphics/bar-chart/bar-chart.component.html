@@ -1,3 +1,15 @@
 <div>
-    <canvas id="myChart" width="400" height="550"></canvas>
+    <ngx-loading
+        [show]="loading"
+        [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"
+    ></ngx-loading>
+    <div>
+        <canvas id="myChart" width="400" height="550"></canvas>
+    </div>
 </div>

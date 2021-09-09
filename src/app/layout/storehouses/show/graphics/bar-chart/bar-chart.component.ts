@@ -1,17 +1,16 @@
+import { SaveLocal } from "src/app/storage/saveLocal";
+import { ErrorMessagesService } from "src/app/utils/error-messages/error-messages.service";
+import { FormGroup } from "@angular/forms";
 
-import { SaveLocal } from 'src/app/storage/saveLocal';
-import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { FormGroup } from '@angular/forms';
-
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
-import { Chart } from 'chart.js';
+import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { StorehousesService } from "src/app/services/storehouses/storehouses.service";
+import { Chart } from "chart.js";
 
 @Component({
-    selector: 'app-bar-chart',
-    templateUrl: './bar-chart.component.html',
-    styleUrls: ['./bar-chart.component.scss'],
+    selector: "app-bar-chart",
+    templateUrl: "./bar-chart.component.html",
+    styleUrls: ["./bar-chart.component.scss"],
 })
 export class BarChartComponent implements OnInit {
     id: string;
@@ -31,16 +30,14 @@ export class BarChartComponent implements OnInit {
     ctx: any;
 
     constructor(
-        private _route: Router,
         private storeHouseSrv: StorehousesService,
         private errorMsg: ErrorMessagesService,
-        private route: ActivatedRoute,
-        private localStorageSrv: SaveLocal
+        private route: ActivatedRoute
     ) {}
 
     ngOnInit() {
-        this.id = this.route.snapshot.paramMap.get('id');
-        this.loading = false;
+        this.id = this.route.snapshot.paramMap.get("id");
+        this.loading = true;
         this.storeHouseSrv
             .chartsData(this.id, this.chartstreet)
             .toPromise()
@@ -48,34 +45,43 @@ export class BarChartComponent implements OnInit {
                 this.result = res;
                 this.street = this.result.data.map((data: any) => data.Street);
                 this.qtdY = this.result.data.map((data: any) => data.y);
-                this.y = this.result.totalPositions.map((totalPositions: any) => totalPositions.y);
-                this.Street = this.result.totalPositions.map((totalPositions: any) => totalPositions.Street);
+                this.y = this.result.totalPositions.map(
+                    (totalPositions: any) => totalPositions.y
+                );
+                this.Street = this.result.totalPositions.map(
+                    (totalPositions: any) => totalPositions.Street
+                );
 
                 // SHOW CHARDS
-                for (let i = 0; this.y.length > i && this.qtdY.length > i ; i++) {
+                for (
+                    let i = 0;
+                    this.y.length > i && this.qtdY.length > i;
+                    i++
+                ) {
                     let a = this.y[i] - this.qtdY[i];
                     this.q.push(a);
                 }
-                this.canvas = document.getElementById('myChart');
-                this.ctx = this.canvas.getContext('2d');
+                this.canvas = document.getElementById("myChart");
+                this.ctx = this.canvas.getContext("2d");
+                this.loading = false;
                 let myChart = new Chart(this.ctx, {
-                    type: 'bar',
+                    type: "bar",
                     data: {
                         labels: this.Street,
                         datasets: [
                             {
-                                label: 'Quantidade Ocupada',
+                                label: "Quantidade Ocupada",
                                 data: this.qtdY,
-                                backgroundColor: 'rgba(255,0,0,0.3)',
-                                borderColor: 'rgb(255,0,0)',
-                                borderWidth: 1
+                                backgroundColor: "rgba(255,0,0,0.3)",
+                                borderColor: "rgb(255,0,0)",
+                                borderWidth: 1,
                             },
                             {
-                            label: 'Quantidade Total',
+                                label: "Quantidade Total",
                                 data: this.q,
-                                backgroundColor: 'rgba(0,255,0,0.3)',
+                                backgroundColor: "rgba(0,255,0,0.3)",
                             },
-                        ]
+                        ],
                     },
                     options: {
                         responsive: true,
@@ -84,44 +90,28 @@ export class BarChartComponent implements OnInit {
                             display: false,
                         },
                         scales: {
-                            xAxes: [{
-                                stacked: true,
-
-                            }],
-                            yAxes: [{
-                                stacked: true,
-                            }]
+                            xAxes: [
+                                {
+                                    stacked: true,
+                                },
+                            ],
+                            yAxes: [
+                                {
+                                    stacked: true,
+                                },
+                            ],
                         },
                         title: {
                             display: true,
-                            text: 'Ruas',
-                            position: 'bottom',
+                            text: "Ruas",
+                            position: "bottom",
                         },
                     },
                 });
-            });
-    }
-
-    getChartData(id, chartstreet) {
-        this.storeHouseSrv.chartsData(id, chartstreet).subscribe(
-            (data) => {
+            }, (error) => {
+                console.log('ERROR: ', error);
                 this.loading = false;
-                (this.bars = data),
-                    this.chartBarForm.patchValue({
-                        y: this.storeHouse.y,
-                        Street: this.storeHouse.Street,
-                    });
-            }
-            // error => {
-            // this.errorMsg.errorMessages(error);
-            // console.log('ERROR: ', error);
-            // this.loading = false;
-            // }
-        );
+                }
+            );
     }
-
-    getBarCharts(chartstreet) {
-        this._route.navigate(['/chartstreet/get', chartstreet.chartstreet]);
-    }
-
 }
