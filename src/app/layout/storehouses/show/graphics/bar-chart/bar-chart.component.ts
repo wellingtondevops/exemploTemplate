@@ -1,16 +1,16 @@
-import { SaveLocal } from "src/app/storage/saveLocal";
-import { ErrorMessagesService } from "src/app/utils/error-messages/error-messages.service";
-import { FormGroup } from "@angular/forms";
+import { SaveLocal } from 'src/app/storage/saveLocal';
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { FormGroup } from '@angular/forms';
 
-import { Router, ActivatedRoute } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
-import { StorehousesService } from "src/app/services/storehouses/storehouses.service";
-import { Chart } from "chart.js";
+import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
+import { Chart } from 'chart.js';
 
 @Component({
-    selector: "app-bar-chart",
-    templateUrl: "./bar-chart.component.html",
-    styleUrls: ["./bar-chart.component.scss"],
+    selector: 'app-bar-chart',
+    templateUrl: './bar-chart.component.html',
+    styleUrls: ['./bar-chart.component.scss'],
 })
 export class BarChartComponent implements OnInit {
     id: string;
@@ -36,7 +36,7 @@ export class BarChartComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.id = this.route.snapshot.paramMap.get("id");
+        this.id = this.route.snapshot.paramMap.get('id');
         this.loading = true;
         this.storeHouseSrv
             .chartsData(this.id, this.chartstreet)
@@ -61,25 +61,25 @@ export class BarChartComponent implements OnInit {
                     let a = this.y[i] - this.qtdY[i];
                     this.q.push(a);
                 }
-                this.canvas = document.getElementById("myChart");
-                this.ctx = this.canvas.getContext("2d");
+                this.canvas = document.getElementById('myChart');
+                this.ctx = this.canvas.getContext('2d');
                 this.loading = false;
                 let myChart = new Chart(this.ctx, {
-                    type: "bar",
+                    type: 'bar',
                     data: {
                         labels: this.Street,
                         datasets: [
                             {
-                                label: "Quantidade Ocupada",
+                                label: 'Quantidade Ocupada',
                                 data: this.qtdY,
-                                backgroundColor: "rgba(255,0,0,0.3)",
-                                borderColor: "rgb(255,0,0)",
+                                backgroundColor: 'rgba(255,0,0,0.3)',
+                                borderColor: 'rgb(255,0,0)',
                                 borderWidth: 1,
                             },
                             {
-                                label: "Quantidade Total",
+                                label: 'Quantidade Total',
                                 data: this.q,
-                                backgroundColor: "rgba(0,255,0,0.3)",
+                                backgroundColor: 'rgba(0,255,0,0.3)',
                             },
                         ],
                     },
@@ -103,8 +103,8 @@ export class BarChartComponent implements OnInit {
                         },
                         title: {
                             display: true,
-                            text: "Ruas",
-                            position: "bottom",
+                            text: 'Ruas',
+                            position: 'bottom',
                         },
                     },
                 });
