@@ -34,12 +34,14 @@
                   <input id="name" autoFocus="true" type="text" class="form-control" formControlName="name"
                     style="width: 100%" />
                 </div>
-                <div class="form-group mb-2 col-4" style="padding-top: 3%;">
-                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                <div class="form-group mb-2" style="padding-top: 3%;">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                   <button type="button" style="margin-left: 5px;"[disabled]="company.invalid" class="btn btn-default" (click)="clear()" >
                     Limpar Campos
                   </button>
                 </div>
+              </div>
               </div>
               <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
