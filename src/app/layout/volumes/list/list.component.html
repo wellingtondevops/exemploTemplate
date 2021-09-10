@@ -18,7 +18,7 @@
           <div class="row col-12">
             <div class="form-group mb-2 col-3">
               <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)" type="text" class="form-control" formControlName="company"
+              <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)" type="text" placeholder="Nome da Empresa" class="form-control" formControlName="company"
                 [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                 [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
                 <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
@@ -29,17 +29,17 @@
             </div>
             <div class="form-group mb-2 col-3">
               <label for="typeahead-basic">Departamento</label>
-              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
+              <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome do Departamento" class="form-control"
                 formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                 [ngbTypeahead]="searchDepartament" style="width: 100%" />
             </div>
             <div class="form-group mb-2 col-3">
               <label for="location">Posição</label>
-              <input id="location" class="form-control col-12" formControlName="location" />
+              <input id="location" class="form-control col-12" placeholder="Nome da Posição" formControlName="location" />
             </div>
             <div class="form-group mb-2 col-3">
               <label for="typeahead-basic">Depósito</label>
-              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="storehouse"
+              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" placeholder="Nome do Depósito" formControlName="storehouse"
                 [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
                 style="width: 100%" />
             </div>
@@ -79,7 +79,7 @@
               <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                 <i class="fa fa-search"></i>
               </button>
-              <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
+              <button style="margin-left: 5px;" type="button" class="btn btn-default" [disabled]="company.invalid" (click)="clear()">
                Limpar Campos
               </button>
             </div>

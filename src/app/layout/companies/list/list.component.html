@@ -22,7 +22,7 @@
                         <div class="row col-12">
                         <div class="form-group mb-1 col-4">
                             <label for="labelName">Nome</label>
-                            <input id="name" autoFocus="true" type="text" class="form-control" formControlName="name"
+                            <input id="name" autoFocus="true" type="text" placeholder="Nome da Empresa" class="form-control" formControlName="name"
                               style="width: 100%" [ngClass]="{ 'is-invalid': !name.valid }" />
                               <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                                 <div *ngIf="!name.valid">
