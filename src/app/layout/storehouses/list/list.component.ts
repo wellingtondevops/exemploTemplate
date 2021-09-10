@@ -71,6 +71,9 @@ export class ListComponent implements OnInit {
     this.getStoreHouses();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
+  get name() {
+    return this.searchForm.get('name');
+  }
 
   getStoreHouse(storeHouse) {
     this._route.navigate(['/storehouses/get', storeHouse._id]);

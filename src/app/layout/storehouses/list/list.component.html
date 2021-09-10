@@ -14,31 +14,36 @@
         <div class="col col-xl-12 col-lg-12">
             <ngb-accordion #acc="ngbAccordion" activeIds="storehouses-0">
                 <ngb-panel id="storehouses-0">
-                  <ng-template ngbPanelTitle>
+                <ng-template ngbPanelTitle>
                     <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
+                </ng-template>
+                <ng-template ngbPanelContent>
                     <form [formGroup]="searchForm" (ngSubmit)="getStoreHouses()" role="FormGroup" class="form-inline">
                         <div class="row col-12">
-                            <div class="form-group mb-2 col-4">
-                                <label for="labelName">Nome</label>
-                                <input id="name" autoFocus="true" type="text" class="form-control" formControlName="name"
-                                style="width: 100%" />
+                            <div class="form-group mb-2 col-3">
+                                <label for="typeahead-basic">Nome</label>
+                                <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                                formControlName="name" style="width: 100%" placeholder="Nome do depósito" [ngClass]="{ 'is-invalid': !name.valid }" />
+                                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                                    <div *ngIf="!name.valid">
+                                        Nome é obrigatório.
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row col-12" style="justify-content: center; margin-top: 10px;">
                             <div class="form-group mb-2">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                <button type="button" class="btn btn-default" style="margin-left: 10px;" (click)="clear()">
+                                <button type="submit" class="btn btn-primary" [disabled]="name.invalid" ><i class="fa fa-search" ></i></button>
+                                <button type="button" class="btn btn-default" style="margin-left: 5px;" [disabled]="name.invalid" (click)="clear()">
                                     Limpar Campos
                                 </button>
                             </div>
                         </div>
                     </form>
-                  </ng-template>
+                </ng-template>
                 </ngb-panel>
-              </ngb-accordion>
+            </ngb-accordion>
             <br />
             <app-datatables
                 [data]="storehouses"

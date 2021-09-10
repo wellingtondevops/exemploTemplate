@@ -61,6 +61,10 @@ export class ListComponent implements OnInit {
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
   }
 
+  get name() {
+    return this.searchForm.get('name');
+  }
+
   getCompany(company) {
     this._route.navigate(['/companies/get', company._id]);
   }

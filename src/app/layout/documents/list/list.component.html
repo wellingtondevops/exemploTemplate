@@ -20,7 +20,7 @@
               <div class="row col-12">
                 <div class="form-group mb-2 col-3">
                   <label for="typeahead-basic">Empresa</label>
-                  <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                  <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da empresa" class="form-control typehead"
                     formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                     [ngbTypeahead]="searchCompany" style="width: 100%" [ngClass]="{ 'is-invalid': !company.valid }" />
                     <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
@@ -31,12 +31,12 @@
                 </div>
                 <div class="form-group mb-2 col-3">
                   <label for="labelName">Nome</label>
-                  <input id="name" autoFocus="true" type="text" class="form-control" formControlName="name"
+                  <input id="name" autoFocus="true" type="text" placeholder="Nome do documento" class="form-control" formControlName="name"
                     style="width: 100%" />
                 </div>
                 <div class="row col-12" style="justify-content: center; margin-top: 10px;">
                 <div class="form-group mb-2" style="padding-top: 3%;">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                  <button type="submit" [disabled]="company.invalid" class="btn btn-primary"><i class="fa fa-search"></i></button>
                   <button type="button" style="margin-left: 5px;"[disabled]="company.invalid" class="btn btn-default" (click)="clear()" >
                     Limpar Campos
                   </button>

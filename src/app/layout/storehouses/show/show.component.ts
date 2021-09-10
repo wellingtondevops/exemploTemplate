@@ -78,12 +78,19 @@ export class ShowComponent implements OnInit {
     ngOnInit() {
         this.storeHouseForm = this.fb.group({
             _id: '',
-            position: this.fb.control(null),
+            position: this.fb.control(null, [Validators.required]),
             name: this.fb.control({ value: '', disabled: true }, [
                 Validators.required,
             ]),
             mapStorehouse: this.fb.control({ value: '', disabled: true }),
         });
+        const positions = JSON.parse(this.localStorageSrv.get('positions'));
+        if (positions && positions.name) {
+            this.storeHouseForm.patchValue({
+                position: positions.position
+            });
+        }
+
         this.getPosicoes();
         this.permissionNew = JSON.parse(
             window.localStorage.getItem('actions')
@@ -200,6 +207,8 @@ export class ShowComponent implements OnInit {
     setPagePositions(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
+        this.localStorageSrv.save('positions', this.storeHouseForm.value);
+
         this.storeHouseSrv
         .searchPosition(this.storeHouseForm.value, this.page, this.id)
         .subscribe(

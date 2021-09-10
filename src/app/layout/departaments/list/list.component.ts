@@ -1,3 +1,4 @@
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
@@ -60,7 +61,8 @@ export class ListComponent implements OnInit {
     private successMsgSrv: SuccessMessagesService,
     private fb: FormBuilder,
     private companiesSrv: CompaniesService,
-    private utilCase: CaseInsensitive
+    private utilCase: CaseInsensitive,
+    private localStorageSrv: SaveLocal,
   ) { }
 
   ngOnInit() {
@@ -69,6 +71,13 @@ export class ListComponent implements OnInit {
       name: this.fb.control(null),
       company: this.fb.control(null, Validators.required)
     });
+    const document = JSON.parse(this.localStorageSrv.get('document'));
+    if (document && document.company) {
+      this.searchForm.patchValue({
+        company: document.company,
+        name: document.name
+      });
+    }
     this.getDepartaments();
     this.getCompanies();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
@@ -102,6 +111,9 @@ export class ListComponent implements OnInit {
   setPageDepartaments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    this.localStorageSrv.save('document', this.searchForm.value);
+
+
     this.returnId('company');
     this.departmentService.searchDepartament(this.searchForm.value, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
@@ -155,5 +167,12 @@ export class ListComponent implements OnInit {
 
       })
     )
+    clear() {
+        this.localStorageSrv.clear('document');
 
+        this.searchForm.patchValue({
+          company: null,
+          name: null
+        });
+      }
 }

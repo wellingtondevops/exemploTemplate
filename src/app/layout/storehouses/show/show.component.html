@@ -64,7 +64,6 @@
                     </ng-template>
                 </ngb-tab>
 
-
                     <ngb-tab title="Pesquisar Posições" id="tab2" [disabled]= "!storeHouse.mapStorehouse">
                         <ng-template ngbTabContent>
                             <br />
@@ -77,31 +76,50 @@
                                 <div class="form-group col-sm">
                                     <label for="position">Posição</label>
                                     <input id="position" autoFocus="true" type="text" class="form-control" formControlName="position"
-                                            style="width: 100%" />
+                                            style="width: 100%" placeholder="Nome do depósito" [ngClass]="{ 'is-invalid': !position.valid }" />
+                                            <div *ngIf="position.invalid && (position.dirty || position.touched!)" class="invalid-feedback">
+                                                <div *ngIf="!position.valid">
+                                                    Posição é obrigatório.
+                                                </div>
+                                            </div>
                                 </div>
+                                <div class="form-check col-sm mt-4" style="margin-left: 2%;">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Posição disponível
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Posição indisponível
+                                        </label>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="row" style="margin-left: 40%;">
 
                                     <div class="form-group col align-self-center">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-primary" [disabled]="position.invalid">
                                             <i class="fa fa-search"></i>
                                         </button>
-                                        <button type="button" class="btn btn-default" (click)="clear()">
+                                        <button type="button" class="btn btn-default" style="margin-left: 5px;" [disabled]="position.invalid" (click)="clear()">
                                             Limpar Campos
                                         </button>
                                     </div>
                                 </div>
-
                         </form>
 
-                        <div class="row">
+
                             <app-datatables
                                 [data]="positions"
                                 (setPage)="setPage($event)"
                                 [columns]="columns"
                                 (show)="getPosition($event)">
                             </app-datatables>
-                        </div>
+
                     </ng-template>
                 </ngb-tab>
 
