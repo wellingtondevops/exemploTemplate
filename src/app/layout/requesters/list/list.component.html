@@ -22,7 +22,7 @@
                     <div class="row col-12">
                       <div class="form-group mb-2 col-3">
                         <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                        <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"  class="form-control typehead"
                           formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                           [ngbTypeahead]="searchCompany" style="width: 100%" [ngClass]="{ 'is-invalid': !company.valid }" />
                           <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
@@ -33,17 +33,24 @@
                       </div>
                       <div class="form-group mb-2 col-4">
                           <label for="labelName">Nome</label>
-                          <input id="name" autoFocus="true" type="text" class="form-control" formControlName="name"
+                          <input id="name" autoFocus="true" type="text" placeholder="Nome do Solicitante"  class="form-control" formControlName="name"
                             style="width: 100%" />
                       </div>
-                      <div class="form-group mb-2 col-4" style="padding-top: 3%;">
-                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                      </div>
                     </div>
-                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                      <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                    </ng-template>
-                  </form>
+                    <div class="row" style="margin-left: 40%;">
+                        <div class="form-group col align-self-center">
+                            <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" [disabled]="company.invalid" style="margin-left: 5px;"(click)="clear()">
+                                Limpar Campos
+                            </button>
+                        </div>
+                    </div>
+                      <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                        </ng-template>
+                    </form>
                 </ng-template>
               </ngb-panel>
             </ngb-accordion>

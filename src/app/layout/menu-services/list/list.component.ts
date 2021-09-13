@@ -1,3 +1,4 @@
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Page } from 'src/app/models/page';
@@ -41,12 +42,19 @@ export class ListComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private pipes: Pipes,
     private fb: FormBuilder,
+    private localStorageSrv: SaveLocal,
   ) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
       descriptionService: this.fb.control('', [Validators.required]),
     });
+    const description = JSON.parse(this.localStorageSrv.get('description'));
+    if (description && description.descriptionService) {
+      this.searchForm.patchValue({
+        descriptionService: description.descriptionService
+      });
+    }
     this.getMenus();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
   }
@@ -66,6 +74,7 @@ export class ListComponent implements OnInit {
   setPageMenu(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
+    this.localStorageSrv.save('description', this.searchForm.value);
     if (this.descriptionService.valid) {
       this.menuSrv.searchServices(this.searchForm.value, this.page).subscribe(
         data => {
@@ -97,5 +106,12 @@ export class ListComponent implements OnInit {
         }
       );
     }
+  }
+  clear() {
+    this.localStorageSrv.clear('description');
+
+    this.searchForm.patchValue({
+        descriptionService: null
+    });
   }
 }

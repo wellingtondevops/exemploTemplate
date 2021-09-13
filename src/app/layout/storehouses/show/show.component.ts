@@ -258,7 +258,6 @@ export class ShowComponent implements OnInit {
         this.storeHouseForm.patchValue({
             position: null
         });
-
     }
 
 }

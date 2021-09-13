@@ -1,3 +1,4 @@
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { UsersService } from '../../../services/users/users.service';
@@ -54,6 +55,7 @@ export class ListComponent implements OnInit {
         private modalService: NgbModal,
         public modal: NgbActiveModal,
         private fb: FormBuilder,
+        private localStorageSrv: SaveLocal,
     ) {}
 
     ngOnInit() {
@@ -63,6 +65,12 @@ export class ListComponent implements OnInit {
             name: this.fb.control(null, Validators.required),
             email: this.fb.control(null),
         });
+        const user = JSON.parse(this.localStorageSrv.get('user'));
+        if (user && user.name) {
+            this.searchForm.patchValue({
+            name: user.name
+        });
+        }
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
     }
 
@@ -101,6 +109,7 @@ export class ListComponent implements OnInit {
     setPageUsers(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
+        this.localStorageSrv.save('user', this.searchForm.value);
         this.usersSrv.searchUsers(this.searchForm.value, this.page).subscribe(
             data => {
                 this.users = data;
@@ -134,5 +143,13 @@ export class ListComponent implements OnInit {
                 this.loading = false;
             }
         );
+    }
+    clear() {
+        this.localStorageSrv.clear('user');
+
+        this.searchForm.patchValue({
+            name: null,
+            email: null
+        });
     }
 }

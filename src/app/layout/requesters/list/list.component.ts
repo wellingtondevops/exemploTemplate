@@ -1,3 +1,5 @@
+import { Company } from 'src/app/models/company';
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -58,7 +60,9 @@ export class ListComponent implements OnInit {
     public modal: NgbActiveModal,
     private fb: FormBuilder,
     private companiesSrv: CompaniesService,
-    private utilCase: CaseInsensitive
+    private utilCase: CaseInsensitive,
+    private localStorageSrv: SaveLocal,
+
   ) { }
 
   ngOnInit() {
@@ -67,6 +71,13 @@ export class ListComponent implements OnInit {
       name: this.fb.control(null),
       company: this.fb.control(null, [Validators.required])
     });
+    const requester = JSON.parse(this.localStorageSrv.get('requester'));
+    if (requester && requester.company) {
+      this.searchForm.patchValue({
+        company: requester.company,
+        name: requester.name,
+      });
+    }
     this.getCompanies();
     this.getRequesters();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
@@ -82,6 +93,7 @@ export class ListComponent implements OnInit {
   setPageRequesters(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    this.localStorageSrv.save('requester', this.searchForm.value);
 
     this.requestersSrv.searchRequesters(this.searchForm.value, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
@@ -124,5 +136,14 @@ export class ListComponent implements OnInit {
 
       })
     )
+
+    clear() {
+        this.localStorageSrv.clear('requester');
+
+        this.searchForm.patchValue({
+            name: null,
+            company: null
+        });
+    }
 
 }
