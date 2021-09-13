@@ -33,6 +33,7 @@ export class ShowComponent implements OnInit {
     changeUp = false;
     situacao: string;
     loading: Boolean = true;
+    used: Boolean = false;
     permissionEdit = false;
     permissionDelete = false;
     positions: PositionList = {
@@ -82,6 +83,7 @@ export class ShowComponent implements OnInit {
             name: this.fb.control({ value: '', disabled: true }, [
                 Validators.required,
             ]),
+            used: this.fb.control({ value: '',}),
             mapStorehouse: this.fb.control({ value: '', disabled: true }),
         });
         const positions = JSON.parse(this.localStorageSrv.get('positions'));
@@ -198,6 +200,9 @@ export class ShowComponent implements OnInit {
 
     getPosition(position) {
         this._route.navigate(['/position/get', position.position]);
+    }
+    getUsed(used) {
+        this._route.navigate(['/position/get', used.used]);
     }
 
     getPosicoes() {
