@@ -36,3 +36,45 @@ $topnav-background-color: #222;
         }
     }
 }
+
+.media-heading{
+        font-size: 24px;
+        margin-bottom: 0px;
+    }
+.media-left{
+    padding-top: 6%;
+    margin-right: 2%;
+}
+
+.dropdown-item{
+    margin-bottom: 10px;
+
+}
+.dropdown-item:hover{
+    background-color:#999 ;
+}
+.dropdown-menu-right::-webkit-scrollbar{
+    display: none;
+
+}
+
+.time{
+    font-size: 10px;
+}
+  .badgeAlert {
+      display: inline-block;
+      min-width: 10px;
+      padding: 3px 7px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      vertical-align: baseline;
+      white-space: nowrap;
+      text-align: center;
+      background-color: #d9534f;
+      border-radius: 10px;
+      position: absolute;
+      margin-top: -10px;
+      margin-left: -10px
+  }

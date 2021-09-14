@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
     email: String = '';
+    data: number = Date.now();
 
     constructor(private translate: TranslateService, public router: Router) {
         this.router.events.subscribe(val => {
@@ -52,4 +53,8 @@ export class HeaderComponent implements OnInit {
     changeLang(language: string) {
         this.translate.use(language);
     }
+
 }
+
+
+
