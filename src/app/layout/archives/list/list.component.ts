@@ -27,11 +27,11 @@ import * as moment from 'moment';
   animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-  @ViewChild('myTable') table: any;
-  @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-  @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
-  @ViewChild('instanceStorehouse') instanceStorehouse: NgbTypeahead;
-  @ViewChild('searchTypeahead')
+  @ViewChild('myTable', { static: true }) table: any;
+  @ViewChild('instanceDepartament', { static: false }) instanceDepartament: NgbTypeahead;
+  @ViewChild('instanceDocument', { static: false }) instanceDocument: NgbTypeahead;
+  @ViewChild('instanceStorehouse', { static: false }) instanceStorehouse: NgbTypeahead;
+  @ViewChild('searchTypeahead', { static: false })
   private readonly typeahead: NgbTypeahead;
   archives: Archive[];
   archivesCol: any[];

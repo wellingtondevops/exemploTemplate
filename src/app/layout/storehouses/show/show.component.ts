@@ -13,7 +13,7 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PositionList } from 'src/app/models/position';
 import { NgIf } from '@angular/common';
-import { FLAGS } from '@angular/core/src/render3/interfaces/view';
+
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent,

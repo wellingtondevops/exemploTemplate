@@ -44,7 +44,7 @@ export class ShowComponent implements OnInit {
   isUsers = false;
   startCurrentDate = false;
   inputStartCurrentDate = '';
-  @ViewChild('content') content: TemplateRef<any>;
+  @ViewChild('content', { static: false }) content: TemplateRef<any>;
 
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),

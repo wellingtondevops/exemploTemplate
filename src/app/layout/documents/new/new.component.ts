@@ -22,7 +22,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
   animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
-  @ViewChild('tab') private tab: NgbTabset;
+  @ViewChild('tab', { static: true }) private tab: NgbTabset;
   loading: Boolean = false;
   documentForm: FormGroup;
   doctStructForm: FormGroup;

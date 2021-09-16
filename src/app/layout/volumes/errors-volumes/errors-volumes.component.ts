@@ -16,7 +16,7 @@ const url = environment.apiUrl;
   animations: [routerTransition()]
 })
 export class ErrorsVolumesComponent implements OnInit {
-  @ViewChild('myTable') table: any;
+  @ViewChild('myTable', { static: true }) table: any;
   searchForm: FormGroup;
   page = new Page();
   loading: Boolean = false;
