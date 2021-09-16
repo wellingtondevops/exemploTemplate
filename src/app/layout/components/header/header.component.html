@@ -36,6 +36,7 @@
                             Notificações
                         </h6>
                         <hr style="margin: 0;"/>
+                        <div *ngFor="let notify of notifys | async">
                         <li class="dropdown-item">
                             <div class="media">
                                 <div class="media-left">
@@ -44,12 +45,12 @@
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading">Importação de Arquivos</h4>
+                                    <h4 class="media-heading">{{notify.title}}</h4>
                                     <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        {{data | date:'dd/MM/yyyy HH:mm:ss'}}
+                                        {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
                                     </a>
                                     <p>
-                                        Foram importados 9 Arquivos com Suscesso!"
+                                        {{notify.msg}}
                                     </p>
                                 </div>
                                 <div class="button-group" style="align-items: flex-end;">
@@ -68,42 +69,7 @@
                                 </div>
                             </div>
                         </li>
-
-                        <hr/>
-                        <li class="dropdown-item">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="">
-                                        <i class="fa fa-window-close-o fa-2x" aria-hidden="true" style="color:#343A40;"></i>
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading">Importação de Arquivos</h4>
-                                    <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        {{data | date:'dd/MM/yyyy HH:mm:ss'}}
-                                    </a>
-                                    <p>
-                                        Não foi possivel importar 9 Arquivos!
-                                    </p>
-                                </div>
-                                <div class="button-group" style="align-items: flex-end;">
-                                    <button class="btn btn-secundary">
-                                        <i
-                                        class="fa fa-eye-slash"
-                                        aria-hidden="true"
-                                        ></i>
-                                    </button>
-                                    <button class="btn btn-secundary" style="margin-left: 5px;">
-                                        <i
-                                        class="fa fa-trash-o"
-                                        aria-hidden="true"
-                                        ></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <div class="dropdown-divider"></div>
-                        <h6 class="dropdown-footer" style="text-align: center;"href="#">Ver todas</h6>
+                        </div>
                     </div>
                 </div>
             </li>

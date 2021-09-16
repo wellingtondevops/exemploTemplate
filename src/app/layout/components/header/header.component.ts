@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { Notify } from './../../../models/notify';
+import { NotifyService } from './../../../services/notify/notify.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,8 +14,13 @@ export class HeaderComponent implements OnInit {
     public pushRightClass: string;
     email: String = '';
     data: number = Date.now();
+    notify: Notify;
+    key: string = '';
+    notifys: Observable<any>;
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(
+        private translate: TranslateService, public router: Router,
+        private notifyService: NotifyService ) {
         this.router.events.subscribe(val => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
                 this.toggleSidebar();
@@ -22,7 +30,11 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
-        this.email = window.localStorage.getItem('email');
+        this.email = window.localStorage.getItem('email'); //
+        //this.id = window.localStorage.getItem('id');
+        this.notify = new Notify();
+        this.notifys = this.notifyService.getAll();
+        console.log(this.notifys);
     }
 
     isToggled(): boolean {
@@ -54,6 +66,20 @@ export class HeaderComponent implements OnInit {
         this.translate.use(language);
     }
 
+    onSubmit() {
+        if (this.key) {
+
+        }
+
+    }
+
+    delete(key: string) {
+
+    }
+
+    edit(notify: Notify, key: string){
+
+    }
 }
 
 
