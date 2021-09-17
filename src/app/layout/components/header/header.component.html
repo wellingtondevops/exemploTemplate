@@ -60,12 +60,14 @@
                                         aria-hidden="true"
                                         ></i>
                                     </button>
-                                    <button class="btn btn-secundary" style="margin-left: 5px;">
-                                        <i
-                                        class="fa fa-trash-o"
-                                        aria-hidden="true"
-                                        ></i>
-                                    </button>
+                                    <div class="delete-button">
+                                        <button class="btn btn-secundary" (click)="delete(notify.key)" style="margin-left: 5px;">
+                                            <i
+                                            class="fa fa-trash-o"
+                                            aria-hidden="true"
+                                            ></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </li>

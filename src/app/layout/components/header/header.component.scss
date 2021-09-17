@@ -54,7 +54,15 @@ $topnav-background-color: #222;
 }
 .dropdown-item:hover {
     background-color: #999;
+    .delete-button{
+        display:inline;
+    }
 }
+.delete-button{
+    display: none;
+}
+
+
 .dropdown-menu-right {
     hr {
         margin: 0%;

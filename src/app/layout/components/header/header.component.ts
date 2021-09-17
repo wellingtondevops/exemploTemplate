@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit {
     }
 
     delete(key: string) {
-
+        this.notifyService.delete(key);
     }
 
     edit(notify: Notify, key: string){
