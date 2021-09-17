@@ -13,9 +13,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
     email: String = '';
+    userId: String = '';
     data: number = Date.now();
     notify: Notify;
-    key: string = '';
+    key = '';
     notifys: Observable<any>;
 
     constructor(
@@ -31,9 +32,10 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.pushRightClass = 'push-right';
         this.email = window.localStorage.getItem('email'); //
-        //this.id = window.localStorage.getItem('id');
+        this.userId = window.localStorage.getItem('id'); //
+        // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();
-        this.notifys = this.notifyService.getAll();
+        this.notifys = this.notifyService.getAll(this.userId);
         console.log(this.notifys);
     }
 
@@ -77,10 +79,8 @@ export class HeaderComponent implements OnInit {
         this.notifyService.delete(key);
     }
 
-    edit(notify: Notify, key: string){
+    edit(notify: Notify, active: boolean) {
+
 
     }
 }
-
-
-
