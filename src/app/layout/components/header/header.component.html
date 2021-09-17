@@ -20,10 +20,12 @@
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
-                >
+                    >
+
                     <i class="fa fa-bell"></i> <b class="caret"></b>
-                    <span class="badgeAlert">+2</span>
+                    <span class="badgeAlert"> {{(notifys| async).length }}</span>
                     <span class="caret"></span>
+
                 </a>
 
                 <div class="list-notificacao dropdown-menu">
@@ -37,10 +39,11 @@
                         </h6>
                         <hr style="margin: 0;"/>
                         <div *ngFor="let notify of notifys | async">
+                            <hr/>
                         <li class="dropdown-item">
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="">
+                                    <a>
                                         <i class="fa fa-check-square-o fa-2x" aria-hidden="true" style="color: #343A40;"></i>
                                     </a>
                                 </div>
