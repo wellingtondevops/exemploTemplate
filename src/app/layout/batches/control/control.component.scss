@@ -1,17 +1,17 @@
 body {
     background: #fff;
-  }
-  
-  .block {
+}
+
+.block {
     float: left;
     width: 100%;
-  }
-  
-  .btn {
-      width: 150px;
-  }
-  
-  .cus-modal {
+}
+
+.btn {
+    width: 150px;
+}
+
+.cus-modal {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
@@ -23,21 +23,21 @@ body {
     -webkit-overflow-scrolling: touch;
     outline: 0;
     opacity: 0;
-    -webkit-transition: opacity .15s linear;
-    -o-transition: opacity .15s linear;
-    transition: opacity .15s linear;
-    background: rgba(255, 0, 0, 0)
-  }
-  
-  .cus-modal.in {
+    -webkit-transition: opacity 0.15s linear;
+    -o-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
+    background: rgba(255, 0, 0, 0);
+}
+
+.cus-modal.in {
     opacity: 1;
     z-index: 1;
-  }
-  
-  .cus-modal-dialog {
-    -webkit-transition: -webkit-transform .3s ease-out;
-    -o-transition: -o-transform .3s ease-out;
-    transition: transform .3s ease-out;
+}
+
+.cus-modal-dialog {
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
     -webkit-transform: translate(0, -25%);
     -ms-transform: translate(0, -25%);
     -o-transform: translate(0, -25%);
@@ -50,67 +50,66 @@ body {
     bottom: 0;
     right: 0;
     margin: 0 auto;
-  }
-  
-  .cus-modal.in .cus-modal-dialog {
+}
+
+.cus-modal.in .cus-modal-dialog {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     -o-transform: translate(0, 0);
     transform: translate(0, 0);
-  }
-  
-  
-  .cus-modal.left-top .cus-modal-dialog {
+}
+
+.cus-modal.left-top .cus-modal-dialog {
     left: 20px;
     right: auto;
     bottom: auto;
-  }
-  
-  .cus-modal.left-bottom .cus-modal-dialog {
+}
+
+.cus-modal.left-bottom .cus-modal-dialog {
     left: 20px;
     right: auto;
     top: auto;
-  }
-  
-  .cus-modal.right-top .cus-modal-dialog {
+}
+
+.cus-modal.right-top .cus-modal-dialog {
     left: auto;
     right: 20px;
     bottom: auto;
-  }
-  
-  .cus-modal.right-bottom .cus-modal-dialog {
+}
+
+.cus-modal.right-bottom .cus-modal-dialog {
     left: auto;
     right: 20px;
     bottom: auto;
-  }
-  
-  .cus-modal.center-bottom .cus-modal-dialog {
+}
+
+.cus-modal.center-bottom .cus-modal-dialog {
     left: 0;
     right: 0;
     top: auto;
-  }
-  
-  .cus-modal.center-center .cus-modal-dialog {
+}
+
+.cus-modal.center-center .cus-modal-dialog {
     display: table;
     height: 100%;
     text-align: center;
-  }
-  
-  .cus-modal.center-center .cus-modal-dialog .cus-modal-content {
+}
+
+.cus-modal.center-center .cus-modal-dialog .cus-modal-content {
     display: table-cell;
     vertical-align: middle;
-  }
-  
-  .cus-modal-content .cus-modal-body {
+}
+
+.cus-modal-content .cus-modal-body {
     padding: 20px;
     width: 100%;
     margin: 20px auto;
     background: #fff;
     border-radius: 5px;
     box-shadow: 0px 5px 13px 0px rgba(0, 0, 0, 0.4);
-  }
-  
-  .cus-close {
+}
+
+.cus-close {
     float: right;
     font-size: 21px;
     font-weight: 700;
@@ -118,18 +117,42 @@ body {
     color: #000;
     text-shadow: 0 1px 0 #fff;
     filter: alpha(opacity=20);
-    opacity: .2;
-  }
-  
-  .cus-close:focus,
-  .cus-close:hover {
+    opacity: 0.2;
+}
+
+.cus-close:focus,
+.cus-close:hover {
     color: #000;
     text-decoration: none;
     cursor: pointer;
     filter: alpha(opacity=50);
-    opacity: .5;
-  }
-  
-  .cus-modal-open {
+    opacity: 0.5;
+}
+
+.cus-modal-open {
     overflow: hidden;
-  }
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+}
+
+.gallery div {
+    flex-grow: 1;
+    flex-basis: 125px;
+    max-width: 300px;
+    margin: 5px;
+}
+
+.gallery img {
+    height: 100%;
+    width: 100%;
+}
+
+.gallery iframe {
+    height: 100%;
+    width: 100%;
+}

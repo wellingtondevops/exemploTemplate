@@ -90,19 +90,22 @@
                 </form>
             </div>
         </div>
-        <div class="col-xl-8 col-lg-8">
+        <div class="col-xl-8 col-lg-8 gallery">
 
-            <span *ngFor="let image of batchImages">
-                <span style="margin:5px" *ngIf="pipes.isPdf(image.url)">
-                    <iframe [src]="sanitizeUrl(image.url)"
-                        style="width: 150px;height: 195px;border: none !important;"></iframe>
-                </span>
-                <span style="margin:5px">
-                    <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
-                        class="img-thumbnail rounded" (click)="selectedImg($event)" [alt]="image.name"
-                        style="width: 150px !important;height: 195px!important;vertical-align: 0;">
-                </span>
-            </span>
+
+            <div style="margin:15px;max-width: 150px;height: 195px;" *ngFor="let image of batchImages">
+                <iframe *ngIf="pipes.isPdf(image.url)" [src]="sanitizeUrl(image.url)"
+                    style="border: none !important;"></iframe>
+
+
+                <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
+                    class="img-thumbnail rounded" (click)="selectedImg($event)" [alt]="image.name"
+                    style="vertical-align: 0;">
+               <p style="font-size: 10px;">{{ image.name }}</p>
+            </div>
+
+
+
 
             <ngb-pagination (pageChange)="getBatchImages($event)" [maxSize]="5" [(page)]="page.pageNumber"
                 [pageSize]="50" [collectionSize]="page.totalElements"></ngb-pagination>
