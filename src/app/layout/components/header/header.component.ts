@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
     userId: String = '';
     data: number = Date.now();
     notify: Notify;
+    active: Boolean = false;
     key = '';
     notifys: Observable<any>;
 
@@ -37,6 +38,10 @@ export class HeaderComponent implements OnInit {
         this.notify = new Notify();
         this.notifys = this.notifyService.getAll(this.userId);
         console.log(this.notifys);
+        //UPDATE
+        this.notifyService.currentNotify.subscribe(data => {
+            this.notify.active = data.notify.active;
+        });
     }
 
     isToggled(): boolean {
@@ -70,17 +75,18 @@ export class HeaderComponent implements OnInit {
 
     onSubmit() {
         if (this.key) {
-
+            this.notifyService.update(this.notify, this.key);
         }
-
     }
 
     delete(key: string) {
         this.notifyService.delete(key);
     }
 
-    edit(notify: Notify, active: boolean) {
-
-
+    edit(notify: Notify, key: string) {
+        this.notifyService.update(notify, key);
+    }
+    onClick() {
+        this.notify.active = !this.notify.active;
     }
 }
