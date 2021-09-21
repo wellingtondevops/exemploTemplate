@@ -25,46 +25,38 @@
                     <i class="fa fa-bell"></i> <b class="caret"></b>
                     <span class="badgeAlert"> <!--{{(notifys| async).length}}--> 2 </span>
                     <span class="caret"></span>
-
                 </a>
 
-                <div class="list-notificacao dropdown-menu">
-                    <div
-                        class="dropdown-menu-right"
-                        ngbDropdownMenu
-                        style="width: 400px"
-                    >
+                    <div class="dropdown-menu-right" ngbDropdownMenu>
                         <h6 class="dropdown-header" style="text-align: center">
                             Notificações
                         </h6>
                         <hr style="margin: 0;"/>
                         <div *ngFor="let notify of notifys | async">
                             <hr/>
-                        <li class="dropdown-item">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a>
-                                        <i class="fa fa-check-square-o fa-2x" aria-hidden="true" style="color: #343A40;"></i>
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading">{{notify.title}}</h4>
-                                    <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
-                                    </a>
-                                    <p>
-                                        {{notify.msg}}
-                                    </p>
-                                </div>
-                                <div class="button-group" style="align-items: flex-end;">
-                                    <button class="btn btn-secundary" (click)="onSubmit(notify.key)" *ngIf="notify.active">
-                                        <i
-                                        class="fa fa-eye"
-                                        aria-hidden="true"
-                                        ></i>
-                                    </button>
-                                    <div class="delete-button">
-                                        <button class="btn btn-secundary" (click)="delete(notify.key)" style="margin-left: 5px;">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a>
+                                            <i class={{notify.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{notify.title}}</h4>
+                                        <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
+                                        </a>
+                                        <p>
+                                            {{notify.msg}}
+                                        </p>
+                                    </div>
+                                    <div class="button-group" style="align-items: flex-end;">
+                                        <button class="btn btn-secundary" type="button" (click)="onSubmit(notify.key)" *ngIf="notify.active">
+                                            <i
+                                            class="fa fa-eye"
+                                            aria-hidden="true"
+                                            ></i>
+                                        </button>
+                                        <button class="btn-del btn btn-secundary" type="button" (click)="delete(notify.key)" style="margin-left: 5px;">
                                             <i
                                             class="fa fa-trash-o"
                                             aria-hidden="true"
@@ -72,11 +64,9 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
                         </div>
                     </div>
-                </div>
+
             </li>
 
             <!-- MENU LOGOUT -->

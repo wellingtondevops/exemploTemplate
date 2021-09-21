@@ -44,26 +44,32 @@ $topnav-background-color: #222;
     margin-bottom: 0px;
 }
 .media-left {
-    padding-top: 6%;
+    padding-top: 5%;
     margin-right: 2%;
 }
+.media-body{
+    padding-top: 2%;
+}
 
-.dropdown-item {
+.media {
     margin-bottom: 10px;
     padding: 5px;
+    width: 450px;
 }
-.dropdown-item:hover {
+.media:hover {
     animation: 1ms;
     background-color: #999;
-    .delete-button{
+    .btn-del{
         display:inline;
     }
 }
-.delete-button{
+.button-group{
+    margin-right: 5px
+    ;
+}
+.btn-del{
     display: none;
 }
-
-
 .dropdown-menu-right {
     hr {
         margin: 0%;
@@ -72,16 +78,11 @@ $topnav-background-color: #222;
 .dropdown-menu-right::-webkit-scrollbar {
     display: none;
 }
-
 .time {
     font-size: 10px;
 }
 .media-body {
     font-size: 12px;
-}
-.dropdown-footer{
-    padding: 0px;
-    margin: 0px;
 }
 .badgeAlert {
     display: inline-block;
