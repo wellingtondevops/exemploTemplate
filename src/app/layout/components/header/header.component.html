@@ -57,7 +57,7 @@
                                     </p>
                                 </div>
                                 <div class="button-group" style="align-items: flex-end;">
-                                    <button class="btn btn-secundary" (click)="edit(notify, notify.key)" onclick="upActive">
+                                    <button class="btn btn-secundary" (click)="onSubmit(notify.key)" *ngIf="notify.active">
                                         <i
                                         class="fa fa-eye"
                                         aria-hidden="true"

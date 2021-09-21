@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
     userId: String = '';
     data: number = Date.now();
     notify: Notify;
-    active: Boolean = false;
+    active: boolean;
     key = '';
     notifys: Observable<any>;
 
@@ -40,7 +40,12 @@ export class HeaderComponent implements OnInit {
         console.log(this.notifys);
         //UPDATE
         this.notifyService.currentNotify.subscribe(data => {
-            this.notify.active = data.notify.active;
+            if (data.notify && data.key) {
+                this.notify = new Notify();
+                this.notify.active = data.notify.active;
+                this.key = data.key;
+
+            }
         });
     }
 
@@ -73,20 +78,12 @@ export class HeaderComponent implements OnInit {
         this.translate.use(language);
     }
 
-    onSubmit() {
-        if (this.key) {
-            this.notifyService.update(this.notify, this.key);
-        }
+    onSubmit(key: string) {
+        this.notifyService.update(key);
     }
 
     delete(key: string) {
         this.notifyService.delete(key);
     }
 
-    edit(notify: Notify, key: string) {
-        this.notifyService.update(notify, key);
-    }
-    onClick() {
-        this.notify.active = !this.notify.active;
-    }
 }

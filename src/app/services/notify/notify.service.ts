@@ -4,6 +4,8 @@ import { Notify } from 'src/app/models/notify';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { equal } from 'assert';
+import * as firebase from 'firebase';
+
 
 
 @Injectable({
@@ -20,12 +22,9 @@ export class NotifyService {
       this.notifySource.next({ notify: notify, key: key });
   }
 
-  update(notify: Notify, key: string) {
-    this.db.list('notifications').update(key, notify)
-    .catch((error: any) => {
-        console.error(error);
-    });
-  }
+  update(key: string) {
+    this.db.object(`notifications/${key}`).update({'active': false});
+}
 
   getAll(userid) {
     function msgUser (value) {
