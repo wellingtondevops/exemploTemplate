@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit {
     active: boolean;
     key = '';
     notifys: Observable<any>;
+    notifyRef: any;
+    sizeArr: Observable<any>;
 
     constructor(
         private translate: TranslateService, public router: Router,
@@ -37,14 +39,13 @@ export class HeaderComponent implements OnInit {
         // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();
         this.notifys = this.notifyService.getAll(this.userId);
-        console.log(this.notifys);
+        this.sizeArr = this.notifyService.getlength(this.userId);
         //UPDATE
         this.notifyService.currentNotify.subscribe(data => {
             if (data.notify && data.key) {
                 this.notify = new Notify();
                 this.notify.active = data.notify.active;
                 this.key = data.key;
-
             }
         });
     }
@@ -85,5 +86,4 @@ export class HeaderComponent implements OnInit {
     delete(key: string) {
         this.notifyService.delete(key);
     }
-
 }

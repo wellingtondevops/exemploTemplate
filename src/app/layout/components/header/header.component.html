@@ -22,9 +22,12 @@
                     aria-expanded="false"
                     >
 
-                    <i class="fa fa-bell"></i> <b class="caret"></b>
-                    <span class="badgeAlert"> <!--{{(notifys| async).length}}--> 2 </span>
-                    <span class="caret"></span>
+                    <div *ngIf="(sizeArr | async) > 0">
+                        <span class="badgeAlert" > {{(sizeArr | async)}} </span>
+                        <span class="caret"></span>
+                    </div>
+                    <i class="fa fa-bell" ></i> <b class="caret"></b>
+
                 </a>
 
                     <div class="dropdown-menu-right" ngbDropdownMenu>
