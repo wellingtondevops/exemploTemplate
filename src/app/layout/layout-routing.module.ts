@@ -21,6 +21,7 @@ const routes: Routes = [
             { path: 'storehouses', loadChildren: './storehouses/storehouses.module#StorehousesModule' },
             { path: 'file', loadChildren: './register-file/register-file.module#RegisterFileModule' },
             { path: 'archives', loadChildren: './archives/archives.module#ArchivesModule' },
+            { path: 'index', loadChildren: './index/index.module#IndexModule' },
             { path: 'volumes', loadChildren: './volumes/volumes.module#VolumesModule' },
             { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
             { path: 'batches', loadChildren: './batches/batches.module#BatchesModule' },

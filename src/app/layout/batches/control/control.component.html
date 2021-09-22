@@ -33,7 +33,7 @@
                             class="btn btn-xs btn-danger" (click)="deleteBatch()">Excluir Lote</button>
                         <button type="button" [disabled]="batchImages && batchImages.length <= 0"
                             class="btn btn-xs btn-warning">Excluir Imagem</button>
-                        <button type="button" [disabled]="batchImages && batchImages.length <= 0"
+                        <button (click)="toIndex()" type="button" [disabled]="batchImages && batchImages.length <= 0"
                             class="btn btn-xs btn-success">Indexar Lote</button>
                     </div>
                     <!-- <div class="col-lg-6 col-sm-12 col-xs-12">

@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Batch } from 'src/app/models/batch';
 import { Page } from 'src/app/models/page';
@@ -40,6 +40,7 @@ export class ControlComponent implements OnInit {
   });
 
   constructor(
+    private _route: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
@@ -171,6 +172,10 @@ export class ControlComponent implements OnInit {
       this.loading = false;
       this.errorMsg.errorMessages(error);
     })
+  }
+
+  toIndex(){
+      this._route.navigate(['/index', this.id])
   }
 
 }

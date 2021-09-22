@@ -1,0 +1,90 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+              backdropBorderRadius: '3px',
+              fullScreenBackdrop: true,
+              primaryColour: '#222',
+              secondaryColour: '#222',
+              tertiaryColour: '#222'
+          }"></ngx-loading>
+    <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header>
+    <div style="margin-bottom: 10px;" *ngIf="!loading">
+        <app-button-back [redirectTo]="'archives'"></app-button-back>
+        <!-- <app-buttons-custom [id]="archive._id" (edit)="editArchive(archive._id)" [permissionEdit]="permissionEdit"
+            [permissionDelete]="permissionDelete" [isUser]="isUsers">
+        </app-buttons-custom> -->
+        <br />
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <ngb-tabset>
+                <ngb-tab title="Dados">
+                    <ng-template ngbTabContent>
+                        <div class="col-xl-4 col-lg-4 col-md-4">
+                            <div class="card bg-light mb-3" style="margin:5px;font-size: 12px;">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <b>EMPRESA</b>: {{ dataPosition && dataPosition.company &&
+                                        dataPosition.company.name ? dataPosition.company.name : '' }} <br>
+                                        <b>DOCUMENTO</b>: {{ dataPosition && dataPosition.doct && dataPosition.doct.name
+                                        ? dataPosition.doct.name : '' }}<br>
+                                        <b>DEPARTAMENTO</b>: {{ dataPosition && dataPosition.departament &&
+                                        dataPosition.departament.name ? dataPosition.departament.name : '' }}<br>
+                                        <b>DEPÓSITO</b>: {{ dataPosition && dataPosition.storehouse &&
+                                        dataPosition.storehouse.name ? dataPosition.storehouse.name : '' }}<br>
+                                        <b>POSIÇÃO</b>: {{ dataPosition && dataPosition.volume &&
+                                        dataPosition.volume.location ? dataPosition.volume.location : '' }}<br>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card bg-light mb-3" style="margin:5px;font-size: 12px;">
+                                <div class="card-header">Indíces</div>
+                                <div class="card-body" style="display: flex;">
+                                    <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label">
+                                        <app-form-index  [multipleIndex]="true" [data]="document" [store]="valuesStorage" [isArchive]="false"
+                                            [edit]="true" (sendArchive)="createDocument($event)">
+                                        </app-form-index>
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
+                                    flex-direction: column;
+                                    justify-content: space-around;
+                                    align-items: center;">
+
+                                        <form class="parent" [formGroup]="checkboxForm"
+                                            *ngIf="document && document.label">
+                                            <div class="child"
+                                                *ngFor="let item of checkboxForm.controls; let i = index;">
+                                                <div [formGroupName]="i">
+                                                    <label>
+                                                        <input type="checkbox" [formControl]="item" [value]="item.value">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Pesquisar Posição">
+                    <ng-template ngbTabContent>
+                        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan
+                            four loko farm-to-table
+                            craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean
+                            shorts ullamco ad vinyl
+                            cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
+                            helvetica VHS salvia
+                            yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
+                            8-bit, sustainable jean
+                            shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
+                            tumblr butcher vero
+                            sint qui sapiente accusamus tattooed echo park.</p>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+    </div>
+</div>
