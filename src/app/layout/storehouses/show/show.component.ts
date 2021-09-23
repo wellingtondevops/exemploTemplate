@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SaveLocal } from './../../../storage/saveLocal';
 import { Page } from './../../../models/page';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import _ from 'lodash';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { PositionList } from 'src/app/models/position';
 import { NgIf } from '@angular/common';
 
@@ -25,6 +25,7 @@ const MODALS = {
     animations: [routerTransition()],
 })
 export class ShowComponent implements OnInit {
+    eventModal = new EventEmitter();
     id: String;
     storeHouse: any;
     storeHouseForm: FormGroup;
@@ -36,6 +37,7 @@ export class ShowComponent implements OnInit {
     used: Boolean = false;
     permissionEdit = false;
     permissionDelete = false;
+    closeResult = '';
     positions: PositionList = {
         _links: {
             currentPage: 1,
@@ -92,7 +94,6 @@ export class ShowComponent implements OnInit {
                 position: positions.position
             });
         }
-
         this.getPosicoes();
         this.permissionNew = JSON.parse(
             window.localStorage.getItem('actions')
@@ -260,4 +261,22 @@ export class ShowComponent implements OnInit {
         });
     }
 
+    openMod(content) {
+        this.eventModal.emit(content);
+        this.modalService.open(content, {windowClass: 'my-class'}).result.then((result) => {
+          this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+      }
+
+      public getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a backdrop';
+        } else {
+          return `with: ${reason}`;
+        }
+      }
 }

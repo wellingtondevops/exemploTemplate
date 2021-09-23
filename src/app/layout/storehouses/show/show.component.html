@@ -1,135 +1,124 @@
 <div [@routerTransition]>
-    <ngx-loading
-        [show]="loading"
-        [config]="{
-            backdropBorderRadius: '3px',
-            fullScreenBackdrop: true,
-            primaryColour: '#222',
-            secondaryColour: '#222',
-            tertiaryColour: '#222'
-        }"
-    ></ngx-loading>
-    <app-page-header
-        [id]="storeHouse._id"
-        [heading]="'Dados do Depósito'"
-        [icon]="'fa-house'"
-    ></app-page-header>
-    <div style="margin-bottom: 10px">
-        <app-button-back [redirectTo]="'storehouses'"></app-button-back>
-        <app-buttons-custom
-            (edit)="editStoreHouse(storeHouse._id)"
-            (delete)="open('focusFirst', storeHouse._id)"
-            [permissionEdit]="permissionEdit"
-            [permissionDelete]="permissionDelete"
-        >
-        </app-buttons-custom>
-        <br />
-    </div>
+    <ngx-loading [show]="loading" [config]="{backdropBorderRadius: '3px',fullScreenBackdrop: true,primaryColour: '#222',secondaryColour: '#222',tertiaryColour: '#222'}"></ngx-loading>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <app-page-header class="modal-title" [id]="storeHouse._id" [heading]="'Dados do Depósito'" [icon]="'fa-house'">
+            </app-page-header>
+                <button class="btn btn-sm btn-secundary" (click)="modal.dismiss()" style="margin-right: 0px;">
+                    <i class="fa fa-window-close"></i>
+                </button>
 
-    <div class="card bg-light mb-12">
-        <div class="card-body">
-            <ngb-tabset #tab>
-                <ngb-tab title="Depósito" id="tab1">
-                    <ng-template ngbTabContent>
-                        <br />
-                        <form [formGroup]="storeHouseForm" role="FormGroup">
-                            <div class="form-content">
+            <div style="margin-bottom: 10px">
+                <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)" (delete)="open('focusFirst', storeHouse._id)" [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"></app-buttons-custom>
+                <br />
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="card bg-light mb-12">
+                <div class="card-body">
+                    <ngb-tabset #tab>
+
+                    <ngb-tab title="Depósito" id="tab1">
+                        <ng-template ngbTabContent>
+                            <br />
+                            <form [formGroup]="storeHouseForm" role="FormGroup">
+                                <div class="form-content">
+                                    <div class="form-group">
+                                        <label for="name">Nome</label>
+                                        <input id="name" class="form-control" formControlName="name"/>
+                                    </div>
+                                </div>
                                 <div class="form-group">
-                                    <label for="name">Nome</label>
-                                    <input id="name" class="form-control" formControlName="name"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            formControlName="mapStorehouse"/>
-                                        Mapear Depósito
+                                    <div class="checkbox">
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                formControlName="mapStorehouse"/>
+                                            Mapear Depósito
 
-                                    </label>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                        <div class="row">
-                            <div class="col-sm" display= none *ngIf="storeHouse.mapStorehouse">
-                                <app-pie-chart></app-pie-chart>
-                            </div>
-                            <!--
-                            <div class="col-sm">
-                                <app-doughnut-chart></app-doughnut-chart>
-                            </div>
-                            -->
-                        </div>
-                    </ng-template>
-                </ngb-tab>
-
-                    <ngb-tab title="Pesquisar Posições" id="tab2" [disabled]= "!storeHouse.mapStorehouse">
-                        <ng-template ngbTabContent>
-                            <br />
-                        <form [formGroup]="storeHouseForm" (ngSubmit)="getPosicoes()" role="FormGroup">
+                            </form>
                             <div class="row">
-                                <div class="form-group col-sm">
-                                    <label for="typeahead-basic">Nome</label>
-                                    <input id="typeahead-basic" type="text" class="form-control" formControlName="name"/>
+                                <div class="col-sm" display= none *ngIf="storeHouse.mapStorehouse">
+                                    <app-pie-chart></app-pie-chart>
                                 </div>
-                                <div class="form-group col-sm">
-                                    <label for="position">Posição</label>
-                                    <input id="position" autoFocus="true" type="text" class="form-control" formControlName="position"
-                                            style="width: 100%" placeholder="Nome do Depósito" />
+                                <!--
+                                <div class="col-sm">
+                                    <app-doughnut-chart></app-doughnut-chart>
                                 </div>
-                                <div class="form-check col-sm mt-4" style="margin-left: 2%;">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="flexRadioTrue" formControlName="used" [(ngModel)]="used" [value]="true" checked>
-                                        <label class="form-check-label" for="flexRadioTrue">
-                                            Posição indisponível
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="flexRadioFalse" formControlName="used" [(ngModel)]="used" [value]="false">
-                                        <label class="form-check-label" for="flexRadioFalse">
-                                            Posição disponível
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-left: 40%;">
-                                <div class="form-group col align-self-center">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-default" style="margin-left: 5px;"(click)="clear()">
-                                        Limpar Campos
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div>
-                            <app-datatables
-                                [data]="positions"
-                                (setPage)="setPage($event)"
-                                [columns]="columns">
-                            </app-datatables>
-                        </div>
-
-                    </ng-template>
-                </ngb-tab>
-
-                    <ngb-tab title="Mapa do Depósito" id="tab3" [disabled]= "!storeHouse.mapStorehouse">
-                        <ng-template ngbTabContent>
-                            <br />
-                            <div>
-                                <app-bar-chart></app-bar-chart>
+                                -->
                             </div>
                         </ng-template>
                     </ngb-tab>
 
+                        <ngb-tab title="Pesquisar Posições" id="tab2" [disabled]= "!storeHouse.mapStorehouse">
+                            <ng-template ngbTabContent>
+                                <br />
+                            <form [formGroup]="storeHouseForm" (ngSubmit)="getPosicoes()" role="FormGroup">
+                                <div class="row">
+                                    <div class="form-group col-sm">
+                                        <label for="typeahead-basic">Nome</label>
+                                        <input id="typeahead-basic" type="text" class="form-control" formControlName="name"/>
+                                    </div>
+                                    <div class="form-group col-sm">
+                                        <label for="position">Posição</label>
+                                        <input id="position" autoFocus="true" type="text" class="form-control" formControlName="position"
+                                                style="width: 100%" placeholder="Nome do Depósito" />
+                                    </div>
+                                    <div class="form-check col-sm mt-4" style="margin-left: 2%;">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="flexRadioTrue" formControlName="used" [(ngModel)]="used" [value]="true" checked>
+                                            <label class="form-check-label" for="flexRadioTrue">
+                                                Posição indisponível
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="flexRadioFalse" formControlName="used" [(ngModel)]="used" [value]="false">
+                                            <label class="form-check-label" for="flexRadioFalse">
+                                                Posição disponível
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left: 40%;">
+                                    <div class="form-group col align-self-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default" style="margin-left: 5px;"(click)="clear()">
+                                            Limpar Campos
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
 
+                            <div>
+                                <app-datatables
+                                    [data]="positions"
+                                    (setPage)="setPage($event)"
+                                    [columns]="columns">
+                                </app-datatables>
+                            </div>
 
-            </ngb-tabset>
+                        </ng-template>
+                    </ngb-tab>
+
+                        <ngb-tab title="Mapa do Depósito" id="tab3" [disabled]= "!storeHouse.mapStorehouse">
+                            <ng-template ngbTabContent>
+                                <br />
+                                <div>
+                                    <app-bar-chart></app-bar-chart>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
         </div>
+    </ng-template>
 
-    </div>
-
+    <button class="btn btn-lg btn-outline-primary" (click)="openMod(content)">Modal</button>
 </div>
