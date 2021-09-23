@@ -31,7 +31,7 @@ import { environment } from 'src/environments/environment';
         ToastrModule.forRoot(),
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule,
-        AngularFireDatabaseModule
+        AngularFireDatabaseModule,
     ],
     declarations: [AppComponent],
     providers: [

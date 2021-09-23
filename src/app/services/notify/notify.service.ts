@@ -43,7 +43,7 @@ export class NotifyService {
         this.db.object(`notifications/${key}`).remove();
     }
 
-    getlength(userid) {
+    getSize(userid) {
         function msgUser (value) {
             if (value.user === userid && value.active === true) {
                 return value;

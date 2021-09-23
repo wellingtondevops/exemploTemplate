@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
         // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();
         this.notifys = this.notifyService.getAll(this.userId);
-        this.sizeArr = this.notifyService.getlength(this.userId);
+        this.sizeArr = this.notifyService.getSize(this.userId);
         //UPDATE
         this.notifyService.currentNotify.subscribe(data => {
             if (data.notify && data.key) {

@@ -1,2 +1,10 @@
 
 //@import '~bootstrap/dist/css/bootstrap.min.css';
+
+::ng-deep .my-class .modal-dialog {
+    max-width: 100%;
+    width: 88%;
+    margin-top: 2.5%;
+    margin-left: 12%;
+
+}

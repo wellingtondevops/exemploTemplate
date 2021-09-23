@@ -29,7 +29,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@hallysonh/ngx-imageviewer": "^2.0.4",
-    "@ng-bootstrap/ng-bootstrap": "^4.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^5.3.1",
     "@ng-dynamic-forms/core": "^9.0.1",
     "@ng-select/ng-select": "^2.0.8",
     "@ngx-formly/bootstrap": "^5.4.2",
