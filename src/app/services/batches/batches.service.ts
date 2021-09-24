@@ -101,6 +101,20 @@ export class BatchesService {
             );
     }
 
+    volumes(id, page, data) {
+        if (page) {
+            return this.http.post<any>(`${url}/batches/${id}/searchvolumes?_page=${page.pageNumber}&size=10`, data)
+                .pipe(
+                    tap(data => data)
+                );
+        } else {
+            return this.http.post<any>(`${url}/batches/${id}/searchvolumes?size=10`, data)
+                .pipe(
+                    tap(data => data)
+                );
+        }
+    }
+
     delete(batch) {
         return this.http.delete<Batch>(`${url}/batches/${batch}`)
             .pipe(

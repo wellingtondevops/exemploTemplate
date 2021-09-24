@@ -8,6 +8,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PageHeaderModule, DatatablesModule, ButtonBackModule, ButtonsCustomModule, FormIndexModule } from 'src/app/shared';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NewComponent } from './new/new.component';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @NgModule({
   declarations: [NewComponent],
@@ -25,6 +26,7 @@ import { NewComponent } from './new/new.component';
     ButtonBackModule,
     ButtonsCustomModule,
     NgxLoadingModule.forRoot({})
-  ]
+  ],
+  providers: [CaseInsensitive]
 })
 export class IndexModule { }

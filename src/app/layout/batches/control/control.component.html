@@ -90,26 +90,27 @@
                 </form>
             </div>
         </div>
-        <div class="col-xl-8 col-lg-8 gallery">
+        <div class="col-xl-8 col-lg-8 ">
+
+            <div class="gallery">
+                <div style="margin:15px;max-width: 150px;height: 195px;" *ngFor="let image of batchImages">
+                    <iframe *ngIf="pipes.isPdf(image.url)" [src]="sanitizeUrl(image.url)"
+                        style="border: none !important;"></iframe>
 
 
-            <div style="margin:15px;max-width: 150px;height: 195px;" *ngFor="let image of batchImages">
-                <iframe *ngIf="pipes.isPdf(image.url)" [src]="sanitizeUrl(image.url)"
-                    style="border: none !important;"></iframe>
-
-
-                <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
-                    class="img-thumbnail rounded" (click)="selectedImg($event)" [alt]="image.name"
-                    style="vertical-align: 0;">
-               <p style="font-size: 10px;">{{ image.name }}</p>
+                    <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
+                        class="img-thumbnail rounded" (click)="selectedImg($event)" [alt]="image.name"
+                        style="vertical-align: 0;">
+                    <p style="font-size: 10px;">{{ image.name }}</p>
+                </div>
             </div>
-
-
-
-
-            <ngb-pagination (pageChange)="getBatchImages($event)" [maxSize]="5" [(page)]="page.pageNumber"
-                [pageSize]="50" [collectionSize]="page.totalElements"></ngb-pagination>
+            <br>
+            <div style="display: flex;justify-content: center;">
+                <ngb-pagination (pageChange)="getBatchImages($event)" [maxSize]="5" [(page)]="page.pageNumber"
+                    [pageSize]="50" [collectionSize]="page.totalElements"></ngb-pagination>
+            </div>
         </div>
+
         <!-- /.cus-modal-wrap -->
         <div class="block allModal">
             <div class="cus-modal right-bottom" id="right-bottom" role="dialog">
@@ -129,10 +130,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <p>
-              <ngb-progressbar type="{{returnColorProgress}}" [striped]="true" [animated]="true" [value]="progress.message">
-                {{progress.message}}</ngb-progressbar>
-            </p> -->
                         </div>
                     </div>
                 </div>

@@ -8,10 +8,7 @@
           }"></ngx-loading>
     <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header>
     <div style="margin-bottom: 10px;" *ngIf="!loading">
-        <app-button-back [redirectTo]="'archives'"></app-button-back>
-        <!-- <app-buttons-custom [id]="archive._id" (edit)="editArchive(archive._id)" [permissionEdit]="permissionEdit"
-            [permissionDelete]="permissionDelete" [isUser]="isUsers">
-        </app-buttons-custom> -->
+        <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
         <br />
     </div>
     <div class="row">
@@ -40,8 +37,8 @@
                                 <div class="card-header">Indíces</div>
                                 <div class="card-body" style="display: flex;">
                                     <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label">
-                                        <app-form-index  [multipleIndex]="true" [data]="document" [store]="valuesStorage" [isArchive]="false"
-                                            [edit]="true" (sendArchive)="createDocument($event)">
+                                        <app-form-index [multipleIndex]="true" [data]="document" [store]="valuesStorage"
+                                            [isArchive]="false" [edit]="true" (sendArchive)="createDocument($event)">
                                         </app-form-index>
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
@@ -55,7 +52,8 @@
                                                 *ngFor="let item of checkboxForm.controls; let i = index;">
                                                 <div [formGroupName]="i">
                                                     <label>
-                                                        <input type="checkbox" [formControl]="item" [value]="item.value">
+                                                        <input type="checkbox" [formControl]="item"
+                                                            [value]="item.value">
                                                     </label>
                                                 </div>
                                             </div>
@@ -71,17 +69,88 @@
                 </ngb-tab>
                 <ngb-tab title="Pesquisar Posição">
                     <ng-template ngbTabContent>
-                        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan
-                            four loko farm-to-table
-                            craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean
-                            shorts ullamco ad vinyl
-                            cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                            helvetica VHS salvia
-                            yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
-                            8-bit, sustainable jean
-                            shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-                            tumblr butcher vero
-                            sint qui sapiente accusamus tattooed echo park.</p>
+                        <ngb-accordion #acc="ngbAccordion" activeIds="index-search">
+                            <ngb-panel id="index-search" style="margin-top:10px">
+                                <ng-template ngbPanelTitle>
+                                    <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup"
+                                        class="form-inline">
+                                        <div class="row col-12">
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Empresa</label>
+                                                <input id="typeahead-basic" autoFocus="true"
+                                                    (selectItem)="selectedCompany($event)" type="text"
+                                                    class="form-control" formControlName="company"
+                                                    [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchCompany" style="width: 100%" />
+
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Documento</label>
+                                                <input id="typeahead-basic" autoFocus="true" type="text"
+                                                    class="form-control" formControlName="doct"
+                                                    [resultTemplate]="rtDocument" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchDocument" style="width: 100%" />
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Departamento</label>
+                                                <input id="typeahead-basic" autoFocus="true" type="text"
+                                                    class="form-control" formControlName="departament"
+                                                    [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchDepartament" style="width: 100%" />
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="location">Posição</label>
+                                                <input id="location" class="form-control col-12"
+                                                    formControlName="location" />
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Depósito</label>
+                                                <input id="typeahead-basic" autoFocus="true" type="text"
+                                                    class="form-control" formControlName="storehouse"
+                                                    [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchStorehouse" style="width: 100%" />
+                                            </div>
+                                            <ng-template #rtCompany let-r="result" let-t="company"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <ng-template #rtDepartament let-r="result" let-t="departament"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <ng-template #rtStorehouse let-r="result" let-t="storehouse"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <ng-template #rtDocument let-r="result" let-t="doct"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                        </div>
+                                        <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                                            <div class="form-group mb-2">
+                                                <button type="submit" class="btn btn-primary"
+                                                    [disabled]="company.invalid">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                                <button style="margin-left: 5px;" type="button" class="btn btn-default"
+                                                    (click)="clear()">
+                                                    Limpar Campos
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </ng-template>
+                            </ngb-panel>
+                            
+                        </ngb-accordion>
+                        <br />
+                        <app-datatables [data]="volumes" (setPage)="setPage($event)" [columns]="columns"
+                            >
+                        </app-datatables>
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>

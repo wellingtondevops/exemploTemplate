@@ -1,16 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Page } from 'src/app/models/page';
 import { routerTransition } from 'src/app/router.animations';
 import { BatchesService } from 'src/app/services/batches/batches.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { Document } from 'src/app/models/document';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ArquivesService } from 'src/app/services/archives/archives.service';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SaveLocal } from '../../../storage/saveLocal';
 import _ from 'lodash';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
+import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { CompaniesService } from 'src/app/services/companies/companies.service';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+import { Pipes } from 'src/app/utils/pipes/pipes';
+import { VolumeList } from 'src/app/models/volume';
 
 @Component({
     selector: 'app-new',
@@ -19,6 +28,9 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
     animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
+    @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
+    @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
+    companies: any;
     public loading: Boolean = false;
     id: string;
     page = new Page();
@@ -28,6 +40,32 @@ export class NewComponent implements OnInit {
     checkboxForm: FormArray;
     items: FormArray;
     valuesStorage: any;
+    searchForm: FormGroup;
+    departaments: any;
+    storehouses: any;
+    documents: any;
+    focusDocument$ = new Subject<string>();
+    clickDocument$ = new Subject<string>();
+    focusDepartament$ = new Subject<string>();
+    clickDepartament$ = new Subject<string>();
+    indexs: any = [];
+    volumes: VolumeList = {
+        _links: {
+            currentPage: 0,
+            foundItems: 0,
+            next: '',
+            self: '',
+            totalPage: 0
+        },
+        items: []
+    };
+    columns = [
+        { name: 'Documento', prop: 'doct.name' },
+        { name: 'Departamento', prop: 'departament.name' },
+        { name: 'Depósito', prop: 'storehouse.name' },
+        { name: 'Posição', prop: 'location', width: 70 },
+        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+    ];
 
     constructor(
         private route: ActivatedRoute,
@@ -37,25 +75,61 @@ export class NewComponent implements OnInit {
         private saveLS: SaveLocal,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
+        private storehousesSrv: StorehousesService,
+        private departamentsSrv: DepartamentsService,
+        private companiesSrv: CompaniesService,
+        private documentsSrv: DocumentsService,
+        private localStorageSrv: SaveLocal,
+        private utilCase: CaseInsensitive,
+        private warningMsg: WarningMessagesService,
+        private pipes: Pipes,
     ) { }
 
 
     ngOnInit() {
+        this.searchForm = this.fb.group({
+            company: this.fb.control({ value: null, disabled: true }),
+            doct: this.fb.control({ value: null, disabled: true }),
+            departament: this.fb.control(null),
+            storehouse: this.fb.control(null),
+            location: this.fb.control(''),
+        });
         this.id = this.route.snapshot.paramMap.get('id');
         this.getImagesByBatches();
+        this.getCompanies();
 
+        const index = JSON.parse(this.localStorageSrv.get('index'));
 
+        if (index && index.company) {
+            this.searchForm.patchValue({
+                storehouse: index.storehouse,
+                departament: index.departament,
+                location: index.location,
+                doct: index.doct
+            });
+            // this.selectedCompany(archive.company._id);
+        }
+    }
+
+    formatter = (x: { name: string }) => x.name;
+
+    get company() {
+        return this.searchForm.get('company');
     }
 
     ngOnDestroy() {
-
+        console.log('exit component');
     }
 
     getImagesByBatches() {
         this.page.pageNumber = 1
-        this.batchesSrv.batch(this.id,).subscribe(data => {
+        this.batchesSrv.batch(this.id).subscribe(data => {
             this.dataPosition = data
+            this.searchForm.patchValue({ company: data.company, doct: data.doct });
             this.getDocument()
+            this.getDocuments(data.company._id)
+            this.getDepartaments(data.company._id)
+            this.getStoreHouses()
         }, error => {
             console.log('ERROR: ', error);
         });
@@ -116,7 +190,7 @@ export class NewComponent implements OnInit {
 
         this.saveLS.save(this.id, memoryInput);
 
-        this.batchesSrv.batchIndex(this.id, {picture: this.image._id, tag: tag}).subscribe(data => {
+        this.batchesSrv.batchIndex(this.id, { picture: this.image._id, tag: tag }).subscribe(data => {
             if (data._id) {
                 this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
                 this.getImagesByBatches()
@@ -130,4 +204,154 @@ export class NewComponent implements OnInit {
         });
     }
 
+    getCompanies() {
+        this.companiesSrv.searchCompanies().subscribe(
+            data => {
+                this.companies = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+                this.loading = false;
+            }
+        );
+    }
+
+    selectedCompany(e) {
+        if (e && e.item && e.item._id) {
+            this.getDepartaments(e.item._id);
+        } else {
+            this.getDepartaments(e);
+        }
+    }
+
+    searchCompany = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(company => {
+                let res = [];
+                if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
+                return res;
+            })
+        )
+
+    getDepartaments(company_id) {
+        this.departamentsSrv.searchDepartaments(company_id).subscribe(
+            data => {
+                this.departaments = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+                this.loading = false;
+            }
+        );
+    }
+
+    searchDepartament = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDepartament$.pipe(filter(() => !this.instanceDepartament.isPopupOpen()));
+        const inputFocus$ = this.focusDepartament$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(departament => (departament === '' ? this.departaments
+                : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
+            )));
+    }
+
+    getStoreHouses() {
+        this.storehousesSrv.searchStorehouses().subscribe(
+            data => {
+                this.storehouses = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+                this.loading = false;
+            }
+        );
+    }
+
+    searchStorehouse = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(storehouse => {
+                let res;
+                if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10); }
+                return res;
+            })
+        )
+
+    getDocuments(company_id) {
+        this.documentsSrv.searchDocuments(company_id).subscribe(
+            data => {
+                this.documents = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+                this.loading = false;
+            }
+        );
+    }
+
+    searchDocument = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDocument$.pipe(filter(() => !this.instanceDocument.isPopupOpen()));
+        const inputFocus$ = this.focusDocument$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(document => (document === '' ? this.documents
+                : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
+            )));
+    }
+
+    setPage(pageInfo) {
+        this.loading = true;
+        if (pageInfo && pageInfo.offset) {
+            this.page.pageNumber = pageInfo.offset;
+        } else {
+            pageInfo = { offset: 0 },
+            this.page.pageNumber = pageInfo.offset;
+        }
+
+        this.localStorageSrv.save('index', this.searchForm.value);
+
+        const newSearch = {
+            storehouse: null,
+            departament: null,
+            location: null,
+        };
+
+        this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
+        this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
+        newSearch.location = this.searchForm.value.location;
+
+        const searchValue = _.omitBy(newSearch, _.isNil);
+
+        this.batchesSrv.volumes(this.dataPosition._id, this.page, searchValue).subscribe(data => {
+            if (data.items.length > 0) {
+                this.volumes = data;
+                this.page.pageNumber = data._links.currentPage - 1;
+                this.page.totalElements = data._links.foundItems;
+                this.page.size = data._links.totalPage;
+            }
+
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error);
+            this.loading = false;
+            this.errorMsg.errorMessages(error);
+        });
+    }
+
+    returnId(object) {
+        const result = _.filter(this.searchForm.value[object], function (value, key) {
+            if (key === '_id') { return value; }
+        })[0];
+        return result;
+    }
 }
+
