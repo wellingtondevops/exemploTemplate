@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Page } from 'src/app/models/page';
 import { routerTransition } from 'src/app/router.animations';
 import { BatchesService } from 'src/app/services/batches/batches.service';
@@ -19,7 +19,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
-import { VolumeList } from 'src/app/models/volume';
+import { Volume, VolumeList } from 'src/app/models/volume';
 
 @Component({
     selector: 'app-new',
@@ -49,16 +49,7 @@ export class NewComponent implements OnInit {
     focusDepartament$ = new Subject<string>();
     clickDepartament$ = new Subject<string>();
     indexs: any = [];
-    volumes: VolumeList = {
-        _links: {
-            currentPage: 0,
-            foundItems: 0,
-            next: '',
-            self: '',
-            totalPage: 0
-        },
-        items: []
-    };
+    volumes: Volume[];
     columns = [
         { name: 'Documento', prop: 'doct.name' },
         { name: 'Departamento', prop: 'departament.name' },
@@ -83,6 +74,7 @@ export class NewComponent implements OnInit {
         private utilCase: CaseInsensitive,
         private warningMsg: WarningMessagesService,
         private pipes: Pipes,
+        private _route: Router,
     ) { }
 
 
@@ -100,7 +92,7 @@ export class NewComponent implements OnInit {
 
         const index = JSON.parse(this.localStorageSrv.get('index'));
 
-        if (index && index.company) {
+        if (index) {
             this.searchForm.patchValue({
                 storehouse: index.storehouse,
                 departament: index.departament,
@@ -333,7 +325,7 @@ export class NewComponent implements OnInit {
 
         this.batchesSrv.volumes(this.dataPosition._id, this.page, searchValue).subscribe(data => {
             if (data.items.length > 0) {
-                this.volumes = data;
+                this.volumes = data.items;
                 this.page.pageNumber = data._links.currentPage - 1;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
@@ -353,5 +345,16 @@ export class NewComponent implements OnInit {
         })[0];
         return result;
     }
+
+    getVolume(item) {
+        this.batchesSrv.addVolume(this.id, item.id).subscribe(data => {
+            this._route.navigate(['/index', item.id]);
+        }, error => {
+            console.log('ERROR: ', error);
+            this.loading = false;
+            this.errorMsg.errorMessages(error);
+        });
+        
+      }
 }
 

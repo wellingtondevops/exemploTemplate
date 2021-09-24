@@ -145,12 +145,36 @@
                                     </form>
                                 </ng-template>
                             </ngb-panel>
-                            
+
                         </ngb-accordion>
                         <br />
-                        <app-datatables [data]="volumes" (setPage)="setPage($event)" [columns]="columns"
-                            >
-                        </app-datatables>
+                        <ngx-datatable #myTable class="material" [rows]="volumes" [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
+                            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
+                            (page)='setPage($event)'>
+                            <ngx-datatable-column name="Documento" [width]="200" prop="doct.name">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" [width]="200" prop="departament.name">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Posição" [width]="100" prop="location">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Criado em" [width]="150" prop="dateCreated">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    {{ value | date: 'dd/MM/yyyy' }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Selecionar" [width]="150" prop="_id">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="getVolume(row)">Selecionar</button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+
+                        <!-- <app-datatables [data]="volumes" (setPage)="setPage($event)" [columns]="columns"
+                        (show)="getVolume($event)">
+                        </app-datatables> -->
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>

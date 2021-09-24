@@ -121,4 +121,11 @@ export class BatchesService {
                 tap(data => data)
             );
     }
+
+    addVolume(batch_id, volume_id){
+        return this.http.patch<any>(`${url}/batches/${batch_id}/addvolume`, volume_id)
+            .pipe(
+                tap(data => data)
+            );
+    }
 }
