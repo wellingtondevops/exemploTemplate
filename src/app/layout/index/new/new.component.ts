@@ -34,7 +34,7 @@ export class NewComponent implements OnInit {
     public loading: Boolean = false;
     id: string;
     page = new Page();
-    dataPosition: any;
+    batch: any;
     image: any;
     document: Document;
     checkboxForm: FormArray;
@@ -57,6 +57,8 @@ export class NewComponent implements OnInit {
         { name: 'Posição', prop: 'location', width: 70 },
         { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
+    urlFile: any = '';
+    isPdf = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -87,7 +89,7 @@ export class NewComponent implements OnInit {
             location: this.fb.control(''),
         });
         this.id = this.route.snapshot.paramMap.get('id');
-        this.getImagesByBatches();
+        this.getBatch();
         this.getCompanies();
 
         const index = JSON.parse(this.localStorageSrv.get('index'));
@@ -113,10 +115,11 @@ export class NewComponent implements OnInit {
         console.log('exit component');
     }
 
-    getImagesByBatches() {
+    getBatch() {
         this.page.pageNumber = 1
         this.batchesSrv.batch(this.id).subscribe(data => {
-            this.dataPosition = data
+            this.batch = data
+
             this.searchForm.patchValue({ company: data.company, doct: data.doct });
             this.getDocument()
             this.getDocuments(data.company._id)
@@ -126,14 +129,18 @@ export class NewComponent implements OnInit {
             console.log('ERROR: ', error);
         });
         this.batchesSrv.imagens(this.id, this.page, 1).subscribe(data => {
-            this.image = data.items[0]
+            console.log(data)
+            if (data.items.length > 0) {
+                this.urlFile = data.items[0].url;
+                this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
+            }
         }, error => {
             console.log('ERROR: ', error);
         })
     }
 
     getDocument() {
-        this.documentSrv.document(this.dataPosition.doct._id).subscribe(data => {
+        this.documentSrv.document(this.batch.doct._id).subscribe(data => {
             this.document = data;
             this.valuesStorage = JSON.parse(this.saveLS.get(this.id));
             if (this.document.label) {
@@ -185,7 +192,7 @@ export class NewComponent implements OnInit {
         this.batchesSrv.batchIndex(this.id, { picture: this.image._id, tag: tag }).subscribe(data => {
             if (data._id) {
                 this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
-                this.getImagesByBatches()
+                this.getBatch()
                 this.loading = false;
                 // this._route.navigate(['/archives/get', data._id]);
             }
@@ -306,7 +313,7 @@ export class NewComponent implements OnInit {
             this.page.pageNumber = pageInfo.offset;
         } else {
             pageInfo = { offset: 0 },
-            this.page.pageNumber = pageInfo.offset;
+                this.page.pageNumber = pageInfo.offset;
         }
 
         this.localStorageSrv.save('index', this.searchForm.value);
@@ -323,7 +330,7 @@ export class NewComponent implements OnInit {
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
-        this.batchesSrv.volumes(this.dataPosition._id, this.page, searchValue).subscribe(data => {
+        this.batchesSrv.volumes(this.batch._id, this.page, searchValue).subscribe(data => {
             if (data.items.length > 0) {
                 this.volumes = data.items;
                 this.page.pageNumber = data._links.currentPage - 1;
@@ -354,7 +361,7 @@ export class NewComponent implements OnInit {
             this.loading = false;
             this.errorMsg.errorMessages(error);
         });
-        
-      }
+
+    }
 }
 
