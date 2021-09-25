@@ -191,7 +191,7 @@ export class NewComponent implements OnInit {
 
         this.batchesSrv.batchIndex(this.id, { picture: this.image._id, tag: tag }).subscribe(data => {
             if (data._id) {
-                this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
+                this.successMsgSrv.successMessages('Imagem indexada com sucesso.');
                 this.getBatch()
                 this.loading = false;
                 // this._route.navigate(['/archives/get', data._id]);
