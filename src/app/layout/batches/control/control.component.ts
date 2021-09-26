@@ -2,7 +2,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Batch } from 'src/app/models/batch';
 import { Page } from 'src/app/models/page';
 import { BatchesService } from 'src/app/services/batches/batches.service';
@@ -136,7 +135,6 @@ export class ControlComponent implements OnInit {
     }
 
     submit() {
-        
         const formData = new FormData();
         formData.append('document', this.batch.doct._id);
         formData.append('company', this.batch.company._id);
