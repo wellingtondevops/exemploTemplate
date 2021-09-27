@@ -123,7 +123,7 @@ export class BatchesService {
     }
 
     addVolume(batch_id, volume_id){
-        return this.http.patch<any>(`${url}/batches/${batch_id}/addvolume`, volume_id)
+        return this.http.patch<any>(`${url}/batches/${batch_id}/addvolume`, {volume: volume_id})
             .pipe(
                 tap(data => data)
             );

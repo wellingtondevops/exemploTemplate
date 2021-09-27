@@ -354,8 +354,8 @@ export class NewComponent implements OnInit {
     }
 
     getVolume(item) {
-        this.batchesSrv.addVolume(this.id, item.id).subscribe(data => {
-            this._route.navigate(['/index', item.id]);
+        this.batchesSrv.addVolume(this.id, item._id).subscribe(data => {
+            this._route.navigate(['/index', this.id]);
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
