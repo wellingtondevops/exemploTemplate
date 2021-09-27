@@ -18,6 +18,7 @@ export class Volume {
   dateCreated: string;
   status: string;
   reference: string;
+  records: boolean;
 }
 
 export class VolumeList {

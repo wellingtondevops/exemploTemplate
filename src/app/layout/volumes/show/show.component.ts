@@ -77,7 +77,7 @@ export class ShowComponent implements OnInit {
       uniqueField: this.fb.control(''),
       status: this.fb.control({ value: '', disabled: true }),
       location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-      reference: this.fb.control({ value: '', disabled: true })
+      reference: this.fb.control({ value: '', disabled: true }),
     });
   }
 
@@ -116,11 +116,15 @@ export class ShowComponent implements OnInit {
   get departament() {
     return this.volumeForm.get('departament');
   }
+    get records() {
+        console.log(this.records);
+        return this.volumeForm.get('records');
+    }
 
   getVolume() {
     this.volumesSrv.volume(this.id).subscribe(
       data => {
-        console.log(data);
+        console.log('asdasdasd', data);
         this.loading = false;
         this.volume = data;
         this.volumeForm.patchValue({
@@ -133,7 +137,7 @@ export class ShowComponent implements OnInit {
           uniqueField: data.uniqueField,
           location: data.location,
           status: data.status,
-          reference: data.reference
+          reference: data.reference,
         });
         this.getDepartament(data.company._id);
       },
