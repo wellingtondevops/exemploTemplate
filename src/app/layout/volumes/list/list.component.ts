@@ -1,4 +1,3 @@
-import { RecordContentVolumeEnum } from './../../../models/recordscontent.volume.enum';
 import { Component, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
@@ -43,8 +42,9 @@ export class ListComponent implements OnInit {
   statusList: any = [];
   departaments: any = [];
   guardTypeList: any = [];
-  recordsCont: any = [];
   storehouses: any = [];
+  records: boolean;
+
   documents: any = [];
   volumes: VolumeList = {
     _links: {
@@ -64,10 +64,10 @@ export class ListComponent implements OnInit {
     { name: 'Posição', prop: 'location', width: 70 },
     { name: 'Status', prop: 'status', width: 70 },
     { name: 'Guarda', prop: 'guardType', width: 70,  },
-    { name: 'Depósito', prop: 'storehouse.name', width:90 },
+    { name: 'Depósito', prop: 'storehouse.name', width: 70 },
     { name: 'Referência', prop: 'reference', width: 70 },
-    { name: 'Conteúdo', prop: 'records', width: 70 },
-    { name: 'Criado em', prop: 'dateCreated', width:70, pipe: { transform: this.pipes.datePipe } }
+    { name: 'Conteúdo', prop: 'records', width: 90, pipe: {transform: this.pipes.recordsType }},
+    { name: 'Criado em', prop: 'dateCreated', width: 70, pipe: { transform: this.pipes.datePipe } }
 
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
@@ -95,11 +95,9 @@ export class ListComponent implements OnInit {
     private utilCase: CaseInsensitive
   ) {
     this.guardTypeList = GuardyTypeVolumeEnum;
-    this.recordsCont = RecordContentVolumeEnum;
   }
 
   ngOnInit() {
-
     // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),

@@ -59,13 +59,7 @@
                   {{ guardT | translate }}</option>
               </select>
             </div>
-            <div class="form-group mb-2 col-2">
-                <label for="records">Conteúdo</label>
-                <select class="form-control col-12" id="records" formControlName="records">
-                  <option *ngFor="let recordsC of recordsCont | enumToArray" [value]="recordsC">
-                    {{ recordsC | translate }}</option>
-                </select>
-              </div>
+
             <div class="form-group mb-2 col-2">
               <label for="reference">Referência</label>
               <input id="reference" class="form-control col-12" formControlName="reference" />
@@ -79,7 +73,24 @@
               <label for="endDate">Data Final</label>
               <input id="endDate" type="date" class="form-control col-12" formControlName="endDate" />
             </div>
+
+            <div class="form-group mb-2 col-2">
+                <label>Conteúdo</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="result1" formControlName="records" [value]="records" id="records" [checked]="false">
+                        <label class="form-check-label" for="records">
+                            Não Possui Arquivos
+                        </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="result1" formControlName="records" [value]="!records" id="recordsF" [checked]="false">
+                        <label class="form-check-label" for="recordsF">
+                            Possui Arquivos
+                        </label>
+                </div>
+            </div>
           </div>
+
 
 
           <div class="row col-12" style="justify-content: center; margin-top: 10px;">
