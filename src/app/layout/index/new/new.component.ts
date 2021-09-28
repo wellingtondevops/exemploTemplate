@@ -119,7 +119,6 @@ export class NewComponent implements OnInit {
         this.page.pageNumber = 1
         this.batchesSrv.batch(this.id).subscribe(data => {
             this.batch = data
-
             this.searchForm.patchValue({ company: data.company, doct: data.doct });
             this.getDocument()
             this.getDocuments(data.company._id)
@@ -129,7 +128,7 @@ export class NewComponent implements OnInit {
             console.log('ERROR: ', error);
         });
         this.batchesSrv.imagens(this.id, this.page, 1).subscribe(data => {
-            console.log(data)
+            this.image = data.items[0];
             if (data.items.length > 0) {
                 this.urlFile = data.items[0].url;
                 this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
@@ -190,12 +189,9 @@ export class NewComponent implements OnInit {
         this.saveLS.save(this.id, memoryInput);
 
         this.batchesSrv.batchIndex(this.id, { picture: this.image._id, tag: tag }).subscribe(data => {
-            if (data._id) {
-                this.successMsgSrv.successMessages('Imagem indexada com sucesso.');
-                this.getBatch()
-                this.loading = false;
-                // this._route.navigate(['/archives/get', data._id]);
-            }
+            this.successMsgSrv.successMessages('Imagem indexada com sucesso.');
+            this.getBatch()
+            this.loading = false;
         }, error => {
             this.loading = false;
             this.errorMsg.errorMessages(error);
