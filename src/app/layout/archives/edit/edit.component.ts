@@ -46,7 +46,7 @@ export class EditComponent implements OnInit {
   startCurrentDate = false;
   inputStartCurrentDate = '';
   document: any;
-  @ViewChild('content', { static: false }) content: TemplateRef<any>;
+  @ViewChild('content',) content: TemplateRef<any>;
 
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),

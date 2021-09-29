@@ -21,7 +21,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
   animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
-  @ViewChild('tab', { static: false }) private tab: NgbTabset;
+  @ViewChild('tab',) private tab: NgbTabset;
   id: string;
   document: Document;
   loading: Boolean = true;
