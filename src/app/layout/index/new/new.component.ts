@@ -65,7 +65,6 @@ export class NewComponent implements OnInit {
         private batchesSrv: BatchesService,
         private documentSrv: DocumentsService,
         private fb: FormBuilder,
-        private saveLS: SaveLocal,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private storehousesSrv: StorehousesService,
@@ -93,7 +92,11 @@ export class NewComponent implements OnInit {
         this.getCompanies();
 
         const index = JSON.parse(this.localStorageSrv.get('index'));
+        this.setDataIndexForm(index)
 
+    }
+
+    setDataIndexForm(index) {
         if (index) {
             this.searchForm.patchValue({
                 storehouse: index.storehouse,
@@ -112,7 +115,7 @@ export class NewComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        console.log('exit component');
+        this.localStorageSrv.clear('index');
     }
 
     getBatch() {
@@ -141,7 +144,7 @@ export class NewComponent implements OnInit {
     getDocument() {
         this.documentSrv.document(this.batch.doct._id).subscribe(data => {
             this.document = data;
-            this.valuesStorage = JSON.parse(this.saveLS.get(this.id));
+            this.valuesStorage = JSON.parse(this.localStorageSrv.get(this.id));
             if (this.document.label) {
                 var items = []
                 this.document.label.map((item, key) => {
@@ -186,11 +189,13 @@ export class NewComponent implements OnInit {
             }
         })
 
-        this.saveLS.save(this.id, memoryInput);
+        this.localStorageSrv.save(this.id, memoryInput);
 
         this.batchesSrv.batchIndex(this.id, { picture: this.image._id, tag: tag }).subscribe(data => {
             this.successMsgSrv.successMessages('Imagem indexada com sucesso.');
             this.getBatch()
+            const index = JSON.parse(this.localStorageSrv.get('index'));
+            this.setDataIndexForm(index)
             this.loading = false;
         }, error => {
             this.loading = false;
@@ -351,6 +356,7 @@ export class NewComponent implements OnInit {
 
     getVolume(item) {
         this.batchesSrv.addVolume(this.id, item._id).subscribe(data => {
+            this.batch()
             this._route.navigate(['/index', this.id]);
         }, error => {
             console.log('ERROR: ', error);
