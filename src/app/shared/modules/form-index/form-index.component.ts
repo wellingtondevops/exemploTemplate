@@ -28,7 +28,6 @@ export class FormIndexComponent {
     constructor() {
     }
     ngOnInit(){
-        console.log(this.store)
         if (this.store && this.document.label) {
             this.model = this.objectModel(this.document.label, this.store);
             this.fields = this.arrayLabelForm(this.document.label, this.store);
@@ -45,7 +44,13 @@ export class FormIndexComponent {
                     this.model = this.objectModel(this.document.label, null);
                     this.fields = this.arrayLabelForm(this.document.label, null);
                 }
-
+                if (propName === 'store') {
+                    console.log('change store')
+                    if (this.store && this.document.label) {
+                        this.model = this.objectModel(this.document.label, this.store);
+                        this.fields = this.arrayLabelForm(this.document.label, this.store);
+                    }
+                }
             } else {
                 const change = changes[propName];
                 this.archive = change.currentValue;

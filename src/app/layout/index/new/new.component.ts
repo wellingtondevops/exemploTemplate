@@ -93,7 +93,6 @@ export class NewComponent implements OnInit {
 
         const index = JSON.parse(this.localStorageSrv.get('index'));
         this.setDataIndexForm(index)
-
     }
 
     setDataIndexForm(index) {
@@ -115,7 +114,7 @@ export class NewComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        this.localStorageSrv.clear('index');
+        this.localStorageSrv.clear(this.id);
     }
 
     getBatch() {
@@ -144,7 +143,7 @@ export class NewComponent implements OnInit {
     getDocument() {
         this.documentSrv.document(this.batch.doct._id).subscribe(data => {
             this.document = data;
-            this.valuesStorage = JSON.parse(this.localStorageSrv.get(this.id));
+            this.valuesStorage = JSON.parse(this.localStorageSrv.get(this.batch._id));
             if (this.document.label) {
                 var items = []
                 this.document.label.map((item, key) => {
@@ -194,8 +193,6 @@ export class NewComponent implements OnInit {
         this.batchesSrv.batchIndex(this.id, { picture: this.image._id, tag: tag }).subscribe(data => {
             this.successMsgSrv.successMessages('Imagem indexada com sucesso.');
             this.getBatch()
-            const index = JSON.parse(this.localStorageSrv.get('index'));
-            this.setDataIndexForm(index)
             this.loading = false;
         }, error => {
             this.loading = false;
