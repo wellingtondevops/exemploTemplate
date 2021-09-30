@@ -43,6 +43,8 @@ export class ListComponent implements OnInit {
   departaments: any = [];
   guardTypeList: any = [];
   storehouses: any = [];
+  records: boolean;
+
   documents: any = [];
   volumes: VolumeList = {
     _links: {
@@ -62,9 +64,11 @@ export class ListComponent implements OnInit {
     { name: 'Posição', prop: 'location', width: 70 },
     { name: 'Status', prop: 'status', width: 70 },
     { name: 'Guarda', prop: 'guardType', width: 70,  },
-    { name: 'Depósito', prop: 'storehouse.name' },
+    { name: 'Depósito', prop: 'storehouse.name', width: 70 },
     { name: 'Referência', prop: 'reference', width: 70 },
-    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+    { name: 'Conteúdo', prop: 'records', width: 90, pipe: {transform: this.pipes.recordsType }},
+    { name: 'Criado em', prop: 'dateCreated', width: 70, pipe: { transform: this.pipes.datePipe } }
+
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
@@ -94,7 +98,6 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-
     // this.setPage({ offset: 0 })
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
@@ -106,6 +109,7 @@ export class ListComponent implements OnInit {
       endDate: this.fb.control(null),
       initDate: this.fb.control(null),
       guardType: this.fb.control('GERENCIADA'),
+      records: this.fb.control(null),
     });
     const volume = JSON.parse(this.localStorageSrv.get('volume'));
     if (volume && volume.company) {
@@ -118,7 +122,8 @@ export class ListComponent implements OnInit {
         reference: volume.reference,
         endDate: volume.endDate,
         initDate: volume.initDate,
-        guardType: volume.guardType
+        guardType: volume.guardType,
+        records: volume.records
       });
 
       this.getDepartaments(volume.company._id);
@@ -158,7 +163,8 @@ export class ListComponent implements OnInit {
       reference: null,
       endDate: null,
       initDate: null,
-      guardType: 'GERENCIADA'
+      guardType: 'GERENCIADA',
+      records: null
     });
   }
 
@@ -184,7 +190,8 @@ export class ListComponent implements OnInit {
       reference: null,
       endDate: null,
       initDate: null,
-      guardType: null
+      guardType: null,
+      records: null
     };
 
     this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
@@ -196,6 +203,7 @@ export class ListComponent implements OnInit {
     this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
     this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;
     this.searchForm.value.guardType ? newForm.guardType = this.searchForm.value.guardType : null;
+    this.searchForm.value.records ? newForm.records = this.searchForm.value.records : null;
 
     const searchValue = _.omitBy(newForm, _.isNil);
 

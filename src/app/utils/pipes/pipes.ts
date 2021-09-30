@@ -29,6 +29,11 @@ export class Pipes {
     return `<i class="fa fa-circle color-${value[0]}"></i>`;
   }
 
+  recordsType(records: boolean) {
+    const myRecords = (records === true ? 'Possui Arquivos' : 'Não Possui Arquivos');
+    return myRecords;
+  }
+
 }
 
 
