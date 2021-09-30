@@ -17,7 +17,7 @@ const url = environment.apiUrl;
   animations: [routerTransition()]
 })
 export class ErrorsArchivesComponent implements OnInit {
-  @ViewChild('myTable') table: any;
+  @ViewChild('myTable',) table: any;
   searchForm: FormGroup;
   page = new Page();
   loading: Boolean = false;

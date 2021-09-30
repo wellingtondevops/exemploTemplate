@@ -1,27 +1,101 @@
 <nav class="navbar navbar-expand-lg fixed-top">
-  <a class="navbar-brand" href="#">
-    <img src="assets/images/logo.png" width="100px" />
-  </a>
-  <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
-    <!-- <span class="navbar-toggler-icon"></span> -->
-    <i class="fa fa-bars text-muted" aria-hidden="true"></i>
-  </button>
-  <div class="collapse navbar-collapse">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown" ngbDropdown>
-        <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-          <i class="fa fa-user"></i> {{ email }} <b class="caret"></b>
-        </a>
-        <div class="dropdown-menu-right" ngbDropdownMenu>
-          <a class="dropdown-item" [routerLink]="['/users/alter']" [routerLinkActive]="['router-link-active']">
-            <i class="fa fa-fw fa-user"></i> {{ 'Alter Dados' | translate }}
-          </a>
+    <a class="navbar-brand" href="#">
+        <img src="assets/images/logo.png" width="100px" />
+    </a>
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+        <!-- <span class="navbar-toggler-icon"></span> -->
+        <i class="fa fa-bars text-muted" aria-hidden="true"></i>
+    </button>
 
-          <a class="dropdown-item" [routerLink]="['/login']" (click)="onLoggedout()">
-            <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
-          </a>
-        </div>
-      </li>
-    </ul>
-  </div>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <!-- MENU NOTIFICATION -->
+
+            <li class="nav-item dropdown" ngbDropdown>
+                <a
+                    href="javascript:void(0)"
+                    class="nav-link"
+                    ngbDropdownToggle
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    >
+
+                    <div *ngIf="(sizeArr | async) !== 0">
+                        <span class="badgeAlert" > {{(sizeArr | async)}} </span>
+                        <span class="caret"></span>
+                    </div>
+                    <i class="fa fa-bell" ></i> <b class="caret"></b>
+
+                </a>
+
+                    <div class="dropdown-menu-right" ngbDropdownMenu>
+                        <h6 class="dropdown-header" style="text-align: center">
+                            Notificações
+                        </h6>
+                        <hr style="margin: 0;"/>
+                        <div *ngFor="let notify of notifys | async">
+                            <hr/>
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a>
+                                            <i class={{notify.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{notify.title}}</h4>
+                                        <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
+                                        </a>
+                                        <p>
+                                            {{notify.msg}}
+                                        </p>
+                                    </div>
+                                    <div class="button-group" style="align-items: flex-end;">
+                                        <button class="btn btn-secundary" type="button" (click)="onSubmit(notify.key)" *ngIf="notify.active">
+                                            <i
+                                            class="fa fa-eye"
+                                            aria-hidden="true"
+                                            ></i>
+                                        </button>
+                                        <button class="btn-del btn btn-secundary" type="button" (click)="delete(notify.key)" style="margin-left: 5px;">
+                                            <i
+                                            class="fa fa-trash-o"
+                                            aria-hidden="true"
+                                            ></i>
+                                        </button>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+            </li>
+
+            <!-- MENU LOGOUT -->
+            <li class="nav-item dropdown" ngbDropdown>
+                <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+                    <i class="fa fa-user"></i> {{ email }} <b class="caret"></b>
+                </a>
+                <div class="dropdown-menu-right" ngbDropdownMenu>
+                    <a
+                        class="dropdown-item"
+                        [routerLink]="['/users/alter']"
+                        [routerLinkActive]="['router-link-active']"
+                    >
+                        <i class="fa fa-fw fa-user"></i>
+                        {{ "Alter Dados" | translate }}
+                    </a>
+
+                    <a
+                        class="dropdown-item"
+                        [routerLink]="['/login']"
+                        (click)="onLoggedout()"
+                    >
+                        <i class="fa fa-fw fa-power-off"></i>
+                        {{ "Log Out" | translate }}
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>

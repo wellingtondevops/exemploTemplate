@@ -1,3 +1,4 @@
+import { Archive } from './archive';
 import { Pagination } from './pagination';
 
 export class MovimentSearch {
@@ -79,4 +80,5 @@ export class MovimentSearchArchives {
   storehouse: string;
   doct: string;
   search: string;
+  
 }

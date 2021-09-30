@@ -1,33 +1,87 @@
 <div [@routerTransition]>
-    <ngx-loading [show]="loading" [config]="{
+    <ngx-loading
+        [show]="loading"
+        [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
-        }"></ngx-loading>
-    <app-page-header [heading]="'Dados do Depósito'" [icon]="'fa-house'"></app-page-header>
+        }"
+    ></ngx-loading>
+    <app-page-header
+        [heading]="'Dados do Depósito'"
+        [icon]="'fa-house'"
+    ></app-page-header>
+    <div>
+        <br />
+    </div>
+    <br/>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
-                <div class="form-content">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input id="name" class="form-control"
-                            [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" formControlName="name" />
-                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                            <div *ngIf="!name.valid">
-                                Nome é obrigatório.
+                        <form
+                            [formGroup]="storeHouseForm"
+                            role="FormGroup"
+                            (ngSubmit)="updateStoreHouse()"
+                        >
+                            <div class="form-content">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input
+                                        id="name"
+                                        class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                !name.valid && name.value === ''
+                                        }"
+                                        formControlName="name"
+                                    />
+                                    <div
+                                        *ngIf="
+                                            name.invalid &&
+                                            (name.dirty || name.touched)
+                                        "
+                                        class="invalid-feedback"
+                                    >
+                                        <div *ngIf="!name.valid">
+                                            Nome é obrigatório.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                formControlName="mapStorehouse"
+                                                value=""
+                                            />
+                                            Mapear Depósito
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pull-right">
-                    <button type="button" [routerLink]="['/storehouses/get', storeHouse._id]" class="btn btn-danger"
-                        style="margin-right:10px">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="name.invalid">Salvar</button>
-                </div>
-            </form>
+                            <div class="pull-right">
+                                <button
+                                    type="button"
+                                    [routerLink]="[
+                                        '/storehouses/get',
+                                        storeHouse._id
+                                    ]"
+                                    class="btn btn-danger"
+                                    style="margin-right: 10px"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    [disabled]="name.invalid"
+                                >
+                                    Salvar
+                                </button>
+                            </div>
+                        </form>
         </div>
     </div>
 </div>

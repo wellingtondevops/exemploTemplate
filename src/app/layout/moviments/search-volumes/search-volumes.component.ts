@@ -242,9 +242,10 @@ export class SearchVolumesComponent implements OnInit {
     }, error => {
       this.errorMsg.errorMessages(error);
       this.loading = false;
-      console.log(`ERROR: ${error}`);
+      console.log(`ERROR: ${error}`)
     });
   }
+
 
   onSelect({ selected }) {
     selected.splice(0, this.selected.length);

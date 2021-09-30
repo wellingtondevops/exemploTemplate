@@ -1,3 +1,5 @@
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ChartsModule } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -10,6 +12,10 @@ import { AuthGuard } from './shared';
 import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { TokenInterceptorService } from './interceptos/token-interceptor.service';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from 'src/environments/environment';
+
 
 
 @NgModule({
@@ -21,7 +27,11 @@ import { TokenInterceptorService } from './interceptos/token-interceptor.service
         LanguageTranslationModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        ToastrModule.forRoot()
+        ChartsModule,
+        ToastrModule.forRoot(),
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFirestoreModule,
+        AngularFireDatabaseModule
     ],
     declarations: [AppComponent],
     providers: [

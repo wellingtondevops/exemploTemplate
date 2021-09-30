@@ -16,7 +16,7 @@ export class DatatablesComponent implements OnInit {
   page = new Page();
   firstMoment = false;
   @Output() setPage = new EventEmitter();
-  @ViewChild('showTmpl') showTmpl: TemplateRef<any>;
+  @ViewChild('showTmpl',) showTmpl: TemplateRef<any>;
   @Output() show = new EventEmitter();
 
   constructor() {

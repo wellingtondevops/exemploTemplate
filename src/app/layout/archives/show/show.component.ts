@@ -48,7 +48,7 @@ export class ShowComponent implements OnInit {
 
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
-    volume: new FormControl(''),    
+    volume: new FormControl(''),
     company: new FormControl(''),
     archive: new FormControl(''),
     doct: new FormControl(''),

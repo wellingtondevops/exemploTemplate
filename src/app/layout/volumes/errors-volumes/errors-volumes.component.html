@@ -16,8 +16,8 @@
         <form [formGroup]="searchForm" (ngSubmit)="getErrors()" role="FormGroup" class="form-inline">
           <div class="row col-12">
             <div class="form-group mb-2 col-6">
-              <label for="sheet">Nome da Planilha</label>
-              <input id="sheet" class="form-control col-12" formControlName="sheet"
+              <label for="sheet">Planilha</label>
+              <input id="sheet" class="form-control col-12" placeholder="Nome da Planilha" formControlName="sheet"
                 [ngClass]="{ 'is-invalid': !sheet.valid }" />
               <div *ngIf="sheet.invalid && (sheet.dirty || sheet.touched)" class="invalid-feedback">
                 <div *ngIf="!sheet.valid">
@@ -41,7 +41,7 @@
               <button type="submit" class="btn btn-primary" [disabled]="sheet.invalid">
                 <i class="fa fa-search"></i>
               </button>
-              <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
+              <button style="margin-left: 5px;" type="button" class="btn btn-default" [disabled]="sheet.invalid" (click)="clear()">
                 Limpar Campos
               </button>
             </div>

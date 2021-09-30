@@ -21,7 +21,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
   animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
-  @ViewChild('tab') private tab: NgbTabset;
+  @ViewChild('tab',) private tab: NgbTabset;
   id: string;
   document: Document;
   loading: Boolean = true;
@@ -59,7 +59,8 @@ export class EditComponent implements OnInit {
       dcurrentValue: this.fb.control(0),
       dcurrentLabel: this.fb.control(''),
       dintermediateValue: this.fb.control(0),
-      dfinal: this.fb.control('')
+      dfinal: this.fb.control(''),
+      currentControl: this.fb.control({value:'',disabled:false})
     });
 
     this.doctStructForm = this.fb.group({
@@ -118,7 +119,8 @@ export class EditComponent implements OnInit {
           dcurrentValue: data.dcurrentValue,
           dcurrentLabel: data.dcurrentLabel,
           dintermediateValue: data.dintermediateValue,
-          dfinal:  data.dfinal
+          dfinal:  data.dfinal,
+          currentControl:this.document.currentControl
         });
         this.document.label.map(item => {
           this.addLabelExist(item);

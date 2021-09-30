@@ -1,3 +1,4 @@
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -43,13 +44,20 @@ export class ListComponent implements OnInit {
     private modalService: NgbModal,
     public modal: NgbActiveModal,
     private fb: FormBuilder,
-    private utilCase: CaseInsensitive
+    private utilCase: CaseInsensitive,
+    private localStorageSrv: SaveLocal,
   ) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
     });
+    const value = JSON.parse(this.localStorageSrv.get('value'));
+    if (value && value.company) {
+      this.searchForm.patchValue({
+        company: value.company
+      });
+    }
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
 
     this.getCompanies();
@@ -98,6 +106,7 @@ export class ListComponent implements OnInit {
   setPageCompanyServices(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
+    this.localStorageSrv.save('value', this.searchForm.value);
     if (this.company.valid) {
       console.log(this.searchForm.value)
       this.companyserviceSrc.searchServices({company: this.searchForm.get('company').value.name}, this.page).subscribe(
@@ -130,7 +139,13 @@ export class ListComponent implements OnInit {
         }
       );
     }
+  }
+  clear() {
+    this.localStorageSrv.clear('value');
 
+    this.searchForm.patchValue({
+      company: null
+    });
   }
 
 

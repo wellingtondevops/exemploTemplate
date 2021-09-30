@@ -1,3 +1,4 @@
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../../../services/companies/companies.service';
 import { routerTransition } from '../../../router.animations';
@@ -6,7 +7,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { Pipes } from '../../../utils/pipes/pipes';
 import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -43,14 +44,25 @@ export class ListComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private pipes: Pipes,
     private fb: FormBuilder,
+    private localStorageSrv: SaveLocal,
   ) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
-      name: this.fb.control(null),
+      name: this.fb.control(null, [Validators.required]),
     });
+    const companies = JSON.parse(this.localStorageSrv.get('companies'));
+    if (companies && companies.name) {
+      this.searchForm.patchValue({
+        name: companies.name
+      });
+    }
     this.getCompanies();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+  }
+
+  get name() {
+    return this.searchForm.get('name');
   }
 
   getCompany(company) {
@@ -64,6 +76,10 @@ export class ListComponent implements OnInit {
   setPageCompanies(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    this.localStorageSrv.save('companies', this.searchForm.value);
+    const newForm = {
+            name: this.searchForm.value.name ? this.searchForm.value.name : null,
+    };
 
     this.companiesSrv.searchCompany(this.searchForm.value, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
@@ -107,6 +123,13 @@ export class ListComponent implements OnInit {
     }, error => {
       console.log('ERROR: ', error);
       this.loading = false;
+    });
+  }
+  clear() {
+    this.localStorageSrv.clear('companies');
+
+    this.searchForm.patchValue({
+      name: null
     });
   }
 }

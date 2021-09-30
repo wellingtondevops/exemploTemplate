@@ -41,7 +41,7 @@ const ALERTS: Alert[] = [{
 })
 export class ListComponent implements OnInit {
   alerts: Alert[];
-  @ViewChild('myTable') table: any;
+  @ViewChild('myTable', ) table: any;
   tableRegister: Boolean = false;
   loading: Boolean = false;
   company_id: string;
@@ -93,7 +93,7 @@ export class ListComponent implements OnInit {
   tabIndex: Boolean = true;
   page = new Page();
   registerPage = new Page();
-  @ViewChild('tab') private tab: NgbTabset;
+  @ViewChild('tab', ) private tab: NgbTabset;
   columns = [
     { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Departamento', prop: 'departament.name' },

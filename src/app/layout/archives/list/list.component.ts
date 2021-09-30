@@ -29,9 +29,9 @@ import * as moment from 'moment';
 export class ListComponent implements OnInit {
   @ViewChild('myTable') table: any;
   @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-  @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
-  @ViewChild('instanceStorehouse') instanceStorehouse: NgbTypeahead;
-  @ViewChild('searchTypeahead')
+  @ViewChild('instanceDocument',) instanceDocument: NgbTypeahead;
+  @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+  @ViewChild('searchTypeahead',)
   private readonly typeahead: NgbTypeahead;
   archives: Archive[];
   archivesCol: any[];

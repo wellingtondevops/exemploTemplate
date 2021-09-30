@@ -14,6 +14,7 @@
       [permissionDelete]="permissionDelete && !moviment.processed && !moviment.demand"></app-buttons-custom>
     <br />
   </div>
+
   <div class="card bg-light mb-12">
     <div class="card-body">
       <ngb-tabset #tab *ngIf="moviment" (tabChange)="beforeChange($event)">

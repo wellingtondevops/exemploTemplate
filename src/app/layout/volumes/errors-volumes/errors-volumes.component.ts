@@ -16,12 +16,12 @@ const url = environment.apiUrl;
   animations: [routerTransition()]
 })
 export class ErrorsVolumesComponent implements OnInit {
-  @ViewChild('myTable') table: any;
+  @ViewChild('myTable',) table: any;
   searchForm: FormGroup;
   page = new Page();
   loading: Boolean = false;
   errorsVolumes: any[];
-  
+
   constructor(
     private _route: Router,
     private route: ActivatedRoute,
@@ -58,6 +58,8 @@ export class ErrorsVolumesComponent implements OnInit {
   setPage(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    this.localStorageSrv.save('volumeSearchError', this.searchForm.value);
+
 
     this.volumeSrv.searchSheetErrorsVolumes(this.searchForm.value, this.page).subscribe(
       data => {

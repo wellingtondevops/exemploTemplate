@@ -86,6 +86,16 @@ export class MovimentsService {
       );
   }
 
+  
+
+  
+
+
+  
+
+
+  
+
   company(id) {
     return this.http.get<any>(`${url}/demands/${id}/companyDemand`)
       .pipe(

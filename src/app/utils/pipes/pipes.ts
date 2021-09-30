@@ -29,12 +29,20 @@ export class Pipes {
     return `<i class="fa fa-circle color-${value[0]}"></i>`;
   }
 
+
   isPdf(url: string) {
     if (url.indexOf('.pdf') !== -1) {
       return true;
     }
     return false;
   }
+
+  recordsType(records: boolean) {
+    const myRecords = (records === true ? 'Possui Arquivos' : 'Não Possui Arquivos');
+    return myRecords;
+  }
+
+
 }
 
 

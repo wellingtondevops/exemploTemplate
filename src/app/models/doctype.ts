@@ -15,6 +15,7 @@ export class Doctype {
   __v: number;
   dateCreated: string;
   label: Label[];
+  currentControl:boolean;
 }
 
 export class DoctypeList {

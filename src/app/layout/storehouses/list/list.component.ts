@@ -1,3 +1,4 @@
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit, Output, EventEmitter, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
@@ -11,7 +12,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.service';
 import { Page } from 'src/app/models/page';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -52,16 +53,26 @@ export class ListComponent implements OnInit {
     private modalService: NgbModal,
     public modal: NgbActiveModal,
     private fb: FormBuilder,
+    private localStorageSrv: SaveLocal,
   ) { }
 
   ngOnInit() {
     // this.setPage({ offset: 0 });
     // this.getStoreHouses();
     this.searchForm = this.fb.group({
-      name: this.fb.control(null),
+      name: this.fb.control(null, [Validators.required]),
     });
+   const deposit = JSON.parse(this.localStorageSrv.get('deposit'));
+    if (deposit && deposit.name) {
+      this.searchForm.patchValue({
+        name: deposit.name
+      });
+    }
     this.getStoreHouses();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
+  }
+  get name() {
+    return this.searchForm.get('name');
   }
 
   getStoreHouse(storeHouse) {
@@ -119,6 +130,10 @@ export class ListComponent implements OnInit {
   setPageStoreHouses(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
+    this.localStorageSrv.save('deposit', this.searchForm.value);
+    const newForm = {
+            name: this.searchForm.value.name ? this.searchForm.value.name : null,
+    };
 
     this.storeHousesSrv.searchStorehouse(this.searchForm.value, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage - 1;
@@ -167,5 +182,12 @@ export class ListComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+  clear() {
+    this.localStorageSrv.clear('deposit');
+
+    this.searchForm.patchValue({
+      name: null
+    });
   }
 }

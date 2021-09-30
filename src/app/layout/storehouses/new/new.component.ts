@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class NewComponent implements OnInit {
     storeHouse: Object;
     storeHouseForm: FormGroup;
+    mapHouseForm: FormGroup;
     loading: Boolean = false;
 
     constructor(
@@ -28,13 +29,17 @@ export class NewComponent implements OnInit {
 
     ngOnInit() {
         this.storeHouseForm = this.fb.group({
-            name: this.fb.control('', [Validators.required])
+            name: this.fb.control('', [Validators.required]),
+            mapStorehouse: this.fb.control({value:'', enabled: true }),
+
+
         });
     }
 
     get name() {
         return this.storeHouseForm.get('name');
     }
+
 
     postStoreHouse() {
         this.loading = true;
@@ -43,7 +48,9 @@ export class NewComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.storeHouseForm = this.fb.group({
-                        name: this.fb.control('', [Validators.required])
+                        name: this.fb.control('', [Validators.required]),
+
+
                     });
                     this.successMsgSrv.successMessages('Depósito cadastrado com sucesso.');
                     this._route.navigate(['/storehouses']);

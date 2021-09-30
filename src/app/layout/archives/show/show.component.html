@@ -68,6 +68,7 @@
   </div>
   <div class="row" *ngIf="!loading">
     <div class="col-lg-4" style="display: flex;">
+       <!-- FASE CORRENTE -->
       <div class="col-xs-4">
         <div class="card bg-light">
           <div class="card-header">
@@ -78,15 +79,15 @@
                                 archive &&
                                 archive.startDateCurrent === undefined
                             ">{{ archive.doct.dcurrentLabel }}</label>
-            <label *ngIf="archive && archive.startDateCurrent">Início:
+            <label *ngIf="archive && archive.startDateCurrent==true">Início:
               {{ returnDate(archive.startDateCurrent) }}</label>
-            <label *ngIf="archive && archive.finalDateCurrent">Fim:
+            <label *ngIf="archive && archive.finalDateCurrent==true">Fim:
               {{ returnDate(archive.finalDateCurrent) }}</label>
             <br />
-            <input type="date" class="form-control" *ngIf="startCurrentDate" [(ngModel)]="inputStartCurrentDate" />
+            <input type="date" class="form-control" *ngIf="startCurrentDate && archive.doct.currentControl===true" [(ngModel)]="inputStartCurrentDate" />
             <br />
             <button *ngIf="
-                                archive
+                                archive && archive.doct.currentControl===true
                             " class="btn btn-danger btn-sm" (click)="setStartCurrentDate()">
               Final Corrente
             </button>
@@ -94,6 +95,8 @@
           </div>
         </div>
       </div>
+
+
       <div class="col-xs-4">
         <div class="card bg-light">
           <div class="card-header">

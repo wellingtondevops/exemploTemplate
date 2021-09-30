@@ -228,7 +228,7 @@ export class SearchArchivesComponent implements OnInit {
   }
 
   setPageArchives(pageInfo) {
-    this.loading = true;
+   this.loading = true;
     this.page.pageNumber = pageInfo.offset;
     const newSearch = {
       departament: null,
