@@ -22,7 +22,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
   animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
-  @ViewChild('tab', { static: true }) private tab: NgbTabset;
+  @ViewChild('tab',) private tab: NgbTabset;
   loading: Boolean = false;
   documentForm: FormGroup;
   doctStructForm: FormGroup;
@@ -34,10 +34,10 @@ export class NewComponent implements OnInit {
   tabIndex: Boolean = false;
   topic: Topic;
   topicForm: FormGroup;
-  
-          
 
-  
+
+
+
 
   constructor(
     private _route: Router,
@@ -64,9 +64,9 @@ export class NewComponent implements OnInit {
     return this.documentForm.get('name');
   }
 
-  
 
- 
+
+
   ngOnInit() {
     this.documentForm = this.fb.group({
       company: this.fb.control('', Validators.required),
@@ -79,7 +79,7 @@ export class NewComponent implements OnInit {
       refStructureId: this.fb.control(''),
       refTemplateId: this.fb.control(''),
       currentControl: this.fb.control('')
-      
+
     });
 
     this.doctStructForm = this.fb.group({
@@ -97,7 +97,7 @@ export class NewComponent implements OnInit {
       currentLabel: this.fb.control({ value: '', disabled: true }),
       topic: this.fb.control({ value: '', disabled: true }),
       codTopic: this.fb.control({ value: '', disabled: true }),
-      
+
     });
 
     this.getCompanies();
@@ -221,7 +221,7 @@ export class NewComponent implements OnInit {
         currentLabel: '',
         topic: '',
         codTopic: '',
-        
+
       });
     }
   }
@@ -250,7 +250,7 @@ export class NewComponent implements OnInit {
           dcurrentLabel: data.currentLabel,
           dintermediateValue: data.intermediateValue,
           dfinal: data.final,
-          
+
         });
       } else {
         this.documentForm.patchValue({

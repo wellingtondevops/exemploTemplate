@@ -22,7 +22,7 @@
                     aria-expanded="false"
                     >
 
-                    <div *ngIf="(sizeArr | async) > 0">
+                    <div *ngIf="(sizeArr | async) !== 0">
                         <span class="badgeAlert" > {{(sizeArr | async)}} </span>
                         <span class="caret"></span>
                     </div>
@@ -69,7 +69,6 @@
                                 </div>
                         </div>
                     </div>
-
             </li>
 
             <!-- MENU LOGOUT -->

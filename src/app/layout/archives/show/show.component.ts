@@ -44,11 +44,11 @@ export class ShowComponent implements OnInit {
   isUsers = false;
   startCurrentDate = false;
   inputStartCurrentDate = '';
-  @ViewChild('content', { static: false }) content: TemplateRef<any>;
+  @ViewChild('content') content: TemplateRef<any>;
 
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
-    volume: new FormControl(''),    
+    volume: new FormControl(''),
     company: new FormControl(''),
     archive: new FormControl(''),
     doct: new FormControl(''),
