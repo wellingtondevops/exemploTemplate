@@ -15,6 +15,9 @@ import { TokenInterceptorService } from './interceptos/token-interceptor.service
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
+import { SafePipe } from './utils/pipes/safe-pipe';
+
+
 
 
 
@@ -27,13 +30,16 @@ import { environment } from 'src/environments/environment';
         LanguageTranslationModule,
         AppRoutingModule,
         ReactiveFormsModule,
+
+
+
         ChartsModule,
         ToastrModule.forRoot(),
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule,
         AngularFireDatabaseModule
     ],
-    declarations: [AppComponent],
+    declarations: [AppComponent, SafePipe],
     providers: [
         AuthGuard,
         FormBuilder,
