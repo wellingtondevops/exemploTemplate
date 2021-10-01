@@ -15,7 +15,7 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { merge, Observable, Subject } from 'rxjs';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabset, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
@@ -25,9 +25,13 @@ import { Volume, VolumeList } from 'src/app/models/volume';
     selector: 'app-new',
     templateUrl: './new.component.html',
     styleUrls: ['./new.component.scss'],
-    animations: [routerTransition()]
+    animations: [routerTransition()],
+    providers: [
+        NgbTabset
+    ]
 })
 export class NewComponent implements OnInit {
+    @ViewChild('tabs') private tabs:NgbTabset;
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
     companies: any;
@@ -353,8 +357,9 @@ export class NewComponent implements OnInit {
 
     getVolume(item) {
         this.batchesSrv.addVolume(this.id, item._id).subscribe(data => {
-            this.batch()
-            this._route.navigate(['/index', this.id]);
+            this.getBatch();
+            this.tabs.select('dados');
+            // this._route.navigate(['/index', this.id]);
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
