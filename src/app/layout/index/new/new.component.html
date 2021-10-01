@@ -14,8 +14,8 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <ngb-tabset>
-                <ngb-tab title="Dados">
+            <ngb-tabset #tabs>
+                <ngb-tab title="Dados" id="dados">
                     <ng-template ngbTabContent>
                         <div style="display: flex!important;">
                             <div class="col-xl-4 col-lg-4 col-md-4">
@@ -87,7 +87,7 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="Pesquisar Posição">
+                <ngb-tab title="Pesquisar Posição" id="position">
                     <ng-template ngbTabContent>
                         <ngb-accordion #acc="ngbAccordion" activeIds="index-search">
                             <ngb-panel id="index-search" style="margin-top:10px">
