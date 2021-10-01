@@ -108,14 +108,27 @@
           <button type="button" [routerLink]="['/volumes']" class="btn btn-default" style="margin-right:10px">
             Voltar
           </button>
-          <button type="submit" class="btn btn-primary" [disabled]="
-                  company.invalid ||
-                  storehouse.invalid ||
-                  volumeType.invalid ||
-                  guardType.invalid
-              ">
-            Salvar
-          </button>
+          <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+            <div class="form-group">
+              <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)" [savedFile]="savedFile"
+                [disabled]="
+                company.invalid ||
+                storehouse.invalid ||
+                volumeType.invalid ||
+                guardType.invalid
+            ">
+              </app-form-upload>
+            </div>
+          </form>
+            <button type="submit" class="btn btn-primary" [disabled]="
+                    company.invalid ||
+                    storehouse.invalid ||
+                    volumeType.invalid ||
+                    guardType.invalid
+                ">
+                Salvar
+            </button>
+
         </div>
       </form>
       <app-modal-import-right-bottom *ngIf="openCardStatus" [visible]="openCardStatus" [imported]="importedSuccess"

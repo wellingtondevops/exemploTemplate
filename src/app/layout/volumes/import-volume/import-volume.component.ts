@@ -1,7 +1,9 @@
+import { Archive } from './../../../models/archive';
+import { FilesService } from './../../../services/files/files.service';
 import { Component, OnInit, HostListener, Pipe, PipeTransform } from '@angular/core';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import * as XLSX from 'ts-xlsx';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Storehouse } from 'src/app/models/storehouse';
 import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
@@ -27,11 +29,14 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
   animations: [routerTransition()]
 })
 export class ImportVolumeComponent implements OnInit {
-  file: File | null = null;
+  file: any = '';
   nameFile: string;
   arrayBuffer: any;
   companies: any = [];
   volumeForm: FormGroup;
+  uploadResponse: any = { status: 'progress', message: 0 };
+  url: any = '';
+  errorUpload: boolean = null;
   storeHouses: any = [];
   volumeTypeList: any = [];
   guardTypeList: any = [];
@@ -39,12 +44,23 @@ export class ImportVolumeComponent implements OnInit {
   storeHouse: Storehouse;
   departaments: any = [];
   loading: Boolean = true;
+  archive: Archive;
   rowsFile: any = [];
+  savedFile = false;
   hiddenReference = true;
-  openCardStatus: boolean = false;
+  openCardStatus = false;
   urlErrors: string;
-  importedSuccess: number = 0;
-  errorsImported: number = 0;
+  importedSuccess = 0;
+  errorsImported = 0;
+
+  uploadFile = new FormGroup({
+    storehouse: new FormControl(''),
+    departament: new FormControl(''),
+    volumeType: new FormControl(''),
+    guardType: new FormControl(''),
+    company: new FormControl(''),
+    file: new FormControl(null, [Validators.required])
+  });
 
   constructor(
     private errorMsg: ErrorMessagesService,
@@ -54,6 +70,7 @@ export class ImportVolumeComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private successMsgSrv: SuccessMessagesService,
     private fb: FormBuilder,
+    private filesSrv: FilesService,
     private utilCase: CaseInsensitive
   ) {
     this.statusList = StatusVolumeEnum;
@@ -66,7 +83,6 @@ export class ImportVolumeComponent implements OnInit {
       guardType: this.fb.control('', [Validators.required]),
       volumeType: this.fb.control('', [Validators.required]),
       departament: this.fb.control(null),
-      volumes: this.fb.control(null, [Validators.required]),
     });
   }
 
@@ -111,21 +127,12 @@ export class ImportVolumeComponent implements OnInit {
       } else {
         this.file = file;
         const fileReader = new FileReader();
-        fileReader.onload = (e) => {
-          this.arrayBuffer = fileReader.result;
-          const data = new Uint8Array(this.arrayBuffer);
-          const arr = new Array();
-          for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
-          const bstr = arr.join('');
-          const workbook = XLSX.read(bstr, { type: 'binary' });
-          const first_sheet_name = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[first_sheet_name];
-          const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-          item.map(row => {
-            this.rowsFile.push(row);
-          });
+        fileReader.readAsDataURL(event[0]);
+
+        fileReader.onload = (event) => {
+            this.url = event.currentTarget;
+            this.url = this.url.result;
         };
-        fileReader.readAsArrayBuffer(this.file);
       }
     }
   }
@@ -137,17 +144,59 @@ export class ImportVolumeComponent implements OnInit {
     })[0];
   }
 
-  postVolume() {
+  postFile(data) {
+    this.uploadFile.patchValue({
+        company: this.company,
+        departament: this.departament,
+        volumeType: this.volumeType,
+        storehouse: this.storeHouse,
+        guardType: this.guardType,
+        file: data
+    });
+    this.submit();
+
+  }
+  submit() {
+    // this.loading = true;
+    const formData = new FormData();
+    formData.append('files', this.uploadFile.get('file').value);
+    formData.append('storehouse', this.uploadFile.get('storehouse').value);
+    formData.append('volumeType', this.uploadFile.get('volumeType').value);
+    formData.append('department', this.uploadFile.get('department').value);
+    formData.append('guardType', this.uploadFile.get('guardType').value);
+    formData.append('company', this.uploadFile.get('company').value);
+    this.filesSrv.file(formData).subscribe(data => {
+        if (data.status && data.status === 'progress') {
+          this.uploadResponse.message = data.message;
+          this.uploadResponse.status = data.status;
+          this.errorUpload = false;
+        }
+        if (data._id) {
+          this.savedFile = true;
+          // this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+        }
+      }, error => {
+        this.loading = false;
+        this.uploadResponse.message = 10;
+        this.uploadResponse.status = 'progress';
+        this.errorUpload = true;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR ', error);
+      });
+  }
+
+  postVolume(data) {
     this.loading = true;
     const company = this.returnId('company');
     const storehouse = this.returnId('storehouse');
     const departament = this.returnId('departament');
     const guardType = this.volumeForm.value.guardType;
     const volumeType = this.volumeForm.value.volumeType;
+    this.postFile(data);
 
-    const sheetName = this.nameFile;
-    const volumes = this.rowsFile;
-    this.volumesSrv.import({ sheetName, volumes, company, storehouse, departament, volumeType, guardType }).subscribe(
+
+
+    this.volumesSrv.import({company, storehouse, departament, volumeType, guardType }).subscribe(
       data => {
         this.loading = false;
         if (data) {
@@ -158,7 +207,7 @@ export class ImportVolumeComponent implements OnInit {
         }
       }, error => {
         this.loading = false;
-        console.log('ERROR', error)
+        console.log('ERROR', error);
         this.errorMsg.errorMessages(error);
       }
     );
@@ -202,7 +251,7 @@ export class ImportVolumeComponent implements OnInit {
   }
 
   closeModalImport(data) {
-    console.log('closeModalImport', data)
+    console.log('closeModalImport', data);
     this.openCardStatus = data;
   }
 

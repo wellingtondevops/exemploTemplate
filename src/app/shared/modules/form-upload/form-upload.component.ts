@@ -105,7 +105,7 @@ export class FormUploadComponent implements ControlValueAccessor {
   registerOnTouched(fn: Function) {
   }
 
-  saveFile() {
+saveFile() {
     this.progress = true;
     this.postFile.emit(this.file);
   }
