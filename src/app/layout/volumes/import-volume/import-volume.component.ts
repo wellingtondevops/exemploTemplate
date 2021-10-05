@@ -42,6 +42,9 @@ export class ImportVolumeComponent implements OnInit {
   rowsFile: any = [];
   hiddenReference = true;
   openCardStatus: boolean = false;
+  uploadResponse: any = { status: 'progress', message: 0 };
+  savedFile = false;
+  errorUpload: boolean = null;
   urlErrors: string;
   importedSuccess: number = 0;
   errorsImported: number = 0;
@@ -142,27 +145,44 @@ export class ImportVolumeComponent implements OnInit {
     const company = this.returnId('company');
     const storehouse = this.returnId('storehouse');
     const departament = this.returnId('departament');
-    const guardType = this.volumeForm.value.guardType;
     const volumeType = this.volumeForm.value.volumeType;
+    const guardType = this.volumeForm.value.guardType;
 
-    const sheetName = this.nameFile;
-    const volumes = this.rowsFile;
-    this.volumesSrv.import({ sheetName, volumes, company, storehouse, departament, volumeType, guardType }).subscribe(
-      data => {
-        this.loading = false;
-        if (data) {
-          this.importedSuccess = data.Imported ? data.Imported : 0;
-          this.errorsImported = data.Errors ? data.Errors : 0;
-          this.urlErrors = data.sheetError ? `${url}${data.sheetError}` : null;
-          this.openCardStatus = true;
-        }
-      }, error => {
-        this.loading = false;
-        console.log('ERROR', error)
-        this.errorMsg.errorMessages(error);
-      }
-    );
+
+    this.submit(company, storehouse, departament, volumeType, guardType);
+    this.loading = false;
+
   }
+  submit(company, storehouse, departament, volumeType, guardType) {
+    const formData = new FormData();
+      formData.append('file', this.file);
+    formData.append('storehouse', storehouse);
+    formData.append('departament', departament);
+    formData.append('company', company);
+    formData.append('volumeType', volumeType);
+    formData.append('guardType', guardType);
+
+    console.log(formData);
+    this.volumesSrv.import(formData).subscribe(data => {
+      console.log(data);
+      if (data.status && data.status === 'progress') {
+        this.uploadResponse.message = data.message;
+        this.uploadResponse.status = data.status;
+        this.errorUpload = false;
+      }
+      if (Array(data)) {
+        this.savedFile = true;
+        this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+      }
+    }, error => {
+      this.loading = false;
+      this.uploadResponse.message = 10;
+      this.uploadResponse.status = 'progress';
+      this.errorUpload = true;
+      this.errorMsg.errorMessages(error);
+      console.log('ERROR ', error);
+    });
+    }
 
   changeGuardType() {
     switch (this.volumeForm.value.guardType) {
