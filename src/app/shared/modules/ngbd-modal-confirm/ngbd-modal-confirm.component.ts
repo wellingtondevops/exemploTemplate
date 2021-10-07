@@ -32,7 +32,4 @@ export class NgbdModalConfirmComponent {
   deleteBack() {
     this.delete.emit(this.item);
   }
-  open(content) {
-    this.modalService.open(content, { size: 'lg' });
-  }
 }

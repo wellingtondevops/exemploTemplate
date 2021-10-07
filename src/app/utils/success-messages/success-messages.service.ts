@@ -15,6 +15,9 @@ export class SuccessMessagesService {
   }
 
   showSuccess(message) {
-    this.toastr.success(message, 'Sucesso!');
+    this.toastr.success(message, 'Sucesso!', {
+        timeOut: 4000,
+        positionClass: 'toast-bottom-right',
+    });
   }
 }
