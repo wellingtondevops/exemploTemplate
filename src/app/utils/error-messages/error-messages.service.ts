@@ -13,7 +13,8 @@ export class ErrorMessagesService {
   errorMessagesImport(error) {
     const response = {
       message: '',
-      status: 0
+      status: 0,
+      positionClass: 'toast-center-center'
     };
     switch (error.status) {
       case 400:
@@ -48,7 +49,9 @@ export class ErrorMessagesService {
   errorMessages(error) {
     const response = {
       message: '',
-      status: 0
+      status: 0,
+      positionClass: 'toast-center-center'
+
     };
     switch (error.status) {
       case 400:
@@ -87,10 +90,13 @@ export class ErrorMessagesService {
   showError(error, disableTimeOut = false) {
     if (disableTimeOut) {
       this.toastr.error(`Erro ${error.status}`, error.message, {
-        disableTimeOut: disableTimeOut
+        disableTimeOut: disableTimeOut,
+        positionClass: 'toast-center-center'
       });
     } else {
-      this.toastr.error(`Erro ${error.status}`, error.message);
+      this.toastr.error(`Erro ${error.status}`, error.message, {
+        positionClass: 'toast-center-center'
+      });
     }
   }
 }
