@@ -39,10 +39,24 @@
   flex-direction: column;
   height: 100%;
 }
-
+strong{
+    margin-left: 20px;
+}
+label{
+    margin-left: 22px;
+}
+h5{
+    margin-left: 20px;
+}
 h2 {
   margin-left: 20px;
   white-space: nowrap;
+}
+.form-control{
+    width: 250px;
+}
+.dataBtn{
+    margin-left: 22%;
 }
 
 $sidebarWidth: 200px;

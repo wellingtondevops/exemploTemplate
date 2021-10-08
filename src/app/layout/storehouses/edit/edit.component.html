@@ -1,24 +1,8 @@
 <div [@routerTransition]>
-    <ngx-loading
-        [show]="loading"
-        [config]="{
-            backdropBorderRadius: '3px',
-            fullScreenBackdrop: true,
-            primaryColour: '#222',
-            secondaryColour: '#222',
-            tertiaryColour: '#222'
-        }"
-    ></ngx-loading>
-    <app-page-header
-        [heading]="'Dados do Depósito'"
-        [icon]="'fa-house'"
-    ></app-page-header>
-    <div>
-        <br />
-    </div>
-    <br/>
     <div class="card bg-light mb-12">
         <div class="card-body">
+            <h2>Dados do Depósito</h2>
+            <br/>
                         <form
                             [formGroup]="storeHouseForm"
                             role="FormGroup"
@@ -26,7 +10,7 @@
                         >
                             <div class="form-content">
                                 <div class="form-group">
-                                    <label for="name">Name</label>
+                                    <label for="name">Nome</label>
                                     <input
                                         id="name"
                                         class="form-control"

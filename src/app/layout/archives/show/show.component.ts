@@ -1,3 +1,4 @@
+import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
@@ -65,6 +66,7 @@ export class ShowComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private modalService: NgbModal,
     private fb: FormBuilder,
+    private localStorageSrv: SaveLocal;
   ) { }
 
   ngOnInit() {
@@ -227,4 +229,11 @@ export class ShowComponent implements OnInit {
   editArchive(archive) {
     this._route.navigate(['/archives/edit', archive]);
   }
+  clear() {
+    this.localStorageSrv.clear('position');
+
+    this.inputStartCurrentDate.valueOf({
+        position: null
+    });
+}
 }
