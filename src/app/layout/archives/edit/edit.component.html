@@ -1,149 +1,88 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
+    <ngx-loading
+        [show]="loading"
+        [config]="{
             backdropBorderRadius: '10px',
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
-        }"></ngx-loading>
-  <app-page-header *ngIf="!loading" [heading]="'Editar Arquivo'" [icon]="'fa-user'"></app-page-header>
-  <div style="margin-bottom: 10px;" *ngIf="!loading">
-    <!-- <app-button-back [redirectTo]="'archives'"></app-button-back> -->
-    <app-buttons-custom [id]="archive._id" [permissionEdit]="permissionEdit" (edit)="editArchive(archive._id)"
-      [permissionDelete]="permissionDelete" [isUser]="isUsers">
-    </app-buttons-custom>
-    <br />
-  </div>
-  <div class="row" *ngIf="!loading">
-    <div class="col-4">
-      <h5>DADOS DO VOLUME</h5>
-      <div class="card bg-light mb-12">
-        <div class="card-body">
-          <div>
-            <label> EMPRESA: {{ archive.company.name }}</label>
-          </div>
-          <div>
-            <label>
-              DEPARTAMENTO:{{ archive.departament.name }}</label>
-          </div>
-          <div>
-            <label> DOCUMENTO: {{ archive.doct.name }}</label>
-          </div>
-          <div>
-            <label> DEPÓSITO: {{ archive.storehouse.name }}</label>
-          </div>
-          <div>
-            <label> POSIÇÃO: {{ archive.volume.location }}</label>
-          </div>
-        </div>
-      </div>
-      <br>
-      <div class="col-lg-4">
-        <h5>ÍNDICES</h5>
-      </div>
-      <div class="card bg-light mb-12">
-        <div class="card-body">
-          <app-form-index [data]="archive" [isArchive]="true" [edit]="true" (sendArchive)="updateArchive($event)">
-          </app-form-index>
-        </div>
-      </div>
+        }"
+    ></ngx-loading>
+    <app-page-header
+        *ngIf="!loading"
+        [heading]="'Editar Arquivo'"
+        [icon]="'fa-user'"
+    ></app-page-header>
+    <div style="margin-bottom: 10px" *ngIf="!loading">
+        <!-- <app-button-back [redirectTo]="'archives'"></app-button-back> -->
+        <br />
     </div>
-    <div class="col-8">
-      <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-        <div class="form-group">
-          <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)" [savedFile]="savedFile"
-            (deleteFile)="open('focusFirst', file._id)">
-          </app-form-upload>
-        </div>
-      </form>
-      <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
-      </app-modal-progress-right-bottom>
-    </div>
-  </div>
-  <br>
-  <div class="col-lg-4" *ngIf="!loading" >
-    <h5>TEMPORALIDADE</h5>
-  </div>
-  <div class="row" *ngIf="!loading">
-    <div class="col-lg-4" style="display: flex;">
-      <div class="col-xs-4">
-        <div class="card bg-light">
-          <div class="card-header">
-            Corrente
-          </div>
-          <div class="card-body" style="height: 200px">
-            <label *ngIf="
-                                archive &&
-                                archive.startDateCurrent === undefined
-                            ">{{ archive.doct.dcurrentLabel }}</label>
-            <label *ngIf="archive && archive.startDateCurrent">Início:
-              {{ returnDate(archive.startDateCurrent) }}</label>
-            <label *ngIf="archive && archive.finalDateCurrent">Fim:
-              {{ returnDate(archive.finalDateCurrent) }}</label>
+    <div class="row" *ngIf="!loading">
+        <div class="col-4">
+            <h5>DADOS DO VOLUME</h5>
+            <div class="card bg-light mb-12">
+                <div class="card-body">
+                    <div>
+                        <strong> EMPRESA: </strong> <br />
+                        <label> {{ archive.company.name }} </label>
+                    </div>
+                    <br />
+                    <div>
+                        <strong> DEPARTAMENTO: </strong> <br />
+                        <label> {{ archive.departament.name }} </label>
+                    </div>
+                    <br />
+                    <div>
+                        <strong> DOCUMENTO: </strong> <br />
+                        <label> {{ archive.doct.name }} </label>
+                    </div>
+                    <br />
+                    <div>
+                        <strong> DEPÓSITO: </strong> <br />
+                        <label> {{ archive.storehouse.name }} </label>
+                    </div>
+                    <br />
+                    <div>
+                        <strong> POSIÇÃO: </strong> <br />
+                        <label> {{ archive.volume.location }} </label>
+                    </div>
+                </div>
+            </div>
             <br />
-            <input type="date" class="form-control" *ngIf="startCurrentDate" [(ngModel)]="inputStartCurrentDate" />
-            <br />
-            <button *ngIf="
-                                archive
-                            " class="btn btn-danger btn-sm" (click)="setStartCurrentDate()">
-              Final Corrente
-            </button>
-            <br />
-          </div>
+            <div class="col-lg-4">
+                <h5>ÍNDICES</h5>
+            </div>
+            <div class="card bg-light mb-12">
+                <div class="card-body">
+                    <app-form-index
+                        [data]="archive"
+                        [isArchive]="true"
+                        [edit]="true"
+                        (sendArchive)="updateArchive($event)"
+                    >
+                    </app-form-index>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="card bg-light">
-          <div class="card-header">
-            Intermediária
-          </div>
-          <div class="card-body" style="height: 200px">
-            <label *ngIf="
-                                archive &&
-                                archive.startDateCurrent === undefined
-                            ">{{ archive.doct.dintermediateValue }} Anos</label>
-            <label *ngIf="archive && archive.startDateIntermediate">Início:
-              {{
-                                returnDate(archive.startDateIntermediate)
-                            }}</label>
-            <label *ngIf="archive && archive.finalDateIntermediate">Fim:
-              {{
-                                returnDate(archive.finalDateIntermediate)
-                            }}</label>
-          </div>
+        <div class="col-8">
+            <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <app-form-upload
+                        formControlName="file"
+                        [archive]="file"
+                        (postFile)="postFile($event)"
+                        [savedFile]="savedFile"
+                        (deleteFile)="open('focusFirst', file._id)"
+                    >
+                    </app-form-upload>
+                </div>
+            </form>
+            <app-modal-progress-right-bottom
+                [progress]="uploadResponse"
+                [error]="errorUpload"
+            >
+            </app-modal-progress-right-bottom>
         </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="card bg-light">
-          <div class="card-header">
-            Dest. Final
-          </div>
-          <div class="card-body" style="height: 200px">
-            <label *ngIf="archive && archive.finalFase">{{
-                            archive.finalFase
-                        }}</label>
-            <label *ngIf="
-                                archive &&
-                                archive.startDateCurrent === undefined
-                            ">{{ archive.doct.dfinal }}</label>
-            <label *ngIf="archive && archive.finalDateIntermediate">Início:
-              {{
-                                returnDate(archive.finalDateIntermediate)
-                            }}</label>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-  <br />
-  <div class="row" *ngIf="!loading">
-    <div class="col-4">
-      <div style="font-size: 12px;">
-        {{ archive.sponsor.name }}<br />
-        {{ archive.sponsor.cnpj }}<br />
-        Autor: {{ archive.author.email }}<br />
-        Data da criação: {{ returnDateCreate(archive.create) }}
-      </div>
-    </div>
-  </div>
 </div>

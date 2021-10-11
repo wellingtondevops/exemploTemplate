@@ -66,7 +66,7 @@ export class ShowComponent implements OnInit {
     private errorMsg: ErrorMessagesService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private localStorageSrv: SaveLocal;
+    private localStorageSrv: SaveLocal
   ) { }
 
   ngOnInit() {
@@ -82,7 +82,8 @@ export class ShowComponent implements OnInit {
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
-  }
+}
+
   //   isUser() {
   //     let res = false;
   //     if (JSON.parse(window.localStorage.getItem('routes'))[0].users) {
@@ -110,7 +111,7 @@ export class ShowComponent implements OnInit {
       this.errorMsg.errorMessages(error);
       console.log('ERROR ', error);
     });
-  }
+}
 
 
   getArquive() {
@@ -229,11 +230,5 @@ export class ShowComponent implements OnInit {
   editArchive(archive) {
     this._route.navigate(['/archives/edit', archive]);
   }
-  clear() {
-    this.localStorageSrv.clear('position');
+}
 
-    this.inputStartCurrentDate.valueOf({
-        position: null
-    });
-}
-}

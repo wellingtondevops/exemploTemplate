@@ -251,6 +251,12 @@ export class ShowComponent implements OnInit {
                 }
             );
     }
+    clear() {
+        this.localStorageSrv.clear('position');
 
+        this.storeHouseForm.patchValue({
+            position: null
+        });
+    }
 
 }

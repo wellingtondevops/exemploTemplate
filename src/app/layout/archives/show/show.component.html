@@ -149,9 +149,9 @@
 
                     <hr>
                     <div class="dataBtn" *ngIf="startCurrentDate && archive.doct.currentControl === true">
-                    <strong>Ajuste de Temporalidade </strong><br/>
-                    <input type="date" class="form-control" [(ngModel)]="inputStartCurrentDate" />
-                    <button 
+                    <h6>Ajuste de Temporalidade </h6>
+                    <input type="date" class="form-control" [(ngModel)]="inputStartCurrentDate"/>
+                    <button
                         *ngIf="archive && archive.doct.currentControl === true"
                         class="btn btn-danger btn-sm"
                         (click)="setStartCurrentDate()"
