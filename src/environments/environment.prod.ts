@@ -1,9 +1,9 @@
 export const environment = {
 
-  apiUrl: 'https://archiomain.archio.com.br/',
-  apiUrlUpload: 'https://archioqa.appspot.com',
+  apiUrl: 'https://archiomain.archio.com.br',
+  apiUrlUpload: 'https://mupload.archio.com.br',
   exportUrl: 'https://exportarchives.archio.com.br',
-  production: false,
+  production: true,
   firebaseConfig : {
     apiKey: 'AIzaSyCy9X4r36l6o1PLn4DuVdFpO41P5SmA57g',
     authDomain: 'archionotifier.firebaseapp.com',
