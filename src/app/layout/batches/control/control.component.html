@@ -94,8 +94,10 @@
 
             <div class="gallery">
                 <div style="margin:15px;max-width: 150px;height: 195px;" *ngFor="let image of batchImages">
-                    <iframe *ngIf="pipes.isPdf(image.url)" [src]="sanitizeUrl(image.url)"
-                        style="border: none !important;"></iframe>
+                    <iframe *ngIf="pipes.isPdf(image.url)" src="https://storage.googleapis.com/archiobucket/ARCHIOFILES/PDFthumbnailMenor.png"
+                        style="border: none !important;">
+
+                    </iframe>
 
 
                     <img *ngIf="!pipes.isPdf(image.url)" [src]="image.url" id="{{ image._id }}"
