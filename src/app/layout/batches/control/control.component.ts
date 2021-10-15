@@ -71,7 +71,7 @@ export class ControlComponent implements OnInit {
 
     close(){
         $('body').removeClass('cus-modal-open');
-        $('.in').removeClass('in'); 
+        $('.in').removeClass('in');
         this.clearUpload()
     }
 
@@ -101,7 +101,7 @@ export class ControlComponent implements OnInit {
         this.batchesSrv.batch(this.id).subscribe(data => {
             this.loading = false;
             this.batch = data;
-            this.getBatchImages(1, 50);
+            this.getBatchImages(1, 24);
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
@@ -109,7 +109,7 @@ export class ControlComponent implements OnInit {
         })
     }
 
-    getBatchImages(pageInfo = null, size = 50) {
+    getBatchImages(pageInfo = null, size = 24) {
         this.loading = true;
         if (pageInfo) {
             this.page.pageNumber = pageInfo;

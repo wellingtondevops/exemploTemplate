@@ -87,7 +87,7 @@ export class FormIndexComponent {
                 templateOptions: {
                     label: element.namefield,
                     placeholder: element.namefield,
-                    required: false,
+                    required: true,
                     disabled: !this.edit ? true : false,
                     keydown: (field, e) => {
                         if (e.which === 13) {
