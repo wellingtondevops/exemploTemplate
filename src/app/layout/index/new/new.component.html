@@ -2,7 +2,7 @@
     <ngx-loading [show]="loading" [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
-            primaryColour: '#222',
+              primaryColour: '#222',
               secondaryColour: '#222',
               tertiaryColour: '#222'
           }"></ngx-loading>
@@ -36,37 +36,41 @@
                                     </div>
                                 </div>
                                 <div class="card bg-light mb-3" style="margin:5px;font-size: 12px;">
+                                    <div *ngIf="page.totalElements !== 0; else elseEnd">
                                     <div class="card-header">Indíces</div>
-                                    <div class="card-body" style="display: flex;">
-                                        <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label">
-                                            <app-form-index [multipleIndex]="true" [data]="document"
-                                                [store]="valuesStorage" [isArchive]="false" [edit]="true"
-                                                (sendArchive)="createDocument($event)">
-                                            </app-form-index>
-                                        </div>
-                                        <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
-                                    flex-direction: column;
-                                    justify-content: space-around;
-                                    align-items: center;">
-
-                                            <form class="parent" [formGroup]="checkboxForm"
-                                                *ngIf="document && document.label">
-                                                <div class="child"
-                                                    *ngFor="let item of checkboxForm.controls; let i = index;">
-                                                    <div [formGroupName]="i">
-                                                        <label>
-                                                            <input type="checkbox" [formControl]="item"
-                                                                [value]="item.value">
-                                                        </label>
-                                                    </div>
+                                            <div class="card-body" style="display: flex;">
+                                                <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label">
+                                                    <app-form-index [multipleIndex]="true" [data]="document"
+                                                        [store]="valuesStorage" [isArchive]="false" [edit]="true"
+                                                        (sendArchive)="createDocument($event)">
+                                                    </app-form-index>
                                                 </div>
-                                            </form>
+                                                <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
+                                                flex-direction: column;
+                                                justify-content: space-around;
+                                                align-items: center;">
+                                                    <form class="parent" [formGroup]="checkboxForm"
+                                                    *ngIf="document && document.label">
+                                                        <div class="child"
+                                                        *ngFor="let item of checkboxForm.controls; let i = index;">
+                                                            <div [formGroupName]="i">
+                                                                <label>
+                                                                <input type="checkbox" [formControl]="item"
+                                                                [value]="item.value">
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <ng-template #elseEnd>
+                                            <h1 style="text-align: center;">Acabou</h1>
+                                        </ng-template>
                                 </div>
                             </div>
                             <div class="col-xl-8 col-lg-8 col-md-8">
-                                <h2 style="margin-bottom: 0px;">ARQUIVOS RESTANTE: {{page.totalElements}}</h2>
+                                <h3 style="margin-bottom: 0px;">ARQUIVOS RESTANTES: {{page.totalElements}}</h3>
                                 <div *ngIf="archive && !isPdf">
                                     <!-- <div #imagewrapper class="imagewrapper">
                             <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>

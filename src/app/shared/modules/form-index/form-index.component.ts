@@ -78,7 +78,7 @@ export class FormIndexComponent {
         return type;
     }
 
-    arrayLabelForm(labels, tag) {
+    arrayLabelForm(labels, tag,) {
         const array = labels.map((element, i) => {
             const value = tag ? tag[i] : '';
             const result = {
@@ -121,7 +121,7 @@ export class FormIndexComponent {
         this.sendArchive.emit(model);
     }
 
-    submit(){
+    submit() {
         if (this.form.valid) {
             alert(JSON.stringify(this.model));
         }
