@@ -4,6 +4,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Document } from '../../../models/document';
 import { Archive } from 'src/app/models/archive';
 import { isArray } from 'util';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FormlyModule } from '@ngx-formly/core';
 
 @Component({
     selector: 'app-form-index',
@@ -84,11 +86,12 @@ export class FormIndexComponent {
                 key: element.namefield,
                 type: this.typeInput(element.typeField),
                 defaultValue: value,
-                templateOptions: {
+                uniq : element.uniq,
+                    templateOptions: {
                     label: element.namefield,
                     placeholder: element.namefield,
-                    required: true,
-                    disabled: !this.edit ? true : false,
+                    required: element.uniq,
+                    //disabled: !this.edit ? true : false,
                     keydown: (field, e) => {
                         if (e.which === 13) {
                             const number = i + 1;
@@ -116,5 +119,11 @@ export class FormIndexComponent {
 
     postArchive(model) {
         this.sendArchive.emit(model);
+    }
+
+    submit(){
+        if (this.form.valid) {
+            alert(JSON.stringify(this.model));
+        }
     }
 }
