@@ -91,7 +91,7 @@ export class FormIndexComponent {
                     label: element.namefield,
                     placeholder: element.namefield,
                     required: element.uniq,
-                    //disabled: !this.edit ? true : false,
+                    disabled: !this.edit ? true : false,
                     keydown: (field, e) => {
                         if (e.which === 13) {
                             const number = i + 1;

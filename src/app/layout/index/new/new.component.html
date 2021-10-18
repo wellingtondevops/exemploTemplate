@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                                 <div class="card bg-light mb-3" style="margin:5px;font-size: 12px;">
-                                    <div *ngIf="page.totalElements !== 0; else elseEnd">
+                                    <div *ngIf="page.totalElements !== 0;">
                                     <div class="card-header">Indíces</div>
                                             <div class="card-body" style="display: flex;">
                                                 <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label">
@@ -64,22 +64,27 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <ng-template #elseEnd>
-                                            <h1 style="text-align: center;">Acabou</h1>
-                                        </ng-template>
+
                                 </div>
                             </div>
+
                             <div class="col-xl-8 col-lg-8 col-md-8">
-                                <h3 style="margin-bottom: 0px;">ARQUIVOS RESTANTES: {{page.totalElements}}</h3>
-                                <div *ngIf="archive && !isPdf">
-                                    <!-- <div #imagewrapper class="imagewrapper">
-                            <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>
-                          </div> -->
-                                    <img *ngIf="archive && archive.url" [src]="archive.url"
-                                        style="margin-right: 10px; width: 100%" />
+                                <div *ngIf="page.totalElements == 0; else elsePdf">
+                                   <h1>Nenhum arquivo para exibir</h1>
                                 </div>
-                                <br>
-                                <!-- Abaixo é possivel controlar a exibição dos botões -->
+                                <ng-template #elsePdf>
+                                    <h3 style="margin-bottom: 0px;">ARQUIVOS RESTANTES: {{page.totalElements}}</h3>
+                                    <div *ngIf="archive && !isPdf">
+                                        <!--
+                                            <div #imagewrapper class="imagewrapper">
+                                                <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>
+                                            </div>
+                                        -->
+                                        <img *ngIf="archive && archive.url" [src]="archive.url"
+                                            style="margin-right: 10px; width: 100%" />
+                                    </div>
+                                    <br>
+                                    <!-- Abaixo é possivel controlar a exibição dos botões -->
                                 <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
                                     <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
                                         [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
@@ -88,6 +93,7 @@
                                         [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
                                         [height]="'90vh'"></ngx-extended-pdf-viewer>
                                 </div>
+                                </ng-template>
                             </div>
                         </div>
                     </ng-template>
