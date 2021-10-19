@@ -79,8 +79,8 @@
                                             <strong>Esta operação, não poderá ser desfeita!</strong>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-danger" (click)="c('Save click')">Excluir</button>
-                                            <button type="button" class="btn btn-outline-primary" (click)="c(doTheBack())">Cancelar</button>
+                                            <button type="button" class="btn btn-outline-danger" (click)="c(deleteBatch(redirect()))" >Excluir</button>
+                                            <button type="button" class="btn btn-outline-primary" (click)="c(toBack())">Cancelar</button>
                                         </div>
                                     </ng-template>
                                         <button class="btn btn-lg btn-outline-primary" id="open" hidden (click)="open(content)">Launch demo modal</button>

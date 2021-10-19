@@ -36,6 +36,7 @@ export class NewComponent implements OnInit {
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
 
 
+
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -51,6 +52,7 @@ export class NewComponent implements OnInit {
     departaments: any;
     storehouses: any;
     closeModal: string;
+    redirectTo: string;
     documents: any;
     focusDocument$ = new Subject<string>();
     clickDocument$ = new Subject<string>();
@@ -410,9 +412,27 @@ export class NewComponent implements OnInit {
         this.modalService.open(content);
     }
 
-    doTheBack = function() {
+    toBack() {
+        this._route.navigate([`/${'batches/get'}`, this.id]);
+    }
+    goBack = function() {
             window.history.back();
     };
 
-}
+    deleteBatch() {
+        this.loading = true;
+        this.batchesSrv.delete(this.id).subscribe(data => {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Lote excluído com sucesso.');
+
+        }, error => {
+            console.log('ERROR: ', error);
+            this.loading = false;
+            this.errorMsg.errorMessages(error);
+        })
+    }
+    redirect() {
+          this._route.navigate([`/${'batches'}`]);
+        }
+      }
 
