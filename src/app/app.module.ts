@@ -1,3 +1,5 @@
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FormlyModule } from '@ngx-formly/core';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { ChartsModule } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
@@ -37,7 +39,8 @@ import { SafePipe } from './utils/pipes/safe-pipe';
         ToastrModule.forRoot(),
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule,
-        AngularFireDatabaseModule
+        AngularFireDatabaseModule,
+
     ],
     declarations: [AppComponent, SafePipe],
     providers: [

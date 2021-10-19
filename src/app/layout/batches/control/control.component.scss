@@ -1,14 +1,21 @@
-body {
-    background: #fff;
-}
 
-.block {
-    float: left;
-    width: 100%;
+#dados{
+    width: 350px;
 }
-
+.form-control{
+    border: none;
+    padding: 0;
+}
+.btns{
+    width: 400px;
+}
 .btn {
-    width: 150px;
+    width: 110px;
+    margin-right: 5px;
+
+}
+.import{
+    width: 265px;
 }
 
 .cus-modal {
@@ -135,8 +142,8 @@ body {
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content:space-between;
+    align-content:center;
+    justify-content:center;
 
 }
 

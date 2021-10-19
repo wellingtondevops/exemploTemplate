@@ -43,6 +43,7 @@ export class NewComponent implements OnInit {
     document: Document;
     checkboxForm: FormArray;
     items: FormArray;
+    batchImages: any;
     valuesStorage: any;
     searchForm: FormGroup;
     departaments: any;
@@ -121,6 +122,23 @@ export class NewComponent implements OnInit {
         this.localStorageSrv.clear(this.id);
     }
 
+    getBatchImages(pageInfo = null, size = 24) {
+        this.loading = true;
+        if (pageInfo) {
+            this.page.pageNumber = pageInfo;
+        }
+
+        this.batchesSrv.batchImages(this.id, this.page, size).subscribe(data => {
+            this.loading = false;
+            this.batchImages = data.items;
+            this.page.totalElements = data._links.foundItems;
+            this.page.size = data._links.totalPage;
+        }, error => {
+            this.loading = false;
+            this.errorMsg.errorMessages(error)
+        })
+    }
+
     getBatch() {
         this.page.pageNumber = 1
         this.batchesSrv.batch(this.id).subscribe(data => {
@@ -129,15 +147,21 @@ export class NewComponent implements OnInit {
             this.getDocument()
             this.getDocuments(data.company._id)
             this.getDepartaments(data.company._id)
-            this.getStoreHouses()
+            this.getStoreHouses();
+
         }, error => {
             console.log('ERROR: ', error);
         });
         this.batchesSrv.imagens(this.id, this.page, 1).subscribe(data => {
             this.image = data.items[0];
-            if (data.items.length > 0) {
+            if (data.items.length >= 1) {
                 this.urlFile = data.items[0].url;
                 this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
+                this.getBatchImages();
+            }
+            else
+            {
+                this.getBatchImages();
             }
         }, error => {
             console.log('ERROR: ', error);
@@ -341,6 +365,7 @@ export class NewComponent implements OnInit {
             }
 
             this.loading = false;
+            console.log("asdsdadsasda",this.page.totalElements);
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
