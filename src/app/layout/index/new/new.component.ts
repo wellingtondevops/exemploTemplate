@@ -35,6 +35,7 @@ export class NewComponent implements OnInit {
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
 
+
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -172,7 +173,7 @@ export class NewComponent implements OnInit {
             else
             {
                 this.getBatchImages();
-                    setTimeout(function(){ $('#open')[0].click()}, 1000);
+                    setTimeout(function(){$('#open')[0].click()}, 700);
 
 
             }
@@ -408,5 +409,10 @@ export class NewComponent implements OnInit {
     open(content) {
         this.modalService.open(content);
     }
+
+    doTheBack = function() {
+            window.history.back();
+    };
+
 }
 

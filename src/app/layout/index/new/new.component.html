@@ -72,18 +72,18 @@
                                 <div *ngIf="page.totalElements == 0; else elsePdf">
                                     <ng-template #content let-c="close" let-d="dismiss">
                                         <div class="modal-header">
-                                          <h4 class="modal-title" id="modal-basic-title">Lote vazio!</h4>
+                                            <h4 class="modal-title" id="modal-basic-title">Lote vazio!</h4>
                                         </div>
                                         <div class="modal-body">
-                                          <p>Deseja excluir o lote?</p>
-                                          <strong>Esta operação, não poderá ser desfeita!</strong>
+                                            <p>Deseja excluir o lote?</p>
+                                            <strong>Esta operação, não poderá ser desfeita!</strong>
                                         </div>
                                         <div class="modal-footer">
-                                          <button type="button" class="btn btn-outline-danger" (click)="c('Save click')">Excluir</button>
-                                          <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">Cancelar</button>
+                                            <button type="button" class="btn btn-outline-danger" (click)="c('Save click')">Excluir</button>
+                                            <button type="button" class="btn btn-outline-primary" (click)="c(doTheBack())">Cancelar</button>
                                         </div>
-                                      </ng-template>
-                                      <button class="btn btn-lg btn-outline-primary" id="open" hidden (click)="open(content)">Launch demo modal</button>
+                                    </ng-template>
+                                        <button class="btn btn-lg btn-outline-primary" id="open" hidden (click)="open(content)">Launch demo modal</button>
                                 </div>
 
                                 <ng-template #elsePdf>
