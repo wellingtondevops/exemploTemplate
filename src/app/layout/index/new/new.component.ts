@@ -15,7 +15,7 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { merge, Observable, Subject } from 'rxjs';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { NgbTabset, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabset, NgbTypeahead, NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
@@ -34,6 +34,7 @@ export class NewComponent implements OnInit {
     @ViewChild('tabs') private tabs:NgbTabset;
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
+
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -48,6 +49,7 @@ export class NewComponent implements OnInit {
     searchForm: FormGroup;
     departaments: any;
     storehouses: any;
+    closeModal: string;
     documents: any;
     focusDocument$ = new Subject<string>();
     clickDocument$ = new Subject<string>();
@@ -81,7 +83,14 @@ export class NewComponent implements OnInit {
         private warningMsg: WarningMessagesService,
         private pipes: Pipes,
         private _route: Router,
-    ) { }
+        config: NgbModalConfig,
+        private modalService: NgbModal
+
+        ) {
+            config.backdrop = 'static';
+            config.keyboard = false;
+
+        }
 
 
     ngOnInit() {
@@ -97,7 +106,8 @@ export class NewComponent implements OnInit {
         this.getCompanies();
 
         const index = JSON.parse(this.localStorageSrv.get('index'));
-        this.setDataIndexForm(index)
+        this.setDataIndexForm(index);
+
     }
 
     setDataIndexForm(index) {
@@ -136,7 +146,7 @@ export class NewComponent implements OnInit {
         }, error => {
             this.loading = false;
             this.errorMsg.errorMessages(error)
-        })
+        });
     }
 
     getBatch() {
@@ -162,10 +172,13 @@ export class NewComponent implements OnInit {
             else
             {
                 this.getBatchImages();
+                    setTimeout(function(){ $('#open')[0].click()}, 1000);
+
+
             }
         }, error => {
             console.log('ERROR: ', error);
-        })
+        });
     }
 
     getDocument() {
@@ -365,7 +378,7 @@ export class NewComponent implements OnInit {
             }
 
             this.loading = false;
-            console.log("asdsdadsasda",this.page.totalElements);
+            console.log('asdsdadsasda',this.page.totalElements);
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
@@ -390,7 +403,10 @@ export class NewComponent implements OnInit {
             this.loading = false;
             this.errorMsg.errorMessages(error);
         });
+    }
 
+    open(content) {
+        this.modalService.open(content);
     }
 }
 
