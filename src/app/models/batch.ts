@@ -2,7 +2,8 @@ import { Pagination } from './pagination';
 
 export class Batch {
   _links: {
-    self: string
+    self: string;
+    foundItems: number;
   };
   _id: string;
   name: string;
