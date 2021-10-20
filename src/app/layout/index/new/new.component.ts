@@ -1,8 +1,10 @@
+import { SubClass } from './../../../models/document-structur';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page } from 'src/app/models/page';
 import { routerTransition } from 'src/app/router.animations';
 import { BatchesService } from 'src/app/services/batches/batches.service';
+import { FilesService } from 'src/app/services/files/files.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { Document } from 'src/app/models/document';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -68,11 +70,15 @@ export class NewComponent implements OnInit {
         { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
     urlFile: any = '';
+    pictureId: any = '';
+    pictures: any = '';
+    pic: any = '';
     isPdf = false;
 
     constructor(
         private route: ActivatedRoute,
         private batchesSrv: BatchesService,
+        private fileService: FilesService,
         private documentSrv: DocumentsService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
@@ -155,7 +161,7 @@ export class NewComponent implements OnInit {
     getBatch() {
         this.page.pageNumber = 1
         this.batchesSrv.batch(this.id).subscribe(data => {
-            this.batch = data
+            this.batch = data;
             this.searchForm.patchValue({ company: data.company, doct: data.doct });
             this.getDocument()
             this.getDocuments(data.company._id)
@@ -169,6 +175,8 @@ export class NewComponent implements OnInit {
             this.image = data.items[0];
             if (data.items.length >= 1) {
                 this.urlFile = data.items[0].url;
+                this.pictureId = data.items[0]._id;
+                this.pictures = this.pictureId;
                 this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
                 this.getBatchImages();
             }
@@ -415,9 +423,6 @@ export class NewComponent implements OnInit {
     toBack() {
         this._route.navigate([`/${'batches/get'}`, this.id]);
     }
-    goBack = function() {
-            window.history.back();
-    };
 
     deleteBatch() {
         this.loading = true;
@@ -434,5 +439,15 @@ export class NewComponent implements OnInit {
     redirect() {
           this._route.navigate([`/${'batches'}`]);
         }
-      }
+
+        deleteImgs() {
+            let newForm = {
+                pictures: [this.pictures],
+            };
+            newForm = _.omitBy(newForm, _.isNil);
+            this.fileService.deleteImgs(newForm).subscribe(data =>{
+                this.getBatch();
+            });
+        }
+    }
 

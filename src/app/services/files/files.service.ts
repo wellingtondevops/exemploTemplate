@@ -1,9 +1,11 @@
+import { Batch } from './../../models/batch';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEventType, HttpEvent, HttpRequest } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { File } from 'src/app/models/file';
 import { Observable } from 'rxjs';
+import { data } from 'jquery';
 const apiUrlUpload = environment.apiUrlUpload;
 const url = environment.apiUrl;
 
@@ -52,5 +54,12 @@ export class FilesService {
     return this.http.delete(`${apiUrlUpload}/api/posts/${file_id}`).pipe(
       tap(data => data)
     );
+    }
+
+    deleteImgs(pictures) {
+        return this.http.post<any>(`${apiUrlUpload}/api/posts/multidelete`, pictures)
+        .pipe(
+            tap(data => data)
+        );
   }
 }
