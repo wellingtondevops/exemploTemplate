@@ -5,6 +5,8 @@ import { environment } from '../../../environments/environment';
 import { File } from 'src/app/models/file';
 import { Observable } from 'rxjs';
 const apiUrlUpload = environment.apiUrlUpload;
+const apiUrlUploadSingle = environment.apiUrlUploadSingle;
+
 const url = environment.apiUrl;
 
 @Injectable({
@@ -23,7 +25,27 @@ export class FilesService {
         switch (event.type) {
           case HttpEventType.UploadProgress:
             const progress = Math.round(100 * (event.loaded / event.total));
-            console.log(progress)
+            console.log(progress);
+            return { status: 'progress', message: progress };
+          case HttpEventType.Response:
+            return event.body;
+          default:
+            return `Unhandled event: ${event.type}`;
+        }
+      }));
+  }
+
+  fileS(form) {
+    return this.http.post<any>(`${apiUrlUploadSingle}/api/posts`,
+      form,
+      {
+        reportProgress: true,
+        observe: 'events'
+      }).pipe(map((event) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            const progress = Math.round(100 * (event.loaded / event.total));
+            console.log(progress);
             return { status: 'progress', message: progress };
           case HttpEventType.Response:
             return event.body;
@@ -49,7 +71,7 @@ export class FilesService {
   }
 
   delete(file_id) {
-    return this.http.delete(`${apiUrlUpload}/api/posts/${file_id}`).pipe(
+    return this.http.delete(`${apiUrlUploadSingle}/api/posts/${file_id}`).pipe(
       tap(data => data)
     );
   }
