@@ -9,7 +9,7 @@
     <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header>
     <div style="margin-bottom: 10px;" *ngIf="!loading">
         <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
-        <button class="btn btn-sm btn-danger pull-right">Excluir</button>
+        <button class="btn btn-sm btn-danger pull-right" (click)="deleteImgs()">Excluir</button>
         <br />
     </div>
     <div class="row">
@@ -64,14 +64,28 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                 </div>
                             </div>
 
+
                             <div class="col-xl-8 col-lg-8 col-md-8">
                                 <div *ngIf="page.totalElements == 0; else elsePdf">
-                                   <h1>Nenhum arquivo para exibir</h1>
+                                    <ng-template #content let-c="close" let-d="dismiss">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modal-basic-title">Lote vazio!</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Deseja excluir o lote?</p>
+                                            <strong>Esta operação, não poderá ser desfeita!</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-danger" (click)="c(deleteBatch(redirect()))" >Excluir</button>
+                                            <button type="button" class="btn btn-outline-primary" (click)="c(toBack())">Cancelar</button>
+                                        </div>
+                                    </ng-template>
+                                        <button class="btn btn-lg btn-outline-primary" id="open" hidden (click)="open(content)">Launch demo modal</button>
                                 </div>
+
                                 <ng-template #elsePdf>
                                     <h3 style="margin-bottom: 0px;">ARQUIVOS RESTANTES: {{page.totalElements}}</h3>
                                     <div *ngIf="archive && !isPdf">
@@ -85,14 +99,14 @@
                                     </div>
                                     <br>
                                     <!-- Abaixo é possivel controlar a exibição dos botões -->
-                                <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
-                                    <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
-                                        [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
-                                        [showDownloadButton]="download" [showBookmarkButton]="false"
-                                        [showPrintButton]="print" [showPresentationModeButton]="false"
-                                        [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
-                                        [height]="'90vh'"></ngx-extended-pdf-viewer>
-                                </div>
+                                    <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
+                                        <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
+                                            [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
+                                            [showDownloadButton]="download" [showBookmarkButton]="false"
+                                            [showPrintButton]="print" [showPresentationModeButton]="false"
+                                            [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
+                                            [height]="'90vh'"></ngx-extended-pdf-viewer>
+                                    </div>
                                 </ng-template>
                             </div>
                         </div>

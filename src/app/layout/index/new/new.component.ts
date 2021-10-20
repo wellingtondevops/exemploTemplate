@@ -1,8 +1,10 @@
+import { SubClass } from './../../../models/document-structur';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page } from 'src/app/models/page';
 import { routerTransition } from 'src/app/router.animations';
 import { BatchesService } from 'src/app/services/batches/batches.service';
+import { FilesService } from 'src/app/services/files/files.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { Document } from 'src/app/models/document';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +17,7 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { merge, Observable, Subject } from 'rxjs';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-import { NgbTabset, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabset, NgbTypeahead, NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
@@ -31,9 +33,12 @@ import { Volume, VolumeList } from 'src/app/models/volume';
     ]
 })
 export class NewComponent implements OnInit {
-    @ViewChild('tabs') private tabs:NgbTabset;
+    @ViewChild('tabs') private tabs: NgbTabset;
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
+
+
+
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -48,6 +53,8 @@ export class NewComponent implements OnInit {
     searchForm: FormGroup;
     departaments: any;
     storehouses: any;
+    closeModal: string;
+    redirectTo: string;
     documents: any;
     focusDocument$ = new Subject<string>();
     clickDocument$ = new Subject<string>();
@@ -63,11 +70,15 @@ export class NewComponent implements OnInit {
         { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
     urlFile: any = '';
+    pictureId: any = '';
+    pictures: any = '';
+    pic: any = '';
     isPdf = false;
 
     constructor(
         private route: ActivatedRoute,
         private batchesSrv: BatchesService,
+        private fileService: FilesService,
         private documentSrv: DocumentsService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
@@ -81,7 +92,14 @@ export class NewComponent implements OnInit {
         private warningMsg: WarningMessagesService,
         private pipes: Pipes,
         private _route: Router,
-    ) { }
+        config: NgbModalConfig,
+        private modalService: NgbModal
+
+        ) {
+            config.backdrop = 'static';
+            config.keyboard = false;
+
+        }
 
 
     ngOnInit() {
@@ -97,7 +115,8 @@ export class NewComponent implements OnInit {
         this.getCompanies();
 
         const index = JSON.parse(this.localStorageSrv.get('index'));
-        this.setDataIndexForm(index)
+        this.setDataIndexForm(index);
+
     }
 
     setDataIndexForm(index) {
@@ -123,30 +142,30 @@ export class NewComponent implements OnInit {
     }
 
     getBatchImages(pageInfo = null, size = 24) {
-        this.loading = true;
+        // this.loading = true;
         if (pageInfo) {
             this.page.pageNumber = pageInfo;
         }
 
         this.batchesSrv.batchImages(this.id, this.page, size).subscribe(data => {
-            this.loading = false;
+            // this.loading = false;
             this.batchImages = data.items;
             this.page.totalElements = data._links.foundItems;
             this.page.size = data._links.totalPage;
         }, error => {
-            this.loading = false;
-            this.errorMsg.errorMessages(error)
-        })
+            // this.loading = false;
+            this.errorMsg.errorMessages(error);
+        });
     }
 
     getBatch() {
-        this.page.pageNumber = 1
+        this.page.pageNumber = 1;
         this.batchesSrv.batch(this.id).subscribe(data => {
-            this.batch = data
+            this.batch = data;
             this.searchForm.patchValue({ company: data.company, doct: data.doct });
-            this.getDocument()
-            this.getDocuments(data.company._id)
-            this.getDepartaments(data.company._id)
+            this.getDocument();
+            this.getDocuments(data.company._id);
+            this.getDepartaments(data.company._id);
             this.getStoreHouses();
 
         }, error => {
@@ -156,16 +175,19 @@ export class NewComponent implements OnInit {
             this.image = data.items[0];
             if (data.items.length >= 1) {
                 this.urlFile = data.items[0].url;
+                this.pictureId = data.items[0]._id;
+                this.pictures = this.pictureId;
                 this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
                 this.getBatchImages();
-            }
-            else
-            {
+            } else {
                 this.getBatchImages();
+                    setTimeout(function() {$('#open')[0].click(); }, 700);
+
+
             }
         }, error => {
             console.log('ERROR: ', error);
-        })
+        });
     }
 
     getDocument() {
@@ -173,22 +195,22 @@ export class NewComponent implements OnInit {
             this.document = data;
             this.valuesStorage = JSON.parse(this.localStorageSrv.get(this.batch._id));
             if (this.document.label) {
-                var items = []
+                let items = [];
                 this.document.label.map((item, key) => {
-                    items.push(new FormControl())
-                })
+                    items.push(new FormControl());
+                });
 
                 if (this.valuesStorage) {
-                    items = []
+                    items = [];
                     this.valuesStorage.map((item, i) => {
-                        items.push(new FormControl(item))
-                    })
+                        items.push(new FormControl(item));
+                    });
                 }
-                this.checkboxForm = new FormArray(items)
+                this.checkboxForm = new FormArray(items);
             }
         }, error => {
-            console.log('ERROR: ', error)
-        })
+            console.log('ERROR: ', error);
+        });
     }
 
     createItem(): FormGroup {
@@ -205,22 +227,22 @@ export class NewComponent implements OnInit {
     createDocument(data) {
         this.loading = true;
 
-        const valueCheckBox = _.values(this.checkboxForm.value)
+        const valueCheckBox = _.values(this.checkboxForm.value);
         const tag = _.values(data);
-        let memoryInput = [];
+        const memoryInput = [];
         valueCheckBox.map((item, i) => {
             if (item) {
                 memoryInput.push(tag[i]);
             } else {
-                memoryInput.push('')
+                memoryInput.push('');
             }
-        })
+        });
 
         this.localStorageSrv.save(this.id, memoryInput);
 
         this.batchesSrv.batchIndex(this.id, { picture: this.image._id, tag: tag }).subscribe(data => {
             this.successMsgSrv.successMessages('Imagem indexada com sucesso.');
-            this.getBatch()
+            this.getBatch();
             this.loading = false;
         }, error => {
             this.loading = false;
@@ -334,7 +356,7 @@ export class NewComponent implements OnInit {
     }
 
     setPage(pageInfo) {
-        this.loading = true;
+        // this.loading = true;
         if (pageInfo && pageInfo.offset) {
             this.page.pageNumber = pageInfo.offset;
         } else {
@@ -363,12 +385,9 @@ export class NewComponent implements OnInit {
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
             }
-
-            this.loading = false;
-            console.log("asdsdadsasda",this.page.totalElements);
         }, error => {
             console.log('ERROR: ', error);
-            this.loading = false;
+
             this.errorMsg.errorMessages(error);
         });
     }
@@ -390,7 +409,40 @@ export class NewComponent implements OnInit {
             this.loading = false;
             this.errorMsg.errorMessages(error);
         });
-
     }
-}
+
+    open(content) {
+        this.modalService.open(content);
+    }
+
+    toBack() {
+        this._route.navigate([`/${'batches/get'}`, this.id]);
+    }
+
+    deleteBatch() {
+        this.loading = true;
+        this.batchesSrv.delete(this.id).subscribe(data => {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Lote excluído com sucesso.');
+
+        }, error => {
+            console.log('ERROR: ', error);
+            this.loading = false;
+            this.errorMsg.errorMessages(error);
+        });
+    }
+    redirect() {
+          this._route.navigate([`/${'batches'}`]);
+        }
+
+        deleteImgs() {
+            let newForm = {
+                pictures: [this.pictures],
+            };
+            newForm = _.omitBy(newForm, _.isNil);
+            this.fileService.deleteImgs(newForm).subscribe(data => {
+                this.getBatch();
+            });
+        }
+    }
 
