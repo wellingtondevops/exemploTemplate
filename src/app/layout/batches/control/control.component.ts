@@ -12,7 +12,7 @@ import { routerTransition } from '../../../router.animations';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import * as $ from 'jquery';
 import { Pipes } from 'src/app/utils/pipes/pipes';
-import { DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -69,19 +69,19 @@ export class ControlComponent implements OnInit {
         $(target).addClass('in');
     }
 
-    close(){
+    close() {
         $('body').removeClass('cus-modal-open');
         $('.in').removeClass('in');
-        this.clearUpload()
+        this.clearUpload();
     }
 
     selectedImg(e) {
-        console.log(e.target.id)
+        console.log(e.target.id);
     }
 
     isPdf(img) {
-        console.log(1)
-        return this.pipes.isPdf(img.url)
+        console.log(1);
+        return this.pipes.isPdf(img.url);
     }
 
     sanitizeUrl(url) {
@@ -90,7 +90,7 @@ export class ControlComponent implements OnInit {
 
     onFileChange(event) {
         this.myFilesInputSelect = [];
-        for (var i = 0; i < event.target.files.length; i++) {
+        for (let i = 0; i < event.target.files.length; i++) {
             // files
             this.myFilesInputSelect.push(event.target.files[i]);
         }
@@ -106,7 +106,7 @@ export class ControlComponent implements OnInit {
             console.log('ERROR: ', error);
             this.loading = false;
             this.errorMsg.errorMessages(error);
-        })
+        });
     }
 
     getBatchImages(pageInfo = null, size = 24) {
@@ -122,15 +122,15 @@ export class ControlComponent implements OnInit {
             this.page.size = data._links.totalPage;
         }, error => {
             this.loading = false;
-            this.errorMsg.errorMessages(error)
-        })
+            this.errorMsg.errorMessages(error);
+        });
     }
 
     clearUpload() {
         this.progressInfos = [];
         this.myForm.patchValue({
             file: '',
-        })
+        });
         this.myFiles = [];
     }
 
@@ -140,16 +140,16 @@ export class ControlComponent implements OnInit {
         formData.append('company', this.batch.company._id);
         formData.append('batch', this.batch._id);
         formData.append('ind', 'false');
-        for (var i = 0; i < this.myFilesInputSelect.length; i++) {
-            console.log(this.myFiles)
-            this.myFiles.push(this.myFilesInputSelect[i])
+        for (let i = 0; i < this.myFilesInputSelect.length; i++) {
+            console.log(this.myFiles);
+            this.myFiles.push(this.myFilesInputSelect[i]);
             this.progressInfos.push({ value: 0, fileName: this.myFiles[i].name, file: this.myFiles[i], class: 'progress-bar progress-bar-info progress-bar-striped' });
             this.openModal();
-            formData.delete("files");
-            formData.append("files", this.myFiles[i]);
+            formData.delete('files');
+            formData.append('files', this.myFiles[i]);
             let last = this.myFiles.length;
-            last -= 1
-            this.upload(formData, last)
+            last -= 1;
+            this.upload(formData, last);
         }
     }
 
@@ -165,21 +165,21 @@ export class ControlComponent implements OnInit {
                 this.page.totalElements++;
             }
         }, error => {
-            console.log(error)
+            console.log(error);
             this.progressInfos[i].error = true;
             this.progressInfos[i].class = 'progress-bar bg-danger progress-bar-striped';
         });
     }
 
-    reUpload(file, position){
+    reUpload(file, position) {
         const formData = new FormData();
         formData.append('document', this.batch.doct._id);
         formData.append('company', this.batch.company._id);
         formData.append('batch', this.batch._id);
         formData.append('ind', 'false');
-        formData.delete("files");
-        formData.append("files", this.myFiles[position]);
-        this.upload(formData, position)
+        formData.delete('files');
+        formData.append('files', this.myFiles[position]);
+        this.upload(formData, position);
     }
 
     deleteBatch() {
@@ -187,16 +187,17 @@ export class ControlComponent implements OnInit {
         this.batchesSrv.delete(this.id).subscribe(data => {
             this.loading = false;
             this.successMsgSrv.successMessages('Lote excluído com sucesso.');
+            this._route.navigate(['/batches']);
 
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
             this.errorMsg.errorMessages(error);
-        })
+        });
     }
 
     toIndex() {
-        this._route.navigate(['/index', this.id])
+        this._route.navigate(['/index', this.id]);
     }
 
 }
