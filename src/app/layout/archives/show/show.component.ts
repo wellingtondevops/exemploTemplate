@@ -174,7 +174,7 @@ export class ShowComponent implements OnInit {
     formData.append('archive', this.uploadFile.get('archive').value);
     formData.append('doct', this.uploadFile.get('doct').value);
     formData.append('company', this.uploadFile.get('company').value);
-    this.filesSrv.file(formData).subscribe(data => {
+    this.filesSrv.fileS(formData).subscribe(data => {
       if (data.status && data.status === 'progress') {
         this.uploadResponse.message = data.message;
         this.uploadResponse.status = data.status;
