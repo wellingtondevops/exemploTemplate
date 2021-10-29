@@ -79,7 +79,7 @@ export class ShowComponent implements OnInit {
             size: 'lg',
             centered: true,
             windowClass: 'customMod'
-        }
+        };
     }
 
     get name() {
@@ -119,6 +119,7 @@ export class ShowComponent implements OnInit {
         this.permissionDelete = JSON.parse(
             window.localStorage.getItem('actions')
         )[0].delete;
+        setTimeout(function() {$('#openMod')[0].click(); }, 700);
     }
 
     getStoreHouse() {
@@ -272,7 +273,7 @@ export class ShowComponent implements OnInit {
         });
     }
     openMod(content) {
-        this.modalEvent.emit(content);
+        this.modalEvent.emit();
         this.modalService.open(content, this.modalOptions).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {

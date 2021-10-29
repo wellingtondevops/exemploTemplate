@@ -1,5 +1,14 @@
+
 ::ng-deep .customMod .modal-dialog {
-    max-width: 80%;
-    width: 80%;
-    top: -80%;
+    position: fixed;
+    max-width: 95%;
+    width: 89%;
+    height: 90%;
+    bottom: 50%;
+    left: 10%;
+
+}
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
