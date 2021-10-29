@@ -1,2 +1,5 @@
-
-//@import '~bootstrap/dist/css/bootstrap.min.css';
+::ng-deep .customMod .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+    top: -80%;
+}
