@@ -1,16 +1,17 @@
 
+
 <div [@routerTransition]>
-<ng-template #mymodal let-modal>
     <ngx-loading
         [show]="loading"
         [config]="{
             backdropBorderRadius: '3px',
-            fullScreenBackdrop: true,
+            fullScreenBackdrop: false,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
+<ng-template #mymodal let-modal>
     <div class="modal-header">
         <app-page-header
             [id]="storeHouse._id"
@@ -134,6 +135,7 @@
         </div>
     </div>
 </ng-template>
-<button class="btn btn-lg btn-outline-primary" id="openMod" hidden (click)="openMod(mymodal)">Open My Modal</button>
+
+<button class="btn btn-lg btn-outline-primary" id="openMod" hidden (click)="openMod(mymodal)">Abrir Modal</button>
 
 </div>

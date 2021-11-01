@@ -119,7 +119,7 @@ export class ShowComponent implements OnInit {
         this.permissionDelete = JSON.parse(
             window.localStorage.getItem('actions')
         )[0].delete;
-        setTimeout(function() {$('#openMod')[0].click(); }, 700);
+        setTimeout(function() {$('#openMod')[0].click(); }, 0);
     }
 
     getStoreHouse() {
@@ -279,6 +279,7 @@ export class ShowComponent implements OnInit {
         }, (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
+        this.redirect();
       }
 
       private getDismissReason(reason: any): string {
@@ -290,5 +291,8 @@ export class ShowComponent implements OnInit {
           return  `with: ${reason}`;
         }
       }
+    redirect() {
+        this._route.navigate([`/${'storehouses'}`]);
+    }
 
 }
