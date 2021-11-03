@@ -1,3 +1,4 @@
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -34,9 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         AppRoutingModule,
         ReactiveFormsModule,
         NgbModule,
-
-
-
+        NgxDatatableModule,
         ChartsModule,
         ToastrModule.forRoot(),
         AngularFireModule.initializeApp(environment.firebaseConfig),
