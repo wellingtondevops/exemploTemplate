@@ -8,7 +8,7 @@ import { FilesService } from 'src/app/services/files/files.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { PicturesService } from 'src/app/services/pictures/pictures.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import * as $ from 'jquery';
 import * as moment from 'moment';
@@ -30,6 +30,8 @@ export class ShowComponent implements OnInit {
     customClass: 'modal-style'
   };
   id: string;
+  modalOptions:NgbModalOptions;
+  closeResult: string;
   archive: Archive;
   uploadResponse: any = { status: 'progress', message: 0 };
   error: string;
@@ -67,7 +69,14 @@ export class ShowComponent implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private localStorageSrv: SaveLocal
-  ) { }
+  ) {
+    this.modalOptions = {
+        backdrop: 'static',
+        backdropClass: 'customBackdrop',
+        keyboard: false,
+        windowClass: 'customModal'
+    };
+  }
 
   ngOnInit() {
     this.archiveCreateForm = this.fb.group({
@@ -82,7 +91,9 @@ export class ShowComponent implements OnInit {
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
+    setTimeout(function() {$('#openMod')[0].click(); }, 0);
 }
+
 
   //   isUser() {
   //     let res = false;
@@ -230,5 +241,28 @@ export class ShowComponent implements OnInit {
   editArchive(archive) {
     this._route.navigate(['/archives/edit', archive]);
   }
+  openMod(content) {
+    this.modalService.open(content, this.modalOptions).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    this.redirect();
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+redirect() {
+    setTimeout(() => {
+        this._route.navigate([`/${'archives'}`]);
+    },0 );
+}
 }
 

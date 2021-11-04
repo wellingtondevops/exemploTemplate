@@ -1,39 +1,3 @@
-.light-blue-backdrop {
-  background-color: #5cb3fd00 !important;
-}
-.position {
-  transform: translate(38%);
-  display: flex !important;
-  flex-direction: column-reverse;
-}
-.dark-modal .modal-content {
-  background-color: #292b2c;
-  color: white;
-}
-
-.modal-style {
-  top: 70%;
-  left: 80%;
-}
-
-.modal-dialog.modal-sm{
-  top: 90% !important;
-  left: 40% !important;
-}
-.dark-modal .close {
-  color: white;
-}
-.nsm-content {
-  left: 70%;
-  top: 70%;
-}
-
-.modal-dialog-centered {
-  display: flex;
-  flex-direction: column-reverse;
-  float: right;
-}
-
 :host {
   display: flex;
   flex-direction: column;
@@ -86,4 +50,13 @@ $hDiff: $headerHeight + $subHeaderHeight + $contentPadding * 2;
     min-width: calc(100vw - #{$contentPadding * 2});
     width: calc(100vw - #{$contentPadding * 2});
   }
+}
+
+::ng-deep .customModal .modal-dialog {
+    right: 0;
+    left: 6%;
+    max-width: 88%;
+    width: 88%;
+    height: 83%;
+    bottom: 92vh;
 }
