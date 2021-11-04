@@ -1,3 +1,4 @@
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -18,6 +19,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { SafePipe } from './utils/pipes/safe-pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -32,9 +34,8 @@ import { SafePipe } from './utils/pipes/safe-pipe';
         LanguageTranslationModule,
         AppRoutingModule,
         ReactiveFormsModule,
-
-
-
+        NgbModule,
+        NgxDatatableModule,
         ChartsModule,
         ToastrModule.forRoot(),
         AngularFireModule.initializeApp(environment.firebaseConfig),
