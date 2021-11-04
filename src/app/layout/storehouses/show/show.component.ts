@@ -294,7 +294,7 @@ export class ShowComponent implements OnInit {
     redirect() {
         setTimeout(() => {
             this._route.navigate([`/${'storehouses'}`]);
-        }, 1000);
+        },0 );
     }
 
 }
