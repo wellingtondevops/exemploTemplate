@@ -1,8 +1,9 @@
 <div [@routerTransition]>
+    <ng-template #editModal let-modal>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <h2>Dados do Depósito</h2>
-            <br/>
+            <div class="modal-body">
+            <h2>Alterar Dados do Depósito</h2>
                         <form
                             [formGroup]="storeHouseForm"
                             role="FormGroup"
@@ -48,12 +49,9 @@
                             <div class="pull-right">
                                 <button
                                     type="button"
-                                    [routerLink]="[
-                                        '/storehouses/get',
-                                        storeHouse._id
-                                    ]"
                                     class="btn btn-danger"
                                     style="margin-right: 10px"
+                                    (click)="modal.dismiss('')"
                                 >
                                     Cancelar
                                 </button>
@@ -61,11 +59,16 @@
                                     type="submit"
                                     class="btn btn-primary"
                                     [disabled]="name.invalid"
+                                    (click)="modal.dismiss('')"
                                 >
                                     Salvar
                                 </button>
                             </div>
                         </form>
+                    </div>
         </div>
     </div>
+</ng-template>
+<button class="btn btn-lg btn-outline-primary" id="openMod" hidden (click)="openMod(editModal)">Abrir Modal</button>
+
 </div>

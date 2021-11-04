@@ -25,7 +25,6 @@ const MODALS = {
     animations: [routerTransition()],
 })
 export class ShowComponent implements OnInit {
-    @Output() modalEvent = new EventEmitter();
     title = 'ng-bootstrap-modal-demo';
     closeResult: string;
     modalOptions:NgbModalOptions;
@@ -191,7 +190,7 @@ export class ShowComponent implements OnInit {
     }
 
     editStoreHouse(storeHouse) {
-        this._route.navigate(['/storehouses/edit', storeHouse]);
+        this._route.navigate(['/storehouses/edit', storeHouse],  {skipLocationChange: true});
     }
 
     delete(storeHouse) {
@@ -273,7 +272,6 @@ export class ShowComponent implements OnInit {
         });
     }
     openMod(content) {
-        this.modalEvent.emit();
         this.modalService.open(content, this.modalOptions).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
