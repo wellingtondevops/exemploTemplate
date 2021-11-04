@@ -1,2 +1,11 @@
 
-//@import '~bootstrap/dist/css/bootstrap.min.css';
+::ng-deep .customMod .modal-dialog {
+    position: fixed;
+    max-width: 95%;
+    width: 89%;
+    max-height: 95%;
+    height: 95%;
+    bottom: 50%;
+    left: 11%;
+
+}

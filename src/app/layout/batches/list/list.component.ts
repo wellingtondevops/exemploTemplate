@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
   searchForm: FormGroup;
   companies: any = [];
   loading: Boolean = true;
-  permissionNew: boolean = false;
+  permissionNew = false;
   documents: any = [];
   batches: BatchesList = {
     _links: {
@@ -37,7 +37,7 @@ export class ListComponent implements OnInit {
       totalPage: 0
     },
     items: []
-  };;
+  };
   page = new Page();
 
   columns = [
@@ -74,6 +74,8 @@ export class ListComponent implements OnInit {
       this.searchForm.patchValue({
         company: batch.company,
         doct: batch.doct,
+      batchNr: batch.batchNr,
+
         endDate: batch.endDate,
         initDate: batch.initDate,
       });
@@ -114,7 +116,7 @@ export class ListComponent implements OnInit {
 
     this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
     this.searchForm.value.doct ? newForm.doct = this.returnId('doct') : null;
-    this.searchForm.value.batchNr ? newForm.batchNr = this.searchForm.value.status : null;
+    this.searchForm.value.batchNr ? newForm.batchNr = this.searchForm.value.batchNr : null;
     this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
     this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;
 
@@ -205,7 +207,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  getBatch(batch){
+  getBatch(batch) {
     this._route.navigate(['/batches/get', batch._id]);
   }
 }

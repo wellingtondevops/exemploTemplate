@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SaveLocal } from './../../../storage/saveLocal';
 import { Page } from './../../../models/page';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import _ from 'lodash';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { PositionList } from 'src/app/models/position';
 import { NgIf } from '@angular/common';
 
@@ -25,6 +25,9 @@ const MODALS = {
     animations: [routerTransition()],
 })
 export class ShowComponent implements OnInit {
+    title = 'ng-bootstrap-modal-demo';
+    closeResult: string;
+    modalOptions:NgbModalOptions;
     id: String;
     storeHouse: any;
     storeHouseForm: FormGroup;
@@ -67,7 +70,16 @@ export class ShowComponent implements OnInit {
         private modalService: NgbModal,
         public modal: NgbActiveModal,
         private localStorageSrv: SaveLocal,
-    ) {}
+    ) {
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            size: 'lg',
+            centered: true,
+            windowClass: 'customMod'
+        };
+    }
 
     get name() {
         return this.storeHouseForm.get('name');
@@ -106,6 +118,7 @@ export class ShowComponent implements OnInit {
         this.permissionDelete = JSON.parse(
             window.localStorage.getItem('actions')
         )[0].delete;
+        setTimeout(function() {$('#openMod')[0].click(); }, 0);
     }
 
     getStoreHouse() {
@@ -177,7 +190,7 @@ export class ShowComponent implements OnInit {
     }
 
     editStoreHouse(storeHouse) {
-        this._route.navigate(['/storehouses/edit', storeHouse]);
+        this._route.navigate(['/storehouses/edit', storeHouse],  {skipLocationChange: true});
     }
 
     delete(storeHouse) {
@@ -257,6 +270,29 @@ export class ShowComponent implements OnInit {
         this.storeHouseForm.patchValue({
             position: null
         });
+    }
+    openMod(content) {
+        this.modalService.open(content, this.modalOptions).result.then((result) => {
+          this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+        this.redirect();
+      }
+
+      private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a backdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
+      }
+    redirect() {
+        setTimeout(() => {
+            this._route.navigate([`/${'storehouses'}`]);
+        },0 );
     }
 
 }
