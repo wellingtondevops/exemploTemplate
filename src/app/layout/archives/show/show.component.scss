@@ -53,10 +53,10 @@ $hDiff: $headerHeight + $subHeaderHeight + $contentPadding * 2;
 }
 
 ::ng-deep .customModal .modal-dialog {
-    right: 0;
-    left: 6%;
-    max-width: 88%;
+    position: absolute;
+    right: 0vw;
+    max-width: 87.5%;
     width: 88%;
     height: 83%;
-    bottom: 92vh;
+    bottom: 110vh;
 }

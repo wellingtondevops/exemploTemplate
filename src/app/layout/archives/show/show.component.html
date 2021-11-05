@@ -10,17 +10,14 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
-        <div class="modal-header">
-            <app-page-header
-                *ngIf="!loading"
-                [heading]="'Arquivo'"
-                [icon]="'fa-user'"
-            ></app-page-header>
-            <div *ngIf="!loading">
+        <div class="modal-body">
+            <div class="row" *ngIf="!loading">
+                <div style="margin-left: 90%;">
                 <button
                     type="button"
                     class="close"
                     aria-label="Close"
+                    style="margin-left: 5px;"
                     (click)="modal.dismiss('Cross click')"
                 >
                     <span aria-hidden="true">&times;</span>
@@ -35,10 +32,10 @@
                 </app-buttons-custom>
             </div>
         </div>
-        <div class="modal-body">
-            <div class="row" *ngIf="!loading">
-                <div class="col-3">
+            <br/>
 
+            <div class="row" *ngIf="!loading">
+                <div class="col-4">
                     <h5>DADOS DO VOLUME</h5>
                     <div class="card bg-light mb-12">
                         <div class="card-body">
@@ -201,7 +198,7 @@
                     </div>
                 </div>
 
-                <div class="col-9">
+                <div class="col-8">
                     <form [formGroup]="uploadFile" (ngSubmit)="submit()">
                         <div class="form-group">
                             <app-form-upload
