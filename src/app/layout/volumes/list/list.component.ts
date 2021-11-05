@@ -130,6 +130,7 @@ export class ListComponent implements OnInit {
     }
 
     this.statusList = StatusVolumeEnum;
+    this.getVolumes();
     this.getCompanies();
     this.getStoreHouses();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;

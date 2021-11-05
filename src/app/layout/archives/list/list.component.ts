@@ -75,7 +75,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.setPage({ offset: 0 });
+    //this.setPage({ offset: 0 });
     this.searchForm = this.fb.group({
       company: this.fb.control(null, Validators.required),
       departament: this.fb.control(null, [Validators.required]),
@@ -106,6 +106,7 @@ export class ListComponent implements OnInit {
     }
 
     this.statusList = StatusVolumeEnum;
+    this.getArchive();
     this.getCompanies();
     this.getStoreHouses();
   }
@@ -189,7 +190,7 @@ export class ListComponent implements OnInit {
 
   showView(value) {
     if (value.type === 'click') {
-      this._route.navigate(['/archives/get', value.row._id]);
+      this._route.navigate(['/archives/get', value.row._id], {skipLocationChange: true});
     }
     /* if (value.type === 'click') {
       this._route.navigate(['/archives/get', value.row._id]);

@@ -262,7 +262,7 @@ export class ShowComponent implements OnInit {
 redirect() {
     setTimeout(() => {
         this._route.navigate([`/${'archives'}`]);
-    },0 );
+    }, 1000 );
 }
 }
 

@@ -1,12 +1,6 @@
 <div [@routerTransition]>
   <div *ngIf="loading">
-    <ngx-loading [show]="loading" [config]="{
-      backdropBorderRadius: '3px',
-      fullScreenBackdrop: true,
-      primaryColour: '#222',
-      secondaryColour: '#222',
-      tertiaryColour: '#222'
-  }"></ngx-loading>
+    
   </div>
   <app-page-header [heading]="'Arquivos'" [icon]="'fa-table'"></app-page-header>
   <ngb-accordion #acc="ngbAccordion" activeIds="archives-0">
