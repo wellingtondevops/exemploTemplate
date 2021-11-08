@@ -72,7 +72,7 @@ export class ListComponent implements OnInit {
         name: document.name
       });
     }
-
+    this.getDocuments();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
 

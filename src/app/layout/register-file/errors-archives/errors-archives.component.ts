@@ -46,6 +46,7 @@ export class ErrorsArchivesComponent implements OnInit {
         endDate: archiveSearch.endDate
       })
     }
+    this.getErrors();
   }
 
   get sheet() {

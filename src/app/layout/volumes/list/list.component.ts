@@ -128,7 +128,7 @@ export class ListComponent implements OnInit {
 
       this.getDepartaments(volume.company._id);
     }
-
+    this.getVolumes();
     this.statusList = StatusVolumeEnum;
     this.getCompanies();
     this.getStoreHouses();

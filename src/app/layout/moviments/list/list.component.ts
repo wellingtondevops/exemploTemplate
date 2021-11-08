@@ -90,7 +90,7 @@ export class ListComponent implements OnInit {
         initDate: moviment.initDate
       });
     }
-
+    this.getMoviments();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
     this.getCompanies();
   }

@@ -43,8 +43,9 @@ export class ErrorsVolumesComponent implements OnInit {
         sheet: volumeSearch.sheet,
         initDate: volumeSearch.initDate,
         endDate: volumeSearch.endDate
-      })
+      });
     }
+    this.getErrors();
   }
 
   get sheet() {

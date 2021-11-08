@@ -81,12 +81,13 @@ export class ListComponent implements OnInit {
       });
       this.getDocuments(batch.company._id);
     }
+    this.getBatches();
   }
 
   formatter = (x: { name: string }) => x.name;
 
   getBatches() {
-
+    this.setPage({ offset: 0 });
   }
 
   get company() {
