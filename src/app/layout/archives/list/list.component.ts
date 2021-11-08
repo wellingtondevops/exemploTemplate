@@ -106,6 +106,7 @@ export class ListComponent implements OnInit {
     }
 
     this.statusList = StatusVolumeEnum;
+    this.getArchive();
     this.getCompanies();
     this.getStoreHouses();
   }
