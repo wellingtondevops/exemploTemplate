@@ -1,74 +1,61 @@
 <div [@routerTransition]>
-    <ng-template #editModal let-modal>
     <div class="card bg-light mb-12">
         <div class="card-body">
-            <div class="modal-body">
             <h2>Alterar Dados do Depósito</h2>
-                        <form
-                            [formGroup]="storeHouseForm"
-                            role="FormGroup"
-                            (ngSubmit)="updateStoreHouse()"
+            <form
+                [formGroup]="storeHouseForm"
+                role="FormGroup"
+                (ngSubmit)="updateStoreHouse()"
+            >
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="name">Nome</label>
+                        <input
+                            id="name"
+                            class="form-control"
+                            [ngClass]="{
+                                'is-invalid': !name.valid && name.value === ''
+                            }"
+                            formControlName="name"
+                        />
+                        <div
+                            *ngIf="name.invalid && (name.dirty || name.touched)"
+                            class="invalid-feedback"
                         >
-                            <div class="form-content">
-                                <div class="form-group">
-                                    <label for="name">Nome</label>
-                                    <input
-                                        id="name"
-                                        class="form-control"
-                                        [ngClass]="{
-                                            'is-invalid':
-                                                !name.valid && name.value === ''
-                                        }"
-                                        formControlName="name"
-                                    />
-                                    <div
-                                        *ngIf="
-                                            name.invalid &&
-                                            (name.dirty || name.touched)
-                                        "
-                                        class="invalid-feedback"
-                                    >
-                                        <div *ngIf="!name.valid">
-                                            Nome é obrigatório.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                formControlName="mapStorehouse"
-                                                value=""
-                                            />
-                                            Mapear Depósito
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pull-right">
-                                <button
-                                    type="button"
-                                    class="btn btn-danger"
-                                    style="margin-right: 10px"
-                                    (click)="modal.dismiss('')"
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                    [disabled]="name.invalid"
-                                    (click)="modal.dismiss('')"
-                                >
-                                    Salvar
-                                </button>
-                            </div>
-                        </form>
+                            <div *ngIf="!name.valid">Nome é obrigatório.</div>
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    formControlName="mapStorehouse"
+                                    value=""
+                                />
+                                Mapear Depósito
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button
+                        type="button"
+                        [routerLink]="['/storehouses/get', storeHouse._id]"
+                        class="btn btn-danger"
+                        style="margin-right: 10px"
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        [disabled]="name.invalid"
+                    >
+                        Salvar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</ng-template>
-<button class="btn btn-lg btn-outline-primary" id="openMod" hidden (click)="openMod(editModal)">Abrir Modal</button>
-
 </div>

@@ -26,8 +26,8 @@ const MODALS = {
 })
 export class ShowComponent implements OnInit {
     title = 'ng-bootstrap-modal-demo';
-    closeResult: string;
-    modalOptions:NgbModalOptions;
+    //closeResult: string;
+    //modalOptions:NgbModalOptions;
     id: String;
     storeHouse: any;
     storeHouseForm: FormGroup;
@@ -71,14 +71,14 @@ export class ShowComponent implements OnInit {
         public modal: NgbActiveModal,
         private localStorageSrv: SaveLocal,
     ) {
-        this.modalOptions = {
+       /* this.modalOptions = {
             backdrop: 'static',
             backdropClass: 'customBackdrop',
             keyboard: false,
             size: 'lg',
             centered: true,
             windowClass: 'customMod'
-        };
+        }; */
     }
 
     get name() {
@@ -118,7 +118,7 @@ export class ShowComponent implements OnInit {
         this.permissionDelete = JSON.parse(
             window.localStorage.getItem('actions')
         )[0].delete;
-        setTimeout(function() {$('#openMod')[0].click(); }, 0);
+        //setTimeout(function() {$('#openMod')[0].click(); }, 0);
     }
 
     getStoreHouse() {
@@ -271,6 +271,7 @@ export class ShowComponent implements OnInit {
             position: null
         });
     }
+    /*
     openMod(content) {
         this.modalService.open(content, this.modalOptions).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -294,5 +295,6 @@ export class ShowComponent implements OnInit {
             this._route.navigate([`/${'storehouses'}`]);
         },0 );
     }
+    */
 
 }

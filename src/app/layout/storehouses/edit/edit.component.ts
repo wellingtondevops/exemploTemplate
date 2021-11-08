@@ -1,4 +1,3 @@
-import { NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,31 +15,19 @@ import { routerTransition } from 'src/app/router.animations';
 export class EditComponent implements OnInit {
     id: String;
     storeHouse: any;
-    closeResult: string;
     storeHouseForm: FormGroup;
     mapHouseForm: FormGroup;
-    modalOptions:NgbModalOptions;
     changeUp = false;
     loading: Boolean = true;
 
     constructor(
         private _route: Router,
-        private modalService: NgbModal,
         private route: ActivatedRoute,
         private storeHouseSrv: StorehousesService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService
-    ) {
-        this.modalOptions = {
-            backdrop: 'static',
-            backdropClass: 'customBackdrop',
-            keyboard: false,
-            size: 'lg',
-            centered: true,
-            windowClass: 'customMod'
-        };
-    }
+    ) { }
 
     get name() {
         return this.storeHouseForm.get('name');
@@ -55,8 +42,6 @@ export class EditComponent implements OnInit {
 
         this.id = this.route.snapshot.paramMap.get('id');
         this.getStoreHouse();
-        setTimeout(function() {$('#openMod')[0].click(); }, 0);
-
     }
 
     getStoreHouse() {
@@ -89,7 +74,7 @@ export class EditComponent implements OnInit {
                     name: { value: this.storeHouse.name, disabled: true }
                 });
                 this.successMsgSrv.successMessages('Depósito alterado com sucesso.');
-                this._route.navigate(['/storehouses/get', data._id], {skipLocationChange: true});
+                this._route.navigate(['/storehouses/get', data._id], { skipLocationChange: true });
             },
             error => {
                 this.loading = false;
@@ -97,27 +82,5 @@ export class EditComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
-    }
-    openMod(content) {
-        this.modalService.open(content, this.modalOptions).result.then((result) => {
-          this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-        this.redirect();
-      }
-      private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-          return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-          return 'by clicking on a backdrop';
-        } else {
-          return  `with: ${reason}`;
-        }
-      }
-      redirect() {
-        setTimeout(() => {
-            this._route.navigate([`/${'storehouses'}`], {skipLocationChange: true});
-        },0 );
     }
 }
