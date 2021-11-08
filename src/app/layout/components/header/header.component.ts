@@ -1,3 +1,4 @@
+import { User } from 'src/app/models/user';
 import { Observable } from 'rxjs';
 import { Notify } from './../../../models/notify';
 import { NotifyService } from './../../../services/notify/notify.service';
@@ -14,6 +15,7 @@ export class HeaderComponent implements OnInit {
     public pushRightClass: string;
     email: String = '';
     userId: String = '';
+    name: String = '';
     data: number = Date.now();
     notify: Notify;
     active: boolean;
@@ -35,6 +37,7 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.pushRightClass = 'push-right';
         this.email = window.localStorage.getItem('email'); //
+        this.name = User.name;
         this.userId = window.localStorage.getItem('id'); //
         // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();

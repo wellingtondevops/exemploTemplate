@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg fixed-top">
-    <a class="navbar-brand" href="#">
+<nav class="navbar navbar-expand-sm fixed-top">
+    <a class="navbar-brand">
         <img src="assets/images/logo.png" width="100px" />
     </a>
     <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
@@ -9,6 +9,13 @@
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item" >
+                <a [routerLink]="['/dashboard']" class="nav-link" >
+                    <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+                </a>
+            </li>
+
+
             <!-- MENU NOTIFICATION -->
 
             <li class="nav-item dropdown" ngbDropdown>
@@ -35,6 +42,9 @@
                             Notificações
                         </h6>
                         <hr style="margin: 0;"/>
+                        <div  *ngIf="(notifys | async) == 0" style="text-align: center; size: 10vw;">
+                            <p> Não possui novas notificações  </p>
+                        </div>
                         <div *ngFor="let notify of notifys | async">
                             <hr/>
                                 <div class="media">
@@ -67,7 +77,7 @@
                                         </button>
                                     </div>
                                 </div>
-                        </div>
+                    </div>
                     </div>
             </li>
 
@@ -83,9 +93,9 @@
                         [routerLinkActive]="['router-link-active']"
                     >
                         <i class="fa fa-fw fa-user"></i>
-                        {{ "Alter Dados" | translate }}
+                        {{ "Alterar Dados" | translate }}
                     </a>
-
+                    <hr/>
                     <a
                         class="dropdown-item"
                         [routerLink]="['/login']"
