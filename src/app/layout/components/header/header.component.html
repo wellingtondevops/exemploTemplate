@@ -42,7 +42,7 @@
                             Notificações
                         </h6>
                         <hr style="margin: 0;"/>
-                        <div  *ngIf="(notifys | async) == 0" style="text-align: center; size: 10vw;">
+                        <div  *ngIf="(notifys | async) == 0" style="margin-top: 10px; text-align: center; width: 400px;">
                             <p> Não possui novas notificações  </p>
                         </div>
                         <div *ngFor="let notify of notifys | async">

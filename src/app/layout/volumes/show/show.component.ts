@@ -124,7 +124,6 @@ export class ShowComponent implements OnInit {
   getVolume() {
     this.volumesSrv.volume(this.id).subscribe(
       data => {
-        console.log('asdasdasd', data);
         this.loading = false;
         this.volume = data;
         this.volumeForm.patchValue({
