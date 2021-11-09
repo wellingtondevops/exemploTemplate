@@ -18,7 +18,7 @@
     width: 265px;
 }
 
-.cus-modal {
+.cus-modal{
     overflow-x: hidden;
     overflow-y: auto;
     top: 0;
@@ -41,6 +41,7 @@
 }
 
 .cus-modal-dialog {
+    overflow-y: initial !important;
     -webkit-transition: -webkit-transform 0.3s ease-out;
     -o-transition: -o-transform 0.3s ease-out;
     transition: transform 0.3s ease-out;
@@ -101,19 +102,24 @@
     text-align: center;
 }
 
-.cus-modal.center-center .cus-modal-dialog .cus-modal-content {
+.cus-modal.center-center .cus-modal-dialog {
     display: table-cell;
     vertical-align: middle;
 }
 
 .cus-modal-content .cus-modal-body {
+    margin-top: 10px;
     padding: 20px;
     width: 100%;
-    margin: 20px auto;
     background: #fff;
     border-radius: 5px;
     box-shadow: 0px 5px 13px 0px rgba(0, 0, 0, 0.4);
+    height: 350px;
+    overflow-y: auto;
 }
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
 
 .cus-close {
     float: right;
@@ -137,6 +143,9 @@
 
 .cus-modal-open {
     overflow: hidden;
+}
+.header{
+    position: fixed; width: 99%; background-color: white; padding: 0px;
 }
 
 .gallery {

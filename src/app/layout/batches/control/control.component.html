@@ -183,13 +183,15 @@
 
     <!-- /.cus-modal-wrap -->
     <div class="block allModal">
-        <div class="cus-modal right-bottom" id="right-bottom" role="dialog">
+        <div class="cus-modal right-bottom" id="right-bottom" role="dialog" style="overflow-y: scroll;">
             <div class="cus-modal-dialog">
                 <div class="cus-modal-content">
-                    <div class="cus-modal-body" style="font-size: 10px">
+                    <div class="header">
                         <a class="cus-close" (click)="close()">×</a>
-                        <h5 class="modal-title">Upload Arquivos</h5>
-                        <br />
+                        <h5>Upload Arquivos</h5>
+                    </div>
+                    <div class="cus-modal-body" style="font-size: 10px;">
+                        <br/>
                         <div
                             *ngFor="
                                 let progressInfo of progressInfos;
