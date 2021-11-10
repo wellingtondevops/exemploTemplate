@@ -144,15 +144,15 @@ export class NewComponent implements OnInit {
 
     getDepartament(id) {
         this.departamentsSrv.searchDepartaments(id).subscribe(
-            data => {
-                this.departaments = data.items;
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            }
+          data => {
+            this.departaments = data.items;
+          },
+          error => {
+            this.errorMsg.errorMessages(error);
+            console.log('ERROR: ', error);
+          }
         );
-    }
+      }
 
     changeGuardType() {
         switch (this.volumeForm.value.guardType) {
@@ -170,6 +170,14 @@ export class NewComponent implements OnInit {
             if (key === '_id') { return value; }
         })[0];
     }
+
+    selectedCompany(e) {
+        if (e && e.item && e.item._id) {
+          this.getDepartament(e.item._id);
+        } else {
+          this.getDepartament(e);
+        }
+      }
 
     postVolume() {
         this.returnId('company');
@@ -192,49 +200,46 @@ export class NewComponent implements OnInit {
     }
 
     search = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(storehouse =>
-                storehouse.length < 2
-                    ? []
-                    : _.filter(this.storeHouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
-            )
-        )
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(storehouse =>
+        storehouse.length < 2
+          ? []
+          : _.filter(this.storeHouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
+      )
+    )
 
-    formatter = (x: { name: string }) => x.name;
+  formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(company => {
-                let res;
-                if (company.length < 2) {
-                    res = [];
-                } else {
-                    res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
-                    if (res[0]._id) {
-                        this.getDepartament(res[0]._id);
-                    }
-                }
-                return res;
-            })
-        )
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(company => {
+        let res;
+        if (company.length < 2) {
+          res = [];
+        } else {
+          res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+        }
+        return res;
+      })
+    )
 
-    searchDepartament = (text$: Observable<string>) =>
+        searchDepartament = (text$: Observable<string>) =>
         text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(departament => {
-                let res;
-                if (departament.length < 2) {
-                    res = [];
-                } else {
-                    res = _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10);
-                }
-                return res;
-            })
+          debounceTime(200),
+          distinctUntilChanged(),
+          map(departament => {
+            let res;
+            if (departament.length < 2) {
+              res = [];
+            } else {
+              res = _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10);
+            }
+            return res;
+          })
         )
 }
 @Pipe({
