@@ -128,4 +128,18 @@ export class BatchesService {
                 tap(data => data)
             );
     }
+
+    searchSheetName(id, page, data) {
+        if (page) {
+          return this.http.post<any>(`${url}/batches/${id}/searchsheets?_page=${page.pageNumber}&size=10`, data)
+            .pipe(
+              tap(data => data)
+            );
+        } else {
+          return this.http.post<any>(`${url}/batches/${id}/searchsheets?size=10`, data)
+            .pipe(
+              tap(data => data)
+            );
+        }
+    }
 }

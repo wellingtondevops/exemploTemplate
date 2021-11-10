@@ -1,3 +1,4 @@
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ import { SafePipe } from 'src/app/utils/pipes/safe-pipe';
         ReactiveFormsModule,
         FormsModule,
         DatatablesModule,
+        NgxDatatableModule,
         TranslateModule,
         TextMaskModule,
         ButtonBackModule,
