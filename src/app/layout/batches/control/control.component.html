@@ -29,7 +29,7 @@
                         <br/>
                             <div class="row">
                                 <div class="col">
-                                    <div class="card" id="dados" *ngIf="batch">
+                                    <div class="" id="dados" *ngIf="batch">
                                         <h5>Nr Lote - {{ batch.batchNr }}</h5>
                                         <p style="font-size: 12px">
                                             <b>EMPRESA</b>: {{ batch.company.name }}<br />
@@ -50,6 +50,7 @@
                                                 type="button"
                                                 [disabled]="batchImages && batchImages.length <= 0"
                                                 class="btn btn-xs btn-success"
+                                                style="margin-right: 5px;"
                                             >
                                                 Indexar Lote
                                             </button>
@@ -58,6 +59,7 @@
                                                 [disabled]="batchImages && batchImages.length <= 0"
                                                 class="btn btn-xs btn-danger"
                                                 (click)="deleteBatch()"
+                                                style="margin-right: 5px;"
                                             >
                                                 Excluir Lote
                                             </button>
@@ -80,6 +82,7 @@
                                             class="form-control"
                                             [formGroup]="myForm"
                                             (ngSubmit)="submit()"
+                                            id=""
                                         >
                                             <div
                                                 class="form-group"
@@ -267,10 +270,13 @@
                         >
                             <div class="row">
                                 <div class="form-group col-4">
-                                    <label for="sheetname">Nome</label>
+                                    <label for="sheetname">Nome da Planilha</label>
                                     <input
                                     id="sheetname" autoFocus="true" type="text" class="form-control"
                                     formControlName="sheetname"
+                                    style="background-color: #fff;
+                                    border:1px solid #ced4da;
+                                    padding: 0.375rem 0.75rem;"
                                     />
                                 </div>
                             </div>
@@ -317,11 +323,11 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                              <ngx-datatable-column name="Excluir da Planilha" [width]="200" prop="_id">
+                            <ngx-datatable-column name="Excluir da Planilha" [width]="200" prop="_id">
                                 <ng-template let-value="value" ngx-datatable-cell-template>
-                                  <button class="btn btn-danger btn-sm" (click)="deleteSheet(value)">Excluir</button>
+                                    <button class="btn btn-danger btn-sm" (click)="deleteSheet(value)">Excluir</button>
                                 </ng-template>
-                              </ngx-datatable-column>
+                            </ngx-datatable-column>
                         </ngx-datatable>
                         </div>
                     </ng-template>

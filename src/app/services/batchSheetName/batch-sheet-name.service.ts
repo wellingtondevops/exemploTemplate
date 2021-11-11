@@ -11,13 +11,6 @@ const url = environment.apiUrl;
 export class BatchSheetNameService {
     constructor(private http: HttpClient) {}
 
-    getId(id) {
-        return this.http.get<BatchSheetName>(`${url}/sheetnames/${id}`)
-          .pipe(
-            tap(data => data)
-          );
-      }
-
     delete(id) {
         return this.http
             .delete<BatchSheetName>(`${url}/sheetnames/${id}`)

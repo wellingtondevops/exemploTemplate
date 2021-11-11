@@ -31,6 +31,7 @@ export class ControlComponent implements OnInit {
     batch: Batch;
     batchImages: any;
     id: string;
+    _id: any;
     loading: Boolean = true;
     page = new Page();
     page2 = new Page();
@@ -75,6 +76,7 @@ export class ControlComponent implements OnInit {
         })
         this.id = this.route.snapshot.paramMap.get('id');
         this.getBatch();
+        this.getArchive();
     }
 
 
@@ -228,6 +230,7 @@ export class ControlComponent implements OnInit {
 
 
     setPage(pageInfo) {
+        this.loading = true;
         if (pageInfo && pageInfo.offset) {
             this.page2.pageNumber = pageInfo.offset;
         } else {
@@ -250,12 +253,17 @@ export class ControlComponent implements OnInit {
                 this.page2.pageNumber = data._links.currentPage - 1;
                 this.page2.totalElements = data._links.foundItems;
                 this.page2.size = data._links.totalPage;
+                this.loading = false;
             }
         }, error => {
+            this.loading = false;
             console.log('ERROR: ', error);
-
             this.errorMsg.errorMessages(error);
         });
+    }
+
+    getArchive() {
+          this.setPage({ offset: 0 });
     }
 
     clear() {
@@ -265,11 +273,11 @@ export class ControlComponent implements OnInit {
             sheetname: null
         });
     }
-    deleteSheet() {
+    deleteSheet(_id) {
         this.loading = true;
-        this.sheetSvr.delete(this.id).subscribe(data => {
+        this.sheetSvr.delete(_id).subscribe(data => {
             this.loading = false;
-            this.successMsgSrv.successMessages('Lote excluído com sucesso.');
+            this.successMsgSrv.successMessages('Planilha excluída com sucesso.');
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
