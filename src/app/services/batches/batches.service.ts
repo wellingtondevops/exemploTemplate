@@ -142,4 +142,11 @@ export class BatchesService {
             );
         }
     }
+
+    import(batches, id){
+        return this.http.post<any>(`${url}/batches/${id}/worksheet`, batches)
+          .pipe(
+            tap(data => data)
+          );
+      }
 }

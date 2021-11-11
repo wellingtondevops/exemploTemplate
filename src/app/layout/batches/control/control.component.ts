@@ -2,7 +2,7 @@ import { BatchSheetNameService } from './../../../services/batchSheetName/batch-
 import { BatchSheetName } from './../../../../.././src/app/models/batchSheetName';
 import { SaveLocal } from './../../../storage/saveLocal';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Batch } from 'src/app/models/batch';
@@ -15,6 +15,7 @@ import { routerTransition } from '../../../router.animations';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import * as $ from 'jquery';
 import _ from 'lodash';
+import * as XLSX from 'ts-xlsx';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -26,6 +27,10 @@ import { DomSanitizer } from '@angular/platform-browser';
     animations: [routerTransition()]
 })
 export class ControlComponent implements OnInit {
+    file: File | null = null;
+    nameFile: string;
+    arrayBuffer: any;
+
     progressInfos: any = [];
     fileInfos: any = [];
     batch: Batch;
@@ -36,6 +41,9 @@ export class ControlComponent implements OnInit {
     page = new Page();
     page2 = new Page();
     searchForm: FormGroup;
+    rowsFile: any = [];
+    errorUpload: boolean = null;
+    savedFile = false;
     // pageImages = new Page();
     myFilesInputSelect: any = [];
     myFiles: any = [];
@@ -78,6 +86,40 @@ export class ControlComponent implements OnInit {
         this.getBatch();
         this.getArchive();
     }
+
+    @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
+        if (event) {
+          this.nameFile = event.item(0).name;
+          const file = event && event.item(0);
+          if (!file.name.match(/\.(xls|xlsx|XLS|XLSX)$/)) {
+            this.removeFile();
+            const error = {
+              status: 404,
+              message: 'Formato de arquivo não suportado.'
+            };
+            this.errorMsg.showError(error);
+
+          } else {
+            this.file = file;
+            const fileReader = new FileReader();
+            fileReader.onload = (e) => {
+              this.arrayBuffer = fileReader.result;
+              const data = new Uint8Array(this.arrayBuffer);
+              const arr = new Array();
+              for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+              const bstr = arr.join('');
+              const workbook = XLSX.read(bstr, { type: 'binary' });
+              const first_sheet_name = workbook.SheetNames[0];
+              const worksheet = workbook.Sheets[first_sheet_name];
+              const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+              item.map(row => {
+                this.rowsFile.push(row);
+              });
+            };
+            fileReader.readAsArrayBuffer(this.file);
+          }
+        }
+      }
 
 
     setDataIndexForm(index) {
@@ -178,6 +220,35 @@ export class ControlComponent implements OnInit {
             this.upload(formData, last);
         }
     }
+
+    sub() {
+        const formData = new FormData();
+      formData.append('file', this.file);
+
+      this.batchesSrv.import(formData, this.id).subscribe(data => {
+        if (data.status && data.status === 'progress') {
+            this.uploadResponse.message = data.message;
+            this.uploadResponse.status = data.status;
+            this.errorUpload = false;
+          }
+          if (Array(data)) {
+            this.savedFile = true;
+            this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+          }
+        }, error => {
+          this.loading = false;
+          this.uploadResponse.message = 10;
+          this.uploadResponse.status = 'progress';
+          this.errorUpload = true;
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR ', error);
+        });
+    }
+    removeFile() {
+        // this.host.nativeElement.value = '';
+        this.file = null;
+        this.nameFile = null;
+      }
 
     upload(formData, i) {
         this.filesSrv.filesProgress(formData).subscribe(event => {
