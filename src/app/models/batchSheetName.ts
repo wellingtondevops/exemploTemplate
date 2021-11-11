@@ -6,6 +6,7 @@ export class BatchSheetName {
   };
   sheetname: string;
   createAt: string;
+  _id: string;
 }
 
 export class BatchesSheetList {

@@ -1,3 +1,4 @@
+import { BatchSheetNameService } from './../../../services/batchSheetName/batch-sheet-name.service';
 import { BatchSheetName } from './../../../../.././src/app/models/batchSheetName';
 import { SaveLocal } from './../../../storage/saveLocal';
 
@@ -32,6 +33,8 @@ export class ControlComponent implements OnInit {
     id: string;
     loading: Boolean = true;
     page = new Page();
+    page2 = new Page();
+    searchForm: FormGroup;
     // pageImages = new Page();
     myFilesInputSelect: any = [];
     myFiles: any = [];
@@ -42,11 +45,6 @@ export class ControlComponent implements OnInit {
     });
     sheetnames: BatchSheetName[];
 
-    columns = [
-        { name: 'Nome', prop: 'sheetname' },
-        { name: 'Criado em', prop: 'createAt', pipe: { transform: this.pipes.datePipe } },
-    ];
-
     constructor(
         private _route: Router,
         private route: ActivatedRoute,
@@ -54,12 +52,15 @@ export class ControlComponent implements OnInit {
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private batchesSrv: BatchesService,
+        private sheetSvr: BatchSheetNameService,
         private filesSrv: FilesService,
         private pipes: Pipes,
         private domSanitizer: DomSanitizer,
         private localStorageSrv: SaveLocal,
 
     ) { }
+
+
     ngOnInit() {
         /* $(document).ready(function () {
             // var $modal = $('#right-bottom');
@@ -68,14 +69,21 @@ export class ControlComponent implements OnInit {
                 $('.in').removeClass('in');
             });
         }); */
-        this.myForm = this.fb.group({
-            sheetname: this.fb.control(null),
 
+        this.searchForm = this.fb.group({
+            sheetname: this.fb.control(''),
         })
-        const sheetname = JSON.parse(this.localStorageSrv.get('sheetname'));
-
         this.id = this.route.snapshot.paramMap.get('id');
         this.getBatch();
+    }
+
+
+    setDataIndexForm(index) {
+        if(index) {
+            this.searchForm.patchValue({
+                sheetname: index.sheetname,
+            });
+        }
     }
 
     openModal() {
@@ -94,13 +102,6 @@ export class ControlComponent implements OnInit {
         console.log(e.target.id);
     }
 
-
-    returnId(object) {
-        const result = _.filter(this.myForm.value[object], function (value, key) {
-            if (key === '_id') { return value; }
-        })[0];
-        return result;
-    }
 
     isPdf(img) {
         console.log(1);
@@ -228,28 +229,27 @@ export class ControlComponent implements OnInit {
 
     setPage(pageInfo) {
         if (pageInfo && pageInfo.offset) {
-            this.page.pageNumber = pageInfo.offset;
+            this.page2.pageNumber = pageInfo.offset;
         } else {
             pageInfo = { offset: 0 },
-                this.page.pageNumber = pageInfo.offset;
+                this.page2.pageNumber = pageInfo.offset;
         }
 
-        this.localStorageSrv.save('sheetname', this.myForm.value);
+        this.localStorageSrv.save('sheetname', this.searchForm.value);
 
         const newSearch = {
             sheetname: null,
-            createAt: null,
         };
-        this.myForm.value.sheetname ? newSearch.sheetname = this.returnId('sheetname') : null;
-        newSearch.createAt = this.myForm.value.createAt;
+        newSearch.sheetname = this.searchForm.value.sheetname;
 
         const searchValue = _.omitBy(newSearch, _.isNil);
-        this.batchesSrv.searchSheetName(this.batch._id, this.page, searchValue).subscribe(data => {
+        this.batchesSrv.searchSheetName(this.batch._id, this.page2, searchValue).subscribe(data => {
             if (data.items.length > 0) {
+
                 this.sheetnames = data.items;
-                this.page.pageNumber = data._links.currentPage - 1;
-                this.page.totalElements = data._links.foundItems;
-                this.page.size = data._links.totalPage;
+                this.page2.pageNumber = data._links.currentPage - 1;
+                this.page2.totalElements = data._links.foundItems;
+                this.page2.size = data._links.totalPage;
             }
         }, error => {
             console.log('ERROR: ', error);
@@ -261,8 +261,19 @@ export class ControlComponent implements OnInit {
     clear() {
         this.localStorageSrv.clear('sheetname');
 
-        this.myForm.patchValue({
+        this.searchForm.patchValue({
             sheetname: null
+        });
+    }
+    deleteSheet() {
+        this.loading = true;
+        this.sheetSvr.delete(this.id).subscribe(data => {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Lote excluído com sucesso.');
+        }, error => {
+            console.log('ERROR: ', error);
+            this.loading = false;
+            this.errorMsg.errorMessages(error);
         });
     }
 

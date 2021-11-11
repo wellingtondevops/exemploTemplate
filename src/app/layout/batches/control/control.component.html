@@ -261,24 +261,19 @@
                     <ng-template ngbTabContent>
                         <br/>
                         <form
-                            [formGroup]="myForm"
+                            [formGroup]="searchForm"
                             (ngSubmit)="setPage()"
                             role="FormGroup"
                         >
-                        <h5> Infomações Planilha </h5>
                             <div class="row">
                                 <div class="form-group col-4">
-                                    <label for="typeahead-basic">Nome</label>
+                                    <label for="sheetname">Nome</label>
                                     <input
-                                    id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                                    formControlName="sheetname" style="height: 70%;"
+                                    id="sheetname" autoFocus="true" type="text" class="form-control"
+                                    formControlName="sheetname"
                                     />
                                 </div>
                             </div>
-                            <ng-template #rtDepartament let-r="result" let-t="sheetname"
-                                class="custom-typeahead">
-                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                            </ng-template>
                             <div class="row">
                                 <div class="col-12" style="text-align: center;">
                                     <button
@@ -305,15 +300,28 @@
                             <br/>
                             <ngx-datatable #myTable class="material" [rows]="sheetnames" [columnMode]="'force'"
                             [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
-                            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
-                            (page)='setPage($event)'>
+                            [count]="page2.totalElements" [offset]="page2.pageNumber" [limit]="10"
+                            (page2)='setPage($event)'>
+                            <ngx-datatable-column name="" [width]="15" prop="sheetname">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    <i *ngIf="value" class="fa fa-file-excel-o" style="font-size:30px;color:#0F6235"></i>
+                                </ng-template>
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Nome" [width]="200" prop="sheetname">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nome" [width]="200" prop="_id">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Criado em" [width]="150" prop="createAt">
                                 <ng-template let-value="value" ngx-datatable-cell-template>
                                     {{ value | date: 'dd/MM/yyyy' }}
                                 </ng-template>
                             </ngx-datatable-column>
+
+                              <ngx-datatable-column name="Excluir da Planilha" [width]="200" prop="_id">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  <button class="btn btn-danger btn-sm" (click)="deleteSheet(value)">Excluir</button>
+                                </ng-template>
+                              </ngx-datatable-column>
                         </ngx-datatable>
                         </div>
                     </ng-template>
