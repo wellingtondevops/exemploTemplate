@@ -23,6 +23,7 @@ import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-m
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Volume, VolumeList } from 'src/app/models/volume';
 
+declare var $: any;
 @Component({
     selector: 'app-new',
     templateUrl: './new.component.html',
@@ -116,6 +117,30 @@ export class NewComponent implements OnInit {
 
         const index = JSON.parse(this.localStorageSrv.get('index'));
         this.setDataIndexForm(index);
+
+
+        $(document).ready(function() {
+            $('#worksheets').autocomplete({
+                source:  async function(request, response) {
+                    let data = await fetch(`https://archiomain.archio.com.br/batches/6171c77bc885a50014dd4a8a/search?term=${request.term}` )
+                    .then(results => results.json())
+                    .then(results => results.map(result => {
+                        return {label: result.fieldColumns, value: result.fieldColumns, id: result._id};
+                    }));
+                    response(data);
+                },
+                select: function(event, ui) {
+                    fetch(`https://archiomain.archio.com.br/worksheets/${ui.item.id}`)
+                    .then(result => result.json())
+                    .then(result => {
+                        $('#fieldColumns').empty();
+                        result.fieldColumns.forEach(fieldColumn =>{
+                            $('#fieldColumns').append(`<li>${fieldColumn}</li>`);
+                        });
+                    });
+                }
+            });
+        });
 
     }
 
