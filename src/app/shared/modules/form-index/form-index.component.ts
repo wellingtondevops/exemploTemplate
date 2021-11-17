@@ -7,6 +7,8 @@ import { isArray } from 'util';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 
+declare var $: any;
+
 @Component({
     selector: 'app-form-index',
     templateUrl: './form-index.component.html',
@@ -34,6 +36,27 @@ export class FormIndexComponent {
             this.model = this.objectModel(this.document.label, this.store);
             this.fields = this.arrayLabelForm(this.document.label, this.store);
         }
+        $(document).ready(function() {
+            $('#worksheets').autocomplete({
+                source:  async function(request, response) {
+                    let data = await fetch(`https://archiomain.archio.com.br/batches/6171c77bc885a50014dd4a8a/search?term=${request.term}` )
+                    .then(results => results.json())
+                    .then(results => results.map(result => {
+                        return {label: result.fieldColumns, value: result.fieldColumns, id: result._id};
+                    }));
+                    response(data);
+                },
+                select: function(event, ui, i) {
+                    fetch(`https://archiomain.archio.com.br/worksheets/${ui.item.id}`)
+                    .then(result => result.json())
+                    .then(result => {
+                        result.fieldColumns.forEach(fieldColumn =>{
+                            $('<input/>').text(`${fieldColumn}`).append(`#formindex${i}`);
+                        });
+                    });
+                }
+            });
+        });
     }
 
     ngOnChanges(changes: SimpleChanges) {

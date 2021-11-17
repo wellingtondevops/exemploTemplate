@@ -133,9 +133,8 @@ export class NewComponent implements OnInit {
                     fetch(`https://archiomain.archio.com.br/worksheets/${ui.item.id}`)
                     .then(result => result.json())
                     .then(result => {
-                        $('#fieldColumns').empty();
                         result.fieldColumns.forEach(fieldColumn =>{
-                            $('#fieldColumns').append(`<li>${fieldColumn}</li>`);
+                            $('#formindex').appendTo(`${fieldColumn}`);
                         });
                     });
                 }
