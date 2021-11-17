@@ -59,7 +59,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCompanies();
+
 
     this.searchForm = this.fb.group({
       name: this.fb.control(null),
@@ -72,6 +72,7 @@ export class ListComponent implements OnInit {
         name: document.name
       });
     }
+    this.getCompanies();
     this.getDocuments();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
@@ -108,12 +109,8 @@ export class ListComponent implements OnInit {
     this.page.pageNumber = pageInfo.offset;
     this.localStorageSrv.save('document', this.searchForm.value);
 
-    const newForm = {
-      company: this.searchForm.value.company._id,
-      name: this.searchForm.value.name ? this.searchForm.value.name : null,
-    };
-
-    this.documentSrv.searchDocts(newForm, this.page).subscribe(data => {
+    this.returnId('company')
+    this.documentSrv.searchDocts(this.searchForm.value, this.page).subscribe(data => {
       this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
@@ -123,6 +120,27 @@ export class ListComponent implements OnInit {
       console.log('ERROR: ', error);
       this.loading = false;
     });
+  }
+
+  setPage(pageInfo) {
+    this.loading = true;
+    this.page.pageNumber = pageInfo.offset;
+
+    this.documentSrv.documents(this.page).subscribe(
+      data => {
+        console.log(data);
+        this.documents = data;
+        this.page.pageNumber = data._links.currentPage - 1;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+        this.loading = false;
+      }
+    );
   }
 
   getDocument(document) {
