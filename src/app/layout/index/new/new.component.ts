@@ -52,6 +52,7 @@ export class NewComponent implements OnInit {
     batchImages: any;
     valuesStorage: any;
     searchForm: FormGroup;
+    listField: any;
     departaments: any;
     storehouses: any;
     closeModal: string;
@@ -129,14 +130,24 @@ export class NewComponent implements OnInit {
                     }));
                     response(data);
                 },
-                select: function(event, ui) {
+                select: function(event, ui, i) {
                     fetch(`https://archiomain.archio.com.br/worksheets/${ui.item.id}`)
                     .then(result => result.json())
                     .then(result => {
                         $('#fieldColumns').empty();
+                        localStorage.removeItem('lista');
                         result.fieldColumns.forEach(fieldColumn =>{
-                            $('#fieldColumns').append(`<li>${fieldColumn}</li>`);
+                            let lista = JSON.parse(localStorage.getItem('lista') || '[]');
+                            lista.push(
+                                fieldColumn
+                                );
+                                localStorage.setItem('lista', JSON.stringify(lista));
+                                console.log('sad', lista);
+                                //this.listField = localStorage.getItem('lista');
+                            //$(`#form`).val(`<input>, ${lista[i]}`);
                         });
+                        this.listField = JSON.parse(localStorage.getItem('lista'));
+                            $('input').append(`#form`).val(this.listField);
                     });
                 }
             });
@@ -253,6 +264,9 @@ export class NewComponent implements OnInit {
         this.loading = true;
 
         const valueCheckBox = _.values(this.checkboxForm.value);
+        //if (data === '') {
+            data = JSON.parse(localStorage.getItem('lista'));
+        //}
         const tag = _.values(data);
         const memoryInput = [];
         valueCheckBox.map((item, i) => {

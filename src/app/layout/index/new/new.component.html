@@ -38,13 +38,12 @@
                                 <div class="card bg-light mb-3" style="margin:5px;font-size: 16px;" >
                                     <div class="card-header">Fonte de dados</div>
                                     <input id="worksheets" style="width: 72%; margin-left: 50px; margin-top: 10px;"placeholder="Digite Aqui">
-                                    <ul id="fieldColumns"></ul>
                                 </div>
                                 <div class="card bg-light mb-3" style="margin:5px;font-size: 12px;">
                                     <div *ngIf="page.totalElements !== 0;">
                                     <div class="card-header">Indíces</div>
                                             <div class="card-body" style="display: flex;">
-                                                <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label">
+                                                <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label" id="form">
                                                     <app-form-index [multipleIndex]="true" [data]="document"
                                                         [store]="valuesStorage" [isArchive]="false" [edit]="true"
                                                         (sendArchive)="createDocument($event)">
