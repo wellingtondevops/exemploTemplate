@@ -481,5 +481,14 @@ export class NewComponent implements OnInit {
                 this.getBatch();
             });
         }
+        clear() {
+            //this.localStorageSrv.clear('sheetname');
+
+            this.searchForm.patchValue({
+                departament: null,
+                location: null,
+                storehouse: null
+            });
+        }
     }
 
