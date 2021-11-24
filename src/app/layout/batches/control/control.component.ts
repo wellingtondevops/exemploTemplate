@@ -294,6 +294,7 @@ export class ControlComponent implements OnInit {
     }
 
     toIndex() {
+        localStorage.removeItem('lista');
         this._route.navigate(['/index', this.id]);
     }
 

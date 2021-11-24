@@ -130,11 +130,10 @@ export class NewComponent implements OnInit {
                     }));
                     response(data);
                 },
-                select: function(event, ui, i) {
+                select: function(event, ui) {
                     fetch(`https://archiomain.archio.com.br/worksheets/${ui.item.id}`)
                     .then(result => result.json())
                     .then(result => {
-                        $('#fieldColumns').empty();
                         localStorage.removeItem('lista');
                         result.fieldColumns.forEach(fieldColumn =>{
                             let lista = JSON.parse(localStorage.getItem('lista') || '[]');
@@ -142,17 +141,17 @@ export class NewComponent implements OnInit {
                                 fieldColumn
                                 );
                                 localStorage.setItem('lista', JSON.stringify(lista));
-                                console.log('sad', lista);
-                                //this.listField = localStorage.getItem('lista');
-                            //$(`#form`).val(`<input>, ${lista[i]}`);
+                                setTimeout(function() {$('#realtime')[0].click(); }, 0);
                         });
-                        this.listField = JSON.parse(localStorage.getItem('lista'));
-                            $('input').append(`#form`).val(this.listField);
                     });
                 }
             });
         });
 
+    }
+
+    load() {
+        this.ngOnInit();
     }
 
     setDataIndexForm(index) {
@@ -264,9 +263,7 @@ export class NewComponent implements OnInit {
         this.loading = true;
 
         const valueCheckBox = _.values(this.checkboxForm.value);
-        //if (data === '') {
-            data = JSON.parse(localStorage.getItem('lista'));
-        //}
+        //data = JSON.parse(localStorage.getItem('lista'));
         const tag = _.values(data);
         const memoryInput = [];
         valueCheckBox.map((item, i) => {
@@ -274,6 +271,7 @@ export class NewComponent implements OnInit {
                 memoryInput.push(tag[i]);
             } else {
                 memoryInput.push('');
+                localStorage.removeItem('lista');
             }
         });
 
