@@ -84,7 +84,7 @@ export class ControlComponent implements OnInit {
         })
         this.id = this.route.snapshot.paramMap.get('id');
         this.getBatch();
-        this.getArchive();
+        //this.getArchive();
     }
 
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
@@ -95,7 +95,7 @@ export class ControlComponent implements OnInit {
             this.removeFile();
             const error = {
               status: 404,
-              message: 'Formato de arquivo não suportado.'
+              //message: 'Formato de arquivo não suportado.'
             };
             this.errorMsg.showError(error);
 
@@ -234,6 +234,7 @@ export class ControlComponent implements OnInit {
           if (Array(data)) {
             this.savedFile = true;
             this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+            this.setPage('');
           }
         }, error => {
           this.loading = false;
@@ -298,8 +299,9 @@ export class ControlComponent implements OnInit {
         this._route.navigate(['/index', this.id]);
     }
 
-
-
+    // getArchive() {
+    //     this.setPage({ offset: 0 });
+    // }
 
     setPage(pageInfo) {
         this.loading = true;
@@ -334,9 +336,6 @@ export class ControlComponent implements OnInit {
         });
     }
 
-    getArchive() {
-          this.setPage({ offset: 0 });
-    }
 
     clear() {
         this.localStorageSrv.clear('sheetname');
@@ -350,6 +349,7 @@ export class ControlComponent implements OnInit {
         this.sheetSvr.delete(_id).subscribe(data => {
             this.loading = false;
             this.successMsgSrv.successMessages('Planilha excluída com sucesso.');
+            this.setPage('');
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
