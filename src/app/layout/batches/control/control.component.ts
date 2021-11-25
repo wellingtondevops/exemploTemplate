@@ -329,7 +329,7 @@ export class ControlComponent implements OnInit {
 
         const searchValue = _.omitBy(newSearch, _.isNil);
         this.batchesSrv.searchSheetName(this.batch._id, this.page2, searchValue).subscribe(data => {
-            if (data.items.length > 0) {
+            if (data.items.length >= 0) {
 
                 this.sheetnames = data.items;
                 this.page2.pageNumber = data._links.currentPage - 1;
