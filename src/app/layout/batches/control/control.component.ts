@@ -91,11 +91,11 @@ export class ControlComponent implements OnInit {
         if (event) {
           this.nameFile = event.item(0).name;
           const file = event && event.item(0);
-          if (!file.name.match(/\.(xls|xlsx|XLS|XLSX)$/)) {
+          if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
             this.removeFile();
             const error = {
               status: 404,
-              //message: 'Formato de arquivo não suportado.'
+              message: 'Formato de arquivo não suportado.'
             };
             this.errorMsg.showError(error);
 
