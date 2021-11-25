@@ -81,10 +81,18 @@ export class ControlComponent implements OnInit {
 
         this.searchForm = this.fb.group({
             sheetname: this.fb.control(''),
-        })
+        });
+
         this.id = this.route.snapshot.paramMap.get('id');
+
+
+        let batchID = this.id;
+
+        const idBatch = [{fdp: batchID}];
+        localStorage.setItem('idBatch', JSON.stringify(idBatch));
+        const myid = localStorage.getItem('idBatch');
         this.getBatch();
-        //this.getArchive();
+        // this.getArchive();
     }
 
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
@@ -106,7 +114,7 @@ export class ControlComponent implements OnInit {
               this.arrayBuffer = fileReader.result;
               const data = new Uint8Array(this.arrayBuffer);
               const arr = new Array();
-              for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+              for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
               const bstr = arr.join('');
               const workbook = XLSX.read(bstr, { type: 'binary' });
               const first_sheet_name = workbook.SheetNames[0];
@@ -123,7 +131,7 @@ export class ControlComponent implements OnInit {
 
 
     setDataIndexForm(index) {
-        if(index) {
+        if (index) {
             this.searchForm.patchValue({
                 sheetname: index.sheetname,
             });
@@ -347,9 +355,11 @@ export class ControlComponent implements OnInit {
     deleteSheet(_id) {
         this.loading = true;
         this.sheetSvr.delete(_id).subscribe(data => {
-            this.loading = false;
-            this.successMsgSrv.successMessages('Planilha excluída com sucesso.');
-            this.setPage('');
+            if (this.page2.totalElements > 0) {
+                this.setPage('');
+                this.successMsgSrv.successMessages('Planilha excluída com sucesso.');
+                this.loading = false;
+            }
         }, error => {
             console.log('ERROR: ', error);
             this.loading = false;
