@@ -109,10 +109,17 @@ export class FormIndexComponent {
         return array;
     }
 
-    objectModel(labels, tag) {
+    objectModel(labels, tag,) {
         const newObj = {};
+        let lista3 = [];
+        const lista2 = JSON.parse(localStorage.getItem('lista'));
+        lista3 = lista2;
         labels.map((element, i) => {
-            newObj[element.namefield] = tag ? tag[i] : '';
+            if (lista3 == null){
+                newObj[element.namefield] = tag ? tag[i] : '';
+            } else {
+                newObj[element.namefield] = lista3[i];
+            }
         });
         return newObj;
     }

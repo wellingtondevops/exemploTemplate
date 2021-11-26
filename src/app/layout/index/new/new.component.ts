@@ -22,7 +22,10 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Volume, VolumeList } from 'src/app/models/volume';
+import { environment} from '../../../../environments/environment';
+const urlSearch = environment.urlSearch;
 
+declare var $: any;
 @Component({
     selector: 'app-new',
     templateUrl: './new.component.html',
@@ -51,6 +54,7 @@ export class NewComponent implements OnInit {
     batchImages: any;
     valuesStorage: any;
     searchForm: FormGroup;
+    listField: any;
     departaments: any;
     storehouses: any;
     closeModal: string;
@@ -117,6 +121,46 @@ export class NewComponent implements OnInit {
         const index = JSON.parse(this.localStorageSrv.get('index'));
         this.setDataIndexForm(index);
 
+
+        $(document).ready(function() {
+            $('#worksheets').autocomplete({
+                source:  async function(request, response) {
+                    const myId = localStorage.getItem('idBatch');
+                    const myId2 = await JSON.parse(myId).map(el => el.fdp);
+
+                    const data = await fetch(`${urlSearch}/batches/${myId2.toString()}/search?term=${request.term}` )
+                    .then(results => results.json())
+                    .then(results => results.map(result => {
+                        return {label: result.fieldColumns, value: result.fieldColumns, id: result._id};
+                    }));
+                    response(data);
+                },
+                select: function(event, ui) {
+                    fetch(`${urlSearch}/worksheets/${ui.item.id}`)
+                    .then(result => result.json())
+                    .then(result => {
+                        localStorage.removeItem('lista');
+                        result.fieldColumns.forEach(fieldColumn => {
+                            const lista = JSON.parse(localStorage.getItem('lista') || '[]');
+                            lista.push(
+                                fieldColumn
+                                );
+                                localStorage.setItem('lista', JSON.stringify(lista));
+                                setTimeout(function() {$('#realtime')[0].click(); }, 0);
+                        });
+                    });
+
+                }
+            });
+        });
+
+    }
+
+    load() {
+        this.ngOnInit();
+        setTimeout(() => {
+            $('#worksheets').val('');
+        }, 900);
     }
 
     setDataIndexForm(index) {
@@ -235,6 +279,7 @@ export class NewComponent implements OnInit {
                 memoryInput.push(tag[i]);
             } else {
                 memoryInput.push('');
+                localStorage.removeItem('lista');
             }
         });
 
@@ -432,17 +477,25 @@ export class NewComponent implements OnInit {
         });
     }
     redirect() {
-          this._route.navigate([`/${'batches'}`]);
-        }
-
-        deleteImgs() {
-            let newForm = {
-                pictures: [this.pictures],
-            };
-            newForm = _.omitBy(newForm, _.isNil);
-            this.fileService.deleteImgs(newForm).subscribe(data => {
-                this.getBatch();
-            });
-        }
+        this._route.navigate([`/${'batches'}`]);
     }
+
+    deleteImgs() {
+        let newForm = {
+            pictures: [this.pictures],
+        };
+        newForm = _.omitBy(newForm, _.isNil);
+        this.fileService.deleteImgs(newForm).subscribe(data => {
+            this.getBatch();
+        });
+    }
+
+    clear() {
+        this.searchForm.patchValue({
+            departament: null,
+            location: null,
+            storehouse: null
+        });
+        }
+}
 
