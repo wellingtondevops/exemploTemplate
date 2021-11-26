@@ -124,7 +124,6 @@ export class EditComponent implements OnInit {
 
   createService(): FormGroup {
     return this.fb.group({
-      _id: '',
       description: '',
       price: ''
     });
@@ -197,5 +196,7 @@ export class EditComponent implements OnInit {
       }
     );
   }
-
+  toBack() {
+    this._route.navigate([`/${'company-services/get'}`, this.id]);
+}
 }
