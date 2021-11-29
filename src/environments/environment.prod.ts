@@ -1,9 +1,10 @@
 export const environment = {
 
-  apiUrl: 'https://archiomain.archio.com.br',
-  apiUrlUpload: 'https://mupload.archio.com.br',
-  apiUrlUploadSingle: 'https://smupload.archio.com.br',
-  exportUrl: 'https://exportarchives.archio.com.br',
+  apiUrl: 'https://archiomainprod.archio.com.br',
+  apiUrlUpload: 'https://muploadprod.archio.com.br',
+  apiUrlUploadSingle: 'https://smuploadprod.archio.com.br',
+  exportUrl: 'https://exportarchivesprod.archio.com.br',
+  urlSearch: 'https://archiomainprod.archio.com.br',
   production: true,
   firebaseConfig : {
     apiKey: 'AIzaSyCy9X4r36l6o1PLn4DuVdFpO41P5SmA57g',
