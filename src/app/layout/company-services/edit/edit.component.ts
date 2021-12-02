@@ -184,7 +184,7 @@ export class EditComponent implements OnInit {
         items.forEach((item, i) => {
             newItems.push({
                 _id: item._id,
-                description: item.description.descriptionService,
+                description: item.description,
                 price: item.price
             });
         });
@@ -192,10 +192,9 @@ export class EditComponent implements OnInit {
     }
 
     createServiceExist(item): FormGroup {
-        this.isDisabled = true;
         return this.fb.group({
             _id: item._id,
-            description: {value: item.description, disabled: this.isDisabled},
+            description: {value: item.description, disabled: true},
             price: String(item.price).replace('.', ',')
         });
     }
