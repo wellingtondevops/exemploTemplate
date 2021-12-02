@@ -1,7 +1,7 @@
 export const environment = {
 
-  // apiUrl: 'https://archiomain.archio.com.br',
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://archiomain.archio.com.br',
+  //apiUrl: 'http://localhost:3000',
   apiUrlUpload: 'https://mupload.archio.com.br',
   apiUrlUploadSingle: 'https://smupload.archio.com.br',
   exportUrl: 'https://exportarchives.archio.com.br',

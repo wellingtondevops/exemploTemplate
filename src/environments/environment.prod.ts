@@ -1,6 +1,6 @@
 export const environment = {
 
-  apiUrl: 'https://archiomainprod.archio.com.br',
+  apiUrl: 'https://archiomain.archio.com.br',
   apiUrlUpload: 'https://muploadprod.archio.com.br',
   apiUrlUploadSingle: 'https://smuploadprod.archio.com.br',
   exportUrl: 'https://exportarchivesprod.archio.com.br',
