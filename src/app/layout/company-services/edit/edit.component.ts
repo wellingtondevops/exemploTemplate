@@ -36,7 +36,6 @@ export class EditComponent implements OnInit {
     permissionDelete: any;
     id: any;
     menuServices: any = [];
-    isDisabled = false;
     selectedService?: MenuService;
 
     constructor(
@@ -59,11 +58,8 @@ export class EditComponent implements OnInit {
         company: this.fb.control({ value: '' }, [Validators.required]),
         services: this.fb.array(this.services)
         });
-
         this.id = this.route.snapshot.paramMap.get('id');
-        this.getCompanies();
         this.getCompanyService();
-        this.getMenuServices();
 
         this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
         this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
@@ -76,13 +72,16 @@ export class EditComponent implements OnInit {
     createService(): FormGroup {
         return this.fb.group({
             description: '',
-            price: ''
+            price: '',
+            _id: ''
         });
     }
 
     addService(): void {
         this.services = this.serviceForm.get('services') as FormArray;
         this.services.push(this.createService());
+        this.getMenuServices();
+
     }
 
     removeService(e) {
@@ -124,7 +123,7 @@ export class EditComponent implements OnInit {
             let priceStr = item.price.replace(',', '.');
             priceStr = priceStr.replace('R$', '');
             const priceFloat = parseFloat(priceStr);
-            newArray.push({ description: item.description, price: priceFloat, _id: item._id });
+            newArray.push({ description: item._id, price: priceFloat, _id: item._id });
         });
         this.serviceForm.value.services = newArray;
     }
@@ -173,6 +172,7 @@ export class EditComponent implements OnInit {
             this.companyservice.services.map(item => {
                 this.addServiceExist(item);
             });
+            console.log('sla', this.services);
         },
         error => {
             console.log('ERROR:', error);
@@ -184,7 +184,7 @@ export class EditComponent implements OnInit {
         items.forEach((item, i) => {
             newItems.push({
                 _id: item._id,
-                description: item.description.descriptionService,
+                description: item._id,
                 price: item.price
             });
         });
@@ -192,10 +192,10 @@ export class EditComponent implements OnInit {
     }
 
     createServiceExist(item): FormGroup {
-        this.isDisabled = true;
+
         return this.fb.group({
             _id: item._id,
-            description: {value: item.description, disabled: this.isDisabled},
+            description: {value: item._id, disabled: true},
             price: String(item.price).replace('.', ',')
         });
     }
