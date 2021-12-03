@@ -194,7 +194,7 @@ export class EditComponent implements OnInit {
     createServiceExist(item): FormGroup {
         return this.fb.group({
             _id: item._id,
-            description: {value: item.description, disabled: true},
+            description: item.description,
             price: String(item.price).replace('.', ',')
         });
     }
