@@ -304,6 +304,7 @@ export class ImportFileComponent implements OnInit {
       if (Array(data)) {
         this.savedFile = true;
         this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+        this.clearForm();
       }
     }, error => {
       this.loading = false;
@@ -348,6 +349,15 @@ export class ImportFileComponent implements OnInit {
   closeModalImport(data) {
     this.openCardStatus = data;
   }
+  clearForm() {
+    //this.archivesSrv.clear('position');
+        this.importFileForm.patchValue({
+            company: null,
+            storehouse: null,
+            departament: null,
+            doct: null,
+        });
+    }
 
   /* async postArquive(data) {
     this.loading = true;
