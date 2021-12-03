@@ -10,6 +10,7 @@ import { DocumentsStructurService } from 'src/app/services/documents-structur/do
 import * as moment from 'moment';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
+declare var $;
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
 };
@@ -29,8 +30,12 @@ export class ShowComponent implements OnInit {
   subclasses: any = [];
   groups: any = [];
   subgroups: any = [];
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
+  minhaDiv = false;
+  minhaDiv2 = false;
+  minhaDiv3 = false;
+  showClass = false;
+  permissionEdit = false;
+  permissionDelete = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,8 +59,21 @@ export class ShowComponent implements OnInit {
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocumentStructur(this.id);
-    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change
-    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+
+    $('#mostrar').click(function(e) {
+        $(this).text('Ocultar');
+    });
+
+    $(window).scroll(function() {
+        var scroll =  $(window).scrollTop();
+        if (scroll >= 40) {               // se rolar 40px ativa o evento
+          $("#teste").addClass("ativo");    //coloca a classe "ativo" no id=menu
+        } else {
+          $("#teste").removeClass("ativo"); //se for menor que 40px retira a classe "ativo" do id=menu
+        }
+    });
   }
 
   getDocumentStructur(id) {

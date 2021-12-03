@@ -1,11 +1,11 @@
 export const environment = {
 
-  // apiUrl: 'https://archiomain.archio.com.br',
-  apiUrl: 'http://localhost:3000',
-  apiUrlUpload: 'https://mupload.archio.com.br',
-  apiUrlUploadSingle: 'https://smupload.archio.com.br',
-  exportUrl: 'https://exportarchives.archio.com.br',
-  urlSearch: 'http://localhost:3000',
+  apiUrl: 'https://archiomaintestes.archio.com.br',
+  //apiUrl: 'http://localhost:3000',
+  apiUrlUpload: 'https://muploadtestes.archio.com.br',
+  apiUrlUploadSingle: 'https://smuploadtestes.archio.com.br',
+  exportUrl: 'https://exportarchivestestes.archio.com.br',
+  urlSearch: 'https://archiomaintestes.archio.com.br',
   production: false,
   firebaseConfig : {
     apiKey: 'AIzaSyCy9X4r36l6o1PLn4DuVdFpO41P5SmA57g',
