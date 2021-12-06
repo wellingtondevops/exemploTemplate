@@ -65,9 +65,9 @@ export class ShowComponent implements OnInit {
     $(window).scroll(function() {
         var scroll =  $(window).scrollTop();
         if (scroll >= 40) {               // se rolar 40px ativa o evento
-          $('#teste').addClass('ativo').fadeIn();    //coloca a classe "ativo" no id=menu
+          $('#teste').addClass('ativo');    //coloca a classe "ativo" no id=menu
         } else {
-          $('#teste').removeClass('ativo').fadeOut(); //se for menor que 40px retira a classe "ativo" do id=menu
+          $('#teste').removeClass('ativo'); //se for menor que 40px retira a classe "ativo" do id=menu
         }
     });
 
@@ -85,6 +85,17 @@ export class ShowComponent implements OnInit {
         $('.scrollToTop').click(function() {
             $('html, body').animate({scrollTop : 0}, 800);
             return false;
+        });
+    });
+
+    $(document).ready(function() {
+        //Verifica se a Janela está no topo
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 100) {
+                $('.menuBtns').fadeIn();
+            } else {
+                $('.menuBtns').fadeOut();
+            }
         });
     });
   }

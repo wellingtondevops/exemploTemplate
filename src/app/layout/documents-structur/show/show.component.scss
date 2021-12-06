@@ -19,7 +19,7 @@ body {
     margin: 0;
   }
 #teste {
-    display: none;
+    //display: none;
     background-color: rgba(160, 127, 127, 0.2) !important;
     padding: 1rem 15rem;
     transition: all 500ms linear;
@@ -31,10 +31,16 @@ body {
   //Voltar ao top
   .scrollToTop{
     position:fixed;
-    bottom: 20px;
+    bottom: 5px;
     right: 25px;
     display: none;
     .dark-color{
         color: #23272B;
     }
+}
+.menuBtns{
+    position:fixed;
+    bottom: 5px;
+    left: 250px;
+    display: none;
 }

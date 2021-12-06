@@ -14,7 +14,7 @@
             [permissionDelete]="permissionDelete"></app-buttons-custom>
         <br />
     </div>
-    <div class="navbar navbar-expand-md navbar-dark fixed bg-dark" id="teste">
+    <!-- <div class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" id="teste">
         <button class="btn btn-secondary"
         (click)="divSubClass = !divSubClass">
             <span [hidden]="divSubClass">Expandir Sub Classes</span>
@@ -31,7 +31,7 @@
             <span [hidden]="divSubGroup">Expandir Sub Grupos</span>
             <span [hidden]="!divSubGroup">Ocultar Sub Grupos</span>
         </button>
-    </div>
+    </div> -->
     <div  class="card bg-light mb-12" style="">
         <div class="card-body">
             <form [formGroup]="documentStructurForm" role="FormGroup">
@@ -115,7 +115,7 @@
                                                         <div
                                                             *ngFor="let subclass of class.get('subclasses').controls; index as s">
                                                             <div [formGroupName]="s">
-                                                                <div class="form-row" id="divSubClass" *ngIf="divSubClass">
+                                                                <div class="form-row" id="divSubClass" *ngIf="!divSubClass">
                                                                     <div class="form-group col-md-1">
                                                                         <label for="">Código</label>
                                                                         <input id="codTopic" type="text"
@@ -192,7 +192,7 @@
                                                                             <div
                                                                                 *ngFor="let group of subclass.get('groups').controls; index as g">
                                                                                 <div [formGroupName]="g">
-                                                                                    <div class="form-row" id="divGroup" *ngIf="divGroup">
+                                                                                    <div class="form-row" id="divGroup" *ngIf="!divGroup">
                                                                                         <div
                                                                                             class="form-group col-md-1">
                                                                                             <label for="">Código</label>
@@ -300,7 +300,7 @@
                                                                                                     <div
                                                                                                         [formGroupName]="sg">
                                                                                                         <div
-                                                                                                            class="form-row" id="divSubGroup" *ngIf="divSubGroup">
+                                                                                                            class="form-row" id="divSubGroup" *ngIf="!divSubGroup">
                                                                                                             <div
                                                                                                                 class="form-group col-md-1">
                                                                                                                 <label
@@ -440,4 +440,22 @@
         </div>
     </div>
     <a href="#" class="scrollToTop"><i class="fa fa-arrow-up fa-2x dark-color"></i></a>
+    <div class="menuBtns">
+        <button class="btn btn-secondary"
+        (click)="divSubClass = !divSubClass" style="margin-right: 5px;">
+            <span [hidden]="!divSubClass">Expandir Sub Classes</span>
+            <span [hidden]="divSubClass">Ocultar Sub Classes</span>
+        </button>
+
+        <button type="button" class="btn btn-warning"
+        (click)="divGroup = !divGroup" style="margin-right: 5px;">
+            <span [hidden]="!divGroup">Expandir Grupos</span>
+            <span [hidden]="divGroup">Ocultar Grupos</span>
+        </button>
+        <button type="button" class="btn btn-info"
+        (click)="divSubGroup = !divSubGroup" style="margin-right: 5px;">
+            <span [hidden]="!divSubGroup">Expandir Sub Grupos</span>
+            <span [hidden]="divSubGroup">Ocultar Sub Grupos</span>
+        </button>
+    </div>
 </div>
