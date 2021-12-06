@@ -30,9 +30,9 @@ export class ShowComponent implements OnInit {
   subclasses: any = [];
   groups: any = [];
   subgroups: any = [];
-  minhaDiv = false;
-  minhaDiv2 = false;
-  minhaDiv3 = false;
+  divSubClass = false;
+  divGroup = false;
+  divSubGroup = false;
   showClass = false;
   permissionEdit = false;
   permissionDelete = false;
@@ -62,17 +62,30 @@ export class ShowComponent implements OnInit {
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
 
-    $('#mostrar').click(function(e) {
-        $(this).text('Ocultar');
-    });
-
     $(window).scroll(function() {
         var scroll =  $(window).scrollTop();
         if (scroll >= 40) {               // se rolar 40px ativa o evento
-          $("#teste").addClass("ativo");    //coloca a classe "ativo" no id=menu
+          $('#teste').addClass('ativo').fadeIn();    //coloca a classe "ativo" no id=menu
         } else {
-          $("#teste").removeClass("ativo"); //se for menor que 40px retira a classe "ativo" do id=menu
+          $('#teste').removeClass('ativo').fadeOut(); //se for menor que 40px retira a classe "ativo" do id=menu
         }
+    });
+
+    $(document).ready(function() {
+        //Verifica se a Janela está no topo
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 100) {
+                $('.scrollToTop').fadeIn();
+            } else {
+                $('.scrollToTop').fadeOut();
+            }
+        });
+
+        //Onde a mágia acontece! rs
+        $('.scrollToTop').click(function() {
+            $('html, body').animate({scrollTop : 0}, 800);
+            return false;
+        });
     });
   }
 

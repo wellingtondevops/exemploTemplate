@@ -11,13 +11,30 @@
   border-color: #17a2b8
 }
 
-
+body {
+    min-height: 7rem;
+    padding-top: 2.5rem;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+  }
 #teste {
-    background-color: rgba(0,0,0,0.2) !important;
-    padding: 1.5rem 1rem;
+    display: none;
+    background-color: rgba(160, 127, 127, 0.2) !important;
+    padding: 1rem 15rem;
     transition: all 500ms linear;
   }
   #teste.ativo {
     background-color: rgba(0,0,0,0.8) !important;
-    padding: .5rem 1rem;
+    padding: 0.5rem 20rem;
   }
+  //Voltar ao top
+  .scrollToTop{
+    position:fixed;
+    bottom: 20px;
+    right: 25px;
+    display: none;
+    .dark-color{
+        color: #23272B;
+    }
+}
