@@ -89,7 +89,6 @@ export class ShowComponent implements OnInit {
     });
 
     $(document).ready(function() {
-        //Verifica se a Janela está no topo
         $(window).scroll(function() {
             if ($(this).scrollTop() > 100) {
                 $('.menuBtns').fadeIn();

@@ -8,6 +8,8 @@ import { DocumentStructur } from 'src/app/models/document-structur';
 import * as moment from 'moment';
 import { routerTransition } from 'src/app/router.animations';
 
+declare var $;
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -23,6 +25,9 @@ export class EditComponent implements OnInit {
   subclasses: any = [];
   groups: any = [];
   subgroups: any = [];
+  divSubClass = false;
+  divGroup = false;
+  divSubGroup = false;
   documentStructur: DocumentStructur;
 
   constructor(
@@ -45,6 +50,33 @@ export class EditComponent implements OnInit {
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocumentStructur(this.id);
+
+    $(document).ready(function() {
+        //Verifica se a Janela está no topo
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 100) {
+                $('.scrollToTop').fadeIn();
+            } else {
+                $('.scrollToTop').fadeOut();
+            }
+        });
+
+        //Onde a mágia acontece! rs
+        $('.scrollToTop').click(function() {
+            $('html, body').animate({scrollTop : 0}, 800);
+            return false;
+        });
+    });
+
+    $(document).ready(function() {
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 100) {
+                $('.menuBtns').fadeIn();
+            } else {
+                $('.menuBtns').fadeOut();
+            }
+        });
+    });
   }
 
   getDocumentStructur(id) {
@@ -257,13 +289,17 @@ export class EditComponent implements OnInit {
       if (res._id) {
         this.loading = false;
         this.successMsgSrv.successMessages('Estrutura documental atualizada com sucesso.');
-        this._route.navigate(['/documents-structur']);
+        this.toBack();
       }
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
     });
-  }
+}
+toBack()
+{
+    this._route.navigate([`/${'documents-structur/get'}`, this.id]);
+}
 
 }

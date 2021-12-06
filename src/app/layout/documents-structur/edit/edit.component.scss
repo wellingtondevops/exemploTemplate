@@ -10,3 +10,19 @@
 .card-info {
   border-color: #17a2b8
 }
+//Voltar ao top
+.scrollToTop{
+    position:fixed;
+    bottom: 5px;
+    right: 25px;
+    display: none;
+    .dark-color{
+        color: #23272B;
+    }
+}
+.menuBtns{
+    position:fixed;
+    bottom: 5px;
+    left: 250px;
+    display: none;
+}

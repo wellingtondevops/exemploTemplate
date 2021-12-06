@@ -6,13 +6,20 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-  <app-page-header [heading]="'Nova Strutura Documental'" [icon]="'fa-book'"></app-page-header>
+        <div class="row">
+            <div class="col">
+                <app-page-header [heading]="'Editar Estrutura Documental'" [icon]="'fa-book'"></app-page-header>
+                <button type="submit" class="btn btn-primary" style="float: right" (click)="updateDocumentStructur()">Salvar</button>
+                <button type="button" (click)="toBack()" class="btn btn-default"
+                  style="float: right;margin-right: 10px; margin-bottom: 5px;">Cancelar</button>
+            </div>
+        </div>
   <div class="card bg-light mb-12">
-    <div class="card-body">
-      <form [formGroup]="documentStructurForm" role="FormGroup" (ngSubmit)="updateDocumentStructur()">
-        <div class="row col-12">
-          <div class="form-group mb-2 col-6">
-            <label for="">Nome da Estrutura de Documento</label>
+      <div class="card-body">
+          <form [formGroup]="documentStructurForm" role="FormGroup" (ngSubmit)="updateDocumentStructur()">
+              <div class="row col-12">
+                  <div class="form-group mb-2 col-6">
+                      <label for="">Nome da Estrutura de Documento</label>
             <input id="structureName" type="text" placeholder="Nome" class="form-control"
               formControlName="structureName" [ngClass]="{ 'is-invalid': !structureName.valid }" />
             <div *ngIf="structureName.invalid && (structureName.dirty || structureName.touched)"
@@ -90,19 +97,14 @@
                           <textarea id="finalLabel" rows="3" placeholder="Observações" class="form-control"
                             formControlName="comments"></textarea>
                         </div>
-                      </div>
-                      <div>
-                        <button class="btn btn-sm btn-secundary" type="button" (click)="addSubClass(class)"><i
-                            class="fa fa-plus"></i>&emsp;SubClasse</button>
-                        <br>
-                        <br>
-                        <br>
+                        <button class="btn btn-primary" type="button" (click)="addClass()"><i class="fa fa-plus"></i></button>
+
                       </div>
                       <div class="card bg-light mb-12 card-secundary" *ngIf="class.value.subclasses.length > 0">
                         <div class="card-body">
                           <label for="">Sub Classes</label>
                           <br>
-                          <div class="form-group" formArrayName="subclasses">
+                          <div class="form-group" formArrayName="subclasses" *ngIf="!divSubClass">
                             <div *ngFor="let subclass of class.get('subclasses').controls; index as s">
                               <span>
                                 <button type="button" class="btn btn-danger btn-sm pull-right"
@@ -112,7 +114,7 @@
                                 <br>
                               </span>
                               <div [formGroupName]="s">
-                                <div class="form-row">
+                                <div class="form-row" >
                                   <div class="form-group col-md-1">
                                     <label for="">Código</label>
                                     <input id="codTopic" type="text" placeholder="Código" class="form-control"
@@ -167,18 +169,19 @@
                                     <textarea id="finalLabel" rows="3" placeholder="Observações" class="form-control"
                                       formControlName="comments"></textarea>
                                   </div>
-                                </div>
-                                <div>
-                                  <button type="button" class="btn btn-sm btn-warning" (click)="addGroup(subclass)"><i
-                                      class="fa fa-plus"></i>&emsp;Grupo</button>
-                                  <br>
-                                  <br>
+                                  <div>
+                                    <button class="btn btn-sm btn-secundary" type="button" (click)="addSubClass(class)"><i
+                                        class="fa fa-plus"></i>&emsp;SubClasse</button>
+                                    <br>
+                                    <br>
+                                    <br>
+                                  </div>
                                 </div>
                                 <div class="card bg-light mb-12 card-warning" *ngIf="subclass.value.groups.length > 0">
                                   <div class="card-body">
                                     <label for="">Grupos</label>
                                     <br>
-                                    <div class="form-group" formArrayName="groups">
+                                    <div class="form-group" formArrayName="groups" id="divGroup" *ngIf="!divGroup">
                                       <div *ngFor="let group of subclass.get('groups').controls; index as g">
                                         <span>
                                           <button type="button" class="btn btn-danger btn-sm pull-right"
@@ -189,7 +192,7 @@
                                           <br>
                                         </span>
                                         <div [formGroupName]="g">
-                                          <div class="form-row">
+                                          <div class="form-row" >
                                             <div class="form-group col-md-1">
                                               <label for="">Código</label>
                                               <input id="codTopic" type="text" placeholder="Código" class="form-control"
@@ -244,20 +247,19 @@
                                               <textarea id="finalLabel" rows="3" placeholder="Observações"
                                                 class="form-control" formControlName="comments"></textarea>
                                             </div>
-                                          </div>
-                                          <div>
-                                            <button type="button" class="btn btn-sm btn-info"
-                                              (click)="addSubGroup(group)"><i class="fa fa-plus"></i>&emsp;Sub
-                                              Grupo</button>
-                                            <br>
-                                            <br>
+                                            <div>
+                                                <button type="button" class="btn btn-sm btn-warning" (click)="addGroup(subclass)"><i
+                                                    class="fa fa-plus"></i>&emsp;Grupo</button>
+                                                <br>
+                                                <br>
+                                              </div>
                                           </div>
                                           <div class="card bg-light mb-12 card-info"
                                             *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
                                             <div class="card-body">
                                               <label for="">Sub Grupos</label>
                                               <br>
-                                              <div class="form-group" formArrayName="subgroups">
+                                              <div class="form-group" formArrayName="subgroups" id="divSubGroup" *ngIf="!divSubGroup">
                                                 <div
                                                   *ngFor="let subgroup of group.get('subgroups').controls; index as sg">
                                                   <span>
@@ -268,7 +270,7 @@
                                                     <br />
                                                   </span>
                                                   <div [formGroupName]="sg">
-                                                    <div class="form-row">
+                                                    <div class="form-row" >
                                                       <div class="form-group col-md-1">
                                                         <label for="">Código</label>
                                                         <input id="codTopic" type="text" placeholder="Código"
@@ -326,6 +328,13 @@
                                                           class="form-control" formControlName="comments"></textarea>
                                                       </div>
                                                     </div>
+                                                    <div>
+                                                        <button type="button" class="btn btn-sm btn-info"
+                                                          (click)="addSubGroup(group)"><i class="fa fa-plus"></i>&emsp;Sub
+                                                          Grupo</button>
+                                                        <br>
+                                                        <br>
+                                                      </div>
                                                   </div>
                                                 </div>
                                               </div>
@@ -347,7 +356,6 @@
               </div>
             </div>
             <br />
-            <button class="btn btn-primary" type="button" (click)="addClass()"><i class="fa fa-plus"></i></button>
             <div class="col-lg-12">
               <br />
               <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>
@@ -359,4 +367,23 @@
       </form>
     </div>
   </div>
+  <a href="#" class="scrollToTop"><i class="fa fa-arrow-up fa-2x dark-color"></i></a>
+  <div class="menuBtns">
+    <button class="btn btn-secondary"
+    (click)="divSubClass = !divSubClass" style="margin-right: 5px;">
+        <span [hidden]="!divSubClass">Expandir Sub Classes</span>
+        <span [hidden]="divSubClass">Ocultar Sub Classes</span>
+    </button>
+
+    <button type="button" class="btn btn-warning"
+    (click)="divGroup = !divGroup" style="margin-right: 5px;">
+        <span [hidden]="!divGroup">Expandir Grupos</span>
+        <span [hidden]="divGroup">Ocultar Grupos</span>
+    </button>
+    <button type="button" class="btn btn-info"
+    (click)="divSubGroup = !divSubGroup" style="margin-right: 5px;">
+        <span [hidden]="!divSubGroup">Expandir Sub Grupos</span>
+        <span [hidden]="divSubGroup">Ocultar Sub Grupos</span>
+    </button>
+</div>
 </div>
