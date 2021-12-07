@@ -76,10 +76,10 @@
                                         formControlName="digital">
                                 </div>
                             </div>
-                            <button class="btn btn-primary pull-right"
+                            <!-- <button class="btn btn-primary pull-right"
                                 [routerLink]="['/moviments/searchvolumes', moviment._id]"
                                 *ngIf="moviment && moviment.moveVolume " [disabled]="moviment.processed">Pesquisar
-                                Caixas</button>
+                                Caixas</button> -->
                             <!-- <button class="btn btn-primary pull-right"
                                 [routerLink]="['/moviments/searcharchives', moviment._id]"
                                 *ngIf="moviment &&  moviment.moveArchive" [disabled]="moviment.processed">Pesquisar
@@ -88,10 +88,18 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab id="tabSearchArchives" title="Pesquisar Arquivos">
+                <ngb-tab *ngIf="moviment &&  moviment.moveArchive" id="tabSearchArchives" title="Pesquisar Arquivos">
                     <ng-template ngbTabContent>
                         <div>
                             <app-search-archives [id]="moviment._id"></app-search-archives>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab  *ngIf="moviment && moviment.moveVolume " id="tabSearchArchives" title="Pesquisar Caixas">
+                    <ng-template ngbTabContent>
+                        <div>
+                            <app-search-volumes [id]="moviment._id"></app-search-volumes>
                         </div>
                     </ng-template>
                 </ngb-tab>

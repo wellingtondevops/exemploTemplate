@@ -96,6 +96,7 @@ export class SearchVolumesComponent implements OnInit {
     this.getCompany();
     this.getDepartaments();
     this.getStorehouses();
+    this.getSearchVolumes();
   }
 
   get companyIpt() {
