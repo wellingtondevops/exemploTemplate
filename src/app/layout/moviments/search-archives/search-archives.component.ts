@@ -92,6 +92,7 @@ export class SearchArchivesComponent implements OnInit {
     this.getDepartaments();
     this.getStorehouses();
     this.getDocuments();
+    this.getSearchArchives();
   }
 
   get companyIpt() {
@@ -282,7 +283,7 @@ export class SearchArchivesComponent implements OnInit {
     this.movimentsSrc.generatMoviment(this.id, selectedItens).subscribe(data => {
       this.loading = false;
       this.successMsgSrv.showSuccess(data.message);
-      this._route.navigate(['/moviments/searcharchives', this.id]);
+      //this._route.navigate(['/moviments/searcharchives', this.id]);
       this.selected = [];
       this.getSearchArchives();
     }, error => {
