@@ -313,13 +313,13 @@ export class ShowComponent implements OnInit {
 
 
     const newSearch = {
-      document: null,
+      doct: null,
       storehouse: null,
       location: null,
       search: null
     };
     // this.localStorageSrv.save('moviment', this.searchForm.value);
-    this.archiveForm.value.document ? newSearch.document = this.returnArchiveId('document') : null;
+    this.archiveForm.value.document ? newSearch.doct = this.returnArchiveId('document') : null;
     this.archiveForm.value.storehouse ? newSearch.storehouse = this.returnArchiveId('storehouse') : null;
     this.archiveForm.value.location ? newSearch.location = this.archiveForm.value.location : null;
     this.archiveForm.value.search ? newSearch.search = this.archiveForm.value.search : null;
