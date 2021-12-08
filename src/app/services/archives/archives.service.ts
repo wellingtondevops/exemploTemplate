@@ -85,4 +85,7 @@ export class ArquivesService {
         tap(data => data)
       );
   }
+  delete(id, archive) {
+    return this.http.delete<Archive>(`${url}/archives/${id}`, archive);
+  }
 }

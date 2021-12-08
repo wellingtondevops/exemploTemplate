@@ -20,6 +20,7 @@
         <app-buttons-custom
             [id]="archive._id"
             (edit)="editArchive(archive._id)"
+            (delete)="open('focusFirst', archive._id)"
             [permissionEdit]="permissionEdit"
             [permissionDelete]="permissionDelete"
             [isUser]="isUsers"

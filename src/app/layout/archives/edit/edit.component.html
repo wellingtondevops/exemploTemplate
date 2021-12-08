@@ -9,15 +9,17 @@
             tertiaryColour: '#222'
         }"
     ></ngx-loading>
+    <div class="pull-right">
+        <button type="button" [routerLink]="['/archives/get', id]" class="btn btn-secundary"
+        style="margin-right:5px">Cancelar
+        </button>
+    </div>
     <app-page-header
         *ngIf="!loading"
         [heading]="'Editar Arquivo'"
         [icon]="'fa-user'"
-    ></app-page-header>
-    <div style="margin-bottom: 10px" *ngIf="!loading">
-        <!-- <app-button-back [redirectTo]="'archives'"></app-button-back> -->
-        <br />
-    </div>
+        >
+    </app-page-header>
     <div class="row" *ngIf="!loading">
         <div class="col-4">
             <h5>DADOS DO VOLUME</h5>

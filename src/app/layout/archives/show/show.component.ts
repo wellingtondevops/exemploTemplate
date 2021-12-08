@@ -216,11 +216,11 @@ export class ShowComponent implements OnInit {
   }
 
   delete(file) {
-    this.filesSrv.delete(file).subscribe(res => {
+    this.archiveSrv.delete(this.id, this.archive).subscribe(res => {
       this.successMsgSrv.successMessages('Arquivo deletado com sucesso.');
       this.file = null;
       this.archive = null;
-      window.location.reload();
+      this._route.navigate(['/archives']);
     }, error => {
       console.log(error);
       this.errorMsg.errorMessages(error);
