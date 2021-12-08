@@ -231,7 +231,8 @@ export class SearchArchivesComponent implements OnInit {
   setPageArchives(pageInfo) {
    this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    const newSearch = {
+
+  const newSearch = {
       departament: null,
       location: null,
       storehouse: null,
@@ -240,7 +241,7 @@ export class SearchArchivesComponent implements OnInit {
       endDate: null,
       search: null
     };
-    this.localStorageSrv.save('search-archive', this.searchForm.value);
+    //this.localStorageSrv.save('search-archive', this.searchForm.value);
     this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
     this.searchForm.value.location ? newSearch.location = this.searchForm.value.location : null;
     this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
@@ -260,7 +261,7 @@ export class SearchArchivesComponent implements OnInit {
     }, error => {
       this.errorMsg.errorMessages(error);
       this.loading = false;
-      console.log(`ERROR: ${error}`)
+      console.log(`ERROR: ${error}`);
     });
   }
 

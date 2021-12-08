@@ -214,7 +214,8 @@ export class SearchVolumesComponent implements OnInit {
   setPageVolumes(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    const newSearch = {
+
+      const newSearch = {
       departament: null,
       location: null,
       storehouse: null,
@@ -223,7 +224,7 @@ export class SearchVolumesComponent implements OnInit {
       endDate: null,
       reference: null
     };
-    this.localStorageSrv.save('search-volume', this.searchForm.value);
+    //this.localStorageSrv.save('search-volume', this.searchForm.value);
     this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
     this.searchForm.value.location ? newSearch.location = this.searchForm.value.location : null;
     this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;

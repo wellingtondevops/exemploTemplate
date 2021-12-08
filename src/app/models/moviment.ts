@@ -66,11 +66,12 @@ export class MovimentList {
 }
 
 export class MovimentSearchVolumes {
-  location: string;
-	initDate: string;
-	endDate: string;
-	departament: string;
+    departament: string;
+    location: string;
 	storehouse: string;
+	guardType: string;
+    initDate: string;
+	endDate: string;
 	reference: string;
 }
 
@@ -79,6 +80,8 @@ export class MovimentSearchArchives {
   location: string;
   storehouse: string;
   doct: string;
+  initDate: string;
+  endDate: string;
   search: string;
-  
+
 }

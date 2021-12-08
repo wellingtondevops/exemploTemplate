@@ -73,10 +73,10 @@ export class MovimentsService {
   }
 
   searchVolumes(data, id, page) {
-    return this.http.post<any>(`${url}/demands/${id}/searchVolumes?_page=${page.pageNumber}&size=10`, data)
-      .pipe(
-        tap(data => data)
-      );
+        return this.http.post<any>(`${url}/demands/${id}/searchVolumes?_page=${page.pageNumber}&size=10`, data)
+        .pipe(
+            tap(data => data)
+        );
   }
 
   searchArchives(data, id, page) {
@@ -86,15 +86,15 @@ export class MovimentsService {
       );
   }
 
-  
-
-  
 
 
-  
 
 
-  
+
+
+
+
+
 
   company(id) {
     return this.http.get<any>(`${url}/demands/${id}/companyDemand`)
