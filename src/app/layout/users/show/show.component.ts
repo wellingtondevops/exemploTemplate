@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 
+
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
 };
@@ -27,6 +28,7 @@ const MODALS = {
   animations: [routerTransition()]
 })
 export class ShowComponent implements OnInit {
+    public isCollapsed = true;
   id: String;
   user: User;
   userForm: FormGroup;
