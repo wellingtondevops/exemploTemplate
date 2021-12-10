@@ -19,38 +19,20 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label for="">Nome</label>
-                            <input type="text" formControlName="name" class="form-control input-underline input-lg"
-                                placeholder="Nome" [ngClass]="{ 'is-invalid': !name.valid && !name.disabled }" />
-                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                                <div *ngIf="!name.valid">
-                                    Nome é obrigatório.
-                                </div>
-                            </div>
-
-                            <label for="">E-mail</label>
-                            <input type="text" formControlName="email" class="form-control input-underline input-lg"
-                                placeholder="Email" [ngClass]="{ 'is-invalid': !email.valid && !email.disabled }" />
-                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
-                                <div *ngIf="!email.valid">
-                                    E-mail é obrigatório.
-                                </div>
-                            </div>
-
-                            <label for="">Perfil do Usuário</label>
-                            <select class="form-control" id="profile" formControlName="profile"
-                                [ngClass]="{ 'is-invalid': !profile.valid && !profile.disabled }">
+                            <label for="" style="margin-bottom: 0px;">Nome</label>
+                            <input type="text" formControlName="name" class="form-control input-underline input-lg"  style="margin-bottom: 10px;"/>
+                            <label for="" style="margin-bottom: 0px;">E-mail</label>
+                            <input type="text" formControlName="email" class="form-control input-underline input-lg" style="margin-bottom: 10px;"/>
+                            <label for="" style="margin-bottom: 0px;">Perfil do Usuário</label>
+                            <select class="form-control" id="profile" formControlName="profile" style="margin-bottom: 10px;">
                                 <option *ngFor="let profile of profilesList" [value]="profile._id">
-                                    {{ profile.profilePlaceHolder | translate }}</option>
+                                    {{ profile.profilePlaceHolder | translate }}
+                                </option>
                             </select>
-                            <div *ngIf="profile.invalid && (profile.dirty || profile.touched)" class="invalid-feedback">
-                                <div *ngIf="!profile.valid">
-                                    Perfil do Usuário é obrigatório.
-                                </div>
-                            </div>
-                            <label for="">Data de Criação</label>
-                            <input type="date" formControlName="dateCreated"
-                                class="form-control input-underline input-lg" placeholder="Criado em" />
+                            <label for="" style="margin-bottom: 0px;">Data de Criação</label>
+                            <input type="date" formControlName="dateCreated" style="margin-bottom: 10px;"
+                                class="form-control input-underline input-lg" />
+
                         </div>
                         <div class="col-lg-auto">
                             <div class="pretty p-switch p-fill">
@@ -74,8 +56,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6" *ngIf="isViewPermission; else noPermission">
-
+                    <div class="col-lg-6" *ngIf="isViewPermission">
                         <div class="col-lg-12">
                             <h5>Permissões</h5>
                         </div>
@@ -110,7 +91,7 @@
                                                 <label>Documentos</label>
                                                 <type-ahead class="form-control" [multi]="true" [complex]="true"
                                                     idField="_id" formControlName="docts"
-                                                    itemTemplate="documentsAll[i].docts" >
+                                                    [suggestions]="documentsAll[i].docts" >
                                                     <ul>
                                                         <li>{{documentsAll.docts}}</li>
                                                     </ul>
@@ -122,9 +103,6 @@
                             </div>
                         </div>
                     </div>
-                    <ng-template #noPermission>
-                        <h5>Não possui Permissões</h5>
-                    </ng-template>
                 </div>
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
