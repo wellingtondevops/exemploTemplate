@@ -13,25 +13,25 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label for="">Nome</label>
+                            <label for="" style="margin-bottom: 0px;">Nome</label>
                             <input type="text" formControlName="name" class="form-control input-underline input-lg"
-                                placeholder="Nome" [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" />
+                            style="margin-bottom: 10px;" placeholder="Nome" [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" />
                             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                                 <div *ngIf="!name.valid">
                                     Nome é obrigatório.
                                 </div>
                             </div>
 
-                            <label for="">E-mail</label>
+                            <label for="" style="margin-bottom: 0px;">E-mail</label>
                             <input type="text" formControlName="email" class="form-control input-underline input-lg"
-                                placeholder="Email" [ngClass]="{ 'is-invalid': !email.valid && email.value === '' }" />
+                            style="margin-bottom: 10px;" placeholder="Email" [ngClass]="{ 'is-invalid': !email.valid && email.value === '' }" />
                             <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
                                 <div *ngIf="!email.valid">
                                     E-mail é obrigatório.
                                 </div>
                             </div>
 
-                            <label for="">Perfil do Usuário</label>
+                            <label for="" style="margin-bottom: 0px;">Perfil do Usuário</label>
                             <select (change)="isAdminSelect()" class="form-control" id="profile"
                                 formControlName="profile" [ngClass]="{ 'is-invalid': !profile.valid }">
                                 <option *ngFor="let profile of profilesList" [value]="profile._id">
@@ -108,7 +108,7 @@
                                                     [suggestions]="documentsAll[i].docts" aria-describedby="emailHelp">
                                                 </type-ahead>
                                                 <small id="emailHelp" class="form-text text-muted">
-                                                    Se não houver documentos selecionados serão permitido todos os
+                                                    Se não houver documentos selecionados, serão permitidos todos os
                                                     documentos da empresa.
                                                 </small>
                                             </div>
