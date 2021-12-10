@@ -21,6 +21,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
   animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
+    public isCollapsed = true;
   id: String;
   user: User;
   userForm: FormGroup;
