@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import _ from 'lodash';
@@ -15,7 +15,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
-
+declare var $: any;
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -33,6 +33,7 @@ export class ShowComponent implements OnInit {
   user: User;
   userForm: FormGroup;
   changeUp = false;
+  company: any;
   profilesList: any;
   loading: Boolean = true;
   permissions: any = [];
@@ -53,7 +54,10 @@ export class ShowComponent implements OnInit {
     public modal: NgbActiveModal,
     private documentsSrv: DocumentsService,
     private companiesSrv: CompaniesService,
+    config: NgbModalConfig,
   ) {
+    config.backdrop = 'static';
+    config.keyboard = false;
   }
 
   ngOnInit() {
@@ -75,6 +79,7 @@ export class ShowComponent implements OnInit {
     this.getProfiles();
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+
   }
 
   getProfiles() {
@@ -90,6 +95,8 @@ export class ShowComponent implements OnInit {
     debounceTime(200),
     distinctUntilChanged(),
     map(company => {
+        this.company = this.companies.name;
+        console.log('sdfsdf', this.company);
       let res;
       if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
       return res;
@@ -127,6 +134,7 @@ export class ShowComponent implements OnInit {
   returnDocts(item) {
     const docts = [];
     docts.push({ _id: item });
+    console.log('adasdasda', docts);
     return docts;
   }
 
@@ -152,7 +160,7 @@ export class ShowComponent implements OnInit {
     this.documentsSrv.doctsUser(this.id).subscribe(
       data => {
         this.documentsAll = data;
-        console.log(this.documentsAll);
+        console.log('docAll  ', this.documentsAll);
         if (!this.user) {
           this.getUser();
         }
@@ -305,5 +313,8 @@ export class ShowComponent implements OnInit {
     modalRef.componentInstance.delete.subscribe(item => {
       this.delete(item);
     });
+  }
+  openMod(content) {
+    this.modalService.open(content, { size: 'lg', windowClass: 'my-class', });
   }
 }

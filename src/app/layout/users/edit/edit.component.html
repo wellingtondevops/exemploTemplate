@@ -9,13 +9,14 @@
     <app-page-header [heading]="'Alterar dados do Usuário'" [icon]="'fa-user'"></app-page-header>
     <div class="card bg-light mb-12">
         <div class="card-body" *ngIf="user">
-            <form [formGroup]="userForm" role="FormGroup" (ngSubmit)="updateUser()">
+            <form [formGroup]="userForm" role="FormGroup">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="" style="margin-bottom: 0px;">Nome</label>
                             <input type="text" formControlName="name" class="form-control input-underline input-lg"
-                            style="margin-bottom: 10px;" placeholder="Nome" [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" />
+                                style="margin-bottom: 10px;" placeholder="Nome"
+                                [ngClass]="{ 'is-invalid': !name.valid && name.value === '' }" />
                             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                                 <div *ngIf="!name.valid">
                                     Nome é obrigatório.
@@ -24,7 +25,8 @@
 
                             <label for="" style="margin-bottom: 0px;">E-mail</label>
                             <input type="text" formControlName="email" class="form-control input-underline input-lg"
-                            style="margin-bottom: 10px;" placeholder="Email" [ngClass]="{ 'is-invalid': !email.valid && email.value === '' }" />
+                                style="margin-bottom: 10px;" placeholder="Email"
+                                [ngClass]="{ 'is-invalid': !email.valid && email.value === '' }" />
                             <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
                                 <div *ngIf="!email.valid">
                                     E-mail é obrigatório.
@@ -75,6 +77,15 @@
                             <div *ngFor="let permissions of permissions.controls; index as i">
                                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
                                     <div class="card-body">
+                                        <!-- <button class="navbar-toggler" type="button"
+                                                        (click)="showCollapse(i)"
+                                                        [attr.aria-expanded]="!isCollapsed"
+                                                        aria-controls="collapseExample">
+                                                        <span [hidden]="!isCollapsed"> <i class="fa fa-caret-down"
+                                                                aria-hidden="true"></i></span>
+                                                        <span [hidden]="isCollapsed"><i class="fa fa-caret-up"
+                                                                aria-hidden="true"></i></span>
+                                        </button> -->
                                         <button *ngIf="!userExternal" type="button"
                                             class="btn btn-danger btn-xs pull-right" (click)="removePermission(i)">
                                             <i class="fa fa-trash"></i>
@@ -88,30 +99,36 @@
                                                     formControlName="company" (selectItem)="getDocuments($event, i)"
                                                     [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                                     [ngbTypeahead]="searchCompany" />
-                                                <div class="input-group-append">
-                                                    <button class="navbar-toggler" type="button"
-                                                        (click)="isCollapsed = !isCollapsed"
-                                                        [attr.aria-expanded]="!isCollapsed"
-                                                        aria-controls="collapseExample">
-                                                        <span [hidden]="!isCollapsed"> <i class="fa fa-caret-down"
-                                                                aria-hidden="true"></i></span>
-                                                        <span [hidden]="isCollapsed"><i class="fa fa-caret-up"
-                                                                aria-hidden="true"></i></span>
+                                            </div>
+                                            <ng-template #content let-c="close" let-d="dismiss">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">Editar documentos permitidos</h4>
+                                                    <button type="button" class="close" aria-label="Close"
+                                                        (click)="d('Cross click')">
+                                                        <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                            </div>
-                                            <div class="collapse navbar-collapse col-12" id="collapseExample"
-                                            [ngbCollapse]="isCollapsed">
-                                                <label>Documentos</label>
-                                                <type-ahead class="form-control multi" [multi]="true" [complex]="true"
-                                                    idField="_id" formControlName="docts"
-                                                    [suggestions]="documentsAll[i].docts" aria-describedby="emailHelp">
-                                                </type-ahead>
-                                                <small id="emailHelp" class="form-text text-muted">
-                                                    Se não houver documentos selecionados, serão permitidos todos os
-                                                    documentos da empresa.
-                                                </small>
-                                            </div>
+                                                <div class="modal-body">
+                                                    <label>Documentos</label>
+                                                    <type-ahead class="form-control multi" [multi]="true"
+                                                        [complex]="true" idField="_id" formControlName="docts"
+                                                        [suggestions]="documentsAll[i].docts" 
+                                                        aria-describedby="emailHelp">
+                                                    </type-ahead>
+                                                    <br/>
+                                                    <small id="emailHelp" class="form-text text-muted">
+                                                        Se não houver documentos selecionados, serão permitidos todos os
+                                                        documentos da empresa.
+                                                    </small>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-dark"
+                                                        (click)="c('Save click')">Salvar</button>
+                                                </div>
+                                            </ng-template>
+
+                                            <button class="btn btn-sm btn-secundary"
+                                                (click)="open(content)">Exibir Documentos</button>
                                         </div>
                                         <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
@@ -131,8 +148,9 @@
                 <div class="pull-right">
                     <button type="button" [routerLink]="['/users/get', user._id]" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" [routerLink]="['/users/get', user._id]"
-                        [disabled]="name.invalid || email.invalid || profile.invalid">Salvar</button>
+                    <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary" [routerLink]="['/users/get', user._id]"
+                        [disabled]="name.invalid || email.invalid || profile.invalid"
+                        (click)="updateUser()">Salvar</button>
                 </div>
             </form>
         </div>

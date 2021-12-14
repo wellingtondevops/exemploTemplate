@@ -11,18 +11,21 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import _ from 'lodash';
+import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
+  providers: [NgbModalConfig, NgbModal],
   styleUrls: ['./edit.component.scss'],
   animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
-    public isCollapsed = true;
+    isCollapsed = false;
   id: String;
+  closeResult = '';
   user: User;
   userForm: FormGroup;
   profilesList: any = [];
@@ -34,6 +37,8 @@ export class EditComponent implements OnInit {
   userExternal = false;
 
   constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
     private _route: Router,
     private route: ActivatedRoute,
     private userSrv: UsersService,
@@ -45,7 +50,8 @@ export class EditComponent implements OnInit {
     private utilCase: CaseInsensitive
   ) {
     this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
-
+    config.backdrop = 'static';
+    config.keyboard = false;
     /* if (this.userExternal) {
       this.addPermission();
     } */
@@ -69,6 +75,7 @@ export class EditComponent implements OnInit {
     this.getDocuments();
     this.getCompanies();
     this.getProfiles();
+    this.returnIdCompanyPermissions();
   }
 
   getProfiles() {
@@ -107,6 +114,7 @@ export class EditComponent implements OnInit {
   }
 
   createPermissionExist(item): FormGroup {
+    this.getDocuments();
     return this.fb.group({
       company: item.company,
       docts: item.docts
@@ -116,6 +124,7 @@ export class EditComponent implements OnInit {
   addPermissionExist(item): void {
     this.permissions = this.userForm.get('permissions') as FormArray;
     this.permissions.push(this.createPermissionExist(item));
+    this.getDocuments();
   }
 
   addPermission(): void {
@@ -125,6 +134,10 @@ export class EditComponent implements OnInit {
 
   removePermission(e) {
     this.permissions.removeAt(e);
+  }
+
+  open(content) {
+    this.modalService.open(content, {size: 'lg'});
   }
 
   formatter = (x: { name: string }) => x.name;
@@ -294,7 +307,6 @@ export class EditComponent implements OnInit {
           name: data.name,
           permissions: data.permissions,
         });
-        this._route.navigate(['/users']);
       },
       error => {
         this.loading = false;

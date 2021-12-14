@@ -1,6 +1,6 @@
 <ngx-loading [show]="loading" [config]="{
     backdropBorderRadius: '3px',
-    fullScreenBackdrop: true,
+    fullScreenBackdrop: false,
     primaryColour: '#222',
     secondaryColour: '#222',
     tertiaryColour: '#222'
@@ -72,27 +72,34 @@
                                                         formControlName="company" (selectItem)="getDocuments($event)"
                                                         [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                                         [ngbTypeahead]="searchCompany" />
-                                                    <div class="input-group-append">
-                                                        <button class="navbar-toggler" type="button"
-                                                            (click)="isCollapsed = !isCollapsed"
-                                                            [attr.aria-expanded]="!isCollapsed"
-                                                            aria-controls="collapseExample">
-                                                            <span [hidden]="!isCollapsed"> <i class="fa fa-caret-down"
-                                                                    aria-hidden="true"></i></span>
-                                                            <span [hidden]="isCollapsed"><i class="fa fa-caret-up"
-                                                                    aria-hidden="true"></i></span>
-                                                        </button>
-                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="collapse navbar-collapse col-12" id="collapseExample"
-                                                [ngbCollapse]="isCollapsed">
-                                                <label>Documentos</label>
+                                            <ng-template #content let-c="close" let-d="dismiss">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">{{ user.name }}</h4>
+                                                    <button type="button" class="close" aria-label="Close"
+                                                        (click)="d('Cross click')">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
                                                 <type-ahead class="form-control" [multi]="true" [complex]="true"
                                                     idField="_id" formControlName="docts"
-                                                    [suggestions]="documentsAll[i].docts" >
+                                                    [suggestions]="documentsAll[i].docts" style="width: 1px; background-color:transparent; border: yellow;">
                                                 </type-ahead>
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                </div>
+                                            </ng-template>
+
+                                            <button class="btn btn-sm btn-dark"
+                                                (click)="openMod(content)">Exibir Documentos</button>
+
+                                            <div class="collapse navbar-collapse col-12" id="collapseExample"
+                                                [ngbCollapse]="isCollapsed">
+
                                             </div>
                                         </div>
                                     </div>
