@@ -85,15 +85,15 @@
                                         <div [formGroupName]="i">
                                             <div class="form-group">
                                                 <label for="typeahead-basic">Empresa</label>
-                                                <input id="typeahead-basic" type="text"
-                                                    class="form-control"
+                                                <input id="typeahead-basic" type="text" class="form-control"
                                                     formControlName="company" (selectItem)="getDocuments($event, i)"
                                                     [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                                     [ngbTypeahead]="searchCompany" />
                                             </div>
                                             <ng-template #content let-c="close" let-d="dismiss">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" id="modal-basic-title">Editar documentos permitidos</h4>
+                                                    <h4 class="modal-title" id="modal-basic-title">Editar documentos
+                                                        permitidos</h4>
                                                     <button type="button" class="close" aria-label="Close"
                                                         (click)="d('Cross click')">
                                                         <span aria-hidden="true">&times;</span>
@@ -106,7 +106,7 @@
                                                         style="width: 1px; background-color:transparent; border: yellow;"
                                                         aria-describedby="emailHelp">
                                                     </type-ahead>
-                                                    <br/>
+                                                    <br />
                                                     <small id="emailHelp" class="form-text text-muted">
                                                         Se não houver documentos selecionados, serão permitidos todos os
                                                         documentos da empresa.
@@ -118,8 +118,8 @@
                                                 </div>
                                             </ng-template>
 
-                                            <button class="btn btn-sm btn-secundary"
-                                                (click)="open(content)">Exibir Documentos</button>
+                                            <button class="btn btn-sm btn-secundary" (click)="open(content)">Exibir
+                                                Documentos</button>
                                         </div>
                                         <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
@@ -139,7 +139,8 @@
                 <div class="pull-right">
                     <button type="button" [routerLink]="['/users/get', user._id]" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
-                    <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary" [routerLink]="['/users/get', user._id]"
+                    <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary"
+                        [routerLink]="['/users/get', user._id]"
                         [disabled]="name.invalid || email.invalid || profile.invalid"
                         (click)="updateUser()">Salvar</button>
                 </div>
