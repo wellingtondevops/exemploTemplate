@@ -77,15 +77,6 @@
                             <div *ngFor="let permissions of permissions.controls; index as i">
                                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
                                     <div class="card-body">
-                                        <!-- <button class="navbar-toggler" type="button"
-                                                        (click)="showCollapse(i)"
-                                                        [attr.aria-expanded]="!isCollapsed"
-                                                        aria-controls="collapseExample">
-                                                        <span [hidden]="!isCollapsed"> <i class="fa fa-caret-down"
-                                                                aria-hidden="true"></i></span>
-                                                        <span [hidden]="isCollapsed"><i class="fa fa-caret-up"
-                                                                aria-hidden="true"></i></span>
-                                        </button> -->
                                         <button *ngIf="!userExternal" type="button"
                                             class="btn btn-danger btn-xs pull-right" (click)="removePermission(i)">
                                             <i class="fa fa-trash"></i>
@@ -109,10 +100,10 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <label>Documentos</label>
                                                     <type-ahead class="form-control multi" [multi]="true"
                                                         [complex]="true" idField="_id" formControlName="docts"
-                                                        [suggestions]="documentsAll[i].docts" 
+                                                        [suggestions]="documentsAll[i].docts"
+                                                        style="width: 1px; background-color:transparent; border: yellow;"
                                                         aria-describedby="emailHelp">
                                                     </type-ahead>
                                                     <br/>

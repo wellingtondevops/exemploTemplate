@@ -75,7 +75,7 @@ export class EditComponent implements OnInit {
     this.getDocuments();
     this.getCompanies();
     this.getProfiles();
-    this.returnIdCompanyPermissions();
+
   }
 
   getProfiles() {
@@ -124,7 +124,6 @@ export class EditComponent implements OnInit {
   addPermissionExist(item): void {
     this.permissions = this.userForm.get('permissions') as FormArray;
     this.permissions.push(this.createPermissionExist(item));
-    this.getDocuments();
   }
 
   addPermission(): void {
@@ -137,7 +136,7 @@ export class EditComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, {size: 'lg'});
+    this.modalService.open(content, {size: 'lg', windowClass: 'my-class'});
   }
 
   formatter = (x: { name: string }) => x.name;

@@ -8,3 +8,6 @@ type-ahead.form-control i {
   float: right !important;
 }
 
+::ng-deep .my-class .modal-dialog {
+    top: -400px;
+}
