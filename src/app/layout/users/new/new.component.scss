@@ -12,3 +12,8 @@ type-ahead.form-control i {
   max-height: 10em;
   overflow-y: auto;
 }
+
+::ng-deep .my-class .modal-dialog {
+    top: -400px;
+}
+
