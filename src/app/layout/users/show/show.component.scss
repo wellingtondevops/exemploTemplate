@@ -1,11 +1,4 @@
-@import '~pretty-checkbox/src/pretty-checkbox.scss';
-
 type-ahead[disabled] {
   background-color: #e9ecefd5;
   opacity: 0.7;
 }
-
-::ng-deep .my-class .modal-dialog {
-    top: -400px;
-}
-

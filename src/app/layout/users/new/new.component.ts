@@ -22,7 +22,6 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
   animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
-    public isCollapsed = true;
   user: Object;
   userForm: FormGroup;
   profilesList: any = [];
