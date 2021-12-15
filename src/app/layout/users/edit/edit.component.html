@@ -86,7 +86,7 @@
                                             <div class="form-group">
                                                 <label for="typeahead-basic">Empresa</label>
                                                 <input id="typeahead-basic" type="text"
-                                                    (selectItem)="selectedCompany($event)" class="form-control"
+                                                    class="form-control"
                                                     formControlName="company" (selectItem)="getDocuments($event, i)"
                                                     [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                                     [ngbTypeahead]="searchCompany" />
@@ -100,6 +100,12 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
+
+                                                    <div id="the-basics">
+                                                        <input class="typeahead" type="text" placeholder="States of USA">
+                                                    </div>
+
+
                                                     <type-ahead class="form-control multi" [multi]="true"
                                                         [complex]="true" idField="_id" formControlName="docts"
                                                         [suggestions]="documentsAll[i].docts"
