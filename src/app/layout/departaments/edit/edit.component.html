@@ -6,7 +6,7 @@
           secondaryColour: '#222',
           tertiaryColour: '#222'
       }"></ngx-loading>
-  <app-page-header [heading]="'Dados do Departamento'" [icon]="'fa-user'"></app-page-header>
+  <app-page-header [heading]="'Editar Departamento'" [icon]="'fa-user'"></app-page-header>
   <div style="margin-bottom: 10px">
     <app-button-back [redirectTo]="'departaments'"></app-button-back>
     <br />
@@ -43,7 +43,7 @@
           </ng-template>
 
           <div class="pull-right">
-            <button type="button" [routerLink]="['/departaments']" class="btn btn-default"
+            <button type="button" [routerLink]="['/departaments/get', id]" class="btn btn-default"
               style="margin-right:10px">Voltar</button>
             <button type="submit" class="btn btn-primary" [disabled]="companyIpt.invalid ||name.invalid">
               Salvar

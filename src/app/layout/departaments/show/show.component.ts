@@ -58,7 +58,7 @@ export class ShowComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCompanies();
+    // this.getCompanies();
     this.loading = true;
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDepartament();

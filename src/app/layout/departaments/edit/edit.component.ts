@@ -35,13 +35,13 @@ export class EditComponent implements OnInit {
   ) {
     this.departamentForm = this.fb.group({
       _id: this.fb.control(''),
-      company: this.fb.control('', [Validators.required]),
+      company: this.fb.control({value: '', disabled: true}, [Validators.required]),
       name: this.fb.control({ value: '' }, [Validators.required])
     });
   }
 
   ngOnInit() {
-    this.getCompanies();
+    // this.getCompanies();
     this.loading = true;
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDepartament();
@@ -85,9 +85,6 @@ export class EditComponent implements OnInit {
     );
   }
 
-  editDepartament(departament) {
-    this._route.navigate(['/departaments/edit', departament._id]);
-  }
 
   returnId(object) {
     this.departamentForm.value[object] = _.filter(this.departamentForm.value[object], function (value, key) {
