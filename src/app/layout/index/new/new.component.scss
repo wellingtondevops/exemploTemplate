@@ -1,10 +1,12 @@
-// .parent {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-around;
-//     align-items: center;
-// }
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
 
-// .child {
-//     height: 88px;
-// }
+.parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.child {
+    height: 85px;
+}

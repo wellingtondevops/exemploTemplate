@@ -2,10 +2,10 @@
     <ngx-loading [show]="loading" [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
-              primaryColour: '#222',
-              secondaryColour: '#222',
-              tertiaryColour: '#222'
-          }"></ngx-loading>
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+    }"></ngx-loading>
     <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header>
     <div style="margin-bottom: 10px;" *ngIf="!loading">
         <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
@@ -17,9 +17,8 @@
             <ng-template ngbTabContent>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="card bg-light mb-3" style="font-size: 13px;">
+                        <div class="card bg-light mb-3" style="font-size: 15px;">
                             <div class="card-body">
-
                                 <p class="card-text">
                                     <b>EMPRESA</b>: {{ batch && batch.company &&
                                     batch.company.name ? batch.company.name : '' }} <br>
@@ -32,36 +31,32 @@
                                     <b>POSIÇÃO</b>: {{ batch && batch.volume &&
                                     batch.volume.location ? batch.volume.location : '' }}<br>
                                 </p>
-                                <hr/>
-                                <div class="col-sm-12">
-                                    <b style="margin-top: 0px;">Fonte de Dados</b>
-                                    <input class="form-control" id="worksheets" type="text" placeholder="Digite Aqui"
-                                        style="width: 30%;">
-                                    <button id="realtime" type="button" class="btn btn-outline-danger" (click)="load()"
-                                        hidden>Set</button>
-                                    <h5 style="margin-bottom: 0px; text-align: center;">
-                                        ARQUIVOS RESTANTES: {{page.totalElements}}
-                                    </h5>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div class="row">
-                        <div class="col-4">
 
-                            <div class="card bg-light" style="margin:5px;font-size: 13px;">
+                    <div class="row" >
+                        <div class="col-lg-4">
+                            <div class="card bg-light" style="margin:5px;font-size: 15px;">
                                 <div *ngIf="page.totalElements !== 0;">
-                                    <div class="card-header">Indíces</div>
+                                    <div class="card-header">Fonte de dados</div>
+                                    <div class="card-body">
+                                            <input class="form-control" id="worksheets" type="text" placeholder="Digite Aqui"
+                                                style="width: 90%;">
+                                            <button id="realtime" type="button" class="btn btn-outline-danger" (click)="load()"
+                                                hidden>Set</button>
+                                    </div>
+                                    <div class="card-header" >Indíces</div>
                                     <div class="card-body" style="display: flex;">
-                                        <div class="" *ngIf="document && document.label" id="form">
+                                        <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label" id="form">
                                             <app-form-index [multipleIndex]="true" [data]="document"
                                                 [store]="valuesStorage" [isArchive]="false" [edit]="true"
-                                                (sendArchive)="createDocument($event)">
+                                                (sendArchive)="createDocument($event)" style="width: 100px;">
                                             </app-form-index>
                                         </div>
-                                        <div class="" style="display: flex;
+                                        <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
                                                         flex-direction: column;
                                                         justify-content: space-around;
                                                         align-items: center;">
@@ -71,8 +66,12 @@
                                                     *ngFor="let item of checkboxForm.controls; let i = index;">
                                                     <div [formGroupName]="i">
                                                         <label>
-                                                            <input type="checkbox" [formControl]="item"
-                                                                [value]="item.value">
+                                                            <div class="pretty p-switch p-fill">
+                                                                <input type="checkbox"  [formControl]="item" [value]="item.value">
+                                                                <div class="state">
+                                                                    <label></label>
+                                                                </div>
+                                                            </div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -82,7 +81,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-8">
+                        <div class="col-lg-8">
+                            <h5 style="margin-bottom: 0px; text-align: center;">
+                                ARQUIVOS RESTANTES: {{page.totalElements}}
+                            </h5>
                             <ng-template #elsePdf>
                                 <div *ngIf="archive && !isPdf">
                                     <!--
