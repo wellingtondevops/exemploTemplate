@@ -53,7 +53,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
     this.documentForm = this.fb.group({
       _id: '',
-      company: this.fb.control('', [Validators.required]),
+      company: this.fb.control({value: '', disabled: true}, [Validators.required]),
       name: this.fb.control('', [Validators.required]),
       label: this.fb.array(this.labels),
       dcurrentValue: this.fb.control(0),
