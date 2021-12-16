@@ -82,8 +82,8 @@ export class ShowComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCompanies();
-    this.getStoreHouses();
+    // this.getCompanies();
+    // this.getStoreHouses();
     this.loading = true;
     this.id = this.route.snapshot.paramMap.get('id');
     this.getVolume();
@@ -138,7 +138,7 @@ export class ShowComponent implements OnInit {
           status: data.status,
           reference: data.reference,
         });
-        this.getDepartament(data.company._id);
+        // this.getDepartament(data.company._id);
       },
       error => {
         this.loading = false;
