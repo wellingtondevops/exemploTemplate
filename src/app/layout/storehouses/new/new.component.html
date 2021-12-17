@@ -13,7 +13,7 @@
                 <div class="form-content">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input id="name" class="form-control" [ngClass]="{ 'is-invalid': !name.valid }"
+                        <input id="name" class="form-control" [ngClass]="{ 'is-invalid': name.invalid && name.touched }"
                             formControlName="name" />
                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
@@ -21,11 +21,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="checkbox">
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" formControlName="mapStorehouse"
+                                value="" />
+                            <div class="state">
                                 <label>
-                                    <input type="checkbox" formControlName="mapStorehouse" value="storehouse.mapStorehouse"/>
-                                Mapear Depósito </label>
+                                    Mapear Depósito
+                                </label>
                             </div>
                         </div>
 
