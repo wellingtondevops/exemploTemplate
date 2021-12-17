@@ -1,58 +1,68 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
+    <ngx-loading [show]="loading" [config]="{
           backdropBorderRadius: '3px',
           fullScreenBackdrop: true,
           primaryColour: '#222',
           secondaryColour: '#222',
           tertiaryColour: '#222'
       }"></ngx-loading>
-  <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
-    [permissionBtnNew]="permissionNew" [routerTo]="'/departaments/new'"></app-page-header>
-  <div class="row">
-    <div class="col col-xl-12 col-lg-12">
-      <ngb-accordion #acc="ngbAccordion" activeIds="departaments-0">
-        <ngb-panel id="departaments-0">
-          <ng-template ngbPanelTitle>
-            <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <form [formGroup]="searchForm" (ngSubmit)="getDepartaments()" role="FormGroup" class="form-inline">
-              <div class="row col-12">
-                <div class="form-group mb-2 col-3">
-                    <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
-                      formControlName="company"  placeholder="Nome da Empresa" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                      [ngbTypeahead]="searchCompany" style="width: 100%" [ngClass]="{ 'is-invalid': !company.valid }" />
-                      <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                        <div *ngIf="!company.valid">
-                          Empresa é obrigatório.
-                        </div>
-                      </div>
-                  </div>
-                <div class="form-group mb-2 col-4">
-                  <label for="labelName">Departamento</label>
-                  <input id="name" autoFocus="true" type="text" class="form-control" placeholder="Nome do Departamento" formControlName="name"
-                    style="width: 100%" />
-                </div>
-                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                    <div class="form-group mb-2">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid"><i class="fa fa-search"></i></button>
-                        <button type="submit" class="btn btn-default"  style="margin-left: 10px;" [disabled]="company.invalid" (click)="clear()">
-                            Limpar Campos
-                        </button>
-                    </div>
-                </div>
-              </div>
-              <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-              </ng-template>
-            </form>
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
-      <br />
-      <app-datatables [data]="departaments" (setPage)="setPage($event)" [columns]="columns"
-        (show)="getDepartament($event)"></app-datatables>
+    <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
+        [permissionBtnNew]="permissionNew" [routerTo]="'/departaments/new'"></app-page-header>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <ngb-accordion #acc="ngbAccordion" activeIds="departaments-0">
+                <ngb-panel id="departaments-0">
+                    <ng-template ngbPanelTitle>
+                        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <form [formGroup]="searchForm" (ngSubmit)="getDepartaments()" role="FormGroup"
+                            class="form-inline">
+                            <div class="row col-12">
+                                <div class="form-group">
+                                    <label for="typeahead-basic">Empresa</label>
+                                    <input id="typeahead-basic" autoFocus="true" type="text"
+                                        class="form-control typehead" formControlName="company"
+                                        placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
+                                        [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" style="width: 100%"
+                                        [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
+                                    <div *ngIf="company.invalid && (company.dirty || company.touched)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="!company.valid">
+                                            Empresa é obrigatório.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="labelName">Departamento</label>
+                                    <input id="name" autoFocus="true" type="text" class="form-control"
+                                        placeholder="Nome do Departamento" formControlName="name" style="width: 100%" />
+                                </div>
+                                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                                    <div class="form-group mb-2">
+                                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid"><i
+                                                class="fa fa-search"></i></button>
+                                        <button type="submit" class="btn btn-default" style="margin-left: 10px;"
+                                            [disabled]="company.invalid" (click)="clear()">
+                                            Limpar Campos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                            </ng-template>
+                        </form>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
     </div>
-  </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <app-datatables [data]="departaments" (setPage)="setPage($event)" [columns]="columns"
+            (show)="getDepartament($event)"></app-datatables>
+        </div>
+    </div>
 </div>

@@ -43,10 +43,10 @@ export class ListComponent implements OnInit {
   page = new Page();
   companies: any = [];
   columns = [
-    { name: 'Empresa', prop: 'company.name', width: 200 },
-    { name: 'Departamento', prop: 'name', width: 250 },
-    { name: 'Criado por', prop: 'author.name' },
-    /* { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
+    { name: 'Empresa', prop: 'company.name'},
+    { name: 'Departamento', prop: 'name'},
+    // { name: 'Criado por', prop: 'author.name' },
+    //{ name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
   ];
   permissionNew: boolean = false;
 
