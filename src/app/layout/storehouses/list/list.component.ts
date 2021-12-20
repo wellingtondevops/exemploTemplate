@@ -12,6 +12,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { NgbdModalConfirmComponent } from '../../../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.service';
 import { Page } from 'src/app/models/page';
+import _ from 'lodash';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const MODALS = {
@@ -40,7 +41,8 @@ export class ListComponent implements OnInit {
   page = new Page();
   loading: Boolean = true;
 
-  columns = [{ name: 'Nome', prop: 'name' }, { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
+  columns = [{ name: 'Nome', prop: 'name' },
+  { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }];
   permissionNew = false;
 
   constructor(
@@ -131,15 +133,18 @@ export class ListComponent implements OnInit {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
     this.localStorageSrv.save('deposit', this.searchForm.value);
+
     const newForm = {
             name: this.searchForm.value.name ? this.searchForm.value.name : null,
     };
 
-    this.storeHousesSrv.searchStorehouse(this.searchForm.value, this.page).subscribe(data => {
-      this.page.pageNumber = data._links.currentPage - 1;
+    const searchValue = _.omitBy(newForm, _.isNil);
+
+    this.storeHousesSrv.searchStorehouse(searchValue, this.page).subscribe(data => {
+        this.storehouses = data;
+      this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
-      this.storehouses = data;
       this.loading = false;
     }, error => {
       console.log('ERROR: ', error);
@@ -164,25 +169,25 @@ export class ListComponent implements OnInit {
       );
   } */
 
-  setPage(pageInfo) {
-    this.loading = true;
-    this.page.pageNumber = pageInfo.offset;
+//   setPage(pageInfo) {
+//     this.loading = true;
+//     this.page.pageNumber = pageInfo.offset;
 
-    this.storeHousesSrv.storeHouses(this.page).subscribe(
-      data => {
-        this.storehouses = data;
-        this.page.pageNumber = data._links.currentPage - 1;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-        this.loading = false;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-        this.loading = false;
-      }
-    );
-  }
+//     this.storeHousesSrv.storeHouses(this.page).subscribe(
+//       data => {
+//         this.storehouses = data;
+//         this.page.pageNumber = data._links.currentPage - 1;
+//         this.page.totalElements = data._links.foundItems;
+//         this.page.size = data._links.totalPage;
+//         this.loading = false;
+//       },
+//       error => {
+//         this.errorMsg.errorMessages(error);
+//         console.log('ERROR: ', error);
+//         this.loading = false;
+//       }
+//     );
+//   }
   clear() {
     this.localStorageSrv.clear('deposit');
 
