@@ -25,7 +25,7 @@ export class ListComponent implements OnInit {
   companies: any = [];
   documents: DocumentList = {
     _links: {
-      currentPage: 1,
+      currentPage: 0,
       foundItems: 0,
       next: '',
       self: '',
@@ -35,13 +35,10 @@ export class ListComponent implements OnInit {
   };
   page = new Page();
   columns = [
-
     { name: 'Nome', prop: 'name' },
     { name: 'Fase Corrente', prop: 'dcurrentValue'},
     { name: 'Fase Intermédiaria', prop: 'dintermediateValue'},
     { name: 'Destinação Final', prop: 'dfinal'},
-
-
 
   ];
   loading: Boolean = false;
@@ -109,8 +106,18 @@ export class ListComponent implements OnInit {
     this.page.pageNumber = pageInfo.offset;
     this.localStorageSrv.save('document', this.searchForm.value);
 
-    this.returnId('company')
-    this.documentSrv.searchDocts(this.searchForm.value, this.page).subscribe(data => {
+    const newForm = {
+        company: null,
+        name: null,
+    };
+
+    this.searchForm.value.company ? newForm.company = this.searchForm.value.company : null;
+    this.searchForm.value.name ? newForm.name = this.searchForm.value.name : null;
+
+    const searchValue = _.omitBy(newForm, _.isNil);
+
+    this.documentSrv.searchDocts(searchValue, this.page).subscribe(
+        data => {
       this.page.pageNumber = data._links.currentPage;
       this.page.totalElements = data._links.foundItems;
       this.page.size = data._links.totalPage;
@@ -122,26 +129,26 @@ export class ListComponent implements OnInit {
     });
   }
 
-  setPage(pageInfo) {
-    this.loading = true;
-    this.page.pageNumber = pageInfo.offset;
+//   setPage(pageInfo) {
+//     this.loading = true;
+//     this.page.pageNumber = pageInfo.offset;
 
-    this.documentSrv.documents(this.page).subscribe(
-      data => {
-        console.log(data);
-        this.documents = data;
-        this.page.pageNumber = data._links.currentPage - 1;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-        this.loading = false;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-        this.loading = false;
-      }
-    );
-  }
+//     this.documentSrv.documents(this.page).subscribe(
+//       data => {
+//         console.log(data);
+//         this.documents = data;
+//         this.page.pageNumber = data._links.currentPage - 1;
+//         this.page.totalElements = data._links.foundItems;
+//         this.page.size = data._links.totalPage;
+//         this.loading = false;
+//       },
+//       error => {
+//         this.errorMsg.errorMessages(error);
+//         console.log('ERROR: ', error);
+//         this.loading = false;
+//       }
+//     );
+//   }
 
   getDocument(document) {
     this._route.navigate(['/documents/get', document._id]);
