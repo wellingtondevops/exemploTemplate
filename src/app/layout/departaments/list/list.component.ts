@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
   loading: Boolean = true;
   departaments: DepartamentList = {
     _links: {
-      currentPage: 1,
+      currentPage: 0,
       foundItems: 0,
       next: '',
       self: '',
@@ -113,14 +113,23 @@ export class ListComponent implements OnInit {
     this.page.pageNumber = pageInfo.offset;
     this.localStorageSrv.save('document', this.searchForm.value);
 
+    const newForm = {
+        company: null,
+        name: null,
+    };
 
-    this.returnId('company');
-    this.departmentService.searchDepartament(this.searchForm.value, this.page).subscribe(data => {
-      this.page.pageNumber = data._links.currentPage - 1;
-      this.page.totalElements = data._links.foundItems;
-      this.page.size = data._links.totalPage;
-      this.departaments = data;
-      this.loading = false;
+    this.searchForm.value.company ? newForm.company = this.searchForm.value.company : null;
+    this.searchForm.value.name ? newForm.name = this.searchForm.value.name : null;
+
+    const searchValue = _.omitBy(newForm, _.isNil);
+
+    this.departmentService.searchDepartament(searchValue, this.page).subscribe(
+        data => {
+        this.departaments = data;
+        this.page.pageNumber = data._links.currentPage;
+        this.page.totalElements = data._links.foundItems;
+        this.page.size = data._links.totalPage;
+        this.loading = false;
     }, error => {
       console.log('ERROR: ', error);
       this.loading = false;
@@ -133,26 +142,26 @@ export class ListComponent implements OnInit {
     })[0];
   }
 
-  setPage(pageInfo) {
-    this.loading = true;
-    this.page.pageNumber = pageInfo.offset;
+//   setPage(pageInfo) {
+//     this.loading = true;
+//     this.page.pageNumber = pageInfo.offset;
 
-    this.departmentService.departaments(this.page, null).subscribe(
-      data => {
-        console.log(data);
-        this.departaments = data;
-        this.page.pageNumber = data._links.currentPage - 1;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-        this.loading = false;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-        this.loading = false;
-      }
-    );
-  }
+//     this.departmentService.departaments(this.page, null).subscribe(
+//       data => {
+//         console.log(data);
+//         this.departaments = data;
+//         this.page.pageNumber = data._links.currentPage;
+//         this.page.totalElements = data._links.foundItems;
+//         this.page.size = data._links.totalPage;
+//         this.loading = false;
+//       },
+//       error => {
+//         this.errorMsg.errorMessages(error);
+//         console.log('ERROR: ', error);
+//         this.loading = false;
+//       }
+//     );
+//   }
 
   formatter = (x: { name: string }) => x.name;
 

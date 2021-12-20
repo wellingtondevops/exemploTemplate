@@ -23,8 +23,9 @@
                                     <label for="typeahead-basic">Empresa</label>
                                     <input id="typeahead-basic" autoFocus="true" type="text"
                                         class="form-control typehead" formControlName="company"
+                                        (selectItem)="selectedCompany($event)"
                                         placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" style="width: 100%"
+                                        [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" style="width: 100%; margin-right: 10px;"
                                         [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
                                     <div *ngIf="company.invalid && (company.dirty || company.touched)"
                                         class="invalid-feedback">
@@ -61,7 +62,7 @@
     <br />
     <div class="row">
         <div class="col-12">
-            <app-datatables [data]="departaments" (setPage)="setPage($event)" [columns]="columns"
+            <app-datatables [data]="departaments" (setPage)="setPageDepartaments($event)" [columns]="columns"
             (show)="getDepartament($event)"></app-datatables>
         </div>
     </div>
