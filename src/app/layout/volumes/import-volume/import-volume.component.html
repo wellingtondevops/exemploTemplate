@@ -27,9 +27,9 @@
 
           <div class="form-group">
             <label for="typeahead-basic">Empresa</label>
-            <input id="typeahead-basic" (selectItem)="selectedCompany($event)" type="text" class="form-control"
+            <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa" type="text" class="form-control"
               formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-              [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" />
+              [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
             <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
               <div *ngIf="!company.valid">
                 Empresa é obrigatório.
@@ -39,9 +39,9 @@
 
           <div class="form-group">
             <label for="typeahead-basic">Departamento</label>
-            <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
+            <input id="typeahead-basic" type="text" class="form-control" placeholder="Nome do Departamento" formControlName="departament"
               [resultTemplate]="rtDepartament" [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament"
-              [ngClass]="{ 'is-invalid': !departament.valid }" />
+              [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }" />
             <div *ngIf="departament.invalid && (departament.dirty || departament.touched)" class="invalid-feedback">
               <div *ngIf="!departament.valid">
                 Departamento é obrigatório.
@@ -51,9 +51,9 @@
 
           <div class="form-group">
             <label for="typeahead-basic">Depósito</label>
-            <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
+            <input id="typeahead-basic" type="text" class="form-control" placeholder="Nome do Desposito" formControlName="storehouse"
               [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"
-              [ngClass]="{ 'is-invalid': !storehouse.valid }" />
+              [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }" />
             <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)" class="invalid-feedback">
               <div *ngIf="!storehouse.valid">
                 Depósito é obrigatório.
@@ -64,7 +64,7 @@
           <div class="form-group">
             <label for="">Tipo de Volume</label>
             <select class="form-control" id="volumeType" formControlName="volumeType"
-              [ngClass]="{ 'is-invalid': !volumeType.valid }">
+              [ngClass]="{ 'is-invalid': volumeType.invalid && volumeType.touched }">
               <option *ngFor="let volumeT of volumeTypeList | enumToArray" [value]="volumeT">
                 {{ volumeT | translate }}</option>
             </select>
@@ -78,7 +78,7 @@
           <div class="form-group">
             <label for="">Tipo de Guarda</label>
             <select class="form-control" id="guardType" formControlName="guardType"
-              [ngClass]="{ 'is-invalid': !guardType.valid }" (change)="changeGuardType()">
+              [ngClass]="{ 'is-invalid': guardType.invalid && guardType.touched }" (change)="changeGuardType()">
               <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                 {{ guardT | translate }}</option>
             </select>

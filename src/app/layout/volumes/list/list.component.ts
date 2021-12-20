@@ -61,13 +61,13 @@ export class ListComponent implements OnInit {
   columns = [
     // { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Departamento', prop: 'departament.name' },
-    { name: 'Posição', prop: 'location', width: 70 },
-    { name: 'Status', prop: 'status', width: 70 },
-    { name: 'Guarda', prop: 'guardType', width: 70,  },
-    { name: 'Depósito', prop: 'storehouse.name', width: 70 },
-    { name: 'Referência', prop: 'reference', width: 70 },
-    { name: 'Conteúdo', prop: 'records', width: 90, pipe: {transform: this.pipes.recordsType }},
-    { name: 'Criado em', prop: 'dateCreated', width: 70, pipe: { transform: this.pipes.datePipe } }
+    { name: 'Posição', prop: 'location' },
+    { name: 'Status', prop: 'status' },
+    { name: 'Guarda', prop: 'guardType' },
+    { name: 'Depósito', prop: 'storehouse.name' },
+    { name: 'Referência', prop: 'reference' },
+    { name: 'Conteúdo', prop: 'records', pipe: {transform: this.pipes.recordsType }},
+    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
 
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
