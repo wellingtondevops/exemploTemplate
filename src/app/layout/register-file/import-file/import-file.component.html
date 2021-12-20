@@ -12,11 +12,11 @@
       <div class="card bg-light mb-12">
         <div class="card-body">
           <form [formGroup]="importFileForm" role="FormGroup" class="form-inline" (ngSubmit)="postImportArchive()">
-            <div class="form-group mb-2 col-6">
+            <div class="form-group mb-2 col-lg-6 col-sm-12">
               <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" id="company"
+              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa" autoFocus="false" id="company"
                 type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany1"
-                [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }"
+                [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
                 style="width: 100%" />
               <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                 <div *ngIf="!company.valid">
@@ -24,34 +24,34 @@
                 </div>
               </div>
             </div>
-            <div class="form-group mb-2 col-6">
+            <div class="form-group mb-2 col-lg-6 col-sm-12">
               <label for="typeahead-basic">Depósito</label>
-              <input id="typeahead-basic" type="text" id="storehouse" class="form-control" formControlName="storehouse"
+              <input id="typeahead-basic" type="text" id="storehouse" placeholder="Nome do Depósito" class="form-control" formControlName="storehouse"
                 [resultTemplate]="rtStoreHouse1" [inputFormatter]="formatter" [ngbTypeahead]="search"
-                [ngClass]="{ 'is-invalid': !storehouse.valid }" style="width: 100%" />
+                [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }" style="width: 100%" />
               <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)" class="invalid-feedback">
                 <div *ngIf="!storehouse.valid">
                   Depósito é obrigatório.
                 </div>
               </div>
             </div>
-            <div class="form-group mb-2 col-6">
+            <div class="form-group mb-2 col-lg-6 col-sm-12">
               <label for="typeahead-basic">Departamento</label>
-              <input id="typeahead-basic" id="departament" autoFocus="true" type="text" class="form-control"
+              <input id="typeahead-basic" id="departament" autoFocus="true" placeholder="Nome do Departamento" type="text" class="form-control"
                 formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                 [ngbTypeahead]="searchDepartament" style="width: 100%"
-                [ngClass]="{ 'is-invalid': !departament.valid }" />
+                [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }" />
               <div *ngIf="departament.invalid && (departament.dirty || departament.touched)" class="invalid-feedback">
                 <div *ngIf="!departament.valid">
                   Departamento é obrigatório.
                 </div>
               </div>
             </div>
-            <div class="form-group mb-2 col-6">
-              <label for="typeahead-basic">Tipo do Documento</label>
-              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="doct"
+            <div class="form-group mb-2 col-lg-6 col-sm-12">
+              <label for="typeahead-basic">Documento</label>
+              <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Tipo do Documento" class="form-control" formControlName="doct"
                 [resultTemplate]="rtTypeDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchTypeDocument"
-                [ngClass]="{ 'is-invalid': !doct.valid }" style="width: 100%"
+                [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }" style="width: 100%"
                 (selectItem)="selectTypeDocument($event)" />
               <div *ngIf="doct.invalid && (doct.dirty || doct.touched)" class="invalid-feedback">
                 <div *ngIf="!doct.valid">

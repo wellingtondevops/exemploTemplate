@@ -1,159 +1,179 @@
 <div [@routerTransition]>
-  <!--   <ngx-loading [show]="loading" [config]="{
+    <!--   <ngx-loading [show]="loading" [config]="{
           backdropBorderRadius: '3px',
           fullScreenBackdrop: true,
           primaryColour: '#222',
           secondaryColour: '#222',
           tertiaryColour: '#222'
       }"></ngx-loading> -->
-  <app-page-header [heading]="'Registrar Arquivos'" [icon]="'fa-table'"></app-page-header>
-  <div class="row">
-    <div class="col col-xl-12 col-lg-12">
-      <div class="card bg-light mb-12">
-        <div class="card-body">
-          <ngb-tabset #tab>
-            <ngb-tab title="Dados da Posição" id="tab1">
-              <ng-template ngbTabContent>
-                <br />
-                <form [formGroup]="registerFileForm" role="FormGroup" class="form-inline">
-                  <div class="form-group mb-2 col-4">
-                    <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text" class="form-control"
-                      formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                      [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
-                    <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                      <div *ngIf="!company.valid">
-                        Empresa é obrigatório.
-                      </div>
-                    </div>
-                    <!--<div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                                                                                
+    <app-page-header [heading]="'Registrar Arquivos'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card bg-light mb-12">
+                <div class="card-body">
+                    <ngb-tabset #tab>
+                        <ngb-tab title="Dados da Posição" id="tab1">
+                            <ng-template ngbTabContent>
+                                <br />
+                                <form [formGroup]="registerFileForm" role="FormGroup" class="form-inline">
+                                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                                        <label for="typeahead-basic">Empresa</label>
+                                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)"
+                                            autoFocus="true" placeholder="Nome da Empresa" type="text"
+                                            class="form-control" formControlName="company" [resultTemplate]="rtCompany"
+                                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
+                                            style="width: 100%" />
+                                        <div *ngIf="company.invalid && (company.dirty || company.touched)"
+                                            class="invalid-feedback">
+                                            <div *ngIf="!company.valid">
+                                                Empresa é obrigatório.
+                                            </div>
+                                        </div>
+                                        <!--<div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+
                                                                                           <div *ngIf="!company.valid">
                                                                                             Empresa é obrigatório.
                                                                                         </div>
-                                                                                       
+
                                                                               </div> -->
-                  </div>
-                  <div class="form-group mb-2 col-4">
-                    <label for="typeahead-basic">Depósito</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
-                      [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"
-                      [ngClass]="{ 'is-invalid': !storehouse.valid }" style="width: 100%" />
-                    <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
-                      class="invalid-feedback">
-                      <div *ngIf="!storehouse.valid">
-                        Depósito é obrigatório.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group mb-2 col-4">
-                    <label for="location">Posição</label>
-                    <input id="location" class="form-control col-12" formControlName="location" />
-                    <!--<div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
-                                                                  
+                                    </div>
+                                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                                        <label for="typeahead-basic">Depósito</label>
+                                        <input id="typeahead-basic" type="text" class="form-control"
+                                            placeholder="Nome do Depósito" formControlName="storehouse"
+                                            [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter"
+                                            [ngbTypeahead]="search"
+                                            [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }"
+                                            style="width: 100%" />
+                                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
+                                            class="invalid-feedback">
+                                            <div *ngIf="!storehouse.valid">
+                                                Depósito é obrigatório.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                                        <label for="location">Posição</label>
+                                        <input id="location" class="form-control col-12" placeholder="Informe a Posição" formControlName="location" />
+                                        <!--<div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
+
                                                                           <div *ngIf="!company.valid">
                                                                             Empresa é obrigatório.
                                                                         </div>
-                                                                       
-                                                                </div> -->
-                  </div>
-                  <div class="form-group mb-2 col-4">
-                    <label for="typeahead-basic">Departamento</label>
-                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                      formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
-                      [ngbTypeahead]="searchDepartament" style="width: 100%" />
-                  </div>
-                  <div class="form-group mb-2 col-2">
-                    <button type="button" class="btn btn-default pull-right" (click)="getVolumesList()"
-                      style="margin-top:20px">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </div>
-                  <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
-                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                  </ng-template>
-                  <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                  </ng-template>
-                  <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
-                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                  </ng-template>
-                </form>
-              </ng-template>
-            </ngb-tab>
-            <ngb-tab id="tab2" title="Formulário de Indexação" [disabled]="tabIndex">
-              <ng-template ngbTabContent>
-                <div class="row">
-                  <div class="col-6">
-                    <form [formGroup]="typeDocumentForm" role="FormGroup" class="form-inline">
-                      <div class="form-group mb-2 col-12" style="padding-top: 10px">
-                        <label for="">Volume</label>
-                        <input type="text" formControlName="location" class="form-control" style="width: 100%">
-                      </div>
-                      <div class="form-group mb-2 col-12" *ngIf="notDocument || document">
-                        <label for="typeahead-basic">Tipo do Documento</label>
-                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                          formControlName="typeDocument" [resultTemplate]="rtTypeDocument" [inputFormatter]="formatter"
-                          [ngbTypeahead]="searchTypeDocument" [ngClass]="{ 'is-invalid': !typeDocument.valid }"
-                          style="width: 100%" (selectItem)="selectTypeDocument($event)" />
-                        <div *ngIf="typeDocument.invalid && (typeDocument.dirty || typeDocument.touched)"
-                          class="invalid-feedback">
-                          <div *ngIf="!typeDocument.valid">
-                            Tipo de documento é obrigatório.
-                          </div>
-                        </div>
-                        <ng-template #rtTypeDocument let-r="result" let-t="typeDocument" class="custom-typeahead">
-                          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                        </ng-template>
-                      </div>
 
-                      <!-- <div class="form-group mb-2 col-12">
+                                                                </div> -->
+                                    </div>
+                                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                                        <label for="typeahead-basic">Departamento</label>
+                                        <input id="typeahead-basic" autoFocus="true" placeholder="Nome do Departamento" type="text" class="form-control"
+                                            formControlName="departament" [resultTemplate]="rtDepartament"
+                                            [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament"
+                                            style="width: 100%" />
+                                    </div>
+                                    <div class="form-group mb-2 col-2">
+                                        <button type="button" class="btn btn-default pull-right"
+                                            (click)="getVolumesList()" style="margin-top:20px">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                    <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
+                                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                    </ng-template>
+                                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                    </ng-template>
+                                    <ng-template #rtDepartament let-r="result" let-t="departament"
+                                        class="custom-typeahead">
+                                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                    </ng-template>
+                                </form>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab id="tab2" title="Formulário de Indexação" [disabled]="tabIndex">
+                            <ng-template ngbTabContent>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <form [formGroup]="typeDocumentForm" role="FormGroup" class="form-inline">
+                                            <div class="form-group mb-2 col-12" style="padding-top: 10px">
+                                                <label for="">Volume</label>
+                                                <input type="text" formControlName="location" class="form-control"
+                                                    style="width: 100%">
+                                            </div>
+                                            <div class="form-group mb-2 col-12" *ngIf="notDocument || document">
+                                                <label for="typeahead-basic">Tipo do Documento</label>
+                                                <input id="typeahead-basic" autoFocus="true" type="text"
+                                                    class="form-control" formControlName="typeDocument"
+                                                    [resultTemplate]="rtTypeDocument" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchTypeDocument"
+                                                    [ngClass]="{ 'is-invalid': !typeDocument.valid }"
+                                                    style="width: 100%" (selectItem)="selectTypeDocument($event)" />
+                                                <div *ngIf="typeDocument.invalid && (typeDocument.dirty || typeDocument.touched)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="!typeDocument.valid">
+                                                        Tipo de documento é obrigatório.
+                                                    </div>
+                                                </div>
+                                                <ng-template #rtTypeDocument let-r="result" let-t="typeDocument"
+                                                    class="custom-typeahead">
+                                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                                </ng-template>
+                                            </div>
+
+                                            <!-- <div class="form-group mb-2 col-12">
                         <button type="submit" class="btn btn-default">Adicionar tipo de documento ao volume</button>
                       </div> -->
-                    </form>
-                    <div *ngIf="document">
-                      <br>
-                      <br>
-                      <p>Insira os dados do documento abaixo ou importe um arquivo xlsx</p>
-                      <app-form-index [data]="document"  [edit]="true" [isArchive]="false" (sendArchive)="postArchive($event)">
-                      </app-form-index>
-                      <br>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <br>
-                    <ngx-datatable *ngIf="tableRegister" #myTable class="material" [rows]="registers"
-                      [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
-                      [externalPaging]="true" [count]="registerPage.totalElements" [offset]="registerPage.pageNumber"
-                      [limit]="50" (page)="setPageRegisters($event)">
-                      <!-- Row Detail Template -->
-                      <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
-                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                          <div class="container" style="padding-bottom: 10px">
-                            <div class="row">
-                              <div class="col-4" style="padding-left:15px;">
-                                <div *ngFor="let desc of row.doct.label"><strong>{{desc.namefield}}: </strong></div>
-                              </div>
-                              <div class="col-6" style="padding-left:15px;">
-                                <div *ngFor="let tag of row.tag">{{tag}} </div>
-                              </div>
-                            </div>
-                          </div>
-                        </ng-template>
-                      </ngx-datatable-row-detail>
-                      <!-- Column Templates -->
-                      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
-                        [canAutoResize]="false">
-                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-                          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
-                            [class.datatable-icon-down]="expanded" title="Expand/Collapse Row"
-                            (click)="toggleExpandRow(row)">
-                          </a>
-                        </ng-template>
-                      </ngx-datatable-column>
-                      <ngx-datatable-column name="Dados Indexados" [width]="200" prop="index">
-                      </ngx-datatable-column>
-                      <!-- <ngx-datatable-column name="Descrição" [width]="200" prop="volume.description">
+                                        </form>
+                                        <div *ngIf="document">
+                                            <br>
+                                            <br>
+                                            <p>Insira os dados do documento abaixo ou importe um arquivo xlsx</p>
+                                            <app-form-index [data]="document" [edit]="true" [isArchive]="false"
+                                                (sendArchive)="postArchive($event)">
+                                            </app-form-index>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <br>
+                                        <ngx-datatable *ngIf="tableRegister" #myTable class="material"
+                                            [rows]="registers" [columnMode]="'force'" [headerHeight]="50"
+                                            [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
+                                            [count]="registerPage.totalElements" [offset]="registerPage.pageNumber"
+                                            [limit]="50" (page)="setPageRegisters($event)">
+                                            <!-- Row Detail Template -->
+                                            <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow
+                                                (toggle)="onDetailToggle($event)">
+                                                <ng-template let-row="row" let-expanded="expanded"
+                                                    ngx-datatable-row-detail-template>
+                                                    <div class="container" style="padding-bottom: 10px">
+                                                        <div class="row">
+                                                            <div class="col-4" style="padding-left:15px;">
+                                                                <div *ngFor="let desc of row.doct.label">
+                                                                    <strong>{{desc.namefield}}: </strong></div>
+                                                            </div>
+                                                            <div class="col-6" style="padding-left:15px;">
+                                                                <div *ngFor="let tag of row.tag">{{tag}} </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </ngx-datatable-row-detail>
+                                            <!-- Column Templates -->
+                                            <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false"
+                                                [draggable]="false" [canAutoResize]="false">
+                                                <ng-template let-row="row" let-expanded="expanded"
+                                                    ngx-datatable-cell-template>
+                                                    <a href="javascript:void(0)"
+                                                        [class.datatable-icon-right]="!expanded"
+                                                        [class.datatable-icon-down]="expanded"
+                                                        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+                                                    </a>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column name="Dados Indexados" [width]="200" prop="index">
+                                            </ngx-datatable-column>
+                                            <!-- <ngx-datatable-column name="Descrição" [width]="200" prop="volume.description">
                       </ngx-datatable-column>
                       <ngx-datatable-column name="Guarda" [width]="150" prop="volume.guardType">
                         <ng-template let-value="value" ngx-datatable-cell-template>
@@ -165,32 +185,27 @@
                       <ngx-datatable-column name="Criado em" [width]="300" prop="create">
                         <ng-template let-value="value" ngx-datatable-cell-template>
                           {{ value | date: 'dd/MM/yyyy' }}
-                        </ng-template> 
+                        </ng-template>
                       </ngx-datatable-column>-->
-                    </ngx-datatable>
-                  </div>
-                  <!--<div class="col-6">
+                                        </ngx-datatable>
+                                    </div>
+                                    <!--<div class="col-6">
                     <app-datatables *ngIf="tableRegister" [data]="registers" [columns]="columnsRegisters">
                     </app-datatables>
                   </div>-->
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
                 </div>
-              </ng-template>
-            </ngb-tab>
-          </ngb-tabset>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <br />
-  <div class="row" *ngIf="!document">
-    <div class="col col-xl-12 col-lg-12">
-      <app-datatables 
-      [data]="volumes" 
-      [columns]="columns" 
-      (show)="getVolume($event)"
-      (setPage)="setPage($event)"
-      >
-      </app-datatables>
+    <br />
+    <div class="row" *ngIf="!document">
+        <div class="col col-xl-12 col-lg-12">
+            <app-datatables [data]="volumes" [columns]="columns" (show)="getVolume($event)" (setPage)="setPage($event)">
+            </app-datatables>
+        </div>
     </div>
-  </div>
 </div>
