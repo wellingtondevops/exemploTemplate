@@ -43,12 +43,12 @@ export class ListComponent implements OnInit {
   permissionNew = false;
 
   columns = [
-    {name: 'Nr. Movimentação', prop: 'nr', width: 70},
+    {name: 'Nr. Movimentação', prop: 'nr', width: 10},
     { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Nome', prop: 'requester.name' },
     { name: 'Status da Operação', prop: 'title' },
-    { name: 'Data da Solicitação', prop: 'demandDate', width: 70, pipe: { transform: this.pipes.datePipe } },
-    { name: 'Data da Movimentação', prop: 'processedDate', width: 70, pipe: { transform: this.pipes.datePipe } },
+    { name: 'Data da Solicitação', prop: 'demandDate', width: 20, pipe: { transform: this.pipes.datePipe } },
+    { name: 'Data da Movimentação', prop: 'processedDate', width: 20, pipe: { transform: this.pipes.datePipe } },
   ];
 
   constructor(
