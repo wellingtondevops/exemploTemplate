@@ -18,12 +18,12 @@
                     <ng-template ngbPanelContent>
                         <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form-inline">
                             <div class="row col-12">
-                                <div class="form-group mb-2 col-3">
+                                <div class="form-group mb-2 col-lg-4 col-sm-12">
                                     <label for="typeahead-basic">Empresa</label>
-                                    <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)"
+                                    <input id="typeahead-basic" autoFocus="true" placeholder="Nome da Empresa" (selectItem)="selectedCompany($event)"
                                         type="text" class="form-control" formControlName="company"
                                         [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                                        [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }"
+                                        [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
                                         style="width: 100%" />
                                     <div *ngIf="company.invalid && (company.dirty || company.touched)"
                                         class="invalid-feedback">
@@ -32,30 +32,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-2 col-3">
+                                <div class="form-group mb-2 col-lg-4 col-sm-12">
                                     <label for="typeahead-basic">Documento</label>
-                                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
+                                    <input id="typeahead-basic" autoFocus="true" placeholder="Nome do Documento" type="text" class="form-control"
                                         formControlName="doct" [resultTemplate]="rtDocument"
                                         [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
                                         style="width: 100%" />
                                 </div>
-                                <div class="form-group mb-2 col-3">
+                                <div class="form-group mb-2 col-lg-4 col-sm-12">
                                     <label for="labelName">Lote</label>
-                                    <input id="batchNr" autoFocus="true" type="text" class="form-control"
+                                    <input id="batchNr" autoFocus="true" placeholder="Informe o Lote" type="text" class="form-control"
                                         formControlName="batchNr" style="width: 100%" />
                                 </div>
-                                <div class="form-group mb-2 col-3">
-                                    <div class="row col-12" style="padding-right: 0;">
+                                <div class="form-group mb-2 col-lg-2 col-sm-12">
                                         <label for="initDate">Data Inicial</label>
                                         <input id="initDate" type="date" class="form-control col-12"
                                             formControlName="initDate" />
-                                    </div>
-
-                                    <div class="row col-12" style="padding-right: 0;">
-                                        <label for="endDate">Data Final</label>
-                                        <input id="endDate" type="date" class="form-control col-12"
-                                            formControlName="endDate" />
-                                    </div>
+                                </div>
+                                <div class="form-group mb-2 col-lg-2 col-sm-12">
+                                    <label for="endDate">Data Final</label>
+                                    <input id="endDate" type="date" class="form-control col-12"
+                                        formControlName="endDate" />
                                 </div>
                                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
@@ -80,8 +77,12 @@
                 </ngb-panel>
             </ngb-accordion>
             <br />
-            <app-datatables [data]="batches" (setPage)="setPage($event)" [columns]="columns"
-                (show)="getBatch($event)"></app-datatables>
+            <div class="row">
+                <div class="col-lg-12">
+                    <app-datatables [data]="batches" (setPage)="setPage($event)" [columns]="columns" (show)="getBatch($event)">
+                    </app-datatables>
+                </div>
+            </div>
         </div>
     </div>
 </div>
