@@ -22,11 +22,11 @@
                     <ng-template ngbTabContent>
                         <br />
                         <form [formGroup]="movimentForm" role="FormGroup">
-                            <div class="form-row">
-                                <div class="form-group col">
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-lg-6">
                                     <label for="typeahead-basic">Empresa</label>
-                                    <input id="typeahead-basic" type="text" class="form-control"
-                                        formControlName="company" [resultTemplate]="rtCompany"
+                                    <input id="typeahead-basic" type="text" placeholder="Nome da Empresa"
+                                        class="form-control" formControlName="company" [resultTemplate]="rtCompany"
                                         [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                                         [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
                                     <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
@@ -36,37 +36,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col">
-                                    <label for="">Nome do Solicitante</label>
-                                    <input type="text" class="form-control" formControlName="requester">
+                                <div class="form-group col-sm-12 col-lg-6">
+                                    <label for="">Solicitante</label>
+                                    <input type="text" placeholder="Nome do Solicitante" class="form-control"
+                                        formControlName="requester">
                                 </div>
                                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col">
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-lg-6">
                                     <label for="">Natureza da Movimentação</label>
                                     <input type="text" class="form-control" *ngIf="moviment && moviment.loan"
                                         formControlName="loan">
                                     <input type="text" class="form-control" *ngIf="moviment && moviment.low"
                                         formControlName="low">
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-sm-12 col-lg-6">
                                     <label for="">Tipo da Movimentação</label>
                                     <input type="text" *ngIf="moviment && moviment.moveVolume" class="form-control"
                                         formControlName="moveVolume">
                                     <input type="text" *ngIf="moviment && moviment.moveArchive" class="form-control"
                                         formControlName="moveArchive">
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-sm-12 col-lg-6">
                                     <label for="">Prazo</label>
                                     <input type="text" class="form-control" *ngIf="moviment && moviment.normal"
                                         formControlName="normal">
                                     <input type="text" class="form-control" *ngIf="moviment && moviment.emergency"
                                         formControlName="emergency">
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-sm-12 col-lg-6">
                                     <label for="">Formato da Entrega</label>
                                     <input type="text" class="form-control" *ngIf="moviment && moviment.delivery"
                                         formControlName="delivery">
@@ -77,13 +78,13 @@
                                 </div>
                             </div>
                             <!-- <button class="btn btn-primary pull-right"
-                                [routerLink]="['/moviments/searchvolumes', moviment._id]"
-                                *ngIf="moviment && moviment.moveVolume " [disabled]="moviment.processed">Pesquisar
-                                Caixas</button> -->
+                    [routerLink]="['/moviments/searchvolumes', moviment._id]"
+                    *ngIf="moviment && moviment.moveVolume " [disabled]="moviment.processed">Pesquisar
+                    Caixas</button> -->
                             <!-- <button class="btn btn-primary pull-right"
-                                [routerLink]="['/moviments/searcharchives', moviment._id]"
-                                *ngIf="moviment &&  moviment.moveArchive" [disabled]="moviment.processed">Pesquisar
-                                Arquivos</button> -->
+                    [routerLink]="['/moviments/searcharchives', moviment._id]"
+                    *ngIf="moviment && moviment.moveArchive" [disabled]="moviment.processed">Pesquisar
+                    Arquivos</button> -->
                         </form>
                     </ng-template>
                 </ngb-tab>
@@ -96,7 +97,7 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab  *ngIf="moviment && moviment.moveVolume " id="tabSearchArchives" title="Pesquisar Caixas">
+                <ngb-tab *ngIf="moviment && moviment.moveVolume " id="tabSearchArchives" title="Pesquisar Caixas">
                     <ng-template ngbTabContent>
                         <div>
                             <app-search-volumes [id]="moviment._id"></app-search-volumes>
@@ -110,33 +111,33 @@
                         <br>
                         <form [formGroup]="archiveForm" role="FormGroup" (ngSubmit)="searchItensArchives()">
                             <div class="form-row">
-                                <div class="form-group col">
+                                <div class="form-group col-lg-3 col-sm-12">
                                     <label for="typeahead-basic">Documento</label>
                                     <input id="typeahead-basic" type="text" class="form-control"
                                         formControlName="document" [resultTemplate]="rtDocument"
                                         [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" />
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-lg-3 col-sm-12">
                                     <label for="typeahead-basic">Depósito</label>
                                     <input id="typeahead-basic" type="text" class="form-control"
                                         formControlName="storehouse" [resultTemplate]="rtStorehouse"
                                         [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-lg-2 col-sm-12">
                                     <label for="location">Posição</label>
                                     <input type="text" class="form-control" formControlName="location" />
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-lg-2 col-sm-12">
                                     <label for="search">Índice</label>
                                     <input type="text" class="form-control" formControlName="search" />
                                 </div>
-                                <div class="form-group col-1">
+                                <div class="form-group col-lg-1 col-sm-6">
                                     <br />
                                     <button type="submit" class="btn btn-primary" style="margin-top: 7px">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
-                                <div class="form-group col-1" *ngIf="moviment.moveArchive && !moviment.processed">
+                                <div class="form-group col-lg-1 col-sm-6" *ngIf="moviment.moveArchive && !moviment.processed">
                                     <br />
                                     <button type="button" class="btn btn-danger" style="margin-top: 7px"
                                         (click)="removeArchives()">Remover</button>
@@ -153,26 +154,34 @@
                         <form *ngIf="moviment.processed" [formGroup]="processForm" role="FormGroup"
                             (ngSubmit)="devolutionOrLowArchives()">
                             <div class="form-row">
-                                <div class="col-2">
+                                <div class="col-lg-2 col-sm-12">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="process" id="devolution"
-                                            formControlName="process" value="devolution">
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Devolução
-                                        </label>
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="process"
+                                            formControlName="process" value="devolution" id="devolution">
+                                            <div class="state">
+                                                <label class="form-check-label" for="exampleRadios1">
+                                                    Devolução
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="process" id="low"
-                                            formControlName="process" value="low">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            Baixa
-                                        </label>
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="process" id="low"
+                                                formControlName="process" value="low">
+                                                <div class="state">
+                                                    <label class="form-check-label" for="exampleRadios2">
+                                                        Baixa
+                                                    </label>
+                                                </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col form-group">
+                                <div class="col-lg-3 col-sm-12 form-group">
                                     <input type="date" class="form-control" formControlName="date">
                                 </div>
-                                <div class="col">
+                                <div class="col-lg-1 col-sm-12">
                                     <button class="btn btn-success" type="submit">Processar</button>
                                 </div>
                             </div>
@@ -223,9 +232,6 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-
-
-
 
                 <ngb-tab id="tab3" title="Ver Volumes" *ngIf="moviment.moveVolume" (onChange)="showItensVolumes()">
                     <ng-template ngbTabContent>
@@ -373,17 +379,6 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-
-
-
-
-
-
-
-
-
-
-
 
                 <ngb-tab id="tab4" title="Processar Movimentação">
                     <ng-template ngbTabContent>

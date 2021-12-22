@@ -14,7 +14,7 @@
             <ng-template ngbPanelContent>
                 <form [formGroup]="searchForm" role="FormGroup" (submit)="getSearchArchives()">
                     <div class="form-row">
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Empresa</label>
                             <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
                                 [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
@@ -29,22 +29,22 @@
                         <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Departamento</label>
-                            <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
+                            <input id="typeahead-basic" type="text" placeholder="Nome da Departamento" class="form-control" formControlName="departament"
                                 [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                                 [ngbTypeahead]="searchDepartament" />
                         </div>
                         <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="location">Posição</label>
-                            <input type="text" class="form-control" formControlName="location" />
+                            <input type="text" placeholder="Informe a Posição" class="form-control" formControlName="location" />
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Depósito</label>
-                            <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
+                            <input id="typeahead-basic" type="text" placeholder="Nome do Despósito" class="form-control" formControlName="storehouse"
                                 [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
                                 [ngbTypeahead]="searchStorehouse" />
                         </div>
@@ -53,24 +53,24 @@
                         </ng-template>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-4">
+                        <div class="form-group col-lg-4 col-sm-12">
                             <label for="typeahead-basic">Documento</label>
-                            <input id="typeahead-basic" type="text" class="form-control" formControlName="doct"
+                            <input id="typeahead-basic" type="text" placeholder="Nome do Documento" class="form-control" formControlName="doct"
                                 [resultTemplate]="rtDoct" [inputFormatter]="formatter" [ngbTypeahead]="searchDoct" />
                         </div>
                         <ng-template #rtDoct let-r="result" let-t="document" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
-                        <div class="form-group col-4">
+                        <div class="form-group col-lg-4 col-sm-12">
                             <label for="location">Índice</label>
-                            <input type="text" class="form-control" formControlName="search" />
+                            <input type="text" placeholder="Informe o Índice" class="form-control" formControlName="search" />
                         </div>
                         <!-- <div class="col-2"> -->
-                            <div class="form-group col-2">
+                            <div class="form-group col-lg-2 col-sm-12">
                                 <label for="location">Data Inicial</label>
                                 <input type="text" class="form-control" type="date" formControlName="initDate" />
                             </div>
-                            <div class="form-group col-2">
+                            <div class="form-group col-lg-2 col-sm-12">
                                 <label for="location">Data Final</label>
                                 <input type="text" class="form-control" type="date" formControlName="endDate" />
                             </div>

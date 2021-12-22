@@ -14,9 +14,9 @@
             <ng-template ngbPanelContent>
                 <form [formGroup]="searchForm" role="FormGroup" (submit)="getSearchVolumes()">
                     <div class="form-row">
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Empresa</label>
-                            <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                            <input id="typeahead-basic" type="text" placeholder="Nome da Empresa" class="form-control" formControlName="company"
                                 [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                                 [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
                             <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
@@ -29,22 +29,22 @@
                         <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Departamento</label>
-                            <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
+                            <input id="typeahead-basic" type="text" placeholder="Nome do Departamento" class="form-control" formControlName="departament"
                                 [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                                 [ngbTypeahead]="searchDepartament" />
                         </div>
                         <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="location">Posição</label>
-                            <input type="text" class="form-control" formControlName="location" />
+                            <input type="text" class="form-control" placeholder="Informe a Posição"formControlName="location" />
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Depósito</label>
-                            <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
+                            <input id="typeahead-basic" type="text" placeholder="Nome do Depósito" class="form-control" formControlName="storehouse"
                                 [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
                                 [ngbTypeahead]="searchStorehouse" />
                         </div>
@@ -53,23 +53,23 @@
                         </ng-template>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="">Tipo de Guarda</label>
-                            <select class="form-control" id="guardType" formControlName="guardType">
+                            <select class="form-control" placeholder="Informe o tipo de Guarda" id="guardType" formControlName="guardType">
                                 <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                     {{ guardT | translate }}</option>
                             </select>
                         </div>
 
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="location">Referência</label>
-                            <input type="text" class="form-control" formControlName="reference" />
+                            <input type="text" placeholder="Informe a Referência" class="form-control" formControlName="reference" />
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="location">Data Inicial</label>
                             <input type="text" class="form-control" type="date" formControlName="initDate" />
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-lg-3 col-sm-12">
                             <label for="location">Data Final</label>
                             <input type="text" class="form-control" type="date" formControlName="endDate" />
                         </div>
@@ -89,6 +89,7 @@
             </ng-template>
         </ngb-panel>
     </ngb-accordion>
+    <br/>
     <div class="row" *ngIf="volumes.items.length > 0">
         <div class="col col-xl-12 col-lg-12">
             <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'" [headerHeight]="50"
