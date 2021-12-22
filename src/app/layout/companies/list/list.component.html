@@ -8,49 +8,46 @@
         }"></ngx-loading>
     <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'"
         [permissionBtnNew]="permissionNew" [routerTo]="'/companies/new'"></app-page-header>
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <ngb-accordion #acc="ngbAccordion" activeIds="companies-0">
-                <ngb-panel id="companies-0">
-                    <ng-template ngbPanelTitle>
-                        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        <form [formGroup]="searchForm" (ngSubmit)="getCompanies()" role="FormGroup" class="form-inline">
-                            <div class="row col-12">
-                                <div class="form-group">
-                                    <label for="labelName">Nome</label>
-                                    <input id="name" autoFocus="true" type="text" placeholder="Nome da Empresa"
-                                        class="form-control" formControlName="name" style="width: 100%"
-                                        [ngClass]="{ 'is-invalid': name.invalid && name.touched}" />
-                                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                                        <div *ngIf="!name.valid">
-                                            Empresa é obrigatório.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row col-12" style="justify-content: center; margin-top: 0px;">
-                                    <div class="form-group ml-2">
-                                        <button type="submit" class="btn btn-primary" [disabled]="name.invalid"><i
-                                                class="fa fa-search"></i></button>
-                                        <button type="button" class="btn btn-default" style="margin-left: 10px;"
-                                            [disabled]="name.invalid" (click)="clear()">
-                                            Limpar Campos
-                                        </button>
-                                    </div>
+    <ngb-accordion #acc="ngbAccordion" activeIds="companies-0">
+        <ngb-panel id="companies-0">
+            <ng-template ngbPanelTitle>
+                <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <form [formGroup]="searchForm" (ngSubmit)="getCompanies()" role="FormGroup" class="form">
+                    <div class="row">
+                        <div class="form-group col-lg-7 col-sm-12">
+                            <label for="labelName">Nome</label>
+                            <input id="name" autoFocus="true" type="text" placeholder="Nome da Empresa"
+                                class="form-control" formControlName="name"
+                                [ngClass]="{ 'is-invalid': name.invalid && name.touched}" />
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                                <div *ngIf="!name.valid">
+                                    Empresa é obrigatório.
                                 </div>
                             </div>
-                        </form>
-                    </ng-template>
-                </ngb-panel>
-            </ngb-accordion>
-            <br />
-        </div>
-    </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group ml-2 col-lg-12 col-sm-12 text-center">
+                            <button type="submit" class="btn btn-primary" [disabled]="name.invalid"><i
+                                    class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-default" style="margin-left: 10px;"
+                                [disabled]="name.invalid" (click)="clear()">
+                                Limpar Campos
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+    <br />
+
     <div class="row">
         <div class="col-12">
             <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns"
-            (show)="getCompany($event)"></app-datatables>
+                (show)="getCompany($event)"></app-datatables>
         </div>
     </div>
 </div>

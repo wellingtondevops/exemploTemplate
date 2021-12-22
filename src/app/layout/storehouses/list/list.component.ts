@@ -135,8 +135,10 @@ export class ListComponent implements OnInit {
     this.localStorageSrv.save('deposit', this.searchForm.value);
 
     const newForm = {
-            name: this.searchForm.value.name ? this.searchForm.value.name : null,
+        name: null
     };
+
+    this.searchForm.value.name ? newForm.name = this.searchForm.value.name : null;
 
     const searchValue = _.omitBy(newForm, _.isNil);
 
