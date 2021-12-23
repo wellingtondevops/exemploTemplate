@@ -13,7 +13,7 @@
                 <div class="form-content">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input id="name" class="form-control" [ngClass]="{ 'is-invalid': name.invalid && name.touched }"
+                        <input id="name" placeholder="Nome do Depósito" class="form-control" [ngClass]="{ 'is-invalid': name.invalid && name.touched }"
                             formControlName="name" />
                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
