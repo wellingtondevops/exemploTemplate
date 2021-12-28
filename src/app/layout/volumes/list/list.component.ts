@@ -44,6 +44,9 @@ export class ListComponent implements OnInit {
   guardTypeList: any = [];
   storehouses: any = [];
   records: boolean;
+  dateSent;
+  dateReceived;
+  todaysdate;
 
   documents: any = [];
   volumes: VolumeList = {
@@ -134,6 +137,11 @@ export class ListComponent implements OnInit {
     this.getStoreHouses();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
     this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
+    this.searchForm.patchValue({endDate: null});
+
+    // this.todaysdate = new Date(1527445800000).getFullYear()+'-'+('0' + (new Date(1527445800000).getMonth() + 1)).slice(-2)+'-'+('0' + new Date(1527445800000)
+    // .getDate()).slice(-2);
+    // console.log(this.todaysdate)
   }
 
   get company() {
@@ -326,4 +334,11 @@ export class ListComponent implements OnInit {
         return res;
       })
     )
+    changeDate() {
+        this.dateSent =
+        new Date(this.dateSent).toISOString().slice(0, 10);
+
+        console.log(this.dateSent);
+        this.dateReceived = this.dateSent;
+    }
 }
