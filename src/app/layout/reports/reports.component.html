@@ -38,7 +38,7 @@
                                     <div class="row col-12" style="padding-right: 0;">
                                         <label for="initDate">Data Inicial</label>
                                         <input id="initDate" type="date" class="form-control col-12"
-                                            formControlName="initDate"
+                                            formControlName="initDate" [(ngModel)]="dateSent" (input)="changeDate()"
                                             [ngClass]="{ 'is-invalid': initDate.invalid && initDate.touched }" />
                                         <div *ngIf="initDate.invalid && (initDate.dirty || initDate.touched)"
                                             class="invalid-feedback">
@@ -51,7 +51,7 @@
                                     <div class="row col-lg-12" style="padding-right: 0;">
                                         <label for="endDate">Data Final</label>
                                         <input id="endDate" type="date" class="form-control col-12"
-                                            formControlName="endDate"
+                                            formControlName="endDate" [disabled]="!dateSent" [min]="dateSent"
                                             [ngClass]="{ 'is-invalid': endDate.invalid && endDate.touched }" />
                                         <div *ngIf="endDate.invalid && (endDate.dirty || endDate.touched)"
                                             class="invalid-feedback">
@@ -61,7 +61,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;"> Pesquisar</button>
+                                <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">
+                                    Pesquisar</button>
                                 <button *ngIf="reports" style="margin-left: 10px" class="btn btn-primary"
                                     printSectionId="print-section" ngxPrint>Imprimir Relatório</button>
                             </div>
