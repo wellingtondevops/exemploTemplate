@@ -31,22 +31,23 @@
                         </ng-template>
                         <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Departamento</label>
-                            <input id="typeahead-basic" type="text" placeholder="Nome da Departamento" class="form-control" formControlName="departament"
-                                [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
-                                [ngbTypeahead]="searchDepartament" />
+                            <input id="typeahead-basic" type="text" placeholder="Nome da Departamento"
+                                class="form-control" formControlName="departament" [resultTemplate]="rtDepartament"
+                                [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" />
                         </div>
                         <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
                         <div class="form-group col-lg-3 col-sm-12">
                             <label for="location">Posição</label>
-                            <input type="text" placeholder="Informe a Posição" class="form-control" formControlName="location" />
+                            <input type="text" placeholder="Informe a Posição" class="form-control"
+                                formControlName="location" />
                         </div>
                         <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-basic">Depósito</label>
-                            <input id="typeahead-basic" type="text" placeholder="Nome do Despósito" class="form-control" formControlName="storehouse"
-                                [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
-                                [ngbTypeahead]="searchStorehouse" />
+                            <input id="typeahead-basic" type="text" placeholder="Nome do Despósito" class="form-control"
+                                formControlName="storehouse" [resultTemplate]="rtStorehouse"
+                                [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
                         </div>
                         <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
@@ -55,25 +56,29 @@
                     <div class="form-row">
                         <div class="form-group col-lg-4 col-sm-12">
                             <label for="typeahead-basic">Documento</label>
-                            <input id="typeahead-basic" type="text" placeholder="Nome do Documento" class="form-control" formControlName="doct"
-                                [resultTemplate]="rtDoct" [inputFormatter]="formatter" [ngbTypeahead]="searchDoct" />
+                            <input id="typeahead-basic" type="text" placeholder="Nome do Documento" class="form-control"
+                                formControlName="doct" [resultTemplate]="rtDoct" [inputFormatter]="formatter"
+                                [ngbTypeahead]="searchDoct" />
                         </div>
                         <ng-template #rtDoct let-r="result" let-t="document" class="custom-typeahead">
                             <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                         </ng-template>
                         <div class="form-group col-lg-4 col-sm-12">
                             <label for="location">Índice</label>
-                            <input type="text" placeholder="Informe o Índice" class="form-control" formControlName="search" />
+                            <input type="text" placeholder="Informe o Índice" class="form-control"
+                                formControlName="search" />
                         </div>
                         <!-- <div class="col-2"> -->
-                            <div class="form-group col-lg-2 col-sm-12">
-                                <label for="location">Data Inicial</label>
-                                <input type="text" class="form-control" type="date" formControlName="initDate" />
-                            </div>
-                            <div class="form-group col-lg-2 col-sm-12">
-                                <label for="location">Data Final</label>
-                                <input type="text" class="form-control" type="date" formControlName="endDate" />
-                            </div>
+                        <div class="form-group col-lg-2 col-sm-12">
+                            <label for="location">Data Inicial</label>
+                            <input type="text" class="form-control" type="date" formControlName="initDate"
+                                [(ngModel)]="dateSent" (input)="changeDate()" />
+                        </div>
+                        <div class="form-group col-lg-2 col-sm-12">
+                            <label for="location">Data Final</label>
+                            <input type="text" class="form-control" type="date" formControlName="endDate"
+                                [disabled]="!dateSent" [min]="dateSent" />
+                        </div>
                         <!-- </div> -->
                     </div>
                     <div class="form-row" style="display: flex;justify-content: center;">
@@ -95,9 +100,8 @@
         <div class="col col-xl-12 col-lg-12">
             <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'force'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-                [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageArchives($event)"
-                [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
-                (select)="onSelect($event)">
+                [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageArchives($event)" [selected]="selected"
+                [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)">
                 <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
                     [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
                     <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
