@@ -11,83 +11,93 @@ import { SaveLocal } from 'src/app/storage/saveLocal';
 const url = environment.apiUrl;
 
 @Component({
-  selector: 'app-errors-archives',
-  templateUrl: './errors-archives.component.html',
-  styleUrls: ['./errors-archives.component.scss'],
-  animations: [routerTransition()]
+    selector: 'app-errors-archives',
+    templateUrl: './errors-archives.component.html',
+    styleUrls: ['./errors-archives.component.scss'],
+    animations: [routerTransition()]
 })
 export class ErrorsArchivesComponent implements OnInit {
-  @ViewChild('myTable',) table: any;
-  searchForm: FormGroup;
-  page = new Page();
-  loading: Boolean = false;
-  errorsArchives: any[];
+    @ViewChild('myTable',) table: any;
+    searchForm: FormGroup;
+    page = new Page();
+    loading: Boolean = false;
+    errorsArchives: any[];
+    dateSent;
+    dateReceived;
 
-  constructor(
-    private _route: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private archivesSrv: ArquivesService,
-    private errorMsg: ErrorMessagesService,
-    private localStorageSrv: SaveLocal
-  ) { }
+    constructor(
+        private _route: Router,
+        private route: ActivatedRoute,
+        private fb: FormBuilder,
+        private archivesSrv: ArquivesService,
+        private errorMsg: ErrorMessagesService,
+        private localStorageSrv: SaveLocal
+    ) { }
 
-  ngOnInit() {
-    this.searchForm = this.fb.group({
-      sheet: this.fb.control('', Validators.required),
-      endDate: this.fb.control(''),
-      initDate: this.fb.control(''),
-    });
-    const archiveSearch = JSON.parse(this.localStorageSrv.get('archiveSearchError'));
-    if(archiveSearch && archiveSearch.sheet){
-      this.searchForm.patchValue({
-        sheet: archiveSearch.sheet,
-        initDate: archiveSearch.initDate,
-        endDate: archiveSearch.endDate
-      })
+    ngOnInit() {
+        this.searchForm = this.fb.group({
+            sheet: this.fb.control('', Validators.required),
+            endDate: this.fb.control(''),
+            initDate: this.fb.control(''),
+        });
+        const archiveSearch = JSON.parse(this.localStorageSrv.get('archiveSearchError'));
+        if (archiveSearch && archiveSearch.sheet) {
+            this.searchForm.patchValue({
+                sheet: archiveSearch.sheet,
+                initDate: archiveSearch.initDate,
+                endDate: archiveSearch.endDate
+            })
+        }
+        this.getErrors();
+        this.searchForm.patchValue({ endDate: null });
     }
-    this.getErrors();
-  }
 
-  get sheet() {
-    return this.searchForm.get('sheet');
-  }
+    get sheet() {
+        return this.searchForm.get('sheet');
+    }
 
-  getErrors() {
-    this.setPage({ offset: 0 })
-  }
+    getErrors() {
+        this.setPage({ offset: 0 })
+    }
 
-  setPage(pageInfo) {
-    this.loading = true;
-    this.page.pageNumber = pageInfo.offset;
+    setPage(pageInfo) {
+        this.loading = true;
+        this.page.pageNumber = pageInfo.offset;
 
-    this.archivesSrv.searchImportErrors(this.searchForm.value, this.page).subscribe(
-      data => {
-        this.errorsArchives = data.items;
-        this.page.pageNumber = data._links.currentPage;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-        this.loading = false;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-        this.loading = false;
-      }
-    );
-  }
+        this.archivesSrv.searchImportErrors(this.searchForm.value, this.page).subscribe(
+            data => {
+                this.errorsArchives = data.items;
+                this.page.pageNumber = data._links.currentPage;
+                this.page.totalElements = data._links.foundItems;
+                this.page.size = data._links.totalPage;
+                this.loading = false;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+                this.loading = false;
+            }
+        );
+    }
 
-  getFile(id) {
-    window.location.href = `${url}/sheetarchives/excel/${id}`
-  }
+    getFile(id) {
+        window.location.href = `${url}/sheetarchives/excel/${id}`
+    }
 
-  clear(){
-    this.localStorageSrv.clear('archiveSearchError');
-    this.searchForm.patchValue({
-      sheet: null,
-      endDate: null,
-      initDate: null
-    })
-  }
+    clear() {
+        this.localStorageSrv.clear('archiveSearchError');
+        this.searchForm.patchValue({
+            sheet: null,
+            endDate: null,
+            initDate: null
+        });
+    }
 
+    changeDate() {
+        this.dateSent =
+            new Date(this.dateSent).toISOString().slice(0, 10);
+
+        console.log(this.dateSent);
+        this.dateReceived = this.dateSent;
+    }
 }
