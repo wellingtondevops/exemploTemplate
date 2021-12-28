@@ -84,6 +84,7 @@ export class ListComponent implements OnInit {
             this.getDocuments(batch.company._id);
         }
         this.getBatches();
+        this.searchForm.patchValue({endDate: null});
     }
 
     formatter = (x: { name: string }) => x.name;

@@ -337,8 +337,6 @@ export class ListComponent implements OnInit {
     changeDate() {
         this.dateSent =
         new Date(this.dateSent).toISOString().slice(0, 10);
-
-        console.log(this.dateSent);
         this.dateReceived = this.dateSent;
     }
 }
