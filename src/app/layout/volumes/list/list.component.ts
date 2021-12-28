@@ -46,7 +46,7 @@ export class ListComponent implements OnInit {
   records: boolean;
   dateSent;
   dateReceived;
-  todaysdate;
+
 
   documents: any = [];
   volumes: VolumeList = {
