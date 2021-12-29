@@ -99,12 +99,22 @@ export class ReportsComponent implements OnInit {
         )
 
     getReports() {
+        const newForm = {
+            name: null
+        };
+        newForm.name = this.searchForm.value.company.name;
+
+        this.localStorageSrv.save('company', newForm.name);
+        console.log('dasdad', this.localStorageSrv.get('company'));
+
         this.searchForm.value.company = this.returnId('company') ? this.returnId('company') : null;
         this.loading = true;
         this.reportSrv.reports(this.searchForm.value).subscribe(data => {
             this.reports = data;
             this.reports.initialPeriod = moment(this.reports.initialPeriod).format('DD/MM/YYYY');
             this.reports.finalPeriod = moment(this.reports.finalPeriod).format('DD/MM/YYYY');
+            this.searchForm.patchValue({company: null});
+            // this.searchForm.patchValue({company: this.localStorageSrv.get('company')});
             this.loading = false;
         }, error => {
             console.log('ERROR: ', error);

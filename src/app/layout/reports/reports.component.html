@@ -14,7 +14,7 @@
                 <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
             </ng-template>
             <ng-template ngbPanelContent>
-                <form [formGroup]="searchForm" (ngSubmit)="getReports()" role="FormGroup" class="form">
+                <form [formGroup]="searchForm" role="FormGroup" class="form">
                     <div class="row">
                         <div class="form-group col-lg-8 col-sm-12">
                             <label for="typeahead-basic">Empresa</label>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group col-lg-2 col-sm-12 mt-lg-4">
                             <button type="submit" class="btn btn-primary" style="margin-top: 8px;"
-                                [disabled]="company.invalid">
+                                [disabled]="company.invalid" (click)="getReports()">
                                 Pesquisar</button>
                         </div>
                     </div>
