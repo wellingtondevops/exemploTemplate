@@ -6,232 +6,248 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
     }"></ngx-loading>
-    <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header>
-    <div style="margin-bottom: 10px;" *ngIf="!loading">
-        <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
-        <button class="btn btn-sm btn-danger pull-right" (click)="deleteImgs()">Excluir</button>
-        <br />
-    </div>
-    <ngb-tabset #tabs>
-        <ngb-tab title="Dados" id="dados">
-            <ng-template ngbTabContent>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card bg-light mb-3" style="font-size: 15px;">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <b>EMPRESA</b>: {{ batch && batch.company &&
-                                    batch.company.name ? batch.company.name : '' }} <br>
-                                    <b>DOCUMENTO</b>: {{ batch && batch.doct && batch.doct.name
-                                    ? batch.doct.name : '' }}<br>
-                                    <b>DEPARTAMENTO</b>: {{ batch && batch.departament &&
-                                    batch.departament.name ? batch.departament.name : '' }}<br>
-                                    <b>DEPÓSITO</b>: {{ batch && batch.storehouse &&
-                                    batch.storehouse.name ? batch.storehouse.name : '' }}<br>
-                                    <b>POSIÇÃO</b>: {{ batch && batch.volume &&
-                                    batch.volume.location ? batch.volume.location : '' }}<br>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-
-                    <div class="row" >
-                        <div class="col-lg-4">
-                            <div class="card bg-light" style="margin:5px;font-size: 15px;">
-                                <div *ngIf="page.totalElements !== 0;">
-                                    <div class="card-header">Fonte de dados</div>
-                                    <div class="card-body">
-                                            <input class="form-control" id="worksheets" type="text" placeholder="Digite Aqui"
-                                                style="width: 90%;">
-                                            <button id="realtime" type="button" class="btn btn-outline-danger" (click)="load()"
-                                                hidden>Set</button>
-                                    </div>
-                                    <div class="card-header" >Indíces</div>
-                                    <div class="card-body" style="display: flex;">
-                                        <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label" id="form">
-                                            <app-form-index [multipleIndex]="true" [data]="document"
-                                                [store]="valuesStorage" [isArchive]="false" [edit]="true"
-                                                (sendArchive)="createDocument($event)" style="width: 100px;">
-                                            </app-form-index>
-                                        </div>
-                                        <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
-                                                        flex-direction: column;
-                                                        justify-content: space-around;
-                                                        align-items: center;">
-                                            <form class="parent" [formGroup]="checkboxForm"
-                                                *ngIf="document && document.label">
-                                                <div class="child"
-                                                    *ngFor="let item of checkboxForm.controls; let i = index;">
-                                                    <div [formGroupName]="i">
-                                                        <label>
-                                                            <div class="pretty p-switch p-fill">
-                                                                <input type="checkbox"  [formControl]="item" [value]="item.value">
-                                                                <div class="state">
-                                                                    <label></label>
-                                                                </div>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <h5 style="margin-bottom: 0px; text-align: center;">
-                                ARQUIVOS RESTANTES: {{page.totalElements}}
-                            </h5>
-                            <ng-template #elsePdf>
-                                <div *ngIf="archive && !isPdf">
-                                    <!--
-                                                <div #imagewrapper class="imagewrapper">
-                                                    <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>
-                                                </div>
-                                            -->
-                                    <img *ngIf="archive && archive.url" [src]="archive.url"
-                                        style="margin-right: 10px; width: 100%" />
-                                </div>
-                                <br>
-                                <!-- Abaixo é possivel controlar a exibição dos botões -->
-                                <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
-                                    <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
-                                        [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
-                                        [showDownloadButton]="download" [showBookmarkButton]="false"
-                                        [showPrintButton]="print" [showPresentationModeButton]="false"
-                                        [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
-                                        [height]="'90vh'"></ngx-extended-pdf-viewer>
-                                </div>
-                            </ng-template>
-                            <div *ngIf="page.totalElements == 0; else elsePdf">
-                                <ng-template #content let-c="close" let-d="dismiss">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="modal-basic-title">Lote vazio!</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Deseja excluir o lote?</p>
-                                        <strong>Esta operação, não poderá ser desfeita!</strong>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-danger"
-                                            (click)="c(deleteBatch(redirect()))">Excluir</button>
-                                        <button type="button" class="btn btn-outline-primary"
-                                            (click)="c(toBack())">Cancelar</button>
-                                    </div>
-                                </ng-template>
-                                <button class="btn btn-lg btn-outline-primary" id="open" hidden (click)="open(content)">
-                                    Launch modal
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-        </ngb-tab>
-
-
-        <ngb-tab title="Pesquisar Posição" id="position">
-            <ng-template ngbTabContent>
-                <ngb-accordion #acc="ngbAccordion" activeIds="index-search">
-                    <ngb-panel id="index-search" style="margin-top:10px">
-                        <ng-template ngbPanelTitle>
-                            <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-                        </ng-template>
-                        <ng-template ngbPanelContent>
-                            <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form-inline">
-                                <div class="row col-12">
-                                    <div class="form-group mb-2 col-3">
-                                        <label for="typeahead-basic">Empresa</label>
-                                        <input id="typeahead-basic" autoFocus="true"
-                                            (selectItem)="selectedCompany($event)" type="text" class="form-control"
-                                            formControlName="company" [resultTemplate]="rtCompany"
-                                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                                            style="width: 100%" />
-
-                                    </div>
-                                    <div class="form-group mb-2 col-3">
-                                        <label for="typeahead-basic">Documento</label>
-                                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                                            formControlName="doct" [resultTemplate]="rtDocument"
-                                            [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
-                                            style="width: 100%" />
-                                    </div>
-                                    <div class="form-group mb-2 col-3">
-                                        <label for="typeahead-basic">Departamento</label>
-                                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                                            formControlName="departament" [resultTemplate]="rtDepartament"
-                                            [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament"
-                                            style="width: 100%" />
-                                    </div>
-                                    <div class="form-group mb-2 col-3">
-                                        <label for="location">Posição</label>
-                                        <input id="location" class="form-control col-12" formControlName="location" />
-                                    </div>
-                                    <div class="form-group mb-2 col-3">
-                                        <label for="typeahead-basic">Depósito</label>
-                                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                                            formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
-                                            style="width: 100%" />
-                                    </div>
-                                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                    </ng-template>
-                                    <ng-template #rtDepartament let-r="result" let-t="departament"
-                                        class="custom-typeahead">
-                                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                    </ng-template>
-                                    <ng-template #rtStorehouse let-r="result" let-t="storehouse"
-                                        class="custom-typeahead">
-                                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                    </ng-template>
-                                    <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
-                                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                    </ng-template>
-                                </div>
-                                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                                    <div class="form-group mb-2">
-                                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                        <button style="margin-left: 5px;" type="button" class="btn btn-default"
-                                            (click)="clear()">
-                                            Limpar Campos
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </ng-template>
-                    </ngb-panel>
-
-                </ngb-accordion>
+    <div class="card bg-light">
+        <div class="card-header">
+            <!-- <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header> -->
+            <h2>Indexação</h2>
+            <div style="margin-bottom: 10px;" *ngIf="!loading">
+                <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
+                <button class="btn btn-sm btn-danger pull-right" (click)="deleteImgs()">Excluir</button>
                 <br />
-                <ngx-datatable #myTable class="material" [rows]="volumes" [columnMode]="'force'" [headerHeight]="50"
-                    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-                    [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'>
-                    <ngx-datatable-column name="Documento" [width]="200" prop="doct.name">
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Departamento" [width]="200" prop="departament.name">
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name">
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Posição" [width]="100" prop="location">
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Criado em" [width]="150" prop="dateCreated">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value | date: 'dd/MM/yyyy' }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Selecionar" [width]="150" prop="_id">
-                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                            <button class="btn btn-primary" (click)="getVolume(row)">Selecionar</button>
-                        </ng-template>
-                    </ngx-datatable-column>
-                </ngx-datatable>
-            </ng-template>
-        </ngb-tab>
-    </ngb-tabset>
+            </div>
+        </div>
+        <div class="card-body">
+            <ngb-tabset #tabs>
+                <ngb-tab title="Dados" id="dados">
+                    <ng-template ngbTabContent>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card bg-light mb-3" style="font-size: 15px;">
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <b>EMPRESA</b>: {{ batch && batch.company &&
+                                            batch.company.name ? batch.company.name : '' }} <br>
+                                            <b>DOCUMENTO</b>: {{ batch && batch.doct && batch.doct.name
+                                            ? batch.doct.name : '' }}<br>
+                                            <b>DEPARTAMENTO</b>: {{ batch && batch.departament &&
+                                            batch.departament.name ? batch.departament.name : '' }}<br>
+                                            <b>DEPÓSITO</b>: {{ batch && batch.storehouse &&
+                                            batch.storehouse.name ? batch.storehouse.name : '' }}<br>
+                                            <b>POSIÇÃO</b>: {{ batch && batch.volume &&
+                                            batch.volume.location ? batch.volume.location : '' }}<br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card bg-light" style="margin:5px;font-size: 15px;">
+                                        <div *ngIf="page.totalElements !== 0;">
+                                            <div class="card-header">Fonte de dados</div>
+                                            <div class="card-body">
+                                                <input class="form-control" id="worksheets" type="text"
+                                                    placeholder="Digite Aqui" style="width: 90%;">
+                                                <button id="realtime" type="button" class="btn btn-outline-danger"
+                                                    (click)="load()" hidden>Set</button>
+                                            </div>
+                                            <div class="card-header">Indíces</div>
+                                            <div class="card-body" style="display: flex;">
+                                                <div class="col-xl-11 col-lg-11 col-md-11"
+                                                    *ngIf="document && document.label" id="form">
+                                                    <app-form-index [multipleIndex]="true" [data]="document"
+                                                        [store]="valuesStorage" [isArchive]="false" [edit]="true"
+                                                        (sendArchive)="createDocument($event)" style="width: 100px;">
+                                                    </app-form-index>
+                                                </div>
+                                                <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
+                                                                flex-direction: column;
+                                                                justify-content: space-around;
+                                                                align-items: center;">
+                                                    <form class="parent" [formGroup]="checkboxForm"
+                                                        *ngIf="document && document.label">
+                                                        <div class="child"
+                                                            *ngFor="let item of checkboxForm.controls; let i = index;">
+                                                            <div [formGroupName]="i">
+                                                                <label>
+                                                                    <div class="pretty p-switch p-fill">
+                                                                        <input type="checkbox" [formControl]="item"
+                                                                            [value]="item.value">
+                                                                        <div class="state">
+                                                                            <label></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <h5 style="margin-bottom: 0px; text-align: center;">
+                                        ARQUIVOS RESTANTES: {{page.totalElements}}
+                                    </h5>
+                                    <ng-template #elsePdf>
+                                        <div *ngIf="archive && !isPdf">
+                                            <!--
+                                                        <div #imagewrapper class="imagewrapper">
+                                                            <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>
+                                                        </div>
+                                                    -->
+                                            <img *ngIf="archive && archive.url" [src]="archive.url"
+                                                style="margin-right: 10px; width: 100%" />
+                                        </div>
+                                        <br>
+                                        <!-- Abaixo é possivel controlar a exibição dos botões -->
+                                        <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
+                                            <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
+                                                [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
+                                                [showDownloadButton]="download" [showBookmarkButton]="false"
+                                                [showPrintButton]="print" [showPresentationModeButton]="false"
+                                                [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
+                                                [height]="'90vh'"></ngx-extended-pdf-viewer>
+                                        </div>
+                                    </ng-template>
+                                    <div *ngIf="page.totalElements == 0; else elsePdf">
+                                        <ng-template #content let-c="close" let-d="dismiss">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Lote vazio!</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Deseja excluir o lote?</p>
+                                                <strong>Esta operação, não poderá ser desfeita!</strong>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    (click)="c(deleteBatch(redirect()))">Excluir</button>
+                                                <button type="button" class="btn btn-outline-primary"
+                                                    (click)="c(toBack())">Cancelar</button>
+                                            </div>
+                                        </ng-template>
+                                        <button class="btn btn-lg btn-outline-primary" id="open" hidden
+                                            (click)="open(content)">
+                                            Launch modal
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+
+
+                <ngb-tab title="Pesquisar Posição" id="position">
+                    <ng-template ngbTabContent>
+                        <ngb-accordion #acc="ngbAccordion" activeIds="index-search">
+                            <ngb-panel id="index-search" style="margin-top:10px">
+                                <ng-template ngbPanelTitle>
+                                    <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup"
+                                        class="form-inline">
+                                        <div class="row col-12">
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Empresa</label>
+                                                <input id="typeahead-basic" autoFocus="true"
+                                                    (selectItem)="selectedCompany($event)" type="text"
+                                                    class="form-control" formControlName="company"
+                                                    [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchCompany" style="width: 100%" />
+
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Documento</label>
+                                                <input id="typeahead-basic" autoFocus="true" type="text"
+                                                    class="form-control" formControlName="doct"
+                                                    [resultTemplate]="rtDocument" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchDocument" style="width: 100%" />
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Departamento</label>
+                                                <input id="typeahead-basic" autoFocus="true" type="text"
+                                                    class="form-control" formControlName="departament"
+                                                    [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchDepartament" style="width: 100%" />
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="location">Posição</label>
+                                                <input id="location" class="form-control col-12"
+                                                    formControlName="location" />
+                                            </div>
+                                            <div class="form-group mb-2 col-3">
+                                                <label for="typeahead-basic">Depósito</label>
+                                                <input id="typeahead-basic" autoFocus="true" type="text"
+                                                    class="form-control" formControlName="storehouse"
+                                                    [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchStorehouse" style="width: 100%" />
+                                            </div>
+                                            <ng-template #rtCompany let-r="result" let-t="company"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <ng-template #rtDepartament let-r="result" let-t="departament"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <ng-template #rtStorehouse let-r="result" let-t="storehouse"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <ng-template #rtDocument let-r="result" let-t="doct"
+                                                class="custom-typeahead">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                        </div>
+                                        <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                                            <div class="form-group mb-2">
+                                                <button type="submit" class="btn btn-primary"
+                                                    [disabled]="company.invalid">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                                <button style="margin-left: 5px;" type="button" class="btn btn-default"
+                                                    (click)="clear()">
+                                                    Limpar Campos
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </ng-template>
+                            </ngb-panel>
+
+                        </ngb-accordion>
+                        <br />
+                        <ngx-datatable #myTable class="material" [rows]="volumes" [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
+                            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
+                            (page)='setPage($event)'>
+                            <ngx-datatable-column name="Documento" [width]="200" prop="doct.name">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" [width]="200" prop="departament.name">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Posição" [width]="100" prop="location">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Criado em" [width]="150" prop="dateCreated">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    {{ value | date: 'dd/MM/yyyy' }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Selecionar" [width]="150" prop="_id">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="getVolume(row)">Selecionar</button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+    </div>
 </div>
