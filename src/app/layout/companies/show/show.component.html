@@ -4,19 +4,20 @@
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
-            tertiaryColour: '#222'
-        }"></ngx-loading>
-    <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
-    <div style="margin-bottom: 10px" *ngIf="!loading">
-        <app-button-back [redirectTo]="'companies'"></app-button-back>
-        <app-buttons-custom [id]="company._id" [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"
-            (edit)="editCompany(company._id)" (delete)="open('focusFirst', company._id)">
-        </app-buttons-custom>
-        <br />
-    </div>
-    <div class="card bg-light mb-12">
-        <div class="card-body">
-
+            tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card">
+        <div class="card-header">
+            <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
+            <div style="margin-bottom: 10px" *ngIf="!loading">
+                <app-button-back [redirectTo]="'companies'"></app-button-back>
+                <app-buttons-custom [id]="company._id" [permissionEdit]="permissionEdit"
+                    [permissionDelete]="permissionDelete" (edit)="editCompany(company._id)"
+                    (delete)="open('focusFirst', company._id)">
+                </app-buttons-custom>
+            </div>
+        </div>
+        <div class="card-body bg-light">
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">
                 <div class="form-content">
                     <div class="form-group">

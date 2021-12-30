@@ -4,17 +4,21 @@
         fullScreenBackdrop: true,
         primaryColour: '#222',
         secondaryColour: '#222',
-        tertiaryColour: '#222'
-    }"></ngx-loading>
-    <app-page-header [heading]="'Nova Empresa'" [icon]="'fa-user'"></app-page-header>
-    <div class="card bg-light mb-12">
-        <div class="card-body">
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card">
+        <div class="card-header">
+            <h2>Criar nova Empresa</h2>
+            <!-- <app-page-header [heading]="'Nova Empresa'" [icon]="'fa-user'"></app-page-header> -->
+        </div>
+        <div class="card-body bg-light">
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="postCompany()">
                 <div class="form-content">
                     <div class="form-group">
                         <label for="">Nome</label>
-                        <input id="name" type="text" placeholder="Nome da Empresa" class="form-control" formControlName="name"
-                            [ngClass]="{'is-invalid' : name.invalid && name.touched}" mask="000.000.000-00" />
+                        <input id="name" type="text" placeholder="Nome da Empresa" class="form-control"
+                            formControlName="name" [ngClass]="{'is-invalid' : name.invalid && name.touched}"
+                            mask="000.000.000-00" />
                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
                                 Nome é obrigatório.
