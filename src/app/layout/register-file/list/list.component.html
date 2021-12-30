@@ -55,7 +55,8 @@
                                     </div>
                                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                                         <label for="location">Posição</label>
-                                        <input id="location" class="form-control col-12" placeholder="Informe a Posição" formControlName="location" />
+                                        <input id="location" class="form-control col-12" placeholder="Informe a Posição"
+                                            formControlName="location" />
                                         <!--<div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
 
                                                                           <div *ngIf="!company.valid">
@@ -66,10 +67,10 @@
                                     </div>
                                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                                         <label for="typeahead-basic">Departamento</label>
-                                        <input id="typeahead-basic" autoFocus="true" placeholder="Nome do Departamento" type="text" class="form-control"
-                                            formControlName="departament" [resultTemplate]="rtDepartament"
-                                            [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament"
-                                            style="width: 100%" />
+                                        <input id="typeahead-basic" autoFocus="true" placeholder="Nome do Departamento"
+                                            type="text" class="form-control" formControlName="departament"
+                                            [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                                            [ngbTypeahead]="searchDepartament" style="width: 100%" />
                                     </div>
                                     <div class="form-group mb-2 col-2">
                                         <button type="button" class="btn btn-default pull-right"
@@ -150,7 +151,8 @@
                                                         <div class="row">
                                                             <div class="col-4" style="padding-left:15px;">
                                                                 <div *ngFor="let desc of row.doct.label">
-                                                                    <strong>{{desc.namefield}}: </strong></div>
+                                                                    <strong>{{desc.namefield}}: </strong>
+                                                                </div>
                                                             </div>
                                                             <div class="col-6" style="padding-left:15px;">
                                                                 <div *ngFor="let tag of row.tag">{{tag}} </div>
