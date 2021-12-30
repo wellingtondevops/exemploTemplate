@@ -65,9 +65,9 @@ export class ListComponent implements OnInit {
     // { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Departamento', prop: 'departament.name' },
     { name: 'Posição', prop: 'location' },
+    { name: 'Depósito', prop: 'storehouse.name' },
     { name: 'Status', prop: 'status' },
     { name: 'Guarda', prop: 'guardType' },
-    { name: 'Depósito', prop: 'storehouse.name' },
     { name: 'Referência', prop: 'reference' },
     { name: 'Conteúdo', prop: 'records', pipe: {transform: this.pipes.recordsType }},
     { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }

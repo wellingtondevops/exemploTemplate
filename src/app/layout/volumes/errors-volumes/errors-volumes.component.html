@@ -4,56 +4,54 @@
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
-            tertiaryColour: '#222'
-        }"></ngx-loading>
-    <app-page-header [heading]="'Erros Importação Volumes'" [icon]="'fa-table'"></app-page-header>
-    <ngb-accordion #acc="ngbAccordion" activeIds="volumes-0">
-        <ngb-panel id="volumes-0">
-            <ng-template ngbPanelTitle>
-                <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-            </ng-template>
-            <ng-template ngbPanelContent>
-                <form [formGroup]="searchForm" (ngSubmit)="getErrors()" role="FormGroup" class="form-inline">
-                    <div class="row">
-                        <div class="form-group mb-2 col-lg-6">
-                            <label for="sheet">Planilha</label>
-                            <input id="sheet" class="form-control col-12" placeholder="Nome da Planilha"
-                                formControlName="sheet" [ngClass]="{ 'is-invalid': sheet.invalid && sheet.touched }" />
-                            <div *ngIf="sheet.invalid && (sheet.dirty || sheet.touched)" class="invalid-feedback">
-                                <div *ngIf="!sheet.valid">
-                                    Nome da Planilha é obrigatório.
-                                </div>
+            tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <h2>Erros Importação Volumes </h2>
+            <!-- <app-page-header [heading]="'Erros Importação Volumes'" [icon]="'fa-table'"></app-page-header> -->
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" (ngSubmit)="getErrors()" role="FormGroup" class="form-inline">
+                <div class="row">
+                    <div class="form-group mb-2 col-lg-6">
+                        <label for="sheet">Planilha</label>
+                        <input id="sheet" class="form-control col-12" placeholder="Nome da Planilha"
+                            formControlName="sheet" [ngClass]="{ 'is-invalid': sheet.invalid && sheet.touched }" />
+                        <div *ngIf="sheet.invalid && (sheet.dirty || sheet.touched)" class="invalid-feedback">
+                            <div *ngIf="!sheet.valid">
+                                Nome da Planilha é obrigatório.
                             </div>
                         </div>
-                        <div class="form-group mb-2 col-lg-3">
-                            <label for="initDate">Data Inicial</label>
-                            <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
-                                (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
-                        </div>
-
-                        <div class="form-group mb-2 col-lg-3">
-                            <label for="endDate">Data Final</label>
-                            <input id="endDate" type="date" class="form-control col-12" [disabled]="!dateSent"
-                                [min]="dateSent" formControlName="endDate" />
-                        </div>
+                    </div>
+                    <div class="form-group mb-2 col-lg-3">
+                        <label for="initDate">Data Inicial</label>
+                        <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
+                            (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
                     </div>
 
-                    <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                        <div class="form-group mb-2">
-                            <button type="submit" class="btn btn-primary" [disabled]="sheet.invalid">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            <button style="margin-left: 5px;" type="button" class="btn btn-default"
-                                [disabled]="sheet.invalid" (click)="clear()">
-                                Limpar Campos
-                            </button>
-                        </div>
+                    <div class="form-group mb-2 col-lg-3">
+                        <label for="endDate">Data Final</label>
+                        <input id="endDate" type="date" class="form-control col-12" [disabled]="!dateSent"
+                            [min]="dateSent" formControlName="endDate" />
                     </div>
-                </form>
-            </ng-template>
-        </ngb-panel>
-    </ngb-accordion>
-    <br />
+                </div>
+
+                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                    <div class="form-group mb-2">
+                        <button type="submit" class="btn btn-primary" [disabled]="sheet.invalid">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button style="margin-left: 5px;" type="button" class="btn btn-default"
+                            [disabled]="sheet.invalid" (click)="clear()">
+                            Limpar Campos
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col col-xl-12 col-lg-12 col-sm-10">
             <ngx-datatable #myTable class="material" [rows]="errorsVolumes" [columnMode]="'force'" [headerHeight]="50"

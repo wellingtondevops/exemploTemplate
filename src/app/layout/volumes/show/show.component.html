@@ -4,16 +4,20 @@
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
-            tertiaryColour: '#222'
-        }"></ngx-loading>
-    <app-page-header [heading]="'Dados do Volume'" [icon]="'fa-user'"></app-page-header>
+            tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card bg-light">
+        <div class="card-header">
+            <h2>Dados do Volume</h2>
+            <!-- <app-page-header [heading]="'Dados do Volume'" [icon]="'fa-user'"></app-page-header> -->
     <div style="margin-bottom: 10px">
         <app-button-back [redirectTo]="'volumes'"></app-button-back>
         <app-buttons-custom [id]="volume._id" (edit)="editVolume(volume._id)" (delete)="open('focusFirst', volume._id)"
-            [permissionEdit]="permissionEdit && !isUsers " [permissionDelete]="permissionDelete && !isUsers"></app-buttons-custom>
+            [permissionEdit]="permissionEdit && !isUsers " [permissionDelete]="permissionDelete && !isUsers">
+        </app-buttons-custom>
         <br />
     </div>
-    <div class="card bg-light mb-12">
+        </div>
         <div class="card-body">
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="updateVolume()">
                 <div class="form-content">
@@ -82,11 +86,11 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="status">Status</label>
-                      <select class="form-control col-12" id="status" formControlName="status" >
-                        <option *ngFor="let item of statusList | enumToArray" [value]="item">
-                          {{ item }}</option>
-                      </select>
+                        <label for="status">Status</label>
+                        <select class="form-control col-12" id="status" formControlName="status">
+                            <option *ngFor="let item of statusList | enumToArray" [value]="item">
+                                {{ item }}</option>
+                        </select>
                     </div>
 
                     <!-- <div class="form-group">
@@ -113,12 +117,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label >Conteúdo:</label>
-                        <button type="button" class="btn btn-dark" style="margin-left: 10px;" *ngIf="volume.records" disabled>
+                        <label>Conteúdo:</label>
+                        <button type="button" class="btn btn-dark" style="margin-left: 10px;" *ngIf="volume.records"
+                            disabled>
                             <a title="Possui Arquivos"><i class="fa fa-archive"></i></a>
                         </button>
-                        <button type="button" class="btn btn-ligth" style="margin-left: 10px;" *ngIf="!volume.records" disabled>
-                            <a title="Não possui Arquivos" ><i class="fa fa-archive"></i></a>
+                        <button type="button" class="btn btn-ligth" style="margin-left: 10px;" *ngIf="!volume.records"
+                            disabled>
+                            <a title="Não possui Arquivos"><i class="fa fa-archive"></i></a>
                         </button>
                     </div>
 
@@ -135,7 +141,6 @@
                     </div>
 
 
-
                     <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
@@ -147,7 +152,6 @@
                     </ng-template>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
