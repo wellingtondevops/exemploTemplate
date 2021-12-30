@@ -1,13 +1,21 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
-          backdropBorderRadius: '3px',
-          fullScreenBackdrop: true,
-          primaryColour: '#222',
-          secondaryColour: '#222',
-          tertiaryColour: '#222'
-      }"></ngx-loading>
-  <app-page-header [heading]="'Plano de Classificação'" [icon]="'fa-table'" [btnNew]="'Novo Plano de Classificação'"
-    [permissionBtnNew]="permissionNew" [routerTo]="'/documents-structur/new'"></app-page-header>
-  <app-datatables [data]="documentsStructur" (setPage)="setPageDocumentsStructur($event)" (show)="getDocumentStructur($event)" [columns]="columns">
-  </app-datatables>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <app-page-header [heading]="'Plano de Classificação'" [icon]="'fa-table'"
+                [btnNew]="'Novo Plano de Classificação'" [permissionBtnNew]="permissionNew"
+                [routerTo]="'/documents-structur/new'">
+            </app-page-header>
+        </div>
+    </div>
+
+    <app-datatables [data]="documentsStructur" (setPage)="setPageDocumentsStructur($event)"
+        (show)="getDocumentStructur($event)" [columns]="columns">
+    </app-datatables>
 </div>
