@@ -1,14 +1,17 @@
 <div [@routerTransition]>
     <ngx-loading [show]="loading" [config]="{
-              backdropBorderRadius: '3px',
-              fullScreenBackdrop: true,
-              primaryColour: '#222',
-              secondaryColour: '#222',
-              tertiaryColour: '#222'
-          }"></ngx-loading>
-    <app-page-header [heading]="'Novo Documento'" [icon]="'fa-book'"></app-page-header>
-    <div class="card bg-light mb-12">
-        <div class="card-body">
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card">
+        <div class="card-header">
+            <h2>Novo Documento</h2>
+            <!-- <app-page-header [heading]="'Novo Documento'" [icon]="'fa-book'"></app-page-header> -->
+        </div>
+        <div class="card-body bg-light">
             <ngb-tabset #tab>
                 <ngb-tab title="Documento" id="tab1">
                     <ng-template ngbTabContent>
@@ -80,7 +83,7 @@
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label for="labelDfinal">Final</label>
-                                                        <br/>
+                                                        <br />
                                                         <select class="form-control" formControlName="dfinal">
                                                             <option> Selecione uma opção... </option>
                                                             <option value="PERMANENTE">PERMANENTE</option>

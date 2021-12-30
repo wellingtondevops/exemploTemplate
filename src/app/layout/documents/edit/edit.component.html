@@ -8,9 +8,11 @@
             tertiaryColour: '#222'
         }"></ngx-loading>
     </div>
-
-    <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header>
-    <div class="card bg-light mb-12">
+    <div class="card bg-light">
+        <div class="card-header">
+            <!-- <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header> -->
+            <h2>Editar Documento</h2>
+        </div>
         <div class="card-body" *ngIf="!loading">
             <ngb-tabset #tab>
                 <ngb-tab title="Documento" id="tab1">
@@ -78,9 +80,9 @@
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label for="labelDfinal">Final</label>
-                                                        <br/>
+                                                        <br />
                                                         <select class="form-control" formControlName="dfinal">
-                                                            <option >Selecione uma opção...</option>
+                                                            <option>Selecione uma opção...</option>
                                                             <option value="PERMANENTE">PERMANENTE</option>
                                                             <option value="ELIMINIÇÃO">ELIMINIÇÃO</option>
                                                         </select>
