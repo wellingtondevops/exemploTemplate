@@ -8,9 +8,9 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <app-page-header [id]="storeHouse._id" [heading]="'Dados do Depósito'" [icon]="'fa-house'">
-            </app-page-header>
-
+            <h2>Dados do Depósitp</h2>
+            <!-- <app-page-header [id]="storeHouse._id" [heading]="'Dados do Depósito'" [icon]="'fa-house'">
+            </app-page-header> -->
                 <app-button-back [redirectTo]="'storehouses'"></app-button-back>
                 <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)"
                     (delete)="open('focusFirst', storeHouse._id)" [permissionEdit]="permissionEdit"

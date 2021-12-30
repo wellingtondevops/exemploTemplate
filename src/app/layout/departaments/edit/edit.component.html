@@ -1,57 +1,56 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
-          backdropBorderRadius: '3px',
-          fullScreenBackdrop: true,
-          primaryColour: '#222',
-          secondaryColour: '#222',
-          tertiaryColour: '#222'
-      }"></ngx-loading>
-  <app-page-header [heading]="'Editar Departamento'" [icon]="'fa-user'"></app-page-header>
-  <div style="margin-bottom: 10px">
-    <app-button-back [redirectTo]="'departaments'"></app-button-back>
-    <br />
-  </div>
-  <div class="card bg-light mb-12">
-    <div class="card-body">
-      <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="updateDepartament()">
-        <div class="form-content">
-
-          <div class="form-group">
-            <label for="typeahead-basic">Empresa</label>
-            <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-              [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-              [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
-            <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
-              <div *ngIf="!companyIpt.valid">
-                Empresa é obrigatória.
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="input-name">Departamento</label>
-            <input type="text" class="form-control" formControlName="name" />
-            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-              <div *ngIf="!name.valid">
-                Departamento é obrigatória.
-              </div>
-            </div>
-          </div>
-
-          <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-
-          <div class="pull-right">
-            <button type="button" [routerLink]="['/departaments/get', id]" class="btn btn-default"
-              style="margin-right:10px">Voltar</button>
-            <button type="submit" class="btn btn-primary" [disabled]="companyIpt.invalid ||name.invalid">
-              Salvar
-            </button>
-          </div>
-
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card">
+        <div class="card-header">
+            <h2>Editar Departamento</h2>
+            <!-- <app-page-header [heading]="'Editar Departamento'" [icon]="'fa-user'"></app-page-header> -->
         </div>
-      </form>
+        <div class="card-body bg-light">
+            <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="updateDepartament()">
+                <div class="form-content">
+
+                    <div class="form-group">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                            [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
+                        <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!companyIpt.valid">
+                                Empresa é obrigatória.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-name">Departamento</label>
+                        <input type="text" class="form-control" formControlName="name" />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                            <div *ngIf="!name.valid">
+                                Departamento é obrigatória.
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+
+                    <div class="pull-right">
+                        <button type="button" [routerLink]="['/departaments/get', id]" class="btn btn-default"
+                            style="margin-right:10px">Voltar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="companyIpt.invalid ||name.invalid">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
