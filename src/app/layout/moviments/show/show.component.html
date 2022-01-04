@@ -1,21 +1,23 @@
 <div [@routerTransition]>
     <ngx-loading [show]="loading" [config]="{
-          backdropBorderRadius: '3px',
-          fullScreenBackdrop: true,
-          primaryColour: '#222',
-          secondaryColour: '#222',
-          tertiaryColour: '#222'
-      }"></ngx-loading>
-    <app-page-header [heading]="'Movimentação'" [icon]="'fa-user'"></app-page-header>
-    <div style="margin-bottom: 10px">
-        <app-button-back [redirectTo]="'moviments'"></app-button-back>
-        <app-buttons-custom *ngIf="moviment" [id]="moviment._id" (edit)="editMoviment(moviment._id)"
-            (delete)="open('focusFirst', moviment._id)" [permissionEdit]="false"
-            [permissionDelete]="permissionDelete && !moviment.processed && !moviment.demand"></app-buttons-custom>
-        <br />
-    </div>
-
-    <div class="card bg-light mb-12">
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'
+    }"></ngx-loading>
+    <div class="card  bg-light">
+        <div class="card-header">
+            <h3>Movimentação</h3>
+            <!-- <app-page-header [heading]="'Movimentação'" [icon]="'fa-user'"></app-page-header> -->
+            <div>
+                <app-button-back [redirectTo]="'moviments'"></app-button-back>
+                <app-buttons-custom *ngIf="moviment" [id]="moviment._id" (edit)="editMoviment(moviment._id)"
+                    (delete)="open('focusFirst', moviment._id)" [permissionEdit]="false"
+                    [permissionDelete]="permissionDelete && !moviment.processed && !moviment.demand">
+                </app-buttons-custom>
+            </div>
+        </div>
         <div class="card-body">
             <ngb-tabset #tab *ngIf="moviment" (tabChange)="beforeChange($event)">
                 <ngb-tab title="Movimentação Nr {{moviment.nr}}" id="tab1">
@@ -137,7 +139,8 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
-                                <div class="form-group col-lg-1 col-sm-6" *ngIf="moviment.moveArchive && !moviment.processed">
+                                <div class="form-group col-lg-1 col-sm-6"
+                                    *ngIf="moviment.moveArchive && !moviment.processed">
                                     <br />
                                     <button type="button" class="btn btn-danger" style="margin-top: 7px"
                                         (click)="removeArchives()">Remover</button>
@@ -158,7 +161,7 @@
                                     <div class="form-check">
                                         <div class="pretty p-switch p-fill">
                                             <input class="form-check-input" type="radio" name="process"
-                                            formControlName="process" value="devolution" id="devolution">
+                                                formControlName="process" value="devolution" id="devolution">
                                             <div class="state">
                                                 <label class="form-check-label" for="exampleRadios1">
                                                     Devolução
@@ -170,11 +173,11 @@
                                         <div class="pretty p-switch p-fill">
                                             <input class="form-check-input" type="radio" name="process" id="low"
                                                 formControlName="process" value="low">
-                                                <div class="state">
-                                                    <label class="form-check-label" for="exampleRadios2">
-                                                        Baixa
-                                                    </label>
-                                                </div>
+                                            <div class="state">
+                                                <label class="form-check-label" for="exampleRadios2">
+                                                    Baixa
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
