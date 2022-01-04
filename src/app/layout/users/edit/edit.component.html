@@ -6,8 +6,10 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <app-page-header [heading]="'Alterar dados do Usuário'" [icon]="'fa-user'"></app-page-header>
-    <div class="card bg-light mb-12">
+    <div class="card bg-light">
+        <div class="card-header">
+            <h3>Alterar dados do Usuário</h3>
+        </div>
         <div class="card-body" *ngIf="user">
             <form [formGroup]="userForm" role="FormGroup">
                 <div class="row">

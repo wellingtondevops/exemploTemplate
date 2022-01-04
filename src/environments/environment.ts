@@ -1,7 +1,7 @@
 export const environment = {
 
-  // apiUrl: 'https://archiomaintestes.archio.com.br',
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://archiomaintestes.archio.com.br',
+
   apiUrlUpload: 'https://muploadtestes.archio.com.br',
   apiUrlUploadSingle: 'https://smuploadtestes.archio.com.br',
   exportUrl: 'https://exportarchivestestes.archio.com.br',
@@ -18,3 +18,4 @@ export const environment = {
     measurementId: 'G-DWEG5M9FGZ'
   }
 };
+// dd

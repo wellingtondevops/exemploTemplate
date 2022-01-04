@@ -6,82 +6,72 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <app-page-header [heading]="'Lotes'" [icon]="'fa-table'" [btnNew]="'Novo Lote'" [permissionBtnNew]="true"
-        [routerTo]="'/batches/new'"></app-page-header>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <app-page-header [heading]="'Lotes'" [icon]="'fa-table'" [btnNew]="'Novo Lote'" [permissionBtnNew]="true"
+                [routerTo]="'/batches/new'"></app-page-header>
+        </div>
+        <div class="card-body bg-light mb-3">
+            <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form-inline">
+                <div class="row col-12">
+                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" autoFocus="true" placeholder="Nome da Empresa"
+                            (selectItem)="selectedCompany($event)" type="text" class="form-control"
+                            formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                        <label for="typeahead-basic">Documento</label>
+                        <input id="typeahead-basic" autoFocus="true" placeholder="Nome do Documento" type="text"
+                            class="form-control" formControlName="doct" [resultTemplate]="rtDocument"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" style="width: 100%" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                        <label for="labelName">Lote</label>
+                        <input id="batchNr" autoFocus="true" placeholder="Informe o Lote" type="text"
+                            class="form-control" formControlName="batchNr" style="width: 100%" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                        <label for="initDate">Data Inicial</label>
+                        <input id="initDate" type="date" class="form-control col-12" formControlName="initDate"
+                            [(ngModel)]="dateSent" (input)="changeDate()" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                        <label for="endDate">Data Final</label>
+                        <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
+                            [disabled]="!dateSent" [min]="dateSent" />
+                    </div>
+                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                    <ng-template #rtDocument let-r="result" let-t="document" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                </div>
+                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                    <div class="form-group mb-2">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
+                            Limpar Campos
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <ngb-accordion #acc="ngbAccordion" activeIds="batches-0">
-                <ngb-panel id="batches-0">
-                    <ng-template ngbPanelTitle>
-                        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form-inline">
-                            <div class="row col-12">
-                                <div class="form-group mb-2 col-3">
-                                    <label for="typeahead-basic">Empresa</label>
-                                    <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)"
-                                        type="text" class="form-control" formControlName="company"
-                                        [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                                        [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }"
-                                        style="width: 100%" />
-                                    <div *ngIf="company.invalid && (company.dirty || company.touched)"
-                                        class="invalid-feedback">
-                                        <div *ngIf="!company.valid">
-                                            Empresa é obrigatório.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2 col-3">
-                                    <label for="typeahead-basic">Documento</label>
-                                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                                        formControlName="doct" [resultTemplate]="rtDocument"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
-                                        style="width: 100%" />
-                                </div>
-                                <div class="form-group mb-2 col-3">
-                                    <label for="labelName">Lote</label>
-                                    <input id="batchNr" autoFocus="true" type="text" class="form-control"
-                                        formControlName="batchNr" style="width: 100%" />
-                                </div>
-                                <div class="form-group mb-2 col-3">
-                                    <div class="row col-12" style="padding-right: 0;">
-                                        <label for="initDate">Data Inicial</label>
-                                        <input id="initDate" type="date" class="form-control col-12"
-                                            formControlName="initDate" />
-                                    </div>
-
-                                    <div class="row col-12" style="padding-right: 0;">
-                                        <label for="endDate">Data Final</label>
-                                        <input id="endDate" type="date" class="form-control col-12"
-                                            formControlName="endDate" />
-                                    </div>
-                                </div>
-                                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                </ng-template>
-                                <ng-template #rtDocument let-r="result" let-t="document" class="custom-typeahead">
-                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                </ng-template>
-                            </div>
-                            <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                                <div class="form-group mb-2">
-                                    <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                    <button style="margin-left: 5px;" type="button" class="btn btn-default"
-                                        (click)="clear()">
-                                        Limpar Campos
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </ng-template>
-                </ngb-panel>
-            </ngb-accordion>
-            <br />
-            <app-datatables [data]="batches" (setPage)="setPage($event)" [columns]="columns"
-                (show)="getBatch($event)"></app-datatables>
+        <div class="col-lg-12">
+            <app-datatables [data]="batches" (setPage)="setPage($event)" [columns]="columns" (show)="getBatch($event)">
+            </app-datatables>
         </div>
     </div>
 </div>

@@ -6,16 +6,19 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <app-page-header [heading]="'Novo Volume'" [icon]="'fa-user'"></app-page-header>
-    <div class="card bg-light mb-12">
+    <div class="card bg-light">
+        <div class="card-header">
+            <h2>Novo Lote</h2>
+        </div>
         <div class="card-body">
             <form [formGroup]="batchForm" role="FormGroup" (ngSubmit)="postBatch()">
                 <div class="form-content">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" type="text" (selectItem)="selectedCompany($event)" class="form-control" formControlName="company"
+                        <input id="typeahead-basic" type="text" placeholder="Nome da Empresa"
+                            (selectItem)="selectedCompany($event)" class="form-control" formControlName="company"
                             [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': !company.valid }" />
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -25,11 +28,11 @@
 
                     <div class="form-group">
                         <label for="typeahead-basic">Documento</label>
-                        <input id="typeahead-basic" type="text" class="form-control" formControlName="doct"
-                            [resultTemplate]="rtDocument" [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchDocument" [ngClass]="{ 'is-invalid': !doct.valid }" />
-                        <div *ngIf="doct.invalid && (doct.dirty || doct.touched)"
-                            class="invalid-feedback">
+                        <input id="typeahead-basic" type="text" placeholder="Nome do Documento" class="form-control"
+                            formControlName="doct" [resultTemplate]="rtDocument" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchDocument"
+                            [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }" />
+                        <div *ngIf="doct.invalid && (doct.dirty || doct.touched)" class="invalid-feedback">
                             <div *ngIf="!doct.valid">
                                 Documento é obrigatório.
                             </div>

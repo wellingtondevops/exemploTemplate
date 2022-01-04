@@ -15,96 +15,117 @@ import { ReportsService } from 'src/app/services/reports/reports.service';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss'],
-  animations: [routerTransition()]
+    selector: 'app-reports',
+    templateUrl: './reports.component.html',
+    styleUrls: ['./reports.component.scss'],
+    animations: [routerTransition()]
 })
 export class ReportsComponent implements OnInit {
-  searchForm: FormGroup;
-  companies: any = [];
-  loading: Boolean = false;
-  reports: Report;
+    searchForm: FormGroup;
+    companies: any = [];
+    loading: Boolean = false;
+    reports: Report;
+    dateSent;
+    dateReceived;
 
-  constructor(
-    private _route: Router,
-    private reportSrv: ReportsService,
-    private errorMsg: ErrorMessagesService,
-    private companiesSrv: CompaniesService,
-    private pipes: Pipes,
-    private fb: FormBuilder,
-    private localStorageSrv: SaveLocal,
-    private utilCase: CaseInsensitive
-  ) { }
+    constructor(
+        private _route: Router,
+        private reportSrv: ReportsService,
+        private errorMsg: ErrorMessagesService,
+        private companiesSrv: CompaniesService,
+        private pipes: Pipes,
+        private fb: FormBuilder,
+        private localStorageSrv: SaveLocal,
+        private utilCase: CaseInsensitive
+    ) { }
 
-  ngOnInit() {
-    this.getCompanies();
+    ngOnInit() {
+        this.getCompanies();
 
-    this.searchForm = this.fb.group({
-      company: this.fb.control(null, [Validators.required]),
-      initDate: this.fb.control(null, [Validators.required]),
-      endDate: this.fb.control(null, [Validators.required])
-    });
-  }
+        this.searchForm = this.fb.group({
+            company: this.fb.control(null, [Validators.required]),
+            initDate: this.fb.control(null, [Validators.required]),
+            endDate: this.fb.control(null, [Validators.required])
+        });
 
-  get company() {
-    return this.searchForm.get('company');
-  }
+        this.searchForm.patchValue({endDate: null});
 
-  get initDate() {
-    return this.searchForm.get('initDate');
-  }
+    }
 
-  get endDate() {
-    return this.searchForm.get('endDate');
-  }
+    get company() {
+        return this.searchForm.get('company');
+    }
 
-  returnId(object) {
-    const result = _.filter(this.searchForm.value[object], function (value, key) {
-      if (key === '_id') { return value; }
-    })[0];
-    return result;
-  }
+    get initDate() {
+        return this.searchForm.get('initDate');
+    }
 
-  getCompanies() {
-    this.companiesSrv.searchCompanies().subscribe(
-      data => {
-        this.companies = data.items;
-        this.loading = false;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
-        this.loading = false;
-      }
-    );
-  }
+    get endDate() {
+        return this.searchForm.get('endDate');
+    }
 
-  formatter = (x: { name: string }) => x.name;
+    returnId(object) {
+        const result = _.filter(this.searchForm.value[object], function (value, key) {
+            if (key === '_id') { return value; }
+        })[0];
+        return result;
+    }
 
-  searchCompany = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(company => {
-        const res = [];
-        if (company.length < 2) { []; }
-        return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
-      })
-    )
+    getCompanies() {
+        this.companiesSrv.searchCompanies().subscribe(
+            data => {
+                this.companies = data.items;
+                this.loading = false;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+                this.loading = false;
+            }
+        );
+    }
 
-  getReports() {
-    this.searchForm.value.company = this.returnId('company') ? this.returnId('company') : null;
-    this.loading = true;
-    this.reportSrv.reports(this.searchForm.value).subscribe(data => {
-      this.reports = data
-      this.reports.initialPeriod = moment(this.reports.initialPeriod).format('DD/MM/YYYY')
-      this.reports.finalPeriod = moment(this.reports.finalPeriod).format('DD/MM/YYYY')
-      this.loading = false
-    }, error => {
-      console.log('ERROR: ', error);
-      this.errorMsg.errorMessages(error);
-      this.loading = false
-    })
-  }
+    formatter = (x: { name: string }) => x.name;
+
+    searchCompany = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(company => {
+                const res = [];
+                if (company.length < 2) { []; }
+                return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+            })
+        )
+
+    getReports() {
+        const newForm = {
+            name: null
+        };
+        newForm.name = this.searchForm.value.company.name;
+
+        this.localStorageSrv.save('company', newForm.name);
+        console.log('dasdad', this.localStorageSrv.get('company'));
+
+        this.searchForm.value.company = this.returnId('company') ? this.returnId('company') : null;
+        this.loading = true;
+        this.reportSrv.reports(this.searchForm.value).subscribe(data => {
+            this.reports = data;
+            this.reports.initialPeriod = moment(this.reports.initialPeriod).format('DD/MM/YYYY');
+            this.reports.finalPeriod = moment(this.reports.finalPeriod).format('DD/MM/YYYY');
+            this.searchForm.patchValue({company: null});
+            // this.searchForm.patchValue({company: this.localStorageSrv.get('company')});
+            this.loading = false;
+        }, error => {
+            console.log('ERROR: ', error);
+            this.errorMsg.errorMessages(error);
+            this.loading = false;
+        });
+    }
+
+    changeDate() {
+        this.dateSent =
+            new Date(this.dateSent).toISOString().slice(0, 10);
+        this.dateReceived = this.dateSent;
+    }
 }

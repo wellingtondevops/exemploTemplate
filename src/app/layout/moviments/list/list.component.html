@@ -1,100 +1,113 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
+    <ngx-loading [show]="loading" [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-  <app-page-header [heading]="'Movimentações'" [icon]="'fa-table'" [btnNew]="'Nova Movimentação'"
-    [permissionBtnNew]="permissionNew" [routerTo]="'/moviments/new'"></app-page-header>
-  <ngb-accordion #acc="ngbAccordion" activeIds="moviments-0">
-    <ngb-panel id="moviments-0">
-      <ng-template ngbPanelTitle>
-        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <form [formGroup]="searchForm" (ngSubmit)="getMoviments()" role="FormGroup">
-          <div class="form-row">
-            <div class="form-group col-lg-6">
-              <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" autoFocus="true" type="text" class="form-control" formControlName="company"
-                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
-              <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                <div *ngIf="!company.valid">
-                  Empresa é obrigatório.
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <app-page-header [heading]="'Movimentações'" [icon]="'fa-table'" [btnNew]="'Nova Movimentação'"
+                [permissionBtnNew]="permissionNew" [routerTo]="'/moviments/new'">
+            </app-page-header>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" (ngSubmit)="getMoviments()" role="FormGroup">
+                <div class="row col-12">
+                    <div class="form-group mb-2 col-lg-5 col-sm-12">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"
+                            class="form-control" formControlName="company" [resultTemplate]="rtCompany"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                        <label for="requester">Solicitante</label>
+                        <input id="requester" placeholder="Nome do Solicitante" type="text" class="form-control"
+                            style="width: 100%" formControlName="name">
+                    </div>
+                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                        <label for="requester">Movimentação</label>
+                        <input id="requester" placeholder="Número da Movimentação" type="text" class="form-control"
+                            style="width: 100%" formControlName="nr">
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="form-group col-lg-3">
-              <label for="requester">Nome do Solicitante</label>
-              <input id="requester" type="text" class="form-control" style="width: 100%" formControlName="name">
-            </div>
-            <div class="form-group col-lg-3">
-              <label for="requester">Número da Movimentação</label>
-              <input id="requester" type="text" class="form-control" style="width: 100%" formControlName="nr">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-lg-6">
-              <br>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" formControlName="demand" [value]="demand" id="demand">
-                <label class="form-check-label" for="demand">
-                  Solicitada
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" formControlName="processed" [value]="demand"
-                  id="processed">
-                <label class="form-check-label" for="processed">
-                  Processada
-                </label>
-              </div>
-            </div>
-            <div class="form-group col-lg-3">
-              <label for="initDate">Data Inicial</label>
-              <input id="initDate" type="date" class="form-control" formControlName="initDate" />
-            </div>
-            <div class="form-group col-lg-3">
-              <label for="endDate">Data Final</label>
-              <input id="endDate" type="date" class="form-control" formControlName="endDate" />
-            </div>
-          </div>
-          <div class="form-row">
+                <div class="row col-12">
+                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                        <label>Status</label>
+                        <div class="form-check">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="checkbox" name="demand" formControlName="demand"
+                                    [value]="demand" id="demand" [checked]="false">
+                                <div class="state">
+                                    <label class="form-check-label" for="demand">
+                                        Solicitada
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="checkbox" name="demand"
+                                    formControlName="processed" [value]="demand" id="processed" [checked]="false">
+                                <div class="state">
+                                    <label class="form-check-label" for="processed">
+                                        Processada
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                        <label for="initDate">Data Inicial</label>
+                        <input id="initDate" type="date" class="form-control" formControlName="initDate"
+                            [(ngModel)]="dateSent" (input)="changeDate()" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                        <label for="endDate">Data Final</label>
+                        <input id="endDate" type="date" class="form-control" formControlName="endDate"
+                            [disabled]="!dateSent" [min]="dateSent" />
+                    </div>
+                </div>
+                <div class="form-row">
 
-          </div>
-          <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-            <div class="form-group mb-2">
-              <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                <i class="fa fa-search"></i>
-              </button>
-              <button style="margin-left: 5px;" [disabled]="company.invalid" type="button" class="btn btn-default"
-                (click)="clear()">
-                Limpar Campos
-              </button>
-            </div>
-          </div>
+                </div>
+                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                    <div class="form-group mb-2">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button style="margin-left: 5px;" [disabled]="company.invalid" type="button"
+                            class="btn btn-default" (click)="clear()">
+                            Limpar Campos
+                        </button>
+                    </div>
+                </div>
 
-          <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-          <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-          <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-        </form>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-  <div class="row">
-    <div class="col col-xl-12 col-lg-12">
-      <app-datatables [data]="moviments" (setPage)="setPageMoviments($event)" [columns]="columns"
-        (show)="showMoviment($event)">
-      </app-datatables>
+                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+            </form>
+        </div>
     </div>
-  </div>
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <app-datatables [data]="moviments" (setPage)="setPageMoviments($event)" [columns]="columns"
+                (show)="showMoviment($event)">
+            </app-datatables>
+        </div>
+    </div>
 </div>

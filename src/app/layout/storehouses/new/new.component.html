@@ -4,32 +4,33 @@
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
-            tertiaryColour: '#222'
-        }"></ngx-loading>
-    <app-page-header [heading]="'Dados do Depósito'" [icon]="'fa-house'"></app-page-header>
-    <div class="card bg-light mb-12">
-        <div class="card-body">
+            tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card">
+        <div class="card-header">
+            <app-page-header [heading]="'Dados do Depósito'" [icon]="'fa-house'"></app-page-header>
+        </div>
+        <div class="card-body bg-light">
             <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="postStoreHouse()">
                 <div class="form-content">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input id="name" class="form-control" [ngClass]="{ 'is-invalid': !name.valid }"
-                            formControlName="name" />
+                        <input id="name" placeholder="Nome do Depósito" class="form-control"
+                            [ngClass]="{ 'is-invalid': name.invalid && name.touched }" formControlName="name" />
                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
                                 Nome é obrigatório.
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="checkbox">
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" formControlName="mapStorehouse" value="" />
+                            <div class="state">
                                 <label>
-                                    <input type="checkbox" formControlName="mapStorehouse" value="storehouse.mapStorehouse"/>
-                                Mapear Depósito </label>
+                                    Mapear Depósito
+                                </label>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="pull-right">

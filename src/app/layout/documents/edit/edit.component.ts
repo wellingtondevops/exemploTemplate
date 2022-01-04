@@ -1,3 +1,4 @@
+import { DocumentsStructurService } from './../../../services/documents-structur/documents-structur.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
@@ -28,6 +29,9 @@ export class EditComponent implements OnInit {
   documentForm: FormGroup;
   doctStructForm: FormGroup;
   companies: any = [];
+  doctStructs: any = [];
+  structs: any = [];
+  tabIndex: Boolean = false;
   labels: any = [];
   public typeFieldList: any = TypeFieldListEnum;
 
@@ -36,6 +40,7 @@ export class EditComponent implements OnInit {
     private route: ActivatedRoute,
     private documentsSrv: DocumentsService,
     private fb: FormBuilder,
+    private doctStructsSrv: DocumentsStructurService,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
@@ -50,10 +55,13 @@ export class EditComponent implements OnInit {
     return this.documentForm.get('name');
   }
 
+    formatterDoctStruct = (x: { structureName: string }) => x.structureName;
+
+
   ngOnInit() {
     this.documentForm = this.fb.group({
       _id: '',
-      company: this.fb.control('', [Validators.required]),
+      company: this.fb.control({value: '', disabled: true}, [Validators.required]),
       name: this.fb.control('', [Validators.required]),
       label: this.fb.array(this.labels),
       dcurrentValue: this.fb.control(0),
@@ -72,6 +80,8 @@ export class EditComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getDocument();
     this.getCompanies();
+    this.getDoctStructs();
+
   }
 
   createLabelExist(item): FormGroup {
@@ -185,4 +195,38 @@ export class EditComponent implements OnInit {
         return res;
       })
     )
+
+    selectDoctStruct(doctStruct) {
+        this.loading = true;
+        this.documentsSrv.listStructurs(doctStruct.item._id).subscribe(res => {
+          this.loading = false;
+          this.structs = res;
+        }, error => {
+          this.loading = false;
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR: ', error);
+        });
+      }
+
+      searchDoctStruct = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(doctStruct => {
+        let res;
+        if (doctStruct.length < 2) { []; } else { res = _.filter(this.doctStructs, v => (this.utilCase.replaceSpecialChars(v.structureName).toLowerCase().indexOf(doctStruct.toLowerCase())) > -1).slice(0, 10); }
+        return res;
+      })
+    )
+    getDoctStructs() {
+        this.doctStructsSrv.list().subscribe(
+          data => {
+            this.doctStructs = data.items;
+          },
+          error => {
+            this.errorMsg.errorMessages(error);
+            console.log('ERROR: ', error);
+          }
+        );
+      }
 }

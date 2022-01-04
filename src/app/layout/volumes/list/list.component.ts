@@ -44,6 +44,9 @@ export class ListComponent implements OnInit {
   guardTypeList: any = [];
   storehouses: any = [];
   records: boolean;
+  dateSent;
+  dateReceived;
+
 
   documents: any = [];
   volumes: VolumeList = {
@@ -61,13 +64,13 @@ export class ListComponent implements OnInit {
   columns = [
     // { name: 'Empresa', prop: 'company.name', width: 250 },
     { name: 'Departamento', prop: 'departament.name' },
-    { name: 'Posição', prop: 'location', width: 70 },
-    { name: 'Status', prop: 'status', width: 70 },
-    { name: 'Guarda', prop: 'guardType', width: 70,  },
-    { name: 'Depósito', prop: 'storehouse.name', width: 70 },
-    { name: 'Referência', prop: 'reference', width: 70 },
-    { name: 'Conteúdo', prop: 'records', width: 90, pipe: {transform: this.pipes.recordsType }},
-    { name: 'Criado em', prop: 'dateCreated', width: 70, pipe: { transform: this.pipes.datePipe } }
+    { name: 'Posição', prop: 'location' },
+    { name: 'Depósito', prop: 'storehouse.name' },
+    { name: 'Status', prop: 'status' },
+    { name: 'Guarda', prop: 'guardType' },
+    { name: 'Referência', prop: 'reference' },
+    { name: 'Conteúdo', prop: 'records', pipe: {transform: this.pipes.recordsType }},
+    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
 
     /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
     { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
@@ -134,6 +137,11 @@ export class ListComponent implements OnInit {
     this.getStoreHouses();
     this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
     this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
+    this.searchForm.patchValue({endDate: null});
+
+    // this.todaysdate = new Date(1527445800000).getFullYear()+'-'+('0' + (new Date(1527445800000).getMonth() + 1)).slice(-2)+'-'+('0' + new Date(1527445800000)
+    // .getDate()).slice(-2);
+    // console.log(this.todaysdate)
   }
 
   get company() {
@@ -326,4 +334,9 @@ export class ListComponent implements OnInit {
         return res;
       })
     )
+    changeDate() {
+        this.dateSent =
+        new Date(this.dateSent).toISOString().slice(0, 10);
+        this.dateReceived = this.dateSent;
+    }
 }

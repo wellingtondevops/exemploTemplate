@@ -1,90 +1,77 @@
 <div [@routerTransition]>
-    <ngx-loading
-        [show]="loading"
-        [config]="{
+    <ngx-loading [show]="loading" [config]="{
             backdropBorderRadius: '10px',
             fullScreenBackdrop: true,
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
-        }"
-    ></ngx-loading>
-    <div class="pull-right">
-        <button type="button" [routerLink]="['/archives/get', id]" class="btn btn-secundary"
-        style="margin-right:5px">Cancelar
-        </button>
-    </div>
-    <app-page-header
-        *ngIf="!loading"
-        [heading]="'Editar Arquivo'"
-        [icon]="'fa-user'"
-        >
-    </app-page-header>
-    <div class="row" *ngIf="!loading">
-        <div class="col-4">
-            <h5>DADOS DO VOLUME</h5>
-            <div class="card bg-light mb-12">
-                <div class="card-body">
-                    <div>
-                        <strong> EMPRESA: </strong> <br />
-                        <label> {{ archive.company.name }} </label>
-                    </div>
-                    <br />
-                    <div>
-                        <strong> DEPARTAMENTO: </strong> <br />
-                        <label> {{ archive.departament.name }} </label>
-                    </div>
-                    <br />
-                    <div>
-                        <strong> DOCUMENTO: </strong> <br />
-                        <label> {{ archive.doct.name }} </label>
-                    </div>
-                    <br />
-                    <div>
-                        <strong> DEPÓSITO: </strong> <br />
-                        <label> {{ archive.storehouse.name }} </label>
-                    </div>
-                    <br />
-                    <div>
-                        <strong> POSIÇÃO: </strong> <br />
-                        <label> {{ archive.volume.location }} </label>
-                    </div>
-                </div>
+        }"></ngx-loading>
+    <div class="card bg-light">
+        <div class="card-header">
+            <div class="pull-right">
+                <button type="button" [routerLink]="['/archives/get', id]" class="btn btn-danger"
+                    style="margin-right:5px">Cancelar
+                </button>
             </div>
-            <br />
-            <div class="col-lg-4">
-                <h5>ÍNDICES</h5>
-            </div>
-            <div class="card bg-light mb-12">
-                <div class="card-body">
-                    <app-form-index
-                        [data]="archive"
-                        [isArchive]="true"
-                        [edit]="true"
-                        (sendArchive)="updateArchive($event)"
-                    >
-                    </app-form-index>
-                </div>
-            </div>
+            <!-- <app-page-header *ngIf="!loading" [heading]="'Editar Arquivo'" [icon]="'fa-user'"></app-page-header> -->
+            <h2>Editar Arquivo</h2>
         </div>
-        <div class="col-8">
-            <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-                <div class="form-group">
-                    <app-form-upload
-                        formControlName="file"
-                        [archive]="file"
-                        (postFile)="postFile($event)"
-                        [savedFile]="savedFile"
-                        (deleteFile)="open('focusFirst', file._id)"
-                    >
-                    </app-form-upload>
+        <div class="card-body">
+            <div class="row" *ngIf="!loading">
+                <div class="col-4">
+                    <h5>DADOS DO VOLUME</h5>
+                    <div class="card bg-light mb-12">
+                        <div class="card-body">
+                            <div>
+                                <strong> EMPRESA: </strong> <br />
+                                <label> {{ archive.company.name }} </label>
+                            </div>
+                            <br />
+                            <div>
+                                <strong> DEPARTAMENTO: </strong> <br />
+                                <label> {{ archive.departament.name }} </label>
+                            </div>
+                            <br />
+                            <div>
+                                <strong> DOCUMENTO: </strong> <br />
+                                <label> {{ archive.doct.name }} </label>
+                            </div>
+                            <br />
+                            <div>
+                                <strong> DEPÓSITO: </strong> <br />
+                                <label> {{ archive.storehouse.name }} </label>
+                            </div>
+                            <br />
+                            <div>
+                                <strong> POSIÇÃO: </strong> <br />
+                                <label> {{ archive.volume.location }} </label>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-lg-4">
+                        <h5>ÍNDICES</h5>
+                    </div>
+                    <div class="card bg-light mb-12">
+                        <div class="card-body">
+                            <app-form-index [data]="archive" [isArchive]="true" [edit]="true"
+                                (sendArchive)="updateArchive($event)">
+                            </app-form-index>
+                        </div>
+                    </div>
                 </div>
-            </form>
-            <app-modal-progress-right-bottom
-                [progress]="uploadResponse"
-                [error]="errorUpload"
-            >
-            </app-modal-progress-right-bottom>
+                <div class="col-8">
+                    <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+                        <div class="form-group">
+                            <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
+                                [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)">
+                            </app-form-upload>
+                        </div>
+                    </form>
+                    <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+                    </app-modal-progress-right-bottom>
+                </div>
+            </div>
         </div>
     </div>
 </div>

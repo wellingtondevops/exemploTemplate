@@ -1,3 +1,5 @@
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
+
 .parent {
     display: flex;
     flex-direction: column;
@@ -6,5 +8,5 @@
 }
 
 .child {
-    height: 88px;
+    height: 85px;
 }

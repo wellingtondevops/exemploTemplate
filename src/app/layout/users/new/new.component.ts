@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -36,6 +37,7 @@ export class NewComponent implements OnInit {
     private _route: Router,
     private userSrv: UsersService,
     private fb: FormBuilder,
+    private modalService: NgbModal,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private companiesSrv: CompaniesService,
@@ -198,6 +200,10 @@ export class NewComponent implements OnInit {
         console.log('ERROR: ', error);
       }
     );
+  }
+
+  open(content) {
+    this.modalService.open(content, {size: 'lg', windowClass: 'my-class'});
   }
 }
 

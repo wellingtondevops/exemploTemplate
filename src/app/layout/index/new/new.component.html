@@ -2,24 +2,27 @@
     <ngx-loading [show]="loading" [config]="{
             backdropBorderRadius: '3px',
             fullScreenBackdrop: true,
-              primaryColour: '#222',
-              secondaryColour: '#222',
-              tertiaryColour: '#222'
-          }"></ngx-loading>
-    <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header>
-    <div style="margin-bottom: 10px;" *ngIf="!loading">
-        <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
-        <button class="btn btn-sm btn-danger pull-right" (click)="deleteImgs()">Excluir</button>
-        <br />
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+    }"></ngx-loading>
+    <div class="card bg-light">
+        <div class="card-header">
+            <!-- <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header> -->
+            <h2>Indexação</h2>
+            <div style="margin-bottom: 10px;" *ngIf="!loading">
+                <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
+                <button class="btn btn-sm btn-danger pull-right" (click)="deleteImgs()">Excluir</button>
+                <br />
+            </div>
+        </div>
+        <div class="card-body">
             <ngb-tabset #tabs>
                 <ngb-tab title="Dados" id="dados">
                     <ng-template ngbTabContent>
-                        <div style="display: flex!important;">
-                            <div class="col-xl-4 col-lg-4 col-md-4">
-                                <div class="card bg-light mb-3" style="margin:5px;font-size: 12px;">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card bg-light mb-3" style="font-size: 15px;">
                                     <div class="card-body">
                                         <p class="card-text">
                                             <b>EMPRESA</b>: {{ batch && batch.company &&
@@ -35,36 +38,47 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="card bg-light mb-3" style="margin:5px;font-size: 16px;" >
-                                    <div class="card-header">Fonte de dados</div>
-                                    <input id="worksheets" style="width: 72%; margin-left: 50px; margin-top: 10px; margin-bottom: 10px;" placeholder="Digite Aqui">
-                                    <button id="realtime" type="button" class="btn btn-outline-danger" (click)="load()" hidden>Set</button>
-                                </div>
-                                <div class="card bg-light mb-3" style="margin:5px;font-size: 12px;">
-                                    <div *ngIf="page.totalElements !== 0;">
-                                    <div class="card-header">Indíces</div>
+                            </div>
+                        </div>
+                        <div>
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card bg-light" style="margin:5px;font-size: 15px;">
+                                        <div *ngIf="page.totalElements !== 0;">
+                                            <div class="card-header">Fonte de dados</div>
+                                            <div class="card-body">
+                                                <input class="form-control" id="worksheets" type="text"
+                                                    placeholder="Digite Aqui" style="width: 90%;">
+                                                <button id="realtime" type="button" class="btn btn-outline-danger"
+                                                    (click)="load()" hidden>Set</button>
+                                            </div>
+                                            <div class="card-header">Indíces</div>
                                             <div class="card-body" style="display: flex;">
-                                                <div class="col-xl-11 col-lg-11 col-md-11" *ngIf="document && document.label" id="form">
-                                                    <app-form-index
-                                                    [multipleIndex]="true"
-                                                    [data]="document"
-                                                    [store]="valuesStorage"
-                                                    [isArchive]="false" [edit]="true"
-                                                    (sendArchive)="createDocument($event)">
+                                                <div class="col-xl-11 col-lg-11 col-md-11"
+                                                    *ngIf="document && document.label" id="form">
+                                                    <app-form-index [multipleIndex]="true" [data]="document"
+                                                        [store]="valuesStorage" [isArchive]="false" [edit]="true"
+                                                        (sendArchive)="createDocument($event)" style="width: 100px;">
                                                     </app-form-index>
                                                 </div>
                                                 <div class="col-xl-1 col-lg-1 col-md-1" style="display: flex;
-                                                flex-direction: column;
-                                                justify-content: space-around;
-                                                align-items: center;">
+                                                                flex-direction: column;
+                                                                justify-content: space-around;
+                                                                align-items: center;">
                                                     <form class="parent" [formGroup]="checkboxForm"
-                                                    *ngIf="document && document.label">
+                                                        *ngIf="document && document.label">
                                                         <div class="child"
-                                                        *ngFor="let item of checkboxForm.controls; let i = index;">
+                                                            *ngFor="let item of checkboxForm.controls; let i = index;">
                                                             <div [formGroupName]="i">
                                                                 <label>
-                                                                <input type="checkbox" [formControl]="item"
-                                                                [value]="item.value">
+                                                                    <div class="pretty p-switch p-fill">
+                                                                        <input type="checkbox" [formControl]="item"
+                                                                            [value]="item.value">
+                                                                        <div class="state">
+                                                                            <label></label>
+                                                                        </div>
+                                                                    </div>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -72,54 +86,61 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
-                            </div>
-
-
-                            <div class="col-xl-8 col-lg-8 col-md-8">
-                                <div *ngIf="page.totalElements == 0; else elsePdf">
-                                    <ng-template #content let-c="close" let-d="dismiss">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="modal-basic-title">Lote vazio!</h4>
+                                <div class="col-lg-8">
+                                    <h5 style="margin-bottom: 0px; text-align: center;">
+                                        ARQUIVOS RESTANTES: {{page.totalElements}}
+                                    </h5>
+                                    <ng-template #elsePdf>
+                                        <div *ngIf="archive && !isPdf">
+                                            <!--
+                                                        <div #imagewrapper class="imagewrapper">
+                                                            <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>
+                                                        </div>
+                                                    -->
+                                            <img *ngIf="archive && archive.url" [src]="archive.url"
+                                                style="margin-right: 10px; width: 100%" />
                                         </div>
-                                        <div class="modal-body">
-                                            <p>Deseja excluir o lote?</p>
-                                            <strong>Esta operação, não poderá ser desfeita!</strong>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-danger" (click)="c(deleteBatch(redirect()))" >Excluir</button>
-                                            <button type="button" class="btn btn-outline-primary" (click)="c(toBack())">Cancelar</button>
+                                        <br>
+                                        <!-- Abaixo é possivel controlar a exibição dos botões -->
+                                        <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
+                                            <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
+                                                [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
+                                                [showDownloadButton]="download" [showBookmarkButton]="false"
+                                                [showPrintButton]="print" [showPresentationModeButton]="false"
+                                                [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
+                                                [height]="'90vh'"></ngx-extended-pdf-viewer>
                                         </div>
                                     </ng-template>
-                                        <button class="btn btn-lg btn-outline-primary" id="open" hidden (click)="open(content)">Launch demo modal</button>
-                                </div>
-
-                                <ng-template #elsePdf>
-                                    <h3 style="margin-bottom: 0px;">ARQUIVOS RESTANTES: {{page.totalElements}}</h3>
-                                    <div *ngIf="archive && !isPdf">
-                                        <!--
-                                            <div #imagewrapper class="imagewrapper">
-                                                <ngx-imageviewer  *ngIf="archive.url" [src]="archive.url"></ngx-imageviewer>
+                                    <div *ngIf="page.totalElements == 0; else elsePdf">
+                                        <ng-template #content let-c="close" let-d="dismiss">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Lote vazio!</h4>
                                             </div>
-                                        -->
-                                        <img *ngIf="archive && archive.url" [src]="archive.url"
-                                            style="margin-right: 10px; width: 100%" />
+                                            <div class="modal-body">
+                                                <p>Deseja excluir o lote?</p>
+                                                <strong>Esta operação, não poderá ser desfeita!</strong>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    (click)="c(deleteBatch(redirect()))">Excluir</button>
+                                                <button type="button" class="btn btn-outline-primary"
+                                                    (click)="c(toBack())">Cancelar</button>
+                                            </div>
+                                        </ng-template>
+                                        <button class="btn btn-lg btn-outline-primary" id="open" hidden
+                                            (click)="open(content)">
+                                            Launch modal
+                                        </button>
                                     </div>
-                                    <br>
-                                    <!-- Abaixo é possivel controlar a exibição dos botões -->
-                                    <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
-                                        <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
-                                            [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
-                                            [showDownloadButton]="download" [showBookmarkButton]="false"
-                                            [showPrintButton]="print" [showPresentationModeButton]="false"
-                                            [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
-                                            [height]="'90vh'"></ngx-extended-pdf-viewer>
-                                    </div>
-                                </ng-template>
+                                </div>
                             </div>
                         </div>
                     </ng-template>
                 </ngb-tab>
+
+
                 <ngb-tab title="Pesquisar Posição" id="position">
                     <ng-template ngbTabContent>
                         <ngb-accordion #acc="ngbAccordion" activeIds="index-search">

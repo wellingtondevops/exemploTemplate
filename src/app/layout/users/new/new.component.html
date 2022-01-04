@@ -6,6 +6,7 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
+<<<<<<< HEAD
   <app-page-header [heading]="'Novo Usuário'" [icon]="'fa-user'"></app-page-header>
   <div class="card bg-light">
     <div class="card-body">
@@ -89,6 +90,73 @@
                           <div *ngIf="!company.valid">
                             Empresa é obrigatório.
                           </div>
+=======
+    <div class="card bg-light">
+        <div class="card-header">
+            <h3>Novo Usuário</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="userForm" role="FormGroup">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="" style="margin-bottom: 0px;">Nome</label>
+                            <input type="text" formControlName="name" class="form-control input-underline input-lg"
+                                placeholder="Nome" [ngClass]="{ 'is-invalid': name.touched && name.invalid}"
+                                style="width: 100%; margin-bottom: 10px;" />
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                                <div *ngIf="!name.valid">
+                                    Nome é obrigatório.
+                                </div>
+                            </div>
+
+                            <label for="" style="margin-bottom: 0px;">E-mail</label>
+                            <input type="email" formControlName="email" class="form-control input-underline input-lg"
+                                placeholder="exemplo@exemplo.com"
+                                [ngClass]="{ 'is-invalid': email.touched && email.invalid}"
+                                style="width: 100%; margin-bottom: 10px;" />
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
+                                <div *ngIf="!email.valid">
+                                    E-mail é obrigatório.
+                                </div>
+                            </div>
+
+                            <label for="" style="margin-bottom: 0px;">Perfil do Usuário</label>
+                            <select class="form-control" id="profile" formControlName="profiles"
+                                [ngClass]="{ 'is-invalid': profiles.touched && profiles.invalid}"
+                                style="width: 100%; margin-bottom: 10px;">
+                                <option *ngFor="let profile of profilesList" [value]="profile._id">
+                                    {{ profile.profilePlaceHolder | translate }}</option>
+                            </select>
+                            <div *ngIf="profiles.invalid && (profiles.dirty || profiles.touched)"
+                                class="invalid-feedback">
+                                <div *ngIf="!profiles.valid">
+                                    Perfil do Usuário é obrigatório.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-auto">
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" formControlName="download" value="" />
+                                    <div class="state">
+                                        <label>Download</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" formControlName="print" value="" />
+                                    <div class="state">
+                                        <label>Impressão</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" formControlName="physicalDocuments" value="" />
+                                    <div class="state">
+                                        <label>Solicitação de Documentos</label>
+                                    </div>
+                                </div>
+                            </div>
+>>>>>>> homolog2
                         </div>
                       </div>
                       <div class="input-group" *ngIf="documentsAll">
@@ -106,14 +174,84 @@
                   style="width: 100%" /> -->
                       </div>
                     </div>
+<<<<<<< HEAD
                     <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                       <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                     <!-- <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+=======
+
+                    <div class="col-lg-6" *ngIf="!isAdminSelect()">
+                        <div class="col-lg-12">
+                            <h5>Permissões</h5>
+                        </div>
+                        <div class="form-group" formArrayName="permissions">
+                            <div *ngFor="let permissions of permissions.controls; index as i">
+                                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                                    <div class="card-body">
+                                        <div [formGroupName]="i">
+                                            <button *ngIf="!userExternal" type="button"
+                                                class="btn btn-danger btn-xs pull-right" (click)="removePermission(i)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="typeahead-basic">Empresa</label>
+                                                <input id="typeahead-basic" type="text" class="form-control"
+                                                    formControlName="company" (selectItem)="getDocuments($event)"
+                                                    [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchCompany"
+                                                    [ngClass]="{ 'is-invalid': company.touched && company.invalid}" />
+                                                <div *ngIf="company.invalid && (company.dirty || company.touched)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="!company.valid">
+                                                        Empresa é obrigatório.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <ng-template #content let-c="close" let-d="dismiss">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">Adicionar documentos
+                                                    </h4>
+                                                    <button type="button" class="close" aria-label="Close"
+                                                        (click)="d('Cross click')">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <type-ahead class="form-control multi" [multi]="true"
+                                                        [complex]="true" idField="_id" formControlName="docts"
+                                                        [suggestions]="documentsAll"
+                                                        style="width: 1px; background-color:transparent; border: yellow;"
+                                                        aria-describedby="emailHelp">
+                                                    </type-ahead>
+                                                    <br />
+                                                    <small id="emailHelp" class="form-text text-muted">
+                                                        Se não houver documentos selecionados, serão permitidos todos os
+                                                        documentos da empresa.
+                                                    </small>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-dark"
+                                                        (click)="c('Save click')">Salvar</button>
+                                                </div>
+                                            </ng-template>
+
+                                            <button class="btn btn-sm btn-secundary" (click)="open(content)">Exibir
+                                                Documentos
+                                            </button>
+                                        </div>
+                                        <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                                            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                        </ng-template>
+                                        <!-- <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+>>>>>>> homolog2
                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
               </ng-template> -->
                   </div>
                 </div>
+<<<<<<< HEAD
               </div>
             </div>
             <div>
@@ -123,6 +261,18 @@
               </button>
             </div>
           </div>
+=======
+                <div class="col-lg-12">
+                    <br />
+                    <button type="submit" class="btn btn-primary" (click)="postUser()" style="float: right"
+                        [disabled]="email.invalid || name.invalid || profiles.invalid">
+                        Salvar
+                    </button>
+                    <button type="button" [routerLink]="['/users']" class="btn btn-default"
+                        style="float: right;margin-right: 10px;">Voltar</button>
+                </div>
+            </form>
+>>>>>>> homolog2
         </div>
         <div class="col-lg-12">
           <br />

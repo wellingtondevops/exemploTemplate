@@ -1,123 +1,160 @@
 <div [@routerTransition]>
-  <div *ngIf="loading">
-    <ngx-loading [show]="loading" [config]="{
-      backdropBorderRadius: '3px',
-      fullScreenBackdrop: true,
-      primaryColour: '#222',
-      secondaryColour: '#222',
-      tertiaryColour: '#222'
-  }"></ngx-loading>
-  </div>
-  <app-page-header [heading]="'Arquivos'" [icon]="'fa-table'"></app-page-header>
-  <ngb-accordion #acc="ngbAccordion" activeIds="archives-0">
-    <ngb-panel id="archives-0">
-      <ng-template ngbPanelTitle>
-        <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form-inline">
-          <div class="row col-12">
-            <div class="form-group mb-2 col-3">
-              <label for="typeahead-basic">Empresa</label>
-              <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text"
-                class="form-control" formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                [ngbTypeahead]="searchCompany" [ngClass]="{ 'is-invalid': !company.valid }" style="width: 100%" />
-              <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                <div *ngIf="!company.valid">
-                  Empresa é obrigatório.
+    <div *ngIf="loading">
+        <ngx-loading [show]="loading" [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"></ngx-loading>
+    </div>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <h2>Arquivos</h2>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form-inline">
+                <div class="row col-12">
+                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true"
+                            type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                        <label for="typeahead-focus">Departamento</label>
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                            formControlName="departament" [resultTemplate]="rtDepartament"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" style="width: 100%"
+                            #instanceDepartament="ngbTypeahead"
+                            (focus)="focusDepartament$.next($any($event).target.value)"
+                            (click)="clickDepartament$.next($any($event).target.value)" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                        <label for="search_archive">Posição</label>
+                        <input id="search_archive" class="form-control col-12" formControlName="location" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                        <label for="typeahead-focus">Depósito</label>
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                            formControlName="storehouse" [resultTemplate]="rtStorehouse"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" style="width: 100%"
+                            #instanceStorehouse="ngbTypeahead"
+                            (focus)="focusStorehouse$.next($any($event).target.value)"
+                            (click)="clickStorehouse$.next($any($event).target.value)" />
+                    </div>
+                    <!-- <div class="form-group mb-2 col-1">
+                        <label for="status">Status</label>
+                        <select class="form-control col-12" id="status" formControlName="status">
+                            <option *ngFor="let item of statusList | enumToArray" [value]="item">
+                                {{ item }}</option>
+                        </select>
+                    </div> -->
                 </div>
-              </div>
-            </div>
-            <div class="form-group mb-2 col-3">
-              <label for="typeahead-focus">Departamento</label>
-              <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
-                formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
-                [ngbTypeahead]="searchDepartament" style="width: 100%" #instanceDepartament="ngbTypeahead"
-                (focus)="focusDepartament$.next($any($event).target.value)"
-                (click)="clickDepartament$.next($any($event).target.value)" />
-            </div>
-            <div class="form-group mb-2 col-2">
-              <label for="search_archive">Posição</label>
-              <input id="search_archive" class="form-control col-12" formControlName="location" />
-            </div>
-            <div class="form-group mb-2 col-1">
-              <label for="status">Status</label>
-              <select class="form-control col-12" id="status" formControlName="status">
-                <option *ngFor="let item of statusList | enumToArray" [value]="item">
-                  {{ item }}</option>
-              </select>
-            </div>
-            <div class="form-group mb-2 col-3">
-              <label for="typeahead-focus">Depósito</label>
-              <input id="typeahead-focus" autoFocus="true" type="text" class="form-control" formControlName="storehouse"
-                [resultTemplate]="rtStorehouse" [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
-                style="width: 100%" #instanceStorehouse="ngbTypeahead"
-                (focus)="focusStorehouse$.next($any($event).target.value)"
-                (click)="clickStorehouse$.next($any($event).target.value)" />
-            </div>
-          </div>
-          <div class="row col-12">
-            <div class="form-group mb-2 col-3">
-              <label for="typeahead-scrollable">Documento</label>
-              <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control" formControlName="doct"
-                [resultTemplate]="rtDocument" [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
-                style="width: 100%" #instanceDocument="ngbTypeahead"
-                (focus)="focusDocument$.next($any($event).target.value)"
-                (click)="clickDocument$.next($any($event).target.value)" />
-            </div>
-            <div class="form-group mb-2 col-6">
-              <label for="search_archive">Índice</label>
-              <input id="search_archive" class="form-control col-12" formControlName="search" />
-            </div>
-            <div class="form-group mb-2 col-3" style="padding-right: 0;">
-              <div class="row col-12" style="padding-right: 0;">
-                <label for="initDate">Data Inicial</label>
-                <input id="initDate" type="date" class="form-control col-12" formControlName="initDate" />
-              </div>
+                <div class="row col-12" style="margin-top: 10px;">
+                    <div class="form-group mb-2 col-lg-12 col-sm-12">
+                        <label style="margin-right: 5px;">Status:</label>
+                        <div class="form-check">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                    value="ATIVO" id="status" checked>
+                                <div class="state">
+                                    <label class="form-check-label" for="status">
+                                        ARQUIVO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                    value="BAIXADO" id="statusB">
+                                <div class="state">
+                                    <label class="form-check-label" for="statusB">
+                                        BAIXADO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                    value="EMPRESTADO" id="statusE">
+                                <div class="state">
+                                    <label class="form-check-label" for="statusE">
+                                        EMPRESTADO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-12" style="margin-top: 10px;">
+                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                        <label for="typeahead-scrollable">Documento</label>
+                        <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
+                            formControlName="doct" [resultTemplate]="rtDocument" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchDocument" style="width: 100%" #instanceDocument="ngbTypeahead"
+                            (focus)="focusDocument$.next($any($event).target.value)"
+                            (click)="clickDocument$.next($any($event).target.value)" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                        <label for="search_archive">Índice</label>
+                        <input id="search_archive" class="form-control col-12" formControlName="search" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                        <label for="initDate">Data Inicial</label>
+                        <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
+                            (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
+                    </div>
+                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                        <label for="endDate">Data Final</label>
+                        <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
+                            [disabled]="!dateSent" [min]="dateSent" />
+                    </div>
+                </div>
+                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                    <div class="form-group mb-2">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button type="button" style="margin-left: 5px;" [disabled]="company.invalid"
+                            class="btn btn-default" (click)="clear()">
+                            Limpar Campos
+                        </button>
+                        <button [disabled]="company.invalid || doct.invalid" type="button" style="margin-left: 5px;"
+                            class="btn btn-success" (click)="exportArchives()">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
+                        </button>
+                    </div>
+                </div>
 
-              <div class="row col-12" style="padding-right: 0;">
-                <label for="endDate">Data Final</label>
-                <input id="endDate" type="date" class="form-control col-12" formControlName="endDate" />
-              </div>
-            </div>
-          </div>
-          <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-            <div class="form-group mb-2">
-              <button type="submit"  class="btn btn-primary" [disabled]="company.invalid">
-                <i class="fa fa-search"></i>
-              </button>
-              <button type="button" style="margin-left: 5px;"[disabled]="company.invalid" class="btn btn-default" (click)="clear()" >
-                Limpar Campos
-              </button>
-              <button [disabled]="company.invalid || doct.invalid"
-                type="button" style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()">
-                <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
-              </button>
-            </div>
-          </div>
-
-          <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-          <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-          <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-          <ng-template #rtDocument  let-r="result" let-t="doct" class="custom-typeahead" >
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-          </ng-template>
-        </form>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-  <br />
-  <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50"
-    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-    [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="showView($event)">
-    <!-- Row Detail Template -->
-    <!-- <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
+                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+            </form>
+        </div>
+    </div>
+    <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+        [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="showView($event)">
+        <!-- Row Detail Template -->
+        <!-- <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <div class="container" style="padding-bottom: 10px">
           <div class="row">
@@ -131,8 +168,8 @@
         </div>
       </ng-template>
     </ngx-datatable-row-detail> -->
-    <!-- Column Templates -->
-    <!-- <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+        <!-- Column Templates -->
+        <!-- <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
       [canAutoResize]="false">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
         <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
@@ -140,22 +177,22 @@
         </a>
       </ng-template>
     </ngx-datatable-column> -->
-    <ngx-datatable-column name="Departamento" [width]="200" prop="departament.name"></ngx-datatable-column>
-    <ngx-datatable-column name="Posição" [width]="100" prop="volume.location"></ngx-datatable-column>
-    <ngx-datatable-column name="Status" [width]="100" prop="status"></ngx-datatable-column>
-    <ngx-datatable-column name="Documento" [width]="200" prop="doct.name"></ngx-datatable-column>
-    <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name"></ngx-datatable-column>
-    <ngx-datatable-column name="Indexação" [width]="320" prop="index"></ngx-datatable-column>
-    <ngx-datatable-column name="Anexo" [width]="100" prop="picture">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        <i *ngIf="value" class="fa fa-file-pdf-o" style="font-size:48px;color:rgb(190, 36, 36)"></i>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Páginas" [width]="70" prop="picture.page"></ngx-datatable-column>
-    <ngx-datatable-column name="Criado em" [width]="150" prop="create">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value | date: 'dd/MM/yyyy' }}
-      </ng-template>
-    </ngx-datatable-column>
-  </ngx-datatable>
+        <ngx-datatable-column name="Departamento" prop="departament.name" [width]="20"></ngx-datatable-column>
+        <ngx-datatable-column name="Posição" prop="volume.location" [width]="10"></ngx-datatable-column>
+        <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="20"></ngx-datatable-column>
+        <ngx-datatable-column name="Status" prop="status" [width]="10"></ngx-datatable-column>
+        <ngx-datatable-column name="Documento" prop="doct.name"></ngx-datatable-column>
+        <ngx-datatable-column name="Indexação" prop="index"></ngx-datatable-column>
+        <ngx-datatable-column name="Anexo" prop="picture" [width]="20">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <i *ngIf="value" class="fa fa-file-pdf-o" style="font-size:48px;color:rgb(190, 36, 36)"></i>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Páginas" [width]="15" prop="picture.page"></ngx-datatable-column>
+        <ngx-datatable-column name="Criado em" [width]="15" prop="create">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value | date: 'dd/MM/yyyy' }}
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
 </div>

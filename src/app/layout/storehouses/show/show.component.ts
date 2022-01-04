@@ -105,7 +105,7 @@ export class ShowComponent implements OnInit {
             });
         }
 
-        this.getPosicoes();
+        // this.getPosicoes();
         this.permissionNew = JSON.parse(
             window.localStorage.getItem('actions')
         )[0].write;
