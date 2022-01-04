@@ -5,10 +5,11 @@
             primaryColour: '#222',
             secondaryColour: '#222',
             tertiaryColour: '#222'
-        }"></ngx-loading>
-    <app-page-header [heading]="'Editar Serviço Empresarial'" [icon]="'fa-user'"></app-page-header>
-
+    }"></ngx-loading>
     <div class="card bg-light">
+        <div class="card-header">
+            <h3>Editar Serviço Empresarial</h3>
+        </div>
         <div class="card-body">
             <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="updateCompanyService()">
                 <div class="row">
@@ -34,9 +35,9 @@
                                             <br />
                                             <div class="form-group">
                                                 <label for="typeahead-basic">Serviço</label>
-                                                <input id="typeahead-basic" placeholder="Nome do Serviço" autoFocus="true" type="text"
-                                                    class="form-control typehead" formControlName="description"
-                                                    [resultTemplate]="rtMenuService"
+                                                <input id="typeahead-basic" placeholder="Nome do Serviço"
+                                                    autoFocus="true" type="text" class="form-control typehead"
+                                                    formControlName="description" [resultTemplate]="rtMenuService"
                                                     [inputFormatter]="formatterMenuService" [ngbTypeahead]="searchMenu"
                                                     style="width: 100%" />
                                                 <ng-template #rtMenuService let-r="result" let-t="menu"

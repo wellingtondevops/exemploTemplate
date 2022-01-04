@@ -1,52 +1,48 @@
 <div [@routerTransition]>
     <ngx-loading [show]="loading" [config]="{
-          backdropBorderRadius: '3px',
-          fullScreenBackdrop: true,
-          primaryColour: '#222',
-          secondaryColour: '#222',
-          tertiaryColour: '#222'
-      }"></ngx-loading>
-    <app-page-header [heading]="'Serviços'" [icon]="'fa-table'" [btnNew]="'Novo Serviço'"
-        [permissionBtnNew]="permissionNew" [routerTo]="'/menu-services/new'"></app-page-header>
-
-    <ngb-accordion #acc="ngbAccordion" activeIds="menu-service-0">
-        <ngb-panel id="menu-service-0">
-            <ng-template ngbPanelTitle>
-                <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-            </ng-template>
-            <ng-template ngbPanelContent>
-                <form [formGroup]="searchForm" (ngSubmit)="setPageMenu()" role="FormGroup">
-                    <div class="row">
-                        <div class="form-group mb-2 col-lg-7 col-sm-12">
-                            <label for="labelName">Descrição</label>
-                            <input id="descriptionService" autoFocus="true" type="text"
-                                placeholder="Descrição do Serviço" class="form-control"
-                                formControlName="descriptionService" style="width: 100%"
-                                [ngClass]="{ 'is-invalid': descriptionService.invalid && descriptionService.touched }" />
-                            <div *ngIf="descriptionService.invalid && (descriptionService.dirty || descriptionService.touched)"
-                                class="invalid-feedback">
-                                <div *ngIf="!descriptionService.valid">
-                                    Descrição é obrigatório.
-                                </div>
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'
+    }"></ngx-loading>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <app-page-header [heading]="'Serviços'" [icon]="'fa-table'" [btnNew]="'Novo Serviço'"
+                [permissionBtnNew]="permissionNew" [routerTo]="'/menu-services/new'">
+            </app-page-header>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" (ngSubmit)="setPageMenu()" role="FormGroup">
+                <div class="row">
+                    <div class="form-group mb-2 col-lg-7 col-sm-12">
+                        <label for="labelName">Descrição</label>
+                        <input id="descriptionService" autoFocus="true" type="text" placeholder="Descrição do Serviço"
+                            class="form-control" formControlName="descriptionService" style="width: 100%"
+                            [ngClass]="{ 'is-invalid': descriptionService.invalid && descriptionService.touched }" />
+                        <div *ngIf="descriptionService.invalid && (descriptionService.dirty || descriptionService.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!descriptionService.valid">
+                                Descrição é obrigatório.
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group mb-2 col-lg-12 col-sm-12 text-center">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            <button type="submit" class="btn btn-default" style="margin-left: 5px;"
-                                [disabled]="descriptionService.invalid" (click)="clear()">
-                                Limpar Campos
-                            </button>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2 col-lg-12 col-sm-12 text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button type="submit" class="btn btn-default" style="margin-left: 5px;"
+                            [disabled]="descriptionService.invalid" (click)="clear()">
+                            Limpar Campos
+                        </button>
                     </div>
-                </form>
-            </ng-template>
-        </ngb-panel>
-    </ngb-accordion>
-    <br />
+                </div>
+            </form>
+        </div>
+    </div>
+
     <app-datatables [data]="services" (setPage)="setPageMenu($event)" (show)="getMenu($event)" [columns]="columns">
     </app-datatables>
 </div>
