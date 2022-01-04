@@ -6,207 +6,202 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <app-page-header [heading]="'Relatórios'" [icon]="'fa-table'"></app-page-header>
-
-    <ngb-accordion #acc="ngbAccordion" activeIds="reports-0">
-        <ngb-panel id="reports-0">
-            <ng-template ngbPanelTitle>
-                <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-            </ng-template>
-            <ng-template ngbPanelContent>
-                <form [formGroup]="searchForm" role="FormGroup" class="form">
-                    <div class="row">
-                        <div class="form-group col-lg-8 col-sm-12">
-                            <label for="typeahead-basic">Empresa</label>
-                            <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"
-                                class="form-control typehead" formControlName="company" [resultTemplate]="rtCompany"
-                                [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                                [ngClass]="{ 'is-invalid': company.invalid && company.touched}" />
-                            <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                                <div *ngIf="!company.valid">
-                                    Empresa é obrigatório.
-                                </div>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <h3>Relatórios</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" role="FormGroup" class="form">
+                <div class="row">
+                    <div class="form-group col-lg-8 col-sm-12">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"
+                            class="form-control typehead" formControlName="company" [resultTemplate]="rtCompany"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched}" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-sm-12">
-                            <label for="initDate">Data Inicial</label>
-                            <input id="initDate" type="date" class="form-control" formControlName="initDate"
-                                [(ngModel)]="dateSent" (input)="changeDate()" />
-                        </div>
-                        <div class="form-group col-lg-4 col-sm-12">
-                            <label for="endDate">Data Final</label>
-                            <input id="endDate" type="date" class="form-control" formControlName="endDate"
-                                [disabled]="!dateSent" [min]="dateSent" />
-                        </div>
-                        <div class="form-group col-lg-2 col-sm-12 mt-lg-4">
-                            <button type="submit" class="btn btn-primary" style="margin-top: 8px;"
-                                [disabled]="company.invalid" (click)="getReports()">
-                                Pesquisar</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-sm-12">
-                            <button *ngIf="reports" style="margin-left: 10px" class="btn btn-primary"
-                                printSectionId="print-section" ngxPrint>Imprimir Relatório</button>
-                        </div>
-                    </div>
-                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                    </ng-template>
-                </form>
-            </ng-template>
-        </ngb-panel>
-    </ngb-accordion>
-</div>
-<br />
-<div class="row" *ngIf="reports">
-    <div class="col-lg-12">
-        <div style="margin-top: 15px" id="print-section">
-            <div class="card">
-                <div class="card-header"><b>Cliente</b></div>
-                <div class="card-body">
-                    <span><b>{{ reports.companyName }}</b></span>
-                    <span class="pull-right"><b>Período: {{ reports.initialPeriod }} À {{ reports.finalPeriod
-                            }}</b></span>
-                    <br />
                 </div>
-            </div>
-            <br>
-            <div class="card">
-                <div class="card-header">
-                    <b>Descrição</b>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-sm-12">
+                        <label for="initDate">Data Inicial</label>
+                        <input id="initDate" type="date" class="form-control" formControlName="initDate"
+                            [(ngModel)]="dateSent" (input)="changeDate()" />
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-12">
+                        <label for="endDate">Data Final</label>
+                        <input id="endDate" type="date" class="form-control" formControlName="endDate"
+                            [disabled]="!dateSent" [min]="dateSent" />
+                    </div>
+                    <div class="form-group col-lg-2 col-sm-12 mt-lg-4">
+                        <button type="submit" class="btn btn-primary" style="margin-top: 8px;"
+                            [disabled]="company.invalid" (click)="getReports()">
+                            Pesquisar</button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
+                <div class="row">
+                    <div class="col-lg-2 col-sm-12">
+                        <button *ngIf="reports" style="margin-left: 10px" class="btn btn-primary"
+                            printSectionId="print-section" ngxPrint>Imprimir Relatório</button>
+                    </div>
+                </div>
+                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+            </form>
+        </div>
+    </div>
 
-                                </th>
-                                <th>
-                                    Totais do Acervo
-                                </th>
-                                <th>
-                                    Totais do Período
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Volumes</td>
-                                <td>{{ reports.totalDepartamentVolumes }}</td>
-                                <td>{{ reports.peridoDepartamentVolumes }}</td>
-                            </tr>
-                            <tr>
-                                <td>Arquivos</td>
-                                <td>{{ reports.totalDocumentArchives }}</td>
-                                <td>{{ reports.periodDocumentArchives }}</td>
-                            </tr>
-                            <tr>
-                                <td>Total de Páginas Digitalizadas no Período</td>
-                                <td>{{ reports.totalDocumentPages }}</td>
-                                <td>{{ reports.periodDocumentPages }}</td>
-                            </tr>
-                            <tr>
-                                <td>Espaço de Armazenamento Utilizado</td>
-                                <td>{{ reports.usedSpace }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div class="row" *ngIf="reports">
+        <div class="col-lg-12">
+            <div style="margin-top: 15px" id="print-section">
+                <div class="card">
+                    <div class="card-header"><b>Cliente</b></div>
+                    <div class="card-body">
+                        <span><b>{{ reports.companyName }}</b></span>
+                        <span class="pull-right"><b>Período: {{ reports.initialPeriod }} À {{ reports.finalPeriod
+                                }}</b></span>
+                        <br />
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="card">
-                <div class="card-header">
-                    <b>Departamentos</b>
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        <b>Descrição</b>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+
+                                    </th>
+                                    <th>
+                                        Totais do Acervo
+                                    </th>
+                                    <th>
+                                        Totais do Período
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Volumes</td>
+                                    <td>{{ reports.totalDepartamentVolumes }}</td>
+                                    <td>{{ reports.peridoDepartamentVolumes }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Arquivos</td>
+                                    <td>{{ reports.totalDocumentArchives }}</td>
+                                    <td>{{ reports.periodDocumentArchives }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total de Páginas Digitalizadas no Período</td>
+                                    <td>{{ reports.totalDocumentPages }}</td>
+                                    <td>{{ reports.periodDocumentPages }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Espaço de Armazenamento Utilizado</td>
+                                    <td>{{ reports.usedSpace }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Departamento
-                                </th>
-                                <th>
-                                    Total de Volumes
-                                </th>
-                                <th>
-                                    Volumes no Período
-                                </th>
-                                <th>
-                                    Total de Arquivos
-                                </th>
-                                <th>
-                                    Arquivos no Período
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let departament of reports.DEPARTAMENT">
-                                <td>{{ departament.departamentName}}</td>
-                                <td>{{ departament.totalVolumes}}</td>
-                                <td>{{ departament.periodVolumes}}</td>
-                                <td>{{ departament.totalArchives}}</td>
-                                <td>{{ departament.periodArchives}}</td>
-                            </tr>
-                            <tr>
-                                <td>Totais</td>
-                                <td>{{ reports.totalDepartamentVolumes }}</td>
-                                <td>{{ reports.peridoDepartamentVolumes }}</td>
-                                <td>{{ reports.totalDepartamentArchives }}</td>
-                                <td>{{ reports.peridoDepartamentArchives }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <br />
+                <div class="card">
+                    <div class="card-header">
+                        <b>Departamentos</b>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Departamento
+                                    </th>
+                                    <th>
+                                        Total de Volumes
+                                    </th>
+                                    <th>
+                                        Volumes no Período
+                                    </th>
+                                    <th>
+                                        Total de Arquivos
+                                    </th>
+                                    <th>
+                                        Arquivos no Período
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let departament of reports.DEPARTAMENT">
+                                    <td>{{ departament.departamentName}}</td>
+                                    <td>{{ departament.totalVolumes}}</td>
+                                    <td>{{ departament.periodVolumes}}</td>
+                                    <td>{{ departament.totalArchives}}</td>
+                                    <td>{{ departament.periodArchives}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Totais</td>
+                                    <td>{{ reports.totalDepartamentVolumes }}</td>
+                                    <td>{{ reports.peridoDepartamentVolumes }}</td>
+                                    <td>{{ reports.totalDepartamentArchives }}</td>
+                                    <td>{{ reports.peridoDepartamentArchives }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="card">
-                <div class="card-header">
-                    <b>Documentos</b>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Documento
-                                </th>
-                                <th>
-                                    Total de Arquivos
-                                </th>
-                                <th>
-                                    Arquivos no Período
-                                </th>
-                                <th>
-                                    Total de Páginas
-                                </th>
-                                <th>
-                                    Páginas no Período
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let document of reports.DOCUMENT">
-                                <td>{{ document.documentName}}</td>
-                                <td>{{ document.totalArchives}}</td>
-                                <td>{{ document.periodArquivos}}</td>
-                                <td>{{ document.totalPageArchive}}</td>
-                                <td>{{ document.periodPageArchive}}</td>
-                            </tr>
-                            <tr>
-                                <td>Totais</td>
-                                <td>{{ reports.totalDocumentArchives }}</td>
-                                <td>{{ reports.periodDocumentArchives }}</td>
-                                <td>{{ reports.totalDocumentPages }}</td>
-                                <td>{{ reports.periodDocumentPages }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <br />
+                <div class="card">
+                    <div class="card-header">
+                        <b>Documentos</b>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Documento
+                                    </th>
+                                    <th>
+                                        Total de Arquivos
+                                    </th>
+                                    <th>
+                                        Arquivos no Período
+                                    </th>
+                                    <th>
+                                        Total de Páginas
+                                    </th>
+                                    <th>
+                                        Páginas no Período
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let document of reports.DOCUMENT">
+                                    <td>{{ document.documentName}}</td>
+                                    <td>{{ document.totalArchives}}</td>
+                                    <td>{{ document.periodArquivos}}</td>
+                                    <td>{{ document.totalPageArchive}}</td>
+                                    <td>{{ document.periodPageArchive}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Totais</td>
+                                    <td>{{ reports.totalDocumentArchives }}</td>
+                                    <td>{{ reports.periodDocumentArchives }}</td>
+                                    <td>{{ reports.totalDocumentPages }}</td>
+                                    <td>{{ reports.periodDocumentPages }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
