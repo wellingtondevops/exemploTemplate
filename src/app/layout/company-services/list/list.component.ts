@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
   columns = [
     { name: 'Nome', prop: 'company.name' },
   ];
-  permissionNew: boolean = false;
+  permissionNew = false;
   companies: any;
 
   constructor(
@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
         company: value.company
       });
     }
-    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
 
     this.getCompanies();
     this.getCompanyServices();
@@ -108,7 +108,7 @@ export class ListComponent implements OnInit {
     this.page.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
     this.localStorageSrv.save('value', this.searchForm.value);
     if (this.company.valid) {
-      console.log(this.searchForm.value)
+      console.log(this.searchForm.value);
       this.companyserviceSrc.searchServices({company: this.searchForm.get('company').value.name}, this.page).subscribe(
         data => {
           this.services = data;

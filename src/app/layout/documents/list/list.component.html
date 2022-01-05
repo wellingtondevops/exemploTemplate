@@ -18,7 +18,7 @@
                     <div class="form-group mb-2 col-lg-6">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"
-                            class="form-control typehead" formControlName="company" [resultTemplate]="rtCompany"
+                            class="form-control typehead" formControlName="company" [resultTemplate]="company"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" style="width: 100%"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
