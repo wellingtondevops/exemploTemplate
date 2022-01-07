@@ -13,12 +13,12 @@
             <h2>Arquivos</h2>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form-inline">
-                <div class="row col-12">
-                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+            <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
+                <div class="row">
+                    <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true"
-                            type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany"
+                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text"
+                            class="form-control" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
@@ -27,25 +27,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                    <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-focus">Departamento</label>
                         <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
-                            formControlName="departament" [resultTemplate]="rtDepartament"
-                            [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" style="width: 100%"
-                            #instanceDepartament="ngbTypeahead"
+                            formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchDepartament" style="width: 100%" #instanceDepartament="ngbTypeahead"
                             (focus)="focusDepartament$.next($any($event).target.value)"
                             (click)="clickDepartament$.next($any($event).target.value)" />
                     </div>
-                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                    <div class="form-group col-lg-3 col-sm-12">
                         <label for="search_archive">Posição</label>
                         <input id="search_archive" class="form-control col-12" formControlName="location" />
                     </div>
-                    <div class="form-group mb-2 col-lg-3 col-sm-12">
+                    <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-focus">Depósito</label>
                         <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
-                            formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" style="width: 100%"
-                            #instanceStorehouse="ngbTypeahead"
+                            formControlName="storehouse" [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchStorehouse" style="width: 100%" #instanceStorehouse="ngbTypeahead"
                             (focus)="focusStorehouse$.next($any($event).target.value)"
                             (click)="clickStorehouse$.next($any($event).target.value)" />
                     </div>
@@ -57,46 +55,76 @@
                         </select>
                     </div> -->
                 </div>
-                <div class="row col-12" style="margin-top: 10px;">
-                    <div class="form-group mb-2 col-lg-12 col-sm-12">
-                        <label style="margin-right: 5px;">Status:</label>
-                        <div class="form-check">
-                            <div class="pretty p-switch p-fill">
-                                <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                    value="ATIVO" id="status" checked>
-                                <div class="state">
-                                    <label class="form-check-label" for="status">
-                                        ARQUIVO
-                                    </label>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-lg-7 col-sm-12">
+                        <div class="form-group form-check-inline">
+                            <label style="margin-right: 5px;">Status:</label>
+                            <div class="form-check">
+                                <div class="pretty p-switch p-fill">
+                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                        value="ATIVO" id="status" checked>
+                                    <div class="state">
+                                        <label class="form-check-label" for="status">
+                                            ARQUIVO
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <div class="pretty p-switch p-fill">
+                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                        value="BAIXADO" id="statusB">
+                                    <div class="state">
+                                        <label class="form-check-label" for="statusB">
+                                            BAIXADO
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <div class="pretty p-switch p-fill">
+                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                        value="EMPRESTADO" id="statusE">
+                                    <div class="state">
+                                        <label class="form-check-label" for="statusE">
+                                            EMPRESTADO
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-check">
-                            <div class="pretty p-switch p-fill">
-                                <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                    value="BAIXADO" id="statusB">
-                                <div class="state">
-                                    <label class="form-check-label" for="statusB">
-                                        BAIXADO
-                                    </label>
+                    </div>
+                    <div class="col-lg-5 col-sm-12">
+                        <div class="form-group form-check-inline">
+                            <label style="margin-right: 5px;">Fases:</label>
+                            <div class="form-check">
+                                <div class="pretty p-switch p-fill">
+                                    <input class="form-check-input" type="checkbox" name="current" formControlName="finalCurrent"
+                                        [value]="true" id="current" checked>
+                                    <div class="state">
+                                        <label class="form-check-label" for="current">
+                                            CORRENTE
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-check">
-                            <div class="pretty p-switch p-fill">
-                                <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                    value="EMPRESTADO" id="statusE">
-                                <div class="state">
-                                    <label class="form-check-label" for="statusE">
-                                        EMPRESTADO
-                                    </label>
+
+                            <div class="form-check">
+                                <div class="pretty p-switch p-fill">
+                                    <input class="form-check-input" type="checkbox" name="status" formControlName="finalIntermediate"
+                                        [value]="true" id="finalIntermediate" checked>
+                                    <div class="state">
+                                        <label class="form-check-label" for="finalIntermediate">
+                                            INTERMEDIARIO
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row col-12" style="margin-top: 10px;">
-                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                <div class="row" style="margin-top: 10px;">
+                    <div class="form-group col-lg-4 col-sm-12">
                         <label for="typeahead-scrollable">Documento</label>
                         <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
                             formControlName="doct" [resultTemplate]="rtDocument" [inputFormatter]="formatter"
@@ -104,23 +132,23 @@
                             (focus)="focusDocument$.next($any($event).target.value)"
                             (click)="clickDocument$.next($any($event).target.value)" />
                     </div>
-                    <div class="form-group mb-2 col-lg-4 col-sm-12">
+                    <div class="form-group col-lg-4 col-sm-12">
                         <label for="search_archive">Índice</label>
                         <input id="search_archive" class="form-control col-12" formControlName="search" />
                     </div>
-                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                    <div class="form-group col-lg-2 col-sm-12">
                         <label for="initDate">Data Inicial</label>
                         <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
                             (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
                     </div>
-                    <div class="form-group mb-2 col-lg-2 col-sm-12">
+                    <div class="form-group col-lg-2 col-sm-12">
                         <label for="endDate">Data Final</label>
                         <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
                             [disabled]="!dateSent" [min]="dateSent" />
                     </div>
                 </div>
                 <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                    <div class="form-group mb-2">
+                    <div class="form-group ">
                         <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                             <i class="fa fa-search"></i>
                         </button>
@@ -155,9 +183,9 @@
         [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="showView($event)">
         <!-- Row Detail Template -->
         <!-- <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
-      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <div class="container" style="padding-bottom: 10px">
-          <div class="row">
+        <div class="row">
             <div class="col-2" style="padding-left:35px;">
               <div *ngFor="let desc of row.doct.label"><strong>{{desc.namefield}}: </strong></div>
             </div>
@@ -177,21 +205,32 @@
         </a>
       </ng-template>
     </ngx-datatable-column> -->
-        <ngx-datatable-column name="Departamento" prop="departament.name" [width]="20"></ngx-datatable-column>
-        <ngx-datatable-column name="Posição" prop="volume.location" [width]="10"></ngx-datatable-column>
-        <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="20"></ngx-datatable-column>
-        <ngx-datatable-column name="Status" prop="status" [width]="10"></ngx-datatable-column>
-        <ngx-datatable-column name="Documento" prop="doct.name"></ngx-datatable-column>
-        <ngx-datatable-column name="Indexação" prop="index"></ngx-datatable-column>
-        <ngx-datatable-column name="Anexo" prop="picture" [width]="20">
+        <ngx-datatable-column name="Departamento" prop="departament.name" [width]="70" ></ngx-datatable-column>
+        <ngx-datatable-column name="Posição" prop="volume.location" [width]="70"></ngx-datatable-column>
+        <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="70"></ngx-datatable-column>
+        <ngx-datatable-column name="Status" prop="status" [width]="40"></ngx-datatable-column>
+        <ngx-datatable-column name="Documento" prop="doct.name" ></ngx-datatable-column>
+        <ngx-datatable-column name="Indexação" prop="index" [width]="300"></ngx-datatable-column>
+        <ngx-datatable-column name="Anexo" prop="picture" [width]="40">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                <i *ngIf="value" class="fa fa-file-pdf-o" style="font-size:48px;color:rgb(190, 36, 36)"></i>
+                <i *ngIf="value" class="fa fa-file-pdf-o" style="font-size:40px;color:rgb(190, 36, 36)"></i>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Páginas" [width]="15" prop="picture.page"></ngx-datatable-column>
-        <ngx-datatable-column name="Criado em" [width]="15" prop="create">
+        <ngx-datatable-column name="Páginas"  prop="picture.page" [width]="10"></ngx-datatable-column>
+        <ngx-datatable-column name="Criado em"  prop="create" [width]="30">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value | date: 'dd/MM/yyyy' }}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Fases" [width]="50" prop="finalcurrent">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+
+                <span *ngIf="!archives.finalCurrent" class="mdi mdi-alpha-c-box" style="font-size:30px; margin-right: 2px;"></span>
+                <span *ngIf="archives.finalCurrent" class="mdi mdi-alpha-c-box-outline" style="font-size:30px; margin-right: 2px;"></span>
+                <span *ngIf="!archives.finalIntermediate" class="mdi mdi-alpha-i-box" style="font-size:30px; margin-right: 2px;"></span>
+                <span *ngIf="archives.finalIntermediate" class="mdi mdi-alpha-i-box-outline" style="font-size:30px; margin-right: 2px;"></span>
+                <!-- <span *ngIf="finalFase" class="mdi mdi-alpha-f-box" style="font-size:25px; margin-right: 2px;"></span>
+                <span *ngIf="!finalFase" class="mdi mdi-alpha-f-box-outline" style="font-size:25px; margin-right: 2px;"></span> -->
             </ng-template>
         </ngx-datatable-column>
     </ngx-datatable>

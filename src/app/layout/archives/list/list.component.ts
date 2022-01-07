@@ -1,3 +1,4 @@
+import { data } from 'jquery';
 import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
@@ -87,7 +88,10 @@ export class ListComponent implements OnInit {
             doct: this.fb.control(null, Validators.required),
             search: this.fb.control(null, Validators.required),
             endDate: this.fb.control(null),
-            initDate: this.fb.control(null)
+            initDate: this.fb.control(null),
+            finalCurrent: this.fb.control(null),
+            final: this.fb.control(null),
+            finalIntermediate: this.fb.control(null),
         });
 
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
@@ -102,7 +106,10 @@ export class ListComponent implements OnInit {
                 doct: archive.doct,
                 search: archive.search,
                 endDate: archive.endDate,
-                initDate: archive.initDate
+                initDate: archive.initDate,
+                final: archive.final,
+                finalCurrent: archive.finalCurrent,
+                finalIntermediate: archive.finalIntermediate,
             });
             this.selectedCompany(archive.company._id);
         }
@@ -155,6 +162,9 @@ export class ListComponent implements OnInit {
             search: null,
             endDate: null,
             initDate: null,
+            final: null,
+            finalCurrent: null,
+            finalIntermediate: null,
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -166,6 +176,9 @@ export class ListComponent implements OnInit {
         newSearch.search = this.searchForm.value.search;
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
+        newSearch.final = this.searchForm.value.final;
+        newSearch.finalCurrent = this.searchForm.value.finalCurrent;
+        newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
