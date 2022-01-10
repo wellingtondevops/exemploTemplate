@@ -20,8 +20,8 @@
                         <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text"
                             class="form-control" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
-                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched}" style="width: 100%" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched )" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
                             </div>
@@ -100,7 +100,7 @@
                             <div class="form-check">
                                 <div class="pretty p-switch p-fill">
                                     <input class="form-check-input" type="checkbox" name="current" formControlName="finalCurrent"
-                                        [value]="true" id="current" checked>
+                                        id="current"/>
                                     <div class="state">
                                         <label class="form-check-label" for="current">
                                             CORRENTE
@@ -111,10 +111,10 @@
 
                             <div class="form-check">
                                 <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="status" formControlName="finalIntermediate"
-                                        [value]="true" id="finalIntermediate" checked>
+                                    <input class="form-check-input" type="checkbox" name="intermediate" formControlName="finalIntermediate"
+                                        id="Intermediate" *ngIf="pegaValor == false"/>
                                     <div class="state">
-                                        <label class="form-check-label" for="finalIntermediate">
+                                        <label class="form-check-label" for="Intermediate">
                                             INTERMEDIARIO
                                         </label>
                                     </div>
@@ -222,16 +222,26 @@
                 {{ value | date: 'dd/MM/yyyy' }}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Fases" [width]="50" prop="finalcurrent">
+        <ngx-datatable-column name="Fases" prop="finalCurrent"  [width]="5">
             <ng-template let-value="value" ngx-datatable-cell-template>
-
-                <span *ngIf="!archives.finalCurrent" class="mdi mdi-alpha-c-box" style="font-size:30px; margin-right: 2px;"></span>
-                <span *ngIf="archives.finalCurrent" class="mdi mdi-alpha-c-box-outline" style="font-size:30px; margin-right: 2px;"></span>
-                <span *ngIf="!archives.finalIntermediate" class="mdi mdi-alpha-i-box" style="font-size:30px; margin-right: 2px;"></span>
-                <span *ngIf="archives.finalIntermediate" class="mdi mdi-alpha-i-box-outline" style="font-size:30px; margin-right: 2px;"></span>
-                <!-- <span *ngIf="finalFase" class="mdi mdi-alpha-f-box" style="font-size:25px; margin-right: 2px;"></span>
-                <span *ngIf="!finalFase" class="mdi mdi-alpha-f-box-outline" style="font-size:25px; margin-right: 2px;"></span> -->
+                <i *ngIf="value == true" class="mdi mdi-alpha-c-box" style="font-size:30px; margin-right: 2px;"></i>
+                <i *ngIf="value == false" class="mdi mdi-alpha-c-box-outline" style="font-size:30px; margin-right: 2px;"></i>
             </ng-template>
         </ngx-datatable-column>
+
+        <ngx-datatable-column name="" prop="finalIntermediate" [width]="5">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <i *ngIf="value == true" class="mdi mdi-alpha-i-box" style="font-size:30px; margin-right: 2px;"></i>
+                <i *ngIf="value == false" class="mdi mdi-alpha-i-box-outline" style="font-size:30px; margin-right: 2px;"></i>
+            </ng-template>
+        </ngx-datatable-column>
+
+
+                <!-- <span [hidden]="finalCurrent === true" class="mdi mdi-alpha-c-box" style="font-size:30px; margin-right: 2px;"></span>
+                <span *ngIf="this.searchForm.value.finalCurrent === true" class="mdi mdi-alpha-c-box-outline" style="font-size:30px; margin-right: 2px;"></span> -->
+                <!-- <span *ngIf="!finalIntermediate" class="mdi mdi-alpha-i-box" style="font-size:30px; margin-right: 2px;"></span> -->
+                <!-- <span [hidden]="archives.finalIntermediate === false" class="mdi mdi-alpha-i-box-outline" style="font-size:30px; margin-right: 2px;"></span> -->
+                <!-- <span *ngIf="finalFase" class="mdi mdi-alpha-f-box" style="font-size:25px; margin-right: 2px;"></span>
+                <span *ngIf="!finalFase" class="mdi mdi-alpha-f-box-outline" style="font-size:25px; margin-right: 2px;"></span> -->
     </ngx-datatable>
 </div>

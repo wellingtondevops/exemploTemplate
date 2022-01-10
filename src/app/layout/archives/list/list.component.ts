@@ -56,7 +56,10 @@ export class ListComponent implements OnInit {
     archiveExport: string;
     nameArchiveExport: string;
     dateSent;
+    pegaValor;
+    pegaValor2;
     dateReceived;
+
 
     constructor(
         private archiveSrv: ArquivesService,
@@ -119,6 +122,7 @@ export class ListComponent implements OnInit {
         this.getCompanies();
         this.getStoreHouses();
         this.searchForm.patchValue({ endDate: null });
+        this.checkValue();
     }
 
     formatter = (x: { name: string }) => x.name;
@@ -138,12 +142,28 @@ export class ListComponent implements OnInit {
     get storehouse() {
         return this.searchForm.get('storehouse');
     }
+    get fIntermediate() {
+        return this.searchForm.get('finalIntermediate');
+    }
+    get fCurrent() {
+        return this.searchForm.get('finalCurrent');
+    }
 
     returnId(object) {
         const result = _.filter(this.searchForm.value[object], function (value, key) {
             if (key === '_id') { return value; }
         })[0];
         return result;
+    }
+    checkValue() {
+        this.pegaValor = this.fCurrent.value;
+        this.pegaValor2 = this.fIntermediate.value;
+        console.log('valor de check', this.pegaValor);
+
+        // if (this.fIntermediate.value === true && this.fCurrent.value === false) {
+        //         this.errorMsg.errorMessages('error');
+        //     // alert('Não pode carai');
+        // }
     }
 
     setPage(pageInfo) {
