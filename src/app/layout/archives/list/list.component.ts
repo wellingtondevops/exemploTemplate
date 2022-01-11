@@ -59,6 +59,8 @@ export class ListComponent implements OnInit {
     currentValue;
     indeterminateValue;
     dateReceived;
+    fDateCurrent;
+    fDateIntermediate;
 
 
     constructor(
@@ -95,6 +97,8 @@ export class ListComponent implements OnInit {
             finalCurrent: this.fb.control(null),
             final: this.fb.control(null),
             finalIntermediate: this.fb.control(null),
+            finalDateCurrent: this.fb.control(null),
+            finalDateIntermediate: this.fb.control(null)
         });
 
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
@@ -113,6 +117,8 @@ export class ListComponent implements OnInit {
                 final: archive.final,
                 finalCurrent: archive.finalCurrent,
                 finalIntermediate: archive.finalIntermediate,
+                finalDateCurrent: archive.finalDateCurrent,
+                finalDateIntermediate: archive.finalDateIntermediate
             });
             this.selectedCompany(archive.company._id);
         }
@@ -149,6 +155,8 @@ export class ListComponent implements OnInit {
         return this.searchForm.get('finalCurrent');
     }
 
+
+
     returnId(object) {
         const result = _.filter(this.searchForm.value[object], function (value, key) {
             if (key === '_id') { return value; }
@@ -162,7 +170,6 @@ export class ListComponent implements OnInit {
         if (this.indeterminateValue === true) {
             const newValue: Boolean = true;
             this.currentValue = newValue;
-            // $('#current').prop('checked', true);
         }
     }
 
@@ -186,6 +193,8 @@ export class ListComponent implements OnInit {
             final: null,
             finalCurrent: null,
             finalIntermediate: null,
+            finalDateCurrent: null,
+            finalDateIntermediate: null,
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -200,7 +209,8 @@ export class ListComponent implements OnInit {
         newSearch.final = this.searchForm.value.final;
         newSearch.finalCurrent = this.currentValue;
         newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
-
+        newSearch.finalDateIntermediate = this.searchForm.value.finalDateIntermediate;
+        newSearch.finalDateCurrent = this.searchForm.value.finalDateCurrent;
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
