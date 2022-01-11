@@ -99,8 +99,8 @@
                             <label style="margin-right: 5px;">Fases:</label>
                             <div class="form-check">
                                 <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="current" formControlName="finalCurrent"
-                                        id="current"/>
+                                    <input class="form-check-input" type="checkbox" name="current"
+                                        formControlName="finalCurrent" id="current" />
                                     <div class="state">
                                         <label class="form-check-label" for="current">
                                             CORRENTE
@@ -111,8 +111,8 @@
 
                             <div class="form-check">
                                 <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="intermediate" formControlName="finalIntermediate"
-                                        id="Intermediate" *ngIf="pegaValor == false"/>
+                                    <input class="form-check-input" type="checkbox" name="intermediate"
+                                        formControlName="finalIntermediate" id="Intermediate" />
                                     <div class="state">
                                         <label class="form-check-label" for="Intermediate">
                                             INTERMEDIARIO
@@ -205,43 +205,36 @@
         </a>
       </ng-template>
     </ngx-datatable-column> -->
-        <ngx-datatable-column name="Departamento" prop="departament.name" [width]="70" ></ngx-datatable-column>
+        <ngx-datatable-column name="Departamento" prop="departament.name" [width]="70"></ngx-datatable-column>
         <ngx-datatable-column name="Posição" prop="volume.location" [width]="70"></ngx-datatable-column>
         <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="70"></ngx-datatable-column>
         <ngx-datatable-column name="Status" prop="status" [width]="40"></ngx-datatable-column>
-        <ngx-datatable-column name="Documento" prop="doct.name" ></ngx-datatable-column>
+        <ngx-datatable-column name="Documento" prop="doct.name"></ngx-datatable-column>
         <ngx-datatable-column name="Indexação" prop="index" [width]="300"></ngx-datatable-column>
         <ngx-datatable-column name="Anexo" prop="picture" [width]="40">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 <i *ngIf="value" class="fa fa-file-pdf-o" style="font-size:40px;color:rgb(190, 36, 36)"></i>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Páginas"  prop="picture.page" [width]="10"></ngx-datatable-column>
-        <ngx-datatable-column name="Criado em"  prop="create" [width]="30">
+        <ngx-datatable-column name="Páginas" prop="picture.page" [width]="10"></ngx-datatable-column>
+        <ngx-datatable-column name="Criado em" prop="create" [width]="30">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value | date: 'dd/MM/yyyy' }}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Fases" prop="finalCurrent"  [width]="5">
+        <ngx-datatable-column name="Fases" prop="finalCurrent" [width]="5">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 <i *ngIf="value == true" class="mdi mdi-alpha-c-box" style="font-size:30px; margin-right: 2px;"></i>
-                <i *ngIf="value == false" class="mdi mdi-alpha-c-box-outline" style="font-size:30px; margin-right: 2px;"></i>
+                <i *ngIf="value == false" class="mdi mdi-alpha-c-box-outline"
+                    style="font-size:30px; margin-right: 2px;"></i>
             </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="" prop="finalIntermediate" [width]="5">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                <i *ngIf="value == true" class="mdi mdi-alpha-i-box" style="font-size:30px; margin-right: 2px;"></i>
-                <i *ngIf="value == false" class="mdi mdi-alpha-i-box-outline" style="font-size:30px; margin-right: 2px;"></i>
+                <i *ngIf="value == true" class="mdi mdi-alpha-i-box" style="font-size:30px;"></i>
+                <i *ngIf="value == false" class="mdi mdi-alpha-i-box-outline" style="font-size:30px;"></i>
             </ng-template>
         </ngx-datatable-column>
-
-
-                <!-- <span [hidden]="finalCurrent === true" class="mdi mdi-alpha-c-box" style="font-size:30px; margin-right: 2px;"></span>
-                <span *ngIf="this.searchForm.value.finalCurrent === true" class="mdi mdi-alpha-c-box-outline" style="font-size:30px; margin-right: 2px;"></span> -->
-                <!-- <span *ngIf="!finalIntermediate" class="mdi mdi-alpha-i-box" style="font-size:30px; margin-right: 2px;"></span> -->
-                <!-- <span [hidden]="archives.finalIntermediate === false" class="mdi mdi-alpha-i-box-outline" style="font-size:30px; margin-right: 2px;"></span> -->
-                <!-- <span *ngIf="finalFase" class="mdi mdi-alpha-f-box" style="font-size:25px; margin-right: 2px;"></span>
-                <span *ngIf="!finalFase" class="mdi mdi-alpha-f-box-outline" style="font-size:25px; margin-right: 2px;"></span> -->
     </ngx-datatable>
 </div>

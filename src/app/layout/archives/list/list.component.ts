@@ -56,8 +56,8 @@ export class ListComponent implements OnInit {
     archiveExport: string;
     nameArchiveExport: string;
     dateSent;
-    pegaValor;
-    pegaValor2;
+    currentValue;
+    indeterminateValue;
     dateReceived;
 
 
@@ -155,18 +155,19 @@ export class ListComponent implements OnInit {
         })[0];
         return result;
     }
-    checkValue() {
-        this.pegaValor = this.fCurrent.value;
-        this.pegaValor2 = this.fIntermediate.value;
-        console.log('valor de check', this.pegaValor);
 
-        // if (this.fIntermediate.value === true && this.fCurrent.value === false) {
-        //         this.errorMsg.errorMessages('error');
-        //     // alert('Não pode carai');
-        // }
+    checkValue() {
+        this.currentValue = this.fCurrent.value;
+        this.indeterminateValue = this.fIntermediate.value;
+        if (this.indeterminateValue === true) {
+            const newValue: Boolean = true;
+            this.currentValue = newValue;
+            // $('#current').prop('checked', true);
+        }
     }
 
     setPage(pageInfo) {
+        this.checkValue();
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
@@ -197,8 +198,9 @@ export class ListComponent implements OnInit {
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
         newSearch.final = this.searchForm.value.final;
-        newSearch.finalCurrent = this.searchForm.value.finalCurrent;
+        newSearch.finalCurrent = this.currentValue;
         newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
+
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
