@@ -225,7 +225,7 @@
         <ngx-datatable-column name="Fases" prop="finalCurrent" [width]="5">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 <i *ngIf="value == true" class="mdi mdi-alpha-c-box" title="" style="font-size:30px; margin-right: 2px;"></i>
-                <i *ngIf="value == false" class="mdi mdi-alpha-c-box-outline" title="Fase corrente em vigor"
+                <i *ngIf="value == false" class="mdi mdi-alpha-c-box-outline" title=""
                     style="font-size:30px; margin-right: 2px;"></i>
             </ng-template>
         </ngx-datatable-column>
@@ -233,7 +233,7 @@
         <ngx-datatable-column name="" prop="finalIntermediate" [width]="5">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 <i *ngIf="value == true" class="mdi mdi-alpha-i-box" title="" style="font-size:30px;"></i>
-                <i *ngIf="value == false" class="mdi mdi-alpha-i-box-outline" title="Fase intermediária em vigor" style="font-size:30px;"></i>
+                <i *ngIf="value == false" class="mdi mdi-alpha-i-box-outline" title="" style="font-size:30px;"></i>
             </ng-template>
         </ngx-datatable-column>
     </ngx-datatable>
