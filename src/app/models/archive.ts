@@ -40,6 +40,9 @@ export class Archive {
   finalDateIntermediate: string;
   finalFase: string;
   exportUrl: string;
+  finalCurrent: Boolean;
+  finalIntermediate: Boolean;
+  final: Boolean;
 }
 
 class Author {
