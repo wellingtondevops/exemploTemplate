@@ -2,68 +2,48 @@
     <h2 class="text-muted">Dashboard</h2>
     <hr />
     <div class="row">
-        <div class="col-lg-4">
-            <div class="card mb-3">
-                <a *ngIf="isArchivesSearch" [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']">
-                    <div class="card-content text-center text-dark">
-                        <i class="fa fa-search fa-3x"></i>
-                        <h4 class="card-title">PESQUISAR ARQUIVOS</h4>
-                    </div>
-                </a>
-                <div class="card-footer text-center">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </div>
-                    <!-- <button class="btn btn-secondary" (click)="divSubClass = !divSubClass" style="margin-right: 5px;">
-                        <span [hidden]="!divSubClass">Expandir</span>
-                        <span [hidden]="divSubClass">Ocultar</span>
-                    </button> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card bg-dark">
-                <div class="card-content text-white">
-                    <a id="seila" *ngIf="isVolumesSearch" [routerLink]="['/volumes']"
-                        [routerLinkActive]="['router-link-active']">
-                        <i class="fa fa-search fa-3x" aria-hidden="true"></i>
-                        <h4 class="card-title">PESQUISAR VOLUMES</h4>
-                    </a>
-                </div>
-                <div class="card-footer">
-                    <p class="card-text">
-                        <!-- <button class="btn btn-light" (click)="divSubClass = !divSubClass"
-                            style="margin-right: 5px;">
-                            <span [hidden]="!divSubClass">Expandir</span>
-                            <span [hidden]="divSubClass">Ocultar</span>
-                        </button> -->
-                    </p>
-                </div>
-            </div>
-        </div>
 
-        <a *ngIf="isUsers" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="col-sm-4">
-            <div>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-users fa-4x" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Usuários</h4>
-                        <p class="card-text">Criação de Usuários</p>
-                    </div>
+        <a class="col-lg-4 col-sm-12" *ngIf="isArchivesSearch" [routerLink]="['/archives']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card">
+                <div class="card-content text-dark">
+                    <i class="mdi mdi-text-box-search mdi-48px"></i>
+                    <h4 class="card-title">Pesquisar Arquivos</h4>
+                </div>
+                <div class="card-footer text-dark">
+                    <p>Para pesquisar documentos do acervo</p>
                 </div>
             </div>
         </a>
 
+        <a class="col-lg-4 col-sm-12" *ngIf="isVolumesSearch" [routerLink]="['/volumes']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card bg-dark">
+                <div class="card-content text-white">
+                    <i class="mdi mdi-archive-search mdi-48px" aria-hidden="true"></i>
+                    <h4 class="card-title">Pesquisar Volumes</h4>
+                </div>
+                <div class="card-body text-white">
+                    <p>Para pesquisar caixas do acervo</p>
+                </div>
+            </div>
+        </a>
+
+        <a class="col-lg-4 col-sm-12" *ngIf="isUsers" [routerLink]="['/users']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card bg-dark">
+                <div class="card-content text-white">
+                    <i class="mdi mdi-account-group mdi-48px" aria-hidden="true"></i>
+                    <h4 class="card-title">Usuários</h4>
+                </div>
+                <div class="card-body text-white">
+                    <p class="card-text">Criação de Usuários</p>
+
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="row">
         <!-- <a
             *ngIf="permissionAdmin"
             [routerLink]="['/not-found']"
