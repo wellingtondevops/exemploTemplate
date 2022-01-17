@@ -5,6 +5,11 @@
       <i class="fa fa-envelope"></i>&nbsp;
       <span>{{ 'Solicitantes ' | translate }}</span>
     </a> -->
+        <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']"
+            class="list-group-item">
+            <i class="mdi mdi-view-dashboard-outline mdi-18px"></i>&nbsp;
+            <span>{{ "Inicio" | translate }}</span>
+        </a>
         <a *ngIf="isStorehouses" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
             <i class="fa fa-home"></i>&nbsp;

@@ -1,4 +1,6 @@
-$topnav-background-color: #000;
+@import "~@mdi/font/css/materialdesignicons.css";
+
+$topnav-background-color: rgb(112, 25, 25);
 .sidebar {
     border-radius: 0;
     position: fixed;
@@ -24,7 +26,7 @@ $topnav-background-color: #000;
     // border-top: 1px solid rgba(255,255,255,0.3);
     .list-group {
         a.list-group-item {
-            padding-left: 25px;
+            padding-left: 20px;
             background: $topnav-background-color;
             border: 0;
             border-radius: 0;
@@ -174,7 +176,7 @@ $topnav-background-color: #000;
     padding: 12px;
     bottom: 0;
     color: #999;
-    background: #142d46;
+    background: #212529;
     i {
         font-size: 23px;
     }
