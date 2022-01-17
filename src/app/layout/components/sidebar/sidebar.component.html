@@ -12,13 +12,13 @@
         </a>
         <a *ngIf="isStorehouses" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
-            <i class="fa fa-home"></i>&nbsp;
+            <i class="mdi mdi-home-variant-outline mdi-18px"></i>&nbsp;
             <span>{{ "Depósitos" | translate }}</span>
         </a>
 
         <a *ngIf="isCompanies" [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
-            <i class="fa fa-building"></i>&nbsp;
+            <i class="mdi mdi-office-building mdi-18px"></i>&nbsp;
             <span>{{ "Empresas" | translate }}</span>
         </a>
 
@@ -116,7 +116,8 @@
         </a>
         <a *ngIf="isMoves" [routerLink]="['/moviments']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
-            <i class="fa fa-truck"></i>&nbsp;
+            <i class="mdi mdi-truck-fast-outline mdi-18px"></i>
+            &nbsp;
             <span>{{ "Movimentações" | translate }}</span>
         </a>
 
