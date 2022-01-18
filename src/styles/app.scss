@@ -8,9 +8,6 @@
 @import '~@swimlane/ngx-datatable/release/themes/material.css';
 @import '~@swimlane/ngx-datatable/release/assets/icons.css';
 
-body, html{
-    background-color: rgb(70, 70, 70);
-}
 
 @media print {
     .breadcrumb {
@@ -22,8 +19,3 @@ body, html{
   max-height: 10em;
   overflow-y: auto;
 }
-
-input{
-    border-radius: 50px;
-}
-
