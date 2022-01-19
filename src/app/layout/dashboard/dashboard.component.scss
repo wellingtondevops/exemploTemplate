@@ -28,14 +28,14 @@ body {
 
 .card {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     line-height: 1.42857143;
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
         0 2px 10px 0 rgba(0, 0, 0, 0.12);
     transition: box-shadow 0.25s;
-    height: 210px;
+    height: 206px;
 }
 .card:hover {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),

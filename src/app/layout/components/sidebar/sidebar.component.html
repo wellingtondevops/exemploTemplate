@@ -24,7 +24,7 @@
 
         <a *ngIf="isDepartaments" [routerLink]="['/departaments']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
-            <i class="fa fa-server"></i>&nbsp;
+            <i class="mdi mdi-server mdi-18px"></i>&nbsp;
             <span>{{ "Departamentos" | translate }}</span>
         </a>
         <div *ngIf="isVolumesImport || isVolumesErrors || isVolumesSearch" class="nested-menu"
@@ -59,12 +59,12 @@
 
         <a *ngIf="isDocuments" [routerLink]="['/documents']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
-            <i class="fa fa-book"></i>&nbsp;
+            <i class="mdi mdi-text-box-multiple-outline mdi-18px"></i>&nbsp;
             <span>{{ "Documentos" | translate }}</span>
         </a>
         <a *ngIf="isTemplates" [routerLink]="['/documents-structur']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
-            <i class="fa fa-list-ol"></i>&nbsp;
+            <i class="mdi mdi-format-list-numbered mdi-18px"></i>&nbsp;
             <span>{{ "Plano de Classificação" | translate }}</span>
         </a>
         <div *ngIf="
@@ -74,7 +74,7 @@
                 isArchivesSearch
             " class="nested-menu" [routerLinkActive]="['router-link-active']">
             <a class="list-group-item" (click)="addExpandClass('archives')">
-                <i class="fa fa-file"></i>&nbsp;
+                <i class="mdi mdi-text-box mdi-18px"></i>&nbsp;
                 <span>{{ "Arquivos" | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'archives'">
@@ -111,7 +111,7 @@
         </div>
         <a *ngIf="isScan" [routerLink]="['/batches']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
-            <i class="fa fa-book"></i>&nbsp;
+            <i class="mdi mdi-file mdi-18px"></i>&nbsp;
             <span>{{ "Digitalização" | translate }}</span>
         </a>
         <a *ngIf="isMoves" [routerLink]="['/moviments']" [routerLinkActive]="['router-link-active']"
@@ -123,7 +123,7 @@
 
         <div *ngIf="isReport" class="nested-menu" [routerLinkActive]="['router-link-active']">
             <a class="list-group-item" (click)="addExpandClass('relatorios')">
-                <i class="fa fa-bars"></i>&nbsp;
+                <i class="mdi mdi-text mdi-18px"></i>&nbsp;
                 <span>{{ "Relatórios" | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'relatorios'">
