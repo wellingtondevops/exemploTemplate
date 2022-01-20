@@ -11,7 +11,7 @@
             <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'"
                 [permissionBtnNew]="permissionNew && !isUsers" [routerTo]="'/volumes/new'"></app-page-header>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-light">
             <form [formGroup]="searchForm" (ngSubmit)="getVolumes()" role="FormGroup">
                 <div class="row">
                     <div class="col col-lg-4 col-sm-12">
@@ -104,7 +104,7 @@
                 <div class="row">
                     <div class="col col-lg-2 col-sm-12">
                         <label style="margin-right: 5px;">Tipo de Guarda:</label>
-                        <select class="form-control col-12" id="guardType" formControlName="guardType">
+                        <select style="border-radius: 50px;" class="form-control col-12" id="guardType" formControlName="guardType">
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                 {{ guardT | translate }}</option>
                         </select>
@@ -150,7 +150,7 @@
                     <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                         <i class="fa fa-search"></i>
                     </button>
-                    <button style="margin-left: 5px;" type="button" class="btn btn-secondary"
+                    <button style="margin-left: 5px;" type="button" class="btn btn-default"
                         [disabled]="company.invalid" (click)="clear()">
                         Limpar Campos
                     </button>
