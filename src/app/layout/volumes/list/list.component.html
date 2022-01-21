@@ -76,39 +76,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col col-lg-2 col-sm-12 mb-2 mt-2">
-
-                        <!--
-                            <label for="status">Tipo de Guarda</label>
+                    <div class="col col-lg-4 col-sm-12 mb-2 mt-2">
+                            <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
                             <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="radio" name="simple" formControlName="finalCurrent"
-                                id="current" />
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="simples" value="SIMPLES" />
                             <div class="state">
-                                <label class="form-check-label" for="current">
+                                <label class="form-check-label" for="simples">
                                     Simples
                                 </label>
                             </div>
                         </div>
                         <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="radio" name="intermediate"
-                                formControlName="finalIntermediate" id="Intermediate" />
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="gerenciada" value="GERENCIADA" />
                             <div class="state">
-                                <label class="form-check-label" for="Intermediate">
+                                <label class="form-check-label" for="gerenciada">
                                     Gerenciada
                                 </label>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col col-lg-2 col-sm-12">
+                    <!-- <div class="col col-lg-2 col-sm-12">
                         <label style="margin-right: 5px;">Tipo de Guarda:</label>
                         <select style="border-radius: 50px;" class="form-control col-12" id="guardType" formControlName="guardType">
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                 {{ guardT | translate }}</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="col col-lg-3 col-sm-12">
                         <label for="reference">Referência</label>
                         <input id="reference" placeholder="Insira a referência" class="form-control col-12" formControlName="reference" />
@@ -146,7 +142,7 @@
                     </div>
                 </div>
 
-                <div class="col col-lg-12 col-sm-12 text-center mt-3">
+                <div class="col col-lg-12 col-sm-12 text-center mt-1">
                     <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                         <i class="fa fa-search"></i>
                     </button>

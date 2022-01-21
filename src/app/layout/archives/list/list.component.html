@@ -18,7 +18,7 @@
                     <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text"
-                            class="form-control" formControlName="company" [resultTemplate]="rtCompany"
+                            class="form-control" formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched}" style="width: 100%" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched )" class="invalid-feedback">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-focus">Departamento</label>
-                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control" placeholder="Nome do Departamento"
                             formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDepartament" style="width: 100%" #instanceDepartament="ngbTypeahead"
                             (focus)="focusDepartament$.next($any($event).target.value)"
@@ -37,11 +37,11 @@
                     </div>
                     <div class="form-group col-lg-3 col-sm-12">
                         <label for="search_archive">Posição</label>
-                        <input id="search_archive" class="form-control col-12" formControlName="location" />
+                        <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição" formControlName="location" />
                     </div>
                     <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-focus">Depósito</label>
-                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control" placeholder="Nome do Depósito"
                             formControlName="storehouse" [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchStorehouse" style="width: 100%" #instanceStorehouse="ngbTypeahead"
                             (focus)="focusStorehouse$.next($any($event).target.value)"
@@ -56,7 +56,7 @@
                     </div> -->
                 </div>
                 <div class="row" style="margin-top: 10px;">
-                    <div class="col-lg-7 col-sm-12">
+                    <div class="col-lg-5 col-sm-12">
                         <div class="form-group form-check-inline">
                             <label style="margin-right: 5px;">Status:</label>
                             <div class="form-check">
@@ -123,10 +123,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 10px;">
+                <div class="row">
                     <div class="form-group col-lg-4 col-sm-12">
                         <label for="typeahead-scrollable">Documento</label>
-                        <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
+                        <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control" placeholder="Nome do Documento"
                             formControlName="doct" [resultTemplate]="rtDocument" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDocument" style="width: 100%" #instanceDocument="ngbTypeahead"
                             (focus)="focusDocument$.next($any($event).target.value)"
@@ -134,7 +134,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-sm-12">
                         <label for="search_archive">Índice</label>
-                        <input id="search_archive" class="form-control col-12" formControlName="search" />
+                        <input id="search_archive" class="form-control col-12" placeholder="Informe o Índice" formControlName="search" />
                     </div>
                     <div class="form-group col-lg-2 col-sm-12">
                         <label for="initDate">Data Inicial</label>
