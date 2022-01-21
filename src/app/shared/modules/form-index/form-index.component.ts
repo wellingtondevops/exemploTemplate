@@ -66,13 +66,13 @@ export class FormIndexComponent {
     }
 
     typeInput(element) {
-        let type = 'input';
+        let type = 'textarea';
         switch (element) {
             case 'DATA':
-                type = 'input';
+                type = 'textarea';
                 break;
             case 'TEXTO':
-                type = 'input';
+                type = 'textarea';
                 break;
         }
         return type;
@@ -87,7 +87,7 @@ export class FormIndexComponent {
                 type: this.typeInput(element.typeField),
                 defaultValue: value,
                 uniq : element.uniq,
-                    templateOptions: {
+                templateOptions: {
                     label: element.namefield,
                     placeholder: element.namefield,
                     required: element.uniq,
