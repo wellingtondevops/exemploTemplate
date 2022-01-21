@@ -12,7 +12,7 @@
             <h2>Erros de Importação de Arquivos</h2>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" (ngSubmit)="getErrors()" role="FormGroup" class="form-inline">
+            <form [formGroup]="searchForm" (ngSubmit)="getErrors()" role="FormGroup" class="">
                 <div class="row col-12">
                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                         <label for="sheet">Nome da Planilha</label>
@@ -37,8 +37,8 @@
                     </div>
                 </div>
 
-                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                    <div class="form-group mb-2">
+                <div class="row text-center">
+                    <div class="form-group col-12 mb-2">
                         <button type="submit" class="btn btn-primary" [disabled]="sheet.invalid">
                             <i class="fa fa-search"></i>
                         </button>

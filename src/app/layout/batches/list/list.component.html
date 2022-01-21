@@ -12,7 +12,7 @@
                 [routerTo]="'/batches/new'"></app-page-header>
         </div>
         <div class="card-body bg-light mb-3">
-            <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form-inline">
+            <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form">
                 <div class="row col-12">
                     <div class="form-group mb-2 col-lg-4 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
@@ -55,7 +55,7 @@
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                 </div>
-                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
+                <div class="row col-12 text-center">
                     <div class="form-group mb-2">
                         <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                             <i class="fa fa-search"></i>
