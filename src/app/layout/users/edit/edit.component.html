@@ -142,7 +142,7 @@
                     <button type="button" [routerLink]="['/users/get', user._id]" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
                     <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary"
-                        [routerLink]="['/users/get', user._id]"
+                        [routerLink]="['/users']"
                         [disabled]="name.invalid || email.invalid || profile.invalid"
                         (click)="updateUser()">Salvar</button>
                 </div>
