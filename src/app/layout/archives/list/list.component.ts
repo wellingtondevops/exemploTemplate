@@ -202,6 +202,10 @@ export class ListComponent implements OnInit {
         newSearch.final = this.searchForm.value.final;
         newSearch.finalCurrent = this.currentValue;
         newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
+        if ( newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
+            newSearch.finalCurrent = this.currentValue = null;
+            newSearch.finalIntermediate =  this.searchForm.value.finalIntermediate = null;
+        }
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
