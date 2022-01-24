@@ -306,6 +306,7 @@ export class EditComponent implements OnInit {
           name: data.name,
           permissions: data.permissions,
         });
+        this._route.navigate(['/users']);
       },
       error => {
         this.loading = false;

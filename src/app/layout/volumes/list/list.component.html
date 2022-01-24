@@ -6,18 +6,18 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'}">
     </ngx-loading>
-    <div class="card bg-light mb-3">
+    <div class="card mb-3">
         <div class="card-header">
             <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'"
-        [permissionBtnNew]="permissionNew && !isUsers" [routerTo]="'/volumes/new'"></app-page-header>
+                [permissionBtnNew]="permissionNew && !isUsers" [routerTo]="'/volumes/new'"></app-page-header>
         </div>
-        <div class="card-body">
-            <form [formGroup]="searchForm" (ngSubmit)="getVolumes()" role="FormGroup" class="form-inline">
+        <div class="card-body bg-light">
+            <form [formGroup]="searchForm" (ngSubmit)="getVolumes()" role="FormGroup">
                 <div class="row">
-                    <div class="form-group col-lg-3 col-sm-12">
+                    <div class="col col-lg-4 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)"
-                            type="text" placeholder="Nome da Empresa" class="form-control" formControlName="company"
+                        <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)" type="text"
+                            placeholder="Nome da Empresa" class="form-control" formControlName="company"
                             [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
@@ -26,94 +26,130 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-lg-3 col-sm-12">
+                    <div class="col col-lg-3 col-sm-12">
                         <label for="typeahead-basic">Departamento</label>
                         <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome do Departamento"
                             class="form-control" formControlName="departament" [resultTemplate]="rtDepartament"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" style="width: 100%" />
                     </div>
-                    <div class="form-group col-lg-3 col-sm-12">
+                    <div class="col col-lg-2 col-sm-12">
                         <label for="location">Posição</label>
                         <input id="location" class="form-control col-12" placeholder="Nome da Posição"
                             formControlName="location" />
                     </div>
-                    <div class="form-group col-lg-3 col-sm-12">
+                    <div class="col col-lg-3 col-sm-12">
                         <label for="typeahead-basic">Depósito</label>
                         <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                            placeholder="Nome do Depósito" formControlName="storehouse"
-                            [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchStorehouse" style="width: 100%" />
+                            placeholder="Nome do Depósito" formControlName="storehouse" [resultTemplate]="rtStorehouse"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" style="width: 100%" />
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="form-group col-sm-12 col-lg-2">
-                        <label for="status">Status</label>
-                        <select class="form-control col-12" id="status" formControlName="status">
-                            <option *ngFor="let item of statusList | enumToArray" [value]="item">
-                                {{ item }}</option>
-                        </select>
+                    <div class="col col-lg-4 col-sm-12 mt-2 mb-2">
+                        <label for="status" style="margin-right: 5px;">Status:</label>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                value="ATIVO" id="status" checked>
+                            <div class="state">
+                                <label class="form-check-label" for="status">
+                                    ARQUIVO
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                value="BAIXADO" id="statusB">
+                            <div class="state">
+                                <label class="form-check-label" for="statusB">
+                                    BAIXADO
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                value="EMPRESTADO" id="statusE">
+                            <div class="state">
+                                <label class="form-check-label" for="statusE">
+                                    EMPRESTADO
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-12 col-lg-2">
-                        <label for="status">Tipo de Guarda</label>
-                        <select class="form-control col-12" id="guardType" formControlName="guardType">
+                    <div class="col col-lg-4 col-sm-12 mb-2 mt-2">
+                            <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
+                            <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="simples" value="SIMPLES" />
+                            <div class="state">
+                                <label class="form-check-label" for="simples">
+                                    Simples
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="gerenciada" value="GERENCIADA" />
+                            <div class="state">
+                                <label class="form-check-label" for="gerenciada">
+                                    Gerenciada
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- <div class="col col-lg-2 col-sm-12">
+                        <label style="margin-right: 5px;">Tipo de Guarda:</label>
+                        <select style="border-radius: 50px;" class="form-control col-12" id="guardType" formControlName="guardType">
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                 {{ guardT | translate }}</option>
                         </select>
-                    </div>
-                    <div class="form-group col-sm-12 col-lg-2">
+                    </div> -->
+                    <div class="col col-lg-3 col-sm-12">
                         <label for="reference">Referência</label>
-                        <input id="reference" class="form-control col-12" formControlName="reference" />
+                        <input id="reference" placeholder="Insira a referência" class="form-control col-12" formControlName="reference" />
                     </div>
-
-                    <div class="form-group col-sm-12 col-lg-2">
+                    <div class="col col-lg-2 col-sm-12">
                         <label for="initDate">Data Inicial</label>
                         <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
                             (input)="changeDate()" formControlName="initDate" />
                     </div>
-                    <div class="form-group col-sm-12 col-lg-2">
+                    <div class="col col-lg-2 col-sm-12">
                         <label for="endDate">Data Final</label>
                         <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
                             [disabled]="!dateSent" [min]="dateSent" />
                     </div>
-
-                    <div class="form-group col-sm-12 col-lg-2">
+                    <div class="col col-lg-2 col-sm-12">
                         <label>Conteúdo:</label>
-
-                        <div class="form-check" style="margin-bottom: 5px;">
-                            <div class="pretty p-switch p-fill">
-                                <input class="form-check-input" type="radio" name="records"
-                                    formControlName="records" [value]="records" id="records" [checked]="false">
-                                <div class="state">
-                                    <label class="form-check-label" for="records">
-                                        Não Possui Arquivos
-                                    </label>
-                                </div>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="records" formControlName="records"
+                                [value]="records" id="records" [checked]="false">
+                            <div class="state">
+                                <label class="form-check-label" for="records">
+                                    Não Possui Arquivos
+                                </label>
                             </div>
                         </div>
-                        <div class="form-check">
-                            <div class="pretty p-switch p-fill">
-                                <input class="form-check-input" type="radio" name="records"
-                                    formControlName="records" [value]="!records" id="recordsF" [checked]="false">
-                                <div class="state">
-                                    <label class="form-check-label" for="recordsF">
-                                        Possui Arquivos
-                                    </label>
-                                </div>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="records" formControlName="records"
+                                [value]="!records" id="recordsF" [checked]="false">
+                            <div class="state">
+                                <label class="form-check-label" for="recordsF">
+                                    Possui Arquivos
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="justify-content: center; margin-top: 10px; margin-left: 35%;">
-                    <div class="form-group col-sm-12">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <button style="margin-left: 5px;" type="button" class="btn btn-default"
-                            [disabled]="company.invalid" (click)="clear()">
-                            Limpar Campos
-                        </button>
-                    </div>
+                <div class="col col-lg-12 col-sm-12 text-center mt-1">
+                    <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button style="margin-left: 5px;" type="button" class="btn btn-default"
+                        [disabled]="company.invalid" (click)="clear()">
+                        Limpar Campos
+                    </button>
                 </div>
 
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">

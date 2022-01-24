@@ -3,6 +3,7 @@ import { routerTransition } from '../../router.animations';
 import { DaenerysGuardService as DaenerysGuard } from 'src/app/services/guard/daenerys-guard.service';
 import { ArchivesSearchGuardService } from 'src/app/services/guard/archives-search-guard.service';
 import { Router } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -80,6 +81,7 @@ export class DashboardComponent implements OnInit {
     this.isStorehouses = this.isStorehouse();
     this.isCompanies = this.isCompany();
     this.isDocuments = this.isDocument();
+   
   }
 
   isAdmin() {

@@ -73,7 +73,7 @@
                                                 margin-bottom: 2px;
                                             ">
                                             <input formControlName="file" id="file" type="file" multiple
-                                                class="form-control" (change)="onFileChange($event)" />
+                                                class="form-control" (change)="onFileChange($event)" style="border-radius: 0px;"/>
                                         </div>
                                         <button class="btn btn-xs btn-primary" type="submit" style="margin-top: 0">
                                             Importar
@@ -254,7 +254,7 @@
                                                     margin-bottom: 2px;
                                                 ">
                                                 <input type="file" class="form-control-file" id="exampleInputFile"
-                                                    multiple />
+                                                    multiple style="border-radius: 0px;" />
                                             </div>
                                             <button class="btn btn-xs btn-primary" type="submit" style="margin-top: 0">
                                                 Importar
@@ -263,8 +263,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-6" style="text-align: center">
+                            <div class="row text-center">
+                                <div class="col-6">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fa fa-search"></i>
                                     </button>

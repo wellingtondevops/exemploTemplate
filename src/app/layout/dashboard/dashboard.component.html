@@ -1,205 +1,181 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Dashboard</h2>
-
-    <hr />
+    <!-- <h5 class="text-muted">Dashboard</h5>
+    <hr /> -->
     <div class="row">
-        <div class="col-lg-6">
-            <a
-                *ngIf="isArchivesSearch"
-                [routerLink]="['/archives']"
-                [routerLinkActive]="['router-link-active']"
-                class="col-sm-12"
-            >
-                <div>
-                    <div class="card text-white bg-dark mb-3">
-                        <div class="card-header">
-                            <i
-                                class="fa fa-search fa-4x"
-                                aria-hidden="true"
-                            ></i>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">PESQUISAR ARQUIVO</h4>
-                            <p class="card-text">
-                                Para pesquisar documentos do acervo
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-6">
-            <a
-                *ngIf="isVolumesSearch"
-                [routerLink]="['/volumes']"
-                [routerLinkActive]="['router-link-active']"
-                class="col-sm-12"
-            >
-                <div>
-                    <div class="card text-white bg-dark mb-3">
-                        <div class="card-header">
-                            <i
-                                class="fa fa-search fa-4x"
-                                aria-hidden="true"
-                            ></i>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">PESQUISAR VOLUMES</h4>
-                            <p class="card-text">
-                                Para pesquisar caixas do acervo
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
 
-        <a
-            *ngIf="isUsers"
-            [routerLink]="['/users']"
-            [routerLinkActive]="['router-link-active']"
-            class="col-sm-4"
-        >
-            <div>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-users fa-4x" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Usuários</h4>
-                        <p class="card-text">Criação de Usuários</p>
-                    </div>
+        <a class="col-lg-4 col-sm-12 " *ngIf="isArchivesSearch" [routerLink]="['/archives']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card">
+                <div class="card-content text-dark">
+                    <i class="mdi mdi-text-box-search mdi-48px"></i>
+                    <h4 class="card-title">Pesquisar Arquivos</h4>
+                </div>
+                <div class="card-footer text-dark">
+                    <p>Pesquisar Documentos do Acervo</p>
                 </div>
             </div>
         </a>
 
-        <!-- <a
-            *ngIf="permissionAdmin"
-            [routerLink]="['/not-found']"
-            [routerLinkActive]="['router-link-active']"
-            class="col-sm-4"
-        >
-            <div>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-envelope fa-4x" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Solicitantes de Documentos</h4>
-                        <p class="card-text">
-                            Criação de Usuários que solicitam documentação
-                            Física
-                        </p>
-                    </div>
+        <a class="col-lg-4 col-sm-12 " *ngIf="isVolumesSearch" [routerLink]="['/reports']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card bg-dark">
+                <div class="card-content text-white">
+                    <i class="mdi mdi-text mdi-48px" aria-hidden="true"></i>
+                    <h4 class="card-title">Relatórios</h4>
                 </div>
-            </div>
-        </a> -->
-
-        <a
-            *ngIf="isStorehouses"
-            [routerLink]="['/storehouses']"
-            [routerLinkActive]="['router-link-active']"
-            class="col-sm-4"
-        >
-            <div>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-home fa-4x" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Depósitos</h4>
-                        <p class="card-text">
-                            Configurações e Criação de Depósitos
-                        </p>
-                    </div>
+                <div class="card-footer text-white">
+                    <p>Exibir Relatórios</p>
                 </div>
             </div>
         </a>
 
-        <a
-            *ngIf="isCompanies"
-            [routerLink]="['/companies']"
-            [routerLinkActive]="['router-link-active']"
-            class="col-sm-4"
-        >
-            <div>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-building fa-4x" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Empresas</h4>
-                        <p class="card-text">Empresas Cadastradas</p>
-                    </div>
+        <a class="col-lg-4 col-sm-12 " *ngIf="isUsers" [routerLink]="['/users']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card bg-dark">
+                <div class="card-content text-white">
+                    <i class="mdi mdi-account-group mdi-48px" aria-hidden="true"></i>
+                    <h4 class="card-title">Usuários</h4>
+                </div>
+                <div class="card-footer text-white">
+                    <p class="card-text">Criação de Usuários</p>
                 </div>
             </div>
         </a>
 
-        <!-- <a *ngIf="isVolumesSearch" [routerLink]="['/volumes']"
-      [routerLinkActive]="['router-link-active']" class="col-sm-4">
-      <div>
-        <div class="card text-white bg-dark mb-3">
-          <div class="card-header"><i class="fa fa-archive fa-4x" aria-hidden="true"></i></div>
-          <div class="card-body">
-            <h4 class="card-title">Volumes</h4>
-            <p class="card-text">Configurações e Criação de Volumes</p>
-          </div>
-        </div>
-      </div>
-    </a> -->
-
-        <a
-            *ngIf="isDocuments"
-            [routerLink]="['/documents']"
-            [routerLinkActive]="['router-link-active']"
-            class="col-sm-4"
-        >
-            <div>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-book fa-4x" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Documentos</h4>
-                        <p class="card-text">
-                            Configurações e Criação de Documentos
-                        </p>
-                    </div>
+        <a *ngIf="isStorehouses" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-home-variant-outline mdi-48px"></i>
+                    <h4 class="card-title">Depósitos</h4>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">
+                        Configurações e Criação de Depósitos
+                    </p>
                 </div>
             </div>
         </a>
 
-        <a
-            *ngIf="isArchivesRegister"
-            [routerLink]="['/archives']"
-            [routerLinkActive]="['router-link-active']"
-            class="col-sm-4"
-        >
-            <div class="card text-white bg-dark mb-3">
-                <div class="card-header">
-                    <i class="fa fa-wpforms fa-4x" aria-hidden="true"></i>
+        <a *ngIf="isCompanies" [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-office-building mdi-48px"></i>
+                    <h4 class="card-title">Empresas</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-footer">
+                    <p class="card-text">Empresas Cadastradas</p>
+                </div>
+            </div>
+        </a>
+
+        <a *ngIf="isCompanies" [routerLink]="['/departaments']" [routerLinkActive]="['router-link-active']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-server mdi-48px"></i>
+                    <h4 class="card-title">Departamentos</h4>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">Departamentos Cadastrados</p>
+                </div>
+            </div>
+        </a>
+
+        <a *ngIf="isDocuments" [routerLink]="['/documents']" [routerLinkActive]="['router-link-active']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-text-box-multiple-outline mdi-48px"></i>
+                    <h4 class="card-title">Documentos</h4>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">
+                        Configurações e Criação de Documentos
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <a *ngIf="isDocuments" [routerLink]="['/documents-structur']" [routerLinkActive]="['router-link-active']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-format-list-numbered mdi-48px"></i>
+                    <h4 class="card-title">Plano de Classificação</h4>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">
+                        Classificação de Documentos
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <a *ngIf="isArchivesRegister" [routerLink]="['/batches']" [routerLinkActive]="['router-link-active']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-file mdi-48px"></i>
+                    <h4 class="card-title">Digitalização</h4>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">Digitalização de Documentos</p>
+                </div>
+            </div>
+        </a>
+
+        <a *ngIf="isArchivesRegister" [routerLink]="['/archives']" [routerLinkActive]="['router-link-active']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-form-select mdi-48px"></i>
                     <h4 class="card-title">Registro de Arquivos</h4>
+                </div>
+                <div class="card-footer">
                     <p class="card-text">Indexação ou Catalogação</p>
                 </div>
             </div>
         </a>
 
-        <div
-            *ngIf="isMoves"
-            [routerLinkActive]="['router-link-active']"
-            class="col-sm-4"
-        >
-            <div class="card text-white bg-dark mb-3">
-                <div class="card-header">
-                    <i class="fa fa-truck fa-4x" aria-hidden="true"></i>
+        <a class="col-lg-4 col-sm-12 " *ngIf="isVolumesSearch" [routerLink]="['/volumes']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card bg-dark">
+                <div class="card-content text-white">
+                    <i class="mdi mdi-archive mdi-48px" aria-hidden="true"></i>
+                    <h4 class="card-title">Registro de Volumes</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-footer text-white">
+                    <p>Para pesquisar caixas do acervo</p>
+                </div>
+            </div>
+        </a>
+
+        <!-- <a class="col-lg-4 col-sm-12 " *ngIf="isVolumesSearch" [routerLink]="['/volumes']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card bg-dark">
+                <div class="card-content text-white">
+                    <i class="mdi mdi-archive-search mdi-48px" aria-hidden="true"></i>
+                    <h4 class="card-title">Pesquisar Volumes</h4>
+                </div>
+                <div class="card-footer text-white">
+                    <p>Para pesquisar caixas do acervo</p>
+                </div>
+            </div>
+        </a> -->
+
+        <a *ngIf="isMoves" [routerLinkActive]="['router-link-active']" [routerLink]="['/moviments']"
+            class="col-lg-4 col-sm-12 ">
+            <div class="card text-white bg-dark">
+                <div class="card-content">
+                    <i class="mdi mdi-truck-fast-outline mdi-48px"></i>
                     <h4 class="card-title">Movimentações</h4>
+                </div>
+                <div class="card-footer">
                     <p class="card-text">Emprestar Documentos Físicos</p>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 </div>

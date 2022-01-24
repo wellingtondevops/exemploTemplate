@@ -4,10 +4,9 @@
 @import "utils";
 @import "rtl";
 @import "responsive";
-@import '~@swimlane/ngx-datatable/release/index.css';
-@import '~@swimlane/ngx-datatable/release/themes/material.css';
-@import '~@swimlane/ngx-datatable/release/assets/icons.css';
-
+@import "~@swimlane/ngx-datatable/release/index.css";
+@import "~@swimlane/ngx-datatable/release/themes/material.css";
+@import "~@swimlane/ngx-datatable/release/assets/icons.css";
 
 @media print {
     .breadcrumb {
@@ -16,6 +15,31 @@
 }
 
 .dropdown-menu {
-  max-height: 10em;
-  overflow-y: auto;
+    max-height: 10em;
+    overflow-y: auto;
 }
+
+.card input {
+    border-radius: 50px;
+}
+.card select{
+    border-radius: 50px;
+}
+
+
+.card {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.ngx-datatable {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.card button {
+    border-radius: 15px;
+}
+// body{
+//     background-color: #222222;
+// }

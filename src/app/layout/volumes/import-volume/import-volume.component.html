@@ -78,14 +78,32 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="">Tipo de Guarda</label>
                         <select class="form-control" id="guardType" formControlName="guardType"
                             [ngClass]="{ 'is-invalid': guardType.invalid && guardType.touched }"
                             (change)="changeGuardType()">
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                 {{ guardT | translate }}</option>
-                        </select>
+                        </select> -->
+                        <div class="col col-lg-4 col-sm-12 mb-2 mt-2">
+                            <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
+                            <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="simples" value="SIMPLES" />
+                            <div class="state">
+                                <label class="form-check-label" for="simples">
+                                    Simples
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="gerenciada" value="GERENCIADA" />
+                            <div class="state">
+                                <label class="form-check-label" for="gerenciada">
+                                    Gerenciada
+                                </label>
+                            </div>
+                        </div>
                         <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)"
                             class="invalid-feedback">
                             <div *ngIf="!guardType.valid">
@@ -96,7 +114,7 @@
 
                     <fieldset class="form-group">
                         <label for="exampleInputFile">Importar Arquivo</label>
-                        <input type="file" class="form-control-file" id="exampleInputFile">
+                        <input style="border-radius: 0px;" type="file" class="form-control-file" id="exampleInputFile">
                     </fieldset>
 
                     <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
