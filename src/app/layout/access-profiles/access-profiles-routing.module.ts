@@ -8,7 +8,7 @@ const routes: Routes = [
     {
         path: '',
         component: ListComponent,
-        canActivate: [UsersGuardService, TermsService]
+        // canActivate: [UsersGuardService, TermsService]
     }
 ];
 
