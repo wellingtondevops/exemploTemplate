@@ -69,10 +69,10 @@ export class FormIndexComponent {
         let type = 'textarea';
         switch (element) {
             case 'DATA':
-                type = 'textarea';
+                type = 'input';
                 break;
             case 'TEXTO':
-                type = 'textarea';
+                type = 'input';
                 break;
         }
         return type;
