@@ -1,3 +1,6 @@
+import { EditComponent } from './edit/edit.component';
+import { NewComponent } from './new/new.component';
+import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { TermsService } from 'src/app/services/guard/terms.service';
 import { UsersGuardService } from 'src/app/services/guard/users-guard.service';
@@ -8,7 +11,18 @@ const routes: Routes = [
     {
         path: '',
         component: ListComponent,
-        // canActivate: [UsersGuardService, TermsService]
+    },
+    {
+        path: 'get/id',
+        component: ShowComponent,
+    },
+    {
+        path: 'edit/id',
+        component: EditComponent,
+    },
+    {
+        path: 'new',
+        component: NewComponent,
     }
 ];
 
