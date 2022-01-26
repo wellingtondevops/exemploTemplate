@@ -157,6 +157,14 @@
                         </a>
                     </li>
                 </ul>
+                <ul class="submenu">
+                    <li>
+                        <a  class="list-group-item" *ngIf="isAccessProfiles" [routerLink]="['/access-profiles']">
+                            <i class="mdi mdi-text-box mdi-18px"></i>&nbsp;
+                            <span>{{ "Perfis" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
                 <!-- <ul class="submenu">
                     <li>
                         <a *ngIf="isCompanyService" [routerLink]="['/requesters']">

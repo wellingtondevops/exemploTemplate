@@ -1,0 +1,19 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'
+    }"></ngx-loading>
+
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <app-page-header [heading]="'Perfis de Usuario'" [icon]="'fa-table'" [btnNew]="'Novo Perfil'"
+            [permissionBtnNew]="permissionNew" [routerTo]="''" >
+
+            </app-page-header>
+        </div>
+
+    </div>
+</div>
