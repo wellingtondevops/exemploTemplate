@@ -8,28 +8,27 @@
         }"></ngx-loading>
     <div class="card bg-light mb-3">
         <div class="card-header">
-            <app-page-header [heading]="'Usuários'" [icon]="'fa-table'" [btnNew]="'Novo Usuário'"
-                [permissionBtnNew]="permissionNew" [routerTo]="'/users/new'">
+            <app-page-header [heading]="'Perfis de Usuário'" [icon]="'fa-table'" [btnNew]="'Novo Perfil de Usuário'"
+                [permissionBtnNew]="permissionNew" [routerTo]="''">
             </app-page-header>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" (ngSubmit)="getUsers()" role="FormGroup" class="form">
+            <form [formGroup]="profileForm" role="FormGroup" class="form">
                 <div class="row">
-                    <div class="form-group mb-2 col-lg-6 col-sm-12">
-                        <label for="labelName">Nome</label>
-                        <input id="name" autoFocus="true" type="text" placeholder="Nome do Usuário"
-                            class="form-control" formControlName="name" style="width: 100%"
-                            [ngClass]="{ 'is-invalid': name.invalid && name.touched }" />
-                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                    <div class="mb-2 col-lg-6 col-sm-12">
+                        <label for="company">Empresa</label>
+                        <input id="company" autoFocus="true" type="text" placeholder="Nome do Empresa"
+                            class="form-control" formControlName="company" />
+                        <!-- <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
-                                Nome é obrigatório.
+                                Nome da Empresa é obrigatório.
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="form-group mb-2 col-lg-6 col-sm-12">
-                        <label for="labelEmail">E-mail</label>
-                        <input id="email" autoFocus="true" type="text" placeholder="E-mail do Usuário"
-                            class="form-control" formControlName="email" style="width: 100%" />
+                    <div class="mb-2 col-lg-6 col-sm-12">
+                        <label for="labelEmail">Perfil</label>
+                        <input id="name" autoFocus="true" type="text" placeholder="Nome do Perfil" class="form-control"
+                            formControlName="name" />
                     </div>
                 </div>
                 <div class="row">
@@ -37,8 +36,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button type="button" class="btn btn-default" style="margin-left: 5px;"
-                            [disabled]="name.invalid" (click)="clear()">
+                        <button type="button" class="btn btn-default" style="margin-left: 5px;">
                             Limpar Campos
                         </button>
                     </div>
@@ -46,6 +44,11 @@
             </form>
         </div>
     </div>
-    <app-datatables [data]="users" (setPage)="setPage($event)" (show)="getUser($event)" [columns]="columns">
-    </app-datatables>
+    <div class="row">
+        <div class="col-lg-12">
+            <app-datatables>
+            </app-datatables>
+        </div>
+    </div>
+
 </div>
