@@ -9,34 +9,37 @@
     <div class="card bg-light mb-3">
         <div class="card-header">
             <app-page-header [heading]="'Perfis de Usuário'" [icon]="'fa-table'" [btnNew]="'Novo Perfil de Usuário'"
-                [permissionBtnNew]="permissionNew" [routerTo]="''">
+                [permissionBtnNew]="permissionNew" [routerTo]="'/access-profiles/new'">
             </app-page-header>
         </div>
         <div class="card-body">
-            <form [formGroup]="profileForm" role="FormGroup" class="form">
+            <form [formGroup]="searchForm" role="FormGroup" (ngSubmit)="getProfiles()" class="form">
                 <div class="row">
                     <div class="mb-2 col-lg-6 col-sm-12">
-                        <label for="company">Empresa</label>
-                        <input id="company" autoFocus="true" type="text" placeholder="Nome do Empresa"
-                            class="form-control" formControlName="company" />
-                        <!-- <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                            <div *ngIf="!name.valid">
-                                Nome da Empresa é obrigatório.
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                            formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            style="width: 100%; margin-right: 10px;"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
                             </div>
-                        </div> -->
+                        </div>
                     </div>
-                    <div class="mb-2 col-lg-6 col-sm-12">
-                        <label for="labelEmail">Perfil</label>
-                        <input id="name" autoFocus="true" type="text" placeholder="Nome do Perfil" class="form-control"
-                            formControlName="name" />
+                    <div class="form-group col-lg-6 col-sm-12">
+                        <label for="labelName">Perfil</label>
+                        <input id="name" autoFocus="true" type="text" class="form-control"
+                            placeholder="Nome do Departamento" formControlName="name" style="width: 100%" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-12 col-sm-12 text-center">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button type="button" class="btn btn-default" style="margin-left: 5px;">
+                        <button type="button" class="btn btn-secondary" (click)="clear()" style="margin-left: 5px;">
                             Limpar Campos
                         </button>
                     </div>
@@ -44,9 +47,13 @@
             </form>
         </div>
     </div>
+    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+    </ng-template>
     <div class="row">
         <div class="col-lg-12">
-            <app-datatables>
+            <app-datatables [data]="profiles" (setPage)="setPageProfiles($event)" [columns]="columns"
+            (show)="getProfile($event)">
             </app-datatables>
         </div>
     </div>
