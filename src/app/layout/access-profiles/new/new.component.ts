@@ -54,7 +54,9 @@ export class NewComponent implements OnInit {
 
         this.getCompanies();
 
-
+        if (this.userExternal) {
+            this.addPermission();
+        }
 
     }
 
@@ -72,14 +74,15 @@ export class NewComponent implements OnInit {
         this.docts.removeAt(e);
     }
 
-    // createPermission(): FormGroup {
-    //     return this.fb.group({
-    //         docts: ''
-    //     });
-    // }
+    createPermission(): FormGroup {
+        return this.fb.group({
+            docts: ''
+        });
+    }
 
     addPermission(): void {
         this.docts = this.profileForm.get('docts') as FormArray;
+        this.docts.push(this.createPermission());
     }
 
 
@@ -154,7 +157,7 @@ export class NewComponent implements OnInit {
         this.profileForm.value.docts.map((item) => {
             newArray.push(item.docts);
         });
-        this.profileForm.value.docts = newArray;
+        this.profileForm.value.docts = newArray.pop();
     }
 
     postProfile() {
