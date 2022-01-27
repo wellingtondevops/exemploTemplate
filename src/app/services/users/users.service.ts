@@ -16,7 +16,7 @@ export class UsersService {
   ) { }
 
   searchUsers(formData, page) {
-   
+
 
     if (page) {
       return this.http.post<UserList>(`${url}/users/search?_page=${page.pageNumber}&size=10`, formData)
@@ -74,7 +74,7 @@ export class UsersService {
   }
 
   profiles(){
-    return this.http.get<Profiles>(`${url}/profiles/list`)
+    return this.http.ge                 t<Profiles>(`${url}/profiles/list`)
     .pipe(
       tap(data => data)
     );
