@@ -53,6 +53,7 @@ export class NewComponent implements OnInit {
         });
 
         this.getCompanies();
+        this.addPermission();
 
         if (this.userExternal) {
             this.addPermission();
@@ -76,7 +77,8 @@ export class NewComponent implements OnInit {
 
     createPermission(): FormGroup {
         return this.fb.group({
-            docts: ''
+            docts: '',
+            company: ''
         });
     }
 
