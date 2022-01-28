@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
     permissionNew: Boolean = true;
     searchForm: FormGroup;
     companies: any = [];
-    profiles: AccessProfilesList = {
+    accessProfiles: AccessProfilesList = {
         _links: {
             currentPage: 0,
             foundItems: 0,
@@ -72,16 +72,17 @@ export class ListComponent implements OnInit {
                 name: profile.name
             });
         }
+        this.getAccessProfiles();
         this.getCompanies();
-        this.getProfiles();
     }
 
     get company() {
         return this.searchForm.get('company');
     }
 
-    getProfile(profile) {
-        this._route.navigate(['/access-profiles/get', profile._id]);
+    getAccessProfile(accessProfile) {
+        this._route.navigate(['/access-profiles/get', accessProfile._id]);
+        console.log('qual o id', accessProfile);
     }
 
     getCompanies() {
@@ -117,15 +118,15 @@ export class ListComponent implements OnInit {
             })
         )
 
-    getProfiles() {
-        this.setPageProfiles({ offset: 0 });
+    getAccessProfiles() {
+        this.setPageAccessProfiles({ offset: 0 });
     }
 
-    setPageProfiles(pageInfo) {
+    setPageAccessProfiles(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
         this.localStorageSrv.save('profile', this.searchForm.value);
-
+        console.log('dataaaaaaaaaaaaaaaaa', this.localStorageSrv.get('profile'));
         const newForm = {
             company: null,
             name: null,
@@ -137,8 +138,8 @@ export class ListComponent implements OnInit {
 
         this.profilesSrv.searchAccessProfile(searchValue, this.page).subscribe(
             data => {
-                this.profiles = data;
-                console.log('profile data', this.profiles);
+                this.accessProfiles = data;
+                console.log('profile data', this.accessProfiles);
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;

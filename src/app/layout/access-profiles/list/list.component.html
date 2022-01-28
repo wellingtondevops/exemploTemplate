@@ -13,7 +13,7 @@
             </app-page-header>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" role="FormGroup" (ngSubmit)="getProfiles()" class="form">
+            <form [formGroup]="searchForm" role="FormGroup" (ngSubmit)="getAccessProfiles()" class="form">
                 <div class="row">
                     <div class="mb-2 col-lg-6 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
@@ -52,8 +52,8 @@
     </ng-template>
     <div class="row">
         <div class="col-lg-12">
-            <app-datatables [data]="profiles" (setPage)="setPageProfiles($event)" [columns]="columns"
-            (show)="getProfile($event)">
+            <app-datatables [data]="accessProfiles" (setPage)="setPageAccessProfiles($event)" [columns]="columns"
+            (show)="getAccessProfile($event)">
             </app-datatables>
         </div>
     </div>

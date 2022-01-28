@@ -1,3 +1,90 @@
-<p>
-  show works!
-</p>
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card bg-light">
+        <div class="card-header">
+            <h3>Perfil do Usuário</h3>
+            <div style="margin-bottom: 10px">
+                <app-button-back [redirectTo]="'/access-profiles'"></app-button-back>
+                <app-buttons-custom [id]="accessProfile._id" (edit)="editAccessProfile(accessProfile._id)" (delete)="open('focusFirst', accessProfile._id)"
+                    [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete">
+                </app-buttons-custom>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="accessProfileForm" role="FormGroup">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="" style="margin-bottom: 0px;">Nome</label>
+                            <input type="text" formControlName="name" class="form-control input-underline input-lg"
+                                style="margin-bottom: 10px;" />
+                        </div>
+                        <div class="form-group">
+                            <label for="typeahead-basic">Empresa</label>
+                            <div class="input-group mb-3">
+                                <input id="typeahead-basic" type="text" class="form-control"
+                                    formControlName="company" (selectItem)="getDocuments($event)"
+                                    [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                                    [ngbTypeahead]="searchCompany" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <h5>Permissões</h5>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                                    <div class="card-body">
+                                        <div>
+
+                                            <ng-template #content let-c="close" let-d="dismiss">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">Documentos Permitidos
+                                                    </h4>
+                                                    <button type="button" class="close" aria-label="Close"
+                                                        (click)="d('Cross click')">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <type-ahead class="form-control" [multi]="true" [complex]="true"
+                                                        idField="_id" formControlName="docts"
+                                                        [suggestions]="documentsAll.docts"
+                                                        style="width: 1px; background-color:transparent; border: yellow;">
+                                                    </type-ahead>
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                </div>
+                                            </ng-template>
+
+                                            <button class="btn btn-sm btn-dark" (click)="openMod(content)">Exibir
+                                                Documentos</button>
+
+                                            <div class="collapse navbar-collapse col-12" id="collapseExample"
+                                                [ngbCollapse]="isCollapsed">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+            </form>
+        </div>
+    </div>
+</div>

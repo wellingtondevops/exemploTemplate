@@ -73,8 +73,8 @@ export class UsersService {
     );
   }
 
-  profiles(){
-    return this.http.ge                 t<Profiles>(`${url}/profiles/list`)
+  profiles() {
+    return this.http.get<Profiles>(`${url}/profiles/list`)
     .pipe(
       tap(data => data)
     );

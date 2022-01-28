@@ -10,7 +10,7 @@ export class AccessProfileGuardService {
     constructor(private router: Router) { }
 
     static isAccessProfiles() {
-        let access = JSON.parse(window.localStorage.getItem('routes'))[0].accessProfile;
+        let access = JSON.parse(window.localStorage.getItem('routes'))[0].accessProfiles;
         return access;
     }
 

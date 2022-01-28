@@ -28,7 +28,7 @@ export class AccessProfilesService {
         }
     }
 
-    profile(id) {
+    accessProfile(id) {
         return this.http.get<AccessProfiles>(`${url}/accessprofiles/${id}`)
             .pipe(
                 tap(data => data)
