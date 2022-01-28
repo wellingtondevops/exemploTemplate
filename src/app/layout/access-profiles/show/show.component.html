@@ -41,16 +41,15 @@
                         <div class="col-lg-12">
                             <h5>Permissões</h5>
                         </div>
-                        <type-ahead class="form-control" [multi]="true" [complex]="true" idField="_id"
+                        <!-- <type-ahead class="form-control" [multi]="true" [complex]="true" idField="_id"
                             formControlName="docts" [suggestions]="documentsAll.docts"
                             style="width: 1px; background-color:transparent; border: yellow;">
-                        </type-ahead>
-                        <div class="form-group" formArrayName="docts">
-                            <div *ngFor="let permissions of docts.controls; index as i">
+                        </type-ahead> -->
+                        <div class="form-group" >
+                            <div >
                                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
                                     <div class="card-body">
-                                        <div [formGroupName]="i">
-
+                                        <div>
                                             <ng-template #content let-c="close" let-d="dismiss">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="modal-basic-title">Documentos Permitidos

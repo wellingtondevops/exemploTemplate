@@ -66,7 +66,6 @@ export class ShowComponent implements OnInit {
             name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             docts: this.fb.array(this.docts),
-
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
@@ -161,7 +160,7 @@ export class ShowComponent implements OnInit {
 
     createPermissionExist(item): FormGroup {
         return this.fb.group({
-            docts: { value: item.docts, disabled: true },
+            docts: {value: item.docts, disabled: false}
         });
     }
 
@@ -170,17 +169,17 @@ export class ShowComponent implements OnInit {
         this.docts.push(this.createPermissionExist(item));
     }
 
-    returnDoctsArray(docts) {
-        return docts.map(item => {
-            return { docts: [item.docts] };
-        });
-    }
+    // returnDoctsArray(docts) {
+    //     return docts.map(item => {
+    //         return { docts: [item.docts] };
+    //     });
+    // }
 
-    returnDocts(item) {
-        const docts = [];
-        docts.push({ _id: item });
-        return docts;
-    }
+    // returnDocts(item) {
+    //     const docts = [];
+    //     docts.push({ _id: item });
+    //     return docts;
+    // }
 
     changeUpdate() {
         !this.changeUp ? (this.changeUp = true) : (this.changeUp = false);
