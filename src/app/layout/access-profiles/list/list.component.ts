@@ -80,8 +80,8 @@ export class ListComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
-    getProfile(_id) {
-        this._route.navigate(['/access-profiles/get'], _id);
+    getProfile(profile) {
+        this._route.navigate(['/access-profiles/get', profile._id]);
     }
 
     getCompanies() {
@@ -138,6 +138,7 @@ export class ListComponent implements OnInit {
         this.profilesSrv.searchAccessProfile(searchValue, this.page).subscribe(
             data => {
                 this.profiles = data;
+                console.log('profile data', this.profiles);
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
