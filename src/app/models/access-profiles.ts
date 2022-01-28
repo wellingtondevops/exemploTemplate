@@ -6,13 +6,13 @@ export class AccessProfiles {
     _id: string;
     name: string;
     company: string;
-    docts: Docts[];
+    docts: AccessDocts[];
 }
 export class AccessProfilesList {
     _links: Pagination;
     items: AccessProfiles[];
 }
-export class Docts {
+export class AccessDocts {
     _id: string;
     name: string;
 }

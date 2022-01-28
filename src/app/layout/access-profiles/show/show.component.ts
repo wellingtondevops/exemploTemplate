@@ -70,10 +70,9 @@ export class ShowComponent implements OnInit {
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
-        console.log('tal do id', this.id);
 
         // this.getCompanies();
-        // this.getDocuments();
+        this.getDocuments();
         this.getAccessProfile();
 
     }
@@ -114,7 +113,7 @@ export class ShowComponent implements OnInit {
     }
 
     getDocuments(e = null) {
-        this.documentsSrv.doctsUser(this.id).subscribe(
+        this.documentsSrv.doctsAccessProfile(this.id).subscribe(
             data => {
                 this.documentsAll = data;
                 console.log('docAll  ', this.documentsAll);
@@ -162,7 +161,7 @@ export class ShowComponent implements OnInit {
 
     createPermissionExist(item): FormGroup {
         return this.fb.group({
-            docts: { value: item.docts, disabled: true }
+            docts: { value: item.docts, disabled: true },
         });
     }
 
@@ -180,7 +179,6 @@ export class ShowComponent implements OnInit {
     returnDocts(item) {
         const docts = [];
         docts.push({ _id: item });
-        console.log('adasdasda', docts);
         return docts;
     }
 
