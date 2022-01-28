@@ -49,8 +49,8 @@ export class AccessProfilesService {
             );
     }
 
-    delete(profile) {
-        return this.http.delete<AccessProfiles>(`${url}/accessprofiles/${profile._id}`)
+    delete(id) {
+        return this.http.delete<AccessProfiles>(`${url}/accessprofiles/${id}`)
             .pipe(
                 tap(data => data)
             );
