@@ -36,6 +36,7 @@ export class ShowComponent implements OnInit {
     id: string;
     accessProfile: AccessProfiles;
     docts: any = [];
+    permissions: any = [];
     changeUp = false;
     public isCollapsed = true;
 
