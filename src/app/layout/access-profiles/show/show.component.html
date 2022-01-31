@@ -10,8 +10,8 @@
         <div class="card-header">
             <h3>Perfil do Usuário</h3>
             <div style="margin-bottom: 10px">
-                <app-button-back [redirectTo]="'/access-profiles'"></app-button-back>
-                <app-buttons-custom (edit)="editAccessProfile(accessProfile._id)"
+                <app-button-back [redirectTo]="'access-profiles'"></app-button-back>
+                <app-buttons-custom [id]="accessProfile" (edit)="editAccessProfile(accessProfile._id)"
                     (delete)="open('focusFirst', accessProfile._id)" [permissionEdit]="permissionEdit"
                     [permissionDelete]="permissionDelete">
                 </app-buttons-custom>

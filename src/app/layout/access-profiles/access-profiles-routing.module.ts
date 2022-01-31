@@ -20,7 +20,7 @@ const routes: Routes = [
         // canActivate: [UsersGuardService, TermsService]
     },
     {
-        path: 'edit:/id',
+        path: 'edit/:id',
         component: EditComponent,
         canActivate: [UsersGuardService, TermsService]
     },
