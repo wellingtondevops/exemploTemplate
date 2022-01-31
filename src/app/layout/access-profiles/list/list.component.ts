@@ -82,7 +82,6 @@ export class ListComponent implements OnInit {
 
     getAccessProfile(accessProfile) {
         this._route.navigate(['/access-profiles/get', accessProfile._id]);
-        console.log('qual o id', accessProfile);
     }
 
     getCompanies() {
@@ -126,7 +125,6 @@ export class ListComponent implements OnInit {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
         this.localStorageSrv.save('profile', this.searchForm.value);
-        console.log('dataaaaaaaaaaaaaaaaa', this.localStorageSrv.get('profile'));
         const newForm = {
             company: null,
             name: null,
@@ -139,7 +137,6 @@ export class ListComponent implements OnInit {
         this.profilesSrv.searchAccessProfile(searchValue, this.page).subscribe(
             data => {
                 this.accessProfiles = data;
-                console.log('profile data', this.accessProfiles);
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
