@@ -12,6 +12,7 @@ import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
+declare var $;
 
 @Component({
     selector: 'app-new',
@@ -58,6 +59,12 @@ export class NewComponent implements OnInit {
         if (this.userExternal) {
             this.addPermission();
         }
+
+        $(document).ready(function() {
+            $('#companyView').on('keyup', function() {
+                $('#companyHidden').val($(this).attr());
+            });
+        });
 
     }
 
@@ -137,9 +144,6 @@ export class NewComponent implements OnInit {
     }
 
     getDocuments(e) {
-        _.remove(this.companies, (item) => {
-            return item._id === e.item._id;
-        });
         console.log('companies', this.companies);
         this.documentsSrv.searchDocuments(e.item._id).subscribe(
             data => {
@@ -179,14 +183,5 @@ export class NewComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
-    }
-}
-@Pipe({
-    name: 'enumToArray'
-})
-export class EnumToArrayPipe implements PipeTransform {
-    transform(data: Object) {
-        const keys = Object.keys(data);
-        return keys.slice(keys.length / 2);
     }
 }
