@@ -3,7 +3,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { AccessProfiles } from './../../../models/access-profiles';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AccessProfilesService } from './../../../services/access-profiles/access-profiles.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
@@ -29,6 +29,8 @@ export class EditComponent implements OnInit {
     docts: any = [];
     accessProfile: AccessProfiles;
     company: any;
+    isCollapsed = false;
+    closeResult = '';
 
     constructor(
         private route: ActivatedRoute,
@@ -41,8 +43,12 @@ export class EditComponent implements OnInit {
         private modalService: NgbModal,
         private errorMsg: ErrorMessagesService,
         public modal: NgbActiveModal,
-        private utilCase: CaseInsensitive
-    ) { }
+        private utilCase: CaseInsensitive,
+        config: NgbModalConfig,
+    ) {
+        config.backdrop = 'static';
+        config.keyboard = false;
+    }
 
     ngOnInit() {
         this.accessProfileForm = this.fb.group({
@@ -53,6 +59,9 @@ export class EditComponent implements OnInit {
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
+
+        this.getDocuments();
+        // this.getCompanies();
 
     }
 
@@ -78,7 +87,39 @@ export class EditComponent implements OnInit {
             })
         )
 
-    getUser() {
+    searchDocument = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(document => {
+                let res;
+                if (document.length < 2) {
+                    [];
+                } else {
+                    res = _.filter(this.documentsAll, v =>
+                        (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
+            })
+        )
+
+    getCompanies() {
+        this.companiesSrv.searchCompanies().subscribe(
+            data => {
+                this.companies = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
+
+    selectedCompany(e, i) {
+        this.getDocuments(e, i);
+    }
+
+    getAccessProfile() {
         this.profilesSrv.accessProfile(this.id).subscribe(
             data => {
                 this.loading = false;
@@ -122,7 +163,7 @@ export class EditComponent implements OnInit {
                         this.documentsAll[i] = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
                     }
                     if (!this.accessProfile) {
-                        this.getUser();
+                        this.getAccessProfile();
                     }
                 },
                 error => {
@@ -132,12 +173,12 @@ export class EditComponent implements OnInit {
                 }
             );
         } else {
-            this.documentsSrv.doctsUser(this.id).subscribe(
+            this.documentsSrv.doctsAccessProfile(this.id).subscribe(
                 data => {
                     console.log('doctsUser', data);
                     this.documentsAll = data;
                     if (!this.accessProfile) {
-                        this.getUser();
+                        this.getAccessProfile();
                     }
                 },
                 error => {
@@ -149,35 +190,37 @@ export class EditComponent implements OnInit {
         }
     }
 
+    // // returnIdCompanyPermissions() {
+    // //     const newArray = [];
+    // //     this.accessProfileForm.value.docts.map((item) => {
+    // //         newArray.push({ docts: item.docts });
+    // //     });
+    // //     this.accessProfileForm.value.docts = newArray;
+    // // }
+
+
+    // returnDocts(item) {
+    //     const docts = [];
+    //     docts.push({ _id: item });
+    //     return docts;
+    // }
+
     returnDoctsArray(permissions) {
         return permissions.map(item => {
-            return { company: item.company, docts: [item.docts] };
+            return { docts: [item.docts] };
         });
     }
 
-    createPermissionExist(item): FormGroup {
+    createPermissionExist(): FormGroup {
         this.getDocuments();
         return this.fb.group({
-            company: item.company,
-            docts: item.docts
+            docts: this.docts
         });
     }
 
     addPermissionExist(item): void {
         this.docts = this.accessProfileForm.get('docts') as FormArray;
-        this.docts.push(this.createPermissionExist(item));
-    }
-    
-    createPermission(): FormGroup {
-        return this.fb.group({
-            company: '',
-            docts: ''
-        });
-    }
-
-    addPermission(): void {
-        this.docts = this.accessProfileForm.get('docts') as FormArray;
-        this.docts.push(this.createPermission());
+        this.docts.push(this.createPermissionExist());
     }
 
     open(content) {
@@ -188,7 +231,7 @@ export class EditComponent implements OnInit {
         this.docts.removeAt(e);
     }
 
-    updateUser() {
+    updateAccessProfile() {
         this.loading = true;
         this.profilesSrv.update(this.accessProfileForm.value).subscribe(
             data => {
@@ -200,7 +243,7 @@ export class EditComponent implements OnInit {
                     name: data.name,
                     docts: data.docts,
                 });
-                this._route.navigate(['/access-profile']);
+                // this._route.navigate(['/access-profile']);
             },
             error => {
                 this.loading = false;
