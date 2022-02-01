@@ -63,7 +63,7 @@ export class EditComponent implements OnInit {
             _id: '',
             name: this.fb.control({ value: '', disabled: true }),
             company: this.fb.control({ value: '', disabled: true }),
-            permissions: this.fb.array(this.permissions),
+            docts: this.fb.array(this.permissions),
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
@@ -98,12 +98,12 @@ export class EditComponent implements OnInit {
     }
 
     addPermissionExist(item): void {
-        this.permissions = this.accessProfileForm.get('permissions') as FormArray;
+        this.permissions = this.accessProfileForm.get('docts') as FormArray;
         this.permissions.push(this.createPermissionExist(item));
     }
 
     addPermission(): void {
-        this.permissions = this.accessProfileForm.get('permissions') as FormArray;
+        this.permissions = this.accessProfileForm.get('docts') as FormArray;
         this.permissions.push(this.createPermission());
     }
 
@@ -227,9 +227,9 @@ export class EditComponent implements OnInit {
 
                 this.accessProfileForm.patchValue({
                     _id: this.accessProfile._id,
-                    name: data.name,
-                    company: data.company,
-                    permissions: this.accessProfile.docts
+                    name: this.accessProfile.name,
+                    company: this.accessProfile.company,
+                    docts: this.accessProfile.docts
                 });
                 this.accessProfile.docts.map(item => {
                     this.addPermissionExist(item);
@@ -257,11 +257,9 @@ export class EditComponent implements OnInit {
                 this.successMsgSrv.successMessages('Usuário alterado com sucesso.');
                 this.accessProfile = data;
                 this.accessProfileForm.patchValue({
-                    _id: this.accessProfile._id,
-                    name: data.name,
-                    company: data.company,
                     permissions: data.docts,
                 });
+                this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
 
             },
             error => {
@@ -270,5 +268,9 @@ export class EditComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    goBack() {
+        this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
     }
 }

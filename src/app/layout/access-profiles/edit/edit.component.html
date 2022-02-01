@@ -72,19 +72,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <!-- <button *ngIf="!userExternal" type="button" (click)="addPermission()"
-                                class="btn btn-success btn-xs pull-right" style="margin-top: 2%; margin-bottom: 2%">
-                                <i class="fa fa-plus"></i>
-                            </button> -->
-                        </div>
                     </div>
                 </div>
                 <div class="pull-right">
-                    <!-- <button type="button" [routerLink]="['/access-profiles/get', accessProfile._id]" class="btn btn-danger"
+                    <button type="button" (click)="goBack()" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
-                    <button type="submit" [routerLink]="['/access-profile/get', accessProfile._id]" class="btn btn-primary"
-                        [routerLink]="['/users']" [disabled]="name.invalid" (click)="updateAccessProfile()">Salvar</button> -->
+                    <button type="submit" class="btn btn-primary"
+                        [disabled]="name.invalid" (click)="updateAccessProfile()">Salvar</button>
                 </div>
             </form>
         </div>
