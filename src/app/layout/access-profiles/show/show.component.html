@@ -23,52 +23,45 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="name">Nome</label>
-                            <input type="text" formControlName="name" class="form-control input-underline input-lg"/>
+                            <input type="text" formControlName="name" class="form-control input-underline input-lg" />
                         </div>
                         <div class="form-group">
                             <label for="typeahead-basic">Empresa</label>
-                            <input id="typeahead-basic" type="text" class="form-control"
-                            formControlName="company" (selectItem)="getDocuments($event)"
-                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"/>
+                            <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                                (selectItem)="getDocuments($event)" [inputFormatter]="formatter"
+                                [ngbTypeahead]="searchCompany" />
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <h5>Permissões</h5>
-                        <div class="form-group" formArrayName="docts">
-                            <div *ngFor="let doctsList of docts.controls; index as i">
-                                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
-                                    <div class="card-body">
-                                        <div [formGroupName]="i">
-                                            <ng-template #content let-c="close" let-d="dismiss">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="modal-basic-title">Ver Documentos Permitidos
-                                                    </h4>
-                                                    <button type="button" class="close" aria-label="Close"
-                                                        (click)="d('Cross click')">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <type-ahead class="form-control" [multi]="true" [complex]="true"
-                                                    idField="_id" formControlName="docts"
-                                                    [suggestions]="documentsAll.docts"
-                                                    style="width: 1px; background-color:transparent; border: yellow;">
-                                                </type-ahead>
-                                                </div>
-                                                <div class="modal-footer">
+                        <div class="form-group">
+                            <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                                <div class="card-body">
 
-                                                </div>
-                                            </ng-template>
-
-                                            <button class="btn btn-sm btn-dark" (click)="openMod(content)">Exibir
-                                                Documentos</button>
-
-                                            <div class="collapse navbar-collapse col-12" id="collapseExample"
-                                                [ngbCollapse]="isCollapsed">
-
-                                            </div>
+                                    <ng-template #content let-c="close" let-d="dismiss">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modal-basic-title">Documentos
+                                                Permitidos
+                                            </h4>
+                                            <button type="button" class="close" aria-label="Close"
+                                                (click)="d('Cross click')">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
+                                        <div class="modal-body">
+                                            <ul *ngFor="let listItem of listDoc; index as i">
+                                                <li>{{listDoc[i]}}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </ng-template>
+
+                                    <button class="btn btn-sm btn-dark" (click)="openMod(content)">Exibir
+                                        Documentos Permitidos</button>
+                                    <div class="collapse navbar-collapse col-12" id="collapseExample"
+                                        [ngbCollapse]="isCollapsed">
                                     </div>
                                 </div>
                             </div>

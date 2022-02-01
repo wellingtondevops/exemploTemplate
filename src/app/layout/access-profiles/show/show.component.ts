@@ -29,15 +29,16 @@ export class ShowComponent implements OnInit {
     loading: Boolean = true;
     permissionEdit = false;
     permissionDelete = false;
+    isViewPermission = false;
     accessProfileForm: FormGroup;
     companies: any = [];
     company: any;
     documentsAll: any = [];
     id: string;
     accessProfile: AccessProfiles;
-    docts: any = [];
     permissions: any = [];
     changeUp = false;
+    listDoc: any;
     public isCollapsed = true;
 
 
@@ -66,22 +67,15 @@ export class ShowComponent implements OnInit {
             _id: '',
             name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            docts: this.fb.array(this.docts),
+            permissions: this.fb.array(this.permissions),
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
-
         // this.getCompanies();
         this.getDocuments();
-        this.getAccessProfile();
+        // this.getAccessProfile();
 
     }
-
-    get name() {
-        return this.accessProfileForm.get('name');
-    }
-
-    formatter = (x: { name: string }) => x.name;
 
     searchCompany = (text$: Observable<string>) =>
         text$.pipe(
@@ -89,7 +83,6 @@ export class ShowComponent implements OnInit {
             distinctUntilChanged(),
             map(company => {
                 this.company = this.companies.name;
-                console.log('sdfsdf', this.company);
                 let res;
                 if (company.length < 2) {
                     [];
@@ -112,14 +105,38 @@ export class ShowComponent implements OnInit {
         );
     }
 
+    get name() {
+        return this.accessProfileForm.get('name');
+    }
+
+    returnDocts(item) {
+        const docts = [];
+        docts.push({ _id: item });
+        return docts;
+    }
+
+    createPermissionExist(item): FormGroup {
+        return this.fb.group({
+            docts: { value: item.docts, disabled: true }
+        });
+    }
+
+    addPermissionExist(item): void {
+        this.permissions = this.accessProfileForm.get('permissions') as FormArray;
+        this.permissions.push(this.createPermissionExist(item));
+    }
+
+    formatter = (x: { name: string }) => x.name;
+
     getDocuments(e = null) {
         this.documentsSrv.doctsAccessProfile(this.id).subscribe(
             data => {
                 this.documentsAll = data;
-                console.log('docAll  ', this.documentsAll);
+                console.log('docAll  ', this.documentsAll.docts);
                 if (!this.accessProfile) {
                     this.getAccessProfile();
                 }
+
             },
             error => {
                 this.errorMsg.errorMessages(error);
@@ -127,6 +144,12 @@ export class ShowComponent implements OnInit {
                 this.loading = false;
             }
         );
+    }
+
+    returnDoctsArray(permissions) {
+        return permissions.map(item => {
+            return { docts: [item.docts], disabled: true };
+        });
     }
 
     getAccessProfile() {
@@ -140,15 +163,21 @@ export class ShowComponent implements OnInit {
                     company: data.company,
                     docts: data.docts,
                 };
+
+                this.isViewPermission = true;
+
                 this.accessProfileForm.patchValue({
                     _id: data._id,
                     name: data.name,
                     company: data.company,
-                    docts: this.accessProfile.docts
+                    permissions: this.accessProfile.docts
                 });
 
                 this.accessProfile.docts.map(item => {
                     this.addPermissionExist(item);
+                    this.listDoc = this.accessProfile.docts.map(item => {
+                        return   item.name ;
+                    });
                 });
             },
             error => {
@@ -159,35 +188,12 @@ export class ShowComponent implements OnInit {
         );
     }
 
-    createPermissionExist(item): FormGroup {
-        return this.fb.group({
-            docts: {value: item.docts, disabled: false}
-        });
-    }
-
-    addPermissionExist(item): void {
-        this.docts = this.accessProfileForm.get('docts') as FormArray;
-        this.docts.push(this.createPermissionExist(item));
-    }
-
-    // returnDoctsArray(docts) {
-    //     return docts.map(item => {
-    //         return { docts: [item.docts] };
-    //     });
-    // }
-
-    // returnDocts(item) {
-    //     const docts = [];
-    //     docts.push({ _id: item });
-    //     return docts;
-    // }
-
     changeUpdate() {
         !this.changeUp ? (this.changeUp = true) : (this.changeUp = false);
         if (this.changeUp) {
             this.accessProfileForm.reset({
                 _id: this.accessProfile._id,
-                name: { value: this.accessProfile.name, disabled: false },
+                name: { value: this.accessProfile.name, disabled: true },
             });
         }
     }
