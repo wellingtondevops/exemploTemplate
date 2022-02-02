@@ -33,7 +33,53 @@
                         <div class="col-lg-12">
                             <h5>Permissões</h5>
                         </div>
+                        <ul *ngFor="let listItem of listDoc; index as i">
+                            <li>{{listDoc[i]}}</li>
+                        </ul>
                         <div class="form-group">
+
+                            <type-ahead class="form-control multi" [multi]="true" [complex]="true" idField="_id"
+                                [suggestions]="documentsAll.docts" formControlName="docts"
+                                style="width: 1px; background-color:transparent; border: yellow;">
+                            </type-ahead>
+                            <!-- <div *ngFor="let perm of permissions.controls; index as i">
+                                <div class="card bg-light col-lg-12">
+                                    <div class="card-body">
+                                        <div [formGroupName]="i">
+                                            <!-- <button *ngIf="!userExternal" type="button" class="btn btn-danger mb-1 btn-xs"
+                                                (click)="removePermission(i)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            <br />
+                                            <ng-template #content let-c="close" let-d="dismiss">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">Documentos
+                                                    </h4>
+                                                    <button type="button" class="close" aria-label="Close"
+                                                        (click)="d('Cross click')">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <type-ahead class="form-control multi" [multi]="true"
+                                                        [complex]="true" idField="_id"
+                                                        [suggestions]="documentsAll.docts"
+                                                        style="width: 1px; background-color:transparent; border: yellow;">
+                                                    </type-ahead>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-dark"
+                                                        (click)="c('Save click')">Salvar</button>
+                                                </div>
+                                            </ng-template>
+
+                                            <button class="btn btn-sm btn-dark" (click)="open(content)">Adicionar
+                                                Documentos
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
                             <div>
                                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
                                     <div class="card-body">
@@ -49,11 +95,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <type-ahead class="form-control multi" [multi]="true"
-                                                        [complex]="true" idField="_id"
-                                                        [suggestions]="documentsAll.docts"
-                                                        style="width: 1px; background-color:transparent; border: yellow;">
-                                                    </type-ahead>
+
                                                     <br />
                                                 </div>
                                                 <div class="modal-footer">
@@ -77,8 +119,8 @@
                 <div class="pull-right">
                     <button type="button" (click)="goBack()" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
-                    <button type="submit" class="btn btn-primary"
-                        [disabled]="name.invalid" (click)="updateAccessProfile()">Salvar</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="name.invalid"
+                        (click)="updateAccessProfile()">Salvar</button>
                 </div>
             </form>
         </div>

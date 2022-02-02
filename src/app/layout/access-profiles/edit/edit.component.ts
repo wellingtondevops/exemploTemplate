@@ -32,7 +32,7 @@ export class EditComponent implements OnInit {
     accessProfileForm: FormGroup;
     profilesList: any = [];
     loading: Boolean = true;
-    permissions: any = [];
+    docts: any = [];
     companies: any = [];
     documentsAll: any = [];
     isViewPermission: boolean;
@@ -61,55 +61,40 @@ export class EditComponent implements OnInit {
     ngOnInit() {
         this.accessProfileForm = this.fb.group({
             _id: '',
-            name: this.fb.control({ value: '', disabled: true }),
-            company: this.fb.control({ value: '', disabled: true }),
-            docts: this.fb.array(this.permissions),
+            name: this.fb.control({ value: '' }),
+            company: this.fb.control({ value: ''}),
+            docts: this.fb.array(this.docts),
         });
+        console.log('asdass', this.docts);
 
         this.id = this.route.snapshot.paramMap.get('id');
         console.log('oID', this.id);
 
         this.getDocuments();
         this.getCompanies();
-
     }
 
     get name() {
         return this.accessProfileForm.get('name');
     }
 
-    createPermission(): FormGroup {
-        return this.fb.group({
-            docts: ''
-        });
-    }
+    // returnDocts(item) {
+    //     const docts = [];
+    //     docts.push({ _id: item });
+    //     return docts;
+    // }
 
-    returnDocts(item) {
-        const docts = [];
-        docts.push({ _id: item });
-        return docts;
-    }
+    // createPermissionExist(item): FormGroup {
+    //     this.getDocuments();
+    //     return this.fb.group({
+    //         docts: {value: item.docts, disabled: true}
+    //     });
+    // }
 
-    createPermissionExist(item): FormGroup {
-        this.getDocuments();
-        return this.fb.group({
-            docts: {value: item.docts, disabled: true}
-        });
-    }
-
-    addPermissionExist(item): void {
-        this.permissions = this.accessProfileForm.get('docts') as FormArray;
-        this.permissions.push(this.createPermissionExist(item));
-    }
-
-    addPermission(): void {
-        this.permissions = this.accessProfileForm.get('docts') as FormArray;
-        this.permissions.push(this.createPermission());
-    }
-
-    removePermission(e) {
-        this.permissions.removeAt(e);
-    }
+    // addPermissionExist(item): void {
+    //     this.docts = this.accessProfileForm.get('docts') as FormArray;
+    //     this.docts.push(this.createPermissionExist(item));
+    // }
 
     open(content) {
         this.modalService.open(content, { size: 'lg', windowClass: 'my-class' });
@@ -128,9 +113,9 @@ export class EditComponent implements OnInit {
         );
     }
 
-    selectedCompany(e, i) {
-        this.getDocuments(e, i);
-    }
+    // selectedCompany(e, i) {
+    //     this.getDocuments(e, i);
+    // }
 
     searchCompany = (text$: Observable<string>) =>
         text$.pipe(
@@ -159,7 +144,7 @@ export class EditComponent implements OnInit {
                         this.documentsAll[i] = { docts: data.items };
                     } else {
                         console.log('else', data);
-                        this.documentsAll[i] = { docts: data.items };
+                        this.documentsAll = { docts: data.items };
                     }
                     if (!this.accessProfile) {
                         this.getAccessProfile();
@@ -176,6 +161,9 @@ export class EditComponent implements OnInit {
                 data => {
                     console.log('doctsUser', data);
                     this.documentsAll = data;
+                    this.listDoc = this.documentsAll.docts.map(item => {
+                        return   item.name ;
+                    });
                     if (!this.accessProfile) {
                         this.getAccessProfile();
                     }
@@ -205,13 +193,13 @@ export class EditComponent implements OnInit {
             })
         )
 
-    returnIdCompanyPermissions() {
-        const newArray = [];
-        this.accessProfileForm.value.permissions.map((item) => {
-            newArray.push({ company: item.company._id, docts: item.docts });
-        });
-        this.accessProfileForm.value.permissions = newArray;
-    }
+    // returnIdCompanyPermissions() {
+    //     const newArray = [];
+    //     this.accessProfileForm.value.docts.map((item) => {
+    //         newArray.push(item.docts);
+    //     });
+    //     this.accessProfileForm.value.docts = newArray;
+    // }
 
     getAccessProfile() {
         this.profilesSrv.accessProfile(this.id).subscribe(
@@ -231,9 +219,10 @@ export class EditComponent implements OnInit {
                     company: this.accessProfile.company,
                     docts: this.accessProfile.docts
                 });
-                this.accessProfile.docts.map(item => {
-                    this.addPermissionExist(item);
-                });
+                // this.accessProfile.docts.map(item => {
+
+                //     this.addPermissionExist(item);
+                // });
             },
             error => {
                 this.loading = false;
@@ -243,9 +232,9 @@ export class EditComponent implements OnInit {
         );
     }
 
-    returnDoctsArray(permissions) {
-        return permissions.map(item => {
-            return { docts: [item.docts] };
+    returnDoctsArray(docts) {
+        return docts.map(item => {
+            return item.docts;
         });
     }
 
@@ -257,7 +246,7 @@ export class EditComponent implements OnInit {
                 this.successMsgSrv.successMessages('Usuário alterado com sucesso.');
                 this.accessProfile = data;
                 this.accessProfileForm.patchValue({
-                    permissions: data.docts,
+                    _id: this.accessProfile._id,
                 });
                 this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
 
