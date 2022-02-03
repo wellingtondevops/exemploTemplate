@@ -1,4 +1,5 @@
 import { AccessProfilesService } from './../../../services/access-profiles/access-profiles.service';
+import { AccessProfiles } from './../../../models/access-profiles';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +8,6 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { routerTransition } from 'src/app/router.animations';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ProfileEnum } from 'src/app/models/profile.enum';
-import { AccessProfiles } from './../../../models/access-profiles';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
@@ -37,21 +37,19 @@ export class EditComponent implements OnInit {
     documentsAll: any = [];
     isViewPermission: boolean;
     userExternal = false;
-    listDoc: any;
 
     constructor(
         config: NgbModalConfig,
         private modalService: NgbModal,
         private _route: Router,
         private route: ActivatedRoute,
-        private userSrv: UsersService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private companiesSrv: CompaniesService,
         private documentsSrv: DocumentsService,
-        private utilCase: CaseInsensitive,
         private profilesSrv: AccessProfilesService,
+        private utilCase: CaseInsensitive
     ) {
         this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
         config.backdrop = 'static';
@@ -61,40 +59,43 @@ export class EditComponent implements OnInit {
     ngOnInit() {
         this.accessProfileForm = this.fb.group({
             _id: '',
-            name: this.fb.control({ value: '' }),
-            company: this.fb.control({ value: ''}),
-            docts: this.fb.array(this.docts),
+            name: this.fb.control('', [Validators.required]),
+            company: this.fb.control(''),
+            docts: this.fb.array(this.docts)
         });
-        console.log('asdass', this.docts);
 
         this.id = this.route.snapshot.paramMap.get('id');
-        console.log('oID', this.id);
 
         this.getDocuments();
         this.getCompanies();
+
     }
 
     get name() {
         return this.accessProfileForm.get('name');
     }
 
-    // returnDocts(item) {
-    //     const docts = [];
-    //     docts.push({ _id: item });
-    //     return docts;
-    // }
+    returnDocts(item) {
+        const docts = [];
+        docts.push({ _id: item });
+        return docts;
+    }
 
-    // createPermissionExist(item): FormGroup {
-    //     this.getDocuments();
-    //     return this.fb.group({
-    //         docts: {value: item.docts, disabled: true}
-    //     });
-    // }
+    createPermissionExist(item): FormGroup {
+        this.getDocuments();
+        return this.fb.group(
+            item.docts
+        );
+    }
 
-    // addPermissionExist(item): void {
-    //     this.docts = this.accessProfileForm.get('docts') as FormArray;
-    //     this.docts.push(this.createPermissionExist(item));
-    // }
+    addPermissionExist(item): void {
+        this.docts = this.accessProfileForm.get('docts') as FormArray;
+        this.docts.push(this.createPermissionExist(item));
+    }
+
+    removePermission(e) {
+        this.docts.removeAt(e);
+    }
 
     open(content) {
         this.modalService.open(content, { size: 'lg', windowClass: 'my-class' });
@@ -113,9 +114,9 @@ export class EditComponent implements OnInit {
         );
     }
 
-    // selectedCompany(e, i) {
-    //     this.getDocuments(e, i);
-    // }
+    selectedCompany(e, i) {
+        this.getDocuments(e, i);
+    }
 
     searchCompany = (text$: Observable<string>) =>
         text$.pipe(
@@ -134,20 +135,20 @@ export class EditComponent implements OnInit {
         )
 
     getDocuments(e = null, i = null) {
-        console.log("i", i);
+        console.log(i);
         if (e && e.item) {
             this.documentsSrv.searchDocuments(e.item._id).subscribe(
                 data => {
                     // console.log('data',data);
                     if (i) {
                         console.log('if', data);
-                        this.documentsAll[i] = { docts: data.items };
+                        this.documentsAll = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
                     } else {
                         console.log('else', data);
-                        this.documentsAll = { docts: data.items };
+                        this.documentsAll = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
                     }
                     if (!this.accessProfile) {
-                        this.getAccessProfile();
+                        this.getUser();
                     }
                 },
                 error => {
@@ -161,11 +162,8 @@ export class EditComponent implements OnInit {
                 data => {
                     console.log('doctsUser', data);
                     this.documentsAll = data;
-                    this.listDoc = this.documentsAll.docts.map(item => {
-                        return   item.name ;
-                    });
                     if (!this.accessProfile) {
-                        this.getAccessProfile();
+                        this.getUser();
                     }
                 },
                 error => {
@@ -187,42 +185,40 @@ export class EditComponent implements OnInit {
                     [];
                 } else {
                     res = _.filter(this.documentsAll,
-                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10);
-                }
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
                 return res;
             })
         )
 
-    // returnIdCompanyPermissions() {
-    //     const newArray = [];
-    //     this.accessProfileForm.value.docts.map((item) => {
-    //         newArray.push(item.docts);
-    //     });
-    //     this.accessProfileForm.value.docts = newArray;
-    // }
+    returnIdCompanyPermissions() {
+        const newArray = [];
+        this.accessProfileForm.value.docts.map((item) => {
+            newArray.push({ company: item.company._id, docts: item.docts });
+        });
+        this.accessProfileForm.value.docts = newArray;
+    }
 
-    getAccessProfile() {
+    getUser() {
         this.profilesSrv.accessProfile(this.id).subscribe(
             data => {
                 this.loading = false;
                 this.accessProfile = {
                     _links: data._links,
                     _id: data._id,
-                    company: data.company,
                     name: data.name,
+                    company: data.company,
                     docts: this.returnDoctsArray(data.docts)
                 };
 
                 this.accessProfileForm.patchValue({
                     _id: this.accessProfile._id,
-                    name: this.accessProfile.name,
-                    company: this.accessProfile.company,
+                    name: data.name,
+                    company: data.company,
                     docts: this.accessProfile.docts
                 });
-                // this.accessProfile.docts.map(item => {
-
-                //     this.addPermissionExist(item);
-                // });
+                this.accessProfile.docts.map(item => {
+                    this.addPermissionExist(item);
+                });
             },
             error => {
                 this.loading = false;
@@ -234,9 +230,10 @@ export class EditComponent implements OnInit {
 
     returnDoctsArray(docts) {
         return docts.map(item => {
-            return item.docts;
+            return { docts: [item.docts] };
         });
     }
+
 
     updateAccessProfile() {
         this.loading = true;
@@ -247,9 +244,11 @@ export class EditComponent implements OnInit {
                 this.accessProfile = data;
                 this.accessProfileForm.patchValue({
                     _id: this.accessProfile._id,
+                    name: data.name,
+                    company: data.company,
+                    docts: data.docts,
                 });
                 this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
-
             },
             error => {
                 this.loading = false;
@@ -258,7 +257,6 @@ export class EditComponent implements OnInit {
             }
         );
     }
-
     goBack() {
         this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
     }
