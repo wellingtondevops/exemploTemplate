@@ -32,8 +32,9 @@ export class EditComponent implements OnInit {
     accessProfileForm: FormGroup;
     profilesList: any = [];
     loading: Boolean = true;
-    docts: any = [];
+    permissions: any = [];
     companies: any = [];
+    listDoc: any;
     documentsAll: any = [];
     isViewPermission: boolean;
     userExternal = false;
@@ -43,12 +44,13 @@ export class EditComponent implements OnInit {
         private modalService: NgbModal,
         private _route: Router,
         private route: ActivatedRoute,
+        private userSrv: UsersService,
+        private accessSrv: AccessProfilesService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private companiesSrv: CompaniesService,
         private documentsSrv: DocumentsService,
-        private profilesSrv: AccessProfilesService,
         private utilCase: CaseInsensitive
     ) {
         this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
@@ -59,20 +61,27 @@ export class EditComponent implements OnInit {
     ngOnInit() {
         this.accessProfileForm = this.fb.group({
             _id: '',
-            name: this.fb.control('', [Validators.required]),
-            company: this.fb.control(''),
-            docts: this.fb.array(this.docts)
+            name: this.fb.control(null, [Validators.required]),
+            company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            docts: this.fb.array(this.permissions)
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
 
         this.getDocuments();
         this.getCompanies();
+        this.getUser();
 
     }
 
     get name() {
         return this.accessProfileForm.get('name');
+    }
+
+    createPermission(): FormGroup {
+        return this.fb.group({
+            docts: ''
+        });
     }
 
     returnDocts(item) {
@@ -83,18 +92,24 @@ export class EditComponent implements OnInit {
 
     createPermissionExist(item): FormGroup {
         this.getDocuments();
-        return this.fb.group(
-            item.docts
-        );
+        return this.fb.group({
+
+            docts: item.docts
+        });
     }
 
     addPermissionExist(item): void {
-        this.docts = this.accessProfileForm.get('docts') as FormArray;
-        this.docts.push(this.createPermissionExist(item));
+        this.permissions = this.accessProfileForm.get('docts') as FormArray;
+        this.permissions.push(this.createPermissionExist(item));
+    }
+
+    addPermission(): void {
+        this.permissions = this.accessProfileForm.get('docts') as FormArray;
+        this.permissions.push(this.createPermission());
     }
 
     removePermission(e) {
-        this.docts.removeAt(e);
+        this.permissions.removeAt(e);
     }
 
     open(content) {
@@ -114,9 +129,6 @@ export class EditComponent implements OnInit {
         );
     }
 
-    selectedCompany(e, i) {
-        this.getDocuments(e, i);
-    }
 
     searchCompany = (text$: Observable<string>) =>
         text$.pipe(
@@ -139,14 +151,8 @@ export class EditComponent implements OnInit {
         if (e && e.item) {
             this.documentsSrv.searchDocuments(e.item._id).subscribe(
                 data => {
-                    // console.log('data',data);
-                    if (i) {
-                        console.log('if', data);
-                        this.documentsAll = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
-                    } else {
-                        console.log('else', data);
-                        this.documentsAll = { company: { _id: e.item._id, name: e.item.name }, docts: data.items };
-                    }
+                    console.log('else', data);
+                    this.documentsAll[i] = { docts: data.items };
                     if (!this.accessProfile) {
                         this.getUser();
                     }
@@ -162,6 +168,9 @@ export class EditComponent implements OnInit {
                 data => {
                     console.log('doctsUser', data);
                     this.documentsAll = data;
+                    this.listDoc = this.documentsAll.docts.map(item => {
+                        return item.name;
+                    });
                     if (!this.accessProfile) {
                         this.getUser();
                     }
@@ -173,6 +182,8 @@ export class EditComponent implements OnInit {
                 }
             );
         }
+
+
     }
 
     searchDocument = (text$: Observable<string>) =>
@@ -181,32 +192,28 @@ export class EditComponent implements OnInit {
             distinctUntilChanged(),
             map(document => {
                 let res;
-                if (document.length < 2) {
-                    [];
-                } else {
-                    res = _.filter(this.documentsAll,
-                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
+                if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
                 return res;
             })
         )
 
     returnIdCompanyPermissions() {
         const newArray = [];
-        this.accessProfileForm.value.docts.map((item) => {
-            newArray.push({ company: item.company._id, docts: item.docts });
+        this.accessProfileForm.value.permissions.map((item) => {
+            newArray.push({ docts: item.docts });
         });
-        this.accessProfileForm.value.docts = newArray;
+        this.accessProfileForm.value.permissions = newArray;
     }
 
     getUser() {
-        this.profilesSrv.accessProfile(this.id).subscribe(
+        this.accessSrv.accessProfile(this.id).subscribe(
             data => {
                 this.loading = false;
                 this.accessProfile = {
                     _links: data._links,
                     _id: data._id,
-                    name: data.name,
                     company: data.company,
+                    name: data.name,
                     docts: this.returnDoctsArray(data.docts)
                 };
 
@@ -216,6 +223,7 @@ export class EditComponent implements OnInit {
                     company: data.company,
                     docts: this.accessProfile.docts
                 });
+
                 this.accessProfile.docts.map(item => {
                     this.addPermissionExist(item);
                 });
@@ -228,16 +236,16 @@ export class EditComponent implements OnInit {
         );
     }
 
-    returnDoctsArray(docts) {
-        return docts.map(item => {
+    returnDoctsArray(permissions) {
+        return permissions.map(item => {
             return { docts: [item.docts] };
         });
     }
 
 
-    updateAccessProfile() {
+    updateUser() {
         this.loading = true;
-        this.profilesSrv.update(this.accessProfileForm.value).subscribe(
+        this.accessSrv.update(this.accessProfileForm.value).subscribe(
             data => {
                 this.loading = false;
                 this.successMsgSrv.successMessages('Usuário alterado com sucesso.');
@@ -245,7 +253,6 @@ export class EditComponent implements OnInit {
                 this.accessProfileForm.patchValue({
                     _id: this.accessProfile._id,
                     name: data.name,
-                    company: data.company,
                     docts: data.docts,
                 });
                 this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
