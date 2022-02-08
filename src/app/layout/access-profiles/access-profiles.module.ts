@@ -13,6 +13,7 @@ import { AccessProfilesRoutingModule } from './access-profiles-routing.module';
 import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { EditComponent } from './edit/edit.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
     declarations: [ListComponent, NewComponent, ShowComponent, EditComponent],
@@ -27,6 +28,7 @@ import { EditComponent } from './edit/edit.component';
         DatatablesModule,
         ButtonsCustomModule,
         ButtonBackModule,
+        NgMultiSelectDropDownModule,
         NgSelectModule,
         TypeaheadModule,
         NgxLoadingModule.forRoot({})
