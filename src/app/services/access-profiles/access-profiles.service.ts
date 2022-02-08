@@ -1,3 +1,4 @@
+import { AccessDocts } from 'src/app/models/access-profiles';
 import { tap } from 'rxjs/operators';
 import { AccessProfiles, AccessProfilesList } from '../../models/access-profiles';
 import { environment } from 'src/environments/environment';
@@ -51,6 +52,20 @@ export class AccessProfilesService {
 
     delete(id) {
         return this.http.delete<AccessProfiles>(`${url}/accessprofiles/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    documentsProfiles(id) {
+        return this.http.get<AccessDocts>(`${url}/accessprofiles/listdoumentosprof/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    avaliableDocuments(id) {
+        return this.http.get<AccessDocts>(`${url}/accessprofiles/listdoumentos/${id}`)
             .pipe(
                 tap(data => data)
             );
