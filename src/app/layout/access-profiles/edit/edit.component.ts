@@ -7,14 +7,12 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { routerTransition } from 'src/app/router.animations';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
-import { ProfileEnum } from 'src/app/models/profile.enum';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import _ from 'lodash';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { User } from 'src/app/models/user';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 
 @Component({
@@ -25,19 +23,21 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
-    isCollapsed = false;
     id: String;
     closeResult = '';
     accessProfile: AccessProfiles;
     accessProfileForm: FormGroup;
     profilesList: any = [];
     loading: Boolean = true;
-    permissions: any = [];
     companies: any = [];
+    documentsList: any = [];
+    documentsListFull = [];
     listDoc: any;
-    documentsAll: any = [];
-    isViewPermission: boolean;
-    userExternal = false;
+    listDocFull: any;
+    dropdownSettings: any = {};
+    ShowFilter = true;
+    limitSelection = false;
+    selectedItems = [];
 
     constructor(
         config: NgbModalConfig,
@@ -50,10 +50,8 @@ export class EditComponent implements OnInit {
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private companiesSrv: CompaniesService,
-        private documentsSrv: DocumentsService,
         private utilCase: CaseInsensitive
     ) {
-        this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
         config.backdrop = 'static';
         config.keyboard = false;
     }
@@ -63,13 +61,24 @@ export class EditComponent implements OnInit {
             _id: '',
             name: this.fb.control(null, [Validators.required]),
             company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            docts: this.fb.array(this.permissions)
+            docts: [this.selectedItems],
         });
+
+        this.dropdownSettings = {
+            singleSelection: false,
+            idField: '_id',
+            textField: 'name',
+            selectAllText: 'Marcar Todos',
+            unSelectAllText: 'Desmarcar Todos',
+            itemsShowLimit: 0,
+            allowSearchFilter: this.ShowFilter
+        };
 
         this.id = this.route.snapshot.paramMap.get('id');
 
-        this.getDocuments();
-        this.getCompanies();
+        this.getListDoc();
+        this.getListDocFull();
+        // this.getCompanies();
         this.getUser();
 
     }
@@ -78,42 +87,15 @@ export class EditComponent implements OnInit {
         return this.accessProfileForm.get('name');
     }
 
-    createPermission(): FormGroup {
-        return this.fb.group({
-            docts: ''
-        });
-    }
-
-    returnDocts(item) {
-        const docts = [];
-        docts.push({ _id: item });
-        return docts;
-    }
-
-    createPermissionExist(item): FormGroup {
-        this.getDocuments();
-        return this.fb.group({
-
-            docts: item.docts
-        });
-    }
-
-    addPermissionExist(item): void {
-        this.permissions = this.accessProfileForm.get('docts') as FormArray;
-        this.permissions.push(this.createPermissionExist(item));
-    }
-
-    addPermission(): void {
-        this.permissions = this.accessProfileForm.get('docts') as FormArray;
-        this.permissions.push(this.createPermission());
-    }
-
-    removePermission(e) {
-        this.permissions.removeAt(e);
+    get docts() {
+        return this.accessProfileForm.get('docts');
     }
 
     open(content) {
         this.modalService.open(content, { size: 'lg', windowClass: 'my-class' });
+    }
+    open2(conte) {
+        this.modalService.open(conte, { size: 'lg', windowClass: 'my-class' });
     }
 
     formatter = (x: { name: string }) => x.name;
@@ -128,7 +110,6 @@ export class EditComponent implements OnInit {
             }
         );
     }
-
 
     searchCompany = (text$: Observable<string>) =>
         text$.pipe(
@@ -146,63 +127,37 @@ export class EditComponent implements OnInit {
             })
         )
 
-    getDocuments(e = null, i = null) {
-        console.log(i);
-        if (e && e.item) {
-            this.documentsSrv.searchDocuments(e.item._id).subscribe(
-                data => {
-                    console.log('else', data);
-                    this.documentsAll[i] = { docts: data.items };
-                    if (!this.accessProfile) {
-                        this.getUser();
-                    }
-                },
-                error => {
-                    this.errorMsg.errorMessages(error);
-                    console.log('ERROR: ', error);
-                    this.loading = false;
-                }
-            );
-        } else {
-            this.documentsSrv.doctsAccessProfile(this.id).subscribe(
-                data => {
-                    console.log('doctsUser', data);
-                    this.documentsAll = data;
-                    this.listDoc = this.documentsAll.docts.map(item => {
-                        return item.name;
-                    });
-                    if (!this.accessProfile) {
-                        this.getUser();
-                    }
-                },
-                error => {
-                    this.errorMsg.errorMessages(error);
-                    console.log('ERROR: ', error);
-                    this.loading = false;
-                }
-            );
-        }
-
-
+    getListDocFull() {
+        this.accessSrv.avaliableDocuments(this.id).subscribe(
+            data => {
+                this.listDocFull = data;
+                this.documentsListFull = this.listDocFull.map(item => {
+                    return item;
+                });
+                console.log('lista nova', this.selectedItems);
+            }
+        );
     }
 
-    searchDocument = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(document => {
-                let res;
-                if (document.length < 2) { []; } else { res = _.filter(this.documentsAll, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10); }
-                return res;
-            })
-        )
+    getListDoc() {
+        this.accessSrv.documentsProfiles(this.id).subscribe(
+            data => {
+                this.listDoc = data;
+                this.documentsList = this.listDoc.map(item => {
+                    return item;
+                });
+                console.log('ListaAdc', this.documentsList);
+            }
+        );
+    }
 
-    returnIdCompanyPermissions() {
+    returnIdDoct() {
         const newArray = [];
-        this.accessProfileForm.value.permissions.map((item) => {
-            newArray.push({ docts: item.docts });
+        this.accessProfileForm.value.docts.map((item) => {
+            newArray.push(item._id);
         });
-        this.accessProfileForm.value.permissions = newArray;
+        this.accessProfileForm.value.docts = newArray;
+        console.log('new array', this.accessProfileForm.value.docts);
     }
 
     getUser() {
@@ -214,7 +169,7 @@ export class EditComponent implements OnInit {
                     _id: data._id,
                     company: data.company,
                     name: data.name,
-                    docts: this.returnDoctsArray(data.docts)
+                    docts: data.docts
                 };
 
                 this.accessProfileForm.patchValue({
@@ -222,10 +177,6 @@ export class EditComponent implements OnInit {
                     name: data.name,
                     company: data.company,
                     docts: this.accessProfile.docts
-                });
-
-                this.accessProfile.docts.map(item => {
-                    this.addPermissionExist(item);
                 });
             },
             error => {
@@ -235,13 +186,6 @@ export class EditComponent implements OnInit {
             }
         );
     }
-
-    returnDoctsArray(permissions) {
-        return permissions.map(item => {
-            return { docts: [item.docts] };
-        });
-    }
-
 
     updateUser() {
         this.loading = true;
@@ -253,7 +197,6 @@ export class EditComponent implements OnInit {
                 this.accessProfileForm.patchValue({
                     _id: this.accessProfile._id,
                     name: data.name,
-                    docts: data.docts,
                 });
                 this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
             },
@@ -264,7 +207,27 @@ export class EditComponent implements OnInit {
             }
         );
     }
+
     goBack() {
         this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
+    }
+
+    onItemSelect(item: any) {
+        console.log('onItemSelect', item);
+    }
+    onSelectAll(items: any) {
+        console.log('onSelectAll', items);
+    }
+    toogleShowFilter() {
+        this.ShowFilter = !this.ShowFilter;
+        this.dropdownSettings = Object.assign({}, this.dropdownSettings, { allowSearchFilter: this.ShowFilter });
+    }
+
+    handleLimitSelection() {
+        if (this.limitSelection) {
+            this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: 2 });
+        } else {
+            this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
+        }
     }
 }

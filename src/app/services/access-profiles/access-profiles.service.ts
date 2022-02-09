@@ -1,3 +1,4 @@
+import { AdcDocts } from './../../models/access-profiles';
 import { AccessDocts } from 'src/app/models/access-profiles';
 import { tap } from 'rxjs/operators';
 import { AccessProfiles, AccessProfilesList } from '../../models/access-profiles';
@@ -38,6 +39,20 @@ export class AccessProfilesService {
 
     newProfile(profile) {
         return this.http.post<AccessProfiles>(`${url}/accessprofiles`, profile)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    addDocts(_id) {
+        return this.http.post<any>(`${url}/accessprofiles/addocuemnts/${_id}`, _id)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    removeDocts(id) {
+        return this.http.post<AdcDocts>(`${url}/accessprofiles/rmdocuemnts/${id}`, id)
             .pipe(
                 tap(data => data)
             );

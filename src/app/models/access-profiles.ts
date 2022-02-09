@@ -16,3 +16,6 @@ export class AccessDocts {
     _id: string;
     name: string;
 }
+export class AdcDocts {
+    docts: [];
+}

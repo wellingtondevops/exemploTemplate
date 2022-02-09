@@ -40,35 +40,64 @@
                         <button class="btn btn-sm btn-dark" (click)="open(content)">Adicionar
                             Documentos</button>
                         <div class="form-group">
-                            <ng-template #content let-c="close" let-d="dismiss">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="modal-basic-title">Editar documentos
-                                        permitidos</h4>
-                                    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    
-                                    <ul *ngFor="let listItem of listDoc; index as i">
-                                        <li>{{listDoc[i]}}</li>
-                                    </ul>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-dark"
-                                        (click)="c('Save click')">Salvar</button>
-                                </div>
-                            </ng-template>
+                            <div class="form-group">
+                                <ng-template #content let-c="close" let-d="dismiss">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modal-basic-title">Editar documentos
+                                            permitidos</h4>
+                                        <button type="button" class="close" aria-label="Close"
+                                            (click)="d('Cross click')">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ng-multiselect-dropdown name="docts" [placeholder]="'Selecione os Documentos'"
+                                            [data]="documentsListFull" [settings]="dropdownSettings"
+                                            formControlName="docts" (onSelect)="onItemSelect($event)">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-dark"
+                                            (click)="c('Save click')">Salvar</button>
+                                    </div>
+                                </ng-template>
+                            </div>
 
-
+                            <button class="btn btn-sm btn-danger" (click)="open2(conte)">Remover
+                                Documentos</button>
+                            <div class="form-group">
+                                <ng-template #conte let-c="close" let-d="dismiss">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modal-basic-title">Editar documentos
+                                            permitidos</h4>
+                                        <button type="button" class="close" aria-label="Close"
+                                            (click)="d('Cross click')">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ng-multiselect-dropdown name="docts" [placeholder]="'Selecione os Documentos'"
+                                            [data]="documentsList" [settings]="dropdownSettings" formControlName="docts"
+                                            (onSelect)="onItemSelect($event)">
+                                        </ng-multiselect-dropdown>
+                                        <!-- <ul *ngFor="let listItem of listDoc; index as i">
+                                        <li>{{documentsList[i]}}</li>
+                                    </ul> -->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-dark"
+                                            (click)="c('Save click')">Salvar</button>
+                                    </div>
+                                </ng-template>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="pull-right">
-                    <button type="button" (click)="goBack()" class="btn btn-danger"
-                        style="margin-right:10px">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="name.invalid"
-                        (click)="updateUser()">Salvar</button>
+                    <div class="pull-right">
+                        <button type="button" (click)="goBack()" class="btn btn-danger"
+                            style="margin-right:10px">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="name.invalid"
+                            (click)="updateUser()">Salvar</button>
+                    </div>
                 </div>
             </form>
         </div>
