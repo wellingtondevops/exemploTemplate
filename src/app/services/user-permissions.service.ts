@@ -21,8 +21,8 @@ export class UserPermissionsService {
             );
     }
 
-    showPermissionsList(_id) {
-        return this.http.get<ShowPemissionsUser>(`${url}/userpermissions/${_id}`)
+    showPermissionsList(id) {
+        return this.http.get<ShowPemissionsUser>(`${url}/userpermissions/${id}`)
             .pipe(
                 tap(data => data)
             );

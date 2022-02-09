@@ -42,8 +42,6 @@ export class ShowComponent implements OnInit {
     companies: any = [];
     permissionEdit = false;
     permissionDelete = false;
-    listComp: any;
-    companyList = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -79,9 +77,9 @@ export class ShowComponent implements OnInit {
         this.getCompanies();
         this.getDocuments();
         this.getProfiles();
-        this.getListCompany();
         this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
         this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+
 
     }
 
@@ -114,21 +112,6 @@ export class ShowComponent implements OnInit {
             error => {
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
-            }
-        );
-    }
-
-    getListCompany() {
-        this.userSrv.companyList(this.id).subscribe(
-            data => {
-                this.listComp = data.items;
-                // this.listComp.map(item => {
-                //     return item;
-                // });
-                this.companyList = this.listComp.map(lista => {
-                    return lista.company.name;
-                });
-                console.log('ListaAdc', this.companyList);
             }
         );
     }
@@ -334,5 +317,8 @@ export class ShowComponent implements OnInit {
     }
     openMod(content) {
         this.modalService.open(content, { size: 'lg', windowClass: 'my-class', });
+    }
+    goBack(user) {
+        this._route.navigate(['/users/userspermissions', user]);
     }
 }

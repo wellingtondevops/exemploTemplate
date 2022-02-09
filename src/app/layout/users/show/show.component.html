@@ -40,9 +40,10 @@
                             <label for="" style="margin-bottom: 0px;">Data de Criação</label>
                             <input type="date" formControlName="dateCreated" style="margin-bottom: 10px;"
                                 class="form-control input-underline input-lg" />
-
                         </div>
-                        <div class="col-lg-auto">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-auto mb-3">
                             <div class="pretty p-switch p-fill">
                                 <input type="checkbox" formControlName="download" value="" />
                                 <div class="state">
@@ -65,15 +66,8 @@
                     </div>
 
                     <div class="col-lg-6" *ngIf="isViewPermission">
-                        <div class="col-lg-12">
-                            <h5>Empresas Vinculadas</h5>
-                        </div>
-
-                        <div *ngFor="let listItem of companyList; index as i">
-                            <button class="btn btn-primary btn-sm" style="margin-bottom: 5px;">Exibir Lista de
-                                Empresas</button>
-
-                        </div>
+                        <button class="btn btn-primary btn-sm" (click)="goBack(user._id)" style="margin-bottom: 5px;">Exibir Lista de
+                            Empresas</button>
                         <!-- <div class="form-group" formArrayName="permissions">
                             <div *ngFor="let permissions of permissions.controls; index as i">
                                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
