@@ -32,12 +32,3 @@ class IdName {
     _id: string;
     name: string;
 }
-export class listCompany {
-    items: [{
-        _id: string;
-        company: {
-            _id: string,
-            name: string
-        };
-    }];
-}

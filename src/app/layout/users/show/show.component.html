@@ -26,6 +26,10 @@
                             <label for="" style="margin-bottom: 0px;">E-mail</label>
                             <input type="text" formControlName="email" class="form-control input-underline input-lg"
                                 style="margin-bottom: 10px;" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
                             <label for="" style="margin-bottom: 0px;">Perfil do Usuário</label>
                             <select class="form-control" id="profile" formControlName="profile"
                                 style="margin-bottom: 10px;">
@@ -64,9 +68,12 @@
                         <div class="col-lg-12">
                             <h5>Empresas Vinculadas</h5>
                         </div>
-                        <ul *ngFor="let listItem of companyList; index as i">
-                            <button class="btn btn-primary btn-sm">{{companyList[i]}}</button>
-                        </ul>
+
+                        <div *ngFor="let listItem of companyList; index as i">
+                            <button class="btn btn-primary btn-sm" style="margin-bottom: 5px;">Exibir Lista de
+                                Empresas</button>
+
+                        </div>
                         <!-- <div class="form-group" formArrayName="permissions">
                             <div *ngFor="let permissions of permissions.controls; index as i">
                                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
