@@ -8,17 +8,15 @@
     </ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <h3>Empresas Compartilhadas</h3>
+            <h3>Documentos Permitidos</h3>
             <div style="margin-bottom: 10px">
                 <app-button-back [redirectTo]="'user/get'"></app-button-back>
-                <app-buttons-custom [id]="user" [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete">
-                </app-buttons-custom>
             </div>
         </div>
         <div class="card-body">
-            <div *ngFor="let listItem of companyList; index as i">
-                <button class="btn btn-primary">{{companyList[i]}}</button>
-            </div>
+            <ul *ngFor="let listItem of companyList; index as i">
+                <li>{{companyList[i]}}</li>
+            </ul>
         </div>
     </div>
 </div>

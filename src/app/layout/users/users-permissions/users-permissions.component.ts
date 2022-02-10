@@ -65,12 +65,13 @@ export class UsersPermissionsComponent implements OnInit {
     }
 
     getCompaniesList() {
-        this.permissionsSrv.companyList(this.id).subscribe(
+        this.permissionsSrv.showPermissionsList(this.id).subscribe(
             data => {
-                this.listComp = data.items;
+                this.listComp = data.docts;
                 this.companyList = this.listComp.map(item => {
-                    return item._id;
+                    return item.name;
                 });
+                console.log('qualquercoisa', this.companyList);
             }
         );
     }
