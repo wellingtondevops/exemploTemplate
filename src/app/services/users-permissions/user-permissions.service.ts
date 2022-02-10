@@ -1,7 +1,7 @@
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ListCompany, ShowPemissionsUser } from '../../app/models/userPermissions';
+import { ListCompany, ShowPemissionsUser } from '../../models/userPermissions';
 import { environment } from 'src/environments/environment';
 const url = environment.apiUrl;
 

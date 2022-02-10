@@ -1,5 +1,8 @@
-
+import { Pagination } from './pagination';
 export class ShowPemissionsUser {
+    _links: {
+        self: string
+    };
     _id: string;
     company: {
         _id: string;
@@ -10,7 +13,6 @@ export class ShowPemissionsUser {
         name: string
     }];
 }
-
 export class ListCompany {
     items: [{
         _id: string;
@@ -19,4 +21,8 @@ export class ListCompany {
             name: string;
         }
     }];
+}
+export class CompanyList {
+    _links: Pagination;
+    items: ShowPemissionsUser[];
 }

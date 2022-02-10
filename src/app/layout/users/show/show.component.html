@@ -10,7 +10,7 @@
         <div class="card-header">
             <h3>Dados do Usuário</h3>
             <div style="margin-bottom: 10px" *ngIf="user">
-                <app-button-back [redirectTo]="'users'"></app-button-back>
+                <app-button-back  [routerLink]="['/users/get', user._id]"></app-button-back>
                 <app-buttons-custom [id]="user._id" (edit)="editUser(user._id)" (delete)="open('focusFirst', user._id)"
                     [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"></app-buttons-custom>
             </div>
@@ -66,8 +66,14 @@
                     </div>
 
                     <div class="col-lg-6" *ngIf="isViewPermission">
-                        <button class="btn btn-primary btn-sm" (click)="goBack(user._id)" style="margin-bottom: 5px;">Exibir Lista de
-                            Empresas</button>
+                        <!-- <button class="btn btn-primary btn-sm" (click)="goBack(user._id)" style="margin-bottom: 5px;">Exibir Lista de
+                            Empresas</button> -->
+                            <h6>Empresas </h6>
+                            <div class="card-body">
+                                <ul *ngFor="let listItem of companyList; index as i">
+                                    <button class="btn btn-primary" (click)="goBack(i)">{{companyList[i]}}</button>
+                                </ul>
+                            </div>
                         <!-- <div class="form-group" formArrayName="permissions">
                             <div *ngFor="let permissions of permissions.controls; index as i">
                                 <div class="card bg-light col-lg-12" style="margin-bottom: 10px">

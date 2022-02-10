@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserPermissionsService } from './user-permissions.service';
+import { UserPermissionsService } from './../users-permissions/user-permissions.service';
 
 describe('UserPermissionsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

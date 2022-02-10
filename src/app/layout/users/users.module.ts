@@ -1,3 +1,4 @@
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
@@ -31,6 +32,7 @@ import { UsersPermissionsComponent } from './users-permissions/users-permissions
         ButtonBackModule,
         NgSelectModule,
         TypeaheadModule,
+        NgxDatatableModule,
         NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal, CaseInsensitive]

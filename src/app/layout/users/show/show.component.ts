@@ -1,3 +1,5 @@
+import { PermissionsUser } from 'src/app/models/document';
+import { UserPermissionsService } from './../../../services/users-permissions/user-permissions.service';
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../../services/users/users.service';
@@ -30,7 +32,9 @@ const MODALS = {
 export class ShowComponent implements OnInit {
     public isCollapsed = true;
     id: String;
+    novoid: string;
     user: User;
+    permissionID: PermissionsUser;
     userForm: FormGroup;
     changeUp = false;
     company: any;
@@ -42,6 +46,8 @@ export class ShowComponent implements OnInit {
     companies: any = [];
     permissionEdit = false;
     permissionDelete = false;
+    listComp: any;
+    companyList = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -55,6 +61,7 @@ export class ShowComponent implements OnInit {
         private documentsSrv: DocumentsService,
         private companiesSrv: CompaniesService,
         config: NgbModalConfig,
+        private permissionsSrv: UserPermissionsService,
     ) {
         config.backdrop = 'static';
         config.keyboard = false;
@@ -79,6 +86,7 @@ export class ShowComponent implements OnInit {
         this.getProfiles();
         this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
         this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+        this.getCompaniesList();
 
 
     }
@@ -318,7 +326,24 @@ export class ShowComponent implements OnInit {
     openMod(content) {
         this.modalService.open(content, { size: 'lg', windowClass: 'my-class', });
     }
-    goBack(user) {
-        this._route.navigate(['/users/userspermissions', user]);
+    goBack(i) {
+        this._route.navigate(['/users/userspermissions', this.novoid[i]]);
     }
+    getCompaniesList() {
+        // this.novoid = this.permissionID._id;
+        console.log('id', this.novoid);
+        this.permissionsSrv.companyList(this.id).subscribe(
+            data => {
+                this.listComp = data.items;
+                this.companyList = this.listComp.map(item => {
+                    return item.company.name;
+                });
+                this.novoid = this.listComp.map(item => {
+                    return item._id;
+                });
+            }
+        );
+    }
+
+
 }
