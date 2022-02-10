@@ -1,23 +1,15 @@
-import { Page } from 'src/app/models/page';
-import { ListCompany, CompanyList } from './../../../models/userPermissions';
+import { ShowPemissionsUser } from './../../../models/userPermissions';
 import { UserPermissionsService } from './../../../services/users-permissions/user-permissions.service';
 import { User } from 'src/app/models/user';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AccessProfilesService } from './../../../services/access-profiles/access-profiles.service';
-import { AccessProfiles } from './../../../models/access-profiles';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
-import { DocumentsService } from 'src/app/services/documents/documents.service';
-import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { NgbModalConfig, NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from 'src/app/router.animations';
-import { Observable } from 'rxjs';
 import _ from 'lodash';
-
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -29,13 +21,10 @@ const MODALS = {
 })
 export class UsersPermissionsComponent implements OnInit {
     loading: Boolean = false;
-    permissionEdit = false;
     user: User;
-    permissionDelete = false;
-    isViewPermission = false;
     id: string;
-    changeUp = false;
     listComp: any;
+    userPermissions: ShowPemissionsUser;
     companyList = [];
     listDoc: any;
     listDocFull: any;
@@ -46,6 +35,7 @@ export class UsersPermissionsComponent implements OnInit {
     limitSelection = false;
     selectedItems = [];
     usersDoctForm: FormGroup;
+    userId: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -64,11 +54,9 @@ export class UsersPermissionsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
-        this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
         this.id = this.route.snapshot.paramMap.get('id');
-
         this.usersDoctForm = this.fb.group({
+            _id: '',
             docts: [this.selectedItems]
         });
 
@@ -87,10 +75,42 @@ export class UsersPermissionsComponent implements OnInit {
         };
     }
 
+    get docts() {
+        return this.usersDoctForm.get('docts');
+    }
+
+    returnIdDoct() {
+        const newArray = [];
+        this.usersDoctForm.value.docts.map((item) => {
+            newArray.push(item._id);
+        });
+        this.usersDoctForm.value.docts = newArray;
+        console.log('array', newArray);
+    }
+
     getCompaniesList() {
         this.permissionsSrv.showPermissionsList(this.id).subscribe(
             data => {
+                this.loading = false;
+                this.userPermissions = {
+                    _links: data._links,
+                    _id: data._id,
+                    company: data.company,
+                    user: data.user,
+                    docts: data.docts
+                };
+
+                this.usersDoctForm.patchValue({
+                    _id: this.userPermissions._id,
+                    docts: this.userPermissions.docts
+                });
                 this.listComp = data.company.name;
+                this.userId = data.user;
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
             }
         );
     }
@@ -143,5 +163,18 @@ export class UsersPermissionsComponent implements OnInit {
         } else {
             this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
         }
+    }
+
+    updateList() {
+        console.log('lista full', this.selectedItems);
+        this.loading = true;
+        this.returnIdDoct();
+        this.permissionsSrv.updateList(this.usersDoctForm.value).subscribe(
+            data => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Usuário alterado com sucesso.');
+                this._route.navigate(['/user/get', this.user._id]);
+            }
+        );
     }
 }

@@ -2,7 +2,7 @@ import { UserDocts } from './../../models/userPermissions';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ListCompany, ShowPemissionsUser } from '../../models/userPermissions';
+import { ListCompany, ShowPemissionsUser, UpdateList } from '../../models/userPermissions';
 import { environment } from 'src/environments/environment';
 const url = environment.apiUrl;
 
@@ -40,5 +40,13 @@ export class UserPermissionsService {
             .pipe(
                 tap(data => data)
             );
+    }
+
+    updateList(user) {
+        return this.http.patch<UpdateList>(`${url}/userpermissions/${user._id}`, user)
+            .pipe(
+                tap(data => data)
+            );
+
     }
 }

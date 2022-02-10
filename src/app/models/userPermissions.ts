@@ -12,6 +12,7 @@ export class ShowPemissionsUser {
         _id: string;
         name: string
     }];
+    user: string;
 }
 export class ListCompany {
     items: [{
@@ -29,4 +30,7 @@ export class CompanyList {
 export class UserDocts {
     _id: string;
     name: string;
+}
+export class UpdateList {
+    docts: [];
 }

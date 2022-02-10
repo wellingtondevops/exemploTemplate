@@ -157,7 +157,6 @@ export class EditComponent implements OnInit {
             newArray.push(item._id);
         });
         this.accessProfileForm.value.docts = newArray;
-        console.log('new array', this.accessProfileForm.value.docts);
     }
 
     getUser() {
