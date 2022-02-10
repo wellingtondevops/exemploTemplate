@@ -1,3 +1,4 @@
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -30,6 +31,7 @@ import { UsersPermissionsComponent } from './users-permissions/users-permissions
         DatatablesModule,
         ButtonsCustomModule,
         ButtonBackModule,
+        NgMultiSelectDropDownModule,
         NgSelectModule,
         TypeaheadModule,
         NgxDatatableModule,

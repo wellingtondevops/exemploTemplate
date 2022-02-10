@@ -26,3 +26,7 @@ export class CompanyList {
     _links: Pagination;
     items: ShowPemissionsUser[];
 }
+export class UserDocts {
+    _id: string;
+    name: string;
+}

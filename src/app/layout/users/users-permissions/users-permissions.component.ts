@@ -37,8 +37,15 @@ export class UsersPermissionsComponent implements OnInit {
     changeUp = false;
     listComp: any;
     companyList = [];
-    page = new Page();
-
+    listDoc: any;
+    listDocFull: any;
+    documentsList: any = [];
+    documentsListFull = [];
+    dropdownSettings: any = {};
+    ShowFilter = true;
+    limitSelection = false;
+    selectedItems = [];
+    usersDoctForm: FormGroup;
 
     constructor(
         private route: ActivatedRoute,
@@ -61,21 +68,80 @@ export class UsersPermissionsComponent implements OnInit {
         this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
         this.id = this.route.snapshot.paramMap.get('id');
 
+        this.usersDoctForm = this.fb.group({
+            docts: [this.selectedItems]
+        });
+
+        this.getListDoc();
+        this.getListDocFull();
         this.getCompaniesList();
+
+        this.dropdownSettings = {
+            singleSelection: false,
+            idField: '_id',
+            textField: 'name',
+            selectAllText: 'Marcar Todos',
+            unSelectAllText: 'Desmarcar Todos',
+            itemsShowLimit: 0,
+            allowSearchFilter: this.ShowFilter
+        };
     }
 
     getCompaniesList() {
         this.permissionsSrv.showPermissionsList(this.id).subscribe(
             data => {
-                this.listComp = data.docts;
-                this.companyList = this.listComp.map(item => {
-                    return item.name;
-                });
-                console.log('qualquercoisa', this.companyList);
+                this.listComp = data.company.name;
             }
         );
     }
 
+    open(content) {
+        this.modalService.open(content, { size: 'lg', windowClass: 'my-class' });
+    }
+    open2(conte) {
+        this.modalService.open(conte, { size: 'lg', windowClass: 'my-class' });
+    }
 
+    getListDocFull() {
+        this.permissionsSrv.avaliableDocuments(this.id).subscribe(
+            data => {
+                this.listDocFull = data;
+                this.documentsListFull = this.listDocFull.map(item => {
+                    return item;
+                });
+            }
+        );
+    }
 
+    getListDoc() {
+        this.permissionsSrv.documentsUser(this.id).subscribe(
+            data => {
+                this.listDoc = data;
+                this.documentsList = this.listDoc.map(item => {
+                    return item.name;
+                });
+            }
+        );
+    }
+
+    onItemSelect(item: any) {
+        console.log('onItemSelect', item);
+    }
+
+    onSelectAll(items: any) {
+        console.log('onSelectAll', items);
+    }
+
+    toogleShowFilter() {
+        this.ShowFilter = !this.ShowFilter;
+        this.dropdownSettings = Object.assign({}, this.dropdownSettings, { allowSearchFilter: this.ShowFilter });
+    }
+
+    handleLimitSelection() {
+        if (this.limitSelection) {
+            this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: 2 });
+        } else {
+            this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
+        }
+    }
 }

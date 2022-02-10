@@ -1,3 +1,4 @@
+import { UserDocts } from './../../models/userPermissions';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -23,6 +24,19 @@ export class UserPermissionsService {
 
     showPermissionsList(id) {
         return this.http.get<ShowPemissionsUser>(`${url}/userpermissions/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+    documentsUser(id) {
+        return this.http.get<UserDocts>(`${url}/userpermissions/listdoumentosuser/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    avaliableDocuments(id) {
+        return this.http.get<UserDocts>(`${url}/userpermissions/listdoumentos/${id}`)
             .pipe(
                 tap(data => data)
             );
