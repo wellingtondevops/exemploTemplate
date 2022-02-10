@@ -15,9 +15,10 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { UsersPermissionsComponent } from './users-permissions/users-permissions.component';
 
 @NgModule({
-    declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
+    declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent, UsersPermissionsComponent],
     imports: [
         NgbModule,
         CommonModule,
