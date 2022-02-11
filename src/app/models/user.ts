@@ -6,7 +6,6 @@ export class User {
     _id: string;
     email: string;
     name: string;
-    permissions: Permission[];
     dateCreated: string;
     profiles: string[];
     profile: Profile;
@@ -31,4 +30,7 @@ class Profile {
 class IdName {
     _id: string;
     name: string;
+}
+export class CompanyPermissions {
+    company: string;
 }

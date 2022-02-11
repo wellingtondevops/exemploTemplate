@@ -48,6 +48,12 @@ export class ShowComponent implements OnInit {
     permissionDelete = false;
     listComp: any;
     companyList = [];
+    companyName = [];
+    dropdownSettings: any = {};
+    ShowFilter = true;
+    limitSelection = false;
+    selectedItems = [];
+    a = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -77,17 +83,26 @@ export class ShowComponent implements OnInit {
             physicalDocuments: this.fb.control({ value: '', disabled: true }),
             print: this.fb.control({ value: '', disabled: true }),
             dateCreated: this.fb.control({ value: '', disabled: true }),
-            permissions: this.fb.array(this.permissions)
+            company: this.selectedItems
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
         this.getCompanies();
-        this.getDocuments();
+        this.getUser();
         this.getProfiles();
         this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
         this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
         this.getCompaniesList();
 
+        this.dropdownSettings = {
+            singleSelection: true,
+            idField: '_id',
+            textField: 'name',
+            selectAllText: 'Marcar Todos',
+            unSelectAllText: 'Desmarcar Todos',
+            itemsShowLimit: 0,
+            allowSearchFilter: this.ShowFilter
+        };
 
     }
 
@@ -116,6 +131,10 @@ export class ShowComponent implements OnInit {
         this.companiesSrv.searchCompanies().subscribe(
             data => {
                 this.companies = data.items;
+                this.companyName = this.companies.map(item => {
+                    return item._id;
+                });
+                console.log("company name", this.companyName)
             },
             error => {
                 this.errorMsg.errorMessages(error);
@@ -147,82 +166,70 @@ export class ShowComponent implements OnInit {
         return docts;
     }
 
-    createPermissionExist(item): FormGroup {
-        return this.fb.group({
-            company: { value: item.company, disabled: true },
-            docts: { value: item.docts, disabled: true }
-        });
-    }
-
-    addPermissionExist(item): void {
-        this.permissions = this.userForm.get('permissions') as FormArray;
-        this.permissions.push(this.createPermissionExist(item));
-    }
-
     removePermission(e) {
         this.permissions.removeAt(e);
     }
 
     formatter = (x: { name: string }) => x.name;
 
-    getDocuments(e = null) {
-        this.documentsSrv.doctsUser(this.id).subscribe(
-            data => {
-                this.documentsAll = data;
-                console.log('docAll  ', this.documentsAll);
-                if (!this.user) {
-                    this.getUser();
-                }
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-                this.loading = false;
+    // getDocuments(e = null) {
+    //     this.documentsSrv.doctsUser(this.id).subscribe(
+    //         data => {
+    //             this.documentsAll = data;
+    //             console.log('docAll  ', this.documentsAll);
+    //             if (!this.user) {
+    //                 this.getUser();
+    //             }
+    //         },
+    //         error => {
+    //             this.errorMsg.errorMessages(error);
+    //             console.log('ERROR: ', error);
+    //             this.loading = false;
+    //         }
+    //     );
+    /* if (e && e.item) {
+      _.remove(this.companies, (item) => {
+        return item._id === e.item._id
+      })
+      this.documentsSrv.searchDocuments(e.item._id).subscribe(
+        data => {
+          this.documentsAll = data.items;
+          if (!this.user) {
+            this.getUser();
+          }
+        },
+        error => {
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR: ', error);
+          this.loading = false;
+        }
+      );
+    } else {
+      this.documentsSrv.documents(1).subscribe(
+        data => {
+          if (this.documentsAll.length === 0) {
+            data.items.map(item => {
+              this.documentsAll.push({ _id: item._id, name: item.name });
+            })
+            if (!this.user) {
+              this.getUser();
             }
-        );
-        /* if (e && e.item) {
-          _.remove(this.companies, (item) => {
-            return item._id === e.item._id
-          })
-          this.documentsSrv.searchDocuments(e.item._id).subscribe(
-            data => {
-              this.documentsAll = data.items;
-              if (!this.user) {
-                this.getUser();
-              }
-            },
-            error => {
-              this.errorMsg.errorMessages(error);
-              console.log('ERROR: ', error);
-              this.loading = false;
-            }
-          );
-        } else {
-          this.documentsSrv.documents(1).subscribe(
-            data => {
-              if (this.documentsAll.length === 0) {
-                data.items.map(item => {
-                  this.documentsAll.push({ _id: item._id, name: item.name });
-                })
-                if (!this.user) {
-                  this.getUser();
-                }
-              }
-            },
-            error => {
-              this.errorMsg.errorMessages(error);
-              console.log('ERROR: ', error);
-              this.loading = false;
-            }
-          );
-        } */
-    }
+          }
+        },
+        error => {
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR: ', error);
+          this.loading = false;
+        }
+      );
+    } */
+    // }
 
-    returnDoctsArray(permissions) {
-        return permissions.map(item => {
-            return { company: item.company, docts: [item.docts] };
-        });
-    }
+    // returnDoctsArray(permissions) {
+    //     return permissions.map(item => {
+    //         return { company: item.company, docts: [item.docts] };
+    //     });
+    // }
 
     getUser() {
         this.userSrv.user(this.id).subscribe(
@@ -239,7 +246,6 @@ export class ShowComponent implements OnInit {
                     print: data.print,
                     physicalDocuments: data.physicalDocuments,
                     dateCreated: data.dateCreated,
-                    permissions: data.permissions,
                     acceptanceTerm: data.acceptanceTerm,
                     DateAcceptanceTerm: data.DateAcceptanceTerm
                 };
@@ -262,13 +268,7 @@ export class ShowComponent implements OnInit {
                     print: data.print,
                     physicalDocuments: data.physicalDocuments,
                     dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
-                    permissions: this.user.permissions
                 });
-
-                this.user.permissions.map(item => {
-                    this.addPermissionExist(item);
-                });
-
             },
             error => {
                 this.loading = false;
@@ -326,12 +326,16 @@ export class ShowComponent implements OnInit {
     openMod(content) {
         this.modalService.open(content, { size: 'lg', windowClass: 'my-class', });
     }
-    goBack(i) {
+
+    goBack() {
+        this._route.navigate(['/users']);
+    }
+
+    selectCompany(i) {
         this._route.navigate(['/users/userspermissions', this.novoid[i]]);
     }
+
     getCompaniesList() {
-        // this.novoid = this.permissionID._id;
-        console.log('id', this.novoid);
         this.permissionsSrv.companyList(this.id).subscribe(
             data => {
                 this.listComp = data.items;
@@ -345,5 +349,49 @@ export class ShowComponent implements OnInit {
         );
     }
 
+    onItemSelect(item: any) {
+        console.log('onItemSelect', item);
+    }
+
+    onSelectAll(items: any) {
+        console.log('onSelectAll', items);
+    }
+
+    toogleShowFilter() {
+        this.ShowFilter = !this.ShowFilter;
+        this.dropdownSettings = Object.assign({}, this.dropdownSettings, { allowSearchFilter: this.ShowFilter });
+    }
+
+    handleLimitSelection() {
+        if (this.limitSelection) {
+            this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: 2 });
+        } else {
+            this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
+        }
+    }
+
+    returnIdCompany() {
+        this.userForm.value.company.map((item) => {
+            this.a.push(item);
+        });
+        this.userForm.value.docts = this.a.pop();
+        console.log('valor', this.a.pop());
+    }
+
+    updateListCompany() {
+        this.loading = true;
+        this.returnIdCompany();
+        this.userSrv.postCompanyList(this.id, this.userForm.value.company.pop()).subscribe(
+            data => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Empresa adicionada com sucesso.');
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
 
 }

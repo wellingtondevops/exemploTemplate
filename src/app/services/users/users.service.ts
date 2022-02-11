@@ -1,3 +1,4 @@
+import { CompanyPermissions } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
@@ -78,5 +79,12 @@ export class UsersService {
             .pipe(
                 tap(data => data)
             );
+    }
+
+    postCompanyList(id, data) {
+        return this.http.post<CompanyPermissions>(`${url}/users/userpermissions/${id}`, { company: data })
+        .pipe(
+            tap(data => data)
+        );
     }
 }

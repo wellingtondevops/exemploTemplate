@@ -64,7 +64,6 @@ export class ShowComponent implements OnInit {
       name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       fone: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       dateCreated: this.fb.control({ value: '', disabled: true }),
-      permissions: this.fb.array(this.permissions)
     });
 
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
@@ -205,9 +204,9 @@ export class ShowComponent implements OnInit {
           this.isViewPermission = true;
         }
 
-        this.user.permissions.map(item => {
-          // this.addPermissionExist(item);
-        });
+        // this.user.permissions.map(item => {
+        //   // this.addPermissionExist(item);
+        // });
 
       },
       error => {
