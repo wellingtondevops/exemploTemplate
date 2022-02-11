@@ -34,7 +34,6 @@ export class ShowComponent implements OnInit {
     id: String;
     novoid: string;
     user: User;
-    permissionID: PermissionsUser;
     userForm: FormGroup;
     changeUp = false;
     company: any;
@@ -100,7 +99,7 @@ export class ShowComponent implements OnInit {
             textField: 'name',
             selectAllText: 'Marcar Todos',
             unSelectAllText: 'Desmarcar Todos',
-            itemsShowLimit: 0,
+            itemsShowLimit: 1,
             allowSearchFilter: this.ShowFilter
         };
 
@@ -114,27 +113,13 @@ export class ShowComponent implements OnInit {
         });
     }
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(company => {
-                this.company = this.companies.name;
-                console.log('sdfsdf', this.company);
-                let res;
-                if (company.length < 2) { []; } else { res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10); }
-                return res;
-            })
-        )
-
     getCompanies() {
         this.companiesSrv.searchCompanies().subscribe(
             data => {
                 this.companies = data.items;
                 this.companyName = this.companies.map(item => {
-                    return item._id;
+                    return item;
                 });
-                console.log("company name", this.companyName)
             },
             error => {
                 this.errorMsg.errorMessages(error);
@@ -157,17 +142,6 @@ export class ShowComponent implements OnInit {
 
     get physicalDocuments() {
         return this.userForm.get('physicalDocuments');
-    }
-
-    returnDocts(item) {
-        const docts = [];
-        docts.push({ _id: item });
-        console.log('adasdasda', docts);
-        return docts;
-    }
-
-    removePermission(e) {
-        this.permissions.removeAt(e);
     }
 
     formatter = (x: { name: string }) => x.name;
@@ -385,6 +359,7 @@ export class ShowComponent implements OnInit {
             data => {
                 this.loading = false;
                 this.successMsgSrv.successMessages('Empresa adicionada com sucesso.');
+                this.ngOnInit();
             },
             error => {
                 this.loading = false;

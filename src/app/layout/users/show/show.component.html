@@ -10,7 +10,10 @@
         <div class="card-header">
             <h3>Dados do Usuário</h3>
             <div style="margin-bottom: 10px" *ngIf="user">
-                <app-button-back (click)="goBack()"></app-button-back>
+                <button style="margin-left: 5px" class="btn btn-sm btn-dark" (click)="goBack()">
+                    <i class="fa fa-arrow-left" style="color:white"></i>
+                </button>
+                <!-- <app-button-back (click)="goBack()"></app-button-back> -->
                 <app-buttons-custom [id]="user._id" (edit)="editUser(user._id)" (delete)="open('focusFirst', user._id)"
                     [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"></app-buttons-custom>
             </div>
@@ -83,7 +86,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <ng-multiselect-dropdown name="company" [placeholder]="'Selecione as Empresas'"
+                                <ng-multiselect-dropdown name="company" [placeholder]="'Selecione a Empresa'"
                                     [data]="companyName" [settings]="dropdownSettings" formControlName="company"
                                     (onSelect)="onItemSelect($event)">
                                 </ng-multiselect-dropdown>

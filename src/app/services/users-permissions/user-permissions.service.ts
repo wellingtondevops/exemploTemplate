@@ -47,6 +47,13 @@ export class UserPermissionsService {
             .pipe(
                 tap(data => data)
             );
-
     }
+
+    deleteCompanyPermission(id) {
+        return this.http.delete<ListCompany>(`${url}/userpermissions/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
 }

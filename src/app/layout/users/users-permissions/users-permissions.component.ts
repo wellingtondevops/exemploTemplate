@@ -26,6 +26,7 @@ export class UsersPermissionsComponent implements OnInit {
     listComp: any;
     userPermissions: ShowPemissionsUser;
     companyList = [];
+    permissionDelete = false;
     listDoc: any;
     listDocFull: any;
     documentsList: any = [];
@@ -182,9 +183,36 @@ export class UsersPermissionsComponent implements OnInit {
         );
     }
 
-    load() {
-        //Session storage salva os dados como string
-        (sessionStorage.refresh == 'true' || !sessionStorage.refresh) && location.reload();
-        sessionStorage.refresh = false;
+    remove(name: string, storeHouse) {
+        const modalRef = this.modalService.open(MODALS[name]);
+        modalRef.componentInstance.item = storeHouse;
+        modalRef.componentInstance.data = {
+            msgConfirmDelete: 'Permissão foi deletado com sucesso.',
+            msgQuestionDeleteOne:
+                'Você tem certeza que deseja deletar a Permissão?',
+            msgQuestionDeleteTwo:
+                'Todas as informações associadas a Permissão serão deletadas.',
+        };
+        modalRef.componentInstance.delete.subscribe((item) => {
+            this.delete(item);
+        });
+    }
+    delete(id) {
+        this.loading = true;
+        this.permissionsSrv.deleteCompanyPermission(this.id).subscribe(
+            (response) => {
+                this.loading = false;
+                this.successMsgSrv.successMessages(
+                    'Permissão deletada com sucesso.'
+                );
+                window.history.go(-1);
+                return false;
+            },
+            (error) => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR:', error);
+            }
+        );
     }
 }
