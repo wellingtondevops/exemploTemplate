@@ -36,6 +36,7 @@ export class UsersPermissionsComponent implements OnInit {
     selectedItems = [];
     usersDoctForm: FormGroup;
     userId: string;
+    itensName: any = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -138,7 +139,10 @@ export class UsersPermissionsComponent implements OnInit {
             data => {
                 this.listDoc = data;
                 this.documentsList = this.listDoc.map(item => {
-                    return item.name;
+                    return item;
+                });
+                this.itensName = this.listDoc.map(data => {
+                    return data.name;
                 });
             }
         );
@@ -172,9 +176,15 @@ export class UsersPermissionsComponent implements OnInit {
         this.permissionsSrv.updateList(this.usersDoctForm.value).subscribe(
             data => {
                 this.loading = false;
-                this.successMsgSrv.successMessages('Usuário alterado com sucesso.');
-                this._route.navigate(['/user/get', this.user._id]);
+                this.successMsgSrv.successMessages('Permissão alterada com sucesso.');
+                this.ngOnInit();
             }
         );
+    }
+
+    load() {
+        //Session storage salva os dados como string
+        (sessionStorage.refresh == 'true' || !sessionStorage.refresh) && location.reload();
+        sessionStorage.refresh = false;
     }
 }
