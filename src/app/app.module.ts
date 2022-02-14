@@ -20,10 +20,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { SafePipe } from './utils/pipes/safe-pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
-
-
+import { NgxLoadingModule } from 'ngx-loading';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 @NgModule({
     imports: [
@@ -41,6 +39,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule,
         AngularFireDatabaseModule,
+        NgxLoadingModule.forRoot({
+            animationType: ngxLoadingAnimationTypes.circleSwish,
+            backdropBorderRadius: '3px',
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222',
+            fullScreenBackdrop: true,
+        }),
 
     ],
     declarations: [AppComponent, SafePipe],
@@ -57,4 +63,4 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }
