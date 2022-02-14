@@ -117,12 +117,19 @@ export class UsersPermissionsComponent implements OnInit {
         );
     }
 
-    open(content) {
-        this.modalService.open(content, { size: 'lg', windowClass: 'my-class' });
+    openAddDoc(addDoc) {
+        this.modalService.open(addDoc, { size: 'lg', windowClass: 'my-class' });
     }
-    open2(conte) {
-        this.modalService.open(conte, { size: 'lg', windowClass: 'my-class' });
+    openRemoveDoc(removeDoc) {
+        this.modalService.open(removeDoc, { size: 'lg', windowClass: 'my-class' });
     }
+    openAddProfile(addProfile) {
+        this.modalService.open(addProfile, { size: 'lg', windowClass: 'my-class' });
+    }
+    openRemoveProfile(removeProfile) {
+        this.modalService.open(removeProfile, { size: 'lg', windowClass: 'my-class' });
+    }
+
 
     getListDocFull() {
         this.permissionsSrv.avaliableDocuments(this.id).subscribe(
