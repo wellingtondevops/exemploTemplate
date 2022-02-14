@@ -50,7 +50,6 @@ export class NewComponent implements OnInit {
         this.profileForm = this.fb.group({
             name: this.fb.control('', [Validators.required]),
             company: this.fb.control('', [Validators.required]),
-            docts: this.fb.array(this.docts)
         });
 
         this.getCompanies();
@@ -59,12 +58,6 @@ export class NewComponent implements OnInit {
         if (this.userExternal) {
             this.addPermission();
         }
-
-        $(document).ready(function() {
-            $('#companyView').on('keyup', function() {
-                $('#companyHidden').val($(this).attr());
-            });
-        });
 
     }
 
@@ -168,7 +161,6 @@ export class NewComponent implements OnInit {
 
     postProfile() {
         this.loading = true;
-        this.returnIdCompanyDoct();
         this.profileSrv.newProfile(this.profileForm.value).subscribe(
             data => {
                 if (data._id) {

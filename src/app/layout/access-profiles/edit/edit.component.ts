@@ -31,6 +31,7 @@ export class EditComponent implements OnInit {
     loading: Boolean = true;
     companies: any = [];
     documentsList: any = [];
+    documentName: any = [];
     documentsListFull = [];
     listDoc: any;
     listDocFull: any;
@@ -146,6 +147,9 @@ export class EditComponent implements OnInit {
                 this.documentsList = this.listDoc.map(item => {
                     return item;
                 });
+                this.documentName = this.listDoc.map(item => {
+                    return item.name;
+                })
                 console.log('ListaAdc', this.documentsList);
             }
         );
