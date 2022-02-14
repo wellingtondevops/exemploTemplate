@@ -28,16 +28,22 @@ export class UsersPermissionsComponent implements OnInit {
     companyList = [];
     permissionDelete = false;
     listDoc: any;
+    listProfile: any;
     listDocFull: any;
+    listProfileFull: any;
     documentsList: any = [];
+    profileList: any = [];
     documentsListFull = [];
+    profileListFull = [];
     dropdownSettings: any = {};
     ShowFilter = true;
     limitSelection = false;
     selectedItems = [];
+    selectedProfiles = [];
     usersDoctForm: FormGroup;
     userId: string;
     itensName: any = [];
+    profileNames: any = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -59,12 +65,15 @@ export class UsersPermissionsComponent implements OnInit {
         this.id = this.route.snapshot.paramMap.get('id');
         this.usersDoctForm = this.fb.group({
             _id: '',
-            docts: [this.selectedItems]
+            docts: [this.selectedItems],
+            accessprofiles: [this.selectedProfiles]
         });
 
         this.getListDoc();
         this.getListDocFull();
         this.getCompaniesList();
+        this.getListProfileFull();
+        this.getListProfile();
 
         this.dropdownSettings = {
             singleSelection: false,
@@ -81,6 +90,10 @@ export class UsersPermissionsComponent implements OnInit {
         return this.usersDoctForm.get('docts');
     }
 
+    get accessprofiles() {
+        return this.usersDoctForm.get('accessprofiles');
+    }
+
     returnIdDoct() {
         const newArray = [];
         this.usersDoctForm.value.docts.map((item) => {
@@ -88,6 +101,15 @@ export class UsersPermissionsComponent implements OnInit {
         });
         this.usersDoctForm.value.docts = newArray;
         console.log('array', newArray);
+    }
+
+    returnIdaccessprofiles() {
+        const newArray = [];
+        this.usersDoctForm.value.accessprofiles.map((item) => {
+            newArray.push(item._id);
+        });
+        this.usersDoctForm.value.accessprofiles = newArray;
+        console.log('arrayaccessprofiles', newArray);
     }
 
     getCompaniesList() {
@@ -99,12 +121,14 @@ export class UsersPermissionsComponent implements OnInit {
                     _id: data._id,
                     company: data.company,
                     user: data.user,
-                    docts: data.docts
+                    docts: data.docts,
+                    accessprofiles: data.accessprofiles
                 };
 
                 this.usersDoctForm.patchValue({
                     _id: this.userPermissions._id,
-                    docts: this.userPermissions.docts
+                    docts: this.userPermissions.docts,
+                    accessprofiles: this.userPermissions.accessprofiles
                 });
                 this.listComp = data.company.name;
                 this.userId = data.user;
@@ -156,6 +180,33 @@ export class UsersPermissionsComponent implements OnInit {
         );
     }
 
+    getListProfileFull() {
+        this.permissionsSrv.avaliableProfile(this.id).subscribe(
+            data => {
+                this.listProfileFull = data;
+                this.profileListFull = this.listProfileFull.map(item => {
+                    return item;
+                });
+                console.log('Profiles', this.profileListFull);
+            }
+        );
+    }
+
+    getListProfile() {
+        this.permissionsSrv.profilesUser(this.id).subscribe(
+            data => {
+                this.listProfile = data;
+                this.profileList = this.listProfile.map(item => {
+                    return item;
+                });
+                this.profileNames = this.listProfile.map(data => {
+                    return data.name;
+                });
+                console.log('ProfilesList', this.listProfile);
+            }
+        );
+    }
+
     onItemSelect(item: any) {
         console.log('onItemSelect', item);
     }
@@ -178,10 +229,21 @@ export class UsersPermissionsComponent implements OnInit {
     }
 
     updateList() {
-        console.log('lista full', this.selectedItems);
         this.loading = true;
         this.returnIdDoct();
         this.permissionsSrv.updateList(this.usersDoctForm.value).subscribe(
+            data => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Permissão alterada com sucesso.');
+                this.ngOnInit();
+            }
+        );
+    }
+
+    updateAccessProfiles() {
+        this.loading = true;
+        this.returnIdaccessprofiles();
+        this.permissionsSrv.updateAccessProfile(this.usersDoctForm.value).subscribe(
             data => {
                 this.loading = false;
                 this.successMsgSrv.successMessages('Permissão alterada com sucesso.');

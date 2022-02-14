@@ -1,4 +1,4 @@
-import { UserDocts } from './../../models/userPermissions';
+import { UserDocts, UserProfile, UpdateProfileList } from './../../models/userPermissions';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -28,6 +28,7 @@ export class UserPermissionsService {
                 tap(data => data)
             );
     }
+
     documentsUser(id) {
         return this.http.get<UserDocts>(`${url}/userpermissions/listdoumentosuser/${id}`)
             .pipe(
@@ -56,4 +57,24 @@ export class UserPermissionsService {
             );
     }
 
+    avaliableProfile(id) {
+        return this.http.get<UserProfile>(`${url}/userpermissions/listprofiles/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    profilesUser(id) {
+        return this.http.get<UserProfile>(`${url}/userpermissions/listprofilesuser/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    updateAccessProfile(user) {
+        return this.http.patch<UpdateProfileList>(`${url}/userpermissions/${user._id}`, user)
+            .pipe(
+                tap(data => data)
+            );
+    }
 }

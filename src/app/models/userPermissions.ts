@@ -13,6 +13,10 @@ export class ShowPemissionsUser {
         name: string
     }];
     user: string;
+    accessprofiles: [{
+        _id: string;
+        name: string;
+    }];
 }
 export class ListCompany {
     items: [{
@@ -33,4 +37,11 @@ export class UserDocts {
 }
 export class UpdateList {
     docts: [];
+}
+export class UserProfile {
+    _id: string;
+    name: string;
+}
+export class UpdateProfileList {
+    accessprofiles: [];
 }
