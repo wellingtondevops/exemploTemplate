@@ -104,7 +104,7 @@ export class ListComponent implements OnInit {
   setPageDocuments(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo.offset;
-    this.localStorageSrv.save('document', this.searchForm.value);
+    this.localStorageSrv.save('documents', this.searchForm.value);
 
     const newForm = {
         company: null,
