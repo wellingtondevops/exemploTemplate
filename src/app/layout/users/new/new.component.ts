@@ -192,7 +192,7 @@ export class NewComponent implements OnInit {
         if (data._id) {
           this.loading = false;
           this.successMsgSrv.successMessages('Usuário cadastrado com sucesso.');
-          this._route.navigate(['/users/get', data._id]);
+          this._route.navigate(['/users']);
         }
       },
       error => {
