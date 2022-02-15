@@ -166,7 +166,7 @@ export class NewComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.successMsgSrv.successMessages('Perfil cadastrado com sucesso.');
-                    this._route.navigate(['/access-profiles']);
+                    this._route.navigate(['/access-profiles/get', data._id]);
                 }
             },
             error => {
