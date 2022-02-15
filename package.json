@@ -52,7 +52,7 @@
     "jquery-ui-dist": "^1.12.1",
     "lodash": "^4.17.15",
     "moment": "2.24.0",
-    "ng-multiselect-dropdown": "^0.3.8",
+    "ng-multiselect-dropdown": "0.2.4",
     "ng2-charts": "1.6.0",
     "ngx-extended-pdf-viewer": "^4.1.1",
     "ngx-loading": "^3.0.1",

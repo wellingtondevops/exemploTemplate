@@ -5,8 +5,7 @@
       <i class="fa fa-envelope"></i>&nbsp;
       <span>{{ 'Solicitantes ' | translate }}</span>
     </a> -->
-        <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']"
-            class="list-group-item">
+        <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="mdi mdi-view-dashboard-outline mdi-18px"></i>&nbsp;
             <span>{{ "Inicio" | translate }}</span>
         </a>
@@ -36,13 +35,15 @@
             <li class="nested" [class.expand]="showMenu === 'volumes'">
                 <ul class="submenu">
                     <li *ngIf="isVolumesImport">
-                        <a [routerLink]="['/volumes/import-volumes']" class="list-group-item" [routerLinkActive]="['router-link-active']">
+                        <a [routerLink]="['/volumes/import-volumes']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-file-excel-o"></i>&nbsp;
                             <span>{{ "Importar Volumes" | translate }}</span>
                         </a>
                     </li>
                     <li *ngIf="isVolumesErrors">
-                        <a [routerLink]="['/volumes/errors-volumes']" class="list-group-item" [routerLinkActive]="['router-link-active']">
+                        <a [routerLink]="['/volumes/errors-volumes']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-exclamation-circle"></i>&nbsp;
                             <span>{{ "Erros Importação" | translate }}</span>
                         </a>
@@ -80,13 +81,15 @@
             <li class="nested" [class.expand]="showMenu === 'archives'">
                 <ul class="submenu">
                     <li *ngIf="isArchivesImport">
-                        <a [routerLink]="['/file/import']" class="list-group-item" [routerLinkActive]="['router-link-active']">
+                        <a [routerLink]="['/file/import']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-file-excel-o"></i>&nbsp;
                             <span>{{ "Importar Arquivos" | translate }}</span>
                         </a>
                     </li>
                     <li *ngIf="isArchivesError">
-                        <a [routerLink]="['/file/errors-archives']" class="list-group-item" [routerLinkActive]="['router-link-active']">
+                        <a [routerLink]="['/file/errors-archives']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-exclamation-circle"></i>&nbsp;
                             <span>{{
                                 "Erros Importação de Arquivo" | translate
@@ -94,7 +97,8 @@
                         </a>
                     </li>
                     <li *ngIf="isArchivesRegister">
-                        <a [routerLink]="['/file/register']" class="list-group-item" [routerLinkActive]="['router-link-active']">
+                        <a [routerLink]="['/file/register']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-plus"></i>&nbsp;
                             <span>{{ "Registrar Arquivo" | translate }}</span>
                         </a>
@@ -129,7 +133,8 @@
             <li class="nested" [class.expand]="showMenu === 'relatorios'">
                 <ul class="submenu">
                     <li *ngIf="isTotalCollection">
-                        <a [routerLink]="['/reports']" class="list-group-item" [routerLinkActive]="['router-link-active']">
+                        <a [routerLink]="['/reports']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-sticky-note"></i>&nbsp;
                             <span>{{ "Totais do Acervo" | translate }}</span>
                         </a>
@@ -146,30 +151,29 @@
             <li *ngIf="isUsers|| isMenuService" class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
                     <li>
-                        <a  class="list-group-item" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']">
+                        <a class="list-group-item" [routerLink]="['/users']"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-text-account mdi-18px"></i>&nbsp;
                             <span>{{ "Usuários" | translate }}</span>
                         </a>
                     </li>
-                </ul>
-                <ul class="submenu">
                     <li>
-                        <a  class="list-group-item" *ngIf="isAccessProfiles" [routerLink]="['/access-profiles']">
+                        <a class="list-group-item" *ngIf="isAccessProfiles" [routerLink]="['/access-profiles']"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-text-box mdi-18px"></i>&nbsp;
                             <span>{{ "Perfis" | translate }}</span>
                         </a>
                     </li>
-                </ul>
-                <!-- <ul class="submenu">
-
                     <li>
-                        <a *ngIf="isMenuService" class="list-group-item" [routerLink]="['/company-services']" [routerLinkActive]="['router-link-active']">
+                        <a *ngIf="isMenuService" class="list-group-item" [routerLink]="['/company-services']"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-currency-brl mdi-18px"></i>&nbsp;
                             <span>{{ "Valores dos Serviços" | translate }}</span>
                         </a>
                     </li>
                     <li>
-                        <a class="list-group-item" *ngIf="isMenuService" [routerLink]="['/menu-services']" [routerLinkActive]="['router-link-active']">
+                        <a class="list-group-item" *ngIf="isMenuService" [routerLink]="['/menu-services']"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-view-list-outline mdi-18px"></i>&nbsp;
                             <span>{{ "Serviços" | translate }}</span>
                         </a>
