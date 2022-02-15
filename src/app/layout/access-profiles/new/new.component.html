@@ -1,0 +1,110 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card">
+        <div class="card-header">
+            <h2>Novo Perfil de Acesso </h2>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="profileForm" role="FormGroup">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="" style="margin-bottom: 0px;">Nome</label>
+                            <input type="text" formControlName="name" class="form-control" placeholder="Nome"
+                                [ngClass]="{ 'is-invalid': name.touched && name.invalid}"
+                                style="width: 100%; margin-bottom: 10px;" />
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                                <div *ngIf="!name.valid">
+                                    Nome é obrigatório.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" style="margin-bottom: 0px;">Empresa</label>
+                            <input type="text" formControlName="company" class="form-control"
+                                (selectItem)="getDocuments($event)" [resultTemplate]="rtCompany"
+                                [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                                placeholder="Nome da Empresa"
+                                [ngClass]="{ 'is-invalid': company.touched && company.invalid}" />
+                            <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                                <div *ngIf="!company.valid">
+                                    Empresa é obrigatório.
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                        </ng-template>
+                    </div>
+
+                    <!-- <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <h5>Permissões</h5>
+                        </div>
+                        <div class="form-group" formArrayName="docts">
+                            <div *ngFor="let docts of docts.controls; index as i">
+                                <div class="card bg-light col-lg-12">
+                                    <div class="card-body">
+                                        <div [formGroupName]="i">
+                                             <button *ngIf="!userExternal" type="button" class="btn btn-danger mb-1 btn-xs"
+                                                (click)="removePermission(i)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            <br />
+                                            <ng-template #content let-c="close" let-d="dismiss">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">Documentos
+                                                    </h4>
+                                                    <button type="button" class="close" aria-label="Close"
+                                                        (click)="d('Cross click')">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <type-ahead class="form-control multi" [multi]="true"
+                                                        [complex]="true" idField="_id" formControlName="docts"
+                                                        [suggestions]="documentsAll"
+                                                        style="width: 1px; background-color:transparent; border: yellow;">
+                                                    </type-ahead>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-dark"
+                                                        (click)="c('Save click')">Salvar</button>
+                                                </div>
+                                            </ng-template>
+
+                                            <button class="btn btn-sm btn-dark" (click)="open(content)">Adicionar
+                                                Documentos
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" *ngIf="!userExternal" (click)="addPermission()"
+                                class="btn btn-success btn-xs pull-right" style="margin-top: 2%; margin-bottom: 2%">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="col-lg-12">
+                    <br />
+                    <button type="submit" class="btn btn-primary" (click)="postProfile()" style="float: right"
+                        [disabled]="name.invalid">
+                        Salvar
+                    </button>
+                    <button type="button" [routerLink]="['/access-profiles']" class="btn btn-default"
+                        style="float: right;margin-right: 10px;">Voltar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

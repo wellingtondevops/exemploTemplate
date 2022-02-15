@@ -18,13 +18,7 @@
                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                         <label for="labelName">Nome</label>
                         <input id="name" autoFocus="true" type="text" placeholder="Nome do Usuário"
-                            class="form-control" formControlName="name" style="width: 100%"
-                            [ngClass]="{ 'is-invalid': name.invalid && name.touched }" />
-                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                            <div *ngIf="!name.valid">
-                                Nome é obrigatório.
-                            </div>
-                        </div>
+                            class="form-control" formControlName="name" style="width: 100%"/>
                     </div>
                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                         <label for="labelEmail">E-mail</label>
@@ -46,6 +40,6 @@
             </form>
         </div>
     </div>
-    <app-datatables [data]="users" (setPage)="setPage($event)" (show)="getUser($event)" [columns]="columns">
+    <app-datatables [data]="users" (setPage)="setPageUsers($event)" (show)="getUser($event)" [columns]="columns">
     </app-datatables>
 </div>

@@ -1,3 +1,5 @@
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
@@ -14,9 +16,10 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { UsersPermissionsComponent } from './users-permissions/users-permissions.component';
 
 @NgModule({
-    declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent],
+    declarations: [ListComponent, ShowComponent, NewComponent, EnumToArrayPipe, EditComponent, AlterPasswordComponent, UsersPermissionsComponent],
     imports: [
         NgbModule,
         CommonModule,
@@ -28,8 +31,10 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
         DatatablesModule,
         ButtonsCustomModule,
         ButtonBackModule,
+        NgMultiSelectDropDownModule,
         NgSelectModule,
         TypeaheadModule,
+        NgxDatatableModule,
         NgxLoadingModule.forRoot({})
     ],
     providers: [NgbActiveModal, CaseInsensitive]

@@ -37,6 +37,7 @@ export class SidebarComponent implements OnInit {
   isReport = false;
   isTotalCollection = false;
   isScan = false;
+  isAccessProfile = false;
 
 
 
@@ -79,6 +80,7 @@ export class SidebarComponent implements OnInit {
     this.isReport = this.isReports();
     this.isTotalCollection = this.isTotalCollections();
     this.isScan = this.isScanning();
+    this.isAccessProfile = this.isAccessProfiles();
   }
 
   eventCalled() {
@@ -183,6 +185,13 @@ export class SidebarComponent implements OnInit {
     return res;
   }
 
+  isAccessProfiles() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].accessProfiles) {
+      res = true;
+    }
+    return res;
+  }
   isUser() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].users) {

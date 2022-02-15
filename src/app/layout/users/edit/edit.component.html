@@ -27,13 +27,7 @@
 
                             <label for="" style="margin-bottom: 0px;">E-mail</label>
                             <input type="text" formControlName="email" class="form-control input-underline input-lg"
-                                style="margin-bottom: 10px;" placeholder="Email"
-                                [ngClass]="{ 'is-invalid': !email.valid && email.value === '' }" />
-                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
-                                <div *ngIf="!email.valid">
-                                    E-mail é obrigatório.
-                                </div>
-                            </div>
+                                style="margin-bottom: 10px;" placeholder="Email" disabled />
 
                             <label for="" style="margin-bottom: 0px;">Perfil do Usuário</label>
                             <select (change)="isAdminSelect()" class="form-control" id="profile"
@@ -71,7 +65,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6" *ngIf="isViewPermission">
+                    <!-- <div class="col-lg-6" *ngIf="isViewPermission">
                         <div class="col-lg-12">
                             <h5>Permissões</h5>
                         </div>
@@ -136,14 +130,13 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="pull-right">
                     <button type="button" [routerLink]="['/users/get', user._id]" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
                     <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary"
-                        [routerLink]="['/users']"
-                        [disabled]="name.invalid || email.invalid || profile.invalid"
+                        [routerLink]="['/users']" [disabled]="name.invalid || email.invalid || profile.invalid"
                         (click)="updateUser()">Salvar</button>
                 </div>
             </form>

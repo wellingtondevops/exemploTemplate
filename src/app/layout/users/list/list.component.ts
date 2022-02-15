@@ -113,7 +113,7 @@ export class ListComponent implements OnInit {
         this.usersSrv.searchUsers(this.searchForm.value, this.page).subscribe(
             data => {
                 this.users = data;
-                this.page.pageNumber = data._links.currentPage - 1;
+                this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
                 this.loading = false;
