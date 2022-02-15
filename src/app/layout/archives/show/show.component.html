@@ -22,35 +22,91 @@
         <div class="card-body">
             <div class="row" *ngIf="!loading">
                 <div class="col-4">
-                    <h5>DADOS DO VOLUME</h5>
-                    <div class="card bg-light mb-12">
-                        <div class="card-body">
-                            <div>
-                                <strong> EMPRESA: </strong> <br />
-                                <label> {{ archive.company.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DEPARTAMENTO: </strong> <br />
-                                <label> {{ archive.departament.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DOCUMENTO: </strong> <br />
-                                <label> {{ archive.doct.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DEPÓSITO: </strong> <br />
-                                <label> {{ archive.storehouse.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> POSIÇÃO: </strong> <br />
-                                <label> {{ archive.volume.location }} </label>
-                            </div>
-                        </div>
-                    </div>
+                    <ngb-tabset #tab>
+                        <ngb-tab title="Dados do Volume" id="tab1">
+                            <ng-template ngbTabContent>
+                                <div class="card bg-light mb-12">
+                                    <div class="card-body">
+                                        <div>
+                                            <strong> EMPRESA: </strong> <br />
+                                            <label> {{ archive.company.name }} </label>
+                                        </div>
+                                        <br />
+                                        <div>
+                                            <strong> DEPARTAMENTO: </strong> <br />
+                                            <label> {{ archive.departament.name }} </label>
+                                        </div>
+                                        <br />
+                                        <div>
+                                            <strong> DOCUMENTO: </strong> <br />
+                                            <label> {{ archive.doct.name }} </label>
+                                        </div>
+                                        <br />
+                                        <div>
+                                            <strong> DEPÓSITO: </strong> <br />
+                                            <label> {{ archive.storehouse.name }} </label>
+                                        </div>
+                                        <br />
+                                        <div>
+                                            <strong> POSIÇÃO: </strong> <br />
+                                            <label> {{ archive.volume.location }} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab title="Correções" id="tab2">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Correções
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="pretty p-icon p-round">
+                                            <input type="radio" name="icon_solid" />
+                                            <div class="state p-primary">
+                                                <i class="icon mdi mdi-check"></i>
+                                                <label>
+                                                    Correção de Imagem
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="pretty p-icon p-round">
+                                            <input type="radio" name="icon_solid" />
+                                            <div class="state p-primary">
+                                                <i class="icon mdi mdi-check"></i>
+                                                <label>
+                                                    Correção de Indíce
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="pretty p-icon p-round">
+                                            <input type="radio" name="icon_solid" />
+                                            <div class="state p-primary">
+                                                <i class="icon mdi mdi-check"></i>
+                                                <label>
+                                                    Deletear Registro
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Observações"
+                                                id="floatingTextarea2" style="height: 100px; width: 450px;"></textarea>
+                                            <label for="floatingTextarea2">Observações:</label>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn-dark">Enviar</button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+
                     <br />
 
                     <div class="col-lg-4">
@@ -159,4 +215,62 @@
             </div>
         </div>
     </div>
+
+    <div>
+        <button class="whatsapp btn btn-dark" (click)="openMod(content)" title="Solicitar Correção"> <i
+                class="mdi mdi-application-edit mdi-24px" aria-hidden="true"></i></button>
+    </div>
+
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+                Solicitação de Correção
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="margin-left: 20px;">
+                <div class="pretty p-icon p-round">
+                    <input type="radio" name="icon_solid" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>
+                            Correção de Imagem
+                        </label>
+                    </div>
+                </div>
+                <br />
+                <div class="pretty p-icon p-round">
+                    <input type="radio" name="icon_solid" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>
+                            Correção de Indíce
+                        </label>
+                    </div>
+                </div>
+                <br />
+                <div class="pretty p-icon p-round">
+                    <input type="radio" name="icon_solid" />
+                    <div class="state p-primary">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>
+                            Deletear Registro
+                        </label>
+                    </div>
+                </div>
+                <br />
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Observações" id="floatingTextarea2"
+                        style="height: 100px; width: 500px;"></textarea>
+                    <label for="floatingTextarea2">Observações:</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark">Enviar</button>
+        </div>
+    </ng-template>
 </div>
