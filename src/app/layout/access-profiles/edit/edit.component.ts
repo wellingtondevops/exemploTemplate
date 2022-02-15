@@ -211,6 +211,18 @@ export class EditComponent implements OnInit {
         );
     }
 
+    updateList() {
+        this.loading = true;
+        this.returnIdDoct();
+        this.accessSrv.update(this.accessProfileForm.value).subscribe(
+            data => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Permissão alterada com sucesso.');
+                this.ngOnInit();
+            }
+        );
+    }
+
     goBack() {
         this._route.navigate(['/access-profiles/get', this.accessProfile._id]);
     }
