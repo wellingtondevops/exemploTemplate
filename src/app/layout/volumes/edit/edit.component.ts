@@ -58,11 +58,11 @@ export class EditComponent implements OnInit {
 
         this.volumeForm = this.fb.group({
             _id: this.fb.control(''),
-            storehouse: this.fb.control('', [Validators.required]),
-            company: this.fb.control('', [Validators.required]),
-            guardType: this.fb.control('', [Validators.required]),
-            volumeType: this.fb.control('', [Validators.required]),
-            departament: this.fb.control('', [Validators.required]),
+            storehouse: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            guardType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            volumeType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
             reference: this.fb.control('')
@@ -197,7 +197,7 @@ export class EditComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
-                    // this._route.navigate(['/volumes']);
+                    this._route.navigate(['/volumes/get', this.volume._id]);
                 }
             },
             error => {
@@ -206,6 +206,10 @@ export class EditComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    goBack(){
+        this._route.navigate(['/volumes/get', this.volume._id]);
     }
 
     search = (text$: Observable<string>) =>

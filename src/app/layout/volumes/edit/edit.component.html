@@ -11,19 +11,12 @@
             <h2>Editar Volume</h2>
         </div>
         <div class="card-body">
-            <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="updateVolume()">
+            <form [formGroup]="volumeForm" role="FormGroup">
                 <div class="form-content">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                            [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': !companyInput.valid }" />
-                        <div *ngIf="companyInput.invalid && (companyInput.dirty || companyInput.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!companyInput.valid">
-                                Empresa é obrigatório.
-                            </div>
-                        </div>
+                            [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"/>
                     </div>
 
                     <div class="form-group">
@@ -36,44 +29,23 @@
                     <div class="form-group">
                         <label for="typeahead-basic">Depósito</label>
                         <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
-                            [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"
-                            [ngClass]="{ 'is-invalid': !companyInput.valid }" />
-                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!storehouse.valid">
-                                Depósito é obrigatório.
-                            </div>
-                        </div>
+                            [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"/>
                     </div>
 
                     <div class="form-group">
                         <label for="">Tipo de Volume</label>
-                        <select class="form-control" id="volumeType" formControlName="volumeType"
-                            [ngClass]="{ 'is-invalid': !volumeType.valid }">
+                        <select class="form-control" id="volumeType" formControlName="volumeType">
                             <option *ngFor="let volumeT of volumeTypeList | enumToArray" [value]="volumeT">
                                 {{ volumeT | translate }}</option>
                         </select>
-                        <div *ngIf="volumeType.invalid && (volumeType.dirty || volumeType.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!volumeType.valid">
-                                Tipo de volume é obrigatório.
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="">Tipo de Guarda</label>
-                        <select class="form-control" id="guardType" formControlName="guardType"
-                            [ngClass]="{ 'is-invalid': !guardType.valid }" (change)="changeGuardType()">
+                        <select class="form-control" id="guardType" formControlName="guardType" (change)="changeGuardType()">
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                 {{ guardT | translate }}</option>
                         </select>
-                        <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!guardType.valid">
-                                Tipo de guarda é obrigatório.
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group">
@@ -110,9 +82,9 @@
                     </ng-template>
                 </div>
                 <div class="pull-right">
-                    <button type="button" [routerLink]="['/volumes/get', volume._id]" class="btn btn-danger"
+                    <button type="button" (click)="goBack()" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" [routerLink]="['/volumes/get', volume._id]"
+                    <button type="submit" class="btn btn-primary" (click)="updateVolume()"
                         [disabled]=" companyInput.invalid || storehouse.invalid || volumeType.invalid || guardType.invalid || location.invalid || reference.invalid">
                         Salvar
                     </button>
