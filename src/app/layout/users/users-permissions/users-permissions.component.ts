@@ -42,6 +42,7 @@ export class UsersPermissionsComponent implements OnInit {
     selectedProfiles = [];
     usersDoctForm: FormGroup;
     userId: string;
+    userName: string;
     itensName: any = [];
     profileNames: any = [];
 
@@ -274,8 +275,9 @@ export class UsersPermissionsComponent implements OnInit {
                 this.successMsgSrv.successMessages(
                     'Permissão deletada com sucesso.'
                 );
-                window.history.go(-1);
-                return false;
+                this._route.navigate(['/users/get', this.userId]);
+                // window.history.go(-1);
+                // return false;
             },
             (error) => {
                 this.loading = false;
@@ -283,5 +285,9 @@ export class UsersPermissionsComponent implements OnInit {
                 console.log('ERROR:', error);
             }
         );
+    }
+
+    goBack() {
+        this._route.navigate(['/users/get', this.userId]);
     }
 }
