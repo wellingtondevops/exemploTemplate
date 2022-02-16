@@ -90,14 +90,3 @@ $hDiff: $headerHeight + $subHeaderHeight + $contentPadding * 2;
         width: calc(100vw - #{$contentPadding * 2});
     }
 }
-.whatsapp {
-    position: fixed;
-    top: 93%;
-    right: 1%;
-    z-index: 10000000;
-    border-radius: 50%;
-}
-
-::ng-deep .my-class .modal-dialog {
-    top: -350px;
-}
