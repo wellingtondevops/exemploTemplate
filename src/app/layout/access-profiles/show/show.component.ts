@@ -71,9 +71,7 @@ export class ShowComponent implements OnInit {
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
-        // this.getCompanies();
         this.getDocuments();
-        // this.getAccessProfile();
 
     }
 
