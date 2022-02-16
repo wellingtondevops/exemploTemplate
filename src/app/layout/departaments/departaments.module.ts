@@ -1,3 +1,4 @@
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DepartamentsRoutingModule } from './departaments-routing.module';
@@ -25,6 +26,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     ButtonsCustomModule,
     NgxLoadingModule,
     DepartamentsRoutingModule,
+    NgMultiSelectDropDownModule,
     CommonModule
   ],
   providers: [NgbActiveModal, CaseInsensitive]

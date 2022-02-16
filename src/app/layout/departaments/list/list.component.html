@@ -16,7 +16,11 @@
                 <div class="row">
                     <div class="form-group col-lg-6 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                        <ng-multiselect-dropdown name="company" [placeholder]="'Selecione a Empresa'"
+                            [data]="companyName" [settings]="dropdownSettings" formControlName="company"
+                            (onSelect)="onItemSelect($event)">
+                        </ng-multiselect-dropdown>
+                        <!-- <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
                             formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                             style="width: 100%; margin-right: 10px;"
@@ -25,7 +29,7 @@
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="form-group col-lg-6 col-sm-12">
                         <label for="labelName">Departamento</label>
