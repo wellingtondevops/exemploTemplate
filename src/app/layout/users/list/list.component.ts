@@ -44,7 +44,7 @@ export class ListComponent implements OnInit {
         { name: 'E-mail', prop: 'email' },
         { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
-  permissionNew: boolean = false;
+    permissionNew: boolean = false;
 
     constructor(
         private usersSrv: UsersService,
@@ -56,11 +56,10 @@ export class ListComponent implements OnInit {
         public modal: NgbActiveModal,
         private fb: FormBuilder,
         private localStorageSrv: SaveLocal,
-    ) {}
+    ) { }
 
     ngOnInit() {
         // this.usersList();
-        this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
             name: this.fb.control(null, Validators.required),
             email: this.fb.control(null),
@@ -68,10 +67,11 @@ export class ListComponent implements OnInit {
         const user = JSON.parse(this.localStorageSrv.get('user'));
         if (user && user.name) {
             this.searchForm.patchValue({
-            name: user.name
-        });
+                name: user.name
+            });
         }
-        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
+        this.getUsers();
     }
 
     get name() {
@@ -110,7 +110,15 @@ export class ListComponent implements OnInit {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
         this.localStorageSrv.save('user', this.searchForm.value);
-        this.usersSrv.searchUsers(this.searchForm.value, this.page).subscribe(
+        const newForm = {
+            email: null,
+            name: null,
+        };
+        this.searchForm.value.email ? newForm.email = this.searchForm.value.email : null;
+        this.searchForm.value.name ? newForm.name = this.searchForm.value.name : null;
+        const searchValue = _.omitBy(newForm, _.isNil);
+
+        this.usersSrv.searchUsers(searchValue, this.page).subscribe(
             data => {
                 this.users = data;
                 this.page.pageNumber = data._links.currentPage;
@@ -126,27 +134,26 @@ export class ListComponent implements OnInit {
         );
     }
 
-    setPage(pageInfo) {
-        this.loading = true;
-        this.page.pageNumber = pageInfo.offset;
-        this.usersSrv.users(this.page).subscribe(
-            data => {
-                this.users = data;
-                this.page.pageNumber = data._links.currentPage - 1;
-                this.page.totalElements = data._links.foundItems;
-                this.page.size = data._links.totalPage;
-                this.loading = false;
-            },
-            error => {
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-                this.loading = false;
-            }
-        );
-    }
+    // setPage(pageInfo) {
+    //     this.loading = true;
+    //     this.page.pageNumber = pageInfo.offset;
+    //     this.usersSrv.users(this.page).subscribe(
+    //         data => {
+    //             this.users = data;
+    //             this.page.pageNumber = data._links.currentPage - 1;
+    //             this.page.totalElements = data._links.foundItems;
+    //             this.page.size = data._links.totalPage;
+    //             this.loading = false;
+    //         },
+    //         error => {
+    //             this.errorMsg.errorMessages(error);
+    //             console.log('ERROR: ', error);
+    //             this.loading = false;
+    //         }
+    //     );
+    // }
     clear() {
         this.localStorageSrv.clear('user');
-
         this.searchForm.patchValue({
             name: null,
             email: null
