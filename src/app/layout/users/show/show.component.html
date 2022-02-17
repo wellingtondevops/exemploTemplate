@@ -86,13 +86,15 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <ng-multiselect-dropdown name="company" [placeholder]="'Selecione a Empresa'"
-                                    [data]="companyName" [settings]="dropdownSettings" formControlName="company"
-                                    (onSelect)="onItemSelect($event)">
-                                </ng-multiselect-dropdown>
+                                <div class="col-11">
+                                    <ng-multiselect-dropdown name="company" [placeholder]="'Selecione a Empresa'"
+                                        [data]="companyName" [settings]="dropdownSettings" formControlName="company"
+                                        (onSelect)="onItemSelect($event)">
+                                    </ng-multiselect-dropdown>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-dark" (click)="c('Save click')"
+                                <button type="button" class="btn btn-primary" (click)="c('Save click')"
                                     (click)="updateListCompany()">Salvar</button>
                             </div>
                         </ng-template>

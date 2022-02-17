@@ -275,9 +275,9 @@ export class UsersPermissionsComponent implements OnInit {
                 this.successMsgSrv.successMessages(
                     'Permissão deletada com sucesso.'
                 );
-                this._route.navigate(['/users/get', this.userId]);
-                // window.history.go(-1);
-                // return false;
+                // this._route.navigate(['/users/get', this.userId]);
+                window.history.go(-1);
+                return false;
             },
             (error) => {
                 this.loading = false;
