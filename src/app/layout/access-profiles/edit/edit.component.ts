@@ -72,7 +72,8 @@ export class EditComponent implements OnInit {
             selectAllText: 'Marcar Todos',
             unSelectAllText: 'Desmarcar Todos',
             itemsShowLimit: 0,
-            allowSearchFilter: this.ShowFilter
+            allowSearchFilter: this.ShowFilter,
+            searchPlaceholderText: 'Pesquisar'
         };
 
         this.id = this.route.snapshot.paramMap.get('id');

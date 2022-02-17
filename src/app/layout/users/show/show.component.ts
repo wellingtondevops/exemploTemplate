@@ -100,7 +100,8 @@ export class ShowComponent implements OnInit {
             selectAllText: 'Marcar Todos',
             unSelectAllText: 'Desmarcar Todos',
             itemsShowLimit: 1,
-            allowSearchFilter: this.ShowFilter
+            allowSearchFilter: this.ShowFilter,
+            searchPlaceholderText: 'Pesquisar'
         };
 
     }
