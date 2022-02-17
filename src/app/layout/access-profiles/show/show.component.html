@@ -8,13 +8,25 @@
     </ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <h3>Perfil de Acesso</h3>
-            <div style="margin-bottom: 10px">
-                <app-button-back [redirectTo]="'access-profiles'"></app-button-back>
-                <app-buttons-custom [id]="accessProfile" (edit)="editAccessProfile(accessProfile._id)"
-                    (delete)="open('focusFirst', accessProfile._id)" [permissionEdit]="permissionEdit"
-                    [permissionDelete]="permissionDelete">
-                </app-buttons-custom>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Perfil de Acesso</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <app-button-back [redirectTo]="'access-profiles'"></app-button-back>
+                    <app-buttons-custom [id]="accessProfile">
+                    </app-buttons-custom>
+                </div>
+                <div class="col-lg-2 text-right ml-0 p-0 pr-2">
+                    <button type="button" class="btn btn-dark btn-sm text-right"
+                        (click)="this.editAccessProfile(accessProfile._id)"
+                        style="font-style: italic;">Alterar</button>
+                    <button type="button" class="btn btn-danger btn-sm text-right"
+                        (click)="this.open('focusFirst', accessProfile._id)"
+                        style="font-style: italic; margin-left: 3px;">Excluir</button>
+                </div>
             </div>
         </div>
         <div class="card-body">

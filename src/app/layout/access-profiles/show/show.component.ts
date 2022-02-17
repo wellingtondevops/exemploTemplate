@@ -130,7 +130,6 @@ export class ShowComponent implements OnInit {
         this.documentsSrv.doctsAccessProfile(this.id).subscribe(
             data => {
                 this.documentsAll = data;
-                console.log('docAll  ', this.documentsAll.docts);
                 if (!this.accessProfile) {
                     this.getAccessProfile();
                 }
@@ -216,16 +215,17 @@ export class ShowComponent implements OnInit {
         );
     }
 
-    open(name: string, storeHouse) {
+    open(name: string, accessProfile) {
         const modalRef = this.modalService.open(MODALS[name]);
-        modalRef.componentInstance.item = storeHouse;
+        modalRef.componentInstance.item = accessProfile;
         modalRef.componentInstance.data = {
             msgConfirmDelete: 'Perfil foi deletado com sucesso.',
             msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Peril?',
             msgQuestionDeleteTwo: 'Todas as informações associadas ao Perfil serão deletadas.'
         };
         modalRef.componentInstance.delete.subscribe(item => {
-            this.delete(item);
+            // this.delete(item);
+            this.delete(this.accessProfile._id);
         });
     }
     openMod(content) {
