@@ -16,11 +16,14 @@
             <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
                 <div class="row">
                     <div class="form-group col-lg-3 col-sm-12">
-                        <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)" autoFocus="true" type="text"
-                            class="form-control" formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
-                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched}" style="width: 100%" />
+                        <label for="typeahead-focus">Empresa</label>
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                            formControlName="company" (selectItem)="selectedCompany($event)"
+                            placeholder="Nome da Empresa" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchCompany" #instanceCompany="ngbTypeahead" style="width: 100%"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
+                            (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched )" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -29,21 +32,24 @@
                     </div>
                     <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-focus">Departamento</label>
-                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control" placeholder="Nome do Departamento"
-                            formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                            placeholder="Nome do Departamento" formControlName="departament"
+                            [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDepartament" style="width: 100%" #instanceDepartament="ngbTypeahead"
                             (focus)="focusDepartament$.next($any($event).target.value)"
                             (click)="clickDepartament$.next($any($event).target.value)" />
                     </div>
                     <div class="form-group col-lg-3 col-sm-12">
                         <label for="search_archive">Posição</label>
-                        <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição" formControlName="location" />
+                        <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição"
+                            formControlName="location" />
                     </div>
                     <div class="form-group col-lg-3 col-sm-12">
                         <label for="typeahead-focus">Depósito</label>
-                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control" placeholder="Nome do Depósito"
-                            formControlName="storehouse" [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchStorehouse" style="width: 100%" #instanceStorehouse="ngbTypeahead"
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                            placeholder="Nome do Depósito" formControlName="storehouse" [resultTemplate]="rtStorehouse"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" style="width: 100%"
+                            #instanceStorehouse="ngbTypeahead"
                             (focus)="focusStorehouse$.next($any($event).target.value)"
                             (click)="clickStorehouse$.next($any($event).target.value)" />
                     </div>
@@ -55,69 +61,74 @@
                         </select>
                     </div> -->
                 </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-lg-5 col-sm-12">
-                        <div class="form-group form-check-inline">
-                            <label style="margin-right: 5px;">Status:</label>
-                            <div class="form-check">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="ATIVO" id="status" checked>
-                                    <div class="state">
-                                        <label class="form-check-label" for="status">
-                                            ARQUIVO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-check">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="BAIXADO" id="statusB">
-                                    <div class="state">
-                                        <label class="form-check-label" for="statusB">
-                                            BAIXADO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-check">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="EMPRESTADO" id="statusE">
-                                    <div class="state">
-                                        <label class="form-check-label" for="statusE">
-                                            EMPRESTADO
-                                        </label>
-                                    </div>
+                <div class="row mt-1 mb-1 form-check-inline">
+                    <div class="col-lg-1 pr-0">
+                        <label>Status:</label>
+                    </div>
+                    <div class="col-lg-2 col-sm-auto p-0">
+                        <div class="form-check m-0 p-0">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                    value="ATIVO" id="status" checked>
+                                <div class="state">
+                                    <label class="form-check-label" for="status">
+                                        ARQUIVO
+                                    </label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-sm-12">
-                        <div class="form-group form-check-inline">
-                            <label style="margin-right: 5px;">Fases:</label>
-                            <div class="form-check">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="current"
-                                        formControlName="finalCurrent" id="current" />
-                                    <div class="state">
-                                        <label class="form-check-label" for="current">
-                                            CORRENTE
-                                        </label>
-                                    </div>
+                    <div class="col-lg-2 col-sm-auto p-0">
+                        <div class="form-check m-0 p-0">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                    value="BAIXADO" id="statusB">
+                                <div class="state">
+                                    <label class="form-check-label" for="statusB">
+                                        BAIXADO
+                                    </label>
                                 </div>
                             </div>
-
-                            <div class="form-check">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="intermediate"
-                                        formControlName="finalIntermediate" id="Intermediate" />
-                                    <div class="state">
-                                        <label class="form-check-label" for="Intermediate">
-                                            INTERMEDIARIO
-                                        </label>
-                                    </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-auto p-0">
+                        <div class="form-check m-0 p-0 mr-3">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="status" formControlName="status"
+                                    value="EMPRESTADO" id="statusE">
+                                <div class="state">
+                                    <label class="form-check-label" for="statusE">
+                                        EMPRESTADO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label>Fases:</label>
+                    </div>
+                    <div class="col-lg-2 col-sm-auto p-0">
+                        <div class="form-check m-0 p-0">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="checkbox" name="current"
+                                    formControlName="finalCurrent" id="current" />
+                                <div class="state">
+                                    <label class="form-check-label" for="current">
+                                        CORRENTE
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-auto p-0">
+                        <div class="form-check m-0 p-0">
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="checkbox" name="intermediate"
+                                    formControlName="finalIntermediate" id="Intermediate" />
+                                <div class="state">
+                                    <label class="form-check-label" for="Intermediate">
+                                        INTERMEDIARIO
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -126,15 +137,16 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-sm-12">
                         <label for="typeahead-scrollable">Documento</label>
-                        <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control" placeholder="Nome do Documento"
-                            formControlName="doct" [resultTemplate]="rtDocument" [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchDocument" style="width: 100%" #instanceDocument="ngbTypeahead"
-                            (focus)="focusDocument$.next($any($event).target.value)"
+                        <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
+                            placeholder="Nome do Documento" formControlName="doct" [resultTemplate]="rtDocument"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" style="width: 100%"
+                            #instanceDocument="ngbTypeahead" (focus)="focusDocument$.next($any($event).target.value)"
                             (click)="clickDocument$.next($any($event).target.value)" />
                     </div>
                     <div class="form-group col-lg-4 col-sm-12">
                         <label for="search_archive">Índice</label>
-                        <input id="search_archive" class="form-control col-12" placeholder="Informe o Índice" formControlName="search" />
+                        <input id="search_archive" class="form-control col-12" placeholder="Informe o Índice"
+                            formControlName="search" />
                     </div>
                     <div class="form-group col-lg-2 col-sm-12">
                         <label for="initDate">Data Inicial</label>
@@ -224,7 +236,8 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Fases" prop="finalCurrent" [width]="5">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                <i *ngIf="value == true" class="mdi mdi-alpha-c-box" title="" style="font-size:30px; margin-right: 2px;"></i>
+                <i *ngIf="value == true" class="mdi mdi-alpha-c-box" title=""
+                    style="font-size:30px; margin-right: 2px;"></i>
                 <i *ngIf="value == false" class="mdi mdi-alpha-c-box-outline" title=""
                     style="font-size:30px; margin-right: 2px;"></i>
             </ng-template>

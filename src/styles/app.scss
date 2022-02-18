@@ -17,15 +17,20 @@
 .dropdown-menu {
     max-height: 10em;
     overflow-y: auto;
+    border-radius: 10px;
+    .dropdown-item{
+        border-radius: 10px;
+        padding: 3px;
+    }
 }
 
 .card input {
     border-radius: 50px;
 }
+
 .card select{
     border-radius: 50px;
 }
-
 
 .card {
     border-top-left-radius: 9px;

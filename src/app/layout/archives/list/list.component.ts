@@ -32,6 +32,7 @@ export class ListComponent implements OnInit {
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
     @ViewChild('instanceDocument',) instanceDocument: NgbTypeahead;
     @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
     @ViewChild('searchTypeahead',)
     private readonly typeahead: NgbTypeahead;
     archives: Archive[];
@@ -52,6 +53,8 @@ export class ListComponent implements OnInit {
     clickDocument$ = new Subject<string>();
     focusStorehouse$ = new Subject<string>();
     clickStorehouse$ = new Subject<string>();
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
     fileXls: string;
     archiveExport: string;
     nameArchiveExport: string;
@@ -202,9 +205,9 @@ export class ListComponent implements OnInit {
         newSearch.final = this.searchForm.value.final;
         newSearch.finalCurrent = this.currentValue;
         newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
-        if ( newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
+        if (newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
             newSearch.finalCurrent = this.currentValue = null;
-            newSearch.finalIntermediate =  this.searchForm.value.finalIntermediate = null;
+            newSearch.finalIntermediate = this.searchForm.value.finalIntermediate = null;
         }
 
         const searchValue = _.omitBy(newSearch, _.isNil);
@@ -296,18 +299,24 @@ export class ListComponent implements OnInit {
         }
     }
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
                 let res = [];
-                if (company.length < 2) { []; } else {
-                    res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
                 }
                 return res;
             })
-        )
+        );
+    }
 
     getDepartaments(company_id) {
         this.departamentsSrv.searchDepartaments(company_id).subscribe(
