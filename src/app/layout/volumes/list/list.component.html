@@ -19,7 +19,9 @@
                         <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)" type="text"
                             placeholder="Nome da Empresa" class="form-control" formControlName="company"
                             [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -30,7 +32,10 @@
                         <label for="typeahead-basic">Departamento</label>
                         <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome do Departamento"
                             class="form-control" formControlName="departament" [resultTemplate]="rtDepartament"
-                            [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" style="width: 100%" />
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" style="width: 100%"
+                            #instanceDepartament="ngbTypeahead"
+                            (focus)="focusDepartament$.next($any($event).target.value)"
+                            (click)="clickDepartament$.next($any($event).target.value)" />
                     </div>
                     <div class="col col-lg-2 col-sm-12">
                         <label for="location">Posição</label>
@@ -38,10 +43,13 @@
                             formControlName="location" />
                     </div>
                     <div class="col col-lg-3 col-sm-12">
-                        <label for="typeahead-basic">Depósito</label>
-                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
+                        <label for="typeahead-focus">Depósito</label>
+                        <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                             placeholder="Nome do Depósito" formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" style="width: 100%" />
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" style="width: 100%"
+                            #instanceStorehouse="ngbTypeahead"
+                            (focus)="focusStorehouse$.next($any($event).target.value)"
+                            (click)="clickStorehouse$.next($any($event).target.value)" />
                     </div>
                 </div>
 
@@ -77,9 +85,10 @@
                         </div>
                     </div>
                     <div class="col col-lg-4 col-sm-12 mb-2 mt-2">
-                            <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
-                            <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="radio" name="guardType" formControlName="guardType" id="simples" value="SIMPLES" />
+                        <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="guardType" formControlName="guardType"
+                                id="simples" value="SIMPLES" />
                             <div class="state">
                                 <label class="form-check-label" for="simples">
                                     Simples
@@ -87,7 +96,8 @@
                             </div>
                         </div>
                         <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="radio" name="guardType" formControlName="guardType" id="gerenciada" value="GERENCIADA" />
+                            <input class="form-check-input" type="radio" name="guardType" formControlName="guardType"
+                                id="gerenciada" value="GERENCIADA" />
                             <div class="state">
                                 <label class="form-check-label" for="gerenciada">
                                     Gerenciada
@@ -107,7 +117,8 @@
                     </div> -->
                     <div class="col col-lg-3 col-sm-12">
                         <label for="reference">Referência</label>
-                        <input id="reference" placeholder="Insira a referência" class="form-control col-12" formControlName="reference" />
+                        <input id="reference" placeholder="Insira a referência" class="form-control col-12"
+                            formControlName="reference" />
                     </div>
                     <div class="col col-lg-2 col-sm-12">
                         <label for="initDate">Data Inicial</label>
@@ -146,8 +157,8 @@
                     <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                         <i class="fa fa-search"></i>
                     </button>
-                    <button style="margin-left: 5px;" type="button" class="btn btn-dark"
-                        [disabled]="company.invalid" (click)="clear()">
+                    <button style="margin-left: 5px;" type="button" class="btn btn-dark" [disabled]="company.invalid"
+                        (click)="clear()">
                         Limpar Campos
                     </button>
                 </div>
