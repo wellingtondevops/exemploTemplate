@@ -27,7 +27,9 @@
                         <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa"
                             type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -40,7 +42,10 @@
                         <input id="typeahead-basic" type="text" class="form-control" placeholder="Nome do Departamento"
                             formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDepartament"
-                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }" />
+                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }"
+                            #instanceDepartament="ngbTypeahead"
+                            (focus)="focusDepartament$.next($any($event).target.value)"
+                            (click)="clickDepartament$.next($any($event).target.value)" />
                         <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
                             class="invalid-feedback">
                             <div *ngIf="!departament.valid">
@@ -53,8 +58,11 @@
                         <label for="typeahead-basic">Depósito</label>
                         <input id="typeahead-basic" type="text" class="form-control" placeholder="Nome do Desposito"
                             formControlName="storehouse" [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter"
-                            [ngbTypeahead]="search"
-                            [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }" />
+                            [ngbTypeahead]="searchStorehouse"
+                            [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }"
+                            #instanceStorehouse="ngbTypeahead"
+                            (focus)="focusStorehouse$.next($any($event).target.value)"
+                            (click)="clickStorehouse$.next($any($event).target.value)"/>
                         <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
                             class="invalid-feedback">
                             <div *ngIf="!storehouse.valid">
@@ -86,10 +94,11 @@
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                 {{ guardT | translate }}</option>
                         </select> -->
-                        <div class="col col-lg-4 col-sm-12 mb-2 mt-2">
-                            <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
-                            <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="simples" value="SIMPLES" />
+                    <div class="col col-lg-4 col-sm-12 mb-2 mt-2">
+                        <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
+                        <div class="pretty p-switch p-fill">
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType"
+                                id="simples" value="SIMPLES" />
                             <div class="state">
                                 <label class="form-check-label" for="simples">
                                     Simples
@@ -97,7 +106,8 @@
                             </div>
                         </div>
                         <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="radio" name="type" formControlName="guardType" id="gerenciada" value="GERENCIADA" />
+                            <input class="form-check-input" type="radio" name="type" formControlName="guardType"
+                                id="gerenciada" value="GERENCIADA" />
                             <div class="state">
                                 <label class="form-check-label" for="gerenciada">
                                     Gerenciada
