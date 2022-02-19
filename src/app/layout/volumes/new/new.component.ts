@@ -1,4 +1,5 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -7,8 +8,8 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { Storehouse } from 'src/app/models/storehouse';
-import { debounceTime, distinctUntilChanged, map, reduce, tap, finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, reduce, tap, finalize, filter } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
 import _ from 'lodash';
 import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
@@ -26,6 +27,10 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 })
 
 export class NewComponent implements OnInit {
+    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
+
     companies: any = [];
     volumeForm: FormGroup;
     storeHouses: any = [];
@@ -38,6 +43,12 @@ export class NewComponent implements OnInit {
     hiddenReference: Boolean = true;
     loading: Boolean = true;
     page = new Page();
+    focusDepartament$ = new Subject<string>();
+    clickDepartament$ = new Subject<string>();
+    focusStorehouse$ = new Subject<string>();
+    clickStorehouse$ = new Subject<string>();
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
 
     constructor(
         private _route: Router,
@@ -144,15 +155,15 @@ export class NewComponent implements OnInit {
 
     getDepartament(id) {
         this.departamentsSrv.searchDepartaments(id).subscribe(
-          data => {
-            this.departaments = data.items;
-          },
-          error => {
-            this.errorMsg.errorMessages(error);
-            console.log('ERROR: ', error);
-          }
+            data => {
+                this.departaments = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
         );
-      }
+    }
 
     changeGuardType() {
         switch (this.volumeForm.value.guardType) {
@@ -173,11 +184,11 @@ export class NewComponent implements OnInit {
 
     selectedCompany(e) {
         if (e && e.item && e.item._id) {
-          this.getDepartament(e.item._id);
+            this.getDepartament(e.item._id);
         } else {
-          this.getDepartament(e);
+            this.getDepartament(e);
         }
-      }
+    }
 
     postVolume() {
         this.returnId('company');
@@ -200,47 +211,64 @@ export class NewComponent implements OnInit {
     }
 
     search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(storehouse =>
-        storehouse.length < 2
-          ? []
-          : _.filter(this.storeHouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
-      )
-    )
-
-  formatter = (x: { name: string }) => x.name;
-
-    searchCompany = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(company => {
-        let res;
-        if (company.length < 2) {
-          res = [];
-        } else {
-          res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
-        }
-        return res;
-      })
-    )
-
-        searchDepartament = (text$: Observable<string>) =>
         text$.pipe(
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(departament => {
-            let res;
-            if (departament.length < 2) {
-              res = [];
-            } else {
-              res = _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10);
-            }
-            return res;
-          })
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(storehouse =>
+                storehouse.length < 2
+                    ? []
+                    : _.filter(this.storeHouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
+            )
         )
+
+    formatter = (x: { name: string }) => x.name;
+
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(company => {
+                let res = [];
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
+            })
+        );
+    }
+
+    searchDepartament = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDepartament$.pipe(filter(() => !this.instanceDepartament.isPopupOpen()));
+        const inputFocus$ = this.focusDepartament$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(departament => (departament === '' ? this.departaments
+                : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
+            )));
+    }
+    searchStorehouse = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickStorehouse$.pipe(filter(() => !this.instanceStorehouse.isPopupOpen()));
+        const inputFocus$ = this.focusStorehouse$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(storehouse => {
+                let res = [];
+                if (storehouse.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.storeHouses,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
+            }));
+    }
 }
 @Pipe({
     name: 'enumToArray'

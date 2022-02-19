@@ -26,7 +26,9 @@
                                             [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                             [ngbTypeahead]="searchCompany"
                                             [ngClass]="{ 'is-invalid': company.touched && company.invalid}"
-                                            style="width: 100%; margin-bottom: 10px;" />
+                                            style="width: 100%; margin-bottom: 10px;" #instanceCompany="ngbTypeahead"
+                                            (focus)="focusCompany$.next($any($event).target.value)"
+                                            (click)="clickCompany$.next($any($event).target.value)" />
                                         <div *ngIf="company.invalid && (company.dirty || company.touched)"
                                             class="invalid-feedback">
                                             <div *ngIf="!company.valid">
