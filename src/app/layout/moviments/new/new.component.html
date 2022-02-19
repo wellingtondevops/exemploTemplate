@@ -19,7 +19,9 @@
                         <input id="typeahead-basic" type="text" placeholder="Nome da Empresa" class="form-control"
                             formControlName="company" [resultTemplate]="rtCompany" (selectItem)="getCompany($event)"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': companyIpt.invalid && companyIpt.touched }" />
+                            [ngClass]="{ 'is-invalid': companyIpt.invalid && companyIpt.touched }"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
                             class="invalid-feedback">
                             <div *ngIf="!companyIpt.valid">

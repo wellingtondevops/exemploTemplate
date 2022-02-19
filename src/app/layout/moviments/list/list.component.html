@@ -20,7 +20,9 @@
                         <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"
                             class="form-control" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" style="width: 100%" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -44,7 +46,7 @@
                         <div class="form-check">
                             <div class="pretty p-switch p-fill">
                                 <input class="form-check-input" type="checkbox" name="demand" formControlName="demand"
-                                     id="demand" [checked]="false">
+                                    id="demand" [checked]="false">
                                 <div class="state">
                                     <label class="form-check-label" for="demand">
                                         Solicitada
@@ -55,7 +57,7 @@
                         <div class="form-check">
                             <div class="pretty p-switch p-fill">
                                 <input class="form-check-input" type="checkbox" name="demand"
-                                    formControlName="processed"  id="processed" [checked]="false">
+                                    formControlName="processed" id="processed" [checked]="false">
                                 <div class="state">
                                     <label class="form-check-label" for="processed">
                                         Processada

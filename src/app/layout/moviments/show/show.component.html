@@ -115,23 +115,31 @@
                             <div class="form-row">
                                 <div class="form-group col-lg-3 col-sm-12">
                                     <label for="typeahead-basic">Documento</label>
-                                    <input id="typeahead-basic" type="text" placeholder="Nome da Empresa" class="form-control"
-                                        formControlName="document" [resultTemplate]="rtDocument"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" />
+                                    <input id="typeahead-basic" type="text" placeholder="Nome do Documento"
+                                        class="form-control" formControlName="document" [resultTemplate]="rtDocument"
+                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
+                                        #instanceDocument="ngbTypeahead"
+                                        (focus)="focusDocument$.next($any($event).target.value)"
+                                        (click)="clickDocument$.next($any($event).target.value)" />
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-12">
                                     <label for="typeahead-basic">Depósito</label>
-                                    <input id="typeahead-basic" type="text" placeholder="Nome do Depósito" class="form-control"
-                                        formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
+                                    <input id="typeahead-basic" type="text" placeholder="Nome do Depósito"
+                                        class="form-control" formControlName="storehouse"
+                                        [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                                        [ngbTypeahead]="searchStorehouse" #instanceStorehouse="ngbTypeahead"
+                                        (focus)="focusStorehouse$.next($any($event).target.value)"
+                                        (click)="clickStorehouse$.next($any($event).target.value)" />
                                 </div>
                                 <div class="form-group col-lg-2 col-sm-12">
                                     <label for="location">Posição</label>
-                                    <input type="text" class="form-control" placeholder="Informe a Posição" formControlName="location" />
+                                    <input type="text" class="form-control" placeholder="Informe a Posição"
+                                        formControlName="location" />
                                 </div>
                                 <div class="form-group col-lg-2 col-sm-12">
                                     <label for="search">Índice</label>
-                                    <input type="text" class="form-control" placeholder="Informe o Índice" formControlName="search" />
+                                    <input type="text" class="form-control" placeholder="Informe o Índice"
+                                        formControlName="search" />
                                 </div>
                                 <div class="form-group col-lg-1 col-sm-6">
                                     <br />
@@ -244,28 +252,36 @@
                                 <div class="form-group col">
                                     <label for="typeahead-basic">Departamento</label>
                                     <input id="typeahead-basic" type="text" class="form-control"
-                                        formControlName="departament" [resultTemplate]="rtDepartament"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" />
+                                        placeholder="Nome do Departamento" formControlName="departament"
+                                        [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                                        [ngbTypeahead]="searchDepartament" #instanceDepartament="ngbTypeahead"
+                                        (focus)="focusDepartament$.next($any($event).target.value)"
+                                        (click)="clickDepartament$.next($any($event).target.value)" />
                                 </div>
                                 <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
                                 <div class="form-group col">
                                     <label for="location">Posição</label>
-                                    <input type="text" class="form-control" formControlName="location" />
+                                    <input type="text" class="form-control" formControlName="location"
+                                        placeholder="Informe a Posição" />
                                 </div>
                                 <div class="form-group col">
                                     <label for="typeahead-basic">Depósito</label>
                                     <input id="typeahead-basic" type="text" class="form-control"
-                                        formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
+                                        placeholder="Nome do Depósito" formControlName="storehouse"
+                                        [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                                        [ngbTypeahead]="searchStorehouse" #instanceStorehouse="ngbTypeahead"
+                                        (focus)="focusStorehouse$.next($any($event).target.value)"
+                                        (click)="clickStorehouse$.next($any($event).target.value)" />
                                 </div>
                                 <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
                                 <div class="form-group col">
                                     <label for="reference">Referência</label>
-                                    <input type="text" class="form-control" formControlName="reference" />
+                                    <input type="text" class="form-control" formControlName="reference"
+                                        placeholder="Informe a Referência" />
                                 </div>
                                 <div class="form-group">
                                     <br />

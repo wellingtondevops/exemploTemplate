@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, merge, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { CompaniesList, Company } from 'src/app/models/company';
 import { routerTransition } from 'src/app/router.animations';
 import { MovimentsService } from 'src/app/services/moviments/moviments.service';
@@ -29,6 +30,9 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
     animations: [routerTransition()]
 })
 export class SearchArchivesComponent implements OnInit {
+    @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
+    @ViewChild('instanceDocument',) instanceDocument: NgbTypeahead;
+    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
     searchForm: FormGroup;
     id: String;
     companies: CompaniesList;
@@ -38,6 +42,12 @@ export class SearchArchivesComponent implements OnInit {
     storehouses: any;
     dateSent;
     dateReceived;
+    focusDepartament$ = new Subject<string>();
+    clickDepartament$ = new Subject<string>();
+    focusDocument$ = new Subject<string>();
+    clickDocument$ = new Subject<string>();
+    focusStorehouse$ = new Subject<string>();
+    clickStorehouse$ = new Subject<string>();
     archives: ArchivesList = {
         _links: {
             currentPage: 0,
@@ -178,16 +188,19 @@ export class SearchArchivesComponent implements OnInit {
             })
         )
 
-    searchDepartament = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(departament => {
-                let res;
-                if (departament.length < 2) { []; } else { res = _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10); }
-                return res;
-            })
-        )
+    searchDepartament = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDepartament$.pipe(filter(() => !this.instanceDepartament.isPopupOpen()));
+        const inputFocus$ = this.focusDepartament$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(departament => (departament === '' ? this.departaments
+                : _.filter(this.departaments,
+                    v => (this.utilCase.replaceSpecialChars(v.name)
+                        .toLowerCase().indexOf(departament.toLowerCase()))
+                        > -1).slice(0, 10)
+            )));
+    }
 
     getDocuments() {
         this.movimentsSrc.documents(this.id).subscribe(data => {
@@ -199,27 +212,35 @@ export class SearchArchivesComponent implements OnInit {
         });
     }
 
-    searchDoct = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(doct => {
-                let res;
-                if (doct.length < 2) { []; } else { res = _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(doct.toLowerCase())) > -1).slice(0, 10); }
-                return res;
-            })
-        )
+    searchDoct = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDocument$.pipe(filter(() => !this.instanceDocument.isPopupOpen()));
+        const inputFocus$ = this.focusDocument$;
 
-    searchStorehouse = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(document => (document === '' ? this.documents
+                : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
+            )));
+    }
+
+    searchStorehouse = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickStorehouse$.pipe(filter(() => !this.instanceStorehouse.isPopupOpen()));
+        const inputFocus$ = this.focusStorehouse$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(storehouse => {
-                let res;
-                if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10); }
+                let res = [];
+                if (storehouse.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.storehouses,
+                        v => (this.utilCase.replaceSpecialChars(v.name)
+                            .toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+                }
                 return res;
-            })
-        )
+            }));
+    }
 
     returnId(object) {
         const result = _.filter(this.searchForm.value[object], function (value, key) {

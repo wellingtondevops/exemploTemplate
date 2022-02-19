@@ -20,9 +20,9 @@
                         <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                             formControlName="company" (selectItem)="selectedCompany($event)"
                             placeholder="Nome da Empresa" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchCompany" #instanceCompany="ngbTypeahead" style="width: 100%"
+                            [ngbTypeahead]="searchCompany" style="width: 100%"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
-                            (focus)="focusCompany$.next($any($event).target.value)"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
                             (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched )" class="invalid-feedback">
                             <div *ngIf="!company.valid">
