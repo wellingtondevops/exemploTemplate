@@ -19,8 +19,10 @@
                         <input id="typeahead-basic" autoFocus="true" placeholder="Nome da Empresa"
                             (selectItem)="selectedCompany($event)" type="text" class="form-control"
                             formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
+                            [ngbTypeahead]="searchCompany" #instanceCompany="ngbTypeahead"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%"
+                            (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -31,7 +33,9 @@
                         <label for="typeahead-basic">Documento</label>
                         <input id="typeahead-basic" autoFocus="true" placeholder="Nome do Documento" type="text"
                             class="form-control" formControlName="doct" [resultTemplate]="rtDocument"
-                            [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" style="width: 100%" />
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" style="width: 100%"
+                            #instanceDocument="ngbTypeahead" (focus)="focusDocument$.next($any($event).target.value)"
+                            (click)="clickDocument$.next($any($event).target.value)" />
                     </div>
                     <div class="form-group mb-2 col-lg-4 col-sm-12">
                         <label for="labelName">Lote</label>

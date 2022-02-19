@@ -66,13 +66,13 @@ export class FormIndexComponent {
     }
 
     typeInput(element) {
-        let type = 'textarea';
+        let type = 'input';
         switch (element) {
             case 'DATA':
-                type = 'textarea';
+                type = 'input';
                 break;
             case 'TEXTO':
-                type = 'textarea';
+                type = 'input';
                 break;
         }
         return type;

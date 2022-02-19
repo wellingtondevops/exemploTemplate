@@ -39,9 +39,7 @@ export class NewComponent implements OnInit {
     @ViewChild('tabs') private tabs: NgbTabset;
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-
-
-
+    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -64,6 +62,8 @@ export class NewComponent implements OnInit {
     clickDocument$ = new Subject<string>();
     focusDepartament$ = new Subject<string>();
     clickDepartament$ = new Subject<string>();
+    focusStorehouse$ = new Subject<string>();
+    clickStorehouse$ = new Subject<string>();
     indexs: any = [];
     volumes: Volume[];
     columns = [
@@ -365,16 +365,23 @@ export class NewComponent implements OnInit {
         );
     }
 
-    searchStorehouse = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchStorehouse = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickStorehouse$.pipe(filter(() => !this.instanceStorehouse.isPopupOpen()));
+        const inputFocus$ = this.focusStorehouse$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(storehouse => {
-                let res;
-                if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10); }
+                let res = [];
+                if (storehouse.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.storehouses,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+                }
                 return res;
-            })
-        )
+            }));
+    }
 
     getDocuments(company_id) {
         this.documentsSrv.searchDocuments(company_id).subscribe(
