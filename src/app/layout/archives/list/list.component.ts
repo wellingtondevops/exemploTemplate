@@ -361,9 +361,16 @@ export class ListComponent implements OnInit {
         const inputFocus$ = this.focusStorehouse$;
 
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-            map(storehouse => (storehouse === '' ? this.storehouses
-                : _.filter(this.storehouses, v => this.utilCase.replaceSpecialChars(v.name.toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
-            )));
+            map(storehouse => {
+                let res = [];
+                if (storehouse.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.storehouses,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
+            }));
     }
 
     /* searchStorehouse = (text$: Observable<string>) =>
