@@ -19,7 +19,9 @@
                             <input type="text" formControlName="company" class="form-control"
                                 (selectItem)="getDocuments($event)" [resultTemplate]="rtCompany"
                                 [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                                placeholder="Nome da Empresa"
+                                placeholder="Nome da Empresa" #instanceCompany="ngbTypeahead"
+                                (focus)="focusCompany$.next($any($event).target.value)"
+                                (click)="clickCompany$.next($any($event).target.value)"
                                 [ngClass]="{ 'is-invalid': company.touched && company.invalid}" />
                             <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                                 <div *ngIf="!company.valid">

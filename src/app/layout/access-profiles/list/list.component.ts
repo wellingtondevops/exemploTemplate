@@ -1,19 +1,19 @@
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { AccessProfilesService } from '../../../services/access-profiles/access-profiles.service';
 import { Page } from 'src/app/models/page';
 import { AccessProfilesList } from './../../../models/access-profiles';
 import { SaveLocal } from 'src/app/storage/saveLocal';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
-import { Observable } from 'rxjs';
+import { Observable, merge, Subject } from 'rxjs';
 import _ from 'lodash';
 
 @Component({
@@ -23,10 +23,13 @@ import _ from 'lodash';
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
     loading: Boolean = false;
     permissionNew: Boolean = true;
     searchForm: FormGroup;
     companies: any = [];
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
     accessProfiles: AccessProfilesList = {
         _links: {
             currentPage: 0,
@@ -105,17 +108,24 @@ export class ListComponent implements OnInit {
     formatter = (x: { name: string }) => x.name;
 
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
-                const res = [];
-                if (company.length < 2) { []; }
-                return _.filter(this.companies,
-                    v => this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
+                let res = [];
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
             })
-        )
+        );
+    }
 
     getAccessProfiles() {
         this.setPageAccessProfiles({ offset: 0 });

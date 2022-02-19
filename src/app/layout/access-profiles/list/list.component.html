@@ -21,7 +21,9 @@
                             formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                             style="width: 100%; margin-right: 10px;"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -53,7 +55,7 @@
     <div class="row">
         <div class="col-lg-12">
             <app-datatables [data]="accessProfiles" (setPage)="setPageAccessProfiles($event)" [columns]="columns"
-            (show)="getAccessProfile($event)">
+                (show)="getAccessProfile($event)">
             </app-datatables>
         </div>
     </div>

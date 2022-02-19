@@ -21,6 +21,8 @@
                         <input id="typeahead-basic" placeholder="Nome da Empresa" autoFocus="true" type="text"
                             class="form-control typehead" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" style="width: 100%"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">

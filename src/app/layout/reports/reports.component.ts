@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Report } from 'src/app/models/report'
@@ -21,12 +22,15 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     animations: [routerTransition()]
 })
 export class ReportsComponent implements OnInit {
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
     searchForm: FormGroup;
     companies: any = [];
     loading: Boolean = false;
     reports: Report;
     dateSent;
     dateReceived;
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
 
     constructor(
         private _route: Router,
@@ -87,16 +91,24 @@ export class ReportsComponent implements OnInit {
 
     formatter = (x: { name: string }) => x.name;
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
-                const res = [];
-                if (company.length < 2) { []; }
-                return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                let res = [];
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
             })
-        )
+        );
+    }
 
     getReports() {
         // const newForm = {

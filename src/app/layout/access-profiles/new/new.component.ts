@@ -1,16 +1,16 @@
 import { AccessProfilesService } from './../../../services/access-profiles/access-profiles.service';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { CaseInsensitive } from './../../../utils/case-insensitive';
 import { DocumentsService } from './../../../services/documents/documents.service';
 import { CompaniesService } from './../../../services/companies/companies.service';
 import { ErrorMessagesService } from './../../../utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from './../../../utils/success-messages/success-messages.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
-import { Observable } from 'rxjs';
+import { Observable, Subject, merge } from 'rxjs';
 import _ from 'lodash';
 declare var $;
 
@@ -21,6 +21,7 @@ declare var $;
     animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
     public isCollapsed = true;
     profileForm: FormGroup;
     loading: Boolean = false;
@@ -29,7 +30,8 @@ export class NewComponent implements OnInit {
     userExternal = false;
     docts: any = [];
     documentsAll: any = [];
-
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
 
     constructor(
         private _route: Router,
@@ -100,13 +102,15 @@ export class NewComponent implements OnInit {
         );
     }
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
-                let res;
-                if (company.length < 2) {
+                let res = [];
+                if (company.length < 0) {
                     [];
                 } else {
                     res = _.filter(this.companies,
@@ -114,7 +118,8 @@ export class NewComponent implements OnInit {
                 }
                 return res;
             })
-        )
+        );
+    }
 
     searchDocument = (text$: Observable<string>) =>
         text$.pipe(
