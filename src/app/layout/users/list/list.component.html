@@ -8,17 +8,29 @@
         }"></ngx-loading>
     <div class="card bg-light mb-3">
         <div class="card-header">
-            <app-page-header [heading]="'Usuários'" [icon]="'fa-table'" [btnNew]="'Novo Usuário'"
-                [permissionBtnNew]="permissionNew" [routerTo]="'/users/new'">
-            </app-page-header>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Usuários</h3>
+                </div>
+                <div class="col-lg-1" id="newUser">
+                    <app-page-header [icon]="'fa-table'" [btnNew]="'Novo Usuário'" [permissionBtnNew]="permissionNew"
+                        [routerTo]="'/users/new'">
+                    </app-page-header>
+                </div>
+            </div>
+            <div class="row text-right">
+                <div class="col-lg-12">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <form [formGroup]="searchForm" (ngSubmit)="getUsers()" role="FormGroup" class="form">
-                <div class="row">
+                <div class="row" id="passo1">
                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                         <label for="labelName">Nome</label>
-                        <input id="name" autoFocus="true" type="text" placeholder="Nome do Usuário"
-                            class="form-control" formControlName="name" style="width: 100%"/>
+                        <input id="name" autoFocus="true" type="text" placeholder="Nome do Usuário" class="form-control"
+                            formControlName="name" style="width: 100%" />
                     </div>
                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                         <label for="labelEmail">E-mail</label>
@@ -27,12 +39,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-12 col-sm-12 text-center">
+                    <div class="form-group col-lg-12 col-sm-12 text-center" id="passo2">
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button type="button" class="btn btn-dark" style="margin-left: 5px;"
-                            [disabled]="name.invalid" (click)="clear()">
+                        <button type="button" class="btn btn-dark" style="margin-left: 5px;" [disabled]="name.invalid"
+                            (click)="clear()">
                             Limpar Campos
                         </button>
                     </div>
@@ -40,6 +52,8 @@
             </form>
         </div>
     </div>
-    <app-datatables [data]="users" (setPage)="setPageUsers($event)" (show)="getUser($event)" [columns]="columns">
-    </app-datatables>
+    <div id="passo3">
+        <app-datatables [data]="users" (setPage)="setPageUsers($event)" (show)="getUser($event)" [columns]="columns">
+        </app-datatables>
+    </div>
 </div>

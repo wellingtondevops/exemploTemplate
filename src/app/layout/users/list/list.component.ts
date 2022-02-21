@@ -12,6 +12,7 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import { Page } from 'src/app/models/page';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import _ from 'lodash';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -56,6 +57,8 @@ export class ListComponent implements OnInit {
         public modal: NgbActiveModal,
         private fb: FormBuilder,
         private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
+
     ) { }
 
     ngOnInit() {
@@ -72,6 +75,10 @@ export class ListComponent implements OnInit {
         }
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
         this.getUsers();
+    }
+
+    help(): void {
+        this.introService.IntroUser();
     }
 
     get name() {

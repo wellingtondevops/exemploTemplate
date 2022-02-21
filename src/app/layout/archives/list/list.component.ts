@@ -20,6 +20,7 @@ import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from '../../../utils/case-insensitive';
 import * as moment from 'moment';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-list',
@@ -78,7 +79,9 @@ export class ListComponent implements OnInit {
         private warningMsg: WarningMessagesService,
         private localStorageSrv: SaveLocal,
         private utilCase: CaseInsensitive,
-        config: NgbTypeaheadConfig
+        config: NgbTypeaheadConfig,
+        private introService: IntroJsService,
+
     ) {
         config.showHint = true;
         config.container = 'body';
@@ -128,6 +131,10 @@ export class ListComponent implements OnInit {
         this.getStoreHouses();
         this.searchForm.patchValue({ endDate: null });
         this.checkValue();
+    }
+
+    help(): void {
+        this.introService.featureTwo();
     }
 
     formatter = (x: { name: string }) => x.name;
