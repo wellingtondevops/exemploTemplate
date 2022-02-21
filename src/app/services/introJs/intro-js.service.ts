@@ -95,19 +95,23 @@ export class IntroJsService {
                     {
                         element: '#passo1',
                         intro:
-                            '<strong>Bem-vindo a criação de Usuário!</strong></br>Preencha estes capos com as informações do novo usuário.',
+                            '<strong>Bem-vindo a edição de Usuário!</strong></br>Use a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações do usuário ou <strong>Excluir </strong> para deletar o usuário.',
                     },
                     {
                         element: '#passo2',
                         intro:
-                            'Marque as opções para dar permissão ou desmarque para não permitir',
+                            'Informações referentes ao usuário, podem ser <strong>Editadas </strong>, utilizando o botão <strong>Alterar</strong>',
                     },
                     {
                         element: '#passo3',
                         intro:
-                            'Ultilize <strong>Salvar </strong> para concluir a criação do novo usuário ou <strong>Voltar</strong> para retornar a pagina de pesquisa. <br/> Documentos que o usuário terá acesso, são adicionados na proxima pagina!',
-                        tooltipPosition: 'bottom',
-                    }
+                            'Lista das <strong>Empresas </strong> que o usuário tem permissão, empresas adicionadas aparecerão aqui.<br/> <strong>Clique</strong> sobre o nome da empresa, para adicionar documentos.',
+                    },
+                    {
+                        element: '#passo4',
+                        intro:
+                            'Use este botão para <strong>Adicionar </strong> mais empresas a lista.',
+                    },
                 ]
             })
             .start();

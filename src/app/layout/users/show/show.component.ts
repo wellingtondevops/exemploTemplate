@@ -17,6 +17,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 declare var $: any;
 
 const MODALS = {
@@ -67,6 +68,7 @@ export class ShowComponent implements OnInit {
         private companiesSrv: CompaniesService,
         config: NgbModalConfig,
         private permissionsSrv: UserPermissionsService,
+        private introService: IntroJsService
     ) {
         config.backdrop = 'static';
         config.keyboard = false;
@@ -104,6 +106,10 @@ export class ShowComponent implements OnInit {
             searchPlaceholderText: 'Pesquisar'
         };
 
+    }
+
+    help(): void {
+        this.introService.IntroShowUser();
     }
 
     getProfiles() {

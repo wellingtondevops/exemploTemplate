@@ -8,8 +8,15 @@
     </ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <h3>Dados do Usuário</h3>
-            <div style="margin-bottom: 10px" *ngIf="user">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Dados do Usuário</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px" *ngIf="user" id="passo1">
                 <button style="margin-left: 5px" class="btn btn-sm btn-dark" (click)="goBack()">
                     <i class="fa fa-arrow-left" style="color:white"></i>
                 </button>
@@ -21,7 +28,7 @@
         <div class="card-body" *ngIf="user">
             <form [formGroup]="userForm" role="FormGroup">
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-7" id="passo2">
                         <div class="form-group">
                             <label for="" style="margin-bottom: 0px;">Nome</label>
                             <input type="text" formControlName="name" class="form-control input-underline input-lg"
@@ -64,10 +71,10 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-5 pull-right" *ngIf="isViewPermission">
+                    <div class="col-lg-5 pull-right" *ngIf="isViewPermission" id="passo3">
                         <div class="row">
                             <div class="col">
-                                <button type="button" title="Adicionar Empresa" (click)="openMod(content)"
+                                <button type="button" title="Adicionar Empresa" id="passo4" (click)="openMod(content)"
                                     class="btn btn-success btn-xs pull-right">
                                     <i class="fa fa-plus"></i>
                                 </button>
