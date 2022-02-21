@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import _ from 'lodash';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -57,6 +58,8 @@ export class UsersPermissionsComponent implements OnInit {
         private profilesSrv: AccessProfilesService,
         private permissionsSrv: UserPermissionsService,
         config: NgbModalConfig,
+        private introService: IntroJsService
+
     ) {
         config.backdrop = 'static';
         config.keyboard = false;
@@ -290,5 +293,9 @@ export class UsersPermissionsComponent implements OnInit {
 
     goBack() {
         this._route.navigate(['/users/get', this.userId]);
+    }
+
+    help(): void {
+        this.introService.UserPermission();
     }
 }

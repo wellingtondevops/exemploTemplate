@@ -109,7 +109,7 @@ export class ShowComponent implements OnInit {
     }
 
     help(): void {
-        this.introService.IntroShowUser();
+        this.introService.ShowUser();
     }
 
     getProfiles() {

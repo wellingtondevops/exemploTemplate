@@ -78,7 +78,7 @@ export class ListComponent implements OnInit {
     }
 
     help(): void {
-        this.introService.IntroUser();
+        this.introService.ListUser();
     }
 
     get name() {

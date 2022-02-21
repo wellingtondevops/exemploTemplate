@@ -8,12 +8,19 @@
         }"></ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <h3>Alterar dados do Usuário</h3>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Alterar dados do Usuário</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body" *ngIf="user">
             <form [formGroup]="userForm" role="FormGroup">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6" id="passo1">
                         <div class="form-group">
                             <label for="" style="margin-bottom: 0px;">Nome</label>
                             <input type="text" formControlName="name" class="form-control input-underline input-lg"
@@ -132,7 +139,7 @@
                         </div>
                     </div> -->
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" id="passo2">
                     <button type="button" [routerLink]="['/users/get', user._id]" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
                     <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary"

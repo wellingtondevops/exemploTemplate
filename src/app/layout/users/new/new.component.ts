@@ -74,7 +74,7 @@ export class NewComponent implements OnInit {
     }
 
     help(): void {
-        this.introService.IntroNewUser();
+        this.introService.NewUser();
     }
 
     getProfiles() {

@@ -9,7 +9,7 @@ export class IntroJsService {
 
     constructor() { }
 
-    IntroUser() {
+    ListUser() {
         this.introJS = introJs();
         this.introJS.start();
 
@@ -47,7 +47,7 @@ export class IntroJsService {
             .start();
     }
 
-    IntroNewUser() {
+    NewUser() {
         this.introJS = introJs();
         this.introJS.start();
 
@@ -80,7 +80,7 @@ export class IntroJsService {
             .start();
     }
 
-    IntroShowUser() {
+    ShowUser() {
         this.introJS = introJs();
         this.introJS.start();
 
@@ -95,7 +95,7 @@ export class IntroJsService {
                     {
                         element: '#passo1',
                         intro:
-                            '<strong>Bem-vindo a edição de Usuário!</strong></br>Use a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações do usuário ou <strong>Excluir </strong> para deletar o usuário.',
+                            '<strong>Bem-vindo as informações do Usuário!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações do usuário ou <strong>Excluir </strong> para deletar o usuário.',
                     },
                     {
                         element: '#passo2',
@@ -111,6 +111,90 @@ export class IntroJsService {
                         element: '#passo4',
                         intro:
                             'Use este botão para <strong>Adicionar </strong> mais empresas a lista.',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    EditUser() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#passo1',
+                        intro:
+                            '<strong>Bem-vindo a edição de Usuário!</strong></br>Altere informações ou permissões do usuário.',
+                    },
+                    {
+                        element: '#passo2',
+                        intro:
+                            'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    UserPermission() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#passo1',
+                        intro:
+                            '<strong>Bem-vindo as informações de permissões do Usuário!</strong></br>Nome da <strong>Empresa</strong> que está adicionando permissões.',
+                    },
+                    {
+                        element: '#passo2',
+                        intro:
+                            'Utilize a <strong>Seta </strong> para, retornar a página anterior ou, o botão <strong>Excluir</strong>, para remover a empresa da lista de permissões do usuário.',
+                    },
+                    {
+                        element: '#passo3',
+                        intro:
+                            'Lista de <strong>Documentos </strong> que o usuário tem permissão, documentos adicionadas ou removidos aparecerão aqui.',
+                    },
+                    {
+                        element: '#passo4',
+                        intro:
+                            'Utilize o botão para <strong>Adicionar</strong>, documentos permitidos ao usuário. Marque as opções para adicionar e, não se esqueça de <strong>Salvar</strong>.',
+                    },
+                    {
+                        element: '#passo5',
+                        intro:
+                            'Utilize o botão para <strong>Remover</strong>, documentos permitidos ao usuário. Desmarque as opções para remover e, não se esqueça de <strong>Salvar</strong>.',
+                    },
+                    {
+                        element: '#passo6',
+                        intro:
+                            'Lista de <strong>Perfis </strong> que o usuário possui, perfis adicionadas ou removidos aparecerão aqui.',
+                    },
+                    {
+                        element: '#passo7',
+                        intro:
+                            'Utilize o botão para <strong>Adicionar</strong>, perfis de permissões ao usuário. Marque as opções para adicionar e, não se esqueça de <strong>Salvar',
+                    },
+                    {
+                        element: '#passo8',
+                        intro:
+                            'Utilize o botão para <strong>Remover</strong>, perfis de permissão ao usuário. Desmarque as opções para remover e, não se esqueça de <strong>Salvar',
                     },
                 ]
             })

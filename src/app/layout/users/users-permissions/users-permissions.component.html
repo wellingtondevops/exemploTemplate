@@ -9,12 +9,15 @@
     <div class="card bg-light">
         <div class="card-header">
             <div class="row" style="margin: 0px;">
-                <div class="col-lg-11">
+                <div class="col-lg-11" id="passo1">
                     <h2>{{listComp}}</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="passo2">
                 <div class="col-11">
                     <button style="margin-left: 5px" class="btn btn-sm btn-dark" onclick="window.history.go(-1); return false;">
                         <i class="fa fa-arrow-left" style="color:white"></i>
@@ -36,12 +39,12 @@
                                 <h4>Documentos Permitidos</h4>
                             </div>
                             <div class="card-body">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" id="passo3">
                                     <div style="margin-bottom: 10px;">
-                                        <button class="btn btn-dark" style="margin-right: 3px;"
+                                        <button class="btn btn-dark" style="margin-right: 3px;" id="passo4"
                                             (click)="openAddDoc(addDoc)">Adicionar
                                             Documentos</button>
-                                        <button class="btn btn-danger" (click)="openRemoveDoc(removeDoc)">Remover
+                                        <button class="btn btn-danger" id="passo5" (click)="openRemoveDoc(removeDoc)">Remover
                                             Documentos</button>
                                     </div>
                                     <ul *ngFor="let listItem of documentsList; index as i">
@@ -112,12 +115,12 @@
                                 <h4>Perfis de Acesso</h4>
                             </div>
                             <div class="card-body">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" id="passo6">
                                     <div style="margin-bottom: 10px;">
-                                        <button class="btn btn-dark" style="margin-right: 3px;"
+                                        <button class="btn btn-dark" style="margin-right: 3px;" id="passo7"
                                             (click)="openAddProfile(addProfile)">Adicionar
                                             Perfis</button>
-                                        <button class="btn btn-danger"
+                                        <button class="btn btn-danger" id="passo8"
                                             (click)="openRemoveProfile(removeProfile)">Remover
                                             Perfis</button>
                                     </div>
