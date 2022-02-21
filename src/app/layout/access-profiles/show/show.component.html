@@ -9,11 +9,14 @@
     <div class="card bg-light">
         <div class="card-header">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-11">
                     <h3>Perfil de Acesso</h3>
                 </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
             </div>
-            <div class="row">
+            <div class="row" id="step1">
                 <div class="col-lg-10">
                     <app-button-back [redirectTo]="'access-profiles'"></app-button-back>
                     <app-buttons-custom [id]="accessProfile">
@@ -32,7 +35,7 @@
         <div class="card-body">
             <form [formGroup]="accessProfileForm" role="FormGroup">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6" id="step2">
                         <div class="form-group">
                             <label for="typeahead-basic">Empresa</label>
                             <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
@@ -45,7 +48,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-6" id="step3">
                         <h5>Permissões</h5>
                         <div class="form-group">
                             <div class="card bg-light col-lg-12" style="margin-bottom: 10px">

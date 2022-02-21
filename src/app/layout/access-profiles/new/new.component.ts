@@ -12,6 +12,7 @@ import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core
 import { routerTransition } from 'src/app/router.animations';
 import { Observable, Subject, merge } from 'rxjs';
 import _ from 'lodash';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 declare var $;
 
 @Component({
@@ -42,8 +43,8 @@ export class NewComponent implements OnInit {
         private errorMsg: ErrorMessagesService,
         private companiesSrv: CompaniesService,
         private documentsSrv: DocumentsService,
-        private utilCase: CaseInsensitive
-
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService
     ) { }
 
     ngOnInit() {
@@ -180,5 +181,9 @@ export class NewComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    help(): void {
+        this.introService.NewAccess();
     }
 }

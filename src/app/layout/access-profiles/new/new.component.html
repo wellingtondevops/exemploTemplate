@@ -8,12 +8,19 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <h2>Novo Perfil de Acesso </h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Novo Perfil de Acesso </h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <form [formGroup]="profileForm" role="FormGroup">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" id="step1">
                         <div class="form-group">
                             <label for="" style="margin-bottom: 0px;">Empresa</label>
                             <input type="text" formControlName="company" class="form-control"
@@ -97,14 +104,14 @@
                         </div>
                     </div> -->
                 </div>
-                <div class="col-lg-12">
-                    <br />
-                    <button type="submit" class="btn btn-primary" (click)="postProfile()" style="float: right"
-                        [disabled]="name.invalid">
-                        Salvar
-                    </button>
-                    <button type="button" [routerLink]="['/access-profiles']" class="btn btn-default"
-                        style="float: right;margin-right: 10px;">Voltar</button>
+                <div class="row">
+                    <div class="col-lg-12 text-right" id="step2">
+                        <button type="submit" class="btn btn-primary" (click)="postProfile()" [disabled]="name.invalid">
+                            Salvar
+                        </button>
+                        <button type="button" [routerLink]="['/access-profiles']"
+                            class="btn btn-default">Voltar</button>
+                    </div>
                 </div>
             </form>
         </div>

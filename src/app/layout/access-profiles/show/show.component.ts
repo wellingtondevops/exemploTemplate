@@ -13,6 +13,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 
 const MODALS = {
@@ -54,6 +55,7 @@ export class ShowComponent implements OnInit {
         private documentsSrv: DocumentsService,
         private companiesSrv: CompaniesService,
         config: NgbModalConfig,
+        private introService: IntroJsService,
     ) {
         config.backdrop = 'static';
         config.keyboard = false;
@@ -230,6 +232,10 @@ export class ShowComponent implements OnInit {
     }
     openMod(content) {
         this.modalService.open(content, { size: 'lg', windowClass: 'my-class', });
+    }
+
+    help(): void {
+        this.introService.ShowAccess();
     }
 
 }

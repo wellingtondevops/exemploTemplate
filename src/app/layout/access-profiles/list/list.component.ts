@@ -15,6 +15,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { Observable, merge, Subject } from 'rxjs';
 import _ from 'lodash';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-list',
@@ -59,6 +60,7 @@ export class ListComponent implements OnInit {
         private localStorageSrv: SaveLocal,
         private utilCase: CaseInsensitive,
         private companiesSrv: CompaniesService,
+        private introService: IntroJsService
 
     ) { }
 
@@ -166,5 +168,9 @@ export class ListComponent implements OnInit {
             company: null,
             name: null
         });
+    }
+
+    help(): void {
+        this.introService.ListAccess();
     }
 }

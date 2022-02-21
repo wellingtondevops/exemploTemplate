@@ -201,7 +201,7 @@ export class IntroJsService {
             .start();
     }
 
-    featureTwo() {
+    ListAccess() {
         this.introJS = introJs();
         this.introJS.start();
 
@@ -216,19 +216,84 @@ export class IntroJsService {
                     {
                         element: '#step1',
                         intro:
-                            '<strong>Bem-vindo a pesquisa de Arquivos!</strong><br/> Nesta área você possui filtros de pesquisa, sendo a Empresa um campo <strong>obrigatório</strong> e o restante dos campos opcionais.',
+                            '<strong>Bem-vindo a pesquisa de Perfis!</strong></br>Para criar um novo perfil, basta usar esta opção.',
                     },
                     {
                         element: '#step2',
                         intro:
-                            '<strong>Botões de Pesquisa</strong></br>Inicie sua pesquisa para buscar documentos conforme filtros ou limpe os campos, para uma nova pesquisa.',
+                            'Nesta área você pode utilizar os filtros de pesquisa, para ter uma busca com melhores resultados.',
                     },
                     {
                         element: '#step3',
                         intro:
-                            'Nesta área vocẽ é exibido os resultados da pesquisa, e clicando na linha desejada terá acesso ao documento!',
+                            'Ultilize a <strong>Lupa</strong> para realizar sua pesquisa, caso queira realizar outra busca, basta utilizar <strong>Limpar Campos</strong> para limpar os campos dos filtros.',
+                        tooltipPosition: 'bottom',
+                    }, {
+                        element: '#step4',
+                        intro:
+                            'Aqui será exibido o <strong>Resultado</strong> de sua pesquisa, para mais detalhes basta clicar, no usuário desejado.',
                         tooltipPosition: 'bottom',
                     },
+                ]
+            })
+            .start();
+    }
+
+    NewAccess() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a criação de Perfis!</strong></br>Preencha estes capos com as informações do novo perfil.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para concluir a criação do novo perfil ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
+                        tooltipPosition: 'bottom',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    ShowAccess() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações de Perfis!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações do perfil ou <strong>Excluir </strong> para deletar o perfil.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações referentes ao perfil, podem ser <strong>Editadas</strong>, utilizando o botão <strong>Alterar</strong>',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Lista das <strong>Permissões</strong> que o perfil possui.<br/> <strong>Clique</strong> para exibir os documentos permitidos.',
+                    }
                 ]
             })
             .start();

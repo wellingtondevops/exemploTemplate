@@ -133,10 +133,6 @@ export class ListComponent implements OnInit {
         this.checkValue();
     }
 
-    help(): void {
-        this.introService.featureTwo();
-    }
-
     formatter = (x: { name: string }) => x.name;
 
     get company() {
