@@ -655,7 +655,7 @@ export class IntroJsService {
                     {
                         element: '#step1',
                         intro:
-                            '<strong>Bem-vindo a pesquisa de Empresas!</strong>.<br/> Clique em <strong>Nova Empresa</strong>, para criar uma Empresa.',
+                            '<strong>Bem-vindo a pesquisa de Departamentos!</strong>.<br/> Clique em <strong>Novo Departamento</strong>, para criar um departamento.',
                     },
                     {
                         element: '#step2',
@@ -693,7 +693,7 @@ export class IntroJsService {
                     {
                         element: '#step1',
                         intro:
-                            '<strong>Bem-vindo a criação de Empresas!</strong></br>Preencha estes campos com as informações da nova Empresa.',
+                            '<strong>Bem-vindo a criação de Departamento!</strong></br>Preencha estes campos com as informações do novo departamento.',
                     },
                     {
                         element: '#step2',
@@ -721,12 +721,12 @@ export class IntroJsService {
                     {
                         element: '#step1',
                         intro:
-                            '<strong>Bem-vindo as informações da Empresa!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar a empresa.',
+                            '<strong>Bem-vindo as informações do Departamento!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Departamento.',
                     },
                     {
                         element: '#step2',
                         intro:
-                            'Informações gerais sobre a Empresa, para saber mais informações navegue entre as abas',
+                            'Informações gerais sobre o Departamento',
                     }
                 ]
             })
