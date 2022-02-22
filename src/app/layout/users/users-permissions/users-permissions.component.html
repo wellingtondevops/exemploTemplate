@@ -9,7 +9,7 @@
     <div class="card bg-light">
         <div class="card-header">
             <div class="row" style="margin: 0px;">
-                <div class="col-lg-11" id="passo1">
+                <div class="col-lg-11" id="step1">
                     <h2>{{listComp}}</h2>
                 </div>
                 <div class="col-lg-1 text-right">
@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="row" id="passo2">
+            <div class="row" id="step2">
                 <div class="col-11">
                     <button style="margin-left: 5px" class="btn btn-sm btn-dark" onclick="window.history.go(-1); return false;">
                         <i class="fa fa-arrow-left" style="color:white"></i>
@@ -39,12 +39,12 @@
                                 <h4>Documentos Permitidos</h4>
                             </div>
                             <div class="card-body">
-                                <div class="col-lg-12" id="passo3">
+                                <div class="col-lg-12" id="step3">
                                     <div style="margin-bottom: 10px;">
-                                        <button class="btn btn-dark" style="margin-right: 3px;" id="passo4"
+                                        <button class="btn btn-dark" style="margin-right: 3px;" id="step4"
                                             (click)="openAddDoc(addDoc)">Adicionar
                                             Documentos</button>
-                                        <button class="btn btn-danger" id="passo5" (click)="openRemoveDoc(removeDoc)">Remover
+                                        <button class="btn btn-danger" id="step5" (click)="openRemoveDoc(removeDoc)">Remover
                                             Documentos</button>
                                     </div>
                                     <ul *ngFor="let listItem of documentsList; index as i">
@@ -115,12 +115,12 @@
                                 <h4>Perfis de Acesso</h4>
                             </div>
                             <div class="card-body">
-                                <div class="col-lg-12" id="passo6">
+                                <div class="col-lg-12" id="step6">
                                     <div style="margin-bottom: 10px;">
-                                        <button class="btn btn-dark" style="margin-right: 3px;" id="passo7"
+                                        <button class="btn btn-dark" style="margin-right: 3px;" id="step7"
                                             (click)="openAddProfile(addProfile)">Adicionar
                                             Perfis</button>
-                                        <button class="btn btn-danger" id="passo8"
+                                        <button class="btn btn-danger" id="step8"
                                             (click)="openRemoveProfile(removeProfile)">Remover
                                             Perfis</button>
                                     </div>

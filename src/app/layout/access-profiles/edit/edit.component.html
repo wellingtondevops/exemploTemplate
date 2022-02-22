@@ -8,12 +8,19 @@
         }"></ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <h3>Alterar Perfil de Acesso</h3>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Alterar Perfil de Acesso</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <form [formGroup]="accessProfileForm" role="FormGroup">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6" id="step1">
                         <div class="form-group">
                             <label for="company">Empresa</label>
                             <input id="company" type="text" class="form-control" formControlName="company"
@@ -35,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6" id="step2">
                         <div class="card">
                             <div class="card-header">
                                 <h5>Permissões</h5>
@@ -43,9 +50,9 @@
                             <div class="card-body">
                                 <div style="margin-bottom: 10px;">
                                     <button class="btn btn-sm btn-dark" style="margin-right:5px;"
-                                        (click)="open(content)">Adicionar
+                                        (click)="open(content)" id="step3">Adicionar
                                         Documentos</button>
-                                    <button class="btn btn-sm btn-danger" (click)="open2(conte)">Remover
+                                    <button class="btn btn-sm btn-danger" (click)="open2(conte)" id="step4">Remover
                                         Documentos</button>
                                 </div>
                                 <ul *ngFor="let listItem of listDoc; index as i">
@@ -108,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="step5">
                         <div class="col-lg-12 pull-right text-right">
                             <button type="button" (click)="goBack()" class="btn btn-danger"
                                 style="margin-right:10px">Cancelar</button>

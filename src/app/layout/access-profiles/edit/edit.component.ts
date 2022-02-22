@@ -14,6 +14,7 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import _ from 'lodash';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-edit',
@@ -51,7 +52,8 @@ export class EditComponent implements OnInit {
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private companiesSrv: CompaniesService,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService
     ) {
         config.backdrop = 'static';
         config.keyboard = false;
@@ -245,5 +247,9 @@ export class EditComponent implements OnInit {
         } else {
             this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
         }
+    }
+
+    help(): void {
+        this.introService.EditAccess();
     }
 }

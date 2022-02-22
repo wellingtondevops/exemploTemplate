@@ -20,7 +20,7 @@
         <div class="card-body" *ngIf="user">
             <form [formGroup]="userForm" role="FormGroup">
                 <div class="row">
-                    <div class="col-lg-6" id="passo1">
+                    <div class="col-lg-6" id="step1">
                         <div class="form-group">
                             <label for="" style="margin-bottom: 0px;">Nome</label>
                             <input type="text" formControlName="name" class="form-control input-underline input-lg"
@@ -139,7 +139,7 @@
                         </div>
                     </div> -->
                 </div>
-                <div class="pull-right" id="passo2">
+                <div class="pull-right" id="step2">
                     <button type="button" [routerLink]="['/users/get', user._id]" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
                     <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary"
