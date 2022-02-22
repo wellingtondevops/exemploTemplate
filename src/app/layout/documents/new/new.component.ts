@@ -39,10 +39,6 @@ export class NewComponent implements OnInit {
     topic: Topic;
     topicForm: FormGroup;
 
-
-
-
-
     constructor(
         private _route: Router,
         private fb: FormBuilder,
