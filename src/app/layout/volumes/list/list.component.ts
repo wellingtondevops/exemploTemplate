@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { Component, OnInit, ElementRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 import { VolumesService } from 'src/app/services/volumes/volumes.service';
@@ -103,7 +104,8 @@ export class ListComponent implements OnInit {
         private documentsSrv: DocumentsService,
         private warningMsg: WarningMessagesService,
         private localStorageSrv: SaveLocal,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {
         this.guardTypeList = GuardyTypeVolumeEnum;
     }
@@ -376,5 +378,9 @@ export class ListComponent implements OnInit {
         this.dateSent =
             new Date(this.dateSent).toISOString().slice(0, 10);
         this.dateReceived = this.dateSent;
+    }
+
+    help(){
+        this.introService.ListVolumes();
     }
 }

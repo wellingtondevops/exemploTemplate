@@ -19,6 +19,7 @@ import { environment } from '../../../../environments/environment';
 const url = environment.apiUrl;
 import _ from 'lodash';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 
 @Component({
@@ -67,7 +68,8 @@ export class ImportVolumeComponent implements OnInit {
         private companiesSrv: CompaniesService,
         private successMsgSrv: SuccessMessagesService,
         private fb: FormBuilder,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {
         this.statusList = StatusVolumeEnum;
         this.volumeTypeList = VolumeTypeEnum;
@@ -327,6 +329,10 @@ export class ImportVolumeComponent implements OnInit {
             map(departament => (departament === '' ? this.departaments
                 : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
             )));
+    }
+
+    help() {
+        this.introService.importVolumes();
     }
 }
 /* @Pipe({

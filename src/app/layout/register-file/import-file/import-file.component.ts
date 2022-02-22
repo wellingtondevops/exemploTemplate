@@ -20,6 +20,7 @@ import _ from 'lodash';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { FilesService } from 'src/app/services/files/files.service';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-import-file',
@@ -89,7 +90,8 @@ export class ImportFileComponent implements OnInit {
         private departamentsSrv: DepartamentsService,
         private archivesSrv: ArquivesService,
         private filesSrv: FilesService,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {
         this.importFileForm = this.fb.group({
             company: this.fb.control('', [Validators.required]),
@@ -412,6 +414,10 @@ export class ImportFileComponent implements OnInit {
             departament: null,
             doct: null,
         });
+    }
+
+    help() {
+        this.introService.importArchives();
     }
 
     /* async postArquive(data) {

@@ -8,19 +8,25 @@
     </ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <h2>Dados do Volume</h2>
-            <div style="margin-bottom: 10px">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Dados do Volume</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px" id="step1">
                 <app-button-back [redirectTo]="'volumes'"></app-button-back>
-                <app-buttons-custom (edit)="editVolume(volume._id)"
-                    (delete)="open('focusFirst', volume._id)" [permissionEdit]="permissionEdit && !isUsers "
-                    [permissionDelete]="permissionDelete && !isUsers">
+                <app-buttons-custom (edit)="editVolume(volume._id)" (delete)="open('focusFirst', volume._id)"
+                    [permissionEdit]="permissionEdit && !isUsers " [permissionDelete]="permissionDelete && !isUsers">
                 </app-buttons-custom>
                 <br />
             </div>
         </div>
         <div class="card-body">
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="updateVolume()">
-                <div class="form-content">
+                <div class="form-content" id="step2">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" type="text" class="form-control" formControlName="company"

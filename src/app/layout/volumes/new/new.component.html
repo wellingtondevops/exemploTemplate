@@ -8,12 +8,18 @@
     </ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <!-- <app-page-header [heading]="'Novo Volume'" [icon]="'fa-user'"></app-page-header> -->
-            <h2>Novo Volume</h2>
+<div class="row">
+    <div class="col-lg-11">
+        <h2>Novo Volume</h2>
+    </div>
+    <div class="col-lg-1 text-right">
+        <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+    </div>
+</div>
         </div>
         <div class="card-body">
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="postVolume()">
-                <div class="form-content">
+                <div class="form-content" id="step1">
                     <div class="row">
                         <div class="col-lg-12">
                             <button type="button" class="btn btn-default pull-right" (click)="blockInputs()">
@@ -153,7 +159,7 @@
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" id="step2">
                     <button type="button" [routerLink]="['/volumes']" class="btn btn-default"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary"

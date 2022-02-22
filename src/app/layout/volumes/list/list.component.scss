@@ -1,10 +1,11 @@
-@import '~pretty-checkbox/src/pretty-checkbox.scss';
+@import "~@mdi/font/css/materialdesignicons.css";
+@import "~pretty-checkbox/src/pretty-checkbox.scss";
 .color-ATIVO {
-  color: green;
+    color: green;
 }
 .color-EMPRESTADO {
-  color: yellow;
+    color: yellow;
 }
 .color-BAIXADO {
-  color: red;
+    color: red;
 }

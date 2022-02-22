@@ -18,6 +18,7 @@ import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { Router } from '@angular/router';
 import { Page } from 'src/app/models/page';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-new',
@@ -59,7 +60,8 @@ export class NewComponent implements OnInit {
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private fb: FormBuilder,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {
         this.statusList = StatusVolumeEnum;
         this.volumeTypeList = VolumeTypeEnum;
@@ -269,6 +271,11 @@ export class NewComponent implements OnInit {
                 return res;
             }));
     }
+
+    help() {
+        this.introService.NewVolume();
+    }
+
 }
 @Pipe({
     name: 'enumToArray'
