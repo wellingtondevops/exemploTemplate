@@ -15,13 +15,13 @@
                     <h2>Arquivos</h2>
                 </div>
                 <div class="col-lg-1 text-right">
-                    <i class="mdi mdi-help-circle mdi-24px" (click)="help()"></i>
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
             </div>
         </div>
         <div class="card-body">
             <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
-                <div id="step1">
+                <div id="step2">
                     <div class="row">
                         <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-focus">Empresa</label>
@@ -144,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="step3">
                         <div class="form-group col-lg-4 col-sm-12">
                             <label for="typeahead-scrollable">Documento</label>
                             <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
@@ -171,7 +171,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row col-12 text-center" id="step2">
+                <div class="row col-12 text-center" id="step4">
                     <div class="form-group ">
                         <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                             <i class="fa fa-search"></i>
@@ -202,7 +202,7 @@
             </form>
         </div>
     </div>
-    <div id="step3">
+    <div id="step5">
         <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50"
             [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
             [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="showView($event)">
