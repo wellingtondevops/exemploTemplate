@@ -441,7 +441,7 @@ export class IntroJsService {
                     {
                         element: '#step1',
                         intro:
-                            '<strong>Bem-vindo a criação de Depósitos!</strong></br>Preencha estes capos com as informações do novo Depósito.',
+                            '<strong>Bem-vindo a criação de Depósitos!</strong></br>Preencha estes campos com as informações do novo Depósito.',
                     },
                     {
                         element: '#step2',
@@ -507,6 +507,248 @@ export class IntroJsService {
                         element: '#step1',
                         intro:
                             '<strong>Bem-vindo a edição de Depósito!</strong></br>Altere informações ou permissões.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    // Empresas
+    ListCompany() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a pesquisa de Empresas!</strong>.<br/> Clique em <strong>Nova Empresa</strong>, para criar uma Empresa.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Nesta área você pode utilizar o filtro de pesquisa, para ter uma busca com melhores resultados.',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Ultilize a <strong>Lupa</strong> para realizar sua pesquisa, caso queira realizar outra busca, basta utilizar <strong>Limpar Campos</strong> para limpar os campos dos filtros.',
+                        tooltipPosition: 'bottom',
+                    }, {
+                        element: '#step4',
+                        intro:
+                            'Aqui será exibido o <strong>Resultado</strong> de sua pesquisa, para mais detalhes basta clicar, no depósito desejado.',
+                        tooltipPosition: 'bottom',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    NewCompany() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a criação de Empresas!</strong></br>Preencha estes campos com as informações da nova Empresa.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para concluir a criação da  nova empresa ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
+                        tooltipPosition: 'bottom',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    ShowCompany() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações da Empresa!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar a empresa.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações gerais sobre a Empresa, para saber mais informações navegue entre as abas',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    EditCompany() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a edição de Empresa!</strong></br>Altere informações.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    // Empresas
+    ListDepartment() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a pesquisa de Empresas!</strong>.<br/> Clique em <strong>Nova Empresa</strong>, para criar uma Empresa.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Nesta área você pode utilizar o filtro de pesquisa, para ter uma busca com melhores resultados.',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Ultilize a <strong>Lupa</strong> para realizar sua pesquisa, caso queira realizar outra busca, basta utilizar <strong>Limpar Campos</strong> para limpar os campos dos filtros.',
+                        tooltipPosition: 'bottom',
+                    }, {
+                        element: '#step4',
+                        intro:
+                            'Aqui será exibido o <strong>Resultado</strong> de sua pesquisa, para mais detalhes basta clicar, no depósito desejado.',
+                        tooltipPosition: 'bottom',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    NewDepartment() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a criação de Empresas!</strong></br>Preencha estes campos com as informações da nova Empresa.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para concluir a criação da  nova empresa ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
+                        tooltipPosition: 'bottom',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    ShowDepartment() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações da Empresa!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar a empresa.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações gerais sobre a Empresa, para saber mais informações navegue entre as abas',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    EditDepartment() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a edição de Empresa!</strong></br>Altere informações.',
                     },
                     {
                         element: '#step2',

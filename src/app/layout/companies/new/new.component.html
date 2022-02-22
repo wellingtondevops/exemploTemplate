@@ -8,12 +8,19 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <h2>Criar nova Empresa</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Criar nova Empresa</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header [heading]="'Nova Empresa'" [icon]="'fa-user'"></app-page-header> -->
         </div>
         <div class="card-body bg-light">
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="postCompany()">
-                <div class="form-content">
+                <div class="form-content" id="step1">
                     <div class="form-group">
                         <label for="">Nome</label>
                         <input id="name" type="text" placeholder="Nome da Empresa" class="form-control"
@@ -153,7 +160,7 @@
             </div>
           </div> -->
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" id="step2">
                     <button type="button" [routerLink]="['/companies']" class="btn btn-default"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="name.invalid ||

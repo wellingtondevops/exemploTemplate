@@ -8,12 +8,21 @@
     </ngx-loading>
     <div class="card mb-3">
         <div class="card-header">
-            <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'"
-                [permissionBtnNew]="permissionNew" [routerTo]="'/companies/new'"></app-page-header>
+            <div class="row mt-0">
+                <div class="col-lg-12 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div class="row" id="step1">
+                <div class="col-lg-12">
+                    <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'"
+                        [permissionBtnNew]="permissionNew" [routerTo]="'/companies/new'"></app-page-header>
+                </div>
+            </div>
         </div>
         <div class="card-body bg-light">
             <form [formGroup]="searchForm" (ngSubmit)="getCompanies()" role="FormGroup" class="form">
-                <div class="row">
+                <div class="row" id="step2">
                     <div class="form-group col-lg-7 col-sm-12">
                         <label for="labelName">Nome</label>
                         <input id="name" autoFocus="true" type="text" placeholder="Nome da Empresa" class="form-control"
@@ -26,11 +35,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group ml-2 col-lg-12 col-sm-12 text-center">
+                    <div class="form-group ml-2 col-lg-12 col-sm-12 text-center" id="step3">
                         <button type="submit" class="btn btn-primary" [disabled]="name.invalid"><i
                                 class="fa fa-search"></i></button>
-                        <button type="button" class="btn btn-dark" style="margin-left: 10px;"
-                            [disabled]="name.invalid" (click)="clear()">
+                        <button type="button" class="btn btn-dark" style="margin-left: 10px;" [disabled]="name.invalid"
+                            (click)="clear()">
                             Limpar Campo
                         </button>
                     </div>
@@ -38,11 +47,11 @@
             </form>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-12">
-            <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns"
-                (show)="getCompany($event)"></app-datatables>
-        </div>
+<div class="row">
+    <div class="col-12" id="step4">
+        <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" (show)="getCompany($event)">
+        </app-datatables>
     </div>
 </div>
