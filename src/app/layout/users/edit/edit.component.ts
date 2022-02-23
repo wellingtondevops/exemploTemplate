@@ -70,6 +70,8 @@ export class EditComponent implements OnInit {
             print: this.fb.control('', [Validators.required]),
             download: this.fb.control('', [Validators.required]),
             company: this.fb.control(''),
+            receiveCorrection: this.fb.control('', [Validators.required]),
+            receiveLoan: this.fb.control('', [Validators.required]),
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
@@ -246,6 +248,8 @@ export class EditComponent implements OnInit {
                     dateCreated: data.dateCreated,
                     DateAcceptanceTerm: data.DateAcceptanceTerm,
                     acceptanceTerm: data.acceptanceTerm,
+                    receiveLoan: data.receiveLoan,
+                    receiveCorrection: data.receiveCorrection
                 };
 
                 if (this.user.profiles.indexOf('DAENERYS') === 0) {
@@ -264,6 +268,8 @@ export class EditComponent implements OnInit {
                     print: data.print,
                     download: data.download,
                     physicalDocuments: data.physicalDocuments,
+                    receiveLoan: data.receiveLoan,
+                    receiveCorrection: data.receiveCorrection
                 });
                 // this.user.permissions.map(item => {
                 //   this.addPermissionExist(item);
@@ -305,7 +311,7 @@ export class EditComponent implements OnInit {
                     email: this.user.email,
                     name: data.name,
                 });
-                this._route.navigate(['/users']);
+                // this._route.navigate(['/users']);
             },
             error => {
                 this.loading = false;

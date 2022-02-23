@@ -14,6 +14,8 @@ export class User {
     print: boolean;
     DateAcceptanceTerm: string;
     acceptanceTerm: boolean;
+    receiveCorrection: boolean;
+    receiveLoan: boolean;
 }
 export class UserList {
     _links: Pagination;

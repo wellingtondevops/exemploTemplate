@@ -69,6 +69,18 @@
                                         <label>Solicitação de Documentos</label>
                                     </div>
                                 </div>
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" formControlName="receiveCorrection" value="" />
+                                    <div class="state">
+                                        <label>Correções de Arquivos</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" formControlName="receiveLoan" value="" />
+                                    <div class="state">
+                                        <label>Emprestimos de Arquivos</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,7 +155,7 @@
                     <button type="button" [routerLink]="['/users/get', user._id]" class="btn btn-danger"
                         style="margin-right:10px">Cancelar</button>
                     <button type="submit" [routerLink]="['/users/get', user._id]" class="btn btn-primary"
-                        [routerLink]="['/users']" [disabled]="name.invalid || email.invalid || profile.invalid"
+                        [disabled]="name.invalid || email.invalid || profile.invalid"
                         (click)="updateUser()">Salvar</button>
                 </div>
             </form>

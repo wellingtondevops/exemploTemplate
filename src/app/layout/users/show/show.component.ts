@@ -84,7 +84,9 @@ export class ShowComponent implements OnInit {
             physicalDocuments: this.fb.control({ value: '', disabled: true }),
             print: this.fb.control({ value: '', disabled: true }),
             dateCreated: this.fb.control({ value: '', disabled: true }),
-            company: this.selectedItems
+            company: this.selectedItems,
+            receiveCorrection: this.fb.control({ value: '', disabled: true }),
+            receiveLoan: this.fb.control({ value: '', disabled: true }),
         });
 
         this.id = this.route.snapshot.paramMap.get('id');
@@ -228,7 +230,9 @@ export class ShowComponent implements OnInit {
                     physicalDocuments: data.physicalDocuments,
                     dateCreated: data.dateCreated,
                     acceptanceTerm: data.acceptanceTerm,
-                    DateAcceptanceTerm: data.DateAcceptanceTerm
+                    DateAcceptanceTerm: data.DateAcceptanceTerm,
+                    receiveLoan: data.receiveLoan,
+                    receiveCorrection: data.receiveCorrection
                 };
 
                 if (this.user.profiles.indexOf('DAENERYS') === 0) {
@@ -248,6 +252,8 @@ export class ShowComponent implements OnInit {
                     download: data.download,
                     print: data.print,
                     physicalDocuments: data.physicalDocuments,
+                    receiveLoan: data.receiveLoan,
+                    receiveCorrection: data.receiveCorrection,
                     dateCreated: moment(data.dateCreated).format('YYYY-MM-DD'),
                 });
             },
