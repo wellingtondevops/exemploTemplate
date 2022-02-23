@@ -18,6 +18,7 @@ import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-edit',
@@ -50,7 +51,8 @@ export class EditComponent implements OnInit {
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private fb: FormBuilder,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {
         this.statusList = StatusVolumeEnum;
         this.volumeTypeList = VolumeTypeEnum;
@@ -179,7 +181,7 @@ export class EditComponent implements OnInit {
     }
 
     returnId(object) {
-        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
+        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
             if (key === '_id') { return value; }
         })[0];
     }
@@ -208,7 +210,7 @@ export class EditComponent implements OnInit {
         );
     }
 
-    goBack(){
+    goBack() {
         this._route.navigate(['/volumes/get', this.volume._id]);
     }
 
@@ -247,4 +249,8 @@ export class EditComponent implements OnInit {
                     : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
             )
         )
+
+    help() {
+        this.introService.EditVolumes();
+    }
 }

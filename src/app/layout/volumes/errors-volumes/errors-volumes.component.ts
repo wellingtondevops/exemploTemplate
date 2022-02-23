@@ -7,6 +7,7 @@ import { VolumesService } from 'src/app/services/volumes/volumes.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { environment } from '../../../../environments/environment';
 import { SaveLocal } from 'src/app/storage/saveLocal';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 const url = environment.apiUrl;
 
 @Component({
@@ -30,7 +31,8 @@ export class ErrorsVolumesComponent implements OnInit {
         private fb: FormBuilder,
         private volumeSrv: VolumesService,
         private errorMsg: ErrorMessagesService,
-        private localStorageSrv: SaveLocal
+        private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
     ) { }
 
     ngOnInit() {
@@ -102,4 +104,7 @@ export class ErrorsVolumesComponent implements OnInit {
         this.dateReceived = this.dateSent;
     }
 
+    help() {
+        this.introService.volumeErrors();
+    }
 }

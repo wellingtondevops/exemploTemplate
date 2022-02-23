@@ -8,8 +8,15 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
-            <div style="margin-bottom: 10px" *ngIf="!loading">
+            <div class="row">
+                <div class="col-lg-11">
+                    <app-page-header [heading]="'Dados da Empresa'" [icon]="'fa-user'"></app-page-header>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px" *ngIf="!loading" id="step1">
                 <app-button-back [redirectTo]="'companies'"></app-button-back>
                 <app-buttons-custom [id]="company._id" [permissionEdit]="permissionEdit"
                     [permissionDelete]="permissionDelete" (edit)="editCompany(company._id)"
@@ -19,7 +26,7 @@
         </div>
         <div class="card-body bg-light">
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="updateCompany()">
-                <div class="form-content">
+                <div class="form-content" id="step2">
                     <div class="form-group">
                         <label for="">Nome</label>
                         <input id="name" type="text" placeholder="Nome" class="form-control" formControlName="name"

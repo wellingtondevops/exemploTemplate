@@ -9,6 +9,7 @@ import { Masks } from 'src/app/utils/masks';
 import { Router } from '@angular/router';
 import _ from 'lodash';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-new',
@@ -32,7 +33,8 @@ export class NewComponent implements OnInit {
         private companiesSrv: CompaniesService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
-        private errorMsg: ErrorMessagesService
+        private errorMsg: ErrorMessagesService,
+        private introService: IntroJsService,
     ) {
         this.personTypeList = PersonTypeEnum;
 
@@ -164,6 +166,10 @@ export class NewComponent implements OnInit {
                 this.companyForm.addControl('cnpj', new FormControl(null));
                 break;
         }
+    }
+
+    help(){
+        this.introService.NewCompany();
     }
 }
 

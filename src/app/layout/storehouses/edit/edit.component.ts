@@ -5,6 +5,7 @@ import { StorehousesService } from 'src/app/services/storehouses/storehouses.ser
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { routerTransition } from 'src/app/router.animations';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-edit',
@@ -26,7 +27,8 @@ export class EditComponent implements OnInit {
         private storeHouseSrv: StorehousesService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
-        private errorMsg: ErrorMessagesService
+        private errorMsg: ErrorMessagesService,
+        private introService: IntroJsService,
     ) { }
 
     get name() {
@@ -82,5 +84,9 @@ export class EditComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    help() {
+        this.introService.EditStoreHouse();
     }
 }

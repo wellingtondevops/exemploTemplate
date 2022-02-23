@@ -11,6 +11,7 @@ import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators'
 import _ from 'lodash';
 import { routerTransition } from 'src/app/router.animations';
 import { CaseInsensitive } from '../../../utils/case-insensitive'
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-new',
@@ -38,7 +39,9 @@ export class NewComponent implements OnInit {
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private fb: FormBuilder,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
+
     ) {
         this.departamentForm = this.fb.group({
             company: this.fb.control('', [Validators.required]),
@@ -113,6 +116,10 @@ export class NewComponent implements OnInit {
                 return res;
             })
         );
+    }
+
+    help() {
+        this.introService.NewDepartment();
     }
 
 }

@@ -14,6 +14,7 @@ import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.serv
 import { Page } from 'src/app/models/page';
 import _ from 'lodash';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -55,6 +56,7 @@ export class ListComponent implements OnInit {
         private modalService: NgbModal,
         public modal: NgbActiveModal,
         private fb: FormBuilder,
+        private introService: IntroJsService,
         private localStorageSrv: SaveLocal,
     ) { }
 
@@ -196,5 +198,9 @@ export class ListComponent implements OnInit {
         this.searchForm.patchValue({
             name: null
         });
+    }
+
+    help() {
+        this.introService.ListStoreHouse();
     }
 }

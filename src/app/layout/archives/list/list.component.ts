@@ -515,6 +515,10 @@ export class ListComponent implements OnInit {
         console.log(this.dateSent);
         this.dateReceived = this.dateSent;
     }
+
+    help(){
+        this.introService.ListArchives();
+    }
 }
 
 @Pipe({

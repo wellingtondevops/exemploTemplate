@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { Router } from '@angular/router';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 // import { forbiddenNameValidator } from '../../../shared/forbidden-name.directive';
 
 @Component({
@@ -24,7 +25,8 @@ export class NewComponent implements OnInit {
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
-        private _route: Router
+        private _route: Router,
+        private introService: IntroJsService,
     ) {}
 
     ngOnInit() {
@@ -62,5 +64,9 @@ export class NewComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    help(){
+        this.introService.NewStoreHouse();
     }
 }

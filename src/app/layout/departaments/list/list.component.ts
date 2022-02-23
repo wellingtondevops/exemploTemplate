@@ -16,6 +16,7 @@ import { CompaniesService } from 'src/app/services/companies/companies.service';
 import _ from 'lodash';
 import { Observable, Subject, merge } from 'rxjs';
 import { CaseInsensitive } from '../../../utils/case-insensitive'
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -67,6 +68,7 @@ export class ListComponent implements OnInit {
         private companiesSrv: CompaniesService,
         private utilCase: CaseInsensitive,
         private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
     ) { }
 
     ngOnInit() {
@@ -206,5 +208,9 @@ export class ListComponent implements OnInit {
             company: null,
             name: null
         });
+    }
+
+    help() {
+        this.introService.ListDepartment();
     }
 }

@@ -14,6 +14,7 @@ import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators'
 import _ from 'lodash';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-list',
@@ -56,12 +57,11 @@ export class ListComponent implements OnInit {
         private pipes: Pipes,
         private fb: FormBuilder,
         private localStorageSrv: SaveLocal,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) { }
 
     ngOnInit() {
-
-
         this.searchForm = this.fb.group({
             name: this.fb.control(null),
             company: this.fb.control(null, [Validators.required]),
@@ -187,4 +187,9 @@ export class ListComponent implements OnInit {
             name: null
         });
     }
+
+    help() {
+        this.introService.ListDocuments();
+    }
+
 }
