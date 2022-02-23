@@ -30,6 +30,7 @@ export class SidebarComponent implements OnInit {
   isArchivesImport = false;
   isTemplates = false;
   isMenuService = false;
+  isEmailService = false;
   isMenuServicesShows = false;
   isCompanyService = false;
   isCompanyServicesShows = false;
@@ -81,6 +82,7 @@ export class SidebarComponent implements OnInit {
     this.isTotalCollection = this.isTotalCollections();
     this.isScan = this.isScanning();
     this.isAccessProfile = this.isAccessProfiles();
+    this.isEmailService = this.isEmailServices();
   }
 
   eventCalled() {
@@ -262,6 +264,14 @@ export class SidebarComponent implements OnInit {
     }
     return res;
   }
+  isEmailServices() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].emailServices) {
+      res = true;
+    }
+    return res;
+  }
+
   is() {
     let res = false;
     if (JSON.parse(window.localStorage.getItem('routes'))[0].menuServices) {

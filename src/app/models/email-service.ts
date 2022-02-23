@@ -1,5 +1,4 @@
 import { Pagination } from './pagination';
-
 export class EmailService {
     _links: {
         self: string;
