@@ -9,52 +9,53 @@
     </ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <!-- <app-page-header *ngIf="!loading" [heading]="'Arquivo'" [icon]="'fa-user'"></app-page-header> -->
-            <h2>Arquivo</h2>
-            <div style="margin-bottom: 10px" *ngIf="!loading">
-                <app-button-back [redirectTo]="'archives'"></app-button-back>
-                <app-buttons-custom [id]="archive._id" (edit)="editArchive(archive._id)"
-                    (delete)="open('focusFirst', archive._id)" [permissionEdit]="permissionEdit"
-                    [permissionDelete]="permissionDelete" [isUser]="isUsers">
-                </app-buttons-custom>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Arquivo</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1" *ngIf="!loading">
+                    <app-button-back [redirectTo]="'archives'"></app-button-back>
+                </div>
+                <div class="col-lg-11">
+                    <app-buttons-custom [id]="archive._id" (edit)="editArchive(archive._id)"
+                        (delete)="open('focusFirst', archive._id)" [permissionEdit]="permissionEdit"
+                        [permissionDelete]="permissionDelete" [isUser]="isUsers">
+                    </app-buttons-custom>
+                </div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top: 5px;">
             <div class="row" *ngIf="!loading">
                 <div class="col-4">
                     <h5>DADOS DO VOLUME</h5>
                     <div class="card bg-light mb-12">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 10px;">
                             <div>
                                 <strong> EMPRESA: </strong> <br />
                                 <label> {{ archive.company.name }} </label>
                             </div>
-                            <br />
                             <div>
                                 <strong> DEPARTAMENTO: </strong> <br />
                                 <label> {{ archive.departament.name }} </label>
                             </div>
-                            <br />
                             <div>
                                 <strong> DOCUMENTO: </strong> <br />
                                 <label> {{ archive.doct.name }} </label>
                             </div>
-                            <br />
                             <div>
                                 <strong> DEPÓSITO: </strong> <br />
                                 <label> {{ archive.storehouse.name }} </label>
                             </div>
-                            <br />
                             <div>
                                 <strong> POSIÇÃO: </strong> <br />
                                 <label> {{ archive.volume.location }} </label>
                             </div>
                         </div>
                     </div>
-                    <br />
-
-                    <div class="col-lg-4">
-                        <h5>ÍNDICES</h5>
+                    <div class="col-lg-4 mt-2">
+                        <h5 style="margin: 0px;">ÍNDICES</h5>
                     </div>
                     <div class="card bg-light mb-12">
                         <div class="card-body">
@@ -63,7 +64,54 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-8 mb-2">
+                    <form [formGroup]="uploadFile">
+                        <div class="card bg-light mb-1">
+                            <div class="card-body " style="padding: 5px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="" style="margin: 5px;">Correções: </label>
+                                        <div class="pretty p-switch p-fill">
+                                            <input type="radio" name="icon_solid" />
+                                            <div class="state">
+                                                <label>
+                                                    Correção de Imagem
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-switch p-fill">
+                                            <input type="radio" name="icon_solid" />
+                                            <div class="state">
+                                                <label>
+                                                    Correção de Indíce
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-switch p-fill">
+                                            <input type="radio" name="icon_solid" />
+                                            <div class="state">
+                                                <label>
+                                                    Emprestimo
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-10">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Observações" id="floatingTextarea2"
+                                                style="height: 80px; width: 400px;"></textarea>
+                                            <label for="floatingTextarea2">Observações:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 mt-5 text-right">
+                                        <button type="button" class="btn btn-sm btn-dark">Enviar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <form [formGroup]="uploadFile" (ngSubmit)="submit()">
                         <div class="form-group">
                             <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
