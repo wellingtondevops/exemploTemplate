@@ -15,16 +15,23 @@ export class EmailServiceService {
     ) { }
 
     searchListEmails(page, formData) {
-            if (page) {
-                return this.http.post<EmailsList>(`${url}/emails/box?_page=${page.pageNumber}&size=10`, formData)
-                    .pipe(
-                        tap(data => data)
-                    );
-            } else {
-                return this.http.post<EmailsList>(`${url}/emails/box?size=10`, formData)
-                    .pipe(
-                        tap(data => data)
-                    );
-            }
+        if (page) {
+            return this.http.post<EmailsList>(`${url}/emails/box?_page=${page.pageNumber}&size=10`, formData)
+                .pipe(
+                    tap(data => data)
+                );
+        } else {
+            return this.http.post<EmailsList>(`${url}/emails/box?size=10`, formData)
+                .pipe(
+                    tap(data => data)
+                );
+        }
+    }
+
+    showEmail(id) {
+        return this.http.get<EmailServiceList>(`${url}/emails/${id}`)
+            .pipe(
+                tap(data => data)
+            );
     }
 }

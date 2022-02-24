@@ -1,3 +1,6 @@
+import { ErrorMessagesService } from './../../../utils/error-messages/error-messages.service';
+import { EmailServiceList } from './../../../models/email-service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from 'src/app/models/page';
 import { EmailServiceService } from '../../../services/email-service/email-service.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,14 +15,17 @@ declare var $: any;
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-    loading: Boolean = false;
+    loading: Boolean = true;
     listFullEmails: any = [];
     emailsListFull: any = [];
     nameremet: any = [];
     notes: any;
     dateCreated: any;
     highlightValue: any;
+    idArchive: any;
+    id: any;
     page = new Page();
+    Email: EmailServiceList;
     emailsList: EmailsList = {
         items: []
     };
@@ -27,15 +33,16 @@ export class ListComponent implements OnInit {
 
     constructor(
         private _route: Router,
-        private emailSrv: EmailServiceService
-
+        private emailSrv: EmailServiceService,
+        private modalService: NgbModal,
+        private errorMsg: ErrorMessagesService,
     ) { }
 
     ngOnInit() {
         this.getListDocFull();
     }
 
-    getListDocFull() {
+    getListDocFull(i = null) {
         this.emailSrv.searchListEmails(this.page, null).subscribe(
             data => {
                 this.emailsList = data;
@@ -54,12 +61,33 @@ export class ListComponent implements OnInit {
                 this.highlightValue = this.emailsList.items.map(data => {
                     return data.highlighted;
                 });
-                console.log('lista nova', this.highlightValue);
-
+                this.idArchive = this.emailsList.items.map(data => {
+                    return data.archive._id;
+                });
+                // this.id = this.emailsList.items.map(data => {
+                //     return data._id;
+                // });
+                console.log('lista nova', this.id);
+                this.loading = false;
             }
         );
         this.emailsListFull = this.listFullEmails.map(data => {
             return data.title;
         });
+    }
+
+    openEmail(open) {
+        this.emailSrv.showEmail(null).subscribe(data => {
+            this.loading = false;
+            this.Email = data;
+            this.id = data._id;
+        },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR', error);
+            }
+        );
+        this.modalService.open(open, { size: 'lg', windowClass: 'my-class' });
     }
 }
