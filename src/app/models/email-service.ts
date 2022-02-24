@@ -1,5 +1,5 @@
-import { Pagination } from './pagination';
-export class EmailService {
+import { Pagination } from 'src/app/models/pagination';
+export class EmailServiceList {
     _links: {
         self: string;
     };
@@ -16,4 +16,8 @@ export class EmailService {
     highlighted: boolean;
     dateCreated: string;
     notes: string;
+}
+
+export class EmailsList {
+    items: EmailServiceList[];
 }

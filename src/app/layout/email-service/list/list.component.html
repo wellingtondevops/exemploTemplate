@@ -1,3 +1,90 @@
-<p>
-  list works!
-</p>
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <app-page-header [heading]="'Caixa de E-mails'" [icon]="'fa-table'">
+            </app-page-header>
+        </div>
+        <div class="card-body p-0">
+            <div class="btn-group">
+                <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" (click)="this.ngOnInit()"
+                    class="btn mini tooltips">
+                    <i class=" fa fa-refresh"></i>
+                </a>
+            </div>
+            <div class="btn-group hidden-phone">
+                <a data-toggle="dropdown" href="#" class="btn mini blue" aria-expanded="false">
+                    More
+                    <i class="fa fa-angle-down "></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                    <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                </ul>
+            </div>
+            <div class="card-content p-1">
+                <div class="list-group" *ngFor="let listEmails of emailsList.items; index as i">
+                    <!-- If TRUE Show this -->
+                    <div *ngIf="highlightValue[i]">
+                        <a class="list-group-item list-group-item-action mb-1 p-1">
+                            <div class="row text-black text-nowrap">
+                                <div class="col-lg-5 pr-0">
+                                    <small class="m-0 ml-3" style="font-weight: bold;">{{emailsListFull[i]}}</small>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 text-left">
+                                    <div class="col-lg-5 pr-0">
+                                        <div class="pretty p-icon p-toggle p-plain">
+                                            <div class="state p-off">
+                                                <i class="icon mdi mdi-email"></i>
+                                            </div>
+                                        </div>
+                                        <small class="m-0 ml-3" style="font-weight: bold; font-size: small;" *ngIf="highlightValue[i]">{{nameremet[i]}}</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12 text-sm-right">
+                                    <small class="" style="font-style: italic; font-weight: bold;">{{dateCreated[i] | date:'dd/MM/yyyy HH:mm'}}
+                                        <i class="mdi mdi-clock-time-two mdi-18px"></i>
+                                    </small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- If FALSE Show this -->
+                    <div *ngIf="!highlightValue[i]">
+                        <a class="list-group-item list-group-item-action mb-1 p-1" style=" background-color: #F5F7F7;">
+                            <div class="row">
+                                <div class="col-lg-5 pr-0">
+                                    <small class="m-0 ml-3">{{emailsListFull[i]}}</small>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 text-left">
+                                    <div class="col-lg-5 pr-0">
+                                        <div class="pretty p-icon p-toggle p-plain">
+                                            <div class="state p-off">
+                                                <i class="icon mdi mdi-email"></i>
+                                            </div>
+                                        </div>
+                                        <small class="m-0 ml-3" *ngIf="!highlightValue[i]">{{nameremet[i]}}</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12 text-sm-right">
+                                    <small class="" style="font-style: italic;">{{dateCreated[i] |
+                                        date:'dd/MM/yyyy HH:mm'}}
+                                        <i class="mdi mdi-clock-time-two mdi-18px"></i>
+                                    </small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
