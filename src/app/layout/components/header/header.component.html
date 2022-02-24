@@ -16,6 +16,17 @@
             </li> -->
 
 
+            <li class="nav-item">
+                <a [routerLink]="['/email-service']" class="nav-link" role="button" aria-haspopup="true"
+                    aria-expanded="false">
+                    <div *ngIf="(sizeArr | async) !== 0">
+                        <span class="badgeAlertEmail"></span>
+                        <span class="caret"></span>
+                    </div>
+                    <i class="icon mdi mdi-email mdi-18px"></i> <b class="caret"></b>
+                </a>
+            </li>
+
             <!-- MENU NOTIFICATION -->
 
             <li class="nav-item dropdown" ngbDropdown>
@@ -26,7 +37,7 @@
                         <span class="badgeAlert"> {{(sizeArr | async)}} </span>
                         <span class="caret"></span>
                     </div>
-                    <i class="fa fa-bell"></i> <b class="caret"></b>
+                    <i class="icon mdi mdi-bell mdi-18px"></i><b class="caret"></b>
 
                 </a>
 
