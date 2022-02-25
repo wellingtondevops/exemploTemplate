@@ -15,7 +15,7 @@ declare var $: any;
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-    loading: Boolean = true;
+    loading: Boolean = false;
     listFullEmails: any = [];
     emailsListFull: any = [];
     nameremet: any = [];
@@ -43,6 +43,7 @@ export class ListComponent implements OnInit {
     }
 
     getListDocFull(i = null) {
+        this.loading = true;
         this.emailSrv.searchListEmails(this.page, null).subscribe(
             data => {
                 this.emailsList = data;
@@ -69,11 +70,13 @@ export class ListComponent implements OnInit {
                 });
                 // console.log('lista nova', this.id);
                 this.loading = false;
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR', error);
             }
         );
-        this.emailsListFull = this.listFullEmails.map(data => {
-            return data.title;
-        });
     }
 
     openEmail(open) {

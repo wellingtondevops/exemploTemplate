@@ -18,7 +18,7 @@ const MODALS = {
     styleUrls: ['./show.component.scss']
 })
 export class ShowComponent implements OnInit {
-    loading: Boolean = true;
+    loading: Boolean = false;
     id: string;
     Email: EmailServiceList;
     notes: string;
@@ -49,7 +49,6 @@ export class ShowComponent implements OnInit {
     getEmail() {
         this.loading = true;
         this.emailSrv.showEmail(this.id).subscribe(data => {
-            this.loading = false;
             this.Email = data;
             this.id = data._id;
             this.notes = data.notes;
@@ -58,7 +57,8 @@ export class ShowComponent implements OnInit {
             this.title = data.title;
             this.archiveId = data.archive._id;
             this.pending = data.archive.pending;
-            console.log('lista nova', this.pending);
+            // console.log('lista nova', this.pending);
+            this.loading = false;
         },
             error => {
                 this.loading = false;
