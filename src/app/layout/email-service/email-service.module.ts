@@ -9,9 +9,10 @@ import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModu
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TypeaheadModule } from 'ngx-type-ahead';
+import { ShowComponent } from './show/show.component';
 
 @NgModule({
-    declarations: [ListComponent],
+    declarations: [ListComponent, ShowComponent],
     imports: [
         CommonModule,
         NgbModule,

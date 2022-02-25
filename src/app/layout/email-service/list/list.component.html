@@ -34,7 +34,7 @@
                 <div class="list-group" *ngFor="let listEmails of emailsList.items; index as i">
                     <!-- If TRUE Show this -->
                     <div *ngIf="highlightValue[i]">
-                        <a class="list-group-item list-group-item-action mb-1 p-1" (click)="openEmail(open)">
+                        <a class="list-group-item list-group-item-action mb-1 p-1" [routerLink]="['/email-service/get', this.id[i]]">
                             <div class="row text-black text-nowrap">
                                 <div class="col-lg-5 pr-0">
                                     <small class="m-0 ml-3" style="font-weight: bold;">{{emailsListFull[i]}}</small>
@@ -61,7 +61,7 @@
                     </div>
                     <!-- If FALSE Show this -->
                     <div *ngIf="!highlightValue[i]">
-                        <a class="list-group-item list-group-item-action mb-1 p-1" (click)="openEmail(open)"
+                        <a class="list-group-item list-group-item-action mb-1 p-1" [routerLink]="['/email-service/get', this.id[i]]"
                             style=" background-color: #F5F7F7;">
                             <div class="row">
                                 <div class="col-lg-5 pr-0">

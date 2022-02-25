@@ -40,6 +40,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.getListDocFull();
+        this.openEmail();
     }
 
     getListDocFull(i = null) {
@@ -64,10 +65,10 @@ export class ListComponent implements OnInit {
                 this.idArchive = this.emailsList.items.map(data => {
                     return data.archive._id;
                 });
-                // this.id = this.emailsList.items.map(data => {
-                //     return data._id;
-                // });
-                console.log('lista nova', this.id);
+                this.id = this.emailsList.items.map(data => {
+                    return data._id;
+                });
+                // console.log('lista nova', this.id);
                 this.loading = false;
             }
         );
@@ -76,11 +77,12 @@ export class ListComponent implements OnInit {
         });
     }
 
-    openEmail(open) {
-        this.emailSrv.showEmail(null).subscribe(data => {
+    openEmail(i= null) {
+        this.emailSrv.showEmail(this.id).subscribe(data => {
             this.loading = false;
             this.Email = data;
-            this.id = data._id;
+            this.id[i] = data._id[i];
+            console.log('lista nova', this.id);
         },
             error => {
                 this.loading = false;
@@ -88,6 +90,10 @@ export class ListComponent implements OnInit {
                 console.log('ERROR', error);
             }
         );
-        this.modalService.open(open, { size: 'lg', windowClass: 'my-class' });
+        // this.modalService.open(open, { size: 'lg', windowClass: 'my-class' });
+    }
+
+    getAccessProfile(emailService, i) {
+        this._route.navigate(['/email-service/get', emailService._id[i] ]);
     }
 }

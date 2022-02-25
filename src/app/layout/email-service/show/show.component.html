@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h4 class="modal-title" id="modal-basic-title">Assunto: {{title}}</h4>
+    </div>
+    <div class="col-lg-12">
+        <small class="m-0 ml-3">De: {{sender}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-right">
+        <small>{{dateCreated |
+            date:'dd/MM/yyyy HH:mm'}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="col-10">
+        <p class="text-center">{{notes}}</p>
+        <button class="btn bnt-sm btn-outline-dark"  [routerLink]="['/archives/get', archiveId]">Ir para o arquivo</button>
+    </div>
+</div>
