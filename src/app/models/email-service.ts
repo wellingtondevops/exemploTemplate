@@ -17,7 +17,11 @@ export class EmailServiceList {
     dateCreated: string;
     notes: string;
 }
-
 export class EmailsList {
     items: EmailServiceList[];
 }
+
+export enum ResquestEnum {
+    CORRECAO_IMAGEM, CORRECAO_INDICE, EMPRESTIMO,
+}
+

@@ -24,6 +24,7 @@ export class ListComponent implements OnInit {
     highlightValue: any;
     idArchive: any;
     id: any;
+    pending: any;
     page = new Page();
     Email: EmailServiceList;
     emailsList: EmailsList = {
@@ -64,6 +65,9 @@ export class ListComponent implements OnInit {
                 });
                 this.idArchive = this.emailsList.items.map(data => {
                     return data.archive._id;
+                });
+                this.pending = this.emailsList.items.map(data => {
+                    return data.archive.pending;
                 });
                 this.id = this.emailsList.items.map(data => {
                     return data._id;

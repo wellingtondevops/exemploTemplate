@@ -43,6 +43,7 @@ export class Archive {
   finalCurrent: Boolean;
   finalIntermediate: Boolean;
   final: Boolean;
+  pending: Boolean;
 }
 
 class Author {
