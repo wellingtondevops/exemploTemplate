@@ -1,20 +1,68 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h4 class="modal-title" id="modal-basic-title">Assunto: {{title}}</h4>
-    </div>
-    <div class="col-lg-12">
-        <small class="m-0 ml-3">De: {{sender}}</small>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12 text-right">
-        <small>{{dateCreated |
-            date:'dd/MM/yyyy HH:mm'}}</small>
-    </div>
-</div>
-<div class="row">
-    <div class="col-10">
-        <p class="text-center">{{notes}}</p>
-        <button class="btn bnt-sm btn-outline-dark"  [routerLink]="['/archives/get', archiveId]">Ir para o arquivo</button>
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Caixa de Entrada</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div class="row" id="step1">
+                <div class="col-lg-10">
+                    <app-button-back [redirectTo]="'email-service'"></app-button-back>
+                </div>
+                <div class="col-lg-2 text-right ml-0 p-0 pr-2">
+                    <button type="button" class="btn btn-danger btn-sm text-right"
+                        (click)="this.open('focusFirst', Email._id)"
+                        style="font-style: italic; margin-left: 3px;">Excluir</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <h4>Assunto: {{title}}</h4>
+                        </div>
+                        <div class="col-lg-1" *ngIf="!pending == false; else terminate">
+                            <button class="btn bnt-sm btn-outline-danger" disabled>
+                                Pendente
+                            </button>
+                        </div>
+                        <ng-template #terminate>
+                            <div class="col-lg-1" *ngIf="!pending == true">
+                                <button class="btn bnt-sm btn-outline-success" disabled>
+                                    Concluido
+                                </button>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <div class="col-lg-12">
+                        <small class="m-0 ml-3">De: {{sender}} - {{dateCreated |
+                                date:'dd/MM/yyyy HH:mm'}}</small>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <p class="text-center">{{notes}}</p>
+                            <button class="btn bnt-sm btn-outline-dark" [routerLink]="['/archives/get', archiveId]">
+                                Ir para o arquivo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

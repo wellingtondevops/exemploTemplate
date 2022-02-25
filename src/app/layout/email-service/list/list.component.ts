@@ -40,7 +40,6 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.getListDocFull();
-        this.openEmail();
     }
 
     getListDocFull(i = null) {
@@ -77,20 +76,8 @@ export class ListComponent implements OnInit {
         });
     }
 
-    openEmail(i= null) {
-        this.emailSrv.showEmail(this.id).subscribe(data => {
-            this.loading = false;
-            this.Email = data;
-            this.id[i] = data._id[i];
-            console.log('lista nova', this.id);
-        },
-            error => {
-                this.loading = false;
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR', error);
-            }
-        );
-        // this.modalService.open(open, { size: 'lg', windowClass: 'my-class' });
+    openEmail(open) {
+        this.modalService.open(open, { size: 'lg', windowClass: 'my-class' });
     }
 
     getAccessProfile(emailService, i) {

@@ -34,4 +34,8 @@ export class EmailServiceService {
                 tap(data => data)
             );
     }
+
+    delete(id) {
+        return this.http.delete<EmailServiceList>(`${url}/emails/${id}`);
+    }
 }
