@@ -11,15 +11,50 @@
         <ul class="navbar-nav ml-auto">
 
             <!-- Email Notification -->
-            <li class="nav-item">
-                <a [routerLink]="['/email-service']" class="nav-link" role="button" aria-haspopup="true"
-                    aria-expanded="false">
+
+            <li class="nav-item dropdown" ngbDropdown>
+                <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">
+
                     <div *ngIf="(ArrMail | async) !== 0">
                         <span class="badgeAlertEmail"></span>
                         <span class="caret"></span>
                     </div>
                     <i class="icon mdi mdi-email mdi-18px"></i> <b class="caret"></b>
+
                 </a>
+
+                <div class="dropdown-menu-right" ngbDropdownMenu id="notificationMail">
+                    <h6 class="dropdown-header" style="text-align: center">
+                        Notificações de Email
+                    </h6>
+                    <hr style="margin: 0;" />
+                    <div *ngIf="(notifysMail | async) == 0" style="margin-top: 10px; text-align: center; width: 400px;">
+                        <p> Não possui novos Emails </p>
+                    </div>
+                    <div *ngFor="let noti of notifysMail | async">
+                        <hr />
+                        <div class="media"  [routerLink]="['/email-service']" (click)="delete(noti.key)">
+                            <div class="media-left">
+                                <a>
+                                    <i class={{noti.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{noti.title}}</h4>
+                                <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    {{noti.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
+                                </a>
+                                <p>
+                                    {{noti.msg}}
+                                </p>
+                            </div>
+                            <div style="align-items: flex-end; margin-left: 5px;">
+                                <i class="icon mdi mdi-eye mdi-18px" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
 
             <!-- MENU NOTIFICATION -->

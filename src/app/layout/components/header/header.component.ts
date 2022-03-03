@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
     active: boolean;
     key = '';
     notifys: Observable<any>;
+    notifysMail: Observable<any>;
     notifyRef: any;
     sizeArr: Observable<any>;
     ArrMail: Observable<any>;
@@ -41,6 +42,7 @@ export class HeaderComponent implements OnInit {
         // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();
         this.notifys = this.notifyService.getAll(this.userId);
+        this.notifysMail = this.notifyService.getAllMail('email-'+this.userId);
         this.sizeArr = this.notifyService.getlength(this.userId);
         this.ArrMail = this.notifyService.getlengthMail('email-'+this.userId);
 
