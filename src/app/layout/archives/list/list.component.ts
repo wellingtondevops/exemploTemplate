@@ -516,7 +516,7 @@ export class ListComponent implements OnInit {
         this.dateReceived = this.dateSent;
     }
 
-    help(){
+    help() {
         this.introService.ListArchives();
     }
 }

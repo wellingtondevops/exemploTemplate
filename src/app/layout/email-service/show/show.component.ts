@@ -95,7 +95,6 @@ export class ShowComponent implements OnInit {
     }
 
     help(): void {
-        this.introService.ShowAccess();
+        this.introService.ShowEmails();
     }
-
 }

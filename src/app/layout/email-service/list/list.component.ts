@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { ErrorMessagesService } from './../../../utils/error-messages/error-messages.service';
 import { EmailServiceList } from './../../../models/email-service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -37,6 +38,7 @@ export class ListComponent implements OnInit {
         private emailSrv: EmailServiceService,
         private modalService: NgbModal,
         private errorMsg: ErrorMessagesService,
+        private introService: IntroJsService,
     ) { }
 
     ngOnInit() {
@@ -89,5 +91,9 @@ export class ListComponent implements OnInit {
 
     getAccessProfile(emailService, i) {
         this._route.navigate(['/email-service/get', emailService._id[i] ]);
+    }
+
+    help() {
+        this.introService.ListEmails();
     }
 }

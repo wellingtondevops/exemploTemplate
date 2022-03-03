@@ -1,3 +1,4 @@
+import { IntroJsService } from './../../../services/introJs/intro-js.service';
 import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -71,7 +72,9 @@ export class ShowComponent implements OnInit {
         private errorMsg: ErrorMessagesService,
         private modalService: NgbModal,
         private fb: FormBuilder,
-        private localStorageSrv: SaveLocal
+        private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
+
     ) { }
 
     ngOnInit() {
@@ -273,6 +276,10 @@ export class ShowComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    help() {
+        this.introService.ShowArchives();
     }
 }
 

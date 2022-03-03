@@ -594,7 +594,7 @@ export class IntroJsService {
             .start();
     }
 
-    // Empresas
+    // Departamentos
     ListDepartment() {
         this.introJS = introJs();
         this.introJS.start();
@@ -862,7 +862,7 @@ export class IntroJsService {
                     {
                         element: '#step1',
                         intro:
-                            '<strong>Bem-vindo as informações do Volume!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Departamento.',
+                            '<strong>Bem-vindo as informações do Volume!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Volume.',
                     },
                     {
                         element: '#step2',
@@ -917,7 +917,7 @@ export class IntroJsService {
                     {
                         element: '#step1',
                         intro:
-                        '<strong>Bem-vindo a pesquisa de documentos!</strong><br/> Clique em <strong>Novo Documento</strong>, para criar um documento.',
+                            '<strong>Bem-vindo a pesquisa de documentos!</strong><br/> Clique em <strong>Novo Documento</strong>, para criar um documento.',
                     },
                     {
                         element: '#step2',
@@ -968,6 +968,39 @@ export class IntroJsService {
             .start();
     }
 
+    archivesErrors() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a pesquisa de erros de importação de arquivos! <br/> </strong>Nesta área você pode utilizar o filtro de pesquisa, para ter uma busca com melhores resultados.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Ultilize a <strong>Lupa</strong> para realizar sua pesquisa, caso queira realizar outra busca, basta utilizar <strong>Limpar Campos</strong> para limpar os campos dos filtros.',
+                        tooltipPosition: 'bottom',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Aqui será exibido o <strong>Resultado</strong> de sua pesquisa, clique em <strong>Download</strong> para baixar o arquivo desejado.'
+                    }
+                ]
+            })
+            .start();
+    }
+
     ListArchives() {
         this.introJS = introJs();
         this.introJS.start();
@@ -1012,5 +1045,138 @@ export class IntroJsService {
             .start();
     }
 
+    ShowArchives() {
+        this.introJS = introJs();
+        this.introJS.start();
 
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações do Arquivo!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Arquivo.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações gerais sobre o Arquivo',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Para solicitar uma <strong>Alterção </strong> no arquivo, informe o tipo de alteração e solicite, utilizando o botão enviar.(Obeservções não são obrigatórias)',
+                    }
+                    ,
+                    {
+                        element: '#step4',
+                        intro:
+                            'Prévia do Arquivo',
+                    },
+                    {
+                        element: '#step5',
+                        intro:
+                            'Informações referentes a temporalidade do arquivo',
+                    },
+                    {
+                        element: '#step6',
+                        intro:
+                            'Informações sobre o  autor do arquivo',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    EditArchives() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a edição de Arquivos!</strong></br>Utilize, <strong>Cancelar</strong> para retornar sem alterar as informações.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Os seguintes <strong>Campos </strong> podem ser alterados, utilize <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    // Emaisl
+    ListEmails() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a caixa de e-mails!</strong><br/>Utilize o botão para <strong>Atualizar</strong>, a lista de e-mails.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Nesta área estão todos seus e-mails.<br/> Clique para obter mais informções. <br/>Na lista, e-mails com a coloração branca, ainda não foram visualizados.',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    ShowEmails() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações do E-mail!</strong></br>Utilize a seta para retornar.<br/>Utilize <strong>Excluir </strong> para deletar o E-mail.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações sobre o <strong>Solicitante</strong>.',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Informações referentes a <strong>Solicitação</strong>. <br/>Utilize <strong>Ver Aquivo</strong>, para ser direcionado ao arquivo.',
+                    }
+                ]
+            })
+            .start();
+    }
 }

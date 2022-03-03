@@ -8,17 +8,23 @@
     </ngx-loading>
     <div class="card bg-light mb-3">
         <div class="card-header">
-            <app-page-header [heading]="'Caixa de E-mails'" [icon]="'fa-table'">
-            </app-page-header>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Caixa de E-mails</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body p-0">
-            <div class="btn-group">
+            <div class="btn-group" id="step1">
                 <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" (click)="this.ngOnInit()"
                     class="btn mini tooltips">
                     <i class=" fa fa-refresh"></i>
                 </a>
             </div>
-            <div class="card-content p-1">
+            <div class="card-content p-1" id="step2">
                 <div class="list-group" *ngFor="let listEmails of emailsList.items; index as i">
                     <!-- If TRUE Show this -->
                     <div *ngIf="highlightValue[i]">
@@ -58,11 +64,11 @@
                                 <div class="col-lg-5 col-sm-12 text-left">
                                     <div class="col-lg-5 pr-0">
                                         <div class="pretty p-icon p-toggle p-plain">
-                                            <div class="state p-off">
+                                            <div class="state p-off mr-3">
                                                 <i class="icon mdi mdi-email"></i>
                                             </div>
+                                            <small class="m-0 ml-3" style="white-space: nowrap;" *ngIf="!highlightValue[i]">{{nameremet[i]}}</small>
                                         </div>
-                                        <small class="m-0 ml-3" *ngIf="!highlightValue[i]">{{nameremet[i]}}</small>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-sm-12 text-sm-right">

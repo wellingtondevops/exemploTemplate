@@ -11,10 +11,13 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-11">
-                    <h2>Arquivo</h2>
+                    <h2>Arquivos</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="step1">
                 <div class="col-lg-1" *ngIf="!loading">
                     <app-button-back [redirectTo]="'archives'"></app-button-back>
                 </div>
@@ -29,7 +32,7 @@
         </div>
         <div class="card-body" style="padding-top: 5px;">
             <div class="row" *ngIf="!loading">
-                <div class="col-4">
+                <div class="col-4" id="step2">
                     <h5>DADOS DO VOLUME</h5>
                     <div class="card bg-light mb-12">
                         <div class="card-body" style="padding: 10px;">
@@ -67,7 +70,7 @@
                 </div>
                 <div class="col-8 mb-2">
                     <form [formGroup]="requestForm">
-                        <div class="card bg-light mb-1">
+                        <div class="card bg-light mb-1" id="step3">
                             <div class="card-body " style="padding: 5px;">
                                 <div class="row">
                                     <div class="col-lg-12 text-center" *ngIf="pending === true">
@@ -119,7 +122,7 @@
                         </div>
                     </form>
                     <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-                        <div class="form-group">
+                        <div class="form-group" id="step4">
                             <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
                                 [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)">
                             </app-form-upload>
@@ -132,11 +135,11 @@
             <br />
 
             <div class="row" *ngIf="!loading">
-                <div class="col-4">
+                <div class="col-4" >
                     <h5>TEMPORALIDADE</h5>
 
                     <!-- FASE CORRENTE -->
-                    <div class="card bg-light md-12">
+                    <div class="card bg-light md-12" id="step5">
                         <div class="card-body">
                             <strong>Corrente: </strong><br />
                             <label
@@ -200,7 +203,7 @@
 
                     <br />
                     <div class="row" *ngIf="!loading">
-                        <div class="col-12">
+                        <div class="col-12" id="step6">
                             <div style="font-size: 12px">
                                 {{ archive.sponsor.name }}<br />
                                 {{ archive.sponsor.cnpj }}<br />

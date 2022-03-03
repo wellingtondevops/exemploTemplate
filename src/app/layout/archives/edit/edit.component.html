@@ -7,14 +7,21 @@
             tertiaryColour: '#222'
         }"></ngx-loading>
     <div class="card bg-light">
-        <div class="card-header">
-            <div class="pull-right">
+        <div class="card-header" id="step1">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Editar Arquivo</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div class="pull-right" >
                 <button type="button" [routerLink]="['/archives/get', id]" class="btn btn-danger"
                     style="margin-right:5px">Cancelar
                 </button>
             </div>
             <!-- <app-page-header *ngIf="!loading" [heading]="'Editar Arquivo'" [icon]="'fa-user'"></app-page-header> -->
-            <h2>Editar Arquivo</h2>
         </div>
         <div class="card-body">
             <div class="row" *ngIf="!loading">
@@ -52,7 +59,7 @@
                     <div class="col-lg-4">
                         <h5>ÍNDICES</h5>
                     </div>
-                    <div class="card bg-light mb-12">
+                    <div class="card bg-light mb-12" id="step2">
                         <div class="card-body">
                             <app-form-index [data]="archive" [isArchive]="true" [edit]="true"
                                 (sendArchive)="updateArchive($event)">
