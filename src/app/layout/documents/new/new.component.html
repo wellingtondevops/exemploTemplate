@@ -8,7 +8,14 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <h2>Novo Documento</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Novo Documento</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header [heading]="'Novo Documento'" [icon]="'fa-book'"></app-page-header> -->
         </div>
         <div class="card-body bg-light">
@@ -17,7 +24,7 @@
                     <ng-template ngbTabContent>
                         <br>
                         <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="postDocument()">
-                            <div class="row">
+                            <div class="row" id="step1">
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="typeahead-basic">Empresa</label>
@@ -164,7 +171,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pull-right">
+                            <div class="pull-right" id="step2">
                                 <button type="button" [routerLink]="['/documents']" class="btn btn-default"
                                     style="margin-right:10px">Voltar</button>
                                 <button type="submit" class="btn btn-primary" [disabled]="name.invalid">

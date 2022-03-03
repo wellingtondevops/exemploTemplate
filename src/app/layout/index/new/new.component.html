@@ -7,9 +7,16 @@
             tertiaryColour: '#222'
     }"></ngx-loading>
     <div class="card bg-light">
-        <div class="card-header">
+        <div class="card-header" id="step1">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Indexação</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header> -->
-            <h2>Indexação</h2>
             <div style="margin-bottom: 10px;" *ngIf="!loading">
                 <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
                 <button class="btn btn-sm btn-danger pull-right" (click)="deleteImgs()">Excluir</button>
@@ -20,7 +27,7 @@
             <ngb-tabset #tabs>
                 <ngb-tab title="Dados" id="dados">
                     <ng-template ngbTabContent>
-                        <div class="row">
+                        <div class="row" id="step2">
                             <div class="col-sm-12">
                                 <div class="card bg-light mb-3" style="font-size: 15px;">
                                     <div class="card-body">
@@ -42,7 +49,7 @@
                         </div>
                         <div>
 
-                            <div class="row">
+                            <div class="row" id="step3">
                                 <div class="col-lg-4">
                                     <div class="card bg-light" style="margin:5px;font-size: 15px;">
                                         <div *ngIf="page.totalElements !== 0;">

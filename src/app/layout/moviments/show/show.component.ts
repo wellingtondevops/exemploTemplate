@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -92,7 +93,9 @@ export class ShowComponent implements OnInit {
         private modalService: NgbModal,
         public modal: NgbActiveModal,
         private _route: Router,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
+
     ) {
         this.movimentForm = this.fb.group({
             _id: this.fb.control(''),
@@ -676,5 +679,9 @@ export class ShowComponent implements OnInit {
                 }
             );
         }
+    }
+
+    help() {
+        this.introService.ShowMoviments();
     }
 }

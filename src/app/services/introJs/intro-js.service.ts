@@ -940,6 +940,88 @@ export class IntroJsService {
             .start();
     }
 
+    NewDocuments() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a criação de Documento!</strong></br>Preencha estes campos com as informações do novo documento.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para concluir a criação do novo documento ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
+                        tooltipPosition: 'bottom',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    ShowDocuments() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações do Documento!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Documento.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações gerais sobre o Documento',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    EditDocuments() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a edição de Documentos!</strong></br>Altere informações.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                    },
+                ]
+            })
+            .start();
+    }
+
     // Arquivos
     importArchives() {
         this.introJS = introJs();
@@ -1115,6 +1197,241 @@ export class IntroJsService {
                         intro:
                             'Os seguintes <strong>Campos </strong> podem ser alterados, utilize <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
                     },
+                ]
+            })
+            .start();
+    }
+
+    //Digitalizacao
+    ListBatches() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a pesquisa de Lotes!</strong><br/> Clique em <strong>Novo Lote</strong>, para criar um lote.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Nesta área você pode utilizar os filtros de pesquisa, para ter uma busca com melhores resultados.<br/> O campo <strong>Empresa</strong>, é obrigatorio para efetuar uma pesquisa, os demais campos são opcionais.',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Ultilize a <strong>Lupa</strong> para realizar sua pesquisa, caso queira realizar outra busca, basta utilizar <strong>Limpar Campos</strong> para limpar os campos dos filtros.',
+                        tooltipPosition: 'bottom',
+                    }, {
+                        element: '#step4',
+                        intro:
+                            'Aqui será exibido o <strong>Resultado</strong> de sua pesquisa, para mais detalhes basta clicar, no lote desejado.',
+                        tooltipPosition: 'bottom',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    NewBatches() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a criação de Lotes!</strong></br>Preencha estes campos com as informações do novo lote.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para concluir a criação do novo lote ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
+                        tooltipPosition: 'bottom',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    ShowBatches() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações do Documento!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Documento.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações gerais sobre o Documento',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    indexNew() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a Indexação!</strong></br>Utilize a seta para retornar a página anterior.<br/>Utilize <strong>Excluir </strong> para deletar o Lote.',
+                    },
+                    {
+                        element: '#dados',
+                        intro:
+                            'Informações gerais sobre o Lote',
+                    },
+                    {
+                        element: '#position',
+                        intro:
+                            'Utilize para pesquisar Posições',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Informações referentes a empresa',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Informe os campos, e utiliza salvar, para indexar e ir para o proximo arquivo',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    //Movimentacoes
+    ListMoviments() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a pesquisa de movimentações!</strong><br/> Clique em <strong>Nova Movimentação</strong>, para criar uma movimentação.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Nesta área você pode utilizar os filtros de pesquisa, para ter uma busca com melhores resultados.<br/> O campo <strong>Empresa</strong>, é obrigatorio para efetuar uma pesquisa, os demais campos são opcionais.',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Ultilize a <strong>Lupa</strong> para realizar sua pesquisa, caso queira realizar outra busca, basta utilizar <strong>Limpar Campos</strong> para limpar os campos dos filtros.',
+                        tooltipPosition: 'bottom',
+                    }, {
+                        element: '#step4',
+                        intro:
+                            'Aqui será exibido o <strong>Resultado</strong> de sua pesquisa, para mais detalhes basta clicar, na movimentação desejada.',
+                        tooltipPosition: 'bottom',
+                    },
+                ]
+            })
+            .start();
+    }
+
+    NewMoviments() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo a criação de Movimentações!</strong></br>Preencha estes campos com as informações da nova movimentação.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para concluir a criação da nova movimentação.',
+                        tooltipPosition: 'bottom',
+                    }
+                ]
+            })
+            .start();
+    }
+
+    ShowMoviments() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo as informações da Movimentação!</strong></br>Utilize a seta para retornar a página de pesquisa.',
+                    },
+                    {
+                        element: '#tab1',
+                        intro:
+                            'Navegue entre as <strong>Abas</strong> para mais informações',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Informações referentes a <strong>Movimentação</strong>',
+                    }
                 ]
             })
             .start();

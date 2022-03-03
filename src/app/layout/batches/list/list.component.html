@@ -7,13 +7,20 @@
             tertiaryColour: '#222'
         }"></ngx-loading>
     <div class="card bg-light mb-3">
-        <div class="card-header">
+        <div class="card-header" id="step1">
+            <div class="row">
+                <div class="col-lg-11">
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <app-page-header [heading]="'Lotes'" [icon]="'fa-table'" [btnNew]="'Novo Lote'" [permissionBtnNew]="true"
                 [routerTo]="'/batches/new'"></app-page-header>
         </div>
         <div class="card-body bg-light mb-3">
             <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form">
-                <div class="row col-12">
+                <div class="row col-12" id="step2">
                     <div class="form-group mb-2 col-lg-4 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" autoFocus="true" placeholder="Nome da Empresa"
@@ -60,7 +67,7 @@
                     </ng-template>
                 </div>
                 <div class="row col-12 text-center">
-                    <div class="form-group mb-2">
+                    <div class="form-group mb-2" id="step3">
                         <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                             <i class="fa fa-search"></i>
                         </button>
@@ -73,7 +80,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" id="step4">
             <app-datatables [data]="batches" (setPage)="setPage($event)" [columns]="columns" (show)="getBatch($event)">
             </app-datatables>
         </div>

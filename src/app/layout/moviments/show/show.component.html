@@ -7,8 +7,15 @@
         tertiaryColour: '#222'
     }"></ngx-loading>
     <div class="card  bg-light">
-        <div class="card-header">
-            <h3>Movimentação</h3>
+        <div class="card-header" id="step1">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Movimentação</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header [heading]="'Movimentação'" [icon]="'fa-user'"></app-page-header> -->
             <div>
                 <app-button-back [redirectTo]="'moviments'"></app-button-back>
@@ -18,8 +25,8 @@
                 </app-buttons-custom>
             </div>
         </div>
-        <div class="card-body">
-            <ngb-tabset #tab *ngIf="moviment" (tabChange)="beforeChange($event)">
+        <div class="card-body" id="step3">
+            <ngb-tabset #tab *ngIf="moviment" (tabChange)="beforeChange($event)" >
                 <ngb-tab title="Movimentação Nr {{moviment.nr}}" id="tab1">
                     <ng-template ngbTabContent>
                         <br />

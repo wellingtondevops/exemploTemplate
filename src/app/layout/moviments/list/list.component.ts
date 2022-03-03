@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -70,7 +71,9 @@ export class ListComponent implements OnInit {
         private documentsSrv: DocumentsService,
         private warningMsg: WarningMessagesService,
         private localStorageSrv: SaveLocal,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
+
     ) {
         this.searchForm = this.fb.group({
             company: this.fb.control('', Validators.required),
@@ -215,4 +218,7 @@ export class ListComponent implements OnInit {
             this.dateReceived = this.dateSent;
         }
 
+        help() {
+            this.introService.ListMoviments();
+        }
 }

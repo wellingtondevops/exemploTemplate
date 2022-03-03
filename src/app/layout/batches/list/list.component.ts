@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -66,6 +67,7 @@ export class ListComponent implements OnInit {
         private utilCase: CaseInsensitive,
         private localStorageSrv: SaveLocal,
         private batchesSrv: BatchesService,
+        private introService: IntroJsService,
     ) { }
 
     ngOnInit() {
@@ -233,5 +235,9 @@ export class ListComponent implements OnInit {
 
         console.log(this.dateSent);
         this.dateReceived = this.dateSent;
+    }
+
+    help() {
+        this.introService.ListBatches();
     }
 }

@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { BatchSheetNameService } from './../../../services/batchSheetName/batch-sheet-name.service';
 import { BatchSheetName } from './../../../../.././src/app/models/batchSheetName';
 import { SaveLocal } from './../../../storage/saveLocal';
@@ -66,6 +67,7 @@ export class ControlComponent implements OnInit {
         private pipes: Pipes,
         private domSanitizer: DomSanitizer,
         private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
 
     ) { }
 
@@ -88,7 +90,7 @@ export class ControlComponent implements OnInit {
 
         let batchID = this.id;
 
-        const idBatch = [{fdp: batchID}];
+        const idBatch = [{ fdp: batchID }];
         localStorage.setItem('idBatch', JSON.stringify(idBatch));
         const myid = localStorage.getItem('idBatch');
         this.getBatch();
@@ -97,38 +99,41 @@ export class ControlComponent implements OnInit {
 
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
         if (event) {
-          this.nameFile = event.item(0).name;
-          const file = event && event.item(0);
-          if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
-            this.removeFile();
-            const error = {
-              status: 404,
-              message: 'Formato de arquivo não suportado.'
-            };
-            this.errorMsg.showError(error);
+            this.nameFile = event.item(0).name;
+            const file = event && event.item(0);
+            if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
+                this.removeFile();
+                const error = {
+                    status: 404,
+                    message: 'Formato de arquivo não suportado.'
+                };
+                this.errorMsg.showError(error);
 
-          } else {
-            this.file = file;
-            const fileReader = new FileReader();
-            fileReader.onload = (e) => {
-              this.arrayBuffer = fileReader.result;
-              const data = new Uint8Array(this.arrayBuffer);
-              const arr = new Array();
-              for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
-              const bstr = arr.join('');
-              const workbook = XLSX.read(bstr, { type: 'binary' });
-              const first_sheet_name = workbook.SheetNames[0];
-              const worksheet = workbook.Sheets[first_sheet_name];
-              const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-              item.map(row => {
-                this.rowsFile.push(row);
-              });
-            };
-            fileReader.readAsArrayBuffer(this.file);
-          }
+            } else {
+                this.file = file;
+                const fileReader = new FileReader();
+                fileReader.onload = (e) => {
+                    this.arrayBuffer = fileReader.result;
+                    const data = new Uint8Array(this.arrayBuffer);
+                    const arr = new Array();
+                    for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+                    const bstr = arr.join('');
+                    const workbook = XLSX.read(bstr, { type: 'binary' });
+                    const first_sheet_name = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[first_sheet_name];
+                    const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+                    item.map(row => {
+                        this.rowsFile.push(row);
+                    });
+                };
+                fileReader.readAsArrayBuffer(this.file);
+            }
         }
-      }
+    }
 
+    help() {
+        this.introService.ShowBatches();
+    }
 
     setDataIndexForm(index) {
         if (index) {
@@ -231,33 +236,33 @@ export class ControlComponent implements OnInit {
 
     sub() {
         const formData = new FormData();
-      formData.append('file', this.file);
+        formData.append('file', this.file);
 
-      this.batchesSrv.import(formData, this.id).subscribe(data => {
-        if (data.status && data.status === 'progress') {
-            this.uploadResponse.message = data.message;
-            this.uploadResponse.status = data.status;
-            this.errorUpload = false;
-          }
-          if (Array(data)) {
-            this.savedFile = true;
-            this.successMsgSrv.successMessages('Upload realizado com sucesso.');
-            this.setPage('');
-          }
+        this.batchesSrv.import(formData, this.id).subscribe(data => {
+            if (data.status && data.status === 'progress') {
+                this.uploadResponse.message = data.message;
+                this.uploadResponse.status = data.status;
+                this.errorUpload = false;
+            }
+            if (Array(data)) {
+                this.savedFile = true;
+                this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+                this.setPage('');
+            }
         }, error => {
-          this.loading = false;
-          this.uploadResponse.message = 10;
-          this.uploadResponse.status = 'progress';
-          this.errorUpload = true;
-          this.errorMsg.errorMessages(error);
-          console.log('ERROR ', error);
+            this.loading = false;
+            this.uploadResponse.message = 10;
+            this.uploadResponse.status = 'progress';
+            this.errorUpload = true;
+            this.errorMsg.errorMessages(error);
+            console.log('ERROR ', error);
         });
     }
     removeFile() {
         // this.host.nativeElement.value = '';
         this.file = null;
         this.nameFile = null;
-      }
+    }
 
     upload(formData, i) {
         this.filesSrv.filesProgress(formData).subscribe(event => {
@@ -366,5 +371,4 @@ export class ControlComponent implements OnInit {
             this.errorMsg.errorMessages(error);
         });
     }
-
 }

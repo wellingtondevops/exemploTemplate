@@ -8,9 +8,15 @@
         }"></ngx-loading>
     <div class="card bg-light">
         <div class="card-header">
-            <h2>Controle de Lote</h2>
+            <div class="row" id="step1">
+                <div class="col-lg-11">
+                    <h2>Controle de Lote</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <app-button-back [redirectTo]="'batches'"></app-button-back>
-            <!-- <app-page-header [heading]="'Controle de Lote'" [icon]="'fa-table'"></app-page-header> -->
         </div>
         <div class="card-body">
             <ngb-tabset #tab>

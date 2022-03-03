@@ -10,8 +10,15 @@
     </div>
     <div class="card bg-light">
         <div class="card-header">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Editar Documento</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header [heading]="'Editar Documento'" [icon]="'fa-book'"></app-page-header> -->
-            <h2>Editar Documento</h2>
         </div>
         <div class="card-body" *ngIf="!loading">
             <ngb-tabset #tab>
@@ -19,7 +26,7 @@
                     <ng-template ngbTabContent>
                         <br>
                         <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="updateDocument()">
-                            <div class="row">
+                            <div class="row" id="step1">
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="typeahead-format">Empresa</label>
@@ -152,7 +159,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pull-right">
+                            <div class="pull-right" id="step2">
                                 <button type="button" [routerLink]="['/documents/get', document._id]"
                                     class="btn btn-danger" style="margin-right:10px">Cancelar</button>
                                 <button type="submit" class="btn btn-primary" [disabled]="name.invalid">

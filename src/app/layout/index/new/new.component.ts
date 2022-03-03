@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { SubClass } from './../../../models/document-structur';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -97,7 +98,8 @@ export class NewComponent implements OnInit {
         private pipes: Pipes,
         private _route: Router,
         config: NgbModalConfig,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private introService: IntroJsService,
 
         ) {
             config.backdrop = 'static';
@@ -503,6 +505,10 @@ export class NewComponent implements OnInit {
             location: null,
             storehouse: null
         });
+        }
+
+        help() {
+            this.introService.indexNew();
         }
 }
 

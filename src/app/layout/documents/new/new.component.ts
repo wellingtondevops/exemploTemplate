@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { Component, OnInit, PipeTransform, Pipe, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
@@ -47,7 +48,9 @@ export class NewComponent implements OnInit {
         private errorMsg: ErrorMessagesService,
         private companiesSrv: CompaniesService,
         private doctStructsSrv: DocumentsStructurService,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
+
     ) {
 
     }
@@ -295,6 +298,10 @@ export class NewComponent implements OnInit {
             this.errorMsg.errorMessages(error);
             console.log('ERROR: ', error);
         });
+    }
+
+    help() {
+        this.introService.NewDocuments();
     }
 }
 @Pipe({

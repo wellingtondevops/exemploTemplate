@@ -168,7 +168,7 @@ export class NewComponent implements OnInit {
         }
     }
 
-    help(){
+    help() {
         this.introService.NewCompany();
     }
 }

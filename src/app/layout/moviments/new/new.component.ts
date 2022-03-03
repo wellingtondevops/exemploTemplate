@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { CaseInsensitive } from './../../../utils/case-insensitive';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -60,6 +61,7 @@ export class NewComponent implements OnInit {
         private _route: Router,
         private requesterSrv: RequestersService,
         private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
 
     ) {
         this.movimentForm = this.fb.group({
@@ -196,4 +198,7 @@ export class NewComponent implements OnInit {
             })
         )
 
+    help() {
+        this.introService.NewMoviments();
+    }
 }

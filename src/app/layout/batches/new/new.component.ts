@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -42,6 +43,8 @@ export class NewComponent implements OnInit {
         private batchsSrc: BatchesService,
         private utilCase: CaseInsensitive,
         private documentsSrv: DocumentsService,
+        private introService: IntroJsService,
+
     ) { }
 
     ngOnInit() {
@@ -152,5 +155,9 @@ export class NewComponent implements OnInit {
             if (key === '_id') { return value; }
         })[0];
         return result;
+    }
+
+    help() {
+        this.introService.NewBatches();
     }
 }
