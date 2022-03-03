@@ -9,17 +9,12 @@
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-            <!-- <li class="nav-item" >
-                <a [routerLink]="['/dashboard']" class="nav-link" >
-                    <i class="fa fa-home fa-lg" aria-hidden="true"></i>
-                </a>
-            </li> -->
 
-
+            <!-- Email Notification -->
             <li class="nav-item">
                 <a [routerLink]="['/email-service']" class="nav-link" role="button" aria-haspopup="true"
                     aria-expanded="false">
-                    <div *ngIf="(sizeArr | async) !== 0">
+                    <div *ngIf="(ArrMail | async) !== 0">
                         <span class="badgeAlertEmail"></span>
                         <span class="caret"></span>
                     </div>
@@ -28,7 +23,6 @@
             </li>
 
             <!-- MENU NOTIFICATION -->
-
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false">
@@ -67,7 +61,7 @@
                                 </p>
                             </div>
                             <div class="button-group" style="align-items: flex-end;">
-                                <button class="btn btn-secundary" type="button" (click)="onSubmit(notify.key)"
+                                <button class="btn btn-secundary" type="button" (click)="clearNotify(notify.key)"
                                     *ngIf="notify.active">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </button>

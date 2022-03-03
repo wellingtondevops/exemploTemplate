@@ -26,6 +26,10 @@ export class NotifyService {
         this.db.object(`notifications/${key}`).update({'active': false});
     }
 
+    updateMail(key: string) {
+        this.db.object(`notifications/email-${key}`).update({'active': false});
+    }
+
     getAll(userid) {
         function msgUser (value) {
             if (value.user === userid) {
@@ -43,11 +47,30 @@ export class NotifyService {
         this.db.object(`notifications/${key}`).remove();
     }
 
+    deleteMail(key: string ) {
+        this.db.object(`notifications/email-${key}`).remove();
+    }
+
+
     getlength(userid) {
         function msgUser (value) {
             if (value.user === userid && value.active === true) {
                 return value;
             }
+        }
+        return this.db.list('notifications').snapshotChanges().pipe(
+            map(changes => {
+                return changes.map(c => ({ key: c.payload.key, ...c.payload.val() as {}})).filter(msgUser).length;
+            })
+        );
+    }
+
+    getlengthMail(userid) {
+        function msgUser (value) {
+            if (value.user === userid && value.active === true) {
+                return value;
+            }
+            console.log('asdasdasd', value.user);
         }
         return this.db.list('notifications').snapshotChanges().pipe(
             map(changes => {

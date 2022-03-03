@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
     notifys: Observable<any>;
     notifyRef: any;
     sizeArr: Observable<any>;
+    ArrMail: Observable<any>;
 
     constructor(
         private translate: TranslateService, public router: Router,
@@ -41,6 +42,8 @@ export class HeaderComponent implements OnInit {
         this.notify = new Notify();
         this.notifys = this.notifyService.getAll(this.userId);
         this.sizeArr = this.notifyService.getlength(this.userId);
+        this.ArrMail = this.notifyService.getlengthMail('email-'+this.userId);
+
         //UPDATE
         this.notifyService.currentNotify.subscribe(data => {
             if (data.notify && data.key) {
@@ -80,8 +83,12 @@ export class HeaderComponent implements OnInit {
         this.translate.use(language);
     }
 
-    onSubmit(key: string) {
+    clearNotify(key: string) {
         this.notifyService.update(key);
+    }
+
+    clearEmail(key: string) {
+        this.notifyService.updateMail('email-' + key);
     }
 
     delete(key: string) {
