@@ -81,7 +81,8 @@
                                     <div class="col-lg-12" *ngIf="pending === false">
                                         <label for="" style="margin: 5px;">Correções: </label>
                                         <div class="pretty p-switch p-fill">
-                                            <input class="form-check-input" type="radio" name="requestType" formControlName="requestType" value="CORRECAO_IMAGEM" id="requestType1"/>
+                                            <input class="form-check-input" type="radio" name="requestType" formControlName="requestType" value="CORRECAO_IMAGEM" id="requestType1"
+                                            [checked]=true/>
                                             <div class="state" for="requestType1">
                                                 <label>
                                                     Correção de Imagem
@@ -115,7 +116,7 @@
                                         </div>
                                     </div>
                                     <div class="col-2 mt-5 text-right">
-                                        <button (click)="sendRequest()" type="button" class="btn btn-sm btn-dark">Enviar</button>
+                                        <button (click)="sendRequest()" type="button" class="btn btn-sm btn-dark enviar">Enviar</button>
                                     </div>
                                 </div>
                             </div>
