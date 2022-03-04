@@ -23,66 +23,64 @@
                 </div>
                 <div class="col-lg-11">
                     <!-- [id]="archive._id" -->
-                    <app-buttons-custom  (edit)="editArchive(archive._id)"
-                        (delete)="open('focusFirst', archive._id)" [permissionEdit]="permissionEdit"
-                        [permissionDelete]="permissionDelete" [isUser]="isUsers">
+                    <app-buttons-custom (edit)="editArchive(archive._id)" (delete)="open('focusFirst', archive._id)"
+                        [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete" [isUser]="isUsers">
                     </app-buttons-custom>
                 </div>
             </div>
         </div>
         <div class="card-body" style="padding-top: 5px;">
             <div class="row" *ngIf="!loading">
-                <div class="col-4" id="step2">
-                    <h5>DADOS DO VOLUME</h5>
-                    <div class="card bg-light mb-12">
-                        <div class="card-body" style="padding: 10px;">
-                            <div>
-                                <strong> EMPRESA: </strong> <br />
-                                <label> {{ archive.company.name }} </label>
-                            </div>
-                            <div>
-                                <strong> DEPARTAMENTO: </strong> <br />
-                                <label> {{ archive.departament.name }} </label>
-                            </div>
-                            <div>
-                                <strong> DOCUMENTO: </strong> <br />
-                                <label> {{ archive.doct.name }} </label>
-                            </div>
-                            <div>
-                                <strong> DEPÓSITO: </strong> <br />
-                                <label> {{ archive.storehouse.name }} </label>
-                            </div>
-                            <div>
-                                <strong> POSIÇÃO: </strong> <br />
-                                <label> {{ archive.volume.location }} </label>
-                            </div>
-                        </div>
+                <div class="col-lg-4 col-sm-12" id="step2">
+                    <div class="card-body p-1">
+                        <h5 class="m-0">DADOS DO VOLUME</h5>
+                        <ul>
+                            <li class="mb-1">
+                                <strong class="m-0">EMPRESA: </strong>
+                                <a>{{ archive.company.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DEPARTAMENTO: </strong>
+                                <a>{{ archive.departament.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DOCUMENTO: </strong>
+                                <a>{{ archive.doct.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DEPÓSITO: </strong>
+                                <a>{{ archive.storehouse.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">POSIÇÃO: </strong>
+                                <a>{{ archive.volume.location }} </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-lg-4 mt-2">
-                        <h5 style="margin: 0px;">ÍNDICES</h5>
-                    </div>
-                    <div class="card bg-light mb-12">
-                        <div class="card-body">
-                            <app-form-index [data]="archive" [isArchive]="true">
-                            </app-form-index>
+                    <div class="card bg-light">
+                        <h5 class="m-2">ÍNDICES</h5>
+                        <div class="card-body p-1">
+                            <app-form-index [data]="archive" [isArchive]="true"></app-form-index>
                         </div>
                     </div>
                 </div>
-                <div class="col-8 mb-2">
-                    <form [formGroup]="requestForm">
-                        <div class="card bg-light mb-1" id="step3">
-                            <div class="card-body " style="padding: 5px;">
+                <div class="col-lg-8">
+                    <div class="card bg-light mb-1" id="step3">
+                        <form [formGroup]="requestForm">
+                            <div class="card-body p-1">
                                 <div class="row">
                                     <div class="col-lg-12 text-center" *ngIf="pending === true">
-                                        <button class="btn btn-primary text-center btn-outline-danger" (click)="FimRequest()">
+                                        <button class="btn btn-primary text-center btn-outline-danger"
+                                            (click)="FimRequest()">
                                             Finalizar
                                         </button>
                                     </div>
-                                    <div class="col-lg-12" *ngIf="pending === false">
-                                        <label for="" style="margin: 5px;">Correções: </label>
+                                    <div class="col-lg-12 form-check" *ngIf="pending === false">
+                                        <label class="ml-3 mb-0 mr-2" for="requestType">Solicitar Correções: </label>
                                         <div class="pretty p-switch p-fill">
-                                            <input class="form-check-input" type="radio" name="requestType" formControlName="requestType" value="CORRECAO_IMAGEM" id="requestType1"
-                                            [checked]=true/>
+                                            <input class="form-check-input" type="radio" name="requestType"
+                                                formControlName="requestType" value="CORRECAO_IMAGEM" id="requestType1"
+                                                [checked]="true" />
                                             <div class="state" for="requestType1">
                                                 <label>
                                                     Correção de Imagem
@@ -90,7 +88,9 @@
                                             </div>
                                         </div>
                                         <div class="pretty p-switch p-fill">
-                                            <input class="form-check-input" type="radio" name="requestType" formControlName="requestType" value="CORRECAO_INDICE" id="requestType2"/>
+                                            <input class="form-check-input" type="radio" name="requestType"
+                                                formControlName="requestType" value="CORRECAO_INDICE"
+                                                id="requestType2" />
                                             <div class="state" for="requestType2">
                                                 <label>
                                                     Correção de Indíce
@@ -98,7 +98,8 @@
                                             </div>
                                         </div>
                                         <div class="pretty p-switch p-fill">
-                                            <input class="form-check-input" type="radio" name="requestType" formControlName="requestType" value="EMPRESTIMO" id="requestType3"/>
+                                            <input class="form-check-input" type="radio" name="requestType"
+                                                formControlName="requestType" value="EMPRESTIMO" id="requestType3" />
                                             <div class="state" for="requestType3">
                                                 <label>
                                                     Emprestimo
@@ -107,36 +108,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mb-1"  *ngIf="pending == false">
-                                    <div class="col-10">
+                                <div class="row" *ngIf="pending == false">
+                                    <div class="col-lg-10 pl-4">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Observações" name="notes" formControlName="notes" id="notes"
-                                                style="height: 80px; width: 650px;"></textarea>
+                                            <textarea class="form-control" placeholder="Observações" name="notes"
+                                                formControlName="notes" id="notes"
+                                                style="height: 5%; width: 95%;"></textarea>
                                             <label for="notes">Observações:</label>
                                         </div>
                                     </div>
-                                    <div class="col-2 mt-5 text-right">
-                                        <button (click)="sendRequest()" type="button" class="btn btn-sm btn-dark enviar">Enviar</button>
+                                    <div class="col-lg-2 mt-5 text-center">
+                                        <button (click)="sendRequest()" type="button"
+                                            class="btn btn-sm btn-dark enviar" [disabled]="">Enviar</button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                    <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-                        <div class="form-group" id="step4">
+                        </form>
+                    </div>
+                    <div class="form-group" id="step4">
+                        <form [formGroup]="uploadFile" (ngSubmit)="submit()">
                             <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
                                 [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)">
                             </app-form-upload>
-                        </div>
-                    </form>
-                    <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
-                    </app-modal-progress-right-bottom>
+                        </form>
+                        <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+                        </app-modal-progress-right-bottom>
+                    </div>
                 </div>
             </div>
             <br />
 
             <div class="row" *ngIf="!loading">
-                <div class="col-4" >
+                <div class="col-4">
                     <h5>TEMPORALIDADE</h5>
 
                     <!-- FASE CORRENTE -->

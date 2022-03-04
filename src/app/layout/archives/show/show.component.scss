@@ -1,6 +1,11 @@
 @import "~@mdi/font/css/materialdesignicons.css";
 @import "~pretty-checkbox/src/pretty-checkbox.scss";
 
+ul{
+    list-style-type: circle;
+    padding: 18px;
+    margin: 0px;
+}
 .light-blue-backdrop {
     background-color: #5cb3fd00 !important;
 }
