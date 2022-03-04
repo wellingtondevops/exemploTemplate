@@ -16,7 +16,7 @@
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
             </div>
-            <div class="pull-right" >
+            <div class="pull-right">
                 <button type="button" [routerLink]="['/archives/get', id]" class="btn btn-danger"
                     style="margin-right:5px">Cancelar
                 </button>
@@ -25,49 +25,42 @@
         </div>
         <div class="card-body">
             <div class="row" *ngIf="!loading">
-                <div class="col-4">
-                    <h5>DADOS DO VOLUME</h5>
-                    <div class="card bg-light mb-12">
-                        <div class="card-body">
-                            <div>
-                                <strong> EMPRESA: </strong> <br />
-                                <label> {{ archive.company.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DEPARTAMENTO: </strong> <br />
-                                <label> {{ archive.departament.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DOCUMENTO: </strong> <br />
-                                <label> {{ archive.doct.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DEPÓSITO: </strong> <br />
-                                <label> {{ archive.storehouse.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> POSIÇÃO: </strong> <br />
-                                <label> {{ archive.volume.location }} </label>
-                            </div>
-                        </div>
+                <div class="col-lg-4">
+                    <div class="card-body p-1">
+                        <h5 class="m-0">DADOS DO VOLUME</h5>
+                        <ul>
+                            <li class="mb-1">
+                                <strong class="m-0">EMPRESA: </strong>
+                                <a>{{ archive.company.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DEPARTAMENTO: </strong>
+                                <a>{{ archive.departament.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DOCUMENTO: </strong>
+                                <a>{{ archive.doct.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DEPÓSITO: </strong>
+                                <a>{{ archive.storehouse.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">POSIÇÃO: </strong>
+                                <a>{{ archive.volume.location }} </a>
+                            </li>
+                        </ul>
                     </div>
-                    <br />
-                    <div class="col-lg-4">
-                        <h5>ÍNDICES</h5>
-                    </div>
-                    <div class="card bg-light mb-12" id="step2">
-                        <div class="card-body">
+                    <div class="card bg-light">
+                        <h5 class="m-2">ÍNDICES</h5>
+                        <div class="card-body p-1">
                             <app-form-index [data]="archive" [isArchive]="true" [edit]="true"
                                 (sendArchive)="updateArchive($event)">
                             </app-form-index>
                         </div>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-lg-8">
                     <form [formGroup]="uploadFile" (ngSubmit)="submit()">
                         <div class="form-group">
                             <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"

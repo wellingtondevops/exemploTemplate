@@ -80,7 +80,7 @@
                                         <div class="pretty p-switch p-fill">
                                             <input class="form-check-input" type="radio" name="requestType"
                                                 formControlName="requestType" value="CORRECAO_IMAGEM" id="requestType1"
-                                                [checked]="true" />
+                                                onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
                                             <div class="state" for="requestType1">
                                                 <label>
                                                     Correção de Imagem
@@ -89,8 +89,8 @@
                                         </div>
                                         <div class="pretty p-switch p-fill">
                                             <input class="form-check-input" type="radio" name="requestType"
-                                                formControlName="requestType" value="CORRECAO_INDICE"
-                                                id="requestType2" />
+                                                formControlName="requestType" value="CORRECAO_INDICE" id="requestType2"
+                                                onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
                                             <div class="state" for="requestType2">
                                                 <label>
                                                     Correção de Indíce
@@ -99,7 +99,8 @@
                                         </div>
                                         <div class="pretty p-switch p-fill">
                                             <input class="form-check-input" type="radio" name="requestType"
-                                                formControlName="requestType" value="EMPRESTIMO" id="requestType3" />
+                                                formControlName="requestType" value="EMPRESTIMO" id="requestType3"
+                                                onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
                                             <div class="state" for="requestType3">
                                                 <label>
                                                     Emprestimo
@@ -118,8 +119,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mt-5 text-center">
-                                        <button (click)="sendRequest()" type="button"
-                                            class="btn btn-sm btn-dark enviar" [disabled]="">Enviar</button>
+                                        <button (click)="sendRequest()" type="button" name="enviar" id="enviar"
+                                            class="btn btn-sm btn-dark enviar" disabled="disabled">Enviar</button>
                                     </div>
                                 </div>
                             </div>
@@ -139,60 +140,59 @@
             <br />
 
             <div class="row" *ngIf="!loading">
-                <div class="col-4">
-                    <h5>TEMPORALIDADE</h5>
-
+                <div class="col-lg-4">
                     <!-- FASE CORRENTE -->
-                    <div class="card bg-light md-12" id="step5">
-                        <div class="card-body">
-                            <strong>Corrente: </strong><br />
-                            <label
-                                *ngIf="startCurrentDate && archive.doct.currentControl === false && archive.startDateCurrent == undefined">
-                                Fase Corrente não Controlada
-                            </label>
-                            <label *ngIf="archive && archive.startDateCurrent === undefined">
-                                {{ archive.doct.dcurrentLabel }}
-                            </label>
-                            <label *ngIf="archive && archive.startDateCurrent != undefined">
-                                Início:
-                                {{ returnDate(archive.startDateCurrent) }}
-                            </label>
-                            <label *ngIf="archive && archive.finalDateCurrent === true">
-                                Fim:
-                                {{ returnDate(archive.finalDateCurrent) }}
-                            </label>
-                            <br />
-                            <br />
-
-                            <strong>Intermediária: </strong> <br />
-                            <label *ngIf="archive && archive.startDateCurrent === undefined">
-                                {{ archive.doct.dintermediateValue }} Anos
-                            </label>
-                            <label *ngIf="archive && archive.startDateIntermediate">
-                                Início:
-                                {{ returnDate(archive.startDateIntermediate) }}
-                            </label>
-                            <label *ngIf="archive && archive.finalDateIntermediate">
-                                Fim:
-                                {{ returnDate(archive.finalDateIntermediate) }}
-                            </label>
-
-                            <br />
-                            <br />
-                            <strong>Destinação Final: </strong><br />
-                            <label *ngIf="archive && archive.finalFase">
-                                {{ archive.finalFase }}
-                            </label>
-                            <label *ngIf="archive && archive.startDateCurrent === undefined">
-                                {{ archive.doct.dfinal }}
-                            </label>
-                            <label *ngIf="archive && archive.finalDateIntermediate">
-                                Início:
-                                {{ returnDate(archive.finalDateIntermediate) }}
-                            </label>
-                            <br />
-
-                            <hr>
+                    <div class="card bg-light" id="step5">
+                        <div class="card-body p-1">
+                            <h5 class="m-2">TEMPORALIDADE</h5>
+                            <ul>
+                                <li class="mb-1">
+                                    <strong class="m-0">Corrente: </strong>
+                                    <a
+                                        *ngIf="startCurrentDate && archive.doct.currentControl === false && archive.startDateCurrent == undefined">
+                                        Fase Corrente não Controlada
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateCurrent === undefined">
+                                        {{ archive.doct.dcurrentLabel }}
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateCurrent != undefined">
+                                        Início:
+                                        {{ returnDate(archive.startDateCurrent) }}
+                                    </a>
+                                    <a *ngIf="archive && archive.finalDateCurrent === true">
+                                        Fim:
+                                        {{ returnDate(archive.finalDateCurrent) }}
+                                    </a>
+                                </li>
+                                <li class="mb-1">
+                                    <strong class="m-0">Intermediária: </strong>
+                                    <a *ngIf="archive && archive.startDateCurrent === undefined">
+                                        {{ archive.doct.dintermediateValue }} Anos
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateIntermediate">
+                                        Início:
+                                        {{ returnDate(archive.startDateIntermediate) }}
+                                    </a>
+                                    <a *ngIf="archive && archive.finalDateIntermediate">
+                                        Fim:
+                                        {{ returnDate(archive.finalDateIntermediate) }}
+                                    </a>
+                                </li>
+                                <li class="mb-1">
+                                    <strong class="m-0">Destinação Final: </strong>
+                                    <a *ngIf="archive && archive.finalFase">
+                                        {{ archive.finalFase }}
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateCurrent === undefined">
+                                        {{ archive.doct.dfinal }}
+                                    </a>
+                                    <a *ngIf="archive && archive.finalDateIntermediate">
+                                        <strong class="m-0">Início:</strong>
+                                        {{ returnDate(archive.finalDateIntermediate) }}
+                                    </a>
+                                </li>
+                            </ul>
+                            <hr class="m-1">
                             <div class="dataBtn" *ngIf="startCurrentDate && archive.doct.currentControl === true">
                                 <h6>Ajuste de Temporalidade </h6>
                                 <input type="date" class="form-control" [(ngModel)]="inputStartCurrentDate" />
