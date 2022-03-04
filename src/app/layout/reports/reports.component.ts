@@ -1,3 +1,4 @@
+import { IntroJsService } from './../../services/introJs/intro-js.service';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -40,7 +41,9 @@ export class ReportsComponent implements OnInit {
         private pipes: Pipes,
         private fb: FormBuilder,
         private localStorageSrv: SaveLocal,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
+
     ) { }
 
     ngOnInit() {
@@ -139,5 +142,9 @@ export class ReportsComponent implements OnInit {
         this.dateSent =
             new Date(this.dateSent).toISOString().slice(0, 10);
         this.dateReceived = this.dateSent;
+    }
+
+    help() {
+        this.introService.ListReports();
     }
 }

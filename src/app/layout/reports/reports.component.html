@@ -8,10 +8,17 @@
         }"></ngx-loading>
     <div class="card bg-light mb-3">
         <div class="card-header">
-            <h3>Relatórios</h3>
+            <div class="row mt-0">
+                <div class="col-lg-11">
+                    <h3>Relatórios</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" role="FormGroup" class="form">
+            <form [formGroup]="searchForm" role="FormGroup" class="form" id="step1">
                 <div class="row">
                     <div class="form-group col-lg-8 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
@@ -59,7 +66,7 @@
     </div>
 
     <div class="row" *ngIf="reports">
-        <div class="col-lg-12">
+        <div class="col-lg-12" id="step2">
             <div style="margin-top: 15px" id="print-section">
                 <div class="card">
                     <div class="card-header"><b>Cliente</b></div>

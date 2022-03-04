@@ -7,8 +7,15 @@
         tertiaryColour: '#222'
     }"></ngx-loading>
     <div class="card bg-light">
-        <div class="card-header">
-            <h3>Dados do Serviço</h3>
+        <div class="card-header" id="step1">
+            <div class="row mt-0">
+                <div class="col-lg-11">
+                    <h3>Dados do Serviço</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <div style="margin-bottom: 10px" *ngIf="service">
                 <app-button-back [redirectTo]="'menu-services'"></app-button-back>
                 <app-buttons-custom [id]="service._id" [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"
@@ -16,7 +23,7 @@
                 </app-buttons-custom>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="step2">
             <form [formGroup]="serviceForm" role="FormGroup">
                 <div class="form-content">
                     <div class="form-group">

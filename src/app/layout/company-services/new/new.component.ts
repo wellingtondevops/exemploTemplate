@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
@@ -49,7 +50,8 @@ export class NewComponent implements OnInit {
         private companyServiceSrv: CompanyServicesService,
         private currencyPipe: CurrencyPipe,
         private menuSrv: MenuService,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {
     }
 
@@ -169,4 +171,7 @@ export class NewComponent implements OnInit {
         );
     }
 
+    help() {
+        this.introService.NewCompServices();
+    }
 }

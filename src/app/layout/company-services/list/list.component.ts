@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -50,6 +51,7 @@ export class ListComponent implements OnInit {
         private fb: FormBuilder,
         private utilCase: CaseInsensitive,
         private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
     ) { }
 
     ngOnInit() {
@@ -159,5 +161,7 @@ export class ListComponent implements OnInit {
         });
     }
 
-
+    help() {
+        this.introService.ListCompServices();
+    }
 }

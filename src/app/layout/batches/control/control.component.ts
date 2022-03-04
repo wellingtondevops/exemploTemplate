@@ -131,10 +131,6 @@ export class ControlComponent implements OnInit {
         }
     }
 
-    help() {
-        this.introService.ShowBatches();
-    }
-
     setDataIndexForm(index) {
         if (index) {
             this.searchForm.patchValue({
@@ -370,5 +366,9 @@ export class ControlComponent implements OnInit {
             this.loading = false;
             this.errorMsg.errorMessages(error);
         });
+    }
+
+    help() {
+        this.introService.ControlBatches();
     }
 }
