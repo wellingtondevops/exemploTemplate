@@ -23,7 +23,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Volume, VolumeList } from 'src/app/models/volume';
-import { environment} from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 const urlSearch = environment.urlSearch;
 
 declare var $: any;
@@ -101,11 +101,11 @@ export class NewComponent implements OnInit {
         private modalService: NgbModal,
         private introService: IntroJsService,
 
-        ) {
-            config.backdrop = 'static';
-            config.keyboard = false;
+    ) {
+        config.backdrop = 'static';
+        config.keyboard = false;
 
-        }
+    }
 
 
     ngOnInit() {
@@ -124,33 +124,33 @@ export class NewComponent implements OnInit {
         this.setDataIndexForm(index);
 
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#worksheets').autocomplete({
-                source:  async function(request, response) {
+                source: async function (request, response) {
                     const myId = localStorage.getItem('idBatch');
                     const myId2 = await JSON.parse(myId).map(el => el.fdp);
 
-                    const data = await fetch(`${urlSearch}/batches/${myId2.toString()}/search?term=${request.term}` )
-                    .then(results => results.json())
-                    .then(results => results.map(result => {
-                        return {label: result.fieldColumns, value: result.fieldColumns, id: result._id};
-                    }));
+                    const data = await fetch(`${urlSearch}/batches/${myId2.toString()}/search?term=${request.term}`)
+                        .then(results => results.json())
+                        .then(results => results.map(result => {
+                            return { label: result.fieldColumns, value: result.fieldColumns, id: result._id };
+                        }));
                     response(data);
                 },
-                select: function(event, ui) {
+                select: function (event, ui) {
                     fetch(`${urlSearch}/worksheets/${ui.item.id}`)
-                    .then(result => result.json())
-                    .then(result => {
-                        localStorage.removeItem('lista');
-                        result.fieldColumns.forEach(fieldColumn => {
-                            const lista = JSON.parse(localStorage.getItem('lista') || '[]');
-                            lista.push(
-                                fieldColumn
+                        .then(result => result.json())
+                        .then(result => {
+                            localStorage.removeItem('lista');
+                            result.fieldColumns.forEach(fieldColumn => {
+                                const lista = JSON.parse(localStorage.getItem('lista') || '[]');
+                                lista.push(
+                                    fieldColumn
                                 );
                                 localStorage.setItem('lista', JSON.stringify(lista));
-                                setTimeout(function() {$('#realtime')[0].click(); }, 0);
+                                setTimeout(function () { $('#realtime')[0].click(); }, 0);
+                            });
                         });
-                    });
 
                 }
             });
@@ -227,7 +227,7 @@ export class NewComponent implements OnInit {
                 this.getBatchImages();
             } else {
                 this.getBatchImages();
-                    setTimeout(function() {$('#open')[0].click(); }, 700);
+                setTimeout(function () { $('#open')[0].click(); }, 700);
 
 
             }
@@ -505,10 +505,10 @@ export class NewComponent implements OnInit {
             location: null,
             storehouse: null
         });
-        }
+    }
 
-        help() {
-            this.introService.indexNew();
-        }
+    help() {
+        this.introService.indexNew();
+    }
 }
 

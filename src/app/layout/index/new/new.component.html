@@ -42,7 +42,17 @@
                                             batch.storehouse.name ? batch.storehouse.name : '' }}<br>
                                             <b>POSIÇÃO</b>: {{ batch && batch.volume &&
                                             batch.volume.location ? batch.volume.location : '' }}<br>
+
                                         </p>
+                                        <div class="text-center col-lg-auto">
+                                            <a *ngIf=" batch && batch.volume &&
+                                            batch.volume.closeBox ? batch.volume.closeBox : '' " class="bg-danger">
+                                                VOLUME FECHADO, POR FAVOR ENTRE EM CONTATO COM
+                                                O ADMINISTRADOR DO
+                                                ARQUIVO OU ESCOLHA OUTRA POSIÇÃO
+                                            </a>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +124,8 @@
                                         <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
                                             <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
                                                 [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
-                                                [showDownloadButton]="download" [showBookmarkButton]="false"
-                                                [showPrintButton]="print" [showPresentationModeButton]="false"
+                                                [showBookmarkButton]="false"
+                                                [showPresentationModeButton]="false"
                                                 [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
                                                 [height]="'90vh'"></ngx-extended-pdf-viewer>
                                         </div>
@@ -180,13 +190,13 @@
                                                     class="form-control" formControlName="departament"
                                                     [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                                                     [ngbTypeahead]="searchDepartament" style="width: 100%"
-                                                    #instanceDepartament="ngbTypeahead"
+                                                    #instanceDepartament="ngbTypeahead" placeholder="Nome do Departamento"
                                                     (focus)="focusDepartament$.next($any($event).target.value)"
                                                     (click)="clickDepartament$.next($any($event).target.value)" />
                                             </div>
                                             <div class="form-group mb-2 col-3">
                                                 <label for="location">Posição</label>
-                                                <input id="location" class="form-control col-12"
+                                                <input id="location"  placeholder="Informe a Posição" class="form-control col-12"
                                                     formControlName="location" />
                                             </div>
                                             <div class="form-group mb-2 col-3">
@@ -195,6 +205,7 @@
                                                     class="form-control" formControlName="storehouse"
                                                     [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
                                                     [ngbTypeahead]="searchStorehouse" style="width: 100%"
+                                                    placeholder="Nome do Depósito"
                                                     #instanceStorehouse="ngbTypeahead"
                                                     (focus)="focusStorehouse$.next($any($event).target.value)"
                                                     (click)="clickStorehouse$.next($any($event).target.value)" />
@@ -246,14 +257,24 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Posição" [width]="100" prop="location">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Criado em" [width]="150" prop="dateCreated">
+                            <ngx-datatable-column name="Criado em" [width]="50" prop="dateCreated">
                                 <ng-template let-value="value" ngx-datatable-cell-template>
                                     {{ value | date: 'dd/MM/yyyy' }}
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Selecionar" [width]="150" prop="_id">
+                            <ngx-datatable-column  name="Selecionar" [width]="50" prop="_id">
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                                     <button class="btn btn-primary" (click)="getVolume(row)">Selecionar</button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Caixa" [width]="50" prop="closeBox">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    <ng-container *ngIf="value; else elseTemplate">
+                                        <strong>Fechada</strong>
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                        <a>Aberta</a>
+                                    </ng-template>
                                 </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>
