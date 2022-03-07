@@ -140,8 +140,8 @@ export class ListComponent implements OnInit {
                 endDate: volume.endDate,
                 initDate: volume.initDate,
                 guardType: volume.guardType,
-                records: volume.records,
-                closeBox: volume.closeBox
+                // records: volume.records,
+                // closeBox: volume.closeBox
             });
 
             this.getDepartaments(volume.company._id);
@@ -252,6 +252,10 @@ export class ListComponent implements OnInit {
                 this.loading = false;
             }
         );
+        this.searchForm.patchValue({
+            records: null,
+            closeBox: null
+        });
     }
 
     /* setPage(pageInfo) {
