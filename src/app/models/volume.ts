@@ -19,6 +19,7 @@ export class Volume {
   status: string;
   reference: string;
   records: boolean;
+  closeBox: boolean;
 }
 
 export class VolumeList {

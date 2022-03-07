@@ -149,6 +149,15 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" formControlName="closeBox" value="" />
+                            <div class="state">
+                                <label>Fechar Volume</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>

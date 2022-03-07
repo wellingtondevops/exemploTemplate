@@ -106,6 +106,16 @@
                         </button>
                     </div>
 
+                    <div class="state">
+                        <label class="mr-2" >Situação do Volume: </label>
+                        <ng-container *ngIf="volume.closeBox; else elseTemplate">
+                            <strong>Fechado</strong>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <strong>Aberto</strong>
+                        </ng-template>
+                    </div>
+
                     <div class="form-group" [hidden]="hiddenReference">
                         <label for="">Referência</label>
                         <input type="text" placeholder="Referência" class="form-control" formControlName="reference" />

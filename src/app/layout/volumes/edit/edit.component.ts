@@ -67,7 +67,8 @@ export class EditComponent implements OnInit {
             departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
-            reference: this.fb.control('')
+            reference: this.fb.control(''),
+            closeBox: this.fb.control('', [Validators.required])
         });
     }
 
@@ -116,7 +117,8 @@ export class EditComponent implements OnInit {
                     volumeType: data.volumeType,
                     uniqueField: data.uniqueField,
                     location: data.location,
-                    status: data.status
+                    status: data.status,
+                    closeBox: data.closeBox,
                 });
                 this.changeGuardType();
                 this.getDepartament(data.company._id);

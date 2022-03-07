@@ -80,6 +80,7 @@ export class ShowComponent implements OnInit {
             status: this.fb.control({ value: '', disabled: true }),
             location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             reference: this.fb.control({ value: '', disabled: true }),
+            closeBox: this.fb.control({value: '', disabled: true})
         });
     }
 
@@ -139,6 +140,7 @@ export class ShowComponent implements OnInit {
                     location: data.location,
                     status: data.status,
                     reference: data.reference,
+                    closeBox: data.closeBox,
                 });
                 // this.getDepartament(data.company._id);
             },
@@ -163,6 +165,7 @@ export class ShowComponent implements OnInit {
                 guardType: { value: this.volume.guardType, disabled: false },
                 volumeType: { value: this.volume.volumeType, disabled: false },
                 reference: { value: this.volume.reference, disabled: false },
+                closeBox: { value: this.volume.closeBox, disabled: false},
                 dateCreated: { value: moment(this.volume.dateCreated).format('YYYY-MM-DD'), disabled: true }
             });
         }

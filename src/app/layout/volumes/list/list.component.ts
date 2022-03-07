@@ -49,6 +49,7 @@ export class ListComponent implements OnInit {
     guardTypeList: any = [];
     storehouses: any = [];
     records: boolean;
+    closeBox: boolean;
     dateSent;
     dateReceived;
     focusCompany$ = new Subject<string>();
@@ -72,14 +73,16 @@ export class ListComponent implements OnInit {
 
     columns = [
         // { name: 'Empresa', prop: 'company.name', width: 250 },
-        { name: 'Departamento', prop: 'departament.name' },
+        { name: 'Departamento', prop: 'departament.name', },
         { name: 'Posição', prop: 'location' },
         { name: 'Depósito', prop: 'storehouse.name' },
         { name: 'Status', prop: 'status' },
         { name: 'Guarda', prop: 'guardType' },
         { name: 'Referência', prop: 'reference' },
         { name: 'Conteúdo', prop: 'records', pipe: { transform: this.pipes.recordsType } },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } },
+        { name: 'Situação do Volume', prop: 'closeBox', pipe: { transform: this.pipes.boxType } },
+
 
         /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
         { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
@@ -123,6 +126,7 @@ export class ListComponent implements OnInit {
             initDate: this.fb.control(null),
             guardType: this.fb.control('GERENCIADA'),
             records: this.fb.control(null),
+            closeBox: this.fb.control(null)
         });
         const volume = JSON.parse(this.localStorageSrv.get('volume'));
         if (volume && volume.company) {
@@ -136,13 +140,14 @@ export class ListComponent implements OnInit {
                 endDate: volume.endDate,
                 initDate: volume.initDate,
                 guardType: volume.guardType,
-                records: volume.records
+                records: volume.records,
+                closeBox: volume.closeBox
             });
 
             this.getDepartaments(volume.company._id);
         }
         this.statusList = StatusVolumeEnum;
-        //this.getVolumes();
+        // this.getVolumes();
         this.getCompanies();
         this.getStoreHouses();
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
@@ -186,7 +191,8 @@ export class ListComponent implements OnInit {
             endDate: null,
             initDate: null,
             guardType: 'GERENCIADA',
-            records: null
+            records: null,
+            closeBox: null
         });
     }
 
@@ -213,7 +219,8 @@ export class ListComponent implements OnInit {
             endDate: null,
             initDate: null,
             guardType: null,
-            records: null
+            records: false,
+            closeBox: false
         };
 
         this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
@@ -226,6 +233,8 @@ export class ListComponent implements OnInit {
         this.searchForm.value.initDate ? newForm.initDate = this.searchForm.value.initDate : null;
         this.searchForm.value.guardType ? newForm.guardType = this.searchForm.value.guardType : null;
         this.searchForm.value.records ? newForm.records = this.searchForm.value.records : null;
+        this.searchForm.value.closeBox ? newForm.closeBox = this.searchForm.value.closeBox : null;
+
 
         const searchValue = _.omitBy(newForm, _.isNil);
 
@@ -380,7 +389,7 @@ export class ListComponent implements OnInit {
         this.dateReceived = this.dateSent;
     }
 
-    help(){
+    help() {
         this.introService.ListVolumes();
     }
 }

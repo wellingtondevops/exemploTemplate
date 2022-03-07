@@ -157,6 +157,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col col-lg-2 col-sm-12">
+                            <label>Situação do Volume:</label>
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="closeBox" formControlName="closeBox"
+                                    [value]="closeBox" id="closeBox" [checked]="false">
+                                <div class="state">
+                                    <label class="form-check-label" for="closeBox">
+                                        Volume Aberto
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="pretty p-switch p-fill">
+                                <input class="form-check-input" type="radio" name="closeBox" formControlName="closeBox"
+                                    [value]="!closeBox" id="closeBoxF" [checked]="false">
+                                <div class="state">
+                                    <label class="form-check-label" for="closeBoxF">
+                                        Volume Fechado
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
