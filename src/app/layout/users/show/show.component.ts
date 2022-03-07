@@ -1,6 +1,6 @@
 import { PermissionsUser } from 'src/app/models/document';
 import { UserPermissionsService } from './../../../services/users-permissions/user-permissions.service';
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../../services/users/users.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -31,6 +31,7 @@ const MODALS = {
     animations: [routerTransition()]
 })
 export class ShowComponent implements OnInit {
+    noExternal = false;
     public isCollapsed = true;
     id: String;
     novoid: string;
@@ -90,6 +91,7 @@ export class ShowComponent implements OnInit {
             controllBox: this.fb.control({ value: '', disabled: true }),
         });
 
+        this.noExternal = this.NoExternal();
         this.id = this.route.snapshot.paramMap.get('id');
         this.getCompanies();
         this.getUser();
@@ -109,6 +111,14 @@ export class ShowComponent implements OnInit {
             searchPlaceholderText: 'Pesquisar'
         };
 
+    }
+
+    NoExternal() {
+        let res = false;
+            if (JSON.parse(window.localStorage.getItem('userExternal')) === true) {
+                res = true;
+            }
+        return res;
     }
 
     help(): void {
