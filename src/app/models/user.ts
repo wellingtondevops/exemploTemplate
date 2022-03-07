@@ -16,6 +16,7 @@ export class User {
     acceptanceTerm: boolean;
     receiveCorrection: boolean;
     receiveLoan: boolean;
+    controllBox: boolean;
 }
 export class UserList {
     _links: Pagination;

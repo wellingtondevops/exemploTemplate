@@ -63,6 +63,7 @@ export class NewComponent implements OnInit {
             permissions: this.fb.array(this.permissions),
             receiveCorrection: this.fb.control(true, [Validators.required]),
             receiveLoan: this.fb.control(true, [Validators.required]),
+            controllBox: this.fb.control(true, [Validators.required])
         });
 
         this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
