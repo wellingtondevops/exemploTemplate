@@ -219,8 +219,8 @@ export class ListComponent implements OnInit {
             endDate: null,
             initDate: null,
             guardType: null,
-            records: false,
-            closeBox: false
+            records: null,
+            closeBox: null
         };
 
         this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
