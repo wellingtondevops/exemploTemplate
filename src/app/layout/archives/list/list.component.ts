@@ -1,3 +1,4 @@
+import { ColumnMode } from './../../../models/column-mode.types';
 import { data } from 'jquery';
 import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
@@ -65,6 +66,7 @@ export class ListComponent implements OnInit {
     dateReceived;
     fDateCurrent;
     fDateIntermediate;
+    ColumnMode = ColumnMode;
 
 
     constructor(

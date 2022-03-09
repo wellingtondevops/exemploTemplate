@@ -63,13 +63,6 @@
                                 (focus)="focusStorehouse$.next($any($event).target.value)"
                                 (click)="clickStorehouse$.next($any($event).target.value)" />
                         </div>
-                        <!-- <div class="form-group mb-2 col-1">
-                        <label for="status">Status</label>
-                        <select class="form-control col-12" id="status" formControlName="status">
-                            <option *ngFor="let item of statusList | enumToArray" [value]="item">
-                                {{ item }}</option>
-                        </select>
-                    </div> -->
                     </div>
                     <div class="row mt-1 mb-1 form-check-inline">
                         <div class="col-lg-1 pr-0">
@@ -203,63 +196,108 @@
         </div>
     </div>
     <div id="step5">
-        <ngx-datatable #myTable class="material" [rows]="archives" [columnMode]="'force'" [headerHeight]="50"
-            [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-            [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="showView($event)">
-            <!-- Row Detail Template -->
-            <!-- <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
-    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-        <div class="container" style="padding-bottom: 10px">
-        <div class="row">
-            <div class="col-2" style="padding-left:35px;">
-              <div *ngFor="let desc of row.doct.label"><strong>{{desc.namefield}}: </strong></div>
-            </div>
-            <div class="col-4" style="padding-left:35px;">
-              <div *ngFor="let tag of row.tag">{{tag}} </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </ngx-datatable-row-detail> -->
-            <!-- Column Templates -->
-            <!-- <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
-      [canAutoResize]="false">
-      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-        <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-          title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-        </a>
-      </ng-template>
-    </ngx-datatable-column> -->
-            <ngx-datatable-column name="Departamento" prop="departament.name" [width]="70"></ngx-datatable-column>
-            <ngx-datatable-column name="Posição" prop="volume.location" [width]="70"></ngx-datatable-column>
-            <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="70"></ngx-datatable-column>
-            <ngx-datatable-column name="Status" prop="status" [width]="40"></ngx-datatable-column>
-            <ngx-datatable-column name="Documento" prop="doct.name"></ngx-datatable-column>
-            <ngx-datatable-column name="Indexação" prop="index" [width]="300"></ngx-datatable-column>
-            <ngx-datatable-column name="Anexo" prop="picture" [width]="40">
+        <ngx-datatable #myTable class="material striped" [rows]="archives" [columnMode]="ColumnMode.standard"
+            [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
+            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
+            (activate)="showView($event)">
+
+            <!-- Row Detail Template
+            <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                    <div class="container" style="padding-bottom: 10px">
+                        <div class="row">
+                            <div class="col-2" style="padding-left:35px;">
+                                <div *ngFor="let desc of row.doct.label"><strong>{{desc.namefield}}: </strong></div>
+                            </div>
+                            <div class="col-4" style="padding-left:35px;">
+                                <div *ngFor="let tag of row.tag">{{tag}} </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-row-detail>
+                Column Templates
+            <ngx-datatable-column  [resizeable]="false" [sortable]="false" [draggable]="false"
+                [canAutoResize]="false">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                    <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+                        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+                    </a>
+                </ng-template>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column name="Departamento" prop="departament.name" [width]="330"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Posição" prop="volume.location" [width]="100"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="140"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Status" prop="status" [width]="60">
+                <ng-template let-value="value" class="text-center" ngx-datatable-cell-template>
+                    <ng-container *ngIf="value == 'ATIVO'">
+                        <abbr title="ARQUIVO">
+                            <i class="mdi mdi-alpha-a-circle" style="font-size:30px;"></i>
+                        </abbr>
+                    </ng-container>
+                    <ng-container *ngIf="value == 'BAIXADO'">
+                        <abbr title="BAIXADO">
+                            <i class="mdi mdi-alpha-b-circle" style="font-size:30px;"></i>
+                        </abbr>
+                    </ng-container>
+                    <ng-container *ngIf="value == 'EMPRESTADO'">
+                        <abbr title="EMPRESTADO">
+                            <i class="mdi mdi-alpha-e-circle" style="font-size:30px;"></i>
+                        </abbr>
+                    </ng-container>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Documento" prop="doct.name" [width]="400"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Indexação" prop="index" [width]="290"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Anexo" prop="picture" [width]="60">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <i *ngIf="value" class="fa fa-file-pdf-o" style="font-size:40px;color:rgb(190, 36, 36)"></i>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Páginas" prop="picture.page" [width]="10"></ngx-datatable-column>
-            <ngx-datatable-column name="Criado em" prop="create" [width]="30">
+
+            <ngx-datatable-column name="Páginas" prop="picture.page" [width]="65"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Criado em" prop="create" [width]="85">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{ value | date: 'dd/MM/yyyy' }}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Fases" prop="finalCurrent" [width]="5">
+
+            <ngx-datatable-column name="Fases" prop="finalCurrent" [width]="50">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    <i *ngIf="value == true" class="mdi mdi-alpha-c-box" title=""
-                        style="font-size:30px; margin-right: 2px;"></i>
-                    <i *ngIf="value == false" class="mdi mdi-alpha-c-box-outline" title=""
-                        style="font-size:30px; margin-right: 2px;"></i>
+                    <ng-container *ngIf="value == true; else elseTemplate">
+                        <abbr title="concluida">
+                            <i class="mdi mdi-alpha-c-circle" style="font-size:30px;"></i>
+                        </abbr>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <abbr title="não concluida">
+                            <i class="mdi mdi-alpha-c-circle-outline" style="font-size:30px;"></i>
+                        </abbr>
+                    </ng-template>
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="" prop="finalIntermediate" [width]="5">
+            <ngx-datatable-column name="" prop="finalIntermediate" [width]="55">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    <i *ngIf="value == true" class="mdi mdi-alpha-i-box" title="" style="font-size:30px;"></i>
-                    <i *ngIf="value == false" class="mdi mdi-alpha-i-box-outline" title="" style="font-size:30px;"></i>
+                    <ng-container *ngIf="value == true; else elseTemplate">
+                        <abbr title="concluida">
+                            <i class="mdi mdi-alpha-i-circle" style="font-size:30px;"></i>
+                        </abbr>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <abbr title="não concluida">
+                            <i *ngIf="value == false" class="mdi mdi-alpha-i-circle-outline"
+                                style="font-size:30px; padding-right: 5px;"></i>
+                        </abbr>
+                    </ng-template>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>
