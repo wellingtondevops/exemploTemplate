@@ -273,12 +273,12 @@
             <ngx-datatable-column name="Fases" prop="finalCurrent" [width]="50">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <ng-container *ngIf="value == true; else elseTemplate">
-                        <abbr title="concluida">
+                        <abbr title="Fase corrente concluida">
                             <i class="mdi mdi-alpha-c-circle" style="font-size:30px;"></i>
                         </abbr>
                     </ng-container>
                     <ng-template #elseTemplate>
-                        <abbr title="não concluida">
+                        <abbr title="Fase corrente não concluida">
                             <i class="mdi mdi-alpha-c-circle-outline" style="font-size:30px;"></i>
                         </abbr>
                     </ng-template>
@@ -288,12 +288,12 @@
             <ngx-datatable-column name="" prop="finalIntermediate" [width]="55">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <ng-container *ngIf="value == true; else elseTemplate">
-                        <abbr title="concluida">
+                        <abbr title="Fase intermediaria concluida">
                             <i class="mdi mdi-alpha-i-circle" style="font-size:30px;"></i>
                         </abbr>
                     </ng-container>
                     <ng-template #elseTemplate>
-                        <abbr title="não concluida">
+                        <abbr title="Fase intermediaria não concluida">
                             <i *ngIf="value == false" class="mdi mdi-alpha-i-circle-outline"
                                 style="font-size:30px; padding-right: 5px;"></i>
                         </abbr>
