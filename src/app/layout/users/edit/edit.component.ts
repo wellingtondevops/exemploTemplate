@@ -24,6 +24,7 @@ import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
     animations: [routerTransition()]
 })
 export class EditComponent implements OnInit {
+    noExternal = false;
     isCollapsed = false;
     id: String;
     closeResult = '';
@@ -74,13 +75,20 @@ export class EditComponent implements OnInit {
             receiveLoan: this.fb.control('', [Validators.required]),
             controllBox: this.fb.control('', [Validators.required]),
         });
-
+        this.noExternal = this.NoExternal();
         this.id = this.route.snapshot.paramMap.get('id');
 
         this.getDocuments();
         this.getCompanies();
         this.getProfiles();
+    }
 
+    NoExternal() {
+        let res = false;
+            if (JSON.parse(window.localStorage.getItem('userExternal')) === true) {
+                res = true;
+            }
+        return res;
     }
 
     getProfiles() {

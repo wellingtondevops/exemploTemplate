@@ -24,6 +24,7 @@ import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
     animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
+    noExternal = false;
     public isCollapsed = true;
     user: Object;
     userForm: FormGroup;
@@ -66,6 +67,8 @@ export class NewComponent implements OnInit {
             controllBox: this.fb.control(true, [Validators.required])
         });
 
+        this.noExternal = this.NoExternal();
+
         this.userExternal = JSON.parse(window.localStorage.getItem('userExternal'));
 
         if (this.userExternal) {
@@ -78,6 +81,14 @@ export class NewComponent implements OnInit {
 
     help(): void {
         this.introService.NewUser();
+    }
+
+    NoExternal() {
+        let res = false;
+            if (JSON.parse(window.localStorage.getItem('userExternal')) === true) {
+                res = true;
+            }
+        return res;
     }
 
     getProfiles() {

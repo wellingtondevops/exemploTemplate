@@ -64,25 +64,25 @@
                                     </div>
                                 </div>
                                 <div class="pretty p-switch p-fill">
-                                    <input type="checkbox" formControlName="physicalDocuments" value="" />
+                                    <input type="checkbox" formControlName="physicalDocuments" value="" *ngIf="!noExternal"/>
                                     <div class="state">
                                         <label>Solicitação de Documentos</label>
                                     </div>
                                 </div>
                                 <div class="pretty p-switch p-fill">
-                                    <input type="checkbox" formControlName="receiveCorrection" value="" />
+                                    <input type="checkbox" formControlName="receiveCorrection" value="" *ngIf="!noExternal"/>
                                     <div class="state">
                                         <label>Correções de Arquivos</label>
                                     </div>
                                 </div>
                                 <div class="pretty p-switch p-fill">
-                                    <input type="checkbox" formControlName="receiveLoan" value="" />
+                                    <input type="checkbox" formControlName="receiveLoan" value="" *ngIf="!noExternal"/>
                                     <div class="state">
                                         <label>Emprestimos de Arquivos</label>
                                     </div>
                                 </div>
                                 <div class="pretty p-switch p-fill">
-                                    <input type="checkbox" formControlName="controllBox" value="" />
+                                    <input type="checkbox" formControlName="controllBox" value="" *ngIf="!noExternal"/>
                                     <div class="state">
                                         <label>Abre Caixas</label>
                                     </div>
