@@ -51,10 +51,10 @@ export class ListComponent implements OnInit {
     page = new Page();
 
     columns = [
-        { name: 'Empresa', prop: 'company.name' },
-        { name: 'Documento', prop: 'doct.name' },
-        { name: 'Lote', prop: 'batchNr', width: 20 },
-        { name: 'Criado em', prop: 'dateCreated', width: 20, pipe: { transform: this.pipes.datePipe } }
+        { name: 'Empresa', prop: 'company.name', width: 750 },
+        { name: 'Documento', prop: 'doct.name', width: 600 },
+        { name: 'Lote', prop: 'batchNr', width: 150 },
+        { name: 'Criado em', prop: 'dateCreated', width: 135, pipe: { transform: this.pipes.datePipe } }
     ];
 
     constructor(

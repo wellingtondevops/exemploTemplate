@@ -40,11 +40,10 @@ export class ListComponent implements OnInit {
     };
     page = new Page();
     columns = [
-        { name: 'Nome', prop: 'name' },
-        { name: 'Fase Corrente', prop: 'dcurrentValue' },
-        { name: 'Fase Intermédiaria', prop: 'dintermediateValue' },
-        { name: 'Destinação Final', prop: 'dfinal' },
-
+        { name: 'Nome', prop: 'name', width: 740 },
+        { name: 'Fase Corrente', prop: 'dcurrentValue', width: 200 },
+        { name: 'Fase Intermédiaria', prop: 'dintermediateValue', width: 200 },
+        { name: 'Destinação Final', prop: 'dfinal', width: 500 },
     ];
     loading: Boolean = false;
     permissionNew = false;

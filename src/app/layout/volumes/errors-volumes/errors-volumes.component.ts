@@ -58,7 +58,7 @@ export class ErrorsVolumesComponent implements OnInit {
     }
 
     getErrors() {
-        this.setPage({ offset: 0 })
+        this.setPage({ offset: 0 });
     }
 
     setPage(pageInfo) {
@@ -84,7 +84,7 @@ export class ErrorsVolumesComponent implements OnInit {
     }
 
     getFile(id) {
-        window.location.href = `${url}/sheetvolumes/excel/${id}`
+        window.location.href = `${url}/sheetvolumes/excel/${id}`;
     }
 
     clear() {

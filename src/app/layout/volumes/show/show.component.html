@@ -96,14 +96,8 @@
 
                     <div class="form-group">
                         <label>Conteúdo:</label>
-                        <button type="button" class="btn btn-dark" style="margin-left: 10px;" *ngIf="volume.records"
-                            disabled>
-                            <a title="Possui Arquivos"><i class="fa fa-archive"></i></a>
-                        </button>
-                        <button type="button" class="btn btn-ligth" style="margin-left: 10px;" *ngIf="!volume.records"
-                            disabled>
-                            <a title="Não possui Arquivos"><i class="fa fa-archive"></i></a>
-                        </button>
+                        <abbr title="Possui arquivos"  *ngIf="volume.records"><i class="mdi mdi-archive mdi-24px"></i></abbr>
+                        <abbr title="Não possui arquivos" *ngIf="!volume.records"><i class="mdi mdi-archive-remove mdi-24px"></i></abbr>
                     </div>
 
                     <div class="state">

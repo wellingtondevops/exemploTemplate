@@ -288,11 +288,11 @@
 
                         <div>
                             <br />
-                            <ngx-datatable #myTable class="material" [rows]="sheetnames" [columnMode]="'force'"
+                            <ngx-datatable #myTable class="material striped" [rows]="sheetnames" [columnMode]="'standard'"
                                 [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
                                 [count]="page2.totalElements" [offset]="page2.pageNumber" [limit]="10"
-                                (page2)="setPage($event)">
-                                <ngx-datatable-column name="" [width]="15" prop="sheetname">
+                                (page2)="setPage($event)" [scrollbarH]="true">
+                                <ngx-datatable-column name="" [width]="50" prop="sheetname">
                                     <ng-template let-value="value" ngx-datatable-cell-template>
                                         <i *ngIf="value" class="fa fa-file-excel-o" style="
                                                 font-size: 30px;
@@ -300,15 +300,15 @@
                                             "></i>
                                     </ng-template>
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="Nome" [width]="200" prop="sheetname">
+                                <ngx-datatable-column name="Nome" [width]="1270" prop="sheetname">
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="Criado em" [width]="150" prop="createAt">
+                                <ngx-datatable-column name="Criado em" [width]="140" prop="createAt">
                                     <ng-template let-value="value" ngx-datatable-cell-template>
                                         {{ value | date: "dd/MM/yyyy" }}
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column name="Excluir da Planilha" [width]="200" prop="_id">
+                                <ngx-datatable-column name="Excluir da Planilha" [width]="150" prop="_id">
                                     <ng-template let-value="value" ngx-datatable-cell-template>
                                         <button class="btn btn-danger btn-sm" (click)="deleteSheet(value)">
                                             Excluir
