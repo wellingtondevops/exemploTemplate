@@ -67,13 +67,7 @@ export class NewComponent implements OnInit {
     clickStorehouse$ = new Subject<string>();
     indexs: any = [];
     volumes: Volume[];
-    columns = [
-        { name: 'Documento', prop: 'doct.name' },
-        { name: 'Departamento', prop: 'departament.name' },
-        { name: 'Depósito', prop: 'storehouse.name' },
-        { name: 'Posição', prop: 'location', width: 70 },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
-    ];
+    
     urlFile: any = '';
     pictureId: any = '';
     pictures: any = '';
