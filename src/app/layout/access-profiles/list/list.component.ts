@@ -43,8 +43,8 @@ export class ListComponent implements OnInit {
     };
     page = new Page();
     columns = [
-        { name: 'Empresa', prop: 'company.name' },
-        { name: 'Perfil', prop: 'name' },
+        { name: 'Empresa', prop: 'company.name', width: 830 },
+        { name: 'Perfil', prop: 'name', width: 825 },
     ];
 
 

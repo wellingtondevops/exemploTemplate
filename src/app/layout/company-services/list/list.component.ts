@@ -34,7 +34,7 @@ export class ListComponent implements OnInit {
     loading: Boolean = true;
 
     columns = [
-        { name: 'Nome', prop: 'company.name' },
+        { name: 'Nome', prop: 'company.name', width: 1655 },
     ];
     permissionNew = false;
     companies: any;

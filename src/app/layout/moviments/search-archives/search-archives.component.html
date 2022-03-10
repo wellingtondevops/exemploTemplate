@@ -99,8 +99,8 @@
     </div>
     <div class="row" *ngIf="archives.items.length > 0">
         <div class="col col-xl-12 col-lg-12">
-            <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'force'" [headerHeight]="50"
-                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+            <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'standard'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [scrollbarH]="true"
                 [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageArchives($event)" [selected]="selected"
                 [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)">
                 <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
@@ -111,13 +111,13 @@
 
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Departamento" prop="departament.name"></ngx-datatable-column>
-                <ngx-datatable-column name="Movimentação Aberta" prop="demand.nr"></ngx-datatable-column>
-                <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
-                <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
-                <ngx-datatable-column name="Documento" prop="doct.name"></ngx-datatable-column>
-                <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
-                <ngx-datatable-column name="Criado em" prop="create">
+                <ngx-datatable-column name="Departamento" prop="departament.name" [width]= 300></ngx-datatable-column>
+                <ngx-datatable-column name="Movimentação Aberta" prop="demand.nr" [width]= 100></ngx-datatable-column>
+                <ngx-datatable-column name="Posição" prop="volume.location" [width]= 132></ngx-datatable-column>
+                <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]= 300></ngx-datatable-column>
+                <ngx-datatable-column name="Documento" prop="doct.name" [width]= 300></ngx-datatable-column>
+                <ngx-datatable-column name="Indexação" prop="tag" [width]= 300></ngx-datatable-column>
+                <ngx-datatable-column name="Criado em" prop="create" [width]= 135>
                     <ng-template let-value="value" ngx-datatable-cell-template>
                         {{ value | date: 'dd/MM/yyyy' }}
                     </ng-template>

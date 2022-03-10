@@ -50,12 +50,12 @@ export class ListComponent implements OnInit {
     clickCompany$ = new Subject<string>();
 
     columns = [
-        { name: 'Nr. Movimentação', prop: 'nr', width: 10 },
-        { name: 'Empresa', prop: 'company.name', width: 250 },
-        { name: 'Nome', prop: 'requester.name' },
-        { name: 'Status da Operação', prop: 'title' },
-        { name: 'Data da Solicitação', prop: 'demandDate', width: 20, pipe: { transform: this.pipes.datePipe } },
-        { name: 'Data da Movimentação', prop: 'processedDate', width: 20, pipe: { transform: this.pipes.datePipe } },
+        { name: 'Nr. Movimentação', prop: 'nr', width: 135 },
+        { name: 'Empresa', prop: 'company.name', width: 500 },
+        { name: 'Nome', prop: 'requester.name', width: 400 },
+        { name: 'Status da Operação', prop: 'title', width: 300 },
+        { name: 'Data da Solicitação', prop: 'demandDate', width: 150, pipe: { transform: this.pipes.datePipe } },
+        { name: 'Data da Movimentação', prop: 'processedDate', width: 150, pipe: { transform: this.pipes.datePipe } },
     ];
 
     constructor(

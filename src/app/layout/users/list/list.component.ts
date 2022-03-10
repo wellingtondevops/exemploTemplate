@@ -41,9 +41,9 @@ export class ListComponent implements OnInit {
     loading: Boolean = true;
 
     columns = [
-        { name: 'Nome', prop: 'name' },
-        { name: 'E-mail', prop: 'email' },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+        { name: 'Nome', prop: 'name', width: 500 },
+        { name: 'E-mail', prop: 'email', width: 640 },
+        { name: 'Criado em', prop: 'dateCreated', width: 500, pipe: { transform: this.pipes.datePipe } }
     ];
     permissionNew: boolean = false;
 

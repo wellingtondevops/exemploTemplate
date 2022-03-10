@@ -96,10 +96,10 @@
     </div>
     <div class="row" *ngIf="volumes.items.length > 0">
         <div class="col col-xl-12 col-lg-12">
-            <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'" [headerHeight]="50"
+            <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'standard'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
                 [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageVolumes($event)" [selected]="selected"
-                [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)">
+                [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)" [scrollbarH]="true">
                 <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
                     [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
                     <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
@@ -107,14 +107,14 @@
                         <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Departamento" prop="departament.name"></ngx-datatable-column>
-                <ngx-datatable-column name="Movimentação Aberta" prop="demand.nr"></ngx-datatable-column>
+                <ngx-datatable-column name="Departamento" prop="departament.name" [width]= 450></ngx-datatable-column>
+                <ngx-datatable-column name="Movimentação Aberta" prop="demand.nr" [width]= 200></ngx-datatable-column>
 
-                <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
-                <ngx-datatable-column name="Posição" prop="location"></ngx-datatable-column>
-                <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column>
-                <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
-                <ngx-datatable-column name="Criado em" prop="dateCreated">
+                <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]= 300></ngx-datatable-column>
+                <ngx-datatable-column name="Posição" prop="location" [width]= 135></ngx-datatable-column>
+                <ngx-datatable-column name="Tipo de Guarda" prop="guardType" [width]= 150></ngx-datatable-column>
+                <ngx-datatable-column name="Referência" prop="reference" [width]= 200></ngx-datatable-column>
+                <ngx-datatable-column name="Criado em" prop="dateCreated" [width]= 130>
                     <ng-template let-value="value" ngx-datatable-cell-template>
                         {{ value | date: 'dd/MM/yyyy' }}
                     </ng-template>

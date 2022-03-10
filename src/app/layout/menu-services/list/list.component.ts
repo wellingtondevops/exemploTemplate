@@ -31,8 +31,8 @@ export class ListComponent implements OnInit {
     };
     page = new Page();
     columns = [
-        { name: 'Descrição', prop: 'descriptionService' },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+        { name: 'Descrição', prop: 'descriptionService', width: 827 },
+        { name: 'Criado em', prop: 'dateCreated', width: 827, pipe: { transform: this.pipes.datePipe } }
     ];
     loading: Boolean = true;
     permissionNew: boolean = false;
