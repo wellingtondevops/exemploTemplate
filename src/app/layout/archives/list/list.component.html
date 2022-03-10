@@ -236,17 +236,17 @@
                 <ng-template let-value="value" class="text-center" ngx-datatable-cell-template>
                     <ng-container *ngIf="value == 'ATIVO'">
                         <abbr title="ARQUIVO">
-                            <i class="mdi mdi-alpha-a-circle" style="font-size:30px;"></i>
+                            <i class="mdi mdi-alpha-a-circle mdi-24px"></i>
                         </abbr>
                     </ng-container>
                     <ng-container *ngIf="value == 'BAIXADO'">
                         <abbr title="BAIXADO">
-                            <i class="mdi mdi-alpha-b-circle" style="font-size:30px;"></i>
+                            <i class="mdi mdi-alpha-b-circle mdi-24px"></i>
                         </abbr>
                     </ng-container>
                     <ng-container *ngIf="value == 'EMPRESTADO'">
                         <abbr title="EMPRESTADO">
-                            <i class="mdi mdi-alpha-e-circle" style="font-size:30px;"></i>
+                            <i class="mdi mdi-alpha-e-circle mdi-24px"></i>
                         </abbr>
                     </ng-container>
                 </ng-template>
@@ -274,12 +274,12 @@
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <ng-container *ngIf="value == true; else elseTemplate">
                         <abbr title="Fase corrente concluida">
-                            <i class="mdi mdi-alpha-c-circle" style="font-size:30px;"></i>
+                            <i class="mdi mdi-alpha-c-circle mdi-24px"></i>
                         </abbr>
                     </ng-container>
                     <ng-template #elseTemplate>
                         <abbr title="Fase corrente não concluida">
-                            <i class="mdi mdi-alpha-c-circle-outline" style="font-size:30px;"></i>
+                            <i class="mdi mdi-alpha-c-circle-outline mdi-24px"></i>
                         </abbr>
                     </ng-template>
                 </ng-template>
@@ -289,13 +289,12 @@
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <ng-container *ngIf="value == true; else elseTemplate">
                         <abbr title="Fase intermediaria concluida">
-                            <i class="mdi mdi-alpha-i-circle" style="font-size:30px;"></i>
+                            <i class="mdi mdi-alpha-i-circle mdi-24px"></i>
                         </abbr>
                     </ng-container>
                     <ng-template #elseTemplate>
                         <abbr title="Fase intermediaria não concluida">
-                            <i *ngIf="value == false" class="mdi mdi-alpha-i-circle-outline"
-                                style="font-size:30px; padding-right: 5px;"></i>
+                            <i *ngIf="value == false" class="mdi mdi-alpha-i-circle-outline mdi-24px"></i>
                         </abbr>
                     </ng-template>
                 </ng-template>

@@ -27,10 +27,10 @@ export class DatatablesComponent implements OnInit {
     ngOnInit() { }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!this.firstMoment) {
-            this.firstMoment = true;
-            this.columns.push({ name: '', cellTemplate: this.showTmpl });
-        }
+        // if (!this.firstMoment) {
+        //     this.firstMoment = true;
+        //     this.columns.push({ name: 'puta', cellTemplate: this.showTmpl });
+        // }
         // tslint:disable-next-line:forin
         for (const propName in changes) {
             const change = changes[propName];

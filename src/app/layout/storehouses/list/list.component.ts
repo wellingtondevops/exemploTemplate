@@ -42,8 +42,9 @@ export class ListComponent implements OnInit {
     page = new Page();
     loading: Boolean = true;
 
-    columns = [{ name: 'Nome', prop: 'name', width: 900 },
-    { name: 'Criado em', prop: 'dateCreated',  width: 600, pipe: { transform: this.pipes.datePipe } }];
+    columns = [
+        { name: 'Nome', prop: 'name', width: 850 },
+        { name: 'Criado em', prop: 'dateCreated', width: 800, pipe: { transform: this.pipes.datePipe } }];
     permissionNew = false;
 
     constructor(

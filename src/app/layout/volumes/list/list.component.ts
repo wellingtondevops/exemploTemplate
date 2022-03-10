@@ -72,21 +72,15 @@ export class ListComponent implements OnInit {
     page = new Page();
 
     columns = [
-        // { name: 'Empresa', prop: 'company.name', width: 250 },
-        { name: 'Departamento', prop: 'departament.name', },
-        { name: 'Posição', prop: 'location' },
-        { name: 'Depósito', prop: 'storehouse.name' },
-        { name: 'Status', prop: 'status' },
-        { name: 'Guarda', prop: 'guardType' },
-        { name: 'Referência', prop: 'reference' },
-        { name: 'Conteúdo', prop: 'records', pipe: { transform: this.pipes.recordsType } },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } },
-        { name: 'Situação do Volume', prop: 'closeBox', pipe: { transform: this.pipes.boxType } },
-
-
-        /* { name: 'Guarda', prop: 'guardType', width: 50, pipe: { transform: this.pipes.guardType } },
-        { name: 'Status', prop: 'status', width: 50, pipe: { transform: this.pipes.status } },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } } */
+        { name: 'Departamento', prop: 'departament.name', width: 450},
+        { name: 'Posição', prop: 'location', width: 130, },
+        { name: 'Depósito', prop: 'storehouse.name', width: 300 },
+        { name: 'Status', prop: 'status', width: 100, pipe: {transform: this.pipes.statusVolume} },
+        { name: 'Guarda', prop: 'guardType', width: 100 , pipe: {transform: this.pipes.guardTypeVolume}},
+        { name: 'Referência', prop: 'reference', width: 200 },
+        { name: 'Conteúdo', prop: 'records', width: 100, pipe: { transform: this.pipes.recordsType } },
+        { name: 'Criado em', prop: 'dateCreated', width: 100, pipe: { transform: this.pipes.datePipe } },
+        { name: 'Situação do Volume', prop: 'closeBox', width: 150, pipe: { transform: this.pipes.boxType } },
     ];
     permissionNew = false;
     isUsers = false;
@@ -147,7 +141,7 @@ export class ListComponent implements OnInit {
             this.getDepartaments(volume.company._id);
         }
         this.statusList = StatusVolumeEnum;
-        // this.getVolumes();
+        this.getVolumes();
         this.getCompanies();
         this.getStoreHouses();
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;

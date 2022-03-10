@@ -53,9 +53,9 @@ export class ShowComponent implements OnInit {
     page = new Page();
 
     columns = [
-        { name: 'Posição', prop: 'position' },
-        { name: 'Empresa', prop: 'company.name' },
-        { name: 'Departamento', prop: 'departament.name' },
+        { name: 'Posição', prop: 'position', width: 200 },
+        { name: 'Empresa', prop: 'company.name', width: 800 },
+        { name: 'Departamento', prop: 'departament.name', width: 600 },
         //{ name: 'Situação da Posição', prop: 'used' },
     ];
     permissionNew = false;

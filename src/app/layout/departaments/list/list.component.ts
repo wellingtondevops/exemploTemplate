@@ -48,8 +48,8 @@ export class ListComponent implements OnInit {
     page = new Page();
     companies: any = [];
     columns = [
-        { name: 'Empresa', prop: 'company.name' },
-        { name: 'Departamento', prop: 'name' },
+        { name: 'Empresa', prop: 'company.name', width: 750 },
+        { name: 'Departamento', prop: 'name', width: 750 },
         // { name: 'Criado por', prop: 'author.name' },
         //{ name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
