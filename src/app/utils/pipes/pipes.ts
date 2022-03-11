@@ -39,10 +39,10 @@ export class Pipes {
     recordsType(records: boolean) {
         if (records === true) {
             return `
-                <abbr title="Possui arquivos"><i class="mdi mdi-archive mdi-24px"></i></abbr>`;
+                <abbr title="Possui arquivos"><i class="mdi mdi-archive mdi-36px"></i></abbr>`;
         } else {
             return `
-                <abbr title="Não possui arquivos"><i class="mdi mdi-archive-remove mdi-24px"></abbr>`;
+                <abbr title="Não possui arquivos"><i class="mdi mdi-archive-remove mdi-36px"></abbr>`;
         }
         // const myRecords = (records === true ? 'Possui Arquivos' : 'Não Possui Arquivos');
         // return myRecords;
@@ -51,15 +51,15 @@ export class Pipes {
     statusVolume(value: any, ...args: any[]) {
         if (value == 'ATIVO') {
             return `<abbr title="ARQUIVO">
-                        <i class="mdi mdi-alpha-a-circle mdi-24px"></i>
+                        <i class="mdi mdi-alpha-a-circle mdi-36px"></i>
                     </abbr>`;
         } if (value == 'BAIXADO') {
             return `<abbr title="BAIXADO" >
-                        <i class="mdi mdi-alpha-b-circle mdi-24px"></i>
+                        <i class="mdi mdi-alpha-b-circle mdi-36px"></i>
                     </abbr>`;
         }if (value == 'EMPRESTADO') {
             return `<abbr title="EMPRESTADO" >
-                        <i class="mdi mdi-alpha-e-circle mdi-24px"></i>
+                        <i class="mdi mdi-alpha-e-circle mdi-36px"></i>
                     </abbr>`;
         }
     }
@@ -67,11 +67,11 @@ export class Pipes {
     guardTypeVolume(value: any, ...args: any[]) {
         if (value == 'SIMPLES') {
             return `<abbr title="Tipo de guarda SIMPLES">
-                        <i class="mdi mdi-alpha-s-circle mdi-24px"></i>
+                        <i class="mdi mdi-alpha-s-circle mdi-36px"></i>
                     </abbr>`;
         } if (value == 'GERENCIADA') {
             return `<abbr title="Tipo de guarda GERENCIADA" >
-                        <i class="mdi mdi-alpha-g-circle mdi-24px"></i>
+                        <i class="mdi mdi-alpha-g-circle mdi-36px"></i>
                     </abbr>`;
         }
     }
@@ -79,10 +79,10 @@ export class Pipes {
     boxType(closeBox: boolean) {
         if (closeBox === true) {
             return `
-                <abbr title="Volume fechado"><i class="mdi mdi-archive-lock mdi-24px"></i></abbr>`;
+                <abbr title="Volume fechado"><i class="mdi mdi-archive-lock mdi-36px"></i></abbr>`;
         } else {
             return `
-                <abbr title="Volume aberto"><i class="mdi mdi-archive-eye mdi-24px"></abbr>`;
+                <abbr title="Volume aberto"><i class="mdi mdi-archive-eye mdi-36px"></abbr>`;
         }
         // const box = (closeBox === true ? 'Volume Fechado' : 'Volume Aberto');
         // return box;
