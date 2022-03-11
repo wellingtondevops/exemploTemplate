@@ -1,7 +1,3 @@
-$topnav-background-color: #222;
-:host {
-    display: block;
-}
 .login-page {
     position: absolute;
     top: 0;
@@ -9,7 +5,8 @@ $topnav-background-color: #222;
     right: 0;
     bottom: 0;
     overflow: auto;
-    background: $topnav-background-color;
+    background: #222;
+    background: linear-gradient(to right, #222, #333);
     text-align: center;
     color: #fff;
     padding: 3em;
@@ -22,6 +19,9 @@ $topnav-background-color: #222;
         font-size: 18px;
         line-height: 1.3333333;
         border-radius: 0;
+        font-size: 0.9rem;
+        letter-spacing: 0.05rem;
+        padding: 0.75rem 1rem;
     }
     .input-underline {
         background: 0 0;
@@ -38,7 +38,7 @@ $topnav-background-color: #222;
         -webkit-border-radius: 50px;
         border-radius: 40px;
         color: rgba(255, 255, 255, 0.8);
-        background: $topnav-background-color;
+        background: #222;
         border: 2px solid rgba(255, 255, 255, 0.8);
         font-size: 18px;
         line-height: 40px;
@@ -53,14 +53,9 @@ $topnav-background-color: #222;
         outline: none;
     }
 
-    h1 {
-        font-weight: 300;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        font-size: 36px;
-        small {
-            color: rgba(255, 255, 255, 0.7);
-        }
+    .card {
+        background: #222;
+        background: linear-gradient(to right, #222, #333);
     }
 
     .form-group {
@@ -92,4 +87,3 @@ $topnav-background-color: #222;
         border: 2px solid #fff;
     }
 }
-
