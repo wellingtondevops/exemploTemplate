@@ -196,7 +196,7 @@
         </div>
     </div>
     <div id="step5">
-        <ngx-datatable #myTable class="material striped" [rows]="archives" [columnMode]="ColumnMode.standard"
+        <ngx-datatable #myTable class="material striped" [rows]="archives" [columnMode]="ColumnMode.force"
             [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
             [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
             (activate)="showView($event)">

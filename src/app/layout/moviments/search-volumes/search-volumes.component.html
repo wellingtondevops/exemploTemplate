@@ -96,7 +96,7 @@
     </div>
     <div class="row" *ngIf="volumes.items.length > 0">
         <div class="col col-xl-12 col-lg-12">
-            <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'standard'" [headerHeight]="50"
+            <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
                 [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageVolumes($event)" [selected]="selected"
                 [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)="onSelect($event)" [scrollbarH]="true">

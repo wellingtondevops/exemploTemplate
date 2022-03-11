@@ -206,7 +206,7 @@
                         </form>
                         <div class="row" *ngIf="archives && archives.items.length > 0">
                             <div class="col col-xl-12 col-lg-12" style="padding-top: 20px">
-                                <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'standard'"
+                                <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'force'"
                                     [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
                                     [count]="pageArchives.totalElements" [offset]="pageArchives.pageNumber - 1"
                                     [limit]="10" (page)="searchItensArchives($event)" [selected]="selected"
@@ -337,7 +337,7 @@
                         </form>
                         <div class="row" *ngIf="volumes && volumes.items.length > 0">
                             <div class="col-lg-12">
-                                <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'standard'"
+                                <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'"
                                     [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
                                     [count]="pageVolumes.totalElements" [offset]="pageVolumes.pageNumber - 1"
                                     [limit]="10" (page)="showItensVolumes($event)" [selected]="selected" [scrollbarH]="true"
