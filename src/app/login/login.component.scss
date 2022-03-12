@@ -1,18 +1,25 @@
+@import "~@mdi/font/css/materialdesignicons.css";
+
 body {
     top: 0;
     bottom: 0;
+    left: 0;
     width: 100%;
-    position: absolute;
-    background: #007bff;
-    background: linear-gradient(to right, #0062E6, #33AEFF);
-  }
+    height: 100%;
+    position: fixed;
+    background: #222;
+    background: linear-gradient(to right, #222, #333);
+    .card {
+        background: #222;
+        background: linear-gradient(to right, #222, #222);
+    }
+}
 
-  .btn-login {
+.btn-login {
     font-size: 0.9rem;
     letter-spacing: 0.05rem;
     padding: 0.75rem 1rem;
-  }
-
+}
 
 // .login-page {
 //     position: absolute;
@@ -70,10 +77,10 @@ body {
 //         outline: none;
 //     }
 
-//     .card {
-//         background: #222;
-//         background: linear-gradient(to right, #222, #333);
-//     }
+    // .card {
+    //     background: #222;
+    //     background: linear-gradient(to right, #222, #333);
+    // }
 
 //     .form-group {
 //         padding: 8px 0;
