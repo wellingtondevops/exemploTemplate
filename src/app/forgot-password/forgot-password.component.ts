@@ -34,6 +34,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.fogotPasswordSrv.forgotPassword(this.resetPassForm.value.email).subscribe(res => {
       this.successMsgSrv.successMessages(res);
       this.loading = false;
+      
     }, error => {
       this.errorMsg.errorMessages(error);
       console.log('ERROR: ', error);
