@@ -145,7 +145,7 @@
 
         <div *ngIf="isUsers || isTemplates" class="nested-menu" [routerLinkActive]="['router-link-active']">
             <a class="list-group-item" (click)="addExpandClass('pages')">
-                <i class="fa fa-cog"></i>&nbsp;
+                <i class="mdi mdi-cog"></i>&nbsp;
                 <span>{{ "Configurações" | translate }}</span>
             </a>
             <li *ngIf="isUsers|| isMenuService" class="nested" [class.expand]="showMenu === 'pages'">
