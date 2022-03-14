@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 export class SidebarComponent implements OnInit {
   isActive: boolean;
   collapsed: boolean;
+  collapsed2: boolean;
   showMenu: string;
   pushRightClass: string;
   permissionAdmin: boolean;
@@ -55,6 +56,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.isActive = false;
     this.collapsed = false;
+    this.collapsed2 = false;
     this.showMenu = '';
     this.pushRightClass = 'push-right';
     this.permissionAdmin = this.isAdmin();
@@ -309,6 +311,10 @@ export class SidebarComponent implements OnInit {
     } else {
       this.showMenu = element;
     }
+  }
+
+  toggleCollapsed2() {
+    this.collapsed2 = !this.collapsed2;
   }
 
   toggleCollapsed() {
