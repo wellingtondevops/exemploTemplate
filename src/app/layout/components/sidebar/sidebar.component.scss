@@ -1,13 +1,13 @@
 @import "~@mdi/font/css/materialdesignicons.css";
-
 $topnav-background-color: #222;
 .sidebar {
-    border-radius: 0;
+    // border-radius: 0;
     position: fixed;
     z-index: 1000;
     top: 56px;
     left: 235px;
     width: 235px;
+    height: 100%;
     margin-left: -235px;
     margin-bottom: 48px;
     border: none;
@@ -26,7 +26,7 @@ $topnav-background-color: #222;
     // border-top: 1px solid rgba(255,255,255,0.3);
     .list-group {
         a.list-group-item {
-            padding-left: 25px;
+            padding-left: 20px;
             background: $topnav-background-color;
             border: 0;
             border-radius: 0;
@@ -40,17 +40,13 @@ $topnav-background-color: #222;
             padding-left: 20px;
             border-left-color: white;
             border-left: 5px solid;
-            border-radius: 5px;
             background: darken($topnav-background-color, 5%);
             color: #fff;
         }
         a.router-link-active {
-            margin: 5px;
             padding-left: 20px;
             border-left-color: white;
-            border: 2px solid;
-            border-radius: 15px;
-
+            border-left: 5px solid;
             background: darken($topnav-background-color, 5%);
             color: #fff;
         }
@@ -126,6 +122,11 @@ $topnav-background-color: #222;
     ul.submenu {
         display: none;
         height: 0;
+        padding-left: 15px;
+        a {
+            display: none;
+            margin-left: 5px;
+        }
     }
     & .expand {
         ul.submenu {
@@ -175,7 +176,7 @@ $topnav-background-color: #222;
 
 .toggle-button {
     position: fixed;
-    width: 235px;
+    width: 236px;
     cursor: pointer;
     padding: 12px;
     bottom: 0;
@@ -188,7 +189,7 @@ $topnav-background-color: #222;
         background: darken($topnav-background-color, 5%);
         color: #fff;
     }
-    // border-top: 1px solid #999;
+    border-top: 1px solid #999;
     -webkit-transition: all 0.2s ease-in-out;
     -moz-transition: all 0.2s ease-in-out;
     -ms-transition: all 0.2s ease-in-out;
@@ -201,4 +202,9 @@ $topnav-background-color: #222;
     span {
         display: none;
     }
+}
+
+.logout {
+    position: fixed;
+    bottom: 50px;
 }

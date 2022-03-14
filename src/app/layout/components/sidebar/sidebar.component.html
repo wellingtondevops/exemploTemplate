@@ -188,6 +188,13 @@
                 </ul>
             </li>
         </div>
+        <div class="logout">
+            <a class="list-group-item" [routerLink]="['/login']" (click)="onLoggedout()">
+                <i class="mdi mdi-logout mdi-18px"></i>&nbsp;
+                <span> {{ "Log Out" | translate }}</span>
+            </a>
+
+        </div>
     </div>
 
     <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()">
