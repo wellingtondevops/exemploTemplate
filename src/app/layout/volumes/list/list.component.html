@@ -16,7 +16,7 @@
             <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'"
                 [permissionBtnNew]="permissionNew && !isUsers" [routerTo]="'/volumes/new'"></app-page-header>
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body">
             <form [formGroup]="searchForm" (ngSubmit)="getVolumes()" role="FormGroup">
                 <div id="step2">
                     <div class="row">

@@ -5,38 +5,16 @@
 .mat-row:nth-child(odd) {
     background-color: black;
 }
-:host-context(.bootstrap) {
-    // .ngx-datatable {
-    //     background-color: lightgrey;
-    //     border-color: darkgrey;
-    // }
 
-    // .ngx-datatable,
-    // .info {
-    //     text-align: left;
-    //     width: 75%;
-    //     margin: 0 auto;
-    //     color: aqua;
-    //     span{
-    //         color: blue;
-    //     }
-    // }
-}
-.ngx-datatable.material .datatable-header {
-    height: unset !important;
-    background: #28998b;
+:host-context(.bootstrap) {
+    .ngx-datatable {
+        background-color: white;
+    }
 }
 
 :host-context(.bootstrap-dark) {
     .ngx-datatable {
-        background-color: #212529;
+        background-color: #3c4146;
         border-color: darkgrey;
-        a {
-            color: #d3d3d3;
-        }
     }
-}
-
-.datatable-body-row {
-    color: red;
 }

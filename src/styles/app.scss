@@ -1,10 +1,12 @@
-@import '~@mdi/font/css/materialdesignicons.css';/* You can add global styles to this file, and also import other style files */
+@import "~@mdi/font/css/materialdesignicons.css"; /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/bootstrap";
 @import "spinner";
 @import "utils";
 @import "rtl";
 @import "responsive";
 @import "~@swimlane/ngx-datatable/release/index.css";
+@import "~@swimlane/ngx-datatable/release/themes/dark.css";
+@import "~@swimlane/ngx-datatable/release/themes/bootstrap";
 @import "~@swimlane/ngx-datatable/release/themes/material.css";
 @import "~@swimlane/ngx-datatable/release/assets/icons.css";
 
@@ -13,28 +15,60 @@
         display: none !important;
     }
 }
-
-.dropdown-menu {
+//White Theme
+.bootstrap .dropdown-menu {
     max-height: 10em;
     overflow-y: auto;
     border-radius: 10px;
-    .dropdown-item{
+    .bootstrap .dropdown-item {
         border-radius: 10px;
         padding: 3px;
     }
 }
 
-.card input {
+.bootstrap .card input {
     border-radius: 50px;
 }
 
-.card select{
+.bootstrap .card select {
     border-radius: 50px;
 }
 
-.card {
+.bootstrap .card {
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
+}
+
+.bootstrap .btn{
+    border-radius: 50px;
+}
+
+//Dark Theme
+.bootstrap-dark .dropdown-menu {
+    max-height: 10em;
+    overflow-y: auto;
+    border-radius: 10px;
+    .bootstrap-dark .dropdown-item {
+        border-radius: 10px;
+        padding: 3px;
+    }
+}
+
+.bootstrap-dark .card input {
+    border-radius: 50px;
+}
+
+.bootstrap-dark .card select {
+    border-radius: 50px;
+}
+
+.bootstrap-dark .card {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.bootstrap-dark .btn{
+    border-radius: 50px;
 }
 
 .ngx-datatable {
@@ -42,9 +76,3 @@
     border-top-right-radius: 9px;
 }
 
-.card button {
-    border-radius: 15px;
-}
-// body{
-//     background-color: #222222;
-// }
