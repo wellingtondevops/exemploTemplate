@@ -6,7 +6,7 @@
         secondaryColour: '#222',
         tertiaryColour: '#222'}">
     </ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header" id="step1">
             <div class="row mt-0">
                 <div class="col-lg-11">
@@ -36,7 +36,7 @@
                     <div class="col-12">
                         <label for="">Classes</label>
                         <br>
-                        <div class="card bg-light mb-12 card-primary">
+                        <div class="card  mb-12 card-primary">
                             <div class="card-body">
                                 <div class="form-group" formArrayName="classes">
                                     <div *ngFor="let class of classes.controls; index as i">
@@ -98,7 +98,7 @@
                                                         class="form-control" formControlName="comments"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="card bg-light mb-12 card-secundary">
+                                            <div class="card  mb-12 card-secundary">
                                                 <div class="card-body">
                                                     <label for="">Sub Classes</label>
                                                     <br>
@@ -174,7 +174,7 @@
                                                                             formControlName="comments"></textarea>
                                                                     </div>
                                                                 </div>
-                                                                <div class="card bg-light mb-12 card-warning"
+                                                                <div class="card  mb-12 card-warning"
                                                                     *ngIf="subclass.value.groups.length > 0">
                                                                     <div class="card-body">
                                                                         <label for="">Grupos</label>
@@ -278,7 +278,7 @@
                                                                                                 formControlName="comments"></textarea>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="card bg-light mb-12 card-info"
+                                                                                    <div class="card  mb-12 card-info"
                                                                                         *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
                                                                                         <div class="card-body">
                                                                                             <label for="">Sub

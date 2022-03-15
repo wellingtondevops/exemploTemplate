@@ -14,7 +14,7 @@
       [permissionDelete]="permissionDelete"></app-buttons-custom>
     <br />
   </div>
-  <div class="card bg-light mb-12">
+  <div class="card  mb-12">
     <div class="card-body" *ngIf="requester">
       <form [formGroup]="requesterForm" role="FormGroup">
         <div class="row">
@@ -64,7 +64,7 @@
             </div>
             <div class="form-group" formArrayName="permissions">
               <div *ngFor="let permissions of permissions.controls; index as i">
-                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                <div class="card  col-lg-12" style="margin-bottom: 10px">
                   <div class="card-body">
                     <div [formGroupName]="i">
                       <div class="form-group">

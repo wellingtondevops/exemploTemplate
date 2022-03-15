@@ -6,7 +6,7 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
             <div class="row mt-0">
                 <div class="col-lg-11">
@@ -40,7 +40,7 @@
                         <label style="float: left;">Serviços</label>
                         <div class="form-group" id="services" formArrayName="services">
                             <div *ngFor="let service of services.controls; index as i">
-                                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                                <div class="card  col-lg-12" style="margin-bottom: 10px">
                                     <div class="card-body">
                                         <div [formGroupName]="i">
                                             <button type="button" class="btn btn-danger btn-xs pull-right"

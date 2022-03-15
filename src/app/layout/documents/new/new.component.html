@@ -18,7 +18,7 @@
             </div>
             <!-- <app-page-header [heading]="'Novo Documento'" [icon]="'fa-book'"></app-page-header> -->
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body ">
             <ngb-tabset #tab>
                 <ngb-tab title="Documento" id="tab1">
                     <ng-template ngbTabContent>
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card bg-light mb-12">
+                                    <div class="card  mb-12">
                                         <div class="card-header">
                                             Fases
                                         </div>
@@ -110,7 +110,7 @@
                                     <div class="form-group" formArrayName="label">
                                         <label for="">Índices</label>
                                         <div *ngFor="let label of labels.controls; index as i">
-                                            <div class="card bg-light mb-12" style="margin-bottom: 5px">
+                                            <div class="card  mb-12" style="margin-bottom: 5px">
                                                 <div class="card-body">
                                                     <button type="button" class="btn btn-danger btn-xs pull-right"
                                                         (click)="removeLabel(i)">
@@ -209,7 +209,7 @@
                             </ng-template>
                         </form>
                         <div *ngIf="topic">
-                            <div class="card bg-light mb-12">
+                            <div class="card  mb-12">
                                 <div class="card-header">
                                     Tópico
                                 </div>
