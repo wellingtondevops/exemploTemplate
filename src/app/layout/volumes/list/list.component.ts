@@ -72,9 +72,9 @@ export class ListComponent implements OnInit {
     page = new Page();
 
     columns = [
-        { name: 'Departamento', prop: 'departament.name', width: 450},
+        { name: 'Departamento', prop: 'departament.name', width: 300},
         { name: 'Posição', prop: 'location', width: 130, },
-        { name: 'Depósito', prop: 'storehouse.name', width: 300 },
+        { name: 'Depósito', prop: 'storehouse.name', width: 250 },
         { name: 'Status', prop: 'status', width: 100, pipe: {transform: this.pipes.statusVolume} },
         { name: 'Guarda', prop: 'guardType', width: 100 , pipe: {transform: this.pipes.guardTypeVolume}},
         { name: 'Referência', prop: 'reference', width: 200 },
