@@ -1,3 +1,10 @@
-<div class="oval" [ngClass]="{ovalSelected: theme == 'bootstrap'}" (click)="toggleTheme()">
+<!-- <div class="oval" [ngClass]="{ovalSelected: theme == 'bootstrap'}" (click)="toggleTheme()">
     <div class="button" [ngClass]="{buttonSelected: theme == 'bootstrap'}"></div>
+</div> -->
+<div class="pretty p-switch p-fill" [ngClass]="{ovalSelected: theme == 'bootstrap'}" (click)="toggleTheme()">
+    <input title="Dark Mode" class="form-check-input input-sm" type="checkbox" name="closeBox" id="darkMode" [ngClass]="{buttonSelected: theme == 'bootstrap'}">
+    <div class="state">
+        <label class="form-check-label" for="darkMode">
+        </label>
+    </div>
 </div>

@@ -21,7 +21,6 @@ body {
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    background: #fff;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
 }
@@ -30,7 +29,6 @@ body {
     display: block;
     margin-bottom: 10px;
     line-height: 1.42857143;
-    background-color: #fff;
     border-radius: 20px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
         0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -50,4 +48,15 @@ body {
     margin-top: 0px;
     font-weight: 700;
     font-size: 1.65em;
+}
+
+:host-context(.bootstrap-dark) {
+    .card {
+        background-color: dark;
+        border-color: darkgrey;
+        color: white;
+        p, h4, i {
+            color: #d3d3d3;
+        }
+    }
 }
