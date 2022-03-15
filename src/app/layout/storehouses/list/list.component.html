@@ -20,7 +20,7 @@
                 </app-page-header>
             </div>
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body">
             <form [formGroup]="searchForm" (ngSubmit)="getStoreHouses()" role="FormGroup" class="form">
                 <div class="row" id="step2">
                     <div class="col-lg-7 col-sm-12">
@@ -54,7 +54,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12 col-sm-12" id="step4">
-        <app-datatables [data]="storehouses" (setPage)="setPageStoreHouses($event)" (show)="getStoreHouse($event)"
+        <app-datatables class="table-color" [data]="storehouses" (setPage)="setPageStoreHouses($event)" (show)="getStoreHouse($event)"
             [columns]="columns"></app-datatables>
     </div>
 </div>

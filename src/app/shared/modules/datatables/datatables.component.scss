@@ -5,3 +5,23 @@
 .mat-row:nth-child(odd) {
     background-color: black;
 }
+:host-context(.bootstrap) {
+    .ngx-datatable {
+        background-color: lightgrey;
+        border-color: darkgrey;
+        color: red;
+        span {
+            color:red;
+        }
+    }
+}
+
+:host-context(.bootstrap-dark) {
+    .ngx-datatable {
+        background-color: #212529;
+        border-color: darkgrey;
+        a {
+            color: #d3d3d3;
+        }
+    }
+}
