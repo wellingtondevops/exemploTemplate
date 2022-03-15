@@ -54,7 +54,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12 col-sm-12" id="step4">
-        <app-datatables class="table-color" [data]="storehouses" (setPage)="setPageStoreHouses($event)" (show)="getStoreHouse($event)"
+        <app-datatables [data]="storehouses" (setPage)="setPageStoreHouses($event)" (show)="getStoreHouse($event)"
             [columns]="columns"></app-datatables>
     </div>
 </div>
