@@ -9,29 +9,15 @@
                             <img src="assets/images/logo.png" width="250px" />
                         </h5>
                         <form  [formGroup]="loginForm" (ngSubmit)="onLoggedin()" role="FormGroup">
-                            <div class="form-floating mb-3 emailForPC">
-                                <input type="email" class="form-control" formControlName="email" id="floatingInput"
-                                    placeholder="name@example.com">
-                                <label for="floatingInput">
-                                    Email
-                                </label>
-                            </div>
                             <div class="form-group mb-3 emailForPhone">
                                 <input type="email" formControlName="email"
                                     class="form-control input-underline input-lg" id=""
                                     placeholder="{{ 'Email' | translate }}" />
                             </div>
-                            <div class="form-floating mb-3 passForPC">
-                                <input type="password" class="form-control" formControlName="password" id="floatingPassword"
-                                    placeholder="Senha">
-                                <label for="floatingPassword">
-                                    Senha
-                                </label>
-                            </div>
                             <div class="form-group mb-3 passForPhone">
                                 <input type="password" formControlName="password"
                                     class="form-control input-underline input-lg" id=""
-                                    placeholder="{{ 'Password' | translate }}" />
+                                    placeholder="Senha" />
                             </div>
 
                             <div class="d-grid">

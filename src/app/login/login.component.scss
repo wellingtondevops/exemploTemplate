@@ -21,37 +21,37 @@ body {
     padding: 0.75rem 1rem;
 }
 
-.emailForPhone {
-    display: none;
-}
+// .emailForPhone {
+//     display: none;
+// }
 
-@media screen and (max-width: 500px) {
-    .emailForPhone {
-        display: block;
-    }
-}
-.emailForPC {
-    display: block;
-}
+// @media screen and (max-width: 500px) {
+//     .emailForPhone {
+//         display: block;
+//     }
+// }
+// .emailForPC {
+//     display: block;
+// }
 
-@media screen and (max-width: 500px) {
-    .emailForPC {
-        display: none;
-    }
-}
+// @media screen and (max-width: 500px) {
+//     .emailForPC {
+//         display: none;
+//     }
+// }
 
-.passForPhone {
-    display: none;
-}
+// .passForPhone {
+//     display: none;
+// }
 
-@media screen and (max-width: 500px) {
-    .passForPhone {
-        display: block;
-    }
-}
-.passForPC {
-    display: block;
-}
+// @media screen and (max-width: 500px) {
+//     .passForPhone {
+//         display: block;
+//     }
+// }
+// .passForPC {
+//     display: block;
+// }
 
 @media screen and (max-width: 500px) {
     .passForPC {

@@ -5,4 +5,6 @@ export class Notify {
     title: string;
     user: string;
     linkIcon: string;
+    attachment: string;
+
 }

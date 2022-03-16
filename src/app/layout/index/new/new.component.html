@@ -217,7 +217,7 @@
                                     <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                                         <i class="fa fa-search"></i>
                                     </button>
-                                    <button style="margin-left: 5px;" type="button" class="btn btn-default"
+                                    <button style="margin-left: 5px;" type="button" class="btn dark-btn"
                                         (click)="clear()">
                                         Limpar Campos
                                     </button>
@@ -226,7 +226,7 @@
                         </form>
                         <div class="row">
                             <div class="col-lg-12 mt-2">
-                                <ngx-datatable #myTable class="material striped" [rows]="volumes"
+                                <ngx-datatable #myTable class="bootstrap" [rows]="volumes"
                                     [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
                                     [rowHeight]="'auto'" [count]="page.totalElements" [offset]="page.pageNumber"
                                     [limit]="10" [scrollbarH]="true" (page)='setPage($event)'>

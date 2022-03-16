@@ -76,15 +76,21 @@
                                             Importar Imagens
                                         </h5>
                                         <div class="import">
-                                            <form class="form-control" [formGroup]="myForm" (ngSubmit)="submit()" id="">
-                                                <div class="form-group" id="btn-import" style="
+                                            <form class="form-control-color" [formGroup]="myForm" (ngSubmit)="submit()"
+                                                id="">
+                                                <label class="btn dark-btn">
+                                                    Selecionar Documentos
+                                                    <input type="file" hidden multiple formControlName="file" id="file"
+                                                        class="form-control-file" (change)="onFileChange($event)">
+                                                </label>
+                                                <!-- <div class="form-group" id="btn-import" style="
                                                         font-weight: bolder;
                                                         margin-bottom: 2px;
                                                     ">
                                                     <input formControlName="file" id="file" type="file" multiple
-                                                        class="form-control" (change)="onFileChange($event)"
+                                                        class="form-control-file" (change)="onFileChange($event)"
                                                         style="border-radius: 0px;" />
-                                                </div>
+                                                </div> -->
                                                 <button class="btn btn-xs btn-primary" type="submit"
                                                     style="margin-top: 0">
                                                     Importar
@@ -247,15 +253,11 @@
                         <ngb-tab title="Dados da Planilha" id="tab2">
                             <ng-template ngbTabContent>
                                 <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup">
-                                        <div class="row">
+                                    <div class="row">
                                         <div class="form-group col-lg-8">
-                                            <label for="sheetname">Nome da Planilha</label>
-                                            <input id="sheetname" autoFocus="true" type="text" class="form-control"
-                                                formControlName="sheetname" style="
-                                                    background-color: #fff;
-                                                    border: 1px solid #ced4da;
-                                                    padding: 0.375rem 0.75rem;
-                                                " />
+                                            <label for="sheetname">Empresa</label>
+                                            <input id="sheetname" type="text" placeholder="Nome da Planilha"
+                                                class="form-control" formControlName="sheetname" />
                                         </div>
                                         <div class="col-lg-4">
                                             <h5 style="
@@ -265,16 +267,22 @@
                                                 Importar Planilha
                                             </h5>
                                             <div class="import">
-                                                <form class="form-control" [formGroup]="myForm" (ngSubmit)="sub()"
+                                                <form class="form-control-color" [formGroup]="myForm" (ngSubmit)="sub()"
                                                     id="">
-                                                    <div class="form-group" id="btn-import" style="
+                                                    <label class="btn dark-btn">
+                                                        Selecionar Documentos
+                                                        <input type="file" hidden multiple formControlName="file"
+                                                            id="exampleInputFile" class="form-control-file"
+                                                            (change)="onFileChange($event)">
+                                                    </label>
+                                                    <!-- <div class="form-group" id="btn-import" style="
                                                             font-weight: bolder;
                                                             margin-bottom: 2px;
                                                         ">
                                                         <input type="file" class="form-control-file"
                                                             id="exampleInputFile" multiple
                                                             style="border-radius: 0px;" />
-                                                    </div>
+                                                    </div> -->
                                                     <button class="btn btn-xs btn-primary" type="submit"
                                                         style="margin-top: 0">
                                                         Importar
@@ -282,26 +290,26 @@
                                                 </form>
                                             </div>
                                         </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="col-lg-6 mt-1">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-default" style="margin-left: 5px"
-                                            (click)="clear()">
-                                            Limpar Campo
-                                        </button>
                                     </div>
-                                    <br />
-                                </div>
+                                    <div class="row text-center">
+                                        <div class="col-lg-6 mt-1">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default" style="margin-left: 5px"
+                                                (click)="clear()">
+                                                Limpar Campo
+                                            </button>
+                                        </div>
+                                        <br />
+                                    </div>
                                 </form>
 
                                 <div>
                                     <br />
-                                    <ngx-datatable #myTable class="material striped" [rows]="sheetnames"
-                                        [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-                                        [rowHeight]="'auto'" [externalPaging]="true" [count]="page2.totalElements"
+                                    <ngx-datatable #myTable class="bootstrap" [rows]="sheetnames" [columnMode]="'force'"
+                                        [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                        [externalPaging]="true" [count]="page2.totalElements"
                                         [offset]="page2.pageNumber" [limit]="10" (page2)="setPage($event)"
                                         [scrollbarH]="true">
                                         <ngx-datatable-column name="" [width]="50" prop="sheetname">
