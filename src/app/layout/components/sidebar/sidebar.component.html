@@ -1,10 +1,14 @@
 <nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
+
     <div class="list-group">
         <!-- <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']"
       [routerLinkActive]="['router-link-active']" class="list-group-item">
       <i class="fa fa-envelope"></i>&nbsp;
       <span>{{ 'Solicitantes ' | translate }}</span>
     </a> -->
+        <i class="toggleTheme">
+            <app-theme-toggle></app-theme-toggle>
+        </i>
         <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="mdi mdi-view-dashboard-outline mdi-18px"></i>&nbsp;
             <span>{{ "Inicio" | translate }}</span>

@@ -12,6 +12,7 @@ $topnav-background-color: #222;
     border: none;
     border-radius: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: $topnav-background-color;
     bottom: 0;
     padding-bottom: 40px;
@@ -108,6 +109,13 @@ $topnav-background-color: #222;
             }
         }
     }
+}
+.toggleTheme {
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    background: #222;
+    color: #999;
 }
 
 .nested-menu {
