@@ -48,7 +48,7 @@
                         <button type="submit" class="btn btn-primary" [disabled]="sheet.invalid">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
+                        <button style="margin-left: 5px;" type="button" class="btn dark-btn" (click)="clear()">
                             Limpar Campos
                         </button>
                     </div>
@@ -59,7 +59,7 @@
 
     <div class="row">
         <div class="col col-xl-12 col-lg-12" id="step3">
-            <ngx-datatable #myTable class="material striped" [rows]="errorsArchives" [columnMode]="'force'" [headerHeight]="50"
+            <ngx-datatable #myTable class="bootstrap" [rows]="errorsArchives" [columnMode]="'force'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [scrollbarH]="true"
                 [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'>
                 <ngx-datatable-column name="Nome da Planilha" prop="sheet" [width]=700 ></ngx-datatable-column>

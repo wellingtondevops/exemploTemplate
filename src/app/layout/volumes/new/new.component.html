@@ -22,7 +22,7 @@
                 <div class="form-content" id="step1">
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-default pull-right" (click)="blockInputs()">
+                            <button type="button" class="btn dark-btn pull-right" (click)="blockInputs()">
                                 <span class="fa fa-unlock" [hidden]="!inputBlock">
                                     Bloquear Campos
                                 </span>
@@ -169,7 +169,7 @@
                     </ng-template>
                 </div>
                 <div class="pull-right" id="step2">
-                    <button type="button" [routerLink]="['/volumes']" class="btn btn-default"
+                    <button type="button" [routerLink]="['/volumes']" class="btn dark-btn"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary"
                         [disabled]=" company.invalid || departament.invalid || storehouse.invalid || volumeType.invalid || guardType.invalid || location.invalid || reference.invalid">
