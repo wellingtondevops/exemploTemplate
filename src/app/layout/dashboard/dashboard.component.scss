@@ -52,8 +52,8 @@ body {
 
 :host-context(.bootstrap-dark) {
     .card {
-        background-color: dark;
         border-color: darkgrey;
+        background-color: #3c4146;
         color: white;
         p, h4, i {
             color: #d3d3d3;
