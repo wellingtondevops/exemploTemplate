@@ -188,14 +188,13 @@
                 </ul>
             </li>
         </div>
+        <a class="list-group-item" [routerLink]="['/login']" (click)="onLoggedout()">
+            <i class="mdi mdi-logout mdi-18px"></i>&nbsp;
+            <span> {{ "Log Out" | translate }}</span>
+        </a>
     </div>
 
-    <div class="toggle-button2" [ngClass]="{ collapsed2: collapsed2 }">
-        <i class="mdi mdi-logout mdi-18px" [routerLink]="['/login']" (click)="onLoggedout()"></i>&nbsp;
-        <span> {{ "Log Out" | translate }}</span>
-    </div>
-
-    <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()" (click)="toggleCollapsed2()">
+    <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()">
         <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i>&nbsp;
         <span></span>
     </div>

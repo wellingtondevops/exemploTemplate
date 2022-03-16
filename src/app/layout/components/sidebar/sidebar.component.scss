@@ -8,13 +8,12 @@ $topnav-background-color: #222;
     left: 235px;
     width: 235px;
     margin-left: -235px;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     border: none;
     border-radius: 0;
     overflow-y: auto;
     background-color: $topnav-background-color;
     bottom: 0;
-    overflow-x: hidden;
     padding-bottom: 40px;
     white-space: nowrap;
     -webkit-transition: all 0.2s ease-in-out;
@@ -197,35 +196,6 @@ $topnav-background-color: #222;
 }
 
 .collapsed {
-    width: 60px;
-    span {
-        display: none;
-    }
-}
-
-.toggle-button2 {
-    position: fixed;
-    width: 235px;
-    cursor: pointer;
-    padding: 12px;
-    bottom: 50px;
-    color: #999;
-    background: #222;
-    i {
-        font-size: 23px;
-    }
-    &:hover {
-        background: darken($topnav-background-color, 5%);
-        color: #fff;
-    }
-    -webkit-transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -ms-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-}
-
-.collapsed2 {
     width: 60px;
     span {
         display: none;
