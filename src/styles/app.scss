@@ -38,9 +38,13 @@
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
 }
-
 .bootstrap .btn{
     border-radius: 50px;
+}
+.bootstrap .dark-btn{
+    color: #fff;
+    background-color: #3c4146;
+    border-color: #3c4146;
 }
 
 //Dark Theme
@@ -69,6 +73,12 @@
 
 .bootstrap-dark .btn{
     border-radius: 50px;
+}
+
+.bootstrap-dark .dark-btn{
+    color: #ced4da;
+    background-color: #1475d6;
+    border-color: #1475d6;
 }
 
 .ngx-datatable{
