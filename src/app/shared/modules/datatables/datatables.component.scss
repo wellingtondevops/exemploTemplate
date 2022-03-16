@@ -9,6 +9,11 @@
 :host-context(.bootstrap) {
     .ngx-datatable {
         background-color: white;
+        border-color: darkgrey;
+    }
+    .ngx-datatable.bootstrap .datatable-footer {
+        background: #c21111;
+        color: #ededed;
     }
 }
 
