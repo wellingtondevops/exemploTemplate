@@ -1,34 +1,82 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
-<div class="login-page" [@routerTransition]>
-    <div class="row justify-content-md-center">
-        <div class="col-md-4" style="margin-top: 10%">
-            <img src="assets/images/logo.png" width="250px" />
-            <form [formGroup]="loginForm" (ngSubmit)="onLoggedin()" role="FormGroup">
-                <div class="form-content">
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            formControlName="email"
-                            class="form-control input-underline input-lg"
-                            id=""
-                            placeholder="{{ 'Email' | translate }}"
-                        />
-                    </div>
+<body>
+    <div class="container my-5"  [@routerTransition]>
+        <div class="row justify-content-sm-center">
+            <div class="col-sm-12 col-md-7 col-lg-5 mx-auto">
+                <div class="card border-0 shadow rounded-5 my-5">
+                    <div class="card-body p-4 p-sm-5">
+                        <h5 class="card-title text-center mb-5 fw-light fs-5">
+                            <img src="assets/images/logo.png" width="250px" />
+                        </h5>
+                        <form  [formGroup]="loginForm" (ngSubmit)="onLoggedin()" role="FormGroup">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" formControlName="email" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" formControlName="password" id="floatingPassword"
+                                    placeholder="Senha">
+                                <label for="floatingPassword">
+                                    Senha
+                                </label>
+                            </div>
 
-                    <div class="form-group">
-                        <input
-                            type="password"
-                            formControlName="password"
-                            class="form-control input-underline input-lg"
-                            id=""
-                            placeholder="{{ 'Password' | translate }}"
-                        />
+                            <div class="d-grid">
+                                <button class="btn btn-outline-light btn-login text-uppercase fw-bold" type="submit">
+                                    {{ 'Log in' | translate }}
+                                </button>
+                            </div>
+                            <hr class="my-4">
+                            <div class="d-grid mb-2">
+                                <button type="button" [routerLink]="['/forgot-password']" class="btn btn-sm btn-link text-white">
+                                    {{ 'Forgot password' | translate }}</button>
+                            </div>
+                            <div class="d-grid">
+                                <!-- <button class="btn btn-login btn-outline-light text-uppercase fw-bold" type="submit">
+                                    <i class="mdi mdi-account-plus me-2"></i> Criar nova conta
+                                </button> -->
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <button type="submit" class="btn rounded-btn">{{ 'Log in' | translate }}</button>
-            </form>
-            <br>
-            <button type="button" [routerLink]="['/forgot-password']" class="btn btn-sm btn-link" style="color: white !important">{{ 'Forgot password' | translate }}</button>
+            </div>
         </div>
     </div>
-</div>
+</body>
+
+
+
+
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4" style="margin-top: 5%">
+            <div class="card border-0 shadow rounded-3">
+                    <div class="logo text-center card-title">
+                        <img src="assets/images/logo.png" width="250px" />
+                    </div>
+                    <div class="card-body p-4 p-sm-5">
+                    <form [formGroup]="loginForm" (ngSubmit)="onLoggedin()" role="FormGroup">
+                        <div class="form-content">
+                            <div class="form-group mb-3">
+                                <input type="email" formControlName="email"
+                                    class="form-control input-underline input-lg" id=""
+                                    placeholder="{{ 'Email' | translate }}" />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" formControlName="password"
+                                    class="form-control input-underline input-lg" id=""
+                                    placeholder="{{ 'Password' | translate }}" />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn rounded-btn">{{ 'Log in' | translate }}</button>
+                    </form>
+
+                    <button type="button" [routerLink]="['/forgot-password']" class="btn btn-sm btn-link"
+                        style="color: white !important">{{ 'Forgot password' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

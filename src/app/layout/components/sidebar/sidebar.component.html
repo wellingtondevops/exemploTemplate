@@ -145,7 +145,7 @@
 
         <div *ngIf="isUsers || isTemplates" class="nested-menu" [routerLinkActive]="['router-link-active']">
             <a class="list-group-item" (click)="addExpandClass('pages')">
-                <i class="fa fa-cog"></i>&nbsp;
+                <i class="mdi mdi-cog"></i>&nbsp;
                 <span>{{ "Configurações" | translate }}</span>
             </a>
             <li *ngIf="isUsers|| isMenuService" class="nested" [class.expand]="showMenu === 'pages'">
@@ -190,7 +190,12 @@
         </div>
     </div>
 
-    <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()">
+    <div class="toggle-button2" [ngClass]="{ collapsed2: collapsed2 }">
+        <i class="mdi mdi-logout mdi-18px" [routerLink]="['/login']" (click)="onLoggedout()"></i>&nbsp;
+        <span> {{ "Log Out" | translate }}</span>
+    </div>
+
+    <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()" (click)="toggleCollapsed2()">
         <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i>&nbsp;
         <span></span>
     </div>
