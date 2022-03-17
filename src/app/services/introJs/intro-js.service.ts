@@ -14,7 +14,6 @@ export class IntroJsService {
     ListStoreHouse() {
         this.introJS = introJs();
         this.introJS.start();
-        this.introJS.dark();
 
         this.introJS
             .setOptions({
