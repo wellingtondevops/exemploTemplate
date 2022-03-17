@@ -94,11 +94,11 @@
                                 <p>
                                     {{notify.msg}}
                                 </p>
-                                <!-- <div class="ex" *ngIf="notify.attachment == '' ">
+                                <div class="ex" *ngIf="notify.attachment !== undefined ">
                                     <a href={{notify.attachment}}>
                                         <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
                                     </a>
-                                </div> -->
+                                </div>
                             </div>
                             <div class="button-group" style="align-items: flex-end;">
                                 <button class="btn btn-secundary" type="button" (click)="clearNotify(notify.key)"
