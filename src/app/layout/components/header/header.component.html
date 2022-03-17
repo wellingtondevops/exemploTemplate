@@ -34,7 +34,7 @@
                     </div>
                     <div *ngFor="let noti of notifysMail | async">
                         <hr />
-                        <div class="media"  [routerLink]="['/email-service']" (click)="delete(noti.key)">
+                        <div class="media" [routerLink]="['/email-service']" (click)="delete(noti.key)">
                             <div class="media-left">
                                 <a>
                                     <i class={{noti.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
@@ -94,9 +94,11 @@
                                 <p>
                                     {{notify.msg}}
                                 </p>
-                                <a href={{notify.attachment}}>
-                                    <i class="mdi mdi-file-excel mdi-36px"></i>
-                                </a>
+                                <!-- <div class="ex" *ngIf="notify.attachment == '' ">
+                                    <a href={{notify.attachment}}>
+                                        <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
+                                    </a>
+                                </div> -->
                             </div>
                             <div class="button-group" style="align-items: flex-end;">
                                 <button class="btn btn-secundary" type="button" (click)="clearNotify(notify.key)"
