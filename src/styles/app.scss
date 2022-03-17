@@ -38,14 +38,27 @@
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
 }
-.bootstrap .btn{
+.bootstrap .btn {
     border-radius: 50px;
 }
-.bootstrap .dark-btn{
+.bootstrap .dark-btn {
     color: #fff;
     background-color: #3c4146;
     border-color: #3c4146;
 }
+
+.ngx-datatable.bootstrap .datatable-footer {
+    background: #ffffff;
+    color: #504f4f;
+    margin-top: -1px;
+    border-top: solid 1px;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+    color: #504f4f;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a, .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+    background-color: rgb(165, 159, 159);
+    font-weight: bold; }
 
 //Dark Theme
 .bootstrap-dark .dropdown-menu {
@@ -71,26 +84,35 @@
     border-top-right-radius: 9px;
 }
 
-.bootstrap-dark .btn{
+.bootstrap-dark .btn {
     border-radius: 50px;
 }
-
-.bootstrap-dark .dark-btn{
+//Button Dark
+.bootstrap-dark .dark-btn {
     color: #ced4da;
     background-color: #1475d6;
     border-color: #1475d6;
 }
+//DataTable Dark
+.bootstrap-dark .ngx-datatable.bootstrap .datatable-footer {
+    background: #424242;
+    color: #f1f1f1;
+    margin-top: -1px;
+    border-top: solid 1px;
+}
+.bootstrap-dark .ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+    color: #ffffff;
+}
+.bootstrap-dark .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a, .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+    background-color: #545454;
+    font-weight: bold; }
 
-.ngx-datatable{
+.ngx-datatable.bootstrap {
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
 }
 
 .customTooltip * {
     color: #4a4a4a;
-    font-size: 18px
-  }
-
-  .customTooltip .introjs-tooltip-title {
-    color: #0a41c9;
-  }
+    font-size: 18px;
+}
