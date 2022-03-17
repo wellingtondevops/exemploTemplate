@@ -86,3 +86,11 @@
     border-top-right-radius: 9px;
 }
 
+.customTooltip * {
+    color: #4a4a4a;
+    font-size: 18px
+  }
+
+  .customTooltip .introjs-tooltip-title {
+    color: #0a41c9;
+  }

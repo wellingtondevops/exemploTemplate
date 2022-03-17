@@ -82,7 +82,7 @@
                 <br />
                 <button type="submit" class="btn btn-primary" style="float: right"
                     [disabled]="company.invalid">Salvar</button>
-                <button type="button" [routerLink]="['/company-services']" class="btn btn-default"
+                <button type="button" [routerLink]="['/company-services']" class="btn dark-btn"
                     style="float: right;margin-right: 10px;">Voltar</button>
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>

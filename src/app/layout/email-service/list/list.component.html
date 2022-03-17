@@ -55,8 +55,7 @@
                     </div>
                     <!-- If FALSE Show this -->
                     <div *ngIf="!highlightValue[i]">
-                        <a class="list-group-item list-group-item-action mb-1 p-1" [routerLink]="['/email-service/get', this.id[i]]"
-                            style=" background-color: #F5F7F7;">
+                        <a class="list-group-item list-group-item-action mb-1 p-1" [routerLink]="['/email-service/get', this.id[i]]">
                             <div class="row">
                                 <div class="col-lg-5 pr-0">
                                     <small class="m-0 ml-3">{{emailsListFull[i]}}</small>

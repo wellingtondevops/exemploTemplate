@@ -4,6 +4,7 @@ import * as introJs from 'intro.js/intro.js';
     providedIn: 'root'
 })
 
+
 export class IntroJsService {
     introJS = null;
 
@@ -13,9 +14,11 @@ export class IntroJsService {
     ListStoreHouse() {
         this.introJS = introJs();
         this.introJS.start();
+        this.introJS.dark();
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -54,6 +57,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -82,6 +86,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -119,6 +124,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -147,6 +153,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -185,6 +192,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -213,6 +221,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -240,6 +249,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -268,6 +278,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -306,6 +317,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -334,6 +346,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -361,6 +374,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -389,6 +403,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -421,6 +436,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -454,6 +470,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -492,6 +509,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -520,6 +538,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -547,6 +566,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -575,6 +595,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -613,6 +634,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -641,6 +663,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -668,6 +691,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -696,6 +720,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -724,6 +749,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -752,6 +778,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -779,6 +806,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -806,6 +834,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -833,6 +862,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -866,6 +896,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -910,6 +941,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -958,6 +990,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -986,6 +1019,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1024,6 +1058,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1052,6 +1087,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1099,6 +1135,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1142,6 +1179,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1180,6 +1218,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1208,6 +1247,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1241,6 +1281,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1269,6 +1310,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1307,6 +1349,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1340,6 +1383,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1377,6 +1421,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1404,6 +1449,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1462,6 +1508,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1500,6 +1547,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1528,6 +1576,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1560,6 +1609,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1602,6 +1652,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1640,6 +1691,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1662,6 +1714,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1689,6 +1742,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1712,6 +1766,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1750,6 +1805,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1772,6 +1828,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1799,6 +1856,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1822,6 +1880,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',
@@ -1849,6 +1908,7 @@ export class IntroJsService {
 
         this.introJS
             .setOptions({
+                tooltipClass: 'customTooltip',
                 nextLabel: 'Proximo',
                 prevLabel: 'Anterior',
                 doneLabel: 'Finalizar',

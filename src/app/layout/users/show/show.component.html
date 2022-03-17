@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div *ngFor="let listItem of companyList; index as i">
-                            <button class="btn btn-outline-dark" (click)="selectCompany(i)"
+                            <button class="btn dark-btn" (click)="selectCompany(i)"
                                 style="margin-bottom: 5px;">{{companyList[i]}}</button>
                         </div>
                         <ng-template #content let-c="close" let-d="dismiss">
