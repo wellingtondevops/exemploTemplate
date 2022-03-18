@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user';
 import { Observable } from 'rxjs';
 import { Notify } from './../../../models/notify';
@@ -27,7 +28,9 @@ export class HeaderComponent implements OnInit {
 
     constructor(
         private translate: TranslateService, public router: Router,
-        private notifyService: NotifyService ) {
+        private notifyService: NotifyService,
+        private modalService: NgbModal,
+        ) {
         this.router.events.subscribe(val => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
                 this.toggleSidebar();

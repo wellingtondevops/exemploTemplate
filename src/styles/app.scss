@@ -16,13 +16,24 @@
     }
 }
 //White Theme
-.bootstrap .dropdown-menu {
-    max-height: 10em;
+.dropdown-menu {
+    max-height: 50em;
     overflow-y: auto;
     border-radius: 10px;
-    .bootstrap .dropdown-item {
+    .dropdown-item {
         border-radius: 10px;
         padding: 3px;
+    }
+}
+:host-context(.bootstrap-dark) {
+    .dropdown-menu {
+        max-height: 50em;
+        overflow-y: auto;
+        border-radius: 10px;
+        .dropdown-item {
+            border-radius: 10px;
+            padding: 3px;
+        }
     }
 }
 
@@ -61,6 +72,7 @@
     font-weight: bold; }
 
 //Dark Theme
+
 .bootstrap-dark .dropdown-menu {
     max-height: 10em;
     overflow-y: auto;
