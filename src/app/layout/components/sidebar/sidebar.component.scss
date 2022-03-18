@@ -1,5 +1,8 @@
 @import "~@mdi/font/css/materialdesignicons.css";
 $topnav-background-color: #222;
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
 .sidebar {
     // border-radius: 0;
     position: fixed;
