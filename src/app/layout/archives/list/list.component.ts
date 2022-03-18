@@ -470,6 +470,9 @@ export class ListComponent implements OnInit {
         newSearch.location = this.searchForm.value.location;
         newSearch.status = this.searchForm.value.status;
         newSearch.search = this.searchForm.value.search;
+        if (newSearch.search === null) {
+            newSearch.search = '';
+        }
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
 
