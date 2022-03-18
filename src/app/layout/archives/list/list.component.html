@@ -173,12 +173,29 @@
                             class="btn dark-btn" (click)="clear()">
                             Limpar Campos
                         </button>
-                        <!-- <button [disabled]="company.invalid || doct.invalid" type="button" style="margin-left: 5px;"
-                            class="btn btn-success" (click)="exportArchives()">
+                        <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
+                            class="btn btn-success" (click)="exportArchives()" (click)="open(content)">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
-                        </button> -->
+                        </button>
                     </div>
                 </div>
+
+                <ng-template #content let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">Solicitação enviada!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sua solicitação de exportação foi realizada com sucesso, este processo
+                            e automatizado e dependendo da quantidade de itens pode demorar um pouco.</p>
+                        <strong>Mas não se preocupe, assim que o processo de exportação for finalizado avisaremos via notificação e e-mail.</strong>
+                        <br/>
+                        <small>Não é necessario, aguardar na pagina.</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success"
+                            (click)="c()">Confirmar</button>
+                    </div>
+                </ng-template>
 
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>

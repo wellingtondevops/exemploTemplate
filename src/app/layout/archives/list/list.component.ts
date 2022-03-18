@@ -17,7 +17,7 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
-import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from '../../../utils/case-insensitive';
 import * as moment from 'moment';
@@ -83,6 +83,8 @@ export class ListComponent implements OnInit {
         private utilCase: CaseInsensitive,
         config: NgbTypeaheadConfig,
         private introService: IntroJsService,
+        private modalService: NgbModal,
+
 
     ) {
         config.showHint = true;
@@ -475,22 +477,25 @@ export class ListComponent implements OnInit {
         console.log(searchValue);
         this.archiveSrv.export(searchValue).subscribe(data => {
             this.loading = false;
-            this.showPdf(data.file, data.name);
         }, error => {
             this.loading = false;
             console.log('ERROR: ', error);
         });
     }
 
-    showPdf(base64, name) {
-        const linkSource = 'data:application/pdf;base64, ' + base64;
-        const downloadLink = document.createElement('a');
-        const fileName = name;
-
-        downloadLink.href = linkSource;
-        downloadLink.download = fileName;
-        downloadLink.click();
+    open(content) {
+        this.modalService.open(content, { backdrop: 'static' });
     }
+
+    // showPdf(base64, name) {
+    //     const linkSource = 'data:application/pdf;base64, ' + base64;
+    //     const downloadLink = document.createElement('a');
+    //     const fileName = name;
+
+    //     downloadLink.href = linkSource;
+    //     downloadLink.download = fileName;
+    //     downloadLink.click();
+    // }
 
     typeaheadKeydown() {
         if (!this.typeahead.isPopupOpen()) {
