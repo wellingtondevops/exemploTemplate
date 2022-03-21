@@ -28,7 +28,8 @@
                 <div class="list-group" *ngFor="let listEmails of emailsList.items; index as i">
                     <!-- If TRUE Show this -->
                     <div *ngIf="highlightValue[i]">
-                        <a class="list-group-item list-group-item-action mb-1 p-1" [routerLink]="['/email-service/get', this.id[i]]">
+                        <a class="list-group-item list-group-item-action mb-1 p-1"
+                            [routerLink]="['/email-service/get', this.id[i]]">
                             <div class="row text-black text-nowrap">
                                 <div class="col-lg-5 pr-0">
                                     <small class="m-0 ml-3" style="font-weight: bold;">{{emailsListFull[i]}}</small>
@@ -55,10 +56,11 @@
                     </div>
                     <!-- If FALSE Show this -->
                     <div *ngIf="!highlightValue[i]">
-                        <a class="list-group-item list-group-item-action mb-1 p-1" [routerLink]="['/email-service/get', this.id[i]]">
+                        <a class="list-group-item list-group-item-action mb-1 p-1"
+                            [routerLink]="['/email-service/get', this.id[i]]">
                             <div class="row">
                                 <div class="col-lg-5 pr-0">
-                                    <small class="m-0 ml-3">{{emailsListFull[i]}}</small>
+                                    <small class="m-0 ml-3 visualized">{{emailsListFull[i]}}</small>
                                 </div>
                                 <div class="col-lg-5 col-sm-12 text-left">
                                     <div class="col-lg-5 pr-0">
@@ -66,12 +68,13 @@
                                             <div class="state p-off mr-3">
                                                 <i class="icon mdi mdi-email"></i>
                                             </div>
-                                            <small class="m-0 ml-3" style="white-space: nowrap;" *ngIf="!highlightValue[i]">{{nameremet[i]}}</small>
+                                            <small class="m-0 ml-3 visualized" style="white-space: nowrap;"
+                                                *ngIf="!highlightValue[i]">{{nameremet[i]}}</small>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-sm-12 text-sm-right">
-                                    <small class="" style="font-style: italic;">{{dateCreated[i] |
+                                    <small class="visualized" style="font-style: italic;">{{dateCreated[i] |
                                         date:'dd/MM/yyyy HH:mm'}}
                                         <i class="mdi mdi-clock-time-two mdi-18px"></i>
                                     </small>

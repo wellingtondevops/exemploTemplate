@@ -42,7 +42,7 @@ $topnav-background-color: #222;
 }
 :host-context(.bootstrap) {
     .dropdown-menu {
-        max-height: 50em;
+        max-height: 35em;
         overflow-y: auto;
         border-radius: 10px;
         .dropdown-item {
@@ -53,7 +53,7 @@ $topnav-background-color: #222;
 }
 :host-context(.bootstrap-dark) {
     .dropdown-menu {
-        max-height: 50em;
+        max-height: 35em;
         overflow-y: auto;
         border-radius: 10px;
         .dropdown-item {
