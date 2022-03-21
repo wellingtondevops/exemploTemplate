@@ -94,7 +94,7 @@
                                 <p>
                                     {{notify.msg}}
                                 </p>
-                                <div class="ex" *ngIf="notify.attachment !== undefined ">
+                                <div class="ex" *ngIf="notify.attachment !== undefined || null || '' ">
                                     <a href={{notify.attachment}}>
                                         <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
                                     </a>
