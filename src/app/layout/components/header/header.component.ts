@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
     email: String = '';
+    name: String = '';
     userId: String = '';
     data: number = Date.now();
     notify: Notify;
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
     notifyRef: any;
     sizeArr: Observable<any>;
     ArrMail: Observable<any>;
+    newName: String;
 
     constructor(
         private translate: TranslateService, public router: Router,
@@ -37,7 +39,9 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
-        this.email = window.localStorage.getItem('email'); //
+        this.email = window.localStorage.getItem('email');
+        this.name = window.localStorage.getItem('name');
+        this.newName = this.name.split(' ', 2).toString();
         this.userId = window.localStorage.getItem('id'); //
         // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();
@@ -76,6 +80,7 @@ export class HeaderComponent implements OnInit {
         localStorage.removeItem('id');
         localStorage.removeItem('token');
         localStorage.removeItem('email');
+        localStorage.removeItem('name');
         localStorage.removeItem('profiles');
         localStorage.removeItem('routes');
         localStorage.removeItem('actions');

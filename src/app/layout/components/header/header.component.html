@@ -145,7 +145,7 @@
             <!-- MENU LOGOUT -->
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="mdi mdi-account mdi-18px"></i> {{ email }} <b class="caret"></b>
+                    <i class="mdi mdi-account mdi-18px"></i><b class="caret">{{ newName.replace(',' , ' ' ) }}</b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
                     <a class="dropdown-item" [routerLink]="['/users/alter']"
