@@ -174,7 +174,7 @@
                             Limpar Campos
                         </button>
                         <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
-                            class="btn btn-success" (click)="exportArchives()" (click)="open(content)">
+                            class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
                         </button>
                     </div>

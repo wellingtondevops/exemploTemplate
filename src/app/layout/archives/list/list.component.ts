@@ -38,6 +38,7 @@ export class ListComponent implements OnInit {
     @ViewChild('searchTypeahead',)
     private readonly typeahead: NgbTypeahead;
     archives: Archive[];
+    noExternal = false;
     archivesCol: any[];
     page = new Page();
     loading = false;
@@ -131,10 +132,19 @@ export class ListComponent implements OnInit {
 
         this.statusList = StatusVolumeEnum;
         this.getArchive();
+        this.noExternal = this.NoExternal();
         this.getCompanies();
         this.getStoreHouses();
         this.searchForm.patchValue({ endDate: null });
         this.checkValue();
+    }
+
+    NoExternal() {
+        let res = false;
+            if (JSON.parse(window.localStorage.getItem('userExternal')) === true) {
+                res = true;
+            }
+        return res;
     }
 
     formatter = (x: { name: string }) => x.name;
