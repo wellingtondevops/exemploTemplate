@@ -33,7 +33,29 @@
                         <p> Não possui novos Emails </p>
                     </div>
                     <div *ngFor="let noti of notifysMail | async">
-                        <hr />
+                        <div class="wrapper">
+
+                            <div class="notifications">
+
+                                <div class="notifications__item" [routerLink]="['/email-service']" (click)="delete(noti.key)">
+                                    <div class="notifications__item__content">
+                                        <span class="notifications__item__title">{{noti.title}}</span>
+                                        <small><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            {{noti.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}</small>
+                                        <span class="notifications__item__message">{{noti.msg}}</span>
+                                    </div>
+
+                                    <div>
+                                        <div class="notifications__item__option archive js-option">
+                                        <i title="Visualizar mensagem" class="mdi mdi-eye mdi-24px"
+                                            aria-hidden="true"></i>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <hr />
                         <div class="media" [routerLink]="['/email-service']" (click)="delete(noti.key)">
                             <div class="media-left">
                                 <a>
@@ -52,7 +74,7 @@
                             <div style="align-items: flex-end; margin-left: 5px;">
                                 <i class="icon mdi mdi-eye mdi-18px" aria-hidden="true"></i>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </li>
@@ -79,36 +101,41 @@
                         <p> Não possui novas notificações </p>
                     </div>
                     <div *ngFor="let notify of notifys | async">
-                        <hr />
-                        <div class="media">
-                            <div class="media-left">
-                                <a>
-                                    <i class={{notify.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">{{notify.title}}</h4>
-                                <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                    {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
-                                </a>
-                                <p>
-                                    {{notify.msg}}
-                                </p>
-                                <div class="ex" *ngIf="notify.attachment !== undefined || null || '' ">
-                                    <a href={{notify.attachment}}>
-                                        <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
-                                    </a>
+                        <div class="wrapper">
+
+                            <div class="notifications">
+
+                                <div class="notifications__item">
+                                    <div class="notifications__item__avatar">
+                                        <a>
+                                            <i class={{notify.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
+                                        </a>
+                                        <div class="ex" *ngIf="notify.attachment !== undefined || null || '' ">
+                                            <a href={{notify.attachment}}>
+                                                <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="notifications__item__content">
+                                        <span class="notifications__item__title">{{notify.title}}</span>
+                                        <small><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}</small>
+                                        <span class="notifications__item__message">{{notify.msg}}</span>
+                                    </div>
+
+                                    <div>
+                                        <div class="notifications__item__option archive js-option"
+                                            (click)="clearNotify(notify.key)" *ngIf="notify.active">
+                                            <i title="Marcar como lida" class="mdi mdi-eye mdi-24px"
+                                                aria-hidden="true"></i>
+                                        </div>
+                                        <div class="notifications__item__option delete js-option">
+                                            <i title="Deletar notificação" class="mdi mdi-trash-can mdi-24px"
+                                                (click)="delete(notify.key)"></i>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="button-group" style="align-items: flex-end;">
-                                <button class="btn btn-secundary" type="button" (click)="clearNotify(notify.key)"
-                                    *ngIf="notify.active">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn-del btn btn-secundary" type="button" (click)="delete(notify.key)"
-                                    style="margin-left: 5px;">
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
                             </div>
                         </div>
                     </div>

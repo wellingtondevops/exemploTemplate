@@ -12,3 +12,11 @@
 .bootstrap-dark .list-group-item-action{
     background-color: brown;
 }
+:host-context(.bootstrap-dark) {
+    small{
+        color: white;
+    }
+    .visualized{
+        color: rgba(122, 121, 121, 0.603);
+    }
+}
