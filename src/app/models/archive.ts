@@ -71,3 +71,7 @@ export class ArchivesList {
   _links: Pagination;
   items: Archive[];
 }
+
+export class SimpleAchiveList {
+    _links: Pagination;
+}
