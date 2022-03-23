@@ -1,3 +1,4 @@
+import { SimpleListComponent } from './simple-list/simple-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
@@ -9,25 +10,30 @@ import { ArchivesShowGuardService } from 'src/app/services/guard/archives-show-g
 import { TermsService } from 'src/app/services/guard/terms.service';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ListComponent,
-    canActivate: [ArchivesSearchGuardService, TermsService]
-  },
-  {
-    path: 'get/:id',
-    component: ShowComponent,
-    canActivate: [ArchivesShowGuardService, TermsService]
-  },
-  {
-    path: 'edit/:id',
-    component: EditComponent,
-    /* canActivate: [ArchivesShowGuardService, TermsService] */
-  }
+    {
+        path: '',
+        component: ListComponent,
+        canActivate: [ArchivesSearchGuardService, TermsService]
+    },
+    {
+        path: 'get/:id',
+        component: ShowComponent,
+        canActivate: [ArchivesShowGuardService, TermsService]
+    },
+    {
+        path: 'edit/:id',
+        component: EditComponent,
+        /* canActivate: [ArchivesShowGuardService, TermsService] */
+    },
+    {
+        path: 'simple',
+        component: SimpleListComponent,
+        canActivate: [ArchivesSearchGuardService, TermsService]
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-export class ArchivesRoutingModule {}
+export class ArchivesRoutingModule { }
