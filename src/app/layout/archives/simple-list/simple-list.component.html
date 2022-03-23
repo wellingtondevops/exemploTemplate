@@ -12,7 +12,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-11">
-                    <h2>Arquivos</h2>
+                    <h2>Pesquisa Simples de Arquivos</h2>
                 </div>
                 <div class="col-lg-1 text-right">
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
@@ -23,23 +23,16 @@
             <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
                 <div id="step2">
                     <div class="row">
-                        <div class="form-group col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-6 col-sm-12">
                             <label for="typeahead-focus">Empresa</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 formControlName="company" (selectItem)="selectedCompany($event)"
                                 placeholder="Nome da Empresa" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                                [ngbTypeahead]="searchCompany" style="width: 100%"
-                                [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
-                                #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                                [ngbTypeahead]="searchCompany" style="width: 100%" #instanceCompany="ngbTypeahead"
+                                (focus)="focusCompany$.next($any($event).target.value)"
                                 (click)="clickCompany$.next($any($event).target.value)" />
-                            <div *ngIf="company.invalid && (company.dirty || company.touched )"
-                                class="invalid-feedback">
-                                <div *ngIf="!company.valid">
-                                    Empresa é obrigatório.
-                                </div>
-                            </div>
                         </div>
-                        <div class="form-group col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-6 col-sm-12">
                             <label for="typeahead-focus">Departamento</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 placeholder="Nome do Departamento" formControlName="departament"
@@ -48,93 +41,6 @@
                                 #instanceDepartament="ngbTypeahead"
                                 (focus)="focusDepartament$.next($any($event).target.value)"
                                 (click)="clickDepartament$.next($any($event).target.value)" />
-                        </div>
-                        <div class="form-group col-lg-3 col-sm-12">
-                            <label for="search_archive">Posição</label>
-                            <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição"
-                                formControlName="location" />
-                        </div>
-                        <div class="form-group col-lg-3 col-sm-12">
-                            <label for="typeahead-focus">Depósito</label>
-                            <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
-                                placeholder="Nome do Depósito" formControlName="storehouse"
-                                [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
-                                [ngbTypeahead]="searchStorehouse" style="width: 100%" #instanceStorehouse="ngbTypeahead"
-                                (focus)="focusStorehouse$.next($any($event).target.value)"
-                                (click)="clickStorehouse$.next($any($event).target.value)" />
-                        </div>
-                    </div>
-                    <div class="row ml-1 mt-1 mb-1 form-check-inline">
-                        <div class="col-lg-1 pr-0">
-                            <label>Status:</label>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="ATIVO" id="status" checked>
-                                    <div class="state">
-                                        <label class="form-check-label" for="status">
-                                            ARQUIVO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="BAIXADO" id="statusB">
-                                    <div class="state">
-                                        <label class="form-check-label" for="statusB">
-                                            BAIXADO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0 mr-3">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="EMPRESTADO" id="statusE">
-                                    <div class="state">
-                                        <label class="form-check-label" for="statusE">
-                                            EMPRESTADO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1">
-                            <label>Fases:</label>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="current"
-                                        formControlName="finalCurrent" id="current" />
-                                    <div class="state">
-                                        <label class="form-check-label" for="current">
-                                            CORRENTE
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="intermediate"
-                                        formControlName="finalIntermediate" id="Intermediate" />
-                                    <div class="state">
-                                        <label class="form-check-label" for="Intermediate">
-                                            INTERMEDIARIO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row" id="step3">
@@ -173,8 +79,9 @@
                             class="btn dark-btn" (click)="clear()">
                             Limpar Campos
                         </button>
-                        <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
-                            class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
+                        <button [disabled]="company.invalid || page.totalElements == 0" type="button"
+                            style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()"
+                            (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
                         </button>
                     </div>
@@ -187,13 +94,13 @@
                     <div class="modal-body">
                         <p>Sua solicitação de exportação foi realizada com sucesso, este processo
                             e automatizado e dependendo da quantidade de itens pode demorar um pouco.</p>
-                        <strong>Mas não se preocupe, assim que o processo de exportação for finalizado avisaremos via notificação e e-mail.</strong>
-                        <br/>
+                        <strong>Mas não se preocupe, assim que o processo de exportação for finalizado avisaremos via
+                            notificação e e-mail.</strong>
+                        <br />
                         <small>Não é necessario, aguardar na pagina.</small>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-success"
-                            (click)="c()">Confirmar</button>
+                        <button type="button" class="btn btn-outline-success" (click)="c()">Confirmar</button>
                     </div>
                 </ng-template>
 
@@ -213,61 +120,14 @@
         </div>
     </div>
     <div id="step5">
-        <ngx-datatable #myTable class="bootstrap" [rows]="archives" [columnMode]="ColumnMode.force"
-            [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
+        <ngx-datatable #myTable class="bootstrap" [rows]="archives" [columnMode]="ColumnMode.force" [scrollbarH]="true"
+            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
             [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
             (activate)="showView($event)">
 
-            <!-- Row Detail Template
-            <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                    <div class="container" style="padding-bottom: 10px">
-                        <div class="row">
-                            <div class="col-2" style="padding-left:35px;">
-                                <div *ngFor="let desc of row.doct.label"><strong>{{desc.namefield}}: </strong></div>
-                            </div>
-                            <div class="col-4" style="padding-left:35px;">
-                                <div *ngFor="let tag of row.tag">{{tag}} </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngx-datatable-row-detail>
-                Column Templates
-            <ngx-datatable-column  [resizeable]="false" [sortable]="false" [draggable]="false"
-                [canAutoResize]="false">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-                    <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-                        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-                    </a>
-                </ng-template>
-            </ngx-datatable-column> -->
+            <ngx-datatable-column name="Empresa" prop="company.name" [width]="250"></ngx-datatable-column>
 
             <ngx-datatable-column name="Departamento" prop="departament.name" [width]="290"></ngx-datatable-column>
-
-            <ngx-datatable-column name="Posição" prop="volume.location" [width]="100"></ngx-datatable-column>
-
-            <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="140"></ngx-datatable-column>
-
-            <ngx-datatable-column name="Status" prop="status" [width]="60">
-                <ng-template let-value="value" class="text-center" ngx-datatable-cell-template>
-                    <ng-container *ngIf="value == 'ATIVO'">
-                        <abbr title="ARQUIVO">
-                            <i class="mdi mdi-alpha-a-circle mdi-24px"></i>
-                        </abbr>
-                    </ng-container>
-                    <ng-container *ngIf="value == 'BAIXADO'">
-                        <abbr title="BAIXADO">
-                            <i class="mdi mdi-alpha-b-circle mdi-24px"></i>
-                        </abbr>
-                    </ng-container>
-                    <ng-container *ngIf="value == 'EMPRESTADO'">
-                        <abbr title="EMPRESTADO">
-                            <i class="mdi mdi-alpha-e-circle mdi-24px"></i>
-                        </abbr>
-                    </ng-container>
-                </ng-template>
-            </ngx-datatable-column>
 
             <ngx-datatable-column name="Documento" prop="doct.name" [width]="300"></ngx-datatable-column>
 
@@ -287,35 +147,6 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Fases" prop="finalCurrent" [width]="50">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <ng-container *ngIf="value == true; else elseTemplate">
-                        <abbr title="Fase corrente concluida">
-                            <i class="mdi mdi-alpha-c-circle mdi-24px"></i>
-                        </abbr>
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                        <abbr title="Fase corrente não concluida">
-                            <i class="mdi mdi-alpha-c-circle-outline mdi-24px"></i>
-                        </abbr>
-                    </ng-template>
-                </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column name="" prop="finalIntermediate" [width]="55">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <ng-container *ngIf="value == true; else elseTemplate">
-                        <abbr title="Fase intermediaria concluida">
-                            <i class="mdi mdi-alpha-i-circle mdi-24px"></i>
-                        </abbr>
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                        <abbr title="Fase intermediaria não concluida">
-                            <i *ngIf="value == false" class="mdi mdi-alpha-i-circle-outline mdi-24px"></i>
-                        </abbr>
-                    </ng-template>
-                </ng-template>
-            </ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>
