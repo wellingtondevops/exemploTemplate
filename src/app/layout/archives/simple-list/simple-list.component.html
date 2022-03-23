@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
+            <form [formGroup]="searchForm" role="FormGroup" class="form">
                 <div id="step2">
                     <div class="row">
                         <div class="form-group col-lg-6 col-sm-12">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="row col-12 text-center" id="step4">
                     <div class="form-group ">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid" (click)="getArchive()">
                             <i class="fa fa-search"></i>
                         </button>
                         <button type="button" style="margin-left: 5px;" [disabled]="company.invalid"
