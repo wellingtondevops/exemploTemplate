@@ -114,10 +114,10 @@
                             <span>{{ "Procurar Arquivos" | translate }}</span>
                         </a>
                     </li>
-                    <li *ngIf="isArchivesSearch">
+                    <li>
                         <a [routerLink]="['/archives/simple']" [routerLinkActive]="['router-link-active']"
                             class="list-group-item">
-                            <i class="mdi mdi-search-web"></i>&nbsp;
+                            <i class="mdi mdi-magnify-plus mdi-18px"></i>&nbsp;
                             <span>{{ "Pesquisa Simples" | translate }}</span>
                         </a>
                     </li>
