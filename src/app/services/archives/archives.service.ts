@@ -31,12 +31,12 @@ export class ArquivesService {
 
     archivesListSimple(formData, page, size = 10) {
         if (page) {
-            return this.http.post<ArchivesList>(`${url}/archives/search?_page=${page.pageNumber}&size=10`, formData)
+            return this.http.post<ArchivesList>(`${url}/archives/searchsimple?_page=${page.pageNumber}&size=10`, formData)
                 .pipe(
                     tap(data => data)
                 );
         } else {
-            return this.http.post<ArchivesList>(`${url}/archives/search`, formData)
+            return this.http.post<ArchivesList>(`${url}/archives/searchsimple`, formData)
                 .pipe(
                     tap(data => data)
                 );

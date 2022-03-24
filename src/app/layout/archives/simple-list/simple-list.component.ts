@@ -188,9 +188,7 @@ export class SimpleListComponent implements OnInit {
     }
 
     getArchive() {
-        if (this.searchForm.value.company) {
-            this.setPage({ offset: 0 });
-        }
+        this.setPage({ offset: 0 });
     }
 
     clear() {
