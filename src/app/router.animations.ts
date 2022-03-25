@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger, query, group } from '@angular/animations';
 
 export function routerTransition() {
 
@@ -68,3 +68,21 @@ export function slideToTop() {
         ])
     ]);
 }
+
+export const routerTransitions = trigger('routerTransition', [
+    transition('* <=> *', [
+      /* order */
+      /* 1 */ query(':enter, :leave', style({ position: 'fixed', width: '100%', background: '#222' })
+        , { optional: true }),
+      /* 2 */ group([  // block executes in parallel
+            query(':enter', [
+                style({ transform: 'translateX(100%)', background: '#222' }),
+                animate('0.5s ease-in-out', style({ transform: 'translateX(0%)' }))
+            ], { optional: true }),
+            query(':leave', [
+                style({ transform: 'translateX(0%)' , background: '#222'}),
+                animate('0.5s ease-in-out', style({ transform: 'translateX(-100%)' }))
+            ], { optional: true }),
+        ])
+    ])
+])

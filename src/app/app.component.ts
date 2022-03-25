@@ -1,11 +1,13 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { routerTransitions } from './router.animations';
 import { ThemeService } from './services/theme/theme.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
+    animations: [ routerTransitions ],
 })
 export class AppComponent implements OnInit {
 
@@ -29,4 +31,7 @@ export class AppComponent implements OnInit {
         })
     }
 
+    getState(outlet) {
+        return outlet.activatedRouteData.state;
+    }
 }
