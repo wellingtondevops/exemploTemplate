@@ -19,7 +19,7 @@
             </div>
             <div class="row" id="step1">
                 <div class="col-lg-1" *ngIf="!loading">
-                    <app-button-back [redirectTo]="'archives/list'"></app-button-back>
+                    <app-button-back [redirectTo]="'archives/simple'"></app-button-back>
                 </div>
                 <div class="col-lg-11">
                     <!-- [id]="archive._id" -->
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="col-lg-2 mt-5 text-center">
                                         <button (click)="sendRequest()" type="button" name="enviar" id="enviar"
-                                            class="btn btn-sm dark-btn enviar" disabled="disabled">Enviar</button>
+                                            class="btn btn-sm btn-dark enviar" disabled="disabled">Enviar</button>
                                     </div>
                                 </div>
                             </div>

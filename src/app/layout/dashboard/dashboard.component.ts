@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
     isDocuments = false;
     acceptanceTerm = false;
     isMoves = false;
+    isSimpleArchives = false;
 
     constructor(
         public daenerysGuard: DaenerysGuard,
@@ -81,6 +82,7 @@ export class DashboardComponent implements OnInit {
         this.isStorehouses = this.isStorehouse();
         this.isCompanies = this.isCompany();
         this.isDocuments = this.isDocument();
+        this.isSimpleArchives = this.isSimpleArchive();
 
     }
 
@@ -107,6 +109,14 @@ export class DashboardComponent implements OnInit {
     isArchiveSearch() {
         let res = false;
         if (JSON.parse(window.localStorage.getItem('routes'))[0].archivesSearch) {
+            res = true;
+        }
+        return res;
+    }
+
+    isSimpleArchive() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].simpleArchives) {
             res = true;
         }
         return res;

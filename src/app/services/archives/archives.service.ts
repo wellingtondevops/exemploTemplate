@@ -29,6 +29,20 @@ export class ArquivesService {
         }
     }
 
+    archivesListSimple(formData, page, size = 10) {
+        if (page) {
+            return this.http.post<ArchivesList>(`${url}/archives/searchsimple?_page=${page.pageNumber}&size=10`, formData)
+                .pipe(
+                    tap(data => data)
+                );
+        } else {
+            return this.http.post<ArchivesList>(`${url}/archives/searchsimple`, formData)
+                .pipe(
+                    tap(data => data)
+                );
+        }
+    }
+
     archive(id) {
         return this.http.get<Archive>(`${url}/archives/${id}`)
             .pipe(

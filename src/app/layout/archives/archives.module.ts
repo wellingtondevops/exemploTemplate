@@ -12,9 +12,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
 import { EditComponent } from './edit/edit.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { SimpleListComponent } from './simple-list/simple-list.component';
+import { SimpleShowComponent } from './simple-show/simple-show.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent],
+  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent],
   imports: [
     NgbModule,
     CommonModule,

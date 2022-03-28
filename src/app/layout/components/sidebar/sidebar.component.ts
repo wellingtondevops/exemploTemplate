@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
     permissionPesquisador: boolean;
     permissionArquivador: boolean;
     isArchivesSearch = false;
+    isArchives = false;
     isArchivesRegister = false;
     isVolumesSearch = false;
     isVolumesErrors = false;
@@ -39,6 +40,7 @@ export class SidebarComponent implements OnInit {
     isTotalCollection = false;
     isScan = false;
     isAccessProfile = false;
+    isSimpleArchives = false;
 
 
 
@@ -61,6 +63,8 @@ export class SidebarComponent implements OnInit {
         this.permissionArquivador = this.isTywin();
         this.permissionPesquisador = this.isSnow();
         this.isArchivesSearch = this.isArchiveSearch();
+        this.isArchives = this.isArchive();
+        this.isSimpleArchives = this.isArchiveSimple();
         this.isArchivesRegister = this.isArchiveRegister();
         this.isArchivesImport = this.isArchiveImport();
         this.isVolumesSearch = this.isVolumeSearch();
@@ -139,9 +143,25 @@ export class SidebarComponent implements OnInit {
         return res;
     }
 
+    isArchive() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].archives) {
+            res = true;
+        }
+        return res;
+    }
+
     isArchiveSearch() {
         let res = false;
         if (JSON.parse(window.localStorage.getItem('routes'))[0].archivesSearch) {
+            res = true;
+        }
+        return res;
+    }
+
+    isArchiveSimple() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].simpleArchives) {
             res = true;
         }
         return res;

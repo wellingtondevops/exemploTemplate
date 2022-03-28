@@ -22,16 +22,16 @@ const MODALS = {
 };
 
 @Component({
-    selector: 'app-show',
-    templateUrl: './show.component.html',
-    styleUrls: ['./show.component.scss'],
+    selector: 'app-simple-show',
+    templateUrl: './simple-show.component.html',
+    styleUrls: ['./simple-show.component.scss'],
     animations: [routerTransition()]
-})
 
-export class ShowComponent implements OnInit {
-    progressModal = {
-        customClass: 'modal-style'
-    };
+})
+export class SimpleShowComponent implements OnInit {
+        progressModal = {
+            customClass: 'modal-style'
+        };
     id: string;
     archive: Archive;
     uploadResponse: any = { status: 'progress', message: 0 };
@@ -249,7 +249,7 @@ export class ShowComponent implements OnInit {
 
     sendRequest() {
         this.loading = true;
-        this.archiveSrv.sendRequest(this.id ,this.requestForm.value).subscribe(
+        this.archiveSrv.sendRequest(this.id, this.requestForm.value).subscribe(
             data => {
                 this.loading = false;
                 this.successMsgSrv.successMessages('Solicitação cadastrado com sucesso.');
