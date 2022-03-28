@@ -13,9 +13,10 @@ import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-pro
 import { EditComponent } from './edit/edit.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { SimpleListComponent } from './simple-list/simple-list.component';
+import { SimpleShowComponent } from './simple-show/simple-show.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent],
+  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent],
   imports: [
     NgbModule,
     CommonModule,

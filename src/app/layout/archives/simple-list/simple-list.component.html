@@ -79,15 +79,15 @@
                 </div>
                 <div class="row col-12 text-center" id="step4">
                     <div class="form-group ">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                        <button type="submit" class="btn btn-primary" (click)="getArchive()" >
                             <i class="fa fa-search"></i>
                         </button>
-                        <button type="button" style="margin-left: 5px;" [disabled]="company.invalid"
-                            class="btn dark-btn" (click)="clear()">
+                        <button type="button" style="margin-left: 5px;" class="btn dark-btn" (click)="clear()">
                             Limpar Campos
                         </button>
-                        <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
-                            class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
+                        <button [disabled]="company.invalid || page.totalElements == 0" type="button"
+                            style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()"
+                            (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
                         </button>
                     </div>

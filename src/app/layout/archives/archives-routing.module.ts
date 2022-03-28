@@ -1,3 +1,4 @@
+import { SimpleShowComponent } from './simple-show/simple-show.component';
 import { SimpleListComponent } from './simple-list/simple-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -28,6 +29,11 @@ const routes: Routes = [
     {
         path: 'simple',
         component: SimpleListComponent,
+    },
+    {
+        path: 'simple/get/:id',
+        component: SimpleShowComponent,
+        canActivate: [ArchivesShowGuardService, TermsService]
     },
 ];
 
