@@ -12,7 +12,7 @@ import { TermsService } from 'src/app/services/guard/terms.service';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'list',
         component: ListComponent,
         canActivate: [ArchivesSearchGuardService, TermsService]
     },
