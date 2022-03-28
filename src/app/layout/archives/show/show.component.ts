@@ -36,6 +36,7 @@ export class ShowComponent implements OnInit {
     archive: Archive;
     uploadResponse: any = { status: 'progress', message: 0 };
     error: string;
+    isArchivesSearch = false;
     loading: Boolean = true;
     first = true;
     requestList: any = [];
@@ -78,6 +79,7 @@ export class ShowComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.isArchivesSearch = this.isArchiveSearch();
         this.archiveCreateForm = this.fb.group({
             create: this.fb.control(''),
             indexBy: this.fb.control('')
@@ -280,6 +282,14 @@ export class ShowComponent implements OnInit {
 
     help() {
         this.introService.ShowArchives();
+    }
+
+    isArchiveSearch() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].archivesSearch) {
+            res = true;
+        }
+        return res;
     }
 }
 

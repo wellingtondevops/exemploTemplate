@@ -76,7 +76,8 @@
                 isArchivesImport ||
                 isArchivesError ||
                 isArchivesRegister ||
-                isArchivesSearch
+                isArchivesSearch ||
+                isArchives
             " class="nested-menu" [routerLinkActive]="['router-link-active']">
             <a class="list-group-item" (click)="addExpandClass('archives')">
                 <i class="mdi mdi-text-box mdi-18px"></i>&nbsp;
@@ -115,8 +116,8 @@
                         </a>
                     </li>
                     <li *ngIf="isSimpleArchives">
-                        <a [routerLink]="['/archives/simple']" [routerLinkActive]="['router-link-active']"
-                            class="list-group-item">
+                        <a [routerLink]="['/archives/simple']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-magnify-plus mdi-18px"></i>&nbsp;
                             <span>{{ "Pesquisa Simples" | translate }}</span>
                         </a>

@@ -28,7 +28,6 @@ const routes: Routes = [
     {
         path: 'simple',
         component: SimpleListComponent,
-        canActivate: [ TermsService]
     },
 ];
 

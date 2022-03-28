@@ -19,7 +19,13 @@
             </div>
             <div class="row" id="step1">
                 <div class="col-lg-1" *ngIf="!loading">
-                    <app-button-back [redirectTo]="'archives'"></app-button-back>
+                    <ng-container *ngIf="isArchivesSearch; else elseTemplate">
+                        <app-button-back [redirectTo]="'archives'"></app-button-back>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <app-button-back [redirectTo]="'archives/simple'"></app-button-back>
+
+                    </ng-template>
                 </div>
                 <div class="col-lg-11">
                     <!-- [id]="archive._id" -->
