@@ -1,4 +1,4 @@
-import { CompanyPermissions } from './../../models/user';
+import { CompanyPermissions, UserTheme } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
@@ -60,8 +60,22 @@ export class UsersService {
             );
     }
 
+    updateTheme(user) {
+        return this.http.patch<UserTheme>(`${url}/users/${user._id}`, user)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
     user(id) {
         return this.http.get<User>(`${url}/users/${id}`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    userTheme(id) {
+        return this.http.get<UserTheme>(`${url}/users/${id}`)
             .pipe(
                 tap(data => data)
             );

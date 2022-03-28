@@ -24,7 +24,6 @@ export class AuthService {
     window.localStorage.setItem('id', data.id);
     window.localStorage.setItem('email', data.email);
     window.localStorage.setItem('name', data.name);
-    window.localStorage.setItem('theme', 'bootstrap');
     window.localStorage.setItem('token', data.accessToken);
     window.localStorage.setItem('profiles', JSON.stringify(data.profile));
     window.localStorage.setItem('routes', JSON.stringify(data.routes));

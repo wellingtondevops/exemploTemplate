@@ -1,3 +1,7 @@
+import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
+import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import { UsersService } from 'src/app/services/users/users.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 
@@ -7,29 +11,74 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
     styleUrls: ['./theme-toggle.component.scss']
 })
 export class ThemeToggleComponent implements OnInit {
-
-    theme: string = 'bootstrap';
+    themeForm: FormGroup;
+    loading: Boolean = true;
+    user: any;
+    id: string;
+    theme: string;
     saveTheme: any;
 
-    constructor(private themeService: ThemeService) { }
+    constructor(
+        private themeService: ThemeService,
+        private userSrv: UsersService,
+        private fb: FormBuilder,
+        private successMsgSrv: SuccessMessagesService,
+        private errorMsg: ErrorMessagesService
+    ) { }
 
     ngOnInit(): void {
-        // if (localStorage.getItem('theme') === '') {
-        //     localStorage.setItem('theme', 'bootstrap');
-        // }
-        // // this.themeService.setTheme(localStorage.getItem('theme'));
+        this.id = localStorage.getItem('id');
+        this.getUserTheme();
+        this.themeForm = this.fb.group({
+            _id: '',
+            theme: this.fb.control(''),
+        });
+    }
+
+    getUserTheme() {
+        this.userSrv.userTheme(this.id).subscribe(
+            data => {
+                this.user = data;
+                this.themeForm.patchValue({
+                    _id: this.user._id,
+                    theme: data.theme
+                });
+                this.theme = data.theme;
+                this.themeService.setTheme(this.theme);
+                this.loading = false;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
     }
 
     toggleTheme() {
-        this.theme = localStorage.getItem('theme');
-
         if (this.theme === 'bootstrap') {
             this.theme = 'bootstrap-dark';
         } else {
             this.theme = 'bootstrap';
         }
-
         this.themeService.setTheme(this.theme);
-        localStorage.setItem('theme', this.theme);
+        this.themeForm.patchValue({
+            theme: this.theme
+        });
+        this.updateTheme();
+    }
+
+    updateTheme() {
+        this.userSrv.updateTheme(this.themeForm.value).subscribe(
+            data => {
+                this.user = data;
+                this.themeForm.patchValue({
+                    theme: data.theme
+                });
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
     }
 }

@@ -37,3 +37,6 @@ class IdName {
 export class CompanyPermissions {
     company: string;
 }
+export class UserTheme {
+    theme: string;
+}
