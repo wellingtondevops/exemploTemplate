@@ -934,6 +934,51 @@ export class IntroJsService {
             .start();
     }
 
+    ListSimpleArchives() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                tooltipClass: 'customTooltip',
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo(a) a pesquisa simples de Arquivos!</strong>.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Nesta área você pode utilizar os filtros de pesquisa, para ter uma busca com melhores resultados.<br/> O campo <strong>Empresa</strong>, é obrigatorio para efetuar uma pesquisa, os demais campos são opcionais.',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Os campos <strong>Documento</strong> e <strong>Índice</strong> podem ser utilizados para uma melhor filtragem de arquivos.',
+                        tooltipPosition: 'bottom',
+                    },
+                    {
+                        element: '#step4',
+                        intro:
+                            'Ultilize a <strong>Lupa</strong> para realizar sua pesquisa, caso queira realizar outra busca, basta utilizar <strong>Limpar Campos</strong> para limpar os campos dos filtros.',
+                        tooltipPosition: 'bottom',
+                    }, {
+                        element: '#step5',
+                        intro:
+                            'Aqui será exibido o <strong>Resultado</strong> de sua pesquisa, para mais detalhes basta clicar, no arquivo desejado.',
+                        tooltipPosition: 'bottom',
+                    },
+                ]
+            })
+            .start();
+    }
+
     ShowArchives() {
         this.introJS = introJs();
         this.introJS.start();

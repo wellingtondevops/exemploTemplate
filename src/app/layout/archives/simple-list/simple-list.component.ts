@@ -163,7 +163,7 @@ export class SimpleListComponent implements OnInit {
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
-        this.archiveSrv.archivesListSimple(searchValue, this.page, null).subscribe(data => {
+        this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
             this.page.pageNumber = data._links.currentPage - 1;
             this.page.totalElements = data._links.foundItems;
             this.page.size = data._links.totalPage;
@@ -404,7 +404,7 @@ export class SimpleListComponent implements OnInit {
     }
 
     help() {
-        this.introService.ListArchives();
+        this.introService.ListSimpleArchives();
     }
 }
 

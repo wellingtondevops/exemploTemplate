@@ -28,46 +28,37 @@
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 formControlName="company" (selectItem)="selectedCompany($event)"
                                 placeholder="Nome da Empresa" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                                [ngbTypeahead]="searchCompany" style="width: 100%" #instanceCompany="ngbTypeahead"
-                                (focus)="focusCompany$.next($any($event).target.value)"
+                                [ngbTypeahead]="searchCompany" style="width: 100%"
+                                [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
+                                #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
                                 (click)="clickCompany$.next($any($event).target.value)" />
+                            <div *ngIf="company.invalid && (company.dirty || company.touched )"
+                                class="invalid-feedback">
+                                <div *ngIf="!company.valid">
+                                    Empresa é obrigatório.
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group col-lg-6 col-sm-12">
-                            <ng-container *ngIf="company.valid; else elseDep">
-                                <label for="typeahead-focus">Departamento</label>
-                                <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
-                                    placeholder="Nome do Departamento" formControlName="departament"
-                                    [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
-                                    [ngbTypeahead]="searchDepartament" style="width: 100%"
-                                    #instanceDepartament="ngbTypeahead"
-                                    (focus)="focusDepartament$.next($any($event).target.value)"
-                                    (click)="clickDepartament$.next($any($event).target.value)" />
-                            </ng-container>
-                            <ng-template #elseDep>
-                                <label for="typeahead-focus">Departamento</label>
-                                <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
-                                    placeholder="Para utlizar este filtro, informe uma Empresa" disabled
-                                    formControlName="departament"/>
-                            </ng-template>
+                            <label for="typeahead-focus">Departamento</label>
+                            <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                                placeholder="Nome do Departamento" formControlName="departament"
+                                [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                                [ngbTypeahead]="searchDepartament" style="width: 100%"
+                                #instanceDepartament="ngbTypeahead"
+                                (focus)="focusDepartament$.next($any($event).target.value)"
+                                (click)="clickDepartament$.next($any($event).target.value)" />
                         </div>
                     </div>
                     <div class="row" id="step3">
                         <div class="form-group col-lg-4 col-sm-12">
-                            <ng-container *ngIf="company.valid; else elseDoc">
-                                <label for="typeahead-scrollable">Documento</label>
-                                <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
-                                    placeholder="Nome do Documento" formControlName="doct"
-                                    [resultTemplate]="rtDocument"
-                                    [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" style="width: 100%"
-                                    #instanceDocument="ngbTypeahead"
-                                    (focus)="focusDocument$.next($any($event).target.value)"
-                                    (click)="clickDocument$.next($any($event).target.value)" />
-                            </ng-container>
-                            <ng-template #elseDoc>
-                                <label for="typeahead-scrollable">Documento</label>
-                                <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
-                                    placeholder="Para utlizar este filtro, informe uma Empresa" formControlName="doct" disabled/>
-                            </ng-template>
+                            <label for="typeahead-scrollable">Documento</label>
+                            <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
+                                placeholder="Nome do Documento" formControlName="doct" [resultTemplate]="rtDocument"
+                                [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" style="width: 100%"
+                                #instanceDocument="ngbTypeahead"
+                                (focus)="focusDocument$.next($any($event).target.value)"
+                                (click)="clickDocument$.next($any($event).target.value)" />
                         </div>
                         <div class="form-group col-lg-4 col-sm-12">
                             <label for="search_archive">Índice</label>
@@ -88,17 +79,15 @@
                 </div>
                 <div class="row col-12 text-center" id="step4">
                     <div class="form-group ">
-                        <button type="submit" class="btn btn-primary"
-                            (click)="getArchive()">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button type="button" style="margin-left: 5px;"
+                        <button type="button" style="margin-left: 5px;" [disabled]="company.invalid"
                             class="btn dark-btn" (click)="clear()">
                             Limpar Campos
                         </button>
-                        <button [disabled]="company.invalid || page.totalElements == 0" type="button"
-                            style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()"
-                            (click)="open(content)" *ngIf="!noExternal">
+                        <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
+                            class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
                         </button>
                     </div>
@@ -141,8 +130,6 @@
             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
             [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
             (activate)="showView($event)">
-
-            <ngx-datatable-column name="Empresa" prop="company.name" [width]="250"></ngx-datatable-column>
 
             <ngx-datatable-column name="Departamento" prop="departament.name" [width]="290"></ngx-datatable-column>
 

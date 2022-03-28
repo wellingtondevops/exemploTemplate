@@ -28,7 +28,7 @@ const routes: Routes = [
     {
         path: 'simple',
         component: SimpleListComponent,
-        canActivate: [ArchivesSearchGuardService, TermsService]
+        canActivate: [ TermsService]
     },
 ];
 

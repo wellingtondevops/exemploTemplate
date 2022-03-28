@@ -6,7 +6,7 @@
             [routerLinkActive]="['router-link-active']">
             <div class="card text-black">
                 <div class="card-content">
-                    <i class="mdi mdi-text-box-search mdi-48px"></i>
+                    <i class="mdi mdi-folder-search mdi-48px"></i>
                     <h4 class="card-title">Pesquisar Arquivos</h4>
                 </div>
                 <div class="card-footer text-black">
@@ -173,6 +173,18 @@
                 </div>
                 <div class="card-footer">
                     <p class="card-text">Emprestar Documentos Físicos</p>
+                </div>
+            </div>
+        </a>
+        <a class="col-lg-4 col-sm-12 " *ngIf="isArchivesSearch" [routerLink]="['/archives/simple']"
+            [routerLinkActive]="['router-link-active']">
+            <div class="card text-black">
+                <div class="card-content">
+                    <i class="mdi mdi-text-box-search mdi-48px"></i>
+                    <h4 class="card-title">Pesquisa simples de Arquivos</h4>
+                </div>
+                <div class="card-footer text-black">
+                    <p>Utilize para pesquisas mais simples do Acervo</p>
                 </div>
             </div>
         </a>
