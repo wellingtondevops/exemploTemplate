@@ -1,7 +1,7 @@
 <button style="margin: 10px" class="btn btn-primary" printSectionId="print-section" ngxPrint
     [useExistingCss]="true">Imprimir Relatório</button>
-<div *ngIf="moviment" style="background-color: white;" id="print-section">
-    <div class="row">
+<div *ngIf="moviment" id="print-section">
+    <div class="row p-2">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
@@ -16,8 +16,31 @@
                     </p>
                 </div>
                 <div class="card-content">
-                    <p class="title">CLIENTE</p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">CLIENTE</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"></th>
+                                <td scope="row"></td>
+                                <td scope="row">Otto</td>
+                                <td scope="row">@mdo</td>
+                                <td scope="row">Otto</td>
+                                <td scope="row">@mdo</td><td>Otto</td>
+                                <td scope="row">@mdo</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <table class="table customer" style="font-size: 12px;">
+                        <a class="title">CLIENTE</a>
                         <tr>
                             <th scope="col"> {{ moviment.company.name }}</th>
                             <th scope="col">Endereço: {{ moviment.company.adress }}</th>
