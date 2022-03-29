@@ -90,6 +90,7 @@ export class SimpleListComponent implements OnInit {
             search: this.fb.control(null, Validators.required),
             endDate: this.fb.control(null),
             initDate: this.fb.control(null),
+            image: this.fb.control(true),
         });
 
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
@@ -152,6 +153,7 @@ export class SimpleListComponent implements OnInit {
             search: null,
             endDate: null,
             initDate: null,
+            image: true,
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -160,6 +162,8 @@ export class SimpleListComponent implements OnInit {
         newSearch.search = this.searchForm.value.search;
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
+        newSearch.image = this.searchForm.value.image;
+
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
@@ -200,6 +204,7 @@ export class SimpleListComponent implements OnInit {
             search: null,
             endDate: null,
             initDate: null,
+            image: null,
         });
     }
 

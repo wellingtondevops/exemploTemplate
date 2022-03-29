@@ -44,6 +44,7 @@ export class Archive {
   finalIntermediate: Boolean;
   final: Boolean;
   pending: Boolean;
+  image: Boolean;
 }
 
 class Author {
