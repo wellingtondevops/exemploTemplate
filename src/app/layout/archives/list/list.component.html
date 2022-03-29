@@ -64,79 +64,6 @@
                                 (click)="clickStorehouse$.next($any($event).target.value)" />
                         </div>
                     </div>
-                    <div class="row ml-1 mt-1 mb-1 form-check-inline">
-                        <div class="col-lg-1 pr-0">
-                            <label>Status:</label>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="ATIVO" id="status" checked>
-                                    <div class="state">
-                                        <label class="form-check-label" for="status">
-                                            ARQUIVO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="BAIXADO" id="statusB">
-                                    <div class="state">
-                                        <label class="form-check-label" for="statusB">
-                                            BAIXADO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0 mr-3">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="radio" name="status" formControlName="status"
-                                        value="EMPRESTADO" id="statusE">
-                                    <div class="state">
-                                        <label class="form-check-label" for="statusE">
-                                            EMPRESTADO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1">
-                            <label>Fases:</label>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="current"
-                                        formControlName="finalCurrent" id="current" />
-                                    <div class="state">
-                                        <label class="form-check-label" for="current">
-                                            CORRENTE
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-sm-auto p-0">
-                            <div class="form-check m-0 p-0">
-                                <div class="pretty p-switch p-fill">
-                                    <input class="form-check-input" type="checkbox" name="intermediate"
-                                        formControlName="finalIntermediate" id="Intermediate" />
-                                    <div class="state">
-                                        <label class="form-check-label" for="Intermediate">
-                                            INTERMEDIARIO
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row" id="step3">
                         <div class="form-group col-lg-4 col-sm-12">
                             <label for="typeahead-scrollable">Documento</label>
@@ -163,6 +90,106 @@
                                 [disabled]="!dateSent" [min]="dateSent" />
                         </div>
                     </div>
+                    <div class="row mt-1 mb-1">
+                        <div class="col-lg-5 pr-0">
+                            <div class="row m-0">
+                                <div class="col-lg-1 p-0">
+                                    <label>Status:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-auto p-0">
+                                    <div class="form-check">
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="status"
+                                                formControlName="status" value="ATIVO" id="status" checked>
+                                            <div class="state">
+                                                <label class="form-check-label" for="status">
+                                                    ARQUIVO
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-auto p-0">
+                                    <div class="form-check p-0 pl-lg-1">
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="status"
+                                                formControlName="status" value="BAIXADO" id="statusB">
+                                            <div class="state">
+                                                <label class="form-check-label" for="statusB">
+                                                    BAIXADO
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12 col-sm-auto p-0">
+                                    <div class="form-check p-0">
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="status"
+                                                formControlName="status" value="EMPRESTADO" id="statusE">
+                                            <div class="state">
+                                                <label class="form-check-label" for="statusE">
+                                                    EMPRESTADO
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 p-0">
+                            <div class="row m-0">
+                                <div class="col-lg-4 pl-lg-5 text-lg-center">
+                                    <label>Fases:</label>
+                                </div>
+                                <div class="col-lg-4 col-sm-auto p-0">
+                                    <div class="form-check p-lg-0">
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="checkbox" name="current"
+                                                formControlName="finalCurrent" id="current" />
+                                            <div class="state">
+                                                <label class="form-check-label" for="current">
+                                                    CORRENTE
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-auto p-0">
+                                    <div class="form-check p-lg-0">
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="checkbox" name="intermediate"
+                                                formControlName="finalIntermediate" id="Intermediate" />
+                                            <div class="state">
+                                                <label class="form-check-label" for="Intermediate">
+                                                    INTERMEDIARIO
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <label>Possui imagens:</label>
+                                </div>
+                                <div class="col-lg-5 col-sm-auto p-0">
+                                    <div class="form-check p-lg-0">
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="checkbox" name="image"
+                                                formControlName="image" id="image" />
+                                            <div class="state">
+                                                <label class="form-check-label" for="image">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row col-12 text-center" id="step4">
                     <div class="form-group ">
@@ -173,8 +200,9 @@
                             class="btn dark-btn" (click)="clear()">
                             Limpar Campos
                         </button>
-                        <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
-                            class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
+                        <button [disabled]="company.invalid || page.totalElements == 0" type="button"
+                            style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()"
+                            (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
                         </button>
                     </div>
@@ -187,13 +215,13 @@
                     <div class="modal-body">
                         <p>Sua solicitação de exportação foi realizada com sucesso, este processo
                             e automatizado e dependendo da quantidade de itens pode demorar um pouco.</p>
-                        <strong>Mas não se preocupe, assim que o processo de exportação for finalizado avisaremos via notificação e e-mail.</strong>
-                        <br/>
+                        <strong>Mas não se preocupe, assim que o processo de exportação for finalizado avisaremos via
+                            notificação e e-mail.</strong>
+                        <br />
                         <small>Não é necessario, aguardar na pagina.</small>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-success"
-                            (click)="c()">Confirmar</button>
+                        <button type="button" class="btn btn-outline-success" (click)="c()">Confirmar</button>
                     </div>
                 </ng-template>
 
@@ -213,8 +241,8 @@
         </div>
     </div>
     <div id="step5">
-        <ngx-datatable #myTable class="bootstrap" [rows]="archives" [columnMode]="ColumnMode.force"
-            [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
+        <ngx-datatable #myTable class="bootstrap" [rows]="archives" [columnMode]="ColumnMode.force" [scrollbarH]="true"
+            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
             [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
             (activate)="showView($event)">
 

@@ -108,6 +108,7 @@ export class ListComponent implements OnInit {
             finalCurrent: this.fb.control(null),
             final: this.fb.control(null),
             finalIntermediate: this.fb.control(null),
+            image: this.fb.control(true)
         });
 
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
@@ -126,6 +127,7 @@ export class ListComponent implements OnInit {
                 final: archive.final,
                 finalCurrent: archive.finalCurrent,
                 finalIntermediate: archive.finalIntermediate,
+                image: archive.image
             });
             this.selectedCompany(archive.company._id);
         }
@@ -208,6 +210,7 @@ export class ListComponent implements OnInit {
             final: null,
             finalCurrent: null,
             finalIntermediate: null,
+            image: null,
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -226,6 +229,7 @@ export class ListComponent implements OnInit {
             newSearch.finalCurrent = this.currentValue = null;
             newSearch.finalIntermediate = this.searchForm.value.finalIntermediate = null;
         }
+        newSearch.image = this.searchForm.value.image;
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
