@@ -5,6 +5,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
+                    <img src="../../assets/images/PNG-05MENOR2.png" alt="Card image cap">
                     <h5 class=" text-center">
                         SMARTSCAN SERVIÇOS DIGITAIS LTDA.
                     </h5>
@@ -29,14 +30,14 @@
                         <tbody>
                             <tr>
                                 <th scope="row">{{ moviment.company.name }}</th>
-                                <td scope="row"> {{ moviment.company.adress }}</td>
-                                <td scope="row">{{ moviment.company.city }}</td>
-                                <td scope="row">{{ moviment.company.province }}</td>
-                                <td scope="row">{{ moviment.company.fone }}</td>
+                                <td> {{ moviment.company.adress }}</td>
+                                <td>{{ moviment.company.city }}</td>
+                                <td>{{ moviment.company.province }}</td>
+                                <td>{{ moviment.company.fone }}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <table class="table table-bordered table-responsive-md table-responsive-sm">
+                    <table class="table table-bordered ">
                         <thead>
                             <tr>
                                 <th scope="col">Solicitante</th>
@@ -50,174 +51,116 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td scope="row">{{ moviment.requester.name }}</td>
-                                <td scope="row">{{ moviment.loan ? 'Empréstimo' : 'Baixa' }}</td>
-                                <td scope="row">{{ moviment.moveVolume ? 'Caixa' : 'Arquivo' }}</td>
-                                <td scope="row">{{ moviment.normal ? 'Normal' : 'Emergencial' }}</td>
-                                <td scope="row">{{ delivery() }}</td>
-                                <td scope="row">{{ moviment.demandDate | date: 'dd/MM/yyyy hh:mm' }}</td>
-                                <td scope="row">{{ moviment.processedDate | date: 'dd/MM/yyyy hh:mm' }}</td>
+                                <td>{{ moviment.requester.name }}</td>
+                                <td>{{ moviment.loan ? 'Empréstimo' : 'Baixa' }}</td>
+                                <td>{{ moviment.moveVolume ? 'Caixa' : 'Arquivo' }}</td>
+                                <td>{{ moviment.normal ? 'Normal' : 'Emergencial' }}</td>
+                                <td>{{ delivery() }}</td>
+                                <td>{{ moviment.demandDate | date: 'dd/MM/yyyy hh:mm' }}</td>
+                                <td>{{ moviment.processedDate | date: 'dd/MM/yyyy hh:mm' }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-11">
-            <div class="header">
-                <br>
-                SMARTSCAN SERVIÇOS DIGITAIS LTDA.
-            </div>
-            <div class="sub-header">
-                EXTRATO DE MOVIMENTAÇÃO
-            </div>
-            <div class="sub-header pull-right">Movimentação Nr. {{ moviment.nr }}</div>
-            <br>
-            <hr>
-            <p class="title">CLIENTE</p>
-            <table class="table customer" style="font-size: 12px;">
-                <tr>
-                    <th>
-                        {{ moviment.company.name }}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Endereço: {{ moviment.company.adress }}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Cidade: {{ moviment.company.city }}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Estado: {{ moviment.company.province }}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Telefone: {{ moviment.company.fone }}
-                    </th>
-                </tr>
-            </table>
-            <table class="table table-bordered">
-                <tr>
-                    <th>Solicitante</th>
-                    <th>Natureza Movimentação</th>
-                    <th>Tipo da Movimentação</th>
-                    <th>Prazo</th>
-                    <th>Formato da Entrega</th>
-                    <th>Data Solicitação</th>
-                    <th>Data Movimentação</th>
-                </tr>
-                <tr>
-                    <td>{{ moviment.requester.name }}</td>
-                    <td>{{ moviment.loan ? 'Empréstimo' : 'Baixa' }}</td>
-                    <td>{{ moviment.moveVolume ? 'Caixa' : 'Arquivo' }}</td>
-                    <td>{{ moviment.normal ? 'Normal' : 'Emergencial' }}</td>
-                    <td>{{ delivery() }}</td>
-                    <td>{{ moviment.demandDate | date: 'dd/MM/yyyy hh:mm' }}</td>
-                    <td>{{ moviment.processedDate | date: 'dd/MM/yyyy hh:mm' }}</td>
-                </tr>
-            </table>
-            <p class="title">ITENS MOVIMENTADOS</p>
-            <table class="table customer table-bordered" *ngIf="moviment.moveVolume">
-                <tr>
-                    <th>
-                        CAIXA
-                    </th>
-                    <!-- <th>
-            REF
-          </th> -->
-                </tr>
-                <tr style="text-align: left;" *ngFor="let item of itemsVolumes">
-                    <td>{{ item.location }}</td>
-                    <!-- <td></td> -->
-                </tr>
-            </table>
-            <table class="table customer table-bordered" *ngIf="moviment.moveArchive">
-                <tr>
-                    <th>
-                        CAIXA
-                    </th>
-                    <th>
-                        DOCUMENTO
-                    </th>
-                    <th>
-                        INDICES
-                    </th>
-                </tr>
-                <tr style="text-align: left;" *ngFor="let item of itemsArchives">
-                    <td>{{ item.volume.location }}</td>
-                    <td>{{ item.doct.name }}</td>
-                    <td>{{ item.tag }}</td>
-                </tr>
-            </table>
-            <p class="title">SERVIÇOS</p>
-            <table class="table customer table-bordered">
-                <tr>
-                    <th>QUANTIDADE</th>
-                    <th>DESCRIÇÃO</th>
-                    <th>VALOR UNITÁRIO</th>
-                    <th>VALOR</th>
-                </tr>
-                <tr style="text-align: left;" *ngFor="let service of moviment.servicesDemand">
-                    <td>
-                        {{ service.quantityItem }}
-                    </td>
-                    <td>
-                        {{ service.item }}
-                    </td>
-                    <td *ngIf="moviment.itemValue">
-                        R$ {{ service.itemValue.toFixed(2) }}
-                    </td>
-                    <td *ngIf="moviment.totalItem">
-                        R$ {{ service.totalItem.toFixed(2) }}
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Total</td>
-                    <td *ngIf="moviment.totalValueDemand">R$ {{ moviment.totalValueDemand.toFixed(2) }}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="card">
+
                 <div class="card-body">
-                    <p class="title">
-                        <br>
-                        LOCAL, DATA E HORA DA ENTREGA
-                        <br>
-                        UBERABA, MG
-                        <br><br><br>
-                        HORÁRIO: _____: _____ hrs
-                    </p>
+                    <h6>ITENS MOVIMENTADOS</h6>
+                    <table class="table table-bordered table-responsive-md table-responsive-sm"
+                        *ngIf="moviment.moveVolume">
+                        <thead>
+                            <tr>
+                                <th scope="col">CAIXA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of itemsVolumes">
+                                <td scope="row">{{ item.location }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-responsive-md table-responsive-sm"
+                        *ngIf="moviment.moveArchive">
+                        <thead>
+                            <tr>
+                                <th scope="col">CAIXA</th>
+                                <th scope="col">DOCUMENTO</th>
+                                <th scope="col">INDICES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of itemsArchives">
+                                <td>{{ item.volume.location }}</td>
+                                <td>{{ item.doct.name }}</td>
+                                <td>{{ item.tag }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h6>SERVIÇOS</h6>
+                    <table class="table table-bordered table-responsive-md table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">QUANTIDADE</th>
+                                <th scope="col">DESCRIÇÃO</th>
+                                <th scope="col">VALOR UNITÁRIO</th>
+                                <th scope="col">VALOR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let service of moviment.servicesDemand">
+                                <td>{{ service.quantityItem }}</td>
+                                <td>{{ service.item }}</td>
+                                <td *ngIf="moviment.itemValue">R$ {{ service.itemValue.toFixed(2) }}</td>
+                                <td *ngIf="moviment.totalItem">R$ {{ service.totalItem.toFixed(2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <th scope="row">Total</th>
+                                <td *ngIf="moviment.totalValueDemand">R$ {{
+                                    moviment.totalValueDemand.toFixed(2) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-9">
-            <div class="card">
-                <div class="card-body">
-                    <p class="header">CONFIRMAÇÃO DE RECEBIMENTO</p>
-                    <p class="sub-header">Atesto para os devido fins, que recebi as caixas de documentos constantes da
-                        relação
-                        acima.<br>
-                        Por ser verdade, firmo o presente documento.
-                        <br><br>
-                        ____________________________________________________________________
-                    </p>
+
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="title">
+                                        <br>
+                                        LOCAL, DATA E HORA DA ENTREGA
+                                        <br>
+                                        UBERABA, MG
+                                        <br><br><br>
+                                        HORÁRIO: _____: _____ hrs
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="header">CONFIRMAÇÃO DE RECEBIMENTO</p>
+                                    <p class="sub-header">Atesto para os devido fins, que recebi as caixas de documentos
+                                        constantes da
+                                        relação
+                                        acima.<br>
+                                        Por ser verdade, firmo o presente documento.
+                                        <br><br>
+                                        ____________________________________________________________________
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <app-footer></app-footer>
                 </div>
             </div>
         </div>
     </div>
-    <hr>
-    <app-footer></app-footer>
 </div>
