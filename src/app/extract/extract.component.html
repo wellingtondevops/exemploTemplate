@@ -16,58 +16,49 @@
                     </p>
                 </div>
                 <div class="card-content">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-responsive-md table-responsive-sm">
                         <thead>
                             <tr>
                                 <th scope="col">CLIENTE</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Endereço</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Telefone</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row"></th>
-                                <td scope="row"></td>
-                                <td scope="row">Otto</td>
-                                <td scope="row">@mdo</td>
-                                <td scope="row">Otto</td>
-                                <td scope="row">@mdo</td><td>Otto</td>
-                                <td scope="row">@mdo</td>
+                                <th scope="row">{{ moviment.company.name }}</th>
+                                <td scope="row"> {{ moviment.company.adress }}</td>
+                                <td scope="row">{{ moviment.company.city }}</td>
+                                <td scope="row">{{ moviment.company.province }}</td>
+                                <td scope="row">{{ moviment.company.fone }}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <table class="table customer" style="font-size: 12px;">
-                        <a class="title">CLIENTE</a>
-                        <tr>
-                            <th scope="col"> {{ moviment.company.name }}</th>
-                            <th scope="col">Endereço: {{ moviment.company.adress }}</th>
-                            <th scope="col">Cidade: {{ moviment.company.city }}</th>
-                            <th scope="col">Estado: {{ moviment.company.province }}</th>
-                            <th scope="col">Telefone: {{ moviment.company.fone }}</th>
-                        </tr>
-                    </table>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Solicitante</th>
-                            <th>Natureza Movimentação</th>
-                            <th>Tipo da Movimentação</th>
-                            <th>Prazo</th>
-                            <th>Formato da Entrega</th>
-                            <th>Data Solicitação</th>
-                            <th>Data Movimentação</th>
-                        </tr>
-                        <tr>
-                            <td>{{ moviment.requester.name }}</td>
-                            <td>{{ moviment.loan ? 'Empréstimo' : 'Baixa' }}</td>
-                            <td>{{ moviment.moveVolume ? 'Caixa' : 'Arquivo' }}</td>
-                            <td>{{ moviment.normal ? 'Normal' : 'Emergencial' }}</td>
-                            <td>{{ delivery() }}</td>
-                            <td>{{ moviment.demandDate | date: 'dd/MM/yyyy hh:mm' }}</td>
-                            <td>{{ moviment.processedDate | date: 'dd/MM/yyyy hh:mm' }}</td>
-                        </tr>
+                    <table class="table table-bordered table-responsive-md table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">Solicitante</th>
+                                <th scope="col">Natureza Movimentação</th>
+                                <th scope="col">Tipo da Movimentação</th>
+                                <th scope="col">Prazo</th>
+                                <th scope="col">Formato da Entrega</th>
+                                <th scope="col">Data Solicitação</th>
+                                <th scope="col">Data Movimentação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row">{{ moviment.requester.name }}</td>
+                                <td scope="row">{{ moviment.loan ? 'Empréstimo' : 'Baixa' }}</td>
+                                <td scope="row">{{ moviment.moveVolume ? 'Caixa' : 'Arquivo' }}</td>
+                                <td scope="row">{{ moviment.normal ? 'Normal' : 'Emergencial' }}</td>
+                                <td scope="row">{{ delivery() }}</td>
+                                <td scope="row">{{ moviment.demandDate | date: 'dd/MM/yyyy hh:mm' }}</td>
+                                <td scope="row">{{ moviment.processedDate | date: 'dd/MM/yyyy hh:mm' }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
