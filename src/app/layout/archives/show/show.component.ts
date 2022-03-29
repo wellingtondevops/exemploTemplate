@@ -236,7 +236,7 @@ export class ShowComponent implements OnInit {
             this.successMsgSrv.successMessages('Arquivo deletado com sucesso.');
             this.file = null;
             this.archive = null;
-            this._route.navigate(['/archives']);
+            this._route.navigate(['/archives/list']);
         }, error => {
             console.log(error);
             this.errorMsg.errorMessages(error);
