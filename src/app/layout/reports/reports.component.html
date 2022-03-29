@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-lg-2 col-sm-12">
                         <button *ngIf="reports" style="margin-left: 10px" class="btn btn-primary"
-                            printSectionId="print-section" ngxPrint>Imprimir Relatório</button>
+                            printSectionId="print-section" ngxPrint [useExistingCss]="true">Imprimir Relatório</button>
                     </div>
                 </div>
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
@@ -71,9 +71,14 @@
                 <div class="card">
                     <div class="card-header"><b>Cliente</b></div>
                     <div class="card-body">
-                        <span><b>{{ reports.companyName }}</b></span>
-                        <span class="pull-right"><b>Período: {{ reports.initialPeriod }} À {{ reports.finalPeriod
-                                }}</b></span>
+                        <span>
+                            <b>{{ reports.companyName }}</b>
+                        </span>
+                        <span class="pull-right">
+                            <b>
+                                Período: {{ reports.initialPeriod }} À {{ reports.finalPeriod}}
+                            </b>
+                        </span>
                         <br />
                     </div>
                 </div>
@@ -83,18 +88,12 @@
                         <b>Descrição</b>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-responsive-sm">
                             <thead>
                                 <tr>
-                                    <th>
-
-                                    </th>
-                                    <th>
-                                        Totais do Acervo
-                                    </th>
-                                    <th>
-                                        Totais do Período
-                                    </th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Totais do Acervo</th>
+                                    <th scope="col">Totais do Período</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,24 +126,14 @@
                         <b>Departamentos</b>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-responsive-sm table-sm">
                             <thead>
                                 <tr>
-                                    <th>
-                                        Departamento
-                                    </th>
-                                    <th>
-                                        Total de Volumes
-                                    </th>
-                                    <th>
-                                        Volumes no Período
-                                    </th>
-                                    <th>
-                                        Total de Arquivos
-                                    </th>
-                                    <th>
-                                        Arquivos no Período
-                                    </th>
+                                    <th scope="col">Departamento</th>
+                                    <th scope="col">Total de Volumes</th>
+                                    <th scope="col">Volumes no Período</th>
+                                    <th scope="col">Total de Arquivos</th>
+                                    <th scope="col">Arquivos no Período</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -172,24 +161,14 @@
                         <b>Documentos</b>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-sm table-responsive-sm">
                             <thead>
                                 <tr>
-                                    <th>
-                                        Documento
-                                    </th>
-                                    <th>
-                                        Total de Arquivos
-                                    </th>
-                                    <th>
-                                        Arquivos no Período
-                                    </th>
-                                    <th>
-                                        Total de Páginas
-                                    </th>
-                                    <th>
-                                        Páginas no Período
-                                    </th>
+                                    <th scope="col">Documento</th>
+                                    <th scope="col">Total de Arquivos</th>
+                                    <th scope="col">Arquivos no Período</th>
+                                    <th scope="col">Total de Páginas</th>
+                                    <th scope="col">Páginas no Período</th>
                                 </tr>
                             </thead>
                             <tbody>
