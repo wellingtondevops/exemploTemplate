@@ -56,9 +56,21 @@
 .ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
     color: #504f4f;
 }
-.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a, .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+.ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled).active
+    a,
+.ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled):hover
+    a {
     background-color: rgb(165, 159, 159);
-    font-weight: bold; }
+    font-weight: bold;
+}
 
 //Dark Theme
 .bootstrap-dark .dropdown-menu {
@@ -103,9 +115,22 @@
 .bootstrap-dark .ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
     color: #ffffff;
 }
-.bootstrap-dark .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a, .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+.bootstrap-dark
+    .ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled).active
+    a,
+.ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled):hover
+    a {
     background-color: #545454;
-    font-weight: bold; }
+    font-weight: bold;
+}
 
 .ngx-datatable.bootstrap {
     border-top-left-radius: 9px;
@@ -115,4 +140,107 @@
 .customTooltip * {
     color: #4a4a4a;
     font-size: 18px;
+}
+
+// Toastr Notifications
+.successclass.toast-success {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    border-radius: 15px !important;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    box-shadow: 0 0 12px rgb(68, 67, 67);
+    color: rgb(185, 192, 185);
+    border: 4px solid green !important;
+    border-image-slice: 20 !important;
+    background-color: white;
+    background-image: none !important;
+    .toast-title {
+        font-weight: bold;
+        color: green;
+    }
+    .toast-message {
+        word-wrap: break-word;
+        color: green;
+    }
+    .toast-message a,
+    .toast-message label {
+        color: green;
+    }
+    .toast-message a:hover {
+        color: green;
+        text-decoration: none;
+    }
+}
+
+.errorclass.toast-error {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    border-radius: 15px !important;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    box-shadow: 0 0 12px rgb(68, 67, 67);
+    color: rgb(236, 225, 225);
+    border: 4px solid red !important;
+    border-image-slice: 20 !important;
+    background-color: white;
+    background-image: none !important;
+    .toast-title {
+        font-weight: bold;
+        color: red;
+    }
+    .toast-message {
+        word-wrap: break-word;
+        color: red;
+    }
+    .toast-message a,
+    .toast-message label {
+        color: red;
+    }
+    .toast-message a:hover {
+        color: red;
+        text-decoration: none;
+    }
+}
+
+.warnclass.toast-warning {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    border-radius: 15px !important;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    box-shadow: 0 0 12px rgb(68, 67, 67);
+    color: rgb(236, 225, 225);
+    border: 4px solid rgb(255, 166, 0) !important;
+    border-image-slice: 20 !important;
+    background-color: white;
+    background-image: none !important;
+    .toast-title {
+        font-weight: bold;
+        color: rgb(255, 166, 0);
+    }
+    .toast-message {
+        word-wrap: break-word;
+        color: rgb(255, 166, 0);
+    }
+    .toast-message a,
+    .toast-message label {
+        color: rgb(255, 166, 0);
+    }
+    .toast-message a:hover {
+        color: rgb(255, 166, 0);
+        text-decoration: none;
+    }
 }
