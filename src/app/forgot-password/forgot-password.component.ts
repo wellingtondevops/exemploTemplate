@@ -31,21 +31,17 @@ export class ForgotPasswordComponent implements OnInit {
         });
     }
 
-    onResetPass() {
+    onResetPass(content) {
         this.loading = false;
         this.fogotPasswordSrv.forgotPassword(this.resetPassForm.value.email).subscribe(res => {
             //this.successMsgSrv.successMessages(res);
             this.loading = false;
-
+            this.modalService.open(content);
         }, error => {
             this.errorMsg.errorMessages(error);
             console.log('ERROR: ', error);
             this.loading = false;
-        })
-    }
-
-    open(content) {
-        this.modalService.open(content);
+        });
     }
 
 }
