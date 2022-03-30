@@ -17,7 +17,7 @@ export class SuccessMessagesService {
     showSuccess(message) {
         this.toastr.success(message, 'Sucesso!', {
             timeOut: 4000,
-            positionClass: 'toast-top-right',
+            positionClass: 'toast-bottom-right',
             toastClass: 'successclass ngx-toastr',
             progressBar: true,
             progressAnimation: 'decreasing',
