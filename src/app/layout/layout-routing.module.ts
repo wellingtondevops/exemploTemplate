@@ -26,7 +26,6 @@ const routes: Routes = [
             { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
             { path: 'batches', loadChildren: './batches/batches.module#BatchesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },
-            { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
             { path: 'access-profiles', loadChildren: './access-profiles/access-profiles.module#AccessProfilesModule'},
             { path: 'email-service', loadChildren: './email-service/email-service.module#EmailServiceModule'}
