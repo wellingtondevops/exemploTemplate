@@ -4,11 +4,7 @@ import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import {
-    TimelineComponent,
-    NotificationComponent,
-    ChatComponent
-} from './components';
+
 import { StatModule, ThemeToggleModule } from '../../shared';
 
 @NgModule({
@@ -22,9 +18,6 @@ import { StatModule, ThemeToggleModule } from '../../shared';
     ],
     declarations: [
         DashboardComponent,
-        TimelineComponent,
-        NotificationComponent,
-        ChatComponent
     ]
 })
 export class DashboardModule {}
