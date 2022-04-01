@@ -14,11 +14,11 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { routerTransition } from '../../../router.animations';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import * as $ from 'jquery';
 import _ from 'lodash';
 import * as XLSX from 'ts-xlsx';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { DomSanitizer } from '@angular/platform-browser';
+declare var $: any;
 
 
 @Component({
@@ -95,6 +95,26 @@ export class ControlComponent implements OnInit {
         const myid = localStorage.getItem('idBatch');
         this.getBatch();
         // this.getArchive();
+
+        $(function () {
+            var fileInput = $('.upload-file');
+            var maxSize = fileInput.data('max-size');
+            $('.upload-form').submit(function (e) {
+                if (fileInput.get(0).files.length) {
+                    var fileSize = fileInput.get(0).files[0].size; // in bytes
+                    if (fileSize > maxSize) {
+                        alert('file size is more then' + maxSize + ' bytes');
+                        return false;
+                    } else {
+                        alert('file size is correct- ' + fileSize + ' bytes');
+                    }
+                } else {
+                    alert('choose file, please');
+                    return false;
+                }
+
+            });
+        });
     }
 
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {

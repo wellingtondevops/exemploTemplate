@@ -76,23 +76,21 @@
                                             Importar Imagens
                                         </h5>
                                         <div class="import">
-                                            <form class="form-control-color" [formGroup]="myForm" (ngSubmit)="submit()"
-                                                id="">
-                                                <label class="btn dark-btn">
-                                                    Selecionar Documentos
+                                            <form class="form-control" [formGroup]="myForm" id="">
+                                                <!-- <label class="btn dark-btn">
+                                                    Selecionar Documentos form-control-color
                                                     <input type="file" hidden multiple formControlName="file" id="file"
                                                         class="form-control-file" (change)="onFileChange($event)">
-                                                </label>
-                                                <!-- <div class="form-group" id="btn-import" style="
+                                                </label> -->
+                                                <div class="form-group" id="btn-import" style="
                                                         font-weight: bolder;
                                                         margin-bottom: 2px;
                                                     ">
-                                                    <input formControlName="file" id="file" type="file" multiple
+                                                    <input formControlName="file" class="upload-file" max-size="1024" id="file" type="file" multiple
                                                         class="form-control-file" (change)="onFileChange($event)"
                                                         style="border-radius: 0px;" />
-                                                </div> -->
-                                                <button class="btn btn-xs btn-primary" type="submit"
-                                                    style="margin-top: 0">
+                                                </div>
+                                                <button class="btn btn-xs btn-primary mt-2" type="submit" (click)="submit()">
                                                     Importar
                                                 </button>
                                             </form>
