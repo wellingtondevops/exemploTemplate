@@ -2,7 +2,6 @@ import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { BatchSheetNameService } from './../../../services/batchSheetName/batch-sheet-name.service';
 import { BatchSheetName } from './../../../../.././src/app/models/batchSheetName';
 import { SaveLocal } from './../../../storage/saveLocal';
-
 import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,7 +19,6 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
 import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 
-
 @Component({
     selector: 'app-control',
     templateUrl: './control.component.html',
@@ -31,7 +29,6 @@ export class ControlComponent implements OnInit {
     file: File | null = null;
     nameFile: string;
     arrayBuffer: any;
-
     progressInfos: any = [];
     fileInfos: any = [];
     batch: Batch;
@@ -45,7 +42,6 @@ export class ControlComponent implements OnInit {
     rowsFile: any = [];
     errorUpload: boolean = null;
     savedFile = false;
-    // pageImages = new Page();
     myFilesInputSelect: any = [];
     myFiles: any = [];
     uploadResponse: any = { status: 'progress', message: 0 };
@@ -54,6 +50,7 @@ export class ControlComponent implements OnInit {
         file: new FormControl('', [Validators.required]),
     });
     sheetnames: BatchSheetName[];
+    uploadField: any;
 
     constructor(
         private _route: Router,
@@ -68,85 +65,69 @@ export class ControlComponent implements OnInit {
         private domSanitizer: DomSanitizer,
         private localStorageSrv: SaveLocal,
         private introService: IntroJsService,
-
     ) { }
 
-
     ngOnInit() {
-        /* $(document).ready(function () {
-            // var $modal = $('#right-bottom');
-            $('.cus-modal').click(function () {
-                $('body').removeClass('cus-modal-open');
-                $('.in').removeClass('in');
-            });
-        }); */
-
         this.searchForm = this.fb.group({
             sheetname: this.fb.control(''),
         });
-
         this.id = this.route.snapshot.paramMap.get('id');
-
-
         let batchID = this.id;
-
         const idBatch = [{ fdp: batchID }];
         localStorage.setItem('idBatch', JSON.stringify(idBatch));
         const myid = localStorage.getItem('idBatch');
         this.getBatch();
-        // this.getArchive();
-
-        $(function () {
-            var fileInput = $('.upload-file');
-            var maxSize = fileInput.data('max-size');
-            $('.upload-form').submit(function (e) {
-                if (fileInput.get(0).files.length) {
-                    var fileSize = fileInput.get(0).files[0].size; // in bytes
-                    if (fileSize > maxSize) {
-                        alert('file size is more then' + maxSize + ' bytes');
-                        return false;
-                    } else {
-                        alert('file size is correct- ' + fileSize + ' bytes');
-                    }
-                } else {
-                    alert('choose file, please');
-                    return false;
-                }
-
-            });
-        });
     }
 
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
         if (event) {
-            this.nameFile = event.item(0).name;
-            const file = event && event.item(0);
-            if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
+            this.uploadField = event.item(0).size;
+            const fileSize = event && event.item(0);
+            if (fileSize.size > 10000000) {
+                if (this.myFilesInputSelect.length === 1) {
+                    const erroMsg = {
+                        status: 'Tamanho do arquivo',
+                        message: 'Este arquivo ultrapassa o tamanho de 100MB! Por favor verifique.'
+                    };
+                    this.errorMsg.showError(erroMsg);
+                } else {
+                    const erroMsg = {
+                        status: 'Tamanho do arquivo',
+                        message: 'Um dos arquivos ultrapassa o tamanho de 100MB! Por favor verifique.'
+                    };
+                    this.errorMsg.showError(erroMsg);
+                }
                 this.removeFile();
-                const error = {
-                    status: 404,
-                    message: 'Formato de arquivo não suportado.'
-                };
-                this.errorMsg.showError(error);
-
             } else {
-                this.file = file;
-                const fileReader = new FileReader();
-                fileReader.onload = (e) => {
-                    this.arrayBuffer = fileReader.result;
-                    const data = new Uint8Array(this.arrayBuffer);
-                    const arr = new Array();
-                    for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
-                    const bstr = arr.join('');
-                    const workbook = XLSX.read(bstr, { type: 'binary' });
-                    const first_sheet_name = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[first_sheet_name];
-                    const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-                    item.map(row => {
-                        this.rowsFile.push(row);
-                    });
-                };
-                fileReader.readAsArrayBuffer(this.file);
+                this.nameFile = event.item(0).name;
+                const file = event && event.item(0);
+                if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
+                    this.removeFile();
+                    const error = {
+                        status: 404,
+                        message: 'Formato de arquivo não suportado.'
+                    };
+                    this.errorMsg.showError(error);
+
+                } else {
+                    this.file = file;
+                    const fileReader = new FileReader();
+                    fileReader.onload = (e) => {
+                        this.arrayBuffer = fileReader.result;
+                        const data = new Uint8Array(this.arrayBuffer);
+                        const arr = new Array();
+                        for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+                        const bstr = arr.join('');
+                        const workbook = XLSX.read(bstr, { type: 'binary' });
+                        const first_sheet_name = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[first_sheet_name];
+                        const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+                        item.map(row => {
+                            this.rowsFile.push(row);
+                        });
+                    };
+                    fileReader.readAsArrayBuffer(this.file);
+                }
             }
         }
     }
@@ -278,6 +259,10 @@ export class ControlComponent implements OnInit {
         // this.host.nativeElement.value = '';
         this.file = null;
         this.nameFile = null;
+        this.myForm.patchValue({
+            file: '',
+        });
+        this.myFiles = [];
     }
 
     upload(formData, i) {
@@ -327,10 +312,6 @@ export class ControlComponent implements OnInit {
         localStorage.removeItem('lista');
         this._route.navigate(['/index', this.id]);
     }
-
-    // getArchive() {
-    //     this.setPage({ offset: 0 });
-    // }
 
     setPage(pageInfo) {
         this.loading = true;

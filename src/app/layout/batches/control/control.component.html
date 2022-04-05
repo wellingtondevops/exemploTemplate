@@ -76,7 +76,7 @@
                                             Importar Imagens
                                         </h5>
                                         <div class="import">
-                                            <form class="form-control" [formGroup]="myForm" id="">
+                                            <form class="form-control" method="POST" enctype="multipart/form-data" [formGroup]="myForm" id="">
                                                 <!-- <label class="btn dark-btn">
                                                     Selecionar Documentos form-control-color
                                                     <input type="file" hidden multiple formControlName="file" id="file"
@@ -86,7 +86,7 @@
                                                         font-weight: bolder;
                                                         margin-bottom: 2px;
                                                     ">
-                                                    <input formControlName="file" class="upload-file" max-size="1024" id="file" type="file" multiple
+                                                    <input formControlName="file" multiple class="upload-file" id="file" type="file"
                                                         class="form-control-file" (change)="onFileChange($event)"
                                                         style="border-radius: 0px;" />
                                                 </div>
