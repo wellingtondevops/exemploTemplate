@@ -22,6 +22,11 @@ import { SafePipe } from './utils/pipes/safe-pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from './store/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { CompaniesEffectService } from './store/companies.effect.service';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
     imports: [
@@ -47,6 +52,10 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
             tertiaryColour: '#222',
             fullScreenBackdrop: true,
         }),
+        StoreModule.forRoot({ app: appReducer}),
+        EffectsModule.forRoot([CompaniesEffectService]),
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+
 
     ],
     declarations: [AppComponent, SafePipe],

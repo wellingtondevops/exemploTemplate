@@ -1,3 +1,5 @@
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { SaveLocal } from './../../../storage/saveLocal';
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../../../services/companies/companies.service';
@@ -9,6 +11,7 @@ import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { AppState, getListCompanies, setListCompanies } from 'src/app/store/app.state';
 
 @Component({
     selector: 'app-list',
@@ -38,6 +41,8 @@ export class ListComponent implements OnInit {
     loading: Boolean = true;
     permissionNew: boolean = false;
 
+
+
     constructor(
         private _route: Router,
         private companiesSrv: CompaniesService,
@@ -46,9 +51,15 @@ export class ListComponent implements OnInit {
         private fb: FormBuilder,
         private localStorageSrv: SaveLocal,
         private introService: IntroJsService,
+        private store: Store<{app: AppState}>,
     ) { }
 
+    ListCompanies$ = this.store.select('app').pipe(
+        map(app => app.companiesList)
+    );
+
     ngOnInit() {
+        this.store.dispatch(getListCompanies());
         this.searchForm = this.fb.group({
             name: this.fb.control(null, [Validators.required]),
         });
@@ -58,8 +69,8 @@ export class ListComponent implements OnInit {
                 name: companies.name
             });
         }
-        this.getCompanies();
-        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+        // this.getCompanies();
+        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
     }
 
     get name() {
