@@ -122,6 +122,13 @@
                             <span>{{ "Pesquisa Simples" | translate }}</span>
                         </a>
                     </li>
+                    <li >
+                        <a [routerLink]="['/archives/audit']" class="list-group-item"
+                            [routerLinkActive]="['router-link-active']">
+                            <i class="mdi mdi-file-compare mdi-18px"></i>&nbsp;
+                            <span>{{ "Auditoria" | translate }}</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </div>

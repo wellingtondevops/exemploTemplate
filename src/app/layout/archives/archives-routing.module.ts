@@ -1,3 +1,4 @@
+import { AuditComponent } from './audit/audit.component';
 import { SimpleShowComponent } from './simple-show/simple-show.component';
 import { SimpleListComponent } from './simple-list/simple-list.component';
 import { NgModule } from '@angular/core';
@@ -9,6 +10,7 @@ import { DaenerysTywinSnowGuardService as DaenerysTywinSnowGuard } from 'src/app
 import { ArchivesSearchGuardService } from 'src/app/services/guard/archives-search-guard.service';
 import { ArchivesShowGuardService } from 'src/app/services/guard/archives-show-guard.service';
 import { TermsService } from 'src/app/services/guard/terms.service';
+import { AuditShowComponent } from './audit-show/audit-show.component';
 
 const routes: Routes = [
     {
@@ -33,6 +35,15 @@ const routes: Routes = [
     {
         path: 'simple/get/:id',
         component: SimpleShowComponent,
+        canActivate: [ArchivesShowGuardService, TermsService]
+    },
+    {
+        path: 'audit',
+        component: AuditComponent,
+    },
+    {
+        path: 'audit/get/:id',
+        component: AuditShowComponent,
         canActivate: [ArchivesShowGuardService, TermsService]
     },
 ];

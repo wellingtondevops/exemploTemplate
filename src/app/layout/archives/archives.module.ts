@@ -14,9 +14,11 @@ import { EditComponent } from './edit/edit.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { SimpleListComponent } from './simple-list/simple-list.component';
 import { SimpleShowComponent } from './simple-show/simple-show.component';
+import { AuditComponent } from './audit/audit.component';
+import { AuditShowComponent } from './audit-show/audit-show.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent],
+  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent, AuditComponent, AuditShowComponent],
   imports: [
     NgbModule,
     CommonModule,

@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
     isScan = false;
     isAccessProfile = false;
     isSimpleArchives = false;
-
+    isAuditArchives = false;
 
 
     @Output() collapsedEvent = new EventEmitter<boolean>();
@@ -65,6 +65,7 @@ export class SidebarComponent implements OnInit {
         this.isArchivesSearch = this.isArchiveSearch();
         this.isArchives = this.isArchive();
         this.isSimpleArchives = this.isArchiveSimple();
+        this.isAuditArchives = this.isArchiveAudit();
         this.isArchivesRegister = this.isArchiveRegister();
         this.isArchivesImport = this.isArchiveImport();
         this.isVolumesSearch = this.isVolumeSearch();
@@ -162,6 +163,14 @@ export class SidebarComponent implements OnInit {
     isArchiveSimple() {
         let res = false;
         if (JSON.parse(window.localStorage.getItem('routes'))[0].simpleArchives) {
+            res = true;
+        }
+        return res;
+    }
+
+    isArchiveAudit() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].auditArchives) {
             res = true;
         }
         return res;
