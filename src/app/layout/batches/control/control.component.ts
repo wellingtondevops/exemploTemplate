@@ -83,7 +83,7 @@ export class ControlComponent implements OnInit {
         if (event) {
             this.uploadField = event.item(0).size;
             const fileSize = event && event.item(0);
-            if (fileSize.size > 10000000) {
+            if (fileSize.size > 1e+8) {
                 if (this.myFilesInputSelect.length === 1) {
                     const erroMsg = {
                         status: 'Tamanho do arquivo',
