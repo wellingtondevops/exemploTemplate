@@ -144,6 +144,7 @@ export class ShowComponent implements OnInit {
         }, error => {
             $('.file').css('height', this.height - 30);
             console.log('ERROR: ', error);
+            this._route.navigate(['/not-found']);
             this.loading = false;
         });
     }

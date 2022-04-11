@@ -143,6 +143,7 @@ export class SimpleShowComponent implements OnInit {
             this.loading = false;
         }, error => {
             $('.file').css('height', this.height - 30);
+            this._route.navigate(['/not-found']);
             console.log('ERROR: ', error);
             this.loading = false;
         });

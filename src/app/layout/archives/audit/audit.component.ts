@@ -24,7 +24,7 @@ export class AuditComponent implements OnInit {
 
     ngOnInit() {
         this.searchForm = this.fb.group({
-            id: this.fb.control('', [Validators.required, Validators.minLength(6)]),
+            id: this.fb.control('', [Validators.required, Validators.minLength(24)]),
         });
     }
 
