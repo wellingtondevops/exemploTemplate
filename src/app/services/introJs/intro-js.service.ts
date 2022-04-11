@@ -979,6 +979,40 @@ export class IntroJsService {
             .start();
     }
 
+    ListAuditArchives() {
+        this.introJS = introJs();
+        this.introJS.start();
+
+        this.introJS
+            .setOptions({
+                tooltipClass: 'customTooltip',
+                nextLabel: 'Proximo',
+                prevLabel: 'Anterior',
+                doneLabel: 'Finalizar',
+                showProgress: true,
+                showBullets: false,
+                steps: [
+                    {
+                        element: '#step1',
+                        intro:
+                            '<strong>Bem-vindo(a) a auditoria de Arquivos!</strong>.',
+                    },
+                    {
+                        element: '#step2',
+                        intro:
+                            'Utilize este campo para a pesquisa do ID do arquivo.<br/> O campo <strong>ID</strong>, por padrão possui 24 caracteres, a pesquisa somente funcionara, com os 24 caracteres.',
+                    },
+                    {
+                        element: '#step3',
+                        intro:
+                            'Utilize o campo <strong>Ver Arquivo</strong> para ser levado direto ao arquivo. Caso o ID do arquivos estaja errado, a pesquisa retornara a pagina <strong>inicial</strong>.',
+                        tooltipPosition: 'bottom',
+                    },
+                ]
+            })
+            .start();
+    }
+
     ShowArchives() {
         this.introJS = introJs();
         this.introJS.start();

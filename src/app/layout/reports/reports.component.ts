@@ -120,7 +120,6 @@ export class ReportsComponent implements OnInit {
         // newForm.name = this.searchForm.value.company.name;
 
         this.localStorageSrv.save('company', this.searchForm.value.company.name);
-        console.log('dasdad', this.localStorageSrv.get('company'));
 
         this.searchForm.value.company = this.returnId('company') ;
         this.loading = true;

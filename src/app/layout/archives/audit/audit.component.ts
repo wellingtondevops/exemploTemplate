@@ -33,7 +33,7 @@ export class AuditComponent implements OnInit {
     }
 
     help() {
-        this.introService.ListSimpleArchives();
+        this.introService.ListAuditArchives();
     }
 
     showData() {
