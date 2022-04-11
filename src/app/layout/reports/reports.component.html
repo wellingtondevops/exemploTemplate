@@ -134,6 +134,8 @@
                                     <th scope="col">Volumes no Período</th>
                                     <th scope="col">Total de Arquivos</th>
                                     <th scope="col">Arquivos no Período</th>
+                                    <th scope="col">Total de Páginas</th>
+                                    <th scope="col">Páginas no Período</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,11 +145,15 @@
                                     <td>{{ departament.periodVolumes}}</td>
                                     <td>{{ departament.totalArchives}}</td>
                                     <td>{{ departament.periodArchives}}</td>
+                                    <td>{{ departament.departamentPeridoPages}}</td>
+                                    <td>{{ departament.departamentTotalPages}}</td>
                                 </tr>
                                 <tr>
                                     <td>Totais</td>
                                     <td>{{ reports.totalDepartamentVolumes }}</td>
                                     <td>{{ reports.peridoDepartamentVolumes }}</td>
+                                    <td>{{ reports.totalDepartamentArchives }}</td>
+                                    <td>{{ reports.peridoDepartamentArchives }}</td>
                                     <td>{{ reports.totalDepartamentArchives }}</td>
                                     <td>{{ reports.peridoDepartamentArchives }}</td>
                                 </tr>
