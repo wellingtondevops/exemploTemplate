@@ -141,8 +141,8 @@ getArquive() {
         $('.file').css('height', 'auto');
         this.loading = false;
     }, error => {
-        $('.file').css('height', this.height - 30);
         this._route.navigate(['/not-found']);
+        $('.file').css('height', this.height - 30);
         console.log('ERROR: ', error);
         this.loading = false;
     });
