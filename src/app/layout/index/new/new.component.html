@@ -29,31 +29,40 @@
                     <ng-template ngbTabContent>
                         <div class="row" id="step2">
                             <div class="col-sm-12">
-                                <div class="card  mb-3" style="font-size: 15px;">
-                                    <div class="card-body">
-                                        <p class="card-text">
-                                            <b>EMPRESA</b>: {{ batch && batch.company &&
-                                            batch.company.name ? batch.company.name : '' }} <br>
-                                            <b>DOCUMENTO</b>: {{ batch && batch.doct && batch.doct.name
-                                            ? batch.doct.name : '' }}<br>
-                                            <b>DEPARTAMENTO</b>: {{ batch && batch.departament &&
-                                            batch.departament.name ? batch.departament.name : '' }}<br>
-                                            <b>DEPÓSITO</b>: {{ batch && batch.storehouse &&
-                                            batch.storehouse.name ? batch.storehouse.name : '' }}<br>
-                                            <b>POSIÇÃO</b>: {{ batch && batch.volume &&
-                                            batch.volume.location ? batch.volume.location : '' }}<br>
 
-                                        </p>
-                                        <div class="text-center col-lg-auto">
-                                            <a *ngIf=" batch && batch.volume &&
+                                <ngb-accordion #a="ngbAccordion" activeIds="custom-panel-1">
+                                    <ngb-panel id="custom-panel-1">
+                                        <ng-template ngbPanelHeader let-opened="opened">
+                                            <div class="accordion-button justify-content-between"
+                                                [class.collapsed]="!opened">
+                                                <button ngbPanelToggle class="btn btn-link p-0">
+                                                    Índice
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ngbPanelContent>
+                                            <p class="card-text">
+                                                <b>EMPRESA</b>: {{ batch && batch.company &&
+                                                batch.company.name ? batch.company.name : '' }} <br>
+                                                <b>DOCUMENTO</b>: {{ batch && batch.doct && batch.doct.name
+                                                ? batch.doct.name : '' }}<br>
+                                                <b>DEPARTAMENTO</b>: {{ batch && batch.departament &&
+                                                batch.departament.name ? batch.departament.name : '' }}<br>
+                                                <b>DEPÓSITO</b>: {{ batch && batch.storehouse &&
+                                                batch.storehouse.name ? batch.storehouse.name : '' }}<br>
+                                                <b>POSIÇÃO</b>: {{ batch && batch.volume &&
+                                                batch.volume.location ? batch.volume.location : '' }}<br>
+                                            </p>
+                                        </ng-template>
+                                    </ngb-panel>
+                                </ngb-accordion>
+                                <div class="text-center col-lg-auto">
+                                    <a *ngIf=" batch && batch.volume &&
                                             batch.volume.closeBox ? batch.volume.closeBox : '' " class="bg-danger">
-                                                VOLUME FECHADO, POR FAVOR ENTRE EM CONTATO COM
-                                                O ADMINISTRADOR DO
-                                                ARQUIVO OU ESCOLHA OUTRA POSIÇÃO
-                                            </a>
-                                        </div>
-
-                                    </div>
+                                        VOLUME FECHADO, POR FAVOR ENTRE EM CONTATO COM
+                                        O ADMINISTRADOR DO
+                                        ARQUIVO OU ESCOLHA OUTRA POSIÇÃO
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -226,10 +235,10 @@
                         </form>
                         <div class="row">
                             <div class="col-lg-12 mt-2">
-                                <ngx-datatable #myTable class="bootstrap" [rows]="volumes"
-                                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-                                    [rowHeight]="'auto'" [count]="page.totalElements" [offset]="page.pageNumber"
-                                    [limit]="10" [scrollbarH]="true" (page)='setPage($event)'>
+                                <ngx-datatable #myTable class="bootstrap" [rows]="volumes" [columnMode]="'force'"
+                                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                    [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
+                                    [scrollbarH]="true" (page)='setPage($event)'>
                                     <ngx-datatable-column name="Documento" [width]="400" prop="doct.name">
                                     </ngx-datatable-column>
                                     <ngx-datatable-column name="Departamento" [width]="340" prop="departament.name">
