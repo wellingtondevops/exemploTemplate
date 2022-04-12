@@ -82,8 +82,10 @@ export class ControlComponent implements OnInit {
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
         if (event) {
             this.uploadField = event.item(0).size;
+            console.log('tamanho do arquivo', this.uploadField);
             const fileSize = event && event.item(0);
-            if (fileSize.size > 1e+8) {
+            const limit = 101004903;
+            if (fileSize.size > limit) {
                 if (this.myFilesInputSelect.length === 1) {
                     const erroMsg = {
                         status: 'Tamanho do arquivo',
