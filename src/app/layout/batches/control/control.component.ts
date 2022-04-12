@@ -81,24 +81,24 @@ export class ControlComponent implements OnInit {
 
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
         if (event) {
-            this.uploadField = event.item(0).size;
-            const fileSize = event && event.item(0);
-            if (fileSize.size > 1e+8) {
-                if (this.myFilesInputSelect.length === 1) {
-                    const erroMsg = {
-                        status: 'Tamanho do arquivo',
-                        message: 'Este arquivo ultrapassa o tamanho de 100MB! Por favor verifique.'
-                    };
-                    this.errorMsg.showError(erroMsg);
-                } else {
-                    const erroMsg = {
-                        status: 'Tamanho do arquivo',
-                        message: 'Um dos arquivos ultrapassa o tamanho de 100MB! Por favor verifique.'
-                    };
-                    this.errorMsg.showError(erroMsg);
-                }
-                this.removeFile();
-            } else {
+            // this.uploadField = event.item(0).size;
+            // const fileSize = event && event.item(0);
+            // if (fileSize.size > 1e+8) {
+            //     if (this.myFilesInputSelect.length === 1) {
+            //         const erroMsg = {
+            //             status: 'Tamanho do arquivo',
+            //             message: 'Este arquivo ultrapassa o tamanho de 100MB! Por favor verifique.'
+            //         };
+            //         this.errorMsg.showError(erroMsg);
+            //     } else {
+            //         const erroMsg = {
+            //             status: 'Tamanho do arquivo',
+            //             message: 'Um dos arquivos ultrapassa o tamanho de 100MB! Por favor verifique.'
+            //         };
+            //         this.errorMsg.showError(erroMsg);
+            //     }
+            //     this.removeFile();
+            // } else {
                 this.nameFile = event.item(0).name;
                 const file = event && event.item(0);
                 if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
@@ -128,7 +128,7 @@ export class ControlComponent implements OnInit {
                     };
                     fileReader.readAsArrayBuffer(this.file);
                 }
-            }
+            // }
         }
     }
 
