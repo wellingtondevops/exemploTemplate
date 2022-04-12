@@ -11,3 +11,11 @@
 .child {
     height: 85px;
 }
+
+.content.active {
+    display: block;
+}
+
+.content {
+    display: none;
+}
