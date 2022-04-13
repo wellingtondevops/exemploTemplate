@@ -67,7 +67,7 @@ export class NewComponent implements OnInit {
     clickStorehouse$ = new Subject<string>();
     indexs: any = [];
     volumes: Volume[];
-    
+    changeIcon = true;
     urlFile: any = '';
     pictureId: any = '';
     pictures: any = '';
@@ -117,7 +117,6 @@ export class NewComponent implements OnInit {
         const index = JSON.parse(this.localStorageSrv.get('index'));
         this.setDataIndexForm(index);
 
-
         $(document).ready(function () {
             $('#worksheets').autocomplete({
                 source: async function (request, response) {
@@ -150,6 +149,14 @@ export class NewComponent implements OnInit {
             });
         });
 
+    }
+
+    ChangeIcon() {
+        if (this.changeIcon !== false) {
+            this.changeIcon = false;
+        } else {
+            this.changeIcon = true;
+        }
     }
 
     load() {
