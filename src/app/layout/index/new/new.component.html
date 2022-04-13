@@ -32,7 +32,7 @@
                                 <div class="col-sm-11">
                                     <div class="card-body pt-1 pb-1">
                                         <div class="collapse show exemplo" id="collapseExample">
-                                            <p class="card-text">
+                                            <p class="card-text mb-1">
                                                 <b>EMPRESA</b>: {{ batch && batch.company &&
                                                 batch.company.name ? batch.company.name : '' }} <br>
                                                 <b>DOCUMENTO</b>: {{ batch && batch.doct && batch.doct.name
@@ -58,11 +58,18 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-1 text-right">
-                                    <button class="btn btn-secundary" type="button" data-bs-toggle="collapse"
+                                    <i class="btn btn-secundary" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseExample" aria-expanded="false"
-                                        aria-controls="collapseExample">
-                                        <a title="Recolher índices"><i class="mdi mdi-arrow-collapse"></i></a>
-                                    </button>
+                                        aria-controls="collapseExample" (click)="ChangeIcon(changeIcon)">
+                                        <ng-container *ngIf="changeIcon === true; else elseTheme">
+                                            <i class="fa fa-fw fa-angle-double-up" title="Ocultar índice">
+                                            </i>
+                                        </ng-container>
+                                        <ng-template #elseTheme>
+                                            <i class="fa fa-fw fa-angle-double-down" title="Mostrar índice">
+                                            </i>
+                                        </ng-template>
+                                    </i>
                                 </div>
                             </div>
                         </div>

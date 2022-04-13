@@ -67,8 +67,7 @@ export class NewComponent implements OnInit {
     clickStorehouse$ = new Subject<string>();
     indexs: any = [];
     volumes: Volume[];
-    mostra: boolean;
-    oculto: any;
+    changeIcon = true;
     urlFile: any = '';
     pictureId: any = '';
     pictures: any = '';
@@ -118,25 +117,6 @@ export class NewComponent implements OnInit {
         const index = JSON.parse(this.localStorageSrv.get('index'));
         this.setDataIndexForm(index);
 
-        $('a').click(function () {
-            $(this).find('i').toggleClass('fa-minus-circle fa-plus-circle');
-            $('.content').toggleClass('active');
-        });
-
-        $('#collapse').click(function () {
-            $(this).find('i').toggleClass('fa-minus-circle mdi-arrow-collapse');
-        });
-
-
-        this.oculto = document.getElementsByClassName('show').length;
-        if (this.oculto.lenght === 0) {
-            this.mostra = true;
-        } else {
-            this.mostra = false;
-        }
-        console.log('valor', this.mostra);
-
-
         $(document).ready(function () {
             $('#worksheets').autocomplete({
                 source: async function (request, response) {
@@ -169,6 +149,14 @@ export class NewComponent implements OnInit {
             });
         });
 
+    }
+
+    ChangeIcon() {
+        if (this.changeIcon !== false) {
+            this.changeIcon = false;
+        } else {
+            this.changeIcon = true;
+        }
     }
 
     load() {
