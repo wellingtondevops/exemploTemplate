@@ -1,2 +1,30 @@
-// shared css for the login and signup page
-@import "../login/login.component.scss";
+@import "~@mdi/font/css/materialdesignicons.css";
+
+body {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: #222;
+    background: linear-gradient(to right, #222, #333);
+    .card {
+        background: #222;
+        background: linear-gradient(to right, #222, #222);
+    }
+}
+
+.btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+}
+hr
+{
+    background-color: aliceblue;
+}
+
+small{
+    text-align: center;
+}

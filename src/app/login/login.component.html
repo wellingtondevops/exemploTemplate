@@ -1,6 +1,7 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+
 <body>
-    <div class="container my-5"  [@routerTransition]>
+    <div class="container my-5" [@routerTransition]>
         <div class="row justify-content-sm-center">
             <div class="col-sm-12 col-md-7 col-lg-5 mx-auto">
                 <div class="card border-0 shadow rounded-5 my-5">
@@ -8,7 +9,7 @@
                         <h5 class="card-title text-center mb-5 fw-light fs-5">
                             <img src="assets/images/logo.png" width="250px" />
                         </h5>
-                        <form  [formGroup]="loginForm" (ngSubmit)="onLoggedin()" role="FormGroup">
+                        <form [formGroup]="loginForm" role="FormGroup">
                             <div class="form-group mb-3 emailForPhone">
                                 <input type="email" formControlName="email"
                                     class="form-control input-underline input-lg" id=""
@@ -16,24 +17,31 @@
                             </div>
                             <div class="form-group mb-3 passForPhone">
                                 <input type="password" formControlName="password"
-                                    class="form-control input-underline input-lg" id=""
-                                    placeholder="Senha" />
+                                    class="form-control input-underline input-lg" id="" placeholder="Senha" />
                             </div>
 
                             <div class="d-grid">
-                                <button class="btn btn-outline-light btn-login text-uppercase fw-bold" type="submit">
+                                <button class="btn btn-outline-light btn-login text-uppercase fw-bold"
+                                    (clickt)="onLoggedin()" type="submit">
                                     {{ 'Log in' | translate }}
                                 </button>
                             </div>
-                            <hr class="my-4">
+                            <hr class="my-4 text-white">
                             <div class="d-grid mb-2">
-                                <button type="button" [routerLink]="['/forgot-password']" class="btn btn-sm btn-link text-white">
-                                    {{ 'Forgot password' | translate }}</button>
+                                <small class="text-white justify-content-center">ou</small>
+                                <small class="text-white">Não possui uma conta?</small>
                             </div>
                             <div class="d-grid">
-                                <!-- <button class="btn btn-login btn-outline-light text-uppercase fw-bold" type="submit">
+                                <button class="btn btn-login btn-outline-light text-uppercase fw-bold"
+                                    [routerLink]="['/signup']" type="button">
                                     <i class="mdi mdi-account-plus me-2"></i> Criar nova conta
-                                </button> -->
+                                </button>
+                            </div>
+                            <div class="d-grid mb-2">
+                                <a type="button" [routerLink]="['/forgot-password']"
+                                    class="btn btn-sm btn-link text-white">
+                                Esqueceu sua senha?
+                                </a>
                             </div>
                         </form>
                     </div>
