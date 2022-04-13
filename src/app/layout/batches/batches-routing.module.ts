@@ -7,6 +7,7 @@ import { TermsService } from 'src/app/services/guard/terms.service';
 import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { ControlComponent } from './control/control.component';
+import { ControlImagesComponent } from './control-images/control-images.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,11 @@ const routes: Routes = [
       component: ControlComponent,
       canActivate: [DaenerysTywinGuard, TermsService]
     },
+    {
+        path: 'control-images/:id',
+        component: ControlImagesComponent,
+        canActivate: [DaenerysTywinGuard, TermsService]
+      },
     /*{
       path: 'edit/:id',
       component: EditComponent,
@@ -34,7 +40,7 @@ const routes: Routes = [
       path: 'new',
       component: NewComponent,
       canActivate: [DaenerysGuard, TermsService]
-    } 
+    }
 ];
 
 @NgModule({

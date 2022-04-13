@@ -372,4 +372,8 @@ export class ControlComponent implements OnInit {
     help() {
         this.introService.ControlBatches();
     }
+
+    controlImage() {
+        this._route.navigate([`/${'batches/control-images'}`, this.id]);
+    }
 }

@@ -1,0 +1,33 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+    }"></ngx-loading>
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Indexação</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px;" *ngIf="!loading">
+                <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
+            </div>
+        </div>
+        <div class="card-body">
+            <h1>Qualquer coisa</h1>
+            <pdf-viewer
+            [src]="pdfSrc"
+            [render-text]="true"
+            [original-size]="false"
+            style="width: 400px; height: 500px">
+            </pdf-viewer>
+        </div>
+    </div>
+</div>

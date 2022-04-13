@@ -16,9 +16,12 @@ import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { ControlComponent } from './control/control.component';
 import { SafePipe } from 'src/app/utils/pipes/safe-pipe';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ControlImagesComponent } from './control-images/control-images.component';
+
 
 @NgModule({
-    declarations: [ListComponent, NewComponent, ShowComponent, ControlComponent],
+    declarations: [ListComponent, NewComponent, ShowComponent, ControlComponent, ControlImagesComponent],
     imports: [
         NgbModule,
         CommonModule,
@@ -28,6 +31,7 @@ import { SafePipe } from 'src/app/utils/pipes/safe-pipe';
         FormsModule,
         DatatablesModule,
         NgxDatatableModule,
+        PdfViewerModule,
         TranslateModule,
         TextMaskModule,
         ButtonBackModule,

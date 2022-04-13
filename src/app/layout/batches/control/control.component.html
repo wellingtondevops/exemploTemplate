@@ -62,6 +62,13 @@
                                                     style="margin-right: 5px">
                                                     Excluir Lote
                                                 </button>
+                                                <button type="button" [disabled]="
+                                                        batchImages &&
+                                                        batchImages.length <= 0
+                                                    " class="btn btn-xs btn-danger" (click)="controlImage()"
+                                                    style="margin-right: 5px">
+                                                    Tratar Imagens
+                                                </button>
                                                 <!-- <button type="button" [disabled]="
                                                         batchImages &&
                                                         batchImages.length <= 0
