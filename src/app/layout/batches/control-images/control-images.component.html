@@ -13,7 +13,7 @@
                     <h2>Indexação</h2>
                 </div>
                 <div class="col-lg-1 text-right">
-                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;"></i>
                 </div>
             </div>
             <div style="margin-bottom: 10px;" *ngIf="!loading">
@@ -21,13 +21,22 @@
             </div>
         </div>
         <div class="card-body">
-            <h1>Qualquer coisa</h1>
-            <pdf-viewer
-            [src]="pdfSrc"
-            [render-text]="true"
-            [original-size]="false"
-            style="width: 400px; height: 500px">
-            </pdf-viewer>
+            <div >
+                <div class="row" id="selectable">
+                    <div class="col-lg-2 text-center p-0 mb-1"
+                        style="border: solid 1px #7a828e; border-radius: 10px; background-color: #28292c;"
+                        *ngFor="let imagens of batchImages index as i">
+                        <ng-container style="margin-top: 20%;">
+                            <small class="text-end">
+                                {{imagens.name}}
+                            </small>
+                            <pdf-viewer [src]="imagens.url" [render-text]="true" [original-size]="true"
+                                [show-all]="false" [zoom]="0.1" style="margin-top: 20px;">
+                            </pdf-viewer>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
