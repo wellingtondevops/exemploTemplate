@@ -30,7 +30,12 @@
                             <small class="text-end">
                                 {{imagens.name}}
                             </small>
-                            <pdf-viewer [src]="imagens.url" [render-text]="true" [original-size]="true"
+                            <!-- O lucas esse é meu jeito  tosco de ver a quanitdade de paginas só melhora isso tá -->
+                            <small class="text-end">
+                               P- {{imagens.page}}
+                            </small>
+                             <!-- O lucas mudei o nome da variavel para exibir os thumbnails blz!!!!-->
+                            <pdf-viewer [src]="imagens.firstPageUrl" [render-text]="true" [original-size]="true"
                                 [show-all]="false" [zoom]="0.1" style="margin-top: 20px;">
                             </pdf-viewer>
                         </ng-container>

@@ -26,6 +26,7 @@ export class ControlImagesComponent implements OnInit {
     document: Document;
     image: any;
     urlFile: any = '';
+    firstPageUrl: any  = '';
     pictureId: any = '';
     pictures: any = '';
     isPdf = false;
@@ -57,7 +58,7 @@ export class ControlImagesComponent implements OnInit {
         this.batchesSrv.imagens(this.id, this.page, 1).subscribe(data => {
             this.image = data.items[0];
             if (data.items.length >= 1) {
-                this.urlFile = data.items[0].url;
+                this.urlFile = data.items[0].firstPageUrl;
                 this.pictureId = data.items[0]._id;
                 this.pictures = this.pictureId;
                 this.urlFile.indexOf('.pdf') !== -1 ? this.isPdf = true : '';
