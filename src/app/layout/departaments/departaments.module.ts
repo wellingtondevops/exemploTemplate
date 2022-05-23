@@ -11,9 +11,10 @@ import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { ShowComponent } from './show/show.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { ShowModalComponent } from './show-modal/show-modal.component';
 
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent],
+  declarations: [ShowComponent, ListComponent, NewComponent, EditComponent, ShowModalComponent],
   imports: [
     PageHeaderModule,
     ReactiveFormsModule,
@@ -27,6 +28,8 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     DepartamentsRoutingModule,
     CommonModule
   ],
-  providers: [NgbActiveModal, CaseInsensitive]
+  providers: [NgbActiveModal, CaseInsensitive],
+  entryComponents: [ShowModalComponent],
+
 })
 export class DepartamentsModule { }

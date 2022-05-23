@@ -31,7 +31,7 @@
     "@forevolve/bootstrap-dark": "^2.1.0",
     "@hallysonh/ngx-imageviewer": "^2.0.4",
     "@mdi/font": "^6.5.95",
-    "@ng-bootstrap/ng-bootstrap": "^4.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^4.2.2",
     "@ng-dynamic-forms/core": "^9.0.1",
     "@ng-select/ng-select": "^2.0.8",
     "@ngx-formly/bootstrap": "^5.4.2",

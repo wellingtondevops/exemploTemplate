@@ -17,6 +17,7 @@ import _ from 'lodash';
 import { Observable, Subject, merge } from 'rxjs';
 import { CaseInsensitive } from '../../../utils/case-insensitive'
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ShowModalComponent } from 'src/app/layout/departaments/show-modal/show-modal.component';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -94,7 +95,8 @@ export class ListComponent implements OnInit {
     }
 
     getDepartament(departament) {
-        this._route.navigate(['/departaments/get', departament._id]);
+        // this._route.navigate(['/departaments/get', departament._id]);
+        this.modalService.open(ShowModalComponent);
     }
 
     getCompanies() {
