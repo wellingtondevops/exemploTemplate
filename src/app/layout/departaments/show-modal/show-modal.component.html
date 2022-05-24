@@ -9,10 +9,25 @@
           tertiaryColour: '#222'
         }"
     ></ngx-loading>
-  
+
+    <div class="card-header modal-header">
+      <div class="row">
+        <div class="col-lg-11">
+            <h2>Dados do Departamento</h2>
+        </div>
+        <div class="col-lg-1 text-right">
+            <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+        </div>
+      </div>
+
+      <button type="button" (click)="closeModel()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
     <div class="modal-body">
     
-      <div class="row" *ngIf="!loading">
+      <!-- <div class="row" *ngIf="!loading">
         <div style="margin-left: 90%;">
           
           <button
@@ -28,7 +43,7 @@
   
         </div>
       </div>
-      <br />
+      <br /> -->
   
       <div class="row" *ngIf="!loading">
         <div class="col-4">

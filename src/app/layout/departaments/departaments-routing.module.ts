@@ -7,7 +7,7 @@ import { NewComponent } from './new/new.component';
 import { DaenerysTywinGuardService as DaenerysTywinGuard } from 'src/app/services/guard/daenerys-tywin-guard.service';
 import { DepartamentsGuardService } from 'src/app/services/guard/departaments-guard.service';
 import { TermsService } from 'src/app/services/guard/terms.service';
-import { ShowModalComponent } from './show-modal/show-modal.component';
+import { ModalContentComponent } from './modal-content/modal-content.component';
 
 const routes: Routes = [
   {
@@ -15,11 +15,11 @@ const routes: Routes = [
     component: ListComponent,
     canActivate: [DaenerysTywinGuard, DepartamentsGuardService, TermsService]
   },
-  // {
-  //   path: 'get/:id',
-  //   component: ShowModalComponent,
-  //   canActivate: [DaenerysTywinGuard, DepartamentsGuardService, TermsService]
-  // },
+  {
+    path: 'get/:id',
+    component: ModalContentComponent,
+    canActivate: [DaenerysTywinGuard, DepartamentsGuardService, TermsService]
+  },
   {
     path: 'edit/:id',
     component: EditComponent,

@@ -17,7 +17,7 @@ import _ from 'lodash';
 import { Observable, Subject, merge } from 'rxjs';
 import { CaseInsensitive } from '../../../utils/case-insensitive'
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
-import { ShowModalComponent } from 'src/app/layout/departaments/show-modal/show-modal.component';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -59,6 +59,8 @@ export class ListComponent implements OnInit {
     ];
     permissionNew: boolean = false;
 
+    
+
     constructor(
         private el: ElementRef,
         private departmentService: DepartamentsService,
@@ -75,12 +77,7 @@ export class ListComponent implements OnInit {
         private introService: IntroJsService,
     ) { 
         
-        this.modalOptions = {
-            backdrop: 'static',
-            backdropClass: 'customBackdrop',
-            keyboard: false,
-            windowClass: 'customModal'
-        };
+        
     }
 
     ngOnInit() {
@@ -108,8 +105,19 @@ export class ListComponent implements OnInit {
     getDepartament(value) {
         this.data = value;
 
-        const modalRef = this.modalService.open(ShowModalComponent);
-        modalRef.componentInstance.data = this.data;
+        console.log("DATA DA LISTA: ", this.data._id);
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+
+        const modalRef = this.modalService.open(ModalContentComponent);
+        modalRef.componentInstance.user = this.data;
+
+      
     }
 
     private getDismissReason(reason: any): string {
