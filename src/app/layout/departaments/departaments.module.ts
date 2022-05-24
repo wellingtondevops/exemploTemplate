@@ -12,6 +12,7 @@ import { EditComponent } from './edit/edit.component';
 import { ShowComponent } from './show/show.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { ShowModalComponent } from './show-modal/show-modal.component';
+import { AppComponent } from 'src/app/app.component';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent, EditComponent, ShowModalComponent],
@@ -30,6 +31,5 @@ import { ShowModalComponent } from './show-modal/show-modal.component';
   ],
   providers: [NgbActiveModal, CaseInsensitive],
   entryComponents: [ShowModalComponent],
-
 })
 export class DepartamentsModule { }

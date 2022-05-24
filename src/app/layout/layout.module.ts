@@ -11,6 +11,7 @@ import { NgbdModalConfirmModule, ThemeToggleModule } from '../shared';
 import { Masks } from '../utils/masks';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ShowModalComponent } from './departaments/show-modal/show-modal.component';
+import { AppComponent } from '../app.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,6 @@ import { ShowModalComponent } from './departaments/show-modal/show-modal.compone
       NgbModule,
     ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
-    entryComponents: [NgbdModalConfirmComponent],
     providers: [Masks],
 })
 export class LayoutModule {}

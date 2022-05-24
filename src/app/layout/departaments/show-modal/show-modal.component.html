@@ -24,17 +24,7 @@
           >
             <span aria-hidden="true">&times;</span>
           </button>
-          
-          <!-- EDITAR ARQUIVO PRA DEPARTAMENTO -->
-          <!-- <app-buttons-custom
-            [id]="archive._id"  
-            (edit)="editArchive(archive._id)"
-            [permissionEdit]="permissionEdit"
-            [permissionDelete]="permissionDelete"
-            [isUser]="isUsers"
-          >
-          </app-buttons-custom> -->
-          <!-- EDITAR ARQUIVO PRA DEPARTAMENTO -->
+
   
         </div>
       </div>
@@ -54,31 +44,8 @@
               <br />
             </div>
           </div>
-          
-          <div style="font-size: 12px">
-            <!-- {{ archive.sponsor.name }}<br />
-            {{ archive.sponsor.cnpj }}<br />
-            Autor: {{ archive.author.email }}<br />
-            Data da criação:
-            {{ returnDateCreate(archive.create) }} -->
-          </div>
-          <!-- EDITAR ARQUIVO PRA DEPARTAMENTO -->
   
         </div>
-  
-        <!-- VERIFICAR -->
-        <div class="col-8">
-          <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-              <div class="form-group">
-                  <!-- <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
-                      [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)">
-                  </app-form-upload> -->
-              </div>
-          </form>
-          <!-- <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
-          </app-modal-progress-right-bottom> -->
-        </div>
-        <!-- VERIFICAR -->
   
       </div>
   

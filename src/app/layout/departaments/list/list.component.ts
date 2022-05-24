@@ -31,6 +31,7 @@ const MODALS = {
 export class ListComponent implements OnInit {
     @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
 
+    data;
     closeResult: string;
     modalOptions:NgbModalOptions;
     searchForm: FormGroup;
@@ -104,16 +105,11 @@ export class ListComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
-    getDepartament(departament) {
-        
-        console.log('CLIQUEI, TROUXE: ', departament);
-        // this.modalService.open(departament, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-        //     this.closeResult = `Closed with: ${res}`;
-        //   }, (res) => {
-        //     this.closeResult = `Dismissed ${this.getDismissReason(res)}`;
-        //   });
-        // this._route.navigate(['/departaments/get', departament._id]);
-        // this.modalService.open(ShowModalComponent);
+    getDepartament(value) {
+        this.data = value;
+
+        const modalRef = this.modalService.open(ShowModalComponent);
+        modalRef.componentInstance.data = this.data;
     }
 
     private getDismissReason(reason: any): string {
