@@ -10,8 +10,6 @@ import { NgbdModalConfirmComponent } from '../shared/modules/ngbd-modal-confirm/
 import { NgbdModalConfirmModule, ThemeToggleModule } from '../shared';
 import { Masks } from '../utils/masks';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ShowModalComponent } from './departaments/show-modal/show-modal.component';
-import { AppComponent } from '../app.component';
 
 @NgModule({
     imports: [
@@ -22,6 +20,7 @@ import { AppComponent } from '../app.component';
       NgbdModalConfirmModule,
       ThemeToggleModule,
       NgbModule,
+      
     ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
     providers: [Masks],
