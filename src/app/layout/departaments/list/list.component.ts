@@ -103,6 +103,9 @@ export class ListComponent implements OnInit {
     }
 
     getDepartament(value) {
+    console.log("CLIQUEI, TROUXE: ", value);
+
+    if (value.type === 'click') {
         this.data = value;
 
         console.log("DATA DA LISTA: ", this.data._id);
@@ -116,6 +119,8 @@ export class ListComponent implements OnInit {
 
         const modalRef = this.modalService.open(ModalContentComponent);
         modalRef.componentInstance.user = this.data;
+    }
+        
 
       
     }

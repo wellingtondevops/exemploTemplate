@@ -63,7 +63,7 @@
     <div class="row">
         <div class="col-12" id="step4">
             <app-datatables [data]="departaments" (setPage)="setPageDepartaments($event)" [columns]="columns"
-                (show)="getDepartament($event)"></app-datatables>
+            (activate)="getDepartaments($event)"></app-datatables>
         </div>
     </div>
 </div>
