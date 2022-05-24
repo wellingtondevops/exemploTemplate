@@ -28,7 +28,7 @@ export class ShowModalComponent implements OnInit {
   id: string; // VERIFICAR
   modalOptions:NgbModalOptions;
   closeResult: string;
-  archive: Archive; // EDITAR ARQUIVO PRA DEPARTAMENTO
+  // archive: Archive; // EDITAR ARQUIVO PRA DEPARTAMENTO
   uploadResponse: any = { status: 'progress', message: 0 }; // VERIFICAR
   error: string;
   loading: Boolean = true;
@@ -59,14 +59,14 @@ export class ShowModalComponent implements OnInit {
   constructor(
     private _route: Router,
     private route: ActivatedRoute,
-    private archiveSrv: ArquivesService, // EDITAR ARQUIVO PRA DEPARTAMENTO
-    private picturesSrv: PicturesService, // VERIFICAR
-    private filesSrv: FilesService, // VERIFICAR
+    // private archiveSrv: ArquivesService, // EDITAR ARQUIVO PRA DEPARTAMENTO
+    // private picturesSrv: PicturesService, // VERIFICAR
+    // private filesSrv: FilesService, // VERIFICAR
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private localStorageSrv: SaveLocal // VERIFICAR
+    // private localStorageSrv: SaveLocal // VERIFICAR
     ) {
 
       this.modalOptions = {
@@ -106,41 +106,41 @@ export class ShowModalComponent implements OnInit {
   setStartCurrentDate() {
     const data = { startCurrentDate: moment(this.inputStartCurrentDate).format('DD/MM/YYYY') };
     this.loading = true;
-    this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
-      this.getArquive();  // VERIFICAR
-      this.loading = false;
-    }, error => {
-      this.loading = false;
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR ', error);
-    });
+    // this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
+    //   this.getArquive();  // VERIFICAR
+    //   this.loading = false;
+    // }, error => {
+    //   this.loading = false;
+    //   this.errorMsg.errorMessages(error);
+    //   console.log('ERROR ', error);
+    // });
   }
 
   getArquive() {
     this.loading = true;
-    this.archiveSrv.archive(this.id).subscribe(data => { // VERIFICAR
-      this.archive = data; // VERIFICAR
-      this.archiveCreateForm.patchValue({ // VERIFICAR
-        create: moment(data.create).format('DD/MM/YYYY hh:mm'),
-        indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
-      });
-      this.file = data.picture; // VERIFICAR
-      $('.file').css('height', 'auto');
-      this.loading = false;
-    }, error => {
-      $('.file').css('height', this.height - 30);
-      console.log('ERROR: ', error);
-      this.loading = false;
-    });
+    // this.archiveSrv.archive(this.id).subscribe(data => { // VERIFICAR
+    //   this.archive = data; // VERIFICAR
+    //   this.archiveCreateForm.patchValue({ // VERIFICAR
+    //     create: moment(data.create).format('DD/MM/YYYY hh:mm'),
+    //     indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
+    //   });
+    //   this.file = data.picture; // VERIFICAR
+    //   $('.file').css('height', 'auto');
+    //   this.loading = false;
+    // }, error => {
+    //   $('.file').css('height', this.height - 30);
+    //   console.log('ERROR: ', error);
+    //   this.loading = false;
+    // });
   }
 
   picture(archive_id) { // VERIFICAR
-    this.picturesSrv.picture(archive_id).subscribe(data => { // VERIFICAR
-      this.file = data;
-      $('.file').css('height', 'auto');
-    }, (error) => {
-      $('.file').css('height', this.height - 30);
-    });
+    // this.picturesSrv.picture(archive_id).subscribe(data => { // VERIFICAR
+    //   this.file = data;
+    //   $('.file').css('height', 'auto');
+    // }, (error) => {
+    //   $('.file').css('height', this.height - 30);
+    // });
   }
 
   mapLabel(labels, tags) { // VERIFICAR
@@ -157,11 +157,11 @@ export class ShowModalComponent implements OnInit {
 
   postFile(data) { // VERIFICAR
     this.uploadFile.patchValue({
-      archive: this.archive._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
-      volume: this.archive.volume._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
-      company: this.archive.company._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
-      storehouse: this.archive.storehouse._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
-      doct: this.archive.doct._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
+      // archive: this.archive._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
+      // volume: this.archive.volume._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
+      // company: this.archive.company._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
+      // storehouse: this.archive.storehouse._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
+      // doct: this.archive.doct._id, // EDITAR ARQUIVO PRA DEPARTAMENTO
       file: data // VERIFICAR
     });
     this.submit();
@@ -176,25 +176,25 @@ export class ShowModalComponent implements OnInit {
     formData.append('archive', this.uploadFile.get('archive').value); // EDITAR ARQUIVO PRA DEPARTAMENTO
     formData.append('doct', this.uploadFile.get('doct').value); // EDITAR ARQUIVO PRA DEPARTAMENTO
     formData.append('company', this.uploadFile.get('company').value); // EDITAR ARQUIVO PRA DEPARTAMENTO
-    this.filesSrv.fileS(formData).subscribe(data => { // VERIFICAR
-      if (data.status && data.status === 'progress') {
-        this.uploadResponse.message = data.message;
-        this.uploadResponse.status = data.status;
-        this.errorUpload = false;
-      }
-      if (data._id) {
-        this.savedFile = true; // VERIFICAR
-        // this.successMsgSrv.successMessages('Upload realizado com sucesso.');
-      }
-      this.picture(this.archive._id); // EDITAR ARQUIVO PRA DEPARTAMENTO
-    }, error => { // VERIFICAR
-      this.loading = false;
-      this.uploadResponse.message = 10;
-      this.uploadResponse.status = 'progress';
-      this.errorUpload = true;
-      this.errorMsg.errorMessages(error);
-      console.log('ERROR ', error);
-    });
+    // this.filesSrv.fileS(formData).subscribe(data => { // VERIFICAR
+    //   if (data.status && data.status === 'progress') {
+    //     this.uploadResponse.message = data.message;
+    //     this.uploadResponse.status = data.status;
+    //     this.errorUpload = false;
+    //   }
+    //   if (data._id) {
+    //     this.savedFile = true; // VERIFICAR
+    //     // this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+    //   }
+    //   this.picture(this.archive._id); // EDITAR ARQUIVO PRA DEPARTAMENTO
+    // }, error => { // VERIFICAR
+    //   this.loading = false;
+    //   this.uploadResponse.message = 10;
+    //   this.uploadResponse.status = 'progress';
+    //   this.errorUpload = true;
+    //   this.errorMsg.errorMessages(error);
+    //   console.log('ERROR ', error);
+    // });
   }
 
   open(name: string, file) { // VERIFICAR
@@ -218,15 +218,15 @@ export class ShowModalComponent implements OnInit {
   }
 
   delete(file) {
-    this.filesSrv.delete(file).subscribe(res => { // EDITAR ARQUIVO PRA DEPARTAMENTO
-      this.successMsgSrv.successMessages('Arquivo deletado com sucesso.'); // EDITAR ARQUIVO PRA DEPARTAMENTO
-      this.file = null; // EDITAR ARQUIVO PRA DEPARTAMENTO
-      this.archive = null; // EDITAR ARQUIVO PRA DEPARTAMENTO
-      window.location.reload();
-    }, error => {
-      console.log(error);
-      this.errorMsg.errorMessages(error);
-    });
+    // this.filesSrv.delete(file).subscribe(res => { // EDITAR ARQUIVO PRA DEPARTAMENTO
+    //   this.successMsgSrv.successMessages('Arquivo deletado com sucesso.'); // EDITAR ARQUIVO PRA DEPARTAMENTO
+    //   this.file = null; // EDITAR ARQUIVO PRA DEPARTAMENTO
+    //   this.archive = null; // EDITAR ARQUIVO PRA DEPARTAMENTO
+    //   window.location.reload();
+    // }, error => {
+    //   console.log(error);
+    //   this.errorMsg.errorMessages(error);
+    // });
   }
 
   editArchive(archive) { // EDITAR ARQUIVO PRA DEPARTAMENTO
