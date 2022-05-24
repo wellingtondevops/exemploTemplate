@@ -1,8 +1,86 @@
-<ng-container *ngIf="mostrar">
-    <div class="modal">
-      <ng-content></ng-content>
-    </div>
-    <div (click)="toggle()"
-         class="overlay"></div>
-  </ng-container>
+<div [@routerTransition]>
+  <ngx-loading
+      [show]="loading"
+      [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: false,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'
+      }"
+  ></ngx-loading>
+
+  <div class="modal-body">
   
+    <div class="row" *ngIf="!loading">
+      <div style="margin-left: 90%;">
+        
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          style="margin-left: 5px;"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+        <!-- EDITAR ARQUIVO PRA DEPARTAMENTO -->
+        <app-buttons-custom
+          [id]="archive._id"  
+          (edit)="editArchive(archive._id)"
+          [permissionEdit]="permissionEdit"
+          [permissionDelete]="permissionDelete"
+          [isUser]="isUsers"
+        >
+        </app-buttons-custom>
+        <!-- EDITAR ARQUIVO PRA DEPARTAMENTO -->
+
+      </div>
+    </div>
+    <br />
+
+    <div class="row" *ngIf="!loading">
+      <div class="col-4">
+
+        <!-- EDITAR ARQUIVO PRA DEPARTAMENTO -->
+        <h5>UM CARD</h5>
+        <div class="card bg-light mb-12">
+          <div class="card-body">
+            <div>
+              <strong> EMPRESA: </strong> <br />
+              <label> {{ archive.company.name }} </label>
+            </div>
+            <br />
+          </div>
+        </div>
+        
+        <div style="font-size: 12px">
+          {{ archive.sponsor.name }}<br />
+          {{ archive.sponsor.cnpj }}<br />
+          Autor: {{ archive.author.email }}<br />
+          Data da criação:
+          {{ returnDateCreate(archive.create) }}
+        </div>
+        <!-- EDITAR ARQUIVO PRA DEPARTAMENTO -->
+
+      </div>
+
+      <!-- VERIFICAR -->
+      <div class="col-8">
+        <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+            <div class="form-group">
+                <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
+                    [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)">
+                </app-form-upload>
+            </div>
+        </form>
+        <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+        </app-modal-progress-right-bottom>
+      </div>
+      <!-- VERIFICAR -->
+
+    </div>
+
+  </div>
+</div>
