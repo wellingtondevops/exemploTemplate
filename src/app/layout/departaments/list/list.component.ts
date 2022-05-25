@@ -32,6 +32,7 @@ export class ListComponent implements OnInit {
     @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
 
     data;
+    modalRef: any;
     closeResult: string;
     modalOptions:NgbModalOptions;
     searchForm: FormGroup;
@@ -59,7 +60,7 @@ export class ListComponent implements OnInit {
     ];
     permissionNew: boolean = false;
 
-    
+
 
     constructor(
         private el: ElementRef,
@@ -75,9 +76,15 @@ export class ListComponent implements OnInit {
         private utilCase: CaseInsensitive,
         private localStorageSrv: SaveLocal,
         private introService: IntroJsService,
-    ) { 
-        
-        
+    ) {
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+
     }
 
     ngOnInit() {
@@ -103,26 +110,24 @@ export class ListComponent implements OnInit {
     }
 
     getDepartament(value) {
-    console.log("CLIQUEI, TROUXE: ", value);
-
     if (value.type === 'click') {
-        this.data = value;
+        console.log("CLIQUEI, TROUXE: ", value);
+        this.data = value.row;
+        value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError"
 
         console.log("DATA DA LISTA: ", this.data._id);
 
-        this.modalOptions = {
-            backdrop: 'static',
-            backdropClass: 'customBackdrop',
-            keyboard: false,
-            windowClass: 'customModal',
-        };
-
-        const modalRef = this.modalService.open(ModalContentComponent);
-        modalRef.componentInstance.user = this.data;
+        this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+        this.modalRef.componentInstance.dep = this.data;
+        this.modalRef.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+          }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          });
     }
-        
 
-      
+
+
     }
 
     private getDismissReason(reason: any): string {
@@ -169,6 +174,7 @@ export class ListComponent implements OnInit {
 
         this.departmentService.searchDepartament(searchValue, this.page).subscribe(
             data => {
+                console.log("AQUI A DATA? ", data);
                 this.departaments = data;
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;

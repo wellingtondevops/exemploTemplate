@@ -12,6 +12,7 @@ import { EditComponent } from './edit/edit.component';
 import { ShowComponent } from './show/show.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { ModalContentComponent } from './modal-content/modal-content.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent, EditComponent, ModalContentComponent],
@@ -26,7 +27,8 @@ import { ModalContentComponent } from './modal-content/modal-content.component';
     ButtonsCustomModule,
     NgxLoadingModule,
     DepartamentsRoutingModule,
-    CommonModule
+    CommonModule,
+    NgxDatatableModule
   ],
   providers: [NgbActiveModal, CaseInsensitive],
   entryComponents: [ModalContentComponent],

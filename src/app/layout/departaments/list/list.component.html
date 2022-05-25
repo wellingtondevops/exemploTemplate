@@ -60,10 +60,27 @@
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-12" id="step4">
             <app-datatables [data]="departaments" (setPage)="setPageDepartaments($event)" [columns]="columns"
-            (activate)="getDepartaments($event)"></app-datatables>
+                (show)="getDepartament($event)"></app-datatables>
+        </div>
+    </div> -->
+
+     <div class="row" *ngIf="departaments.items.length > 0">
+        <div class="col col-xl-12 col-lg-12">
+
+            <ngx-datatable #myTable class="bootstrap" [rows]="departaments.items" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+                [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageDepartaments($event)" [scrollbarH]="true" (activate)="getDepartament($event)">
+
+                <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                    [resizeable]="false">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Departamento" prop="name" [width]= 50></ngx-datatable-column>
+                <ngx-datatable-column name="Empresa" prop="company.name" [width]= 50></ngx-datatable-column>
+
+            </ngx-datatable>
         </div>
     </div>
 </div>
