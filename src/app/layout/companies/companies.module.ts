@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule, NgbdModalConfirmModule } from 'src/app/shared';
 import { CompaniesRoutingModule } from './companies-routing.module';
 import { ListComponent } from './list/list.component';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
@@ -11,9 +11,12 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { ShowComponent } from './show/show.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalContentComponent } from './modal-content/modal-content.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
 @NgModule({
-    declarations: [ListComponent, NewComponent, EditComponent, ShowComponent, EnumToArrayPipe],
+    declarations: [ListComponent, NewComponent, EditComponent, ShowComponent, EnumToArrayPipe, ModalContentComponent],
     imports: [
         NgbModule,
         CommonModule,
@@ -26,8 +29,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         TextMaskModule,
         ButtonBackModule,
         ButtonsCustomModule,
-        NgxLoadingModule.forRoot({})
+        NgxLoadingModule.forRoot({}),
+        NgxDatatableModule,
+        NgbdModalConfirmModule
     ],
-    exports: [EnumToArrayPipe]
+    exports: [EnumToArrayPipe],
+    entryComponents: [ModalContentComponent, NgbdModalConfirmComponent],
+
 })
 export class CompaniesModule {}

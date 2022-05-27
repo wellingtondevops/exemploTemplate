@@ -68,7 +68,7 @@
     </div> -->
 
      <div class="row" *ngIf="departaments.items.length > 0">
-        <div class="col col-xl-12 col-lg-12">
+        <div class="col col-xl-12 col-lg-12" id="step4">
 
             <ngx-datatable #myTable class="bootstrap" [rows]="departaments.items" [columnMode]="'force'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"

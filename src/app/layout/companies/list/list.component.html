@@ -49,9 +49,27 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="companies.items.length > 0">
     <div class="col-12" id="step4">
-        <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" (show)="getCompany($event)">
-        </app-datatables>
+        <!-- <app-datatables [data]="companies" (setPage)="setPage($event)" [columns]="columns" (show)="getCompany($event)">
+        </app-datatables> -->
+
+        <ngx-datatable #myTable class="bootstrap" [rows]="companies.items" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+                [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageCompanies($event)" [scrollbarH]="true" (activate)="openCompany($event)">
+
+                <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                    [resizeable]="false">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Nome" prop="name" [width]= 100></ngx-datatable-column>
+                <ngx-datatable-column name="Email" prop="email" [width]= 50></ngx-datatable-column>
+                <ngx-datatable-column name="Telefone" prop="fone" [width]= 10></ngx-datatable-column>
+                <ngx-datatable-column name="Criado em" prop="dateCreated" [width]="50" > 
+                    <ng-template let-value="dateCreated" ng-datatable-cell-template>{{value | date: 'MM/dd/yyyy'}}</ng-template> 
+                </ngx-datatable-column>
+
+            </ngx-datatable>
     </div>
+
+    
 </div>
