@@ -109,21 +109,29 @@ export class ListComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
-    getDepartament(value) {
+    openDepartament(value) {
     if (value.type === 'click') {
         console.log("CLIQUEI, TROUXE: ", value);
-        this.data = value.row;
-        value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError"
-
-        console.log("DATA DA LISTA: ", this.data._id);
-
         this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
-        this.modalRef.componentInstance.dep = this.data;
-        this.modalRef.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-          }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-          });
+
+        if (value.row) {
+            this.data = value.row;
+            value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError"
+    
+            console.log("DATA DA LISTA: ", this.data._id);
+    
+            this.modalRef.componentInstance.dep = this.data;
+            this.modalRef.result.then((result) => {
+                console.log('Aqui as ideia: ', result);
+                if (result != "Sair") {
+                    this.getDepartaments(); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+        }
+        
     }
 
 

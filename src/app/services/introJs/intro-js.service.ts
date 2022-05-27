@@ -353,14 +353,19 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) as informações do Departamento!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Departamento.',
+                            '<strong>Bem-vindo(a) as informações do Departamento!</strong></br>Onde você pode ver os detalhes de cada departamento, alterá-los pu excluí-los.',
                     },
                     {
-                        element: '#step2',
+                        element: '#call2',
                         intro:
-                            'Informações gerais sobre o Departamento',
+                            '<strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Departamento.',
+                    },
+                    {
+                        element: '#call3',
+                        intro:
+                            'Utilize o X para retornar para a página de pesquisa.',
                     }
                 ]
             })

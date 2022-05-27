@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DepartamentsRoutingModule } from './departaments-routing.module';
-import { PageHeaderModule, DatatablesModule, ButtonBackModule, ButtonsCustomModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonBackModule, ButtonsCustomModule, NgbdModalConfirmModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -13,6 +13,7 @@ import { ShowComponent } from './show/show.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { ModalContentComponent } from './modal-content/modal-content.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent, EditComponent, ModalContentComponent],
@@ -28,9 +29,10 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     NgxLoadingModule,
     DepartamentsRoutingModule,
     CommonModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    NgbdModalConfirmModule
   ],
   providers: [NgbActiveModal, CaseInsensitive],
-  entryComponents: [ModalContentComponent],
+  entryComponents: [ModalContentComponent, NgbdModalConfirmComponent],
 })
 export class DepartamentsModule { }

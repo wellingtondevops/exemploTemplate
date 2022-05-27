@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { DaenerysGuardService } from 'src/app/services/guard/daenerys-guard.service';
 import { TywinGuardService } from 'src/app/services/guard/tywin-guard.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
@@ -15,10 +15,17 @@ export class PageHeaderComponent implements OnInit {
     @Input() btnNew: string;
     @Input() routerTo: string;
     @Input() permissionBtnNew: any;
+    @Input() modalNew: Boolean;
+
+    @Output() show = new EventEmitter();
 
     constructor() {
     }
 
     ngOnInit() {
+    }
+
+    openNew(){
+        this.show.emit();
     }
 }

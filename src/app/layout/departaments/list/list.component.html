@@ -14,8 +14,8 @@
                 </div>
             </div>
             <div id="step1">
-                <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
-                    [permissionBtnNew]="permissionNew" [routerTo]="'/departaments/new'"></app-page-header>
+                <app-page-header [heading]="'Departamentos'" [modalNew]="true" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
+                    [permissionBtnNew]="permissionNew" (click)="openDepartament($event)"></app-page-header>
             </div>
         </div>
         <div class="card-body ">
@@ -72,7 +72,7 @@
 
             <ngx-datatable #myTable class="bootstrap" [rows]="departaments.items" [columnMode]="'force'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-                [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageDepartaments($event)" [scrollbarH]="true" (activate)="getDepartament($event)">
+                [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageDepartaments($event)" [scrollbarH]="true" (activate)="openDepartament($event)">
 
                 <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
                     [resizeable]="false">
