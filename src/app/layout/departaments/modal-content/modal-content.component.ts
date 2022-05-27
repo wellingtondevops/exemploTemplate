@@ -76,6 +76,7 @@ export class ModalContentComponent implements OnInit {
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     } else {
       this.isNew = true;
+      this.getCompanies();
       this.departamentForm.controls['name'].enable();
       this.departamentForm.controls['company'].enable();
       this.permissionCancelEdit = true;
@@ -84,6 +85,25 @@ export class ModalContentComponent implements OnInit {
   }
 
   // RESOURCES
+
+  getCompanies() {
+    this.companiesSrv.searchCompanies().subscribe(
+        data => {
+            this.companies = data.items;
+        },
+        error => {
+            this.errorMsg.errorMessages(error);
+            console.log('ERROR: ', error);
+            this.loading = false;
+        }
+    );
+  }
+
+  returnId(object) {
+    this.departamentForm.value[object] = _.filter(this.departamentForm.value[object], function (value, key) {
+        if (key === '_id') { return value; }
+    })[0];
+  }
 
   setForm() {
     this.departamentForm.patchValue({
@@ -113,7 +133,6 @@ export class ModalContentComponent implements OnInit {
     }
   }
 
-  // INSERT
   // EDIT
 
   editDepartament() {
@@ -123,7 +142,6 @@ export class ModalContentComponent implements OnInit {
     this.permissionEdit = false;
     this.permissionCancelEdit = true;
     this.permissionConfirmEdit = true;
-    this.submit('Edit');
   }
 
   cancelEditNew() {
@@ -137,14 +155,6 @@ export class ModalContentComponent implements OnInit {
       this.permissionCancelEdit = false;
       this.permissionConfirmEdit = false;
     }
-  }
-
-  returnId(object) {
-    this.departamentForm.value[object] = _.filter(this.departamentForm.value[object], function (value, key) {
-        if (key === '_id') {
-            return value;
-        }
-    })[0];
   }
 
   // DELETE
@@ -177,11 +187,34 @@ export class ModalContentComponent implements OnInit {
       }
   );
   }
+  
+  // INSERT
+
+  formatter = (x: { name: string }) => x.name;
+
+  searchCompany = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+    const inputFocus$ = this.focusCompany$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+        map(company => {
+            let res = [];
+            if (company.length < 0) {
+                [];
+            } else {
+                res = _.filter(this.companies,
+                    v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+            }
+            return res;
+        })
+    );
+  }
 
   // FINALIZAÇÃO
 
   submit(execution: string){
-    if (execution == 'Editar') {
+    if (!this.isNew) {
       this.returnId('company');
         this.loading = true;
         const departament = _.omitBy(this.departamentForm.value, _.isNil);
@@ -199,8 +232,22 @@ export class ModalContentComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
-    } else if (execution == 'Novo') {
+    } else {
+      this.returnId('company');
 
+      const departament = _.omitBy(this.departamentForm.value, _.isNil);
+      this.departamentsSrv.newDepartament(departament).subscribe(
+          data => {
+              if (data._id) {
+                  this.successMsgSrv.successMessages('Departamento cadastrado com sucesso.');
+                  this.activeModal.close('Novo');
+              }
+          },
+          error => {
+              this.errorMsg.errorMessages(error);
+              console.log('ERROR: ', error);
+          }
+      );
     }
   }
 }

@@ -35,37 +35,32 @@
     </div>
 
     <div class="card-body base-modal-body">
-        <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="submit()">
+        <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="submit()" class="form">
             <div class="form-content">
-                <div *ngIf="this.permissionConfirmEdit" class="form-group">
+                <div class="form-group">
                     <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                    (focus)="focusCompany$.next($any($event).target.value)"
-                    (click)="clickCompany$.next($any($event).target.value)"
-                        [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
-                    <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
-                        class="invalid-feedback">
-                        <div *ngIf="!companyIpt.valid">
-                            Empresa é obrigatória.
+                        <input *ngIf="this.isNew" id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                            formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            style="width: 100%; margin-right: 10px;"
+                            [ngClass]="{ 'is-invalid': companyIpt.invalid && companyIpt.touched }"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
+                            <input *ngIf="!this.isNew" id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                            formControlName="company" placeholder="Nome da Empresa"
+                            style="width: 100%; margin-right: 10px;"
+                            [ngClass]="{ 'is-invalid': companyIpt.invalid && companyIpt.touched }"
+                            />
+                        <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
+                            <div *ngIf="!companyIpt.valid">
+                                Empresa é obrigatório.
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div *ngIf="!this.permissionConfirmEdit" class="form-group">
-                    <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                        [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
-                    <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
-                        class="invalid-feedback">
-                        <div *ngIf="!companyIpt.valid">
-                            Empresa é obrigatória.
-                        </div>
-                    </div>
                 </div>
   
                 <div class="form-group">
                     <label for="input-name">Departamento</label>
-                    <input type="text" [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control" formControlName="name" />
+                    <input type="text" placeholder="Nome do Departamento" [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control" formControlName="name" />
                     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                         <div *ngIf="!name.valid">
                             Departamento é obrigatória.
@@ -83,7 +78,7 @@
         <div class="pull-right">
             <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"
                 style="margin-right:10px">Cancelar</button>
-            <button type="button" (click)="submit('Editar')" class="btn btn-primary" [disabled]="companyIpt.invalid || name.invalid">
+            <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="companyIpt.invalid || name.invalid">
                 Salvar
             </button>
         </div>
