@@ -245,7 +245,7 @@ export class IntroJsService {
                     {
                         element: '#call4',
                         intro:
-                            'Informações gerais sobre a Empresa, para saber mais informações navegue entre as abas',
+                            'Informações gerais sobre a Empresa.',
                     }
                 ]
             })
@@ -570,14 +570,24 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) as informações do Volume!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Volume.',
+                            '<strong>Bem-vindo(a) as informações do Volume!</strong></br>Onde você poderá visualizar e manipular os dados de um volume.',
                     },
                     {
-                        element: '#step2',
+                        element: '#call2',
                         intro:
-                            'Informações gerais sobre o Departamento',
+                            '<strong>Alterar</strong> para alterar informações ou <strong>Excluir</strong> para deletar o volume.',
+                    },
+                    {
+                        element: '#call3',
+                        intro:
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
+                    },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Informações gerais sobre o Volume.',
                     }
                 ]
             })
