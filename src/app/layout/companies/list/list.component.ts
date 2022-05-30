@@ -53,7 +53,14 @@ export class ListComponent implements OnInit {
         private localStorageSrv: SaveLocal,
         private introService: IntroJsService,
         private modalService: NgbModal,
-    ) { }
+    ) { 
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+    }
 
     ngOnInit() {
         this.searchForm = this.fb.group({
@@ -139,13 +146,13 @@ export class ListComponent implements OnInit {
 
     openCompany(value) {
         if (value.type === 'click') {
-            console.log("CLIQUEI, TROUXE: ", value.row);
+            console.log("CLIQUEI, TROUXE: ", value);
             this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
     
             if (value.row) {
                 this.data = value.row;
                 value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
-                this.modalRef.componentInstance.dep = this.data;
+                this.modalRef.componentInstance.comp = this.data;
             }
     
             this.modalRef.result.then((result) => {

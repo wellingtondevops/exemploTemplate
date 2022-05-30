@@ -27,9 +27,14 @@ h6{
     font-weight: bold;
 }
 .form-control{
-    width: 100%;
+    // width: 100%;
     border-radius: 50px;
 }
+
+.form-group {
+    display: inline-block;
+}
+
 .dataBtn{
     margin-left: 22px;
 }
@@ -38,22 +43,21 @@ h6{
     display: flex;
     flex-wrap: wrap;
 }
-.base-modal-body {
-    height: 50vh;
-    align-items: space-between;
-}
-::ng-deep .modal-content{
-    margin-top: 5%;
-    align-content: space-between;
-
-}
+// .base-modal-body {
+//     height: 50vh;
+//     align-items: space-between;
+// }
 
 ::ng-deep .customModal .modal-dialog {
     vertical-align: middle;
     max-width: 86%;
-    width: 86%;
+    width: auto;
     height: auto;
     min-height: 80vh;
+}
+
+::ng-deep .customModal .modal-content {
+    margin-top: 5%;
 }
 
 ::ng-deep .modal-header .close {

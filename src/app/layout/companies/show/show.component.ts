@@ -112,6 +112,7 @@ export class ShowComponent implements OnInit {
     getCompany() {
         this.companiesSrv.company(this.id).subscribe(
             data => {
+                console.log('A COMPANHIA: ', data)
                 this.loading = false;
                 this.company = data;
                 this.companyForm.patchValue({

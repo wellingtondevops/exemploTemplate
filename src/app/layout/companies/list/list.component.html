@@ -15,8 +15,8 @@
             </div>
             <div class="row" id="step1">
                 <div class="col-lg-12">
-                    <app-page-header [heading]="'Empresas'" [icon]="'fa-table'" [btnNew]="'Nova Empresa'"
-                        [permissionBtnNew]="permissionNew" [routerTo]="'/companies/new'"></app-page-header>
+                    <app-page-header [heading]="'Empresas'" [modalNew]="true" [icon]="'fa-table'" [btnNew]="'Nova Empresa'"
+                        [permissionBtnNew]="permissionNew" (click)="openCompany($event)"></app-page-header>
                 </div>
             </div>
         </div>
@@ -62,14 +62,26 @@
                     [resizeable]="false">
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Nome" prop="name" [width]= 100></ngx-datatable-column>
-                <ngx-datatable-column name="Email" prop="email" [width]= 50></ngx-datatable-column>
+                <ngx-datatable-column name="Email" prop="email" [width]= 100></ngx-datatable-column>
                 <ngx-datatable-column name="Telefone" prop="fone" [width]= 10></ngx-datatable-column>
                 <ngx-datatable-column name="Criado em" prop="dateCreated" [width]="50" > 
-                    <ng-template let-value="dateCreated" ng-datatable-cell-template>{{value | date: 'MM/dd/yyyy'}}</ng-template> 
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{value | date: 'dd/MM/yyyy' }}
+                    </ng-template> 
                 </ngx-datatable-column>
+
+                <ngx-datatable-column name="Button">
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
+                      <span>
+                        <button style="background-color:red;height:15px;" (click)='getCompany(row)'><i class="rb-ic rb-ic-add-frame"></i></button>
+                        <!-- <button style="background-color:blue;height:15px;" (click)='openCompany(row)'><i class="rb-ic rb-ic-add-frame"></i></button> -->
+                      </span>
+                    </ng-template>
+                  </ngx-datatable-column>
 
             </ngx-datatable>
     </div>
 
     
 </div>
+<!-- (activate)="openCompany($event)" -->
