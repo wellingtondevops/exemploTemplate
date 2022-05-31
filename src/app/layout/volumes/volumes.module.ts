@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { VolumesRoutingModule } from './volumes-routing.module';
-import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule, NgbdModalConfirmModule } from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NewComponent, EnumToArrayPipe } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
@@ -16,6 +16,7 @@ import { ErrorsVolumesComponent } from './errors-volumes/errors-volumes.componen
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { ModalContentComponent } from './modal-content/modal-content.component';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 @NgModule({
   declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent, ErrorsVolumesComponent, ModalContentComponent],
   imports: [
@@ -31,9 +32,10 @@ import { ModalContentComponent } from './modal-content/modal-content.component';
     TranslateModule,
     ButtonBackModule,
     ButtonsCustomModule,
-    NgxLoadingModule.forRoot({})
+    NgxLoadingModule.forRoot({}),
+    NgbdModalConfirmModule
   ],
   providers: [NgbActiveModal, CaseInsensitive],
-  entryComponents: [ModalContentComponent]
+  entryComponents: [ModalContentComponent, NgbdModalConfirmComponent]
 })
 export class VolumesModule { }

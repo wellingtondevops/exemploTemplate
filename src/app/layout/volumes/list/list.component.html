@@ -13,7 +13,9 @@
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
             </div>
-            <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'"
+            <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'" [modalNew]="true"
+                [permissionBtnNew]="permissionNew && !isUsers" (click)="openVolume($event)"></app-page-header>
+                <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Antigo Volume'"
                 [permissionBtnNew]="permissionNew && !isUsers" [routerTo]="'/volumes/new'"></app-page-header>
         </div>
         <div class="card-body">
@@ -218,7 +220,7 @@
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
                       <span>
                         <button style="background-color:red;height:15px;" (click)='getVolume(row)'><i class="rb-ic rb-ic-add-frame"></i></button>
-                        <button style="background-color:blue;height:15px;" (click)='openVolume($event)'><i class="rb-ic rb-ic-add-frame"></i></button>
+                        <button style="background-color:blue;height:15px;" (click)='openVolume(row)'><i class="rb-ic rb-ic-add-frame"></i></button>
                       </span>
                     </ng-template>
                   </ngx-datatable-column>

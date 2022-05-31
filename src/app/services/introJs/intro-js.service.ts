@@ -608,12 +608,12 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
                             '<strong>Bem-vindo(a) a edição de Volumes!</strong></br>Altere informações.',
                     },
                     {
-                        element: '#step2',
+                        element: '#call5',
                         intro:
                             'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
                     },

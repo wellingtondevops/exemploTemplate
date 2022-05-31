@@ -38,25 +38,109 @@
           <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="submit()" class="form">
               <div class="form-content" id="call4">  
 
-                  <!-- <div class="form-group  col-xl-12">
-                      <label for="input-name">Empresa</label>
-                      <input type="text" placeholder="Nome da Empresa" [ngClass]="{ 'is-invalid': company.invalid && company.touched }" class="form-control" formControlName="company" />
-                      <div *ngIf="company.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                          <div *ngIf="!name.valid">
-                              Nome é obrigatório.
-                          </div>
-                      </div>
-                  </div> -->
+                <div class="form-group col-lg-12">
+                    <label for="typeahead-basic">Empresa</label>
+                    <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                        [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" />
+                </div>
 
-                  
+                <div class="form-group col-lg-12">
+                    <label for="typeahead-basic">Departamento</label>
+                    <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
+                        [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                        [ngbTypeahead]="searchDepartament" />
+                </div>
 
-                  <ng-template #rtVolume let-r="result" let-t="volume" class="custom-typeahead">
-                      <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                  </ng-template>
+                <div class="form-group col-lg-12">
+                    <label for="typeahead-basic">Depósito</label>
+                    <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
+                        [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search" />
+                </div>
+
+                <div class="form-group col-lg-4">
+                    <label for="">Tipo de Volume</label>
+                    <select class="form-control" id="volumeType" formControlName="volumeType">
+                        <option *ngFor="let volumeT of volumeTypeList | enumToArray" [value]="volumeT">
+                            {{ volumeT | translate }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-4">
+                    <label for="">Tipo de Guarda</label>
+                    <select class="form-control" id="guardType" formControlName="guardType"
+                        (change)="changeGuardType()">
+                        <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
+                            {{ guardT | translate }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-4">
+                    <label for="status">Status</label>
+                    <select class="form-control col-12" id="status" formControlName="status">
+                        <option *ngFor="let item of statusList | enumToArray" [value]="item">
+                            {{ item }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-12">
+                    <label for="">Posição</label>
+                    <input type="text" placeholder="Posição" class="form-control" formControlName="location"
+                        [ngClass]="{ 'is-invalid': !location.valid && !location.disabled }" />
+                    <div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
+                        <div *ngIf="!location.valid">
+                            Posição é obrigatório.
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="!permissionConfirmEdit" class="form-group">
+                    <label>Conteúdo:</label>
+                    <abbr title="Possui arquivos"  *ngIf="volume?.records"><i class="mdi mdi-archive mdi-24px"></i></abbr>
+                    <abbr title="Não possui arquivos" *ngIf="!volume?.records"><i class="mdi mdi-archive-remove mdi-24px"></i></abbr>
+                </div>
+
+                <div *ngIf="!permissionConfirmEdit" class="state">
+                    <label class="mr-2" >Situação do Volume: </label>
+                    <ng-container *ngIf="volume?.closeBox; else elseTemplate">
+                        <strong>Fechado</strong>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <strong>Aberto</strong>
+                    </ng-template>
+                </div>
+
+                
+
+                <div class="form-group" [hidden]="hiddenReference">
+                    <label for="">Referência</label>
+                    <input type="text" placeholder="Referência" class="form-control" formControlName="reference" />
+                </div>
+
+
+                <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+                <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
               </div>
           </form>
       </div>
-      <div *ngIf="this.permissionCancelEdit && this.permissionCancelEdit" class="modal-footer" >
+      <div *ngIf="this.permissionCancelEdit && this.permissionCancelEdit" class="modal-footer"  >
+        <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="submit()" style="float: left;">
+            <div *ngIf="permissionConfirmEdit" class="form-group col-lg-6">
+                <div class="pretty p-switch p-fill">
+                    <input type="checkbox" formControlName="closeBox" value="" />
+                    <div class="state">
+                        <label>Fechar Volume</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+
           <div class="pull-right" id="call5">
               <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"
                   style="margin-right:10px">Cancelar</button>

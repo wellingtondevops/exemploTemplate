@@ -16,9 +16,10 @@ import { SimpleListComponent } from './simple-list/simple-list.component';
 import { SimpleShowComponent } from './simple-show/simple-show.component';
 import { AuditComponent } from './audit/audit.component';
 import { AuditShowComponent } from './audit-show/audit-show.component';
+import { ModalContentComponent } from './modal-content/modal-content.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent, AuditComponent, AuditShowComponent],
+  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent, AuditComponent, AuditShowComponent, ModalContentComponent],
   imports: [
     NgbModule,
     CommonModule,
@@ -34,6 +35,7 @@ import { AuditShowComponent } from './audit-show/audit-show.component';
     ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({}),
   ],
-  providers: [CaseInsensitive]
+  providers: [CaseInsensitive],
+  entryComponents: [ModalContentComponent]
 })
 export class ArchivesModule { }
