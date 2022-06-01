@@ -61,8 +61,8 @@ export class ModalContentComponent implements OnInit {
             fone: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             answerable: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             typePerson: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            cpf: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-            cnpj: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            cpf: this.fb.control({ value: '', disabled: true }),
+            cnpj: this.fb.control({ value: '', disabled: true }),
     });
   }
 

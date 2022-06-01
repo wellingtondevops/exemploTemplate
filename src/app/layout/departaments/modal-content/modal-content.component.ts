@@ -36,6 +36,7 @@ export class ModalContentComponent implements OnInit {
   permissionDelete: boolean = false;
   permissionConfirmEdit: boolean = false;
   permissionCancelEdit: boolean = false;
+  isEditing: boolean = false;
   departaments: any = [];
   departament: Departament;
   departamentForm: FormGroup;
@@ -128,6 +129,8 @@ export class ModalContentComponent implements OnInit {
   help() {
     if (this.isNew) {
       this.introService.NewDepartment();
+    } else if (!this.isNew && this.isEditing) {
+      this.introService.EditDepartment();
     } else {
       this.introService.ShowDepartment();
     }
@@ -142,6 +145,7 @@ export class ModalContentComponent implements OnInit {
     this.permissionEdit = false;
     this.permissionCancelEdit = true;
     this.permissionConfirmEdit = true;
+    this.isEditing = true;
   }
 
   cancelEditNew() {
@@ -154,6 +158,7 @@ export class ModalContentComponent implements OnInit {
       this.permissionEdit = true;
       this.permissionCancelEdit = false;
       this.permissionConfirmEdit = false;
+      this.isEditing = false;
     }
   }
 

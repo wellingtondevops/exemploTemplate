@@ -20,13 +20,15 @@
           </button>
           <br>
           <div class="col-lg-12" >
-              <h2 id="call1">Dados do Volume</h2>
+              <h2 id="call1" *ngIf="!isNew && !isEditing">Dados do Volume</h2>
+              <h2 id="call1" *ngIf="isNew">Novo Volume</h2>
+              <h2 id="call1" *ngIf="isEditing">Editar Volume</h2>
           </div>
           
           <br/>
           <div style="margin-bottom: 10px" id="call2">
-              <app-buttons-custom *ngIf="!isNew" [id]="vol._id" (edit)="editVolume()"
-                  (delete)="open('focusFirst', vol._id)" [permissionEdit]="permissionEdit"
+              <app-buttons-custom [isNew]="isNew" [inputBlock]="inputBlock" [id]="vol?._id" (edit)="editVolume()"
+                  (delete)="open('focusFirst', vol._id)" (block)="blockInputs()" [permissionEdit]="permissionEdit"
                   [permissionDelete]="permissionDelete"></app-buttons-custom>
           </div>
           </div>
@@ -40,41 +42,85 @@
 
                 <div class="form-group col-lg-12">
                     <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                        [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" />
+                    <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa"
+                        type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany"
+                        [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                        [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
+                        #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                        (click)="clickCompany$.next($any($event).target.value)" />
+                    <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                        <div *ngIf="!company.valid">
+                            Empresa é obrigatório.
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group col-lg-12">
                     <label for="typeahead-basic">Departamento</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="departament"
-                        [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
-                        [ngbTypeahead]="searchDepartament" />
+                    <input id="typeahead-basic" type="text" placeholder="Nome do Departamento" class="form-control"
+                        formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                        [ngbTypeahead]="searchDepartament"
+                        [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }"
+                        #instanceDepartament="ngbTypeahead"
+                        (focus)="focusDepartament$.next($any($event).target.value)"
+                        (click)="clickDepartament$.next($any($event).target.value)"/>
+                    <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!departament.valid">
+                            Departamento é obrigatório.
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group col-lg-12">
                     <label for="typeahead-basic">Depósito</label>
-                    <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
-                        [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search" />
+                    <input id="typeahead-basic" type="text" placeholder="Nome do Deposito" class="form-control"
+                        formControlName="storehouse" [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter"
+                        [ngbTypeahead]="searchStorehouse"
+                        [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }"
+                        #instanceStorehouse="ngbTypeahead"
+                        (focus)="focusStorehouse$.next($any($event).target.value)"
+                        (click)="clickStorehouse$.next($any($event).target.value)" />
+                    <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!storehouse.valid">
+                            Depósito é obrigatório.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div [ngClass]="!isEditing && !isNew ? 'form-group col-lg-4' : 'form-group col-lg-6'">
                     <label for="">Tipo de Volume</label>
-                    <select class="form-control" id="volumeType" formControlName="volumeType">
+                    <select class="form-control" id="volumeType" formControlName="volumeType"
+                        [ngClass]="{ 'is-invalid': volumeType.invalid && volumeType.touched }">
                         <option *ngFor="let volumeT of volumeTypeList | enumToArray" [value]="volumeT">
                             {{ volumeT | translate }}</option>
                     </select>
+                    <div *ngIf="volumeType.invalid && (volumeType.dirty || volumeType.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!volumeType.valid">
+                            Tipo de volume é obrigatório.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div [ngClass]="!isEditing && !isNew ? 'form-group col-lg-4' : 'form-group col-lg-6'">
                     <label for="">Tipo de Guarda</label>
                     <select class="form-control" id="guardType" formControlName="guardType"
+                        [ngClass]="{ 'is-invalid': guardType.invalid && guardType.touched }"
                         (change)="changeGuardType()">
                         <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                             {{ guardT | translate }}</option>
                     </select>
+                    <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="!guardType.valid">
+                            Tipo de volume é obrigatório.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div *ngIf="!isNew && !isEditing" class="form-group col-lg-4">
                     <label for="status">Status</label>
                     <select class="form-control col-12" id="status" formControlName="status">
                         <option *ngFor="let item of statusList | enumToArray" [value]="item">
@@ -93,13 +139,13 @@
                     </div>
                 </div>
 
-                <div *ngIf="!permissionConfirmEdit" class="form-group">
+                <div *ngIf="!isEditing && !isNew" class="form-group">
                     <label>Conteúdo:</label>
                     <abbr title="Possui arquivos"  *ngIf="volume?.records"><i class="mdi mdi-archive mdi-24px"></i></abbr>
                     <abbr title="Não possui arquivos" *ngIf="!volume?.records"><i class="mdi mdi-archive-remove mdi-24px"></i></abbr>
                 </div>
 
-                <div *ngIf="!permissionConfirmEdit" class="state">
+                <div *ngIf="!isEditing && !isNew" class="state">
                     <label class="mr-2" >Situação do Volume: </label>
                     <ng-container *ngIf="volume?.closeBox; else elseTemplate">
                         <strong>Fechado</strong>
@@ -129,8 +175,8 @@
               </div>
           </form>
       </div>
-      <div *ngIf="this.permissionCancelEdit && this.permissionCancelEdit" class="modal-footer"  >
-        <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="submit()" style="float: left;">
+      <div *ngIf="this.permissionCancel && this.permissionConfirm" class="modal-footer"  >
+        <!-- <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="submit()" style="float: left;">
             <div *ngIf="permissionConfirmEdit" class="form-group col-lg-6">
                 <div class="pretty p-switch p-fill">
                     <input type="checkbox" formControlName="closeBox" value="" />
@@ -139,7 +185,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+        </form> -->
 
           <div class="pull-right" id="call5">
               <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"

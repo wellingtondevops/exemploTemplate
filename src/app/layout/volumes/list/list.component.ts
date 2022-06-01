@@ -212,9 +212,9 @@ export class ListComponent implements OnInit {
             console.log("CLIQUEI, TROUXE: ", value);
             this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
     
-            if (value) {
+            if (value.row) {
                 this.data = value.row;
-                // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
                 this.modalRef.componentInstance.vol = this.data;
             }
     

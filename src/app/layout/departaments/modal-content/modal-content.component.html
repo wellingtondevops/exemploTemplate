@@ -16,11 +16,13 @@
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9; margin-left: 15px;" (click)="help()"></i>
                 </div>
             <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
-                <span id="call3" aria-hidden="true">&times;</span>
+                <span id="call4" aria-hidden="true">&times;</span>
             </button>
             <br>
             <div class="col-lg-12" >
-                <h2 id="call1">Dados do Departamento</h2>
+                <h2 id="call1" *ngIf="!isNew && !isEditing">Dados do Departamento</h2>
+                <h2 id="call1" *ngIf="isNew">Novo Departamento</h2>
+                <h2 id="call1" *ngIf="isEditing">Editar Departamento</h2>
             </div>
             
             <br/>
@@ -36,7 +38,7 @@
 
         <div class="card-body base-modal-body">
             <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="submit()" class="form">
-                <div class="form-content">
+                <div class="form-content" id="call3">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
                             <input *ngIf="this.isNew" id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
@@ -60,7 +62,8 @@
     
                     <div class="form-group">
                         <label for="input-name">Departamento</label>
-                        <input type="text" placeholder="Nome do Departamento" [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control" formControlName="name" />
+                        <input type="text" placeholder="Nome do Departamento" oninput="this.value = this.value.toUpperCase()"
+                        [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control" formControlName="name" />
                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
                                 Departamento é obrigatório.
@@ -75,7 +78,7 @@
         </div>
 
         <div *ngIf="this.permissionCancelEdit && this.permissionCancelEdit" class="modal-footer" >
-            <div class="pull-right">
+            <div class="pull-right" id="call5">
                 <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"
                     style="margin-right:10px">Cancelar</button>
                 <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="companyIpt.invalid || name.invalid">

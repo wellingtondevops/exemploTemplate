@@ -16,7 +16,7 @@
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9; margin-left: 15px;" (click)="help()"></i>
                 </div>
             <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
-                <span id="call3" aria-hidden="true">&times;</span>
+                <span id="call4" aria-hidden="true">&times;</span>
             </button>
             <br>
             <div class="col-lg-12" >
@@ -36,11 +36,11 @@
 
         <div class="card-body base-modal-body">
             <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="submit()" class="form">
-                <div class="form-content" id="call4">  
+                <div class="form-content" id="call3">  
 
                     <div class="form-group  col-xl-12">
                         <label for="input-name">Nome</label>
-                        <input type="text" placeholder="Nome da Empresa" [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control" formControlName="name" />
+                        <input type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Nome da Empresa" [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control" formControlName="name" />
                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">
                                 Nome é obrigatório.
@@ -50,7 +50,7 @@
 
                     <div class="form-group col-xl-12">
                         <label for="adress">Endereço</label>
-                        <input id="adress" placeholder="Endereço" type="text" class="form-control"
+                        <input id="adress" oninput="this.value = this.value.toUpperCase()" placeholder="Endereço" type="text" class="form-control"
                             formControlName="adress" [ngClass]="{ 'is-invalid': !adress.valid && !adress.disabled }" />
                         <div *ngIf="adress.invalid && (adress.dirty || adress.touched)" class="invalid-feedback">
                             <div *ngIf="!adress.valid">
@@ -61,7 +61,7 @@
 
                     <div class="form-group col-lg-6">
                         <label for="">Cidade</label>
-                        <input type="text" placeholder="Cidade" class="form-control" formControlName="city"
+                        <input type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Cidade" class="form-control" formControlName="city"
                             [ngClass]="{ 'is-invalid': !city.valid && !city.disabled }" />
                         <div *ngIf="city.invalid && (city.dirty || city.touched)" class="invalid-feedback">
                             <div *ngIf="!city.valid">
@@ -72,7 +72,7 @@
 
                     <div class="form-group col-lg-6">
                         <label for="province">Estado</label>
-                        <input id="province" type="text" placeholder="Estado" class="form-control"
+                        <input id="province" oninput="this.value = this.value.toUpperCase()" type="text" placeholder="Estado" class="form-control"
                             formControlName="province"
                             [ngClass]="{ 'is-invalid': !province.valid && !province.disabled }" />
                         <div *ngIf="province.invalid && (province.dirty || province.touched)" class="invalid-feedback">
@@ -118,7 +118,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-lg-4">
+                    <div [ngClass]="(hiddenCNPJ && hiddenCPF) ? 'form-group col-lg-12' : 'form-group col-lg-4'">
                         <label for="">Tipo de Pessoa</label>
                         <select class="form-control" id="personType" formControlName="typePerson"
                             [ngClass]="{ 'is-invalid': !typePerson.valid && !typePerson.disabled }"
@@ -167,8 +167,9 @@
                 <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"
                     style="margin-right:10px">Cancelar</button>
                 <button type="button" (click)="submit()" class="btn btn-primary" 
-                [disabled]="name.invalid || email.invalid || adress.invalid || province.invalid || city.invalid
-                || fone.invalid || answerable.invalid || typePerson.invalid">
+                [disabled]="name.invalid || email.invalid || adress.invalid || 
+                province.invalid || city.invalid || fone.invalid || answerable.invalid 
+                || typePerson.invalid">
                     Salvar
                 </button>
             </div>

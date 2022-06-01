@@ -230,7 +230,7 @@ export class IntroJsService {
                     {
                         element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) as informações da Empresa!</strong></br> Onde você poderá visualizar e manipular os dados de uma empresa.',
+                            '<strong>Bem-vindo(a) as informações da Empresa!</strong></br> Onde você poderá visualizar os dados de uma empresa.',
                     },
                     {
                         element: '#call2',
@@ -240,13 +240,14 @@ export class IntroJsService {
                     {
                         element: '#call3',
                         intro:
-                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',                            
+                            'Informações gerais sobre a Empresa.',
+                            tooltipPosition: 'bottom',
                     },
                     {
                         element: '#call4',
                         intro:
-                            'Informações gerais sobre a Empresa.',
-                    }
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',                            
+                    },
                 ]
             })
             .start();
@@ -344,16 +345,26 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) a criação de Departamento!</strong></br>Preencha estes campos com as informações do novo departamento.',
+                            '<strong>Bem-vindo(a) a criação de Departamento!</strong></br>',
                     },
                     {
-                        element: '#step2',
+                        element: '#call3',
                         intro:
-                            'Ultilize <strong>Salvar </strong> para concluir a criação da  nova empresa ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
+                            'Preencha estes campos com as informações do novo departamento.',
+                    },
+                    {
+                        element: '#call5',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para confirmar a criação do departamento ou <strong>Cancelar</strong> para retornar à página de pesquisa.',
                         tooltipPosition: 'bottom',
-                    }
+                    },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Utilize o X para retornar para a página de pesquisa.',
+                    },
                 ]
             })
             .start();
@@ -375,7 +386,7 @@ export class IntroJsService {
                     {
                         element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) as informações do Departamento!</strong></br>Onde você pode ver os detalhes de cada departamento, alterá-los pu excluí-los.',
+                            '<strong>Bem-vindo(a) as informações da Departamento!</strong></br> Onde você poderá visualizar os dados de um departamento.',
                     },
                     {
                         element: '#call2',
@@ -384,6 +395,11 @@ export class IntroJsService {
                     },
                     {
                         element: '#call3',
+                        intro:
+                            'Todas as informações sobre o Departamento.',
+                    },
+                    {
+                        element: '#call4',
                         intro:
                             'Utilize o X para retornar para a página de pesquisa.',
                     }
@@ -406,14 +422,25 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) a edição de Empresa!</strong></br>Altere informações.',
+                            '<strong>Bem-vindo(a) a edição de Departamento!</strong></br>Onde você poderá alterar informações sobre o departamento.',
                     },
                     {
-                        element: '#step2',
+                        element: '#call3',
                         intro:
-                            'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                            'Informações do departamento, onde você poderá fazer as alterações necessárias.',
+                    },
+                    {
+                        element: '#call5',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para confirmar a edição do departamento ou <strong>Cancelar</strong> para retornar sem fazer alterações.',
+                        tooltipPosition: 'bottom',
+                    },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Utilize o X para retornar para a página de pesquisa.',
                     },
                 ]
             })

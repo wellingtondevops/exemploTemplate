@@ -36,11 +36,13 @@
                 </div>
                 <div class="row">
                     <div class="form-group ml-2 col-lg-12 col-sm-12 text-center" id="step3">
-                        <button type="submit" class="btn btn-primary" [disabled]="name.invalid"><i
-                                class="fa fa-search"></i></button>
-                        <button type="button" class="btn dark-btn" style="margin-left: 10px;" [disabled]="name.invalid"
+                        <button type="button" class="btn btn-dark" [disabled]="name.invalid"
                             (click)="clear()">
                             Limpar Campo
+                        </button>
+                        <button style="margin-left: 10px;" type="submit" class="btn btn-primary" [disabled]="name.invalid"><i
+                            class="fa fa-search"></i>
+                            Pesquisar
                         </button>
                     </div>
                 </div>
@@ -70,18 +72,8 @@
                     </ng-template> 
                 </ngx-datatable-column>
 
-                <ngx-datatable-column name="Button">
-                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
-                      <span>
-                        <button style="background-color:red;height:15px;" (click)='getCompany(row)'><i class="rb-ic rb-ic-add-frame"></i></button>
-                        <!-- <button style="background-color:blue;height:15px;" (click)='openCompany(row)'><i class="rb-ic rb-ic-add-frame"></i></button> -->
-                      </span>
-                    </ng-template>
-                  </ngx-datatable-column>
-
             </ngx-datatable>
     </div>
 
     
 </div>
-<!-- (activate)="openCompany($event)" -->

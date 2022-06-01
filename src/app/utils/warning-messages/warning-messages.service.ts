@@ -16,6 +16,7 @@ export class WarningMessagesService {
         toastClass: 'warnclass ngx-toastr',
         progressBar: true,
         progressAnimation: 'decreasing',
+        positionClass: 'toast-center-center',
         enableHtml: true, });
   }
 }

@@ -184,12 +184,13 @@
                 </div>
 
                 <div class="col col-lg-12 col-sm-12 text-center mt-1" id="step3">
-                    <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <button style="margin-left: 5px;" type="button" class="btn dark-btn" [disabled]="company.invalid"
+                    <button type="button" class="btn btn-dark" [disabled]="company.invalid"
                         (click)="clear()">
                         Limpar Campos
+                    </button>
+                    <button style="margin-left: 5px;" type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                        <i class="fa fa-search"></i>
+                        Pesquisar
                     </button>
                 </div>
 
@@ -215,15 +216,7 @@
             <ngx-datatable #myTable class="bootstrap" [rows]="volumes.items" [columnMode]="'force'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
                 [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageVolumes($event)" 
-                [scrollbarH]="true" >
-                <ngx-datatable-column name="Button">
-                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
-                      <span>
-                        <button style="background-color:red;height:15px;" (click)='getVolume(row)'><i class="rb-ic rb-ic-add-frame"></i></button>
-                        <button style="background-color:blue;height:15px;" (click)='openVolume(row)'><i class="rb-ic rb-ic-add-frame"></i></button>
-                      </span>
-                    </ng-template>
-                  </ngx-datatable-column>
+                [scrollbarH]="true" (activate)="openVolume($event)">
             </ngx-datatable>
         </div>
     </div>

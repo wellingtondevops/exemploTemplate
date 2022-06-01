@@ -12,3 +12,7 @@
 input{
     border-radius: 50px;
 }
+
+::ng-deep .bootstrap-dark .mt-1, .bootstrap-dark .my-1 {
+    margin-top: 2rem !important;
+}
