@@ -124,6 +124,7 @@ export class ModalContentComponent implements OnInit {
       this.volumeForm.controls['guardType'].enable();
       this.volumeForm.controls['volumeType'].enable();
       this.volumeForm.controls['location'].enable();
+      this.volumeForm.controls['closeBox'].enable();
     }
   }
 

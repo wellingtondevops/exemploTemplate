@@ -128,6 +128,11 @@
                     </select>
                 </div>
 
+                <div class="form-group col-lg-12" [hidden]="hiddenReference">
+                    <label for="">Referência</label>
+                    <input type="text" placeholder="Referência" class="form-control" formControlName="reference" />
+                </div>
+
                 <div class="form-group col-lg-12">
                     <label for="">Posição</label>
                     <input type="text" placeholder="Posição" class="form-control" formControlName="location"
@@ -135,6 +140,15 @@
                     <div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
                         <div *ngIf="!location.valid">
                             Posição é obrigatório.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-12" *ngIf="isEditing || isNew" style="margin-top: 2rem;">
+                    <div class="pretty p-switch p-fill">
+                        <input type="checkbox" formControlName="closeBox" value="" />
+                        <div class="state">
+                            <label>Fechar Volume</label>
                         </div>
                     </div>
                 </div>
@@ -154,14 +168,6 @@
                         <strong>Aberto</strong>
                     </ng-template>
                 </div>
-
-                
-
-                <div class="form-group" [hidden]="hiddenReference">
-                    <label for="">Referência</label>
-                    <input type="text" placeholder="Referência" class="form-control" formControlName="reference" />
-                </div>
-
 
                 <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
