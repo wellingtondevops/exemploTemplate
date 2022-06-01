@@ -44,10 +44,10 @@ export class ListComponent implements OnInit {
     modalRef: any;
     closeResult: string;
     modalOptions: NgbModalOptions;
-
     searchForm: FormGroup;
     height: any;
     loading: Boolean = false;
+    hiddenReference: Boolean = true;
     companies: any = [];
     company_id: string;
     statusList: any = [];
@@ -87,9 +87,20 @@ export class ListComponent implements OnInit {
         { name: 'Conteúdo', prop: 'records', width: 100, pipe: { transform: this.pipes.recordsType } },
         { name: 'Criado em', prop: 'dateCreated', width: 100, pipe: { transform: this.pipes.datePipe } },
         { name: 'Situação do Volume', prop: 'closeBox', width: 150, pipe: { transform: this.pipes.boxType } },
+        { name: 'Qtd. Páginas', prop: 'totalPages', width: 150},
+        { name: 'Qtd. Arquivos', prop: 'totalArchives', width: 150},
     ];
     permissionNew = false;
     isUsers = false;
+
+    statusThings = [
+        { name: 'ARQUIVO', selected: 1, value: 'ATIVO'}, 
+        { name: 'BAIXADO', selected: 0, value: 'BAIXADO'}, 
+        { name: 'EMPRESTADO', selected: 0, value: 'EMPRESTADO'}
+    ];
+    guardTypeThings = [{ name: 'SIMPLES', selected: 0}, { name: 'GERENCIADA', selected: 1}];
+    recordsThings = [{ name: 'NÃO POSSUI ARQUIVOS', selected: 0}, { name: 'POSSUI ARQUIVOS', selected: 0}];
+    boxThings = [{ name: 'VOLUME ABERTO', selected: 0}, { name: 'VOLUME FECHADO', selected: 0}];
 
     constructor(
         private el: ElementRef,
@@ -170,6 +181,19 @@ export class ListComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
+    switchGuardType(event) {
+        console.log("TROQUEI: ", event);
+        switch (this.searchForm.value.guardType) {
+            case 'SIMPLES':
+                this.hiddenReference = false;
+                break;
+            case 'GERENCIADA':
+                this.hiddenReference = true;
+                break;
+        }
+        console.log('REFERENCE HIDDEN: ', this.hiddenReference);
+    }
+
     get storehouse() {
         return this.searchForm.get('storehouse');
     }
@@ -209,7 +233,6 @@ export class ListComponent implements OnInit {
 
     openVolume(value) {
         if (value.type === 'click') {
-            console.log("CLIQUEI, TROUXE: ", value);
             this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
     
             if (value.row) {

@@ -20,6 +20,9 @@ export class Volume {
   reference: string;
   records: boolean;
   closeBox: boolean;
+  totalArchives: number;
+  totalPages: number;
+  lastUpdateVolume: string;
 }
 
 export class VolumeList {
