@@ -17,6 +17,7 @@ export class ModalContentComponent implements OnInit {
 
   loading: Boolean = false;
   isNew: Boolean = false;
+  isEditing: Boolean = false;
   permissionEdit: boolean = false;
   permissionDelete: boolean = false;
   permissionConfirmEdit: boolean = false;
@@ -37,6 +38,13 @@ export class ModalContentComponent implements OnInit {
   // INICIALIZAÇÃO
 
   ngOnInit() {
+    if (this.arch) {
+      this.isNew = false;
+
+
+    } else {
+      this.isNew = true;
+    }
   }
 
   // RESOURCES

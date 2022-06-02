@@ -186,11 +186,11 @@
             <div *ngIf="!isNew && !isEditing" class="pull-left" id="call6">
                 <!-- <div class="row" *ngIf="!loading"> -->
                     <div class="col-12">
-                        <div style="font-size: 12px; text-align: center;">
+                        <div style="font-size: 12px; text-align: right;">
                             Qtd. Arquivos: {{ vol.totalArchives }}<br />
                             Qtd. Páginas: {{ vol.totalPages }}<br />
                             Data de Criação: {{ vol.dateCreated | date: 'dd/MM/yyyy HH:mm' }}<br />
-                            Última Alteração: {{ vol.lastUpdateVolume | date: 'dd/MM/yyyy HH:mm' }}<br />
+                            Alterado em: {{ vol.lastUpdateVolume | date: 'dd/MM/yyyy HH:mm' }}<br />
                         </div>
                     </div>
                 <!-- </div>     -->
