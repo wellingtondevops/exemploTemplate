@@ -568,15 +568,30 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) a criação de Volume!</strong></br>Preencha estes campos com as informações do novo volume.',
+                            '<strong>Bem-vindo(a) a criação de Volume!</strong>',
                     },
                     {
-                        element: '#step2',
+                        element: '#call2',
                         intro:
-                            'Ultilize <strong>Salvar </strong> para concluir a criação do novo volume ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
-                        tooltipPosition: 'bottom',
+                            'Caso queira reutilizar as informações no próximo volume a ser criado, bloqueie os campos.',
+                    },
+                    {
+                        element: '#call3',
+                        intro:
+                            'Preencha os campos corretamente para criar um novo volume.',
+                    },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
+                    },
+                    {
+                        element: '#call5',
+                        intro:
+                            'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para criar um novo volume.',
+                            tooltipPosition: 'bottom',
                     }
                 ]
             })
@@ -609,12 +624,13 @@ export class IntroJsService {
                     {
                         element: '#call3',
                         intro:
-                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
+                            'Informações gerais sobre o Volume.',
                     },
                     {
                         element: '#call4',
                         intro:
-                            'Informações gerais sobre o Volume.',
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
+                            tooltipPosition: 'bottom',
                     }
                 ]
             })
