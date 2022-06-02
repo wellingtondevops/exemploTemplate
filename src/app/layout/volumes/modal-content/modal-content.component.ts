@@ -414,8 +414,29 @@ export class ModalContentComponent implements OnInit {
   // FINALIZAÇÃO
 
   submit(){
-    if (!this.isNew) {
-      this.loading = true;
+    if (!this.isNew && this.isEditing) {
+      // this.loading = true;
+      this.returnId('company');
+      this.returnId('storehouse');
+
+      // this.volumeForm.value.uniqueField = this.returnUniqField();
+      const volumeForm = _.omitBy(this.volumeForm.value, _.isNil);
+      volumeForm._id = this.id;
+
+      this.volumesSrv.updateVolume(volumeForm).subscribe(
+        data => {
+          if (data._id) {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
+            this.activeModal.close('Editar');
+          }
+        },
+        error => {
+          this.loading = false;
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR: ', error);
+        }
+      );
     } else {
       this.returnId('company');
       this.returnId('storehouse');
