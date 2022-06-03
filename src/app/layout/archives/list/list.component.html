@@ -23,7 +23,7 @@
             <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
                 <div id="step2">
                     <div class="row">
-                        <div class="form-group col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-5 col-sm-12">
                             <label for="typeahead-focus">Empresa</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 formControlName="company" (selectItem)="selectedCompany($event)"
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-4 col-sm-12">
                             <label for="typeahead-focus">Departamento</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 placeholder="Nome do Departamento" formControlName="departament"
@@ -49,11 +49,7 @@
                                 (focus)="focusDepartament$.next($any($event).target.value)"
                                 (click)="clickDepartament$.next($any($event).target.value)" />
                         </div>
-                        <div class="form-group col-lg-3 col-sm-12">
-                            <label for="search_archive">Posição</label>
-                            <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição"
-                                formControlName="location" />
-                        </div>
+                        
                         <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-focus">Depósito</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
@@ -63,8 +59,9 @@
                                 (focus)="focusStorehouse$.next($any($event).target.value)"
                                 (click)="clickStorehouse$.next($any($event).target.value)" />
                         </div>
+                        
                     </div>
-                    <div class="row ml-1 mt-1 mb-1 form-check-inline">
+                    <!-- <div class="row ml-1 mt-1 mb-1 form-check-inline">
                         <div class="col-lg-1 pr-0">
                             <label>Status:</label>
                         </div>
@@ -136,9 +133,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row" id="step3">
-                        <div class="form-group col-lg-4 col-sm-12">
+                        
+                        <div class="form-group col-lg-5 col-sm-12">
                             <label for="typeahead-scrollable">Documento</label>
                             <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
                                 placeholder="Nome do Documento" formControlName="doct" [resultTemplate]="rtDocument"
@@ -152,7 +150,13 @@
                             <input id="search_archive" class="form-control col-12" placeholder="Informe o Índice"
                                 formControlName="search" />
                         </div>
-                        <div class="form-group col-lg-2 col-sm-12">
+                        <div class="form-group col-lg-3 col-sm-12">
+                            <label for="search_archive">Posição</label>
+                            <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição"
+                                formControlName="location" />
+                        </div>
+                        
+                        <!-- <div class="form-group col-lg-2 col-sm-12">
                             <label for="initDate">Data Inicial</label>
                             <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
                                 (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
@@ -161,26 +165,28 @@
                             <label for="endDate">Data Final</label>
                             <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
                                 [disabled]="!dateSent" [min]="dateSent" />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="row col-12 text-center" id="step4">
+                <div class="row col-12 text-center mt-1" id="step4">
                     <div class="form-group ">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <button type="button" style="margin-left: 5px;" [disabled]="company.invalid"
-                            class="btn dark-btn" (click)="clear()">
+                        <button type="button" [disabled]="company.invalid"
+                            class="btn btn-dark" (click)="clear()">
                             Limpar Campos
                         </button>
-                        <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
+                        <button type="submit" style="margin-left: 5px;" class="btn btn-primary" 
+                        [disabled]="company.invalid">
+                            <i class="fa fa-search"></i>
+                            Pesquisar
+                        </button>
+                        <!-- <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
                             class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
-                        </button>
+                        </button> -->
                     </div>
                 </div>
 
-                <ng-template #content let-c="close" let-d="dismiss">
+                <!-- <ng-template #content let-c="close" let-d="dismiss">
                     <div class="modal-header">
                         <h4 class="modal-title" id="modal-basic-title">Solicitação enviada!</h4>
                     </div>
@@ -195,7 +201,7 @@
                         <button type="button" class="btn btn-outline-success"
                             (click)="c()">Confirmar</button>
                     </div>
-                </ng-template>
+                </ng-template> -->
 
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
