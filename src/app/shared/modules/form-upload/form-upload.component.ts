@@ -24,6 +24,7 @@ const MODALS = {
 export class FormUploadComponent implements ControlValueAccessor {
   @Input() archive;
   @Input() savedFile;
+  @Input() height = '100vh';
   progress = true;
   onChange: Function;
   file: File | null = null;

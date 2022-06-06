@@ -17,11 +17,12 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
-import { NgbTypeahead, NgbTypeaheadConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadConfig, NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from '../../../utils/case-insensitive';
 import * as moment from 'moment';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
     selector: 'app-list',
@@ -69,6 +70,10 @@ export class ListComponent implements OnInit {
     fDateIntermediate;
     ColumnMode = ColumnMode;
 
+    modalOptions: NgbModalOptions;
+    data;
+    modalRef: any;
+    closeResult: string;
 
     constructor(
         private archiveSrv: ArquivesService,
@@ -91,6 +96,13 @@ export class ListComponent implements OnInit {
         config.showHint = true;
         config.container = 'body';
         config.focusFirst = false;
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
     }
 
     ngOnInit() {
@@ -253,9 +265,10 @@ export class ListComponent implements OnInit {
     }
 
     showView(value) {
-        if (value.type === 'click') {
-            this._route.navigate(['/archives/get', value.row._id]);
-        }
+        // if (value.type === 'click') {
+            console.log('Saporra: ', value);
+            this._route.navigate(['/archives/get', value._id]);
+        // }
         /* if (value.type === 'click') {
           this._route.navigate(['/archives/get', value.row._id]);
         } else if (value.type === 'mouseenter') {
@@ -539,6 +552,38 @@ export class ListComponent implements OnInit {
 
     help() {
         this.introService.ListArchives();
+    }
+
+    openArchive(value) {
+        // console.log('CLIQUEI, O COELHINHO RETORNOU: ', value);
+        
+        this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+    
+            if (value) {
+                this.data = value;
+                // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                this.modalRef.componentInstance.arch = this.data;
+            }
+
+            this.modalRef.result.then((result) => {
+                console.log('Aqui as ideia: ', result);
+                if (result != "Sair") {
+                    this.getArchive(); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
     }
 }
 

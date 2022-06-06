@@ -1,30 +1,54 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Archive } from 'src/app/models/archive';
+import { routerTransition } from 'src/app/router.animations';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
+import * as moment from 'moment';
+import { PicturesService } from 'src/app/services/pictures/pictures.service';
+import { ArquivesService } from 'src/app/services/archives/archives.service';
 
 @Component({
   selector: 'app-modal-content',
   templateUrl: './modal-content.component.html',
-  styleUrls: ['./modal-content.component.scss']
+  styleUrls: ['./modal-content.component.scss'],
+  animations: [routerTransition()]
 })
 export class ModalContentComponent implements OnInit {
   @Input() public arch;
   id;
 
   loading: Boolean = false;
-  isNew: Boolean = false;
   isEditing: Boolean = false;
   permissionEdit: boolean = false;
   permissionDelete: boolean = false;
-  permissionConfirmEdit: boolean = false;
-  permissionCancelEdit: boolean = false;
+  permissionConfirm: boolean = false;
+  permissionCancel: boolean = false;
   isUsers = false;
+  savedFile = false;
+
+  uploadResponse: any = { status: 'progress', message: 0 };
+  errorUpload: boolean = null;
+  file: any = '';
+  height = 0;
+  pending: Boolean;
+  archiveCreateForm: FormGroup;
+  requestForm: FormGroup;
+  startCurrentDate = false;
+  inputStartCurrentDate = '';
 
   archive: Archive;
+
+  uploadFile = new FormGroup({
+    storehouse: new FormControl(''),
+    volume: new FormControl(''),
+    company: new FormControl(''),
+    archive: new FormControl(''),
+    doct: new FormControl(''),
+    file: new FormControl(null, [Validators.required])
+  });
 
   constructor(
     private fb: FormBuilder,
@@ -33,26 +57,120 @@ export class ModalContentComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private introService: IntroJsService,
     private modalService: NgbModal,
+    private archiveSrv: ArquivesService,
+    private picturesSrv: PicturesService,
   ) { }
 
   // INICIALIZAÇÃO
 
   ngOnInit() {
-    if (this.arch) {
-      this.isNew = false;
+    console.log('TO DENTRO COM ISSO: ', this.arch);
+    this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
+    this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+    this.startCurrentDate = JSON.parse(window.localStorage.getItem('routes'))[0].startcurrentdate;
 
-
-    } else {
-      this.isNew = true;
-    }
+    this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
+    this.id = this.arch._id;
+    this.archiveCreateForm = this.fb.group({
+      create: this.fb.control(''),
+      indexBy: this.fb.control('')
+  });
+  this.requestForm = this.fb.group({
+      requestType: this.fb.control(''),
+      notes: this.fb.control('')
+  });
+    this.getArquive();
   }
 
   // RESOURCES
 
+  beforeChange(data){}
+
+  getArquive() {
+    this.loading = true;
+    this.archiveSrv.archive(this.id).subscribe(data => {
+        this.archive = data;
+        this.pending = data.pending;
+        console.log('Oporcaria: ', data);
+        this.archiveCreateForm.patchValue({
+            create: moment(data.create).format('DD/MM/YYYY hh:mm'),
+            indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
+        });
+        this.file = data.picture;
+        $('.file').css('height', 'auto');
+        this.loading = false;
+    }, error => {
+        $('.file').css('height', this.height - 30);
+        console.log('ERROR: ', error);
+        this.loading = false;
+    });
+  }
+
+  close() {
+    this.activeModal.close('Sair');
+  }
+
+  help() {
+    if (this.isEditing) {
+      this.introService.EditArchives();
+    } else {
+      this.introService.ShowArchives();
+    }
+  }
+
+  setStartCurrentDate(){
+    const data = { startCurrentDate: moment(this.inputStartCurrentDate).format('DD/MM/YYYY') };
+        this.loading = true;
+        this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
+            this.getArquive();
+            this.loading = false;
+        }, error => {
+            this.loading = false;
+            this.errorMsg.errorMessages(error);
+            console.log('ERROR ', error);
+        });
+  }
+
+  returnDateCreate(create) {
+    return moment(create).format('DD/MM/YYYY hh:mm');
+  }
+
+  returnDate(create) {
+      return moment(create).format('DD/MM/YYYY');
+  }
+
+  postFile(data) {
+    this.uploadFile.patchValue({
+        archive: this.archive._id,
+        volume: this.archive.volume._id,
+        company: this.archive.company._id,
+        storehouse: this.archive.storehouse._id,
+        doct: this.archive.doct._id,
+        file: data
+    });
+    this.submit();
+}
+
+//  resizeFile(){
+//   $('.file').css('height', this.height - 30);
+//  }
+
   // EDIT
 
-  editArchive() {
+  startEdit(execution) {
+    this.isEditing = execution;
+    this.permissionConfirm = execution;
+    this.permissionCancel = execution;
+    this.permissionEdit = !execution;
+    this.permissionDelete = !execution;
+  }
 
+  editArchive() {
+    this.startEdit(true);
+  }
+
+  cancelEdit() {
+    this.startEdit(false);
   }
 
   // DELETE
@@ -60,4 +178,43 @@ export class ModalContentComponent implements OnInit {
   open(name, id) {
 
   }
+
+  // FINALIZAÇÃO
+
+  sendRequest(){
+    this.loading = true;
+        this.archiveSrv.sendRequest(this.id ,this.requestForm.value).subscribe(
+            data => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Solicitação cadastrado com sucesso.');
+                this.ngOnInit();
+
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+
+
+  }
+
+  FimRequest(){
+    this.loading = true;
+        this.archiveSrv.finalRequest(this.id).subscribe(
+            data => {
+                this.loading = false;
+                this.successMsgSrv.successMessages('Solicitação Finalizada com sucesso.');
+                this.ngOnInit();
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+  }
+
+  submit(){}
 }
