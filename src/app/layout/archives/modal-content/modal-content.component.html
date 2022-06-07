@@ -18,9 +18,9 @@
                 <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9; margin-left: 15px;" (click)="help()"></i>
             </div>
             <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
-                <span id="call4" aria-hidden="true">&times;</span>
+                <span id="call5" aria-hidden="true">&times;</span>
             </button>
-            <br>
+            <!-- <br> -->
             <div class="col-lg-12" >
                 <h2 id="call1" *ngIf="!isEditing">Dados do Arquivo</h2>
                 <h2 id="call1" *ngIf="isEditing">Editar Arquivo</h2>
@@ -37,7 +37,7 @@
 
     <div class="card-body base-modal-body">
       <div class="row" *ngIf="!loading">
-        <div class="col-lg-5 col-sm-12" id="step2">
+        <div class="tab-component col-lg-5 col-sm-12" id="step2">
 
           <ngb-tabset #tab (tabChange)="beforeChange($event)" >
 
@@ -49,7 +49,7 @@
                     <ng-template ngbPanelContent>
                       <h5 class="m-2">ÍNDICES</h5>
                         <div class="card-body p-1">
-                            <app-form-index [data]="arch" [isArchive]="true"></app-form-index>
+                            <app-form-index [data]="archive" [isArchive]="true" [edit]="isEditing" ></app-form-index>
                         </div>
                     </ng-template>
                   </ngb-panel>
@@ -223,27 +223,28 @@
             </ngb-tab>
 
           </ngb-tabset>
-
-        </div>
-        <br/>
-        <div class="form-group col-lg-7 col-sm-12" id="step4" style="height: 100%;">
-          <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-              <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
-                  [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)" [height]="'100%'">
-              </app-form-upload>
-          </form>
-          <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
-          </app-modal-progress-right-bottom>
-
           <br/>
-          <div class="col-12" id="step6">
-            <div style="font-size: 12px; text-align: right;">
+          <div class="col-12" id="call4">
+            <div style="font-size: 12px; text-align: left;">
                 {{ archive.sponsor.name }}<br />
                 {{ archive.sponsor.cnpj }}<br />
                 Autor: {{ archive.author.email }}<br />
                 Data da criação: {{ returnDateCreate(archive.create) }}
             </div>
         </div>
+
+        </div>
+        <br/>
+        <div class="form-group col-lg-7 col-sm-12" id="call3">
+          <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+              <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
+                  [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)" [height]="pdfHeight">
+              </app-form-upload>
+          </form>
+          <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+          </app-modal-progress-right-bottom>
+
+          
         </div>
 
       </div>

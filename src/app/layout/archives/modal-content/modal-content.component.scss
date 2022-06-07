@@ -22,7 +22,7 @@ h5{
     margin-left: 20px;
 }
 h2 {
-  margin-left: 20px;
+//   margin-left: 20px;
   white-space: normal;
 }
 h6{
@@ -70,31 +70,21 @@ h6{
     background-color: #ff0000;
 }
 
-// $sidebarWidth: 200px;
-// $contentPadding: 20px;
-// $wDiff: $sidebarWidth + $contentPadding * 2;
+.tab-component {
+    height: 70vh; 
+    overflow-y: auto;
 
-// $headerHeight: 64px;
-// $subHeaderHeight: 32px + 16px;
-// $hDiff: $headerHeight + $subHeaderHeight + $contentPadding * 2;
+    @media screen and (max-width: 991px) {
+        height: auto; 
+        overflow-y: hidden;
+        margin-bottom: 20px;
+    }    
+}
 
-// .imagewrapper {
-//     flex: 1;
-//     box-sizing: border-box;
-//     overflow: hidden;
-//     max-width: calc(100vw - #{$wDiff});
-//     min-width: calc(100vw - #{$wDiff});
-//     width: calc(100vw - #{$wDiff});
-//     max-height: calc(80vh - #{$hDiff});
-//     min-height: calc(80vh - #{$hDiff});
-//     height: calc(100vh - #{$hDiff});
 
-//     @media only screen and (max-width: 600px) {
-//         max-width: calc(100vw - #{$contentPadding * 2});
-//         min-width: calc(100vw - #{$contentPadding * 2});
-//         width: calc(100vw - #{$contentPadding * 2});
-//     }
-// }
+.row {
+    margin-left: 0px !important;
+}
 
 @media screen and (max-width: 575px) {
     ::ng-deep .customModal .modal-dialog {

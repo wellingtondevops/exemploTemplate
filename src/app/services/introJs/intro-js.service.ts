@@ -1105,35 +1105,39 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) as informações do Arquivo!</strong></br>Utilize a seta para retornar a página de pesquisa.<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Arquivo.',
+                            '<strong>Bem-vindo(a) as informações do Arquivo!</strong>',
                     },
                     {
-                        element: '#step2',
+                        element: '#call2',
                         intro:
-                            'Informações gerais sobre o Arquivo',
+                            '<br/> <strong>Alterar</strong> para alterar informações ou <strong>Excluir </strong> para deletar o Arquivo.',
                     },
                     {
-                        element: '#step3',
+                        element: '#tab1',
                         intro:
-                            'Para solicitar uma <strong>Alterção </strong> no arquivo, informe o tipo de alteração e solicite, utilizando o botão enviar.(Obeservções não são obrigatórias)',
-                    }
-                    ,
+                            'Aqui você encontra as informações gerais do Arquivo.',
+                    },
                     {
-                        element: '#step4',
+                        element: '#tab2',
+                        intro:
+                            'Alterne de aba para solicitar uma <strong>Alteração </strong> no arquivo, informe o tipo de alteração e solicite, utilizando o botão enviar.(Obeservações não são obrigatórias)',
+                    },
+                    {
+                        element: '#call3',
                         intro:
                             'Prévia do Arquivo',
                     },
                     {
-                        element: '#step5',
-                        intro:
-                            'Informações referentes a temporalidade do arquivo',
-                    },
-                    {
-                        element: '#step6',
+                        element: '#call4',
                         intro:
                             'Informações sobre o  autor do arquivo',
+                    },
+                    {
+                        element: '#call5',
+                        intro:
+                            'Clique no X para voltar à página inicial.',
                     }
                 ]
             })

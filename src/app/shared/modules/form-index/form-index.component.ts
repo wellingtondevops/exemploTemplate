@@ -18,6 +18,7 @@ export class FormIndexComponent {
     @Input() store: any;
     @Input() isArchive: Boolean = false;
     @Input() edit: Boolean = false;
+    @Input() canSave: Boolean = true;
     @Input() multipleIndex: Boolean = false;
     @Output() sendArchive = new EventEmitter();
     firstMoment: Boolean = false;

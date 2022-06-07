@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Archive } from 'src/app/models/archive';
@@ -9,6 +9,11 @@ import { SuccessMessagesService } from 'src/app/utils/success-messages/success-m
 import * as moment from 'moment';
 import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+
+const MODALS = {
+  focusFirst: NgbdModalConfirmComponent
+};
 
 @Component({
   selector: 'app-modal-content',
@@ -16,7 +21,7 @@ import { ArquivesService } from 'src/app/services/archives/archives.service';
   styleUrls: ['./modal-content.component.scss'],
   animations: [routerTransition()]
 })
-export class ModalContentComponent implements OnInit {
+export class ModalContentComponent implements OnInit{
   @Input() public arch;
   id;
 
@@ -28,6 +33,7 @@ export class ModalContentComponent implements OnInit {
   permissionCancel: boolean = false;
   isUsers = false;
   savedFile = false;
+  pdfHeight = '100vh;'
 
   uploadResponse: any = { status: 'progress', message: 0 };
   errorUpload: boolean = null;
@@ -64,7 +70,10 @@ export class ModalContentComponent implements OnInit {
   // INICIALIZAÇÃO
 
   ngOnInit() {
-    console.log('TO DENTRO COM ISSO: ', this.arch);
+    this.pdfHeight = ($(window).width() > 991) ? '70vh' : '65vh';
+    console.log('AQUI TELA: ', $(window).width());
+    console.log('AQUI Pdf HEIGHT: ', this.pdfHeight);
+    // console.log('TO DENTRO COM ISSO: ', this.arch);
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     this.startCurrentDate = JSON.parse(window.localStorage.getItem('routes'))[0].startcurrentdate;
@@ -91,7 +100,6 @@ export class ModalContentComponent implements OnInit {
     this.archiveSrv.archive(this.id).subscribe(data => {
         this.archive = data;
         this.pending = data.pending;
-        console.log('Oporcaria: ', data);
         this.archiveCreateForm.patchValue({
             create: moment(data.create).format('DD/MM/YYYY hh:mm'),
             indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
@@ -176,7 +184,31 @@ export class ModalContentComponent implements OnInit {
   // DELETE
 
   open(name, id) {
+    const modalRef = this.modalService.open(MODALS[name], {
+      keyboard: false, backdrop: 'static', windowClass: 'modal-style',
+    });
+    modalRef.componentInstance.item = id;
+    modalRef.componentInstance.data = {
+        titleModal: 'Deletar Arquivo',
+        msgConfirmDelete: 'Arquivo foi deletada com sucesso.',
+        msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o arquivo?',
+        msgQuestionDeleteTwo: 'Todas as informações associadas ao arquivo serão deletadas.'
+    };
+    modalRef.componentInstance.delete.subscribe(item => {
+        this.delete(item);
+    });
+  }
 
+  delete(file) {
+    this.archiveSrv.delete(this.id, this.archive).subscribe(res => {
+        this.successMsgSrv.successMessages('Arquivo deletado com sucesso.');
+        this.file = null;
+        this.archive = null;
+        this.activeModal.close('Delete');
+    }, error => {
+        console.log(error);
+        this.errorMsg.errorMessages(error);
+    });
   }
 
   // FINALIZAÇÃO
