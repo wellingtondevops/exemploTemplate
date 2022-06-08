@@ -15,7 +15,7 @@
     <div class="card-header base-modal-header flex">
         <div class="row" *ngIf="!loading">
             <div class="col text-left">
-                <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9; margin-left: 15px;" (click)="help()"></i>
+                <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
             </div>
             <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
                 <span id="call5" aria-hidden="true">&times;</span>
@@ -49,7 +49,7 @@
                     <ng-template ngbPanelContent>
                       <h5 class="m-2">ÍNDICES</h5>
                         <div class="card-body p-1">
-                            <app-form-index [data]="archive" [isArchive]="true" [edit]="isEditing" ></app-form-index>
+                            <app-form-index #myComponent [data]="archive" [isArchive]="true" [edit]="isEditing" ></app-form-index>
                         </div>
                     </ng-template>
                   </ngb-panel>
@@ -89,55 +89,60 @@
 
                       <ul>
                         <li class="mb-1">
-                          <strong class="m-0">Corrente: </strong>
-                          <a *ngIf="startCurrentDate && !archive.doct.currentControl && archive.startDateCurrent == undefined">
-                            Fase Corrente não Controlada
-                          </a>
-                          <a *ngIf="archive && archive.startDateCurrent === undefined">
+                          <strong *ngIf="archive?.startDateCurrent"
+                          class="m-0">Início da Fase Corrente: </strong>
+                          <strong *ngIf="!archive?.startDateCurrent && archive.doct.currentControl === false"
+                          class="m-0">Fase Corrente: </strong>
+
+                          <a *ngIf="startCurrentDate && archive?.doct.currentControl === false
+                             && !archive?.startDateCurrent">Não Controlada</a>
+
+                          <a *ngIf="!archive?.startDateCurrent">
                             {{ archive.doct.dcurrentLabel }}
                           </a>
-                          <a *ngIf="archive && archive.startDateCurrent != undefined">
-                            Início:
+
+                          <a *ngIf="archive?.startDateCurrent">
                             {{ returnDate(archive.startDateCurrent) }}
                           </a>
-                          <a *ngIf="archive && archive.finalDateCurrent">
-                            Fim:
+                        </li>
+
+                        <li class="mb-1">
+                          <strong *ngIf="archive?.startDateCurrent" 
+                          class="m-0">Início da Fase Intermediária: </strong>
+                          <strong *ngIf="!archive?.startDateCurrent" 
+                          class="m-0">Intermediária: </strong>
+
+                          <a *ngIf="!archive?.startDateCurrent">
+                            {{ archive.doct.dintermediateValue }} Anos
+                          </a>
+
+                          <a *ngIf="archive?.startDateIntermediate">
+                            {{ returnDate(archive.startDateIntermediate) }}
+                          </a>
+
+                          <a *ngIf="!archive?.startDateIntermediate && archive?.startDateCurrent">
                             {{ returnDate(archive.finalDateCurrent) }}
                           </a>
                         </li>
 
                         <li class="mb-1">
-                          <strong class="m-0">Intermediária: </strong>
-                          <a *ngIf="archive && archive.startDateCurrent === undefined">
-                            {{ archive.doct.dintermediateValue }} Anos
+                          <strong class="m-0">Destinação Final: </strong>
+                          <a *ngIf="archive?.finalFase">
+                            {{ archive.finalFase }}
                           </a>
-                          <a *ngIf="archive && archive.startDateIntermediate">
-                            Início:
-                            {{ returnDate(archive.startDateIntermediate) }}
-                          </a>
-                          <a *ngIf="archive && archive.finalDateIntermediate">
-                            Fim:
-                            {{ returnDate(archive.finalDateIntermediate) }}
+                          <a *ngIf="!archive?.startDateCurrent">
+                            {{ archive.doct.dfinal }}
                           </a>
                         </li>
 
-                        <li class="mb-1">
-                          <strong class="m-0">Destinação Final: </strong>
-                          <a *ngIf="archive && archive.finalFase">
-                            {{ archive.finalFase }}
-                          </a>
-                          <a *ngIf="archive && archive.startDateCurrent === undefined">
-                            {{ archive.doct.dfinal }}
-                          </a>
-                          <a *ngIf="archive && archive.finalDateIntermediate">
-                            <strong class="m-0">Início:</strong>
-                            {{ returnDate(archive.finalDateIntermediate) }}
-                          </a>
+                        <li *ngIf="archive?.finalDateIntermediate" class="mb-1">
+                          <strong class="m-0">Início da Destinação Final: </strong>
+                          <a>{{ returnDate(archive.finalDateIntermediate) }}</a>
                         </li>
                       </ul>
 
                       <hr class="m-1">
-                        <div class="dataBtn" *ngIf="startCurrentDate && archive.doct.currentControl === true">
+                        <div class="dataBtn" *ngIf="startCurrentDate && archive?.doct.currentControl === true">
                           <h6>Ajuste de Temporalidade </h6>
                           <input type="date" class="form-control" [(ngModel)]="inputStartCurrentDate" />
                           <button *ngIf="archive && archive.doct.currentControl === true"

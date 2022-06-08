@@ -23,14 +23,16 @@
                 <div id="step2">
                     <div class="row">
                         <div class="form-group col-lg-6 col-md-12">
-                            <label for="typeahead-basic">Empresa</label>
-                            <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)"
-                                type="text" placeholder="Nome da Empresa" class="form-control" formControlName="company"
-                                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                                [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%"
+                            <label for="typeahead-focus">Empresa</label>
+                            <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                                formControlName="company" (selectItem)="selectedCompany($event)"
+                                placeholder="Nome da Empresa" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                                [ngbTypeahead]="searchCompany" style="width: 100%"
+                                [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
                                 #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
                                 (click)="clickCompany$.next($any($event).target.value)" />
-                            <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="company.invalid && (company.dirty || company.touched )"
+                                class="invalid-feedback">
                                 <div *ngIf="!company.valid">
                                     Empresa é obrigatório.
                                 </div>

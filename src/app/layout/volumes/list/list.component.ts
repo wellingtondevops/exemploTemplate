@@ -302,7 +302,7 @@ export class ListComponent implements OnInit {
 
         const searchValue = _.omitBy(newForm, _.isNil);
 
-        this.volumeSrv.searchVolumes(searchValue, this.page).subscribe(
+        this.volumeSrv.searchVolumes(searchValue, this.page, null).subscribe(
             data => {
                 console.log('Aqui, viu? ', data);
                 this.volumes = data;

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Archive } from 'src/app/models/archive';
@@ -21,7 +21,9 @@ const MODALS = {
   styleUrls: ['./modal-content.component.scss'],
   animations: [routerTransition()]
 })
-export class ModalContentComponent implements OnInit{
+export class ModalContentComponent implements OnInit, AfterViewInit{
+  @ViewChild('myComponent') myComponent: ElementRef;
+  
   @Input() public arch;
   id;
 
@@ -34,6 +36,7 @@ export class ModalContentComponent implements OnInit{
   isUsers = false;
   savedFile = false;
   pdfHeight = '100vh;'
+  
 
   uploadResponse: any = { status: 'progress', message: 0 };
   errorUpload: boolean = null;
@@ -71,9 +74,8 @@ export class ModalContentComponent implements OnInit{
 
   ngOnInit() {
     this.pdfHeight = ($(window).width() > 991) ? '70vh' : '65vh';
-    console.log('AQUI TELA: ', $(window).width());
-    console.log('AQUI Pdf HEIGHT: ', this.pdfHeight);
-    // console.log('TO DENTRO COM ISSO: ', this.arch);
+
+    console.log('TO DENTRO COM ISSO: ', this.arch);
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     this.startCurrentDate = JSON.parse(window.localStorage.getItem('routes'))[0].startcurrentdate;
@@ -89,6 +91,10 @@ export class ModalContentComponent implements OnInit{
       notes: this.fb.control('')
   });
     this.getArquive();
+  }
+
+  ngAfterViewInit(): void {
+    console.log('O COMPONENTE: ', this.myComponent);
   }
 
   // RESOURCES
@@ -127,7 +133,7 @@ export class ModalContentComponent implements OnInit{
   }
 
   setStartCurrentDate(){
-    const data = { startCurrentDate: moment(this.inputStartCurrentDate).format('DD/MM/YYYY') };
+    const data = { startCurrentDate: moment(this.inputStartCurrentDate).utc().format('DD/MM/YYYY') };
         this.loading = true;
         this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
             this.getArquive();
@@ -140,11 +146,11 @@ export class ModalContentComponent implements OnInit{
   }
 
   returnDateCreate(create) {
-    return moment(create).format('DD/MM/YYYY hh:mm');
+    return moment(create).utc().format('DD/MM/YYYY hh:mm');
   }
 
   returnDate(create) {
-      return moment(create).format('DD/MM/YYYY');
+      return moment(create).utc().format('DD/MM/YYYY');
   }
 
   postFile(data) {

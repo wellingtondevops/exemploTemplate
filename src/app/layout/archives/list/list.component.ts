@@ -139,7 +139,7 @@ export class ListComponent implements OnInit {
                 finalCurrent: archive.finalCurrent,
                 finalIntermediate: archive.finalIntermediate,
             });
-            this.selectedCompany(archive.company._id);
+            this.getDepartaments(archive.company._id);
         }
 
         this.statusList = StatusVolumeEnum;
