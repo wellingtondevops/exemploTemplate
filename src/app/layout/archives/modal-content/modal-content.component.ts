@@ -21,8 +21,7 @@ const MODALS = {
   styleUrls: ['./modal-content.component.scss'],
   animations: [routerTransition()]
 })
-export class ModalContentComponent implements OnInit, AfterViewInit{
-  @ViewChild('myComponent') myComponent: ElementRef;
+export class ModalContentComponent implements OnInit, AfterViewInit {
   
   @Input() public arch;
   id;
@@ -75,7 +74,6 @@ export class ModalContentComponent implements OnInit, AfterViewInit{
   ngOnInit() {
     this.pdfHeight = ($(window).width() > 991) ? '70vh' : '65vh';
 
-    console.log('TO DENTRO COM ISSO: ', this.arch);
     this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
     this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     this.startCurrentDate = JSON.parse(window.localStorage.getItem('routes'))[0].startcurrentdate;
@@ -94,7 +92,6 @@ export class ModalContentComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    console.log('O COMPONENTE: ', this.myComponent);
   }
 
   // RESOURCES
@@ -177,6 +174,8 @@ export class ModalContentComponent implements OnInit, AfterViewInit{
     this.permissionCancel = execution;
     this.permissionEdit = !execution;
     this.permissionDelete = !execution;
+
+    return this.isEditing;
   }
 
   editArchive() {

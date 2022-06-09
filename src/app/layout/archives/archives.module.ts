@@ -19,9 +19,10 @@ import { AuditComponent } from './audit/audit.component';
 import { AuditShowComponent } from './audit-show/audit-show.component';
 import { ModalContentComponent } from './modal-content/modal-content.component';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { ModalFilterComponent } from './modal-filter/modal-filter.component';
 
 @NgModule({
-  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent, AuditComponent, AuditShowComponent, ModalContentComponent],
+  declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent, AuditComponent, AuditShowComponent, ModalContentComponent, ModalFilterComponent],
   imports: [
     NgbModule,
     CommonModule,
@@ -39,6 +40,6 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
     NgbdModalConfirmModule,
   ],
   providers: [CaseInsensitive],
-  entryComponents: [ModalContentComponent, NgbdModalConfirmComponent]
+  entryComponents: [ModalContentComponent, NgbdModalConfirmComponent, ModalFilterComponent]
 })
 export class ArchivesModule { }

@@ -23,6 +23,7 @@ import { CaseInsensitive } from '../../../utils/case-insensitive';
 import * as moment from 'moment';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { ModalContentComponent } from '../modal-content/modal-content.component';
+import { ModalFilterComponent } from '../modal-filter/modal-filter.component';
 
 @Component({
     selector: 'app-list',
@@ -70,6 +71,8 @@ export class ListComponent implements OnInit {
     fDateIntermediate;
     ColumnMode = ColumnMode;
 
+    filterCount;
+
     modalOptions: NgbModalOptions;
     data;
     modalRef: any;
@@ -106,6 +109,8 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
+        // this.filterCount = this.searchForm.value.
+
         // this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
@@ -123,6 +128,8 @@ export class ListComponent implements OnInit {
         });
 
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
+
+        this.filterCounter(archive);
 
         if (archive && archive.company) {
             this.searchForm.patchValue({
@@ -149,6 +156,12 @@ export class ListComponent implements OnInit {
         this.getStoreHouses();
         this.searchForm.patchValue({ endDate: null });
         this.checkValue();
+    }
+
+    filterCounter(archive) {
+        this.filterCount = 0;
+        
+        
     }
 
     NoExternal() {
@@ -191,6 +204,25 @@ export class ListComponent implements OnInit {
         return result;
     }
 
+    openFilter(){
+        console.log('APERTEI FILTRO: ', JSON.parse(this.localStorageSrv.get('archive')));
+
+        this.modalRef = this.modalService.open(ModalFilterComponent, this.modalOptions);
+    
+        this.modalRef.componentInstance.form = JSON.parse(this.localStorageSrv.get('archive'));;
+
+
+            this.modalRef.result.then((result) => {
+                console.log('Aqui as ideia: ', result);
+                if (result != "Sair") {
+                    this.getArchive(); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+    }
+
     checkValue() {
         this.currentValue = this.fCurrent.value;
         this.indeterminateValue = this.fIntermediate.value;
@@ -200,7 +232,7 @@ export class ListComponent implements OnInit {
         }
     }
 
-    setPage(pageInfo) {
+     setPage(pageInfo) {
         this.checkValue();
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
