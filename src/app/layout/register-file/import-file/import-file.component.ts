@@ -97,7 +97,8 @@ export class ImportFileComponent implements OnInit {
             company: this.fb.control('', [Validators.required]),
             storehouse: this.fb.control('', [Validators.required]),
             doct: this.fb.control('', [Validators.required]),
-            departament: this.fb.control('', [Validators.required])
+            departament: this.fb.control('', [Validators.required]),
+            retroDate: this.fb.control(false)
         });
     }
 
@@ -116,6 +117,9 @@ export class ImportFileComponent implements OnInit {
     }
     get doct() {
         return this.importFileForm.get('doct');
+    }
+    get retroDate() {
+        return this.importFileForm.get('retroDate');
     }
 
     formatter = (x: { name: string }) => x.name;
@@ -337,20 +341,23 @@ export class ImportFileComponent implements OnInit {
         let storehouse = this.returnId('storehouse');
         let departament = this.returnId('departament');
         let doct = this.returnId('doct');
+        let retroDate = this.importFileForm.get('retroDate').value;
 
-        this.submit(company, storehouse, departament, doct);
+        console.log('RETROATIVA: ', retroDate);
+        this.submit(company, storehouse, departament, doct, retroDate);
     }
 
-    submit(company, storehouse, departament, doct) {
+    submit(company, storehouse, departament, doct, retroDate) {
         // this.loading = true;
+        console.log(company, storehouse, departament, doct, retroDate)
         const formData = new FormData();
         formData.append('file', this.file);
         formData.append('company', company);
         formData.append('storehouse', storehouse);
         formData.append('departament', departament);
         formData.append('doct', doct);
+        formData.append('retroDate', retroDate);
 
-        console.log(formData);
         this.archivesSrv.import(formData).subscribe(data => {
             console.log(data);
             if (data.status && data.status === 'progress') {
