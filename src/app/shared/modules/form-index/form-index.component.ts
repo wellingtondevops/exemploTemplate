@@ -31,6 +31,8 @@ export class FormIndexComponent {
     constructor() {
     }
     ngOnInit(){
+        console.log('ESTOU EM WONDERLAND');
+        
         if (this.store && this.document.label) {
             this.model = this.objectModel(this.document.label, this.store);
             this.fields = this.arrayLabelForm(this.document.label, this.store);
