@@ -209,7 +209,7 @@ export class ListComponent implements OnInit {
 
         this.modalRef = this.modalService.open(ModalFilterComponent, this.modalOptions);
     
-        this.modalRef.componentInstance.form = JSON.parse(this.localStorageSrv.get('archive'));;
+        this.modalRef.componentInstance.form = this.searchForm.value;
 
 
             this.modalRef.result.then((result) => {
@@ -353,6 +353,12 @@ export class ListComponent implements OnInit {
     }
 
     selectedCompany(e) {
+        this.searchForm.patchValue({
+            departament: null,
+            storehouse: null,
+            doct: null,
+        });
+        console.log('STORAGE: ', JSON.parse(this.localStorageSrv.get('archive')));
         if (e && e.item && e.item._id) {
             this.getDocuments(e.item._id);
             this.getDepartaments(e.item._id);

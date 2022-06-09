@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { routerTransition } from 'src/app/router.animations';
 
@@ -17,9 +17,18 @@ export class ModalFilterComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.searchForm = this.fb.group({
+      status: this.fb.control(''),
+      endDate: this.fb.control(null),
+      initDate: this.fb.control(null),
+      finalCurrent: this.fb.control(null),
+      final: this.fb.control(null),
+      finalIntermediate: this.fb.control(null),
+  });
   }
 
   close(){
