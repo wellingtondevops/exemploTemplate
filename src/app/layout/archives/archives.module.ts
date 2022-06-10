@@ -20,6 +20,7 @@ import { AuditShowComponent } from './audit-show/audit-show.component';
 import { ModalContentComponent } from './modal-content/modal-content.component';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { ModalFilterComponent } from './modal-filter/modal-filter.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [ListComponent, ShowComponent, EnumToArrayPipe, EditComponent, SimpleListComponent, SimpleShowComponent, AuditComponent, AuditShowComponent, ModalContentComponent, ModalFilterComponent],
@@ -38,6 +39,7 @@ import { ModalFilterComponent } from './modal-filter/modal-filter.component';
     ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({}),
     NgbdModalConfirmModule,
+    NgMultiSelectDropDownModule
   ],
   providers: [CaseInsensitive],
   entryComponents: [ModalContentComponent, NgbdModalConfirmComponent, ModalFilterComponent]

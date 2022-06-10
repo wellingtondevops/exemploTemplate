@@ -27,61 +27,35 @@
       </div>  
     </div>
 
-    <div class="card-body base-modal-body">
-        <div class="row" *ngIf="!loading">
-            <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
-                <div class="row ml-1 mt-1 mb-1 form-check-inline">
-                    <div class="col-lg-1 pr-0">
+    <div class="card-body base-modal-body " >
+        <form class="row" [formGroup]="searchForm" style="flex-direction: row;">
+            <div class="col-md-6 col-sm-12" >
+                <div class="col-lg-6">
                     <label>Status:</label>
-                    </div>
-                    <div class="col-lg-2 col-sm-auto p-0">
-                    <div class="form-check m-0 p-0">
-                        <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="checkbox" name="status" formControlName="status"
-                                value="ATIVO" id="status" checked>
-                            <div class="state">
-                                <label class="form-check-label" for="status">
-                                    ARQUIVO
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
-
-                
-                <div class="col-lg-2 col-sm-auto p-0">
-                    <div class="form-check m-0 p-0">
-                        <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="checkbox" name="status" formControlName="status"
-                                value="BAIXADO" id="statusB">
-                            <div class="state">
-                                <label class="form-check-label" for="statusB">
-                                    BAIXADO
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                <ng-multiselect-dropdown
+                    [placeholder]="'Selecione os Status'"
+                    [settings]="dropdownSettings"
+                    [data]="statusList"
+                    (onSelect)="onItemSelectStatus($event)"
+                    (onSelectAll)="onSelectAllStatus($event)"
+                    >
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="col-lg-6">
+                    <label>Fase:</label>
                 </div>
-                <div class="col-lg-2 col-sm-auto p-0">
-                    <div class="form-check m-0 p-0 mr-3">
-                        <div class="pretty p-switch p-fill">
-                            <input class="form-check-input" type="checkbox" name="status" formControlName="status"
-                                value="EMPRESTADO" id="statusE">
-                            <div class="state">
-                                <label class="form-check-label" for="statusE">
-                                    EMPRESTADO
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                
-                
-                </div>
-            </form>
-        </div>
+                <ng-multiselect-dropdown
+                    [placeholder]="'Selecione as Fases'"
+                    [settings]="dropdownSettings"
+                    [data]="faseList"
+                    (onSelect)="onItemSelectFase($event)"
+                    (onSelectAll)="onSelectAllFase($event)"
+                    >
+                </ng-multiselect-dropdown>
+            </div>
+        </form>
     </div>
 
   </div>
