@@ -51,7 +51,7 @@ h6{
 //     align-items: space-between;
 // }
 
-::ng-deep .customModal .modal-dialog {
+::ng-deep .filterModal .modal-dialog {
     vertical-align: middle;
     max-width: 70%;
     width: 70%;
@@ -59,11 +59,11 @@ h6{
     min-height: 80vh;
 }
 
-::ng-deep .customModal .modal-footer:not(:last-child):not(:first-child) {
+::ng-deep .filterModal .modal-footer:not(:last-child):not(:first-child) {
     margin-right: 0.25rem;
 }
 
-::ng-deep .customModal .modal-content {
+::ng-deep .filterModal .modal-content {
     margin-top: 10%;
 }
 
@@ -72,7 +72,7 @@ h6{
 }
 
 @media screen and (max-width: 1040px) {
-    ::ng-deep .customModal .modal-dialog {
+    ::ng-deep .filterModal .modal-dialog {
         max-width: 90%;
         width: 90%;
         padding: 30px 40px 30px 30px;
@@ -81,7 +81,7 @@ h6{
 }
 
 @media screen and (max-width: 575px) {
-    ::ng-deep .customModal .modal-dialog {
+    ::ng-deep .filterModal .modal-dialog {
         max-width: 100%;
         width: 100%;
         padding: 30px 40px 30px 30px;

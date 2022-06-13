@@ -88,17 +88,18 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
       requestType: this.fb.control(''),
       notes: this.fb.control('')
   });
-    this.getArquive();
+    this.getArchive();
   }
 
   ngAfterViewInit(): void {
+    console.log('TAMO ENTRANDO AQUI')
   }
 
   // RESOURCES
 
   beforeChange(data){}
 
-  getArquive() {
+  getArchive() {
     this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
         this.archive = data;
@@ -133,7 +134,7 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
     const data = { startCurrentDate: moment(this.inputStartCurrentDate).utc().format('DD/MM/YYYY') };
         this.loading = true;
         this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
-            this.getArquive();
+            this.getArchive();
             this.loading = false;
         }, error => {
             this.loading = false;
@@ -180,6 +181,7 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
 
   editArchive() {
     this.startEdit(true);
+    this.getArchive();
   }
 
   cancelEdit() {

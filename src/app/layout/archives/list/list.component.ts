@@ -74,6 +74,7 @@ export class ListComponent implements OnInit {
     filterCount;
 
     modalOptions: NgbModalOptions;
+    modalFilterOptions: NgbModalOptions;
     data;
     modalRef: any;
     closeResult: string;
@@ -106,11 +107,16 @@ export class ListComponent implements OnInit {
             keyboard: false,
             windowClass: 'customModal',
         };
+
+        this.modalFilterOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'filterModal',
+        };
     }
 
     ngOnInit() {
-        console.log('Trazes: ', JSON.parse(this.localStorageSrv.get('archive')));
-
         // this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
@@ -144,12 +150,21 @@ export class ListComponent implements OnInit {
         this.filterCount = 0;
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
         
-        if (archive.status.length > 0) {
-            this.filterCount++;
-        }
-        if (archive.fases.length > 0) {
-            this.filterCount++;
-        }
+        console.log('TESTANDO STATUS: ', archive);
+        
+        // if (archive.status) {
+        //     console.log()
+        //     // if (archive.status.length > 0) {
+        //     //     this.filterCount++;
+        //     // }
+        // }
+        
+        // if (archive.fases) {
+        //     if (archive.fases.length > 0) {
+        //         this.filterCount++;
+        //     }
+        // }
+        
         if (archive.initDate && archive.initDate != undefined) {
             this.filterCount++;
         }
@@ -222,13 +237,12 @@ export class ListComponent implements OnInit {
     }
 
     openFilter(){
-        this.modalRef = this.modalService.open(ModalFilterComponent, this.modalOptions);
+        this.modalRef = this.modalService.open(ModalFilterComponent, this.modalFilterOptions);
     
         this.modalRef.componentInstance.form = this.searchForm.value;
 
 
             this.modalRef.result.then((result) => {
-                console.log('Aqui as ideia: ', result);
                 if (result != "Sair") {
                     this.setForm();
                     this.filterCounter();
@@ -293,7 +307,6 @@ export class ListComponent implements OnInit {
         const searchValue = _.omitBy(newSearch, _.isNil);
 
         this.archiveSrv.archives(searchValue, this.page, null).subscribe(data => {
-            console.log('TESTE DE ARQUIVO: ', data);
             this.page.pageNumber = data._links.currentPage - 1;
             this.page.totalElements = data._links.foundItems;
             this.page.size = data._links.totalPage;
@@ -317,7 +330,6 @@ export class ListComponent implements OnInit {
 
     showView(value) {
         // if (value.type === 'click') {
-            console.log('Saporra: ', value);
             this._route.navigate(['/archives/get', value._id]);
         // }
         /* if (value.type === 'click') {
@@ -622,7 +634,6 @@ export class ListComponent implements OnInit {
             }
 
             this.modalRef.result.then((result) => {
-                console.log('Aqui as ideia: ', result);
                 if (result != "Sair") {
                     this.getArchive(); 
                 };

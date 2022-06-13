@@ -69,13 +69,13 @@
                         <form [formGroup]="requestForm">
                             <div class="card-body p-1">
                                 <div class="row">
-                                    <div class="col-lg-12 text-center" *ngIf="pending === true">
+                                    <div class="col-lg-12 text-center" *ngIf="pending">
                                         <button class="btn text-center btn-outline-danger"
                                             (click)="FimRequest()">
                                             Finalizar
                                         </button>
                                     </div>
-                                    <div class="col-lg-12 form-check" *ngIf="pending === false">
+                                    <div class="col-lg-12 form-check" *ngIf="!pending">
                                         <label class="ml-3 mb-0 mr-2" for="requestType">Solicitar Correções: </label>
                                         <div class="pretty p-switch p-fill">
                                             <input class="form-check-input" type="radio" name="requestType"
@@ -109,7 +109,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="pending == false">
+                                <div class="row" *ngIf="!pending">
                                     <div class="col-lg-10 pl-4">
                                         <div class="form-floating">
                                             <textarea class="form-control" name="notes"
@@ -159,7 +159,7 @@
                                         Início:
                                         {{ returnDate(archive.startDateCurrent) }}
                                     </a>
-                                    <a *ngIf="archive && archive.finalDateCurrent === true">
+                                    <a *ngIf="archive && archive?.finalDateCurrent">
                                         Fim:
                                         {{ returnDate(archive.finalDateCurrent) }}
                                     </a>

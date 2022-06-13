@@ -159,17 +159,25 @@ export class ModalFilterComponent implements OnInit {
   }
 
   submit(){
-    const current = this.selectedItemsF.findIndex(element => element.value === 'finalCurrent');
-    const intermediate = this.selectedItemsF.findIndex(element => element.value === 'finalIntermediate');
+    var current;
+    var intermediate;
+    var statusArquivo;
 
-    const statusArquivo = this.selectedItemsS.findIndex(element => element == 'ARQUIVO');
+    if (this.selectedItemsF) {
+      current = this.selectedItemsF.findIndex(element => element.value === 'finalCurrent');
+      intermediate = this.selectedItemsF.findIndex(element => element.value === 'finalIntermediate');
+    }
+    
+    if (this.selectedItemsS) {
+      statusArquivo = this.selectedItemsS.findIndex(element => element == 'ARQUIVO');
+    }
 
     if (statusArquivo >= 0) {
       this.selectedItemsS[statusArquivo] = 'ATIVO'; 
       console.log(this.selectedItemsS);
     }
 
-    const teste = this.searchForm.patchValue({
+    this.searchForm.patchValue({
       status: this.selectedItemsS,
       finalCurrent: current >= 0 ? true : false,
       finalIntermediate: intermediate >= 0 ? true : false,
