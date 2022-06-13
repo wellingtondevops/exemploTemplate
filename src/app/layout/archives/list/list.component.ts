@@ -109,7 +109,7 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.filterCount = this.searchForm.value.
+        console.log('Trazes: ', JSON.parse(this.localStorageSrv.get('archive')));
 
         // this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
@@ -125,9 +125,11 @@ export class ListComponent implements OnInit {
             finalCurrent: this.fb.control(null),
             final: this.fb.control(null),
             finalIntermediate: this.fb.control(null),
+            fases: this.fb.control(null),
         });
 
         this.setForm();
+        this.filterCounter();
 
         this.statusList = StatusVolumeEnum;
         this.getArchive();
@@ -138,9 +140,22 @@ export class ListComponent implements OnInit {
         this.checkValue();
     }
 
-    filterCounter(archive) {
+    filterCounter() {
         this.filterCount = 0;
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
         
+        if (archive.status.length > 0) {
+            this.filterCount++;
+        }
+        if (archive.fases.length > 0) {
+            this.filterCount++;
+        }
+        if (archive.initDate && archive.initDate != undefined) {
+            this.filterCount++;
+        }
+        if (archive.endDate && archive.endDate != undefined) {
+            this.filterCount++;
+        }
         
     }
 
@@ -200,6 +215,7 @@ export class ListComponent implements OnInit {
                     final: archive.final,
                     finalCurrent: archive.finalCurrent,
                     finalIntermediate: archive.finalIntermediate,
+                    fases: archive.fases
                 });
                 this.getDepartaments(archive.company._id);
             }
@@ -215,6 +231,7 @@ export class ListComponent implements OnInit {
                 console.log('Aqui as ideia: ', result);
                 if (result != "Sair") {
                     this.setForm();
+                    this.filterCounter();
                     this.setPage({ offset: 0 }); 
                 };
                 this.closeResult = `Closed with: ${result}`;
@@ -252,6 +269,7 @@ export class ListComponent implements OnInit {
             final: null,
             finalCurrent: null,
             finalIntermediate: null,
+            fases: null
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -260,6 +278,7 @@ export class ListComponent implements OnInit {
         this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
         newSearch.location = this.searchForm.value.location;
         newSearch.status = this.searchForm.value.status;
+        // newSearch.fases = this.searchForm.value.fases;
         newSearch.search = this.searchForm.value.search;
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
@@ -326,18 +345,16 @@ export class ListComponent implements OnInit {
     }
 
     clear() {
-        this.localStorageSrv.clear('archive');
         this.searchForm.patchValue({
             company: null,
             departament: null,
-            status: [],
             location: null,
             storehouse: null,
             doct: null,
             search: null,
-            endDate: null,
-            initDate: null
         });
+        this.localStorageSrv.save('archive', this.searchForm.value);
+        console.log('AQUI JAZ MINHA SANIDADE: ', JSON.parse(this.localStorageSrv.get('archive')));
     }
 
     getCompanies() {

@@ -45,6 +45,9 @@ export class ModalFilterComponent implements OnInit {
 
   ngOnInit() {
     console.log('COELHINHO DA PASCOA, OQ TRAZES PRA MIM? ', this.form);
+    const archive = JSON.parse(this.localStorageSrv.get('archive'));
+
+    this.dateSent = archive.initDate ? archive.initDate : this.dateSent;
 
     this.searchForm = this.fb.group({
       company: this.fb.control(this.form.company, Validators.required),
@@ -62,9 +65,19 @@ export class ModalFilterComponent implements OnInit {
       fases: this.fb.control(null)
     });
 
-    const archive = JSON.parse(this.localStorageSrv.get('archive'));
+    
 
     if (archive && archive.company) {
+      this.selectedItemsF = archive.fases;
+      this.selectedItemsS = archive.status;
+
+      const statusArquivo = this.selectedItemsS.findIndex(element => element == 'ATIVO');
+
+      if (statusArquivo >= 0) {
+        this.selectedItemsS[statusArquivo] = 'ARQUIVO'; 
+        console.log(this.selectedItemsS);
+      }
+
       this.searchForm.patchValue({
         status: archive.status,
         endDate: archive.endDate,
@@ -74,8 +87,7 @@ export class ModalFilterComponent implements OnInit {
         finalIntermediate: archive.finalIntermediate,
       });
 
-      this.selectedItemsF = archive.fases;
-      this.selectedItemsS = archive.status;
+      
     }
 
     this.dropdownSettings = {
@@ -93,20 +105,36 @@ export class ModalFilterComponent implements OnInit {
     this.activeModal.close('Sair');
   }
 
+  clear() {
+        this.searchForm.patchValue({
+            status: [],
+            endDate: null,
+            initDate: null,
+            fases: null,
+            final: null,
+            finalIntermediate: null,
+            finalCurrent: null
+        });
+        this.localStorageSrv.save('archive', this.searchForm.value);
+        this.changeDate();
+
+        this.selectedItemsF = [];
+        this.selectedItemsS = [];
+        console.log('ARQUIVITOS: ', JSON.parse(this.localStorageSrv.get('archive')));
+    }
+
   help(){
     console.log('HELP!')
   }
 
   changeDate() {
     const initialDate = this.searchForm.get('initDate').value;
-    this.dateSent =
-        new Date(initialDate).toISOString().slice(0, 10);
-
     
     if (initialDate) {
-      console.log(initialDate);
+      this.dateSent = new Date(initialDate).toISOString().slice(0, 10);
       this.searchForm.controls['endDate'].enable();
     } else {
+      this.searchForm.get('endDate').setValue(null);
       this.searchForm.controls['endDate'].disable();
     }
 
@@ -131,12 +159,11 @@ export class ModalFilterComponent implements OnInit {
   }
 
   submit(){
-    const current = this.selectedItemsF.find(element => element.value === 'finalCurrent');
-    const intermediate = this.selectedItemsF.find(element => element.value === 'finalIntermediate');
+    const current = this.selectedItemsF.findIndex(element => element.value === 'finalCurrent');
+    const intermediate = this.selectedItemsF.findIndex(element => element.value === 'finalIntermediate');
 
     const statusArquivo = this.selectedItemsS.findIndex(element => element == 'ARQUIVO');
 
-    console.log('RESULT: ', statusArquivo);
     if (statusArquivo >= 0) {
       this.selectedItemsS[statusArquivo] = 'ATIVO'; 
       console.log(this.selectedItemsS);
@@ -144,8 +171,8 @@ export class ModalFilterComponent implements OnInit {
 
     const teste = this.searchForm.patchValue({
       status: this.selectedItemsS,
-      finalCurrent: current !== undefined ? true : false,
-      finalIntermediate: intermediate !== undefined ? true : false,
+      finalCurrent: current >= 0 ? true : false,
+      finalIntermediate: intermediate >= 0 ? true : false,
       fases: this.selectedItemsF
     })
 

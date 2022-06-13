@@ -70,12 +70,16 @@
 
     <div class="modal-footer">
         <div class="pull-right" id="call5">
-                <button type="button" (click)="submit()" class="btn btn-primary" >
-                    <i class="fa fa-search"></i>
-                    Pesquisar
-                </button>
-          </div>
-      </div>
+            <button type="button"
+              class="btn btn-dark" (click)="clear()">
+                Limpar Campos
+            </button>
+            <button type="button" (click)="submit()" class="btn btn-primary" style="margin-left: 5px">
+                <i class="fa fa-search"></i>
+                Pesquisar
+            </button>
+        </div>
+    </div>
 
   </div>
 </div>
