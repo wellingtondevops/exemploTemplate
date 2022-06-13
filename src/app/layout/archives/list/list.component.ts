@@ -127,27 +127,7 @@ export class ListComponent implements OnInit {
             finalIntermediate: this.fb.control(null),
         });
 
-        const archive = JSON.parse(this.localStorageSrv.get('archive'));
-
-        this.filterCounter(archive);
-
-        if (archive && archive.company) {
-            this.searchForm.patchValue({
-                company: archive.company,
-                departament: archive.departament,
-                status: archive.status,
-                location: archive.location,
-                storehouse: archive.storehouse,
-                doct: archive.doct,
-                search: archive.search,
-                endDate: archive.endDate,
-                initDate: archive.initDate,
-                final: archive.final,
-                finalCurrent: archive.finalCurrent,
-                finalIntermediate: archive.finalIntermediate,
-            });
-            this.getDepartaments(archive.company._id);
-        }
+        this.setForm();
 
         this.statusList = StatusVolumeEnum;
         this.getArchive();
@@ -204,6 +184,27 @@ export class ListComponent implements OnInit {
         return result;
     }
 
+    setForm() {
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+            if (archive && archive.company) {
+                this.searchForm.patchValue({
+                    company: archive.company,
+                    departament: archive.departament,
+                    status: archive.status,
+                    location: archive.location,
+                    storehouse: archive.storehouse,
+                    doct: archive.doct,
+                    search: archive.search,
+                    endDate: archive.endDate,
+                    initDate: archive.initDate,
+                    final: archive.final,
+                    finalCurrent: archive.finalCurrent,
+                    finalIntermediate: archive.finalIntermediate,
+                });
+                this.getDepartaments(archive.company._id);
+            }
+    }
+
     openFilter(){
         this.modalRef = this.modalService.open(ModalFilterComponent, this.modalOptions);
     
@@ -213,7 +214,8 @@ export class ListComponent implements OnInit {
             this.modalRef.result.then((result) => {
                 console.log('Aqui as ideia: ', result);
                 if (result != "Sair") {
-                    this.getArchive(); 
+                    this.setForm();
+                    this.setPage({ offset: 0 }); 
                 };
                 this.closeResult = `Closed with: ${result}`;
               }, (reason) => {
@@ -235,7 +237,7 @@ export class ListComponent implements OnInit {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
-        this.localStorageSrv.save('archive', this.searchForm.value);
+        
 
         const newSearch = {
             company: null,
@@ -318,6 +320,7 @@ export class ListComponent implements OnInit {
 
     getArchive() {
         if (this.searchForm.value.company) {
+            this.localStorageSrv.save('archive', this.searchForm.value);
             this.setPage({ offset: 0 });
         }
     }

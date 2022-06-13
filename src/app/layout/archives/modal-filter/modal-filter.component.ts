@@ -59,7 +59,24 @@ export class ModalFilterComponent implements OnInit {
       finalCurrent: this.fb.control(null),
       final: this.fb.control(null),
       finalIntermediate: this.fb.control(null),
+      fases: this.fb.control(null)
     });
+
+    const archive = JSON.parse(this.localStorageSrv.get('archive'));
+
+    if (archive && archive.company) {
+      this.searchForm.patchValue({
+        status: archive.status,
+        endDate: archive.endDate,
+        initDate: archive.initDate,
+        final: archive.final,
+        finalCurrent: archive.finalCurrent,
+        finalIntermediate: archive.finalIntermediate,
+      });
+
+      this.selectedItemsF = archive.fases;
+      this.selectedItemsS = archive.status;
+    }
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -129,10 +146,12 @@ export class ModalFilterComponent implements OnInit {
       status: this.selectedItemsS,
       finalCurrent: current !== undefined ? true : false,
       finalIntermediate: intermediate !== undefined ? true : false,
+      fases: this.selectedItemsF
     })
 
-    console.log('PESQUISE: ', this.searchForm.value);
     this.localStorageSrv.save('archive', this.searchForm.value);
+    console.log('PESQUISE: ', JSON.parse(this.localStorageSrv.get('archive')));
+
     this.activeModal.close('Pesquisar');
   }
 }
