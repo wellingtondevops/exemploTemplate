@@ -115,7 +115,7 @@ export class ListComponent implements OnInit {
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
             departament: this.fb.control(null, [Validators.required]),
-            status: this.fb.control('ATIVO'),
+            status: this.fb.control([]),
             location: this.fb.control('', Validators.required),
             storehouse: this.fb.control('', [Validators.required]),
             doct: this.fb.control(null, Validators.required),
@@ -205,8 +205,6 @@ export class ListComponent implements OnInit {
     }
 
     openFilter(){
-        console.log('APERTEI FILTRO: ', JSON.parse(this.localStorageSrv.get('archive')));
-
         this.modalRef = this.modalService.open(ModalFilterComponent, this.modalOptions);
     
         this.modalRef.componentInstance.form = this.searchForm.value;
@@ -329,7 +327,7 @@ export class ListComponent implements OnInit {
         this.searchForm.patchValue({
             company: null,
             departament: null,
-            status: 'ATIVO',
+            status: [],
             location: null,
             storehouse: null,
             doct: null,

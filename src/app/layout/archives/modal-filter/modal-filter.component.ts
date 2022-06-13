@@ -1,7 +1,10 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { findIndex } from 'rxjs/operators';
 import { routerTransition } from 'src/app/router.animations';
+import { SaveLocal } from 'src/app/storage/saveLocal';
 
 @Component({
   selector: 'app-modal-filter',
@@ -17,10 +20,16 @@ export class ModalFilterComponent implements OnInit {
   statusList = [];
   faseList = [];
   dropdownSettings = {};
+  selectedItemsS = [];
+  selectedItemsF = [];
+
+  dateSent;
+  dateReceived;
 
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
+    private localStorageSrv: SaveLocal,
   ) {
     this.statusList = [
       { _id: 1, name: 'ARQUIVO', value: 'ARQUIVO' },
@@ -35,9 +44,17 @@ export class ModalFilterComponent implements OnInit {
    }
 
   ngOnInit() {
+    console.log('COELHINHO DA PASCOA, OQ TRAZES PRA MIM? ', this.form);
+
     this.searchForm = this.fb.group({
-      status: this.fb.control(''),
-      endDate: this.fb.control(null),
+      company: this.fb.control(this.form.company, Validators.required),
+      departament: this.fb.control(this.form.departament, [Validators.required]),
+      status: this.fb.control([]),
+      location: this.fb.control(this.form.location, Validators.required),
+      storehouse: this.fb.control(this.form.storehouse, [Validators.required]),
+      doct: this.fb.control(this.form.doct, Validators.required),
+      search: this.fb.control(this.form.search, Validators.required),
+      endDate: this.fb.control({value: null, disabled: !this.dateSent}),
       initDate: this.fb.control(null),
       finalCurrent: this.fb.control(null),
       final: this.fb.control(null),
@@ -63,15 +80,29 @@ export class ModalFilterComponent implements OnInit {
     console.log('HELP!')
   }
 
-  checkSelection(){}
+  changeDate() {
+    const initialDate = this.searchForm.get('initDate').value;
+    this.dateSent =
+        new Date(initialDate).toISOString().slice(0, 10);
 
-  getArchive(){}
+    
+    if (initialDate) {
+      console.log(initialDate);
+      this.searchForm.controls['endDate'].enable();
+    } else {
+      this.searchForm.controls['endDate'].disable();
+    }
+
+    this.dateReceived = this.dateSent;
+  }
 
   onItemSelectStatus(item: any) {
-    console.log('onItemSelect', item);
+    console.log('onItemSelect ', item);
+    console.log('onItemSelect? ', this.selectedItemsS);
   }
   onItemSelectFase(item: any) {
     console.log('onItemSelect', item);
+    console.log('onItemSelect? ', this.selectedItemsF);
   }
 
   onSelectAllStatus(items: any) {
@@ -80,5 +111,28 @@ export class ModalFilterComponent implements OnInit {
 
   onSelectAllFase(items: any) {
     console.log('onSelectAll', items);
+  }
+
+  submit(){
+    const current = this.selectedItemsF.find(element => element.value === 'finalCurrent');
+    const intermediate = this.selectedItemsF.find(element => element.value === 'finalIntermediate');
+
+    const statusArquivo = this.selectedItemsS.findIndex(element => element == 'ARQUIVO');
+
+    console.log('RESULT: ', statusArquivo);
+    if (statusArquivo >= 0) {
+      this.selectedItemsS[statusArquivo] = 'ATIVO'; 
+      console.log(this.selectedItemsS);
+    }
+
+    const teste = this.searchForm.patchValue({
+      status: this.selectedItemsS,
+      finalCurrent: current !== undefined ? true : false,
+      finalIntermediate: intermediate !== undefined ? true : false,
+    })
+
+    console.log('PESQUISE: ', this.searchForm.value);
+    this.localStorageSrv.save('archive', this.searchForm.value);
+    this.activeModal.close('Pesquisar');
   }
 }

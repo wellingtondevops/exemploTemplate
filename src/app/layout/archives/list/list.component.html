@@ -22,7 +22,7 @@
                     
                     <div class="col-lg-6 text-right mt-1" style="float: right;">
                         <div class="form-group ">
-                            <button [disabled]="company.invalid || page.totalElements == 0" type="button"
+                            <button [disabled]="company.invalid" type="button"
                                 class="btn btn-dark" (click)="openFilter()" *ngIf="!noExternal">
                                 <i class="fa fa-filter" aria-hidden="true"></i>&emsp;Outros Filtros
                                 <span *ngIf="filterCount > 0" class="badge badge-danger">{{ filterCount }}</span>

@@ -10,7 +10,7 @@
   }"
   ></ngx-loading>
 
-  <div class="base-modal-content" style="min-height: 80vh" >
+  <div class="base-modal-content" style="min-height: 50vh" >
 
     <div class="card-header base-modal-header flex">
       <div class="row" *ngIf="!loading">
@@ -28,35 +28,54 @@
     </div>
 
     <div class="card-body base-modal-body " >
-        <form class="row" [formGroup]="searchForm" style="flex-direction: row;">
+        <div class="row"  style="flex-direction: row;">
             <div class="col-md-6 col-sm-12" >
-                <div class="col-lg-6">
-                    <label>Status:</label>
-                </div>
+                <label>Status:</label>
                 <ng-multiselect-dropdown
                     [placeholder]="'Selecione os Status'"
                     [settings]="dropdownSettings"
                     [data]="statusList"
                     (onSelect)="onItemSelectStatus($event)"
                     (onSelectAll)="onSelectAllStatus($event)"
+                    [(ngModel)]="selectedItemsS"
                     >
                 </ng-multiselect-dropdown>
             </div>
             <div class="col-md-6 col-sm-12">
-                <div class="col-lg-6">
-                    <label>Fase:</label>
-                </div>
+                <label>Fase:</label>
                 <ng-multiselect-dropdown
                     [placeholder]="'Selecione as Fases'"
                     [settings]="dropdownSettings"
                     [data]="faseList"
                     (onSelect)="onItemSelectFase($event)"
                     (onSelectAll)="onSelectAllFase($event)"
+                    [(ngModel)]="selectedItemsF"
                     >
                 </ng-multiselect-dropdown>
             </div>
+        </div>
+        <form [formGroup]="searchForm" role="FormGroup" class="form" style="margin-top: 15px;">
+            <div class="form-group col-lg-6 col-sm-12">
+                <label for="initDate">Data Inicial</label>
+                <input id="initDate" type="date" class="form-control col-12" 
+                (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
+            </div>
+            <div class="form-group col-lg-6 col-sm-12">
+                <label for="endDate">Data Final</label>
+                <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
+                 [min]="dateSent" />
+            </div>
         </form>
     </div>
+
+    <div class="modal-footer">
+        <div class="pull-right" id="call5">
+                <button type="button" (click)="submit()" class="btn btn-primary" >
+                    <i class="fa fa-search"></i>
+                    Pesquisar
+                </button>
+          </div>
+      </div>
 
   </div>
 </div>
