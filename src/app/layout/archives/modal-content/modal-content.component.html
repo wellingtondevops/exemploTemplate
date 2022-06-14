@@ -44,21 +44,38 @@
             <ngb-tab title="Início" id="tab1">
               <ng-template ngbTabContent>
                 <br />
-                <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-                  <ngb-panel title="Índices">
+                <ngb-accordion #acc="ngbAccordion" activeIds="custom-panel-1">
+                  <ngb-panel title="Índices" id="custom-panel-1">
+                    <ng-template ngbPanelHeader let-opened="opened">
+                      <div class="d-flex align-items-center justify-content-between">
+                          <h5 class="m-0">Índices</h5>
+                          <button ngbPanelToggle class="btn btn-link p-0">
+                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                          </button>
+                      </div>
+                    </ng-template>
                     <ng-template ngbPanelContent>
-                      <h5 class="m-2">ÍNDICES</h5>
                         <div class="card-body p-1">
                           <span #myComponent>
-                            <app-form-index [data]="archive" [isArchive]="true" [edit]="isEditing" [canSave]="false" ></app-form-index>
+                            <app-form-index [data]="archive" [isArchive]="true" [edit]="isEditing" [canSave]="permissionConfirm" 
+                            (sendArchive)="updateArchive($event)"></app-form-index>
                           </span>
                         </div>
                     </ng-template>
                   </ngb-panel>
 
-                  <ngb-panel title="Dados do Volume">
+                  <ngb-panel title="Dados do Volume" id="custom-panel-2">
+                    <ng-template ngbPanelHeader let-opened="opened">
+                      <div class="d-flex align-items-center justify-content-between">
+                          <h5 class="m-0">Dados do Volume</h5>
+                          <button ngbPanelToggle class="btn btn-link p-0">
+                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                          </button>
+                      </div>
+                    </ng-template>
                     <ng-template ngbPanelContent>
-                      <h5 class="m-0">DADOS DO VOLUME</h5>
                         <ul>
                             <li class="mb-1">
                                 <strong class="m-0">EMPRESA: </strong>
@@ -84,11 +101,17 @@
                     </ng-template>
                   </ngb-panel>
 
-                  <ngb-panel title="Temporalidade">
+                  <ngb-panel title="Temporalidade" id="custom-panel-3">
+                    <ng-template ngbPanelHeader let-opened="opened">
+                      <div class="d-flex align-items-center justify-content-between">
+                          <h5 class="m-0">Temporalidade</h5>
+                          <button ngbPanelToggle class="btn btn-link p-0">
+                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                          </button>
+                      </div>
+                    </ng-template>
                     <ng-template ngbPanelContent>
-
-                      <h5 class="m-2">TEMPORALIDADE</h5>
-
                       <ul>
                         <li class="mb-1">
                           <strong *ngIf="archive?.startDateCurrent"
@@ -261,10 +284,10 @@
       <div class="pull-right" id="call5">
             <button [disabled]="!permissionCancel" type="button" (click)="cancelEdit()" class="btn btn-danger"
                 style="margin-right:10px">Cancelar</button>
-            <button type="button" (click)="submit()" class="btn btn-primary" 
+            <!-- <button type="button" (click)="submit()" class="btn btn-primary" 
             [disabled]="!permissionConfirm">
                 Salvar
-            </button>
+            </button> -->
         </div>
     </div>
 

@@ -70,6 +70,19 @@ h6{
     background-color: #ff0000;
 }
 
+:ng-deep .customModal .accordion {
+
+    button {
+        padding: 1.2rem;
+        width: 100%;
+  
+        span {
+            float: left;
+            font-size: 1.2rem;
+        }
+    }
+  }
+
 .tab-component {
     height: 70vh; 
     overflow-y: auto;

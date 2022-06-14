@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import _ from 'lodash';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -21,7 +22,7 @@ const MODALS = {
   styleUrls: ['./modal-content.component.scss'],
   animations: [routerTransition()]
 })
-export class ModalContentComponent implements OnInit, AfterViewInit {
+export class ModalContentComponent implements OnInit {
   
   @Input() public arch;
   id;
@@ -35,7 +36,7 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
   isUsers = false;
   savedFile = false;
   pdfHeight = '100vh;'
-  
+  document: any;
 
   uploadResponse: any = { status: 'progress', message: 0 };
   errorUpload: boolean = null;
@@ -91,10 +92,6 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
     this.getArchive();
   }
 
-  ngAfterViewInit(): void {
-    console.log('TAMO ENTRANDO AQUI')
-  }
-
   // RESOURCES
 
   beforeChange(data){}
@@ -104,6 +101,7 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
     this.archiveSrv.archive(this.id).subscribe(data => {
         this.archive = data;
         this.pending = data.pending;
+        this.document = data.doct;
         this.archiveCreateForm.patchValue({
             create: moment(data.create).format('DD/MM/YYYY hh:mm'),
             indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
@@ -169,6 +167,36 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
 
   // EDIT
 
+  updateArchive(data) {
+    this.loading = true;
+    /* const storehouse = this.storeHouse_id;
+    const doct = this.document._id;
+    const company = this.company_id; */
+    const tag = _.values(data);
+    let uniqueness = '';
+    const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);
+    this.document.label.map((label, i) => {
+        if (label.uniq) {
+            if (i === (labelsTrueLength.length - 1)) {
+                uniqueness += `${tag[i]}`;
+            } else {
+                uniqueness += `${tag[i]}-`;
+            }
+        }
+    });
+    this.archiveSrv.updateArchive(this.id, { tag, uniqueness }).subscribe(data => {
+        if (data._id) {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
+            this.cancelEdit();
+        }
+    }, error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+    });
+}
+
   startEdit(execution) {
     this.isEditing = execution;
     this.permissionConfirm = execution;
@@ -186,6 +214,7 @@ export class ModalContentComponent implements OnInit, AfterViewInit {
 
   cancelEdit() {
     this.startEdit(false);
+    this.getArchive();
   }
 
   // DELETE

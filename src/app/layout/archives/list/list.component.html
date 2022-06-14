@@ -258,7 +258,7 @@
     <div id="step5">
         <ngx-datatable #myTable class="bootstrap" [rows]="archives" [columnMode]="ColumnMode.force"
             [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
-            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
+            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="openArchive($event)"
             >
 
             <!-- Row Detail Template
@@ -288,13 +288,13 @@
 
             <ngx-datatable-column name="Departamento" prop="departament.name" [width]="290"></ngx-datatable-column>
 
-            <ngx-datatable-column name="Actions" prop="name">
+            <!-- <ngx-datatable-column name="Actions" prop="name">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                     let-row="row">
                     <button type="button" class="btn btn-outline-success" (click)='showView(row)'>OpenPage</button>
                     <button type="button" class="btn btn-outline-danger" (click)='openArchive(row)'>OpenModal</button>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
                        
             <ngx-datatable-column name="Posição" prop="volume.location" [width]="100"></ngx-datatable-column>
 

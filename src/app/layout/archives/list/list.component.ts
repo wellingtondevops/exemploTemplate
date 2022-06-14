@@ -149,21 +149,18 @@ export class ListComponent implements OnInit {
     filterCounter() {
         this.filterCount = 0;
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
+                
+        if (archive.status) {
+            if (archive.status.length > 0) {
+                this.filterCount++;
+            }
+        }
         
-        console.log('TESTANDO STATUS: ', archive);
-        
-        // if (archive.status) {
-        //     console.log()
-        //     // if (archive.status.length > 0) {
-        //     //     this.filterCount++;
-        //     // }
-        // }
-        
-        // if (archive.fases) {
-        //     if (archive.fases.length > 0) {
-        //         this.filterCount++;
-        //     }
-        // }
+        if (archive.fases) {
+            if (archive.fases.length > 0) {
+                this.filterCount++;
+            }
+        }
         
         if (archive.initDate && archive.initDate != undefined) {
             this.filterCount++;
@@ -623,13 +620,12 @@ export class ListComponent implements OnInit {
     }
 
     openArchive(value) {
-        // console.log('CLIQUEI, O COELHINHO RETORNOU: ', value);
-        
-        this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+        if (value.type == 'click') {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
     
             if (value) {
-                this.data = value;
-                // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                this.data = value.row;
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
                 this.modalRef.componentInstance.arch = this.data;
             }
 
@@ -641,6 +637,9 @@ export class ListComponent implements OnInit {
               }, (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
               });
+        }
+        
+        
     }
 
     private getDismissReason(reason: any): string {
