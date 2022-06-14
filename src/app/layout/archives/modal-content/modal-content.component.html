@@ -49,14 +49,14 @@
                     <ng-template ngbPanelHeader let-opened="opened">
                       <div class="d-flex align-items-center justify-content-between">
                           <h5 class="m-0">Índices</h5>
-                          <button ngbPanelToggle class="btn btn-link p-0">
+                          <button ngbPanelToggle class="btn btn-link p-0" >
                             <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
                             <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
                           </button>
                       </div>
                     </ng-template>
                     <ng-template ngbPanelContent>
-                        <div class="card-body p-1">
+                        <div class="card-body p-1" id="calling">
                           <span #myComponent>
                             <app-form-index [data]="archive" [isArchive]="true" [edit]="isEditing" [canSave]="permissionConfirm" 
                             (sendArchive)="updateArchive($event)"></app-form-index>
@@ -281,7 +281,7 @@
     </div>
 
     <div *ngIf="isEditing" class="modal-footer">
-      <div class="pull-right" id="call5">
+      <div class="pull-right" id="call6">
             <button [disabled]="!permissionCancel" type="button" (click)="cancelEdit()" class="btn btn-danger"
                 style="margin-right:10px">Cancelar</button>
             <!-- <button type="button" (click)="submit()" class="btn btn-primary" 

@@ -1158,14 +1158,24 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) a edição de Arquivos!</strong></br>Utilize, <strong>Cancelar</strong> para retornar sem alterar as informações.',
+                            '<strong>Bem-vindo(a) a edição de Arquivos!</strong></br>',
                     },
                     {
-                        element: '#step2',
+                        element: '#calling',
                         intro:
                             'Os seguintes <strong>Campos </strong> podem ser alterados, utilize <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                    },
+                    {
+                        element: '#call6',
+                        intro:
+                            'Utilize <strong>Cancelar</strong> para retornar sem alterar as informações.',
+                    },
+                    {
+                        element: '#call5',
+                        intro:
+                            'Clique no X para voltar à página inicial.',
                     },
                 ]
             })
