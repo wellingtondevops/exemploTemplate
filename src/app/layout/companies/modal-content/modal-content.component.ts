@@ -270,7 +270,7 @@ export class ModalContentComponent implements OnInit {
 
   // FINALIZAÇÃO
 
-  submit(execution: string){
+  submit(){
     if (!this.isNew) {
       this.loading = true;
       const company = _.omitBy(this.companyForm.value, _.isNil);

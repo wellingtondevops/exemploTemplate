@@ -218,7 +218,7 @@ export class ModalContentComponent implements OnInit {
 
   // FINALIZAÇÃO
 
-  submit(execution: string){
+  submit(){
     if (!this.isNew) {
       this.returnId('company');
         this.loading = true;
