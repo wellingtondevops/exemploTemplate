@@ -55,12 +55,12 @@
             </div>
         </div>
         <form [formGroup]="searchForm" role="FormGroup" class="form" style="margin-top: 15px;">
-            <div class="form-group col-lg-6 col-sm-12">
+            <div class="form-group col-md-6 col-sm-12">
                 <label for="initDate">Data Inicial</label>
                 <input id="initDate" type="date" class="form-control col-12" 
                 (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
             </div>
-            <div class="form-group col-lg-6 col-sm-12">
+            <div class="form-group col-md-6 col-sm-12">
                 <label for="endDate">Data Final</label>
                 <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
                  [min]="dateSent" />
