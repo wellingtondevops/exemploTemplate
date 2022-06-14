@@ -199,15 +199,25 @@ export class IntroJsService {
                 showBullets: false,
                 steps: [
                     {
-                        element: '#step1',
+                        element: '#call1',
                         intro:
-                            '<strong>Bem-vindo(a) a criação de Empresas!</strong></br>Preencha estes campos com as informações da nova Empresa.',
+                            '<strong>Bem-vindo(a) a criação de Empresas!</strong>',
                     },
                     {
-                        element: '#step2',
+                        element: '#call3',
                         intro:
-                            'Ultilize <strong>Salvar </strong> para concluir a criação da  nova empresa ou <strong>Voltar</strong> para retornar a pagina de pesquisa.',
+                            'Preencha estes campos com as informações da nova Empresa.',
+                    },
+                    {
+                        element: '#call5',
+                        intro:
+                            'Ultilize <strong>Salvar </strong> para concluir a criação da nova empresa ou <strong>Cancelar</strong> para retornar à visualização.',
                         tooltipPosition: 'bottom',
+                    },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',                            
                     }
                 ]
             })
@@ -270,14 +280,9 @@ export class IntroJsService {
                         element: '#call1',
                         intro:
                             '<strong>Bem-vindo(a) a edição de Empresa!</strong></br>Altere informações.',
-                    },
-                    {
-                        element: '#call3',
-                        intro:
-                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',                            
                     },  
                     {
-                        element: '#call4',
+                        element: '#call3',
                         intro:
                             'Campos a serem alterados.',
                     },
@@ -286,6 +291,11 @@ export class IntroJsService {
                         intro:
                             'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
                     },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',                            
+                    }
                 ]
             })
             .start();
@@ -583,15 +593,15 @@ export class IntroJsService {
                             'Preencha os campos corretamente para criar um novo volume.',
                     },
                     {
-                        element: '#call4',
-                        intro:
-                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
-                    },
-                    {
                         element: '#call5',
                         intro:
                             'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para criar um novo volume.',
                             tooltipPosition: 'bottom',
+                    },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
                     }
                 ]
             })
@@ -627,6 +637,11 @@ export class IntroJsService {
                             'Informações gerais sobre o Volume.',
                     },
                     {
+                        element: '#call6',
+                        intro:
+                            'Informações de Criação e Alteração.',
+                    },
+                    {
                         element: '#call4',
                         intro:
                             'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
@@ -656,9 +671,20 @@ export class IntroJsService {
                             '<strong>Bem-vindo(a) a edição de Volumes!</strong></br>Altere informações.',
                     },
                     {
+                        element: '#call3',
+                        intro:
+                            'Os campos que podem ser alterados ou visualizados.',
+                    },
+                    {
                         element: '#call5',
                         intro:
                             'Utilize <strong>Cancelar </strong> para retornar a página anterior, sem efetuar alterações ou, <strong>Salvar</strong>, para retornar a pagina anterior com as alterações feitas.',
+                    },
+                    {
+                        element: '#call4',
+                        intro:
+                            'Utilize o <strong>X</strong> para <strong>retornar</strong> para a página de pesquisa.',
+                            tooltipPosition: 'bottom',
                     },
                 ]
             })

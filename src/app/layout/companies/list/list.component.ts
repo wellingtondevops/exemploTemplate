@@ -64,7 +64,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.searchForm = this.fb.group({
-            name: this.fb.control(null, [Validators.required]),
+            name: this.fb.control(null),
         });
         const companies = JSON.parse(this.localStorageSrv.get('companies'));
         if (companies && companies.name) {
