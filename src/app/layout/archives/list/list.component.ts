@@ -134,14 +134,16 @@ export class ListComponent implements OnInit {
             fases: this.fb.control(null),
         });
 
+        this.getCompanies();
+        this.getStoreHouses();
+        
         this.setForm();
         this.filterCounter();
 
         this.statusList = StatusVolumeEnum;
         this.getArchive();
         this.noExternal = this.NoExternal();
-        this.getCompanies();
-        this.getStoreHouses();
+        
         this.searchForm.patchValue({ endDate: null });
         this.checkValue();
     }
