@@ -11,9 +11,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ModalContentComponent } from './modal-content/modal-content.component';
 
 @NgModule({
-  declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent],
+  declarations: [ListComponent, NewComponent, EditComponent, EnumToArrayPipe, ShowComponent, ModalContentComponent],
   imports: [
     PageHeaderModule,
     NgbModule,
@@ -25,8 +27,10 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     TranslateModule,
     ButtonsCustomModule,
     ButtonBackModule,
+    NgxDatatableModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [CaseInsensitive]
+  providers: [CaseInsensitive],
+  entryComponents: [ModalContentComponent]
 })
 export class DocumentsModule { }

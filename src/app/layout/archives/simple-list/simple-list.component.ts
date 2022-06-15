@@ -14,10 +14,11 @@ import _ from 'lodash';
 import { DepartamentsService } from 'src/app/services/departaments/departaments.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
-import { NgbTypeahead, NgbTypeaheadConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadConfig, NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from '../../../utils/case-insensitive';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
     selector: 'app-simple-list',
@@ -58,6 +59,11 @@ export class SimpleListComponent implements OnInit {
     dateReceived;
     ColumnMode = ColumnMode;
 
+    modalOptions: NgbModalOptions;
+    data;
+    modalRef: any;
+    closeResult: string;
+
 
     constructor(
         private archiveSrv: ArquivesService,
@@ -79,6 +85,13 @@ export class SimpleListComponent implements OnInit {
         config.showHint = true;
         config.container = 'body';
         config.focusFirst = false;
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
     }
 
     ngOnInit() {
@@ -92,7 +105,7 @@ export class SimpleListComponent implements OnInit {
             initDate: this.fb.control(null),
         });
 
-        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+        const archive = JSON.parse(this.localStorageSrv.get('archiveSimple'));
 
         if (archive && archive.company) {
             this.searchForm.patchValue({
@@ -132,6 +145,39 @@ export class SimpleListComponent implements OnInit {
         return this.searchForm.get('doct');
     }
 
+    openArchive(value) {
+        if (value.type == 'click') {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+    
+            if (value) {
+                this.data = value.row;
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                this.modalRef.componentInstance.arch = this.data;
+            }
+
+            this.modalRef.result.then((result) => {
+                if (result != "Sair") {
+                    this.getArchive(); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+        }
+        
+        
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
+    }
+
     returnId(object) {
         const result = _.filter(this.searchForm.value[object], function (value, key) {
             if (key === '_id') { return value; }
@@ -143,7 +189,7 @@ export class SimpleListComponent implements OnInit {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
-        this.localStorageSrv.save('archive', this.searchForm.value);
+        this.localStorageSrv.save('archiveSimple', this.searchForm.value);
 
         const newSearch = {
             company: null,
@@ -192,7 +238,7 @@ export class SimpleListComponent implements OnInit {
     }
 
     clear() {
-        this.localStorageSrv.clear('archive');
+        this.localStorageSrv.clear('archiveSimple');
         this.searchForm.patchValue({
             company: null,
             departament: null,
@@ -326,7 +372,7 @@ export class SimpleListComponent implements OnInit {
 
     exportArchives() {
         this.loading = true;
-        this.localStorageSrv.save('archive', this.searchForm.value);
+        this.localStorageSrv.save('archiveSimple', this.searchForm.value);
 
         const newSearch = {
             company: null,

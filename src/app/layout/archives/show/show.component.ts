@@ -98,7 +98,6 @@ export class ShowComponent implements OnInit {
         this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
         this.requestList = ResquestEnum;
 
-        console.log('AQUI O ARQUIVO DE OUTRA PAG: ', this.archive);
     }
 
     //   isUser() {

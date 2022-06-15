@@ -117,7 +117,6 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
             departament: this.fb.control(null, [Validators.required]),
@@ -152,7 +151,7 @@ export class ListComponent implements OnInit {
         this.filterCount = 0;
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
                 
-        if (archive.status) {
+        if (archive.status !== null && archive.status !== undefined) {
             if (archive.status.length > 0) {
                 this.filterCount++;
             }
@@ -256,10 +255,10 @@ export class ListComponent implements OnInit {
     checkValue() {
         this.currentValue = this.fCurrent.value;
         this.indeterminateValue = this.fIntermediate.value;
-        if (this.indeterminateValue === true) {
-            const newValue: Boolean = true;
-            this.currentValue = newValue;
-        }
+        // if (this.indeterminateValue === true) {
+        //     const newValue: Boolean = true;
+        //     this.currentValue = newValue;
+        // }
     }
 
      setPage(pageInfo) {
@@ -267,15 +266,13 @@ export class ListComponent implements OnInit {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
 
-        
-
         const newSearch = {
             company: null,
             storehouse: null,
             departament: null,
             doct: null,
             location: null,
-            status: null,
+            status: [],
             search: null,
             endDate: null,
             initDate: null,
@@ -298,10 +295,10 @@ export class ListComponent implements OnInit {
         newSearch.final = this.searchForm.value.final;
         newSearch.finalCurrent = this.currentValue;
         newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
-        if (newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
-            newSearch.finalCurrent = this.currentValue = null;
-            newSearch.finalIntermediate = this.searchForm.value.finalIntermediate = null;
-        }
+        // if (newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
+        //     newSearch.finalCurrent = this.currentValue = null;
+        //     newSearch.finalIntermediate = this.searchForm.value.finalIntermediate = null;
+        // }
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
@@ -363,9 +360,13 @@ export class ListComponent implements OnInit {
             storehouse: null,
             doct: null,
             search: null,
+            status: [],
+            initDate: null,
+            endDate: null
+            
         });
         this.localStorageSrv.save('archive', this.searchForm.value);
-        console.log('AQUI JAZ MINHA SANIDADE: ', JSON.parse(this.localStorageSrv.get('archive')));
+        this.filterCounter();
     }
 
     getCompanies() {
@@ -384,10 +385,8 @@ export class ListComponent implements OnInit {
     selectedCompany(e) {
         this.searchForm.patchValue({
             departament: null,
-            storehouse: null,
             doct: null,
         });
-        console.log('STORAGE: ', JSON.parse(this.localStorageSrv.get('archive')));
         if (e && e.item && e.item._id) {
             this.getDocuments(e.item._id);
             this.getDepartaments(e.item._id);
@@ -471,18 +470,6 @@ export class ListComponent implements OnInit {
             }));
     }
 
-    /* searchStorehouse = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        map(storehouse => {
-          var res;
-          if (storehouse.length < 2) [];
-          else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
-          return res;
-        })
-      ); */
-
     getDocuments(company_id) {
         this.documentsSrv.searchDocuments(company_id).subscribe(
             data => {
@@ -506,18 +493,6 @@ export class ListComponent implements OnInit {
                 : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
             )));
     }
-
-    /*   searchDocument = (text$: Observable<string>) =>
-        text$.pipe(
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(document => {
-            var res;
-            if (document.length < 2) [];
-            else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
-            return res;
-          })
-        ); */
 
     newRegisters(registers) {
         registers.map(item => {
@@ -548,7 +523,7 @@ export class ListComponent implements OnInit {
             departament: null,
             doct: null,
             location: null,
-            status: null,
+            status: [],
             search: null,
             endDate: null,
             initDate: null,

@@ -29,7 +29,7 @@
 
     <div class="card-body base-modal-body " >
         <div class="row"  style="flex-direction: row;">
-            <div class="col-md-6 col-sm-12" >
+            <div class="col-md-12 col-sm-12" >
                 <label>Status:</label>
                 <ng-multiselect-dropdown
                     [placeholder]="'Selecione os Status'"
@@ -41,18 +41,19 @@
                     >
                 </ng-multiselect-dropdown>
             </div>
-            <div class="col-md-6 col-sm-12">
+            <!-- <div class="col-md-6 col-sm-12">
                 <label>Fase:</label>
                 <ng-multiselect-dropdown
                     [placeholder]="'Selecione as Fases'"
-                    [settings]="dropdownSettings"
+                    [settings]="dropdownSettingsF"
                     [data]="faseList"
                     (onSelect)="onItemSelectFase($event)"
                     (onSelectAll)="onSelectAllFase($event)"
                     [(ngModel)]="selectedItemsF"
+                
                     >
                 </ng-multiselect-dropdown>
-            </div>
+            </div> -->
         </div>
         <form [formGroup]="searchForm" role="FormGroup" class="form" style="margin-top: 15px;">
             <div class="form-group col-md-6 col-sm-12">

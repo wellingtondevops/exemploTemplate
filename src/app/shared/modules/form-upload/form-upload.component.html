@@ -75,9 +75,10 @@
     </div>
     <div class="row">
         <div *ngIf="!file && !archive && !url && !isUsers">
-            <span class="btn fake-btn">Escolha o arquivo</span>
+            <input type="file" class="file-input btn fake-btn">Escolha o arquivo
+        <!-- </input> -->
             <span>{{ file ? file.name : " ou arraste o arquivo aqui" }}</span>
-            <input class="file-input" type="file" />
+            <!-- <input class="file-input" type="file" /> -->
         </div>
     </div>
 <!-- </div> -->

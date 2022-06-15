@@ -20,6 +20,7 @@ export class ModalFilterComponent implements OnInit {
   statusList = [];
   faseList = [];
   dropdownSettings = {};
+  dropdownSettingsF = {};
   selectedItemsS = [];
   selectedItemsF = [];
 
@@ -38,13 +39,13 @@ export class ModalFilterComponent implements OnInit {
     ];
 
     this.faseList = [
-      { _id: 1, name: 'CORRENTE', value: 'finalCurrent' },
-      { _id: 2, name: 'INTERMEDIÁRIO', value: 'finalIntermediate' },
+      // { _id: 1, name: 'CONTEÚDO COMPLETO' },
+      { _id: 1, name: 'CORRENTE' },
+      { _id: 2, name: 'INTERMEDIÁRIO' },
     ];
    }
 
   ngOnInit() {
-    console.log('COELHINHO DA PASCOA, OQ TRAZES PRA MIM? ', this.form);
     const archive = JSON.parse(this.localStorageSrv.get('archive'));
 
     this.dateSent = archive.initDate ? archive.initDate : this.dateSent;
@@ -68,14 +69,13 @@ export class ModalFilterComponent implements OnInit {
     
 
     if (archive && archive.company) {
-      this.selectedItemsF = archive.fases;
+      // this.selectedItemsF = archive.fases;
       this.selectedItemsS = archive.status;
 
       const statusArquivo = this.selectedItemsS.findIndex(element => element == 'ATIVO');
 
       if (statusArquivo >= 0) {
         this.selectedItemsS[statusArquivo] = 'ARQUIVO'; 
-        console.log(this.selectedItemsS);
       }
 
       this.searchForm.patchValue({
@@ -93,6 +93,15 @@ export class ModalFilterComponent implements OnInit {
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'value',
+      textField: 'name',
+      selectAllText: 'Marcar Todos',
+      unSelectAllText: 'Desmarcar Todos',
+      // itemsShowLimit: All,
+      allowSearchFilter: false
+    };
+    this.dropdownSettingsF = {
+      singleSelection: false,
+      idField: '_id',
       textField: 'name',
       selectAllText: 'Marcar Todos',
       unSelectAllText: 'Desmarcar Todos',
@@ -120,12 +129,7 @@ export class ModalFilterComponent implements OnInit {
 
         this.selectedItemsF = [];
         this.selectedItemsS = [];
-        console.log('ARQUIVITOS: ', JSON.parse(this.localStorageSrv.get('archive')));
     }
-
-  help(){
-    console.log('HELP!')
-  }
 
   changeDate() {
     const initialDate = this.searchForm.get('initDate').value;
@@ -159,14 +163,14 @@ export class ModalFilterComponent implements OnInit {
   }
 
   submit(){
-    var current;
-    var intermediate;
+    // var current;
+    // var intermediate;
     var statusArquivo;
 
-    if (this.selectedItemsF) {
-      current = this.selectedItemsF.findIndex(element => element.value === 'finalCurrent');
-      intermediate = this.selectedItemsF.findIndex(element => element.value === 'finalIntermediate');
-    }
+    // if (this.selectedItemsF) {
+    //   current = this.selectedItemsF.findIndex(element => element.name === 'CORRENTE');
+    //   intermediate = this.selectedItemsF.findIndex(element => element.name === 'INTERMEDIÁRIO');
+    // }
     
     if (this.selectedItemsS) {
       statusArquivo = this.selectedItemsS.findIndex(element => element == 'ARQUIVO');
@@ -174,18 +178,16 @@ export class ModalFilterComponent implements OnInit {
 
     if (statusArquivo >= 0) {
       this.selectedItemsS[statusArquivo] = 'ATIVO'; 
-      console.log(this.selectedItemsS);
     }
 
     this.searchForm.patchValue({
       status: this.selectedItemsS,
-      finalCurrent: current >= 0 ? true : false,
-      finalIntermediate: intermediate >= 0 ? true : false,
+      // finalCurrent: current >= 0 ? true : false,
+      // finalIntermediate: intermediate >= 0 ? true : false,
       fases: this.selectedItemsF
     })
 
     this.localStorageSrv.save('archive', this.searchForm.value);
-    console.log('PESQUISE: ', JSON.parse(this.localStorageSrv.get('archive')));
 
     this.activeModal.close('Pesquisar');
   }
