@@ -109,7 +109,11 @@ export class ListComponent implements OnInit {
     }
 
     getDocuments() {
-        this.setPageDocuments({ offset: 0 });
+        if (this.searchForm.value.company) {
+            this.localStorageSrv.save('document', this.searchForm.value);
+            this.setPageDocuments({ offset: 0 });
+        }
+        // this.setPageDocuments({ offset: 0 });
     }
 
     returnId(object) {
@@ -121,7 +125,6 @@ export class ListComponent implements OnInit {
     setPageDocuments(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
-        this.localStorageSrv.save('documents', this.searchForm.value);
 
         const newForm = {
             company: null,
@@ -177,7 +180,7 @@ export class ListComponent implements OnInit {
                 if (document) {
                     this.data = document;
                     // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
-                    this.modalRef.componentInstance.arch = this.data;
+                    this.modalRef.componentInstance.doc = this.data;
                 }
     
                 this.modalRef.result.then((result) => {
