@@ -60,12 +60,12 @@
                                         <input id="name" type="text" placeholder="Nome" class="form-control"
                                             formControlName="name" />
                                     </div>
-
+<!-- 
                                     <div class="form-group col-lg-12 col-md-12" [hidden]="isEditing">
                                         <label for="">Criado em</label>
                                         <input id="dateCreated" type="text" placeholder="Criado em" class="form-control"
                                             formControlName="dateCreated" />
-                                    </div>
+                                    </div> -->
 
                                     <div class="card mb-12" style="margin-top: 20px;">
                                         <div class="card-header ">
@@ -180,7 +180,7 @@
                         </ng-template>
                     </ngb-tab>
 
-                    <ngb-tab id="tab2" *ngIf="isEditing || isNew" [disabled]="tabIndex" title="Estrutura de Documentos">
+                    <ngb-tab id="tab2" *ngIf="isNew" [disabled]="tabIndex" title="Estrutura de Documentos">
                         <ng-template ngbTabContent>
                             <form [formGroup]="doctStructForm" role="FormGroup">
                                 <br>

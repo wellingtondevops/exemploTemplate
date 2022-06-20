@@ -89,7 +89,8 @@ export class ModalContentComponent implements OnInit {
 
   ngOnInit() {
     if (this.doc) {
-      console.log('O COELHINHO TROUXE: ', this.doc);
+      console.log('O COELHINHO TROUXE: ', this.documentForm.get('label').disable());
+      
 
       this.id = this.doc._id;
       this.getDocument();
@@ -97,7 +98,7 @@ export class ModalContentComponent implements OnInit {
       this.getDoctStructs();
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
-      // this.enableDisable(0);
+      this.disableInputs();
     } else {
       this.isNew = true;
       this.permissionCancel = true;
@@ -120,6 +121,15 @@ export class ModalContentComponent implements OnInit {
     } else {
       this.introService.ShowDocuments();
     }
+  }
+
+  disableInputs() {
+    console.log('DESMAIO E DEPRESSÃO');
+    (<FormArray>this.documentForm.get('label'))
+      .controls
+      .forEach(control => {
+        control.disable();
+      })
   }
 
   get company() {
@@ -300,7 +310,7 @@ export class ModalContentComponent implements OnInit {
 
   cancelEditNew() {
     if (this.isNew) {
-      this.activeModal.close('Sair');
+     this.close();
     } else {
       this.enableDisable(0);
       // this.getDocument();
@@ -351,23 +361,25 @@ export class ModalContentComponent implements OnInit {
   // FINALIZAÇÃO
 
   submit(){
-    if (this.isEditing && !this.isNew)
-    this.loading = true;
+    if (this.isEditing && !this.isNew) {
+      this.loading = true;
 
-        const document = _.omitBy(this.documentForm.value, _.isNil);
-        this.documentSrv.updateDocument(document).subscribe(
-            data => {
-                if (data._id) {
-                    this.loading = false;
-                    this.successMsgSrv.successMessages('Documento alterado com sucesso.');
-                    this.activeModal.close('Editar');
-                }
-            },
-            error => {
-                this.loading = false;
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            });
+      const document = _.omitBy(this.documentForm.value, _.isNil);
+      this.documentSrv.updateDocument(document).subscribe(
+        data => {
+          if (data._id) {
+            this.loading = false;
+            this.successMsgSrv.successMessages('Documento alterado com sucesso.');
+            this.activeModal.close('Editar');
+          }
+        },
+        error => {
+          this.loading = false;
+          this.errorMsg.errorMessages(error);
+          console.log('ERROR: ', error);
+        });
+    }
+    
   }
 
 }
