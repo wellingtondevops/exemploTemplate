@@ -14,8 +14,8 @@
                 </div>
             </div>
             <div class="row" id="step1">
-                <app-page-header [heading]="'Documentos'" [icon]="'fa-table'" [btnNew]="'Novo Documento'"
-                    [routerTo]="'/documents/new'" [permissionBtnNew]="permissionNew">
+                <app-page-header [heading]="'Documentos'" [modalNew]="true"  [icon]="'fa-table'" [btnNew]="'Novo Documento'"
+                    (click)="getDocument()" [permissionBtnNew]="permissionNew">
                 </app-page-header>
             </div>
         </div>

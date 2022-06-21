@@ -16,6 +16,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { Topic } from 'src/app/models/document-structur';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -34,7 +35,9 @@ export class ModalContentComponent implements OnInit {
   document: Document;
   documentForm: FormGroup;
   doctStructForm: FormGroup;
+  topicForm: FormGroup;
   public typeFieldList: any = TypeFieldListEnum;
+  topic: Topic;
 
   loading: Boolean = false;
   isEditing: Boolean = false;
@@ -66,15 +69,15 @@ export class ModalContentComponent implements OnInit {
   ) {
     this.documentForm = this.fb.group({
       _id: '',
-      company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-      name: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-      dateCreated: this.fb.control({ value: '', disabled: true }),
+      company: this.fb.control('', [Validators.required]),
+      name: this.fb.control('', [Validators.required]),
+      dateCreated: this.fb.control(''),
       label: this.fb.array(this.labels),
-      dcurrentLabel: this.fb.control({ value: '', disabled: true }),
-      dcurrentValue: this.fb.control({ value: 0, disabled: true }),
-      dintermediateValue: this.fb.control({ value: 0, disabled: true }),
-      dfinal: this.fb.control({ value: '', disabled: true }),
-      currentControl: this.fb.control({ value: '', disabled: true })
+      dcurrentLabel: this.fb.control(''),
+      dcurrentValue: this.fb.control(0),
+      dintermediateValue: this.fb.control(0),
+      dfinal: this.fb.control(''),
+      currentControl: this.fb.control('')
     });
 
     this.doctStructForm = this.fb.group({
@@ -83,26 +86,40 @@ export class ModalContentComponent implements OnInit {
       company: this.fb.control('')
     });
 
+    this.topicForm = this.fb.group({
+      comments: this.fb.control({ value: '', disabled: true }),
+      final: this.fb.control({ value: '', disabled: true }),
+      intermediateValue: this.fb.control({ value: 0, disabled: true }),
+      intermediateLabel: this.fb.control({ value: '', disabled: true }),
+      currentValue: this.fb.control({ value: 0, disabled: true }),
+      currentLabel: this.fb.control({ value: '', disabled: true }),
+      topic: this.fb.control({ value: '', disabled: true }),
+      codTopic: this.fb.control({ value: '', disabled: true }),
+
+    });
+
    }
 
   // INICIALIZAÇÃO
 
   ngOnInit() {
+    this.getCompanies();
     if (this.doc) {
-      console.log('O COELHINHO TROUXE: ', this.documentForm.get('label').disable());
+      console.log('O COELHINHO TROUXE: ', this.doc);
       
-
       this.id = this.doc._id;
       this.getDocument();
-      this.getCompanies();
-      this.getDoctStructs();
+      
+      this.enableDisable(0)
+      
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
-      this.disableInputs();
+
     } else {
       this.isNew = true;
       this.permissionCancel = true;
       this.permissionConfirm = true;
+      this.getDoctStructs();
          
     } 
   }
@@ -121,15 +138,6 @@ export class ModalContentComponent implements OnInit {
     } else {
       this.introService.ShowDocuments();
     }
-  }
-
-  disableInputs() {
-    console.log('DESMAIO E DEPRESSÃO');
-    (<FormArray>this.documentForm.get('label'))
-      .controls
-      .forEach(control => {
-        control.disable();
-      })
   }
 
   get company() {
@@ -168,7 +176,7 @@ export class ModalContentComponent implements OnInit {
                 label: this.document.label ? this.document.label : [],
                 name: this.document.name,
                 company: this.document.company,
-                dateCreated: moment(this.document.dateCreated).format('DD/MM/YYYY'),
+                dateCreated: moment(this.document.dateCreated),
                 dcurrentLabel: this.document.dcurrentLabel,
                 dcurrentValue: this.document.dcurrentValue,
                 dintermediateValue: this.document.dintermediateValue,
@@ -240,6 +248,7 @@ export class ModalContentComponent implements OnInit {
       this.documentForm.controls['label'].enable();
 
     } else {
+      this.documentForm.controls['company'].disable();
       this.documentForm.controls['name'].disable();
       this.documentForm.controls['dcurrentLabel'].disable();
       this.documentForm.controls['dcurrentValue'].disable();
@@ -264,6 +273,77 @@ export class ModalContentComponent implements OnInit {
 }
 
   // NEW
+
+  onChangeStruct() {
+    this.doctStructForm.value.id_Structure = this.doctStructForm.value.id_Structure._id;
+    if (!this.doctStructForm.value.id_Structure ||
+        this.doctStructForm.value.id_Structure === '') {
+        this.documentForm.patchValue({
+            name: '',
+            currentControl: ''
+        });
+        this.structs = [];
+        this.documentForm.get('name').enable();
+        this.documentForm.get('currentControl').enable();
+        this.topic = null;
+        this.doctStructForm.patchValue({
+            id_child: ''
+        });
+        this.topicForm.patchValue({
+            comments: '',
+            final: '',
+            intermediateValue: 0,
+            intermediateLabel: '',
+            currentValue: 0,
+            currentLabel: '',
+            topic: '',
+            codTopic: '',
+
+        });
+    }
+  }
+
+  onChangeTopic() {
+    this.doctStructForm.value.id_Structure = this.doctStructForm.value.id_Structure._id;
+    this.doctStructsSrv.showTopic(this.doctStructForm.value).subscribe(data => {
+        this.topic = data;
+        this.topicForm.patchValue({
+            comments: data.comments,
+            final: data.final,
+            intermediateLabel: data.intermediateLabel,
+            intermediateValue: data.intermediateValue,
+            currentValue: data.currentValue,
+            currentLabel: data.currentLabel,
+            topic: data.topic,
+            codTopic: data.codTopic
+        });
+        if (this.doctStructForm.value.id_Structure &&
+            this.doctStructForm.value.id_Structure !== '' &&
+            this.doctStructForm.value.id_child &&
+            this.doctStructForm.value.id_child !== '') {
+            this.documentForm.patchValue({
+                name: `${this.topicForm.value.codTopic} ${this.topicForm.value.topic}`,
+                dcurrentValue: data.currentValue,
+                dcurrentLabel: data.currentLabel,
+                dintermediateValue: data.intermediateValue,
+                dfinal: data.final,
+
+            });
+        } else {
+            this.documentForm.patchValue({
+                name: ''
+            });
+            this.documentForm.get('name').enable();
+        }
+    }, error => {
+        this.errorMsg.errorMessages(error);
+        console.log('ERROR: ', error);
+    });
+  }
+  returnDateCreate(create) {
+    return moment(create).utc().format('DD/MM/YYYY hh:mm');
+  }
+
   // FORMATAÇÃO
 
   formatter = (x: { name: string }) => x.name;
@@ -313,7 +393,7 @@ export class ModalContentComponent implements OnInit {
      this.close();
     } else {
       this.enableDisable(0);
-      // this.getDocument();
+      this.getDocument();
       this.isEditing = false;
       this.permissionDelete = true;
       this.permissionEdit = true;
@@ -333,9 +413,9 @@ export class ModalContentComponent implements OnInit {
     const modalRef = this.modalService.open(MODALS[name]);
     modalRef.componentInstance.item = id;
     modalRef.componentInstance.data = {
-        msgConfirmDelete: 'Empresa foi deletada com sucesso.',
-        msgQuestionDeleteOne: 'Você tem certeza que deseja deletar a empresa?',
-        msgQuestionDeleteTwo: 'Todas as informações associadas a empresa serão deletadas.'
+        msgConfirmDelete: 'Documento foi deletado com sucesso.',
+        msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o documento?',
+        msgQuestionDeleteTwo: 'Todas as informações associadas ao documento serão deletadas.'
     };
     modalRef.componentInstance.delete.subscribe(itemId => {
         this.delete(itemId);
@@ -347,7 +427,7 @@ export class ModalContentComponent implements OnInit {
     this.documentSrv.delete(id).subscribe(
         response => {
             this.loading = false;
-            this.successMsgSrv.successMessages('Empresa deletada com sucesso.');
+            this.successMsgSrv.successMessages('Documento deletado com sucesso.');
             this.activeModal.close('Excluir');
         },
         error => {

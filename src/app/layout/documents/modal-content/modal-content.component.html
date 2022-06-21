@@ -44,8 +44,8 @@
                                 <div class="col-lg-6 col-md-12" >
                         
                                     <div class="form-group col-lg-12 col-md-12">
-                                        <label for="typeahead-basic">Empresa</label>
-                                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                                        <label for="typeahead-focus">Empresa</label>
+                                        <input id="typeahead-focus" type="text" class="form-control" formControlName="company"
                                             [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                                             [ngClass]="{ 'is-invalid': !company.valid && !company.disabled }" />
                                         <div *ngIf="company.invalid && (company.dirty || company.touched)"
@@ -75,14 +75,14 @@
                                             <div class="row">
 
                                                 <div class="col-lg-6 col-md-6">
-                                                    <div class="form-group" *ngIf="document?.currentControl === true || checkbox.checked">
+                                                    <div class="form-group" *ngIf="checkbox.checked">
                                                         <label for="labelDcurrentValue">Corrente</label>
                                                         <input id="dcurrentLabel" type="text" placeholder="Texto"
                                                             class="form-control" formControlName="dcurrentLabel" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6">
-                                                    <div class="form-group" *ngIf="document?.currentControl === true || checkbox.checked">
+                                                    <div class="form-group" *ngIf="checkbox.checked">
                                                         <label for="labelDcurrentValue">Anos</label>
                                                         <input id="dcurrentValue" type="number" placeholder="Fase Corrente"
                                                             class="form-control" formControlName="dcurrentValue" />
@@ -121,10 +121,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6 col-md-12" style="overflow-y: auto; max-height: 70vh">
+                                <div class="col-lg-6 col-md-12" style="overflow-y: auto; max-height: 60vh">
                                     <div class="form-group" formArrayName="label">
                                         <label for="">Índices</label>
-                                        <div *ngFor="let label of labels.controls; index as i">
+                                         <div *ngFor="let label of labels.controls; index as i"> 
                                             <div class="card  mb-12" style="margin-bottom: 5px">
                                                 <div class="card-body">
                                                     <button *ngIf="isEditing || isNew" type="button" class="btn btn-danger btn-xs pull-right"
@@ -135,7 +135,7 @@
                                                     <div [formGroupName]="i">
                                                         <div class="form-group">
                                                             <label for="">Nome do Índice</label>
-                                                            <input type="text" placeholder="Nome do Índice" class="form-control"
+                                                            <input [disabled]="!isNew && !isEditing" type="text" placeholder="Nome do Índice" class="form-control"
                                                                 formControlName="namefield" />
                                                         </div>
                                                         <div class="form-group">
@@ -172,7 +172,7 @@
                                             <button type="button" class="btn btn-success btn-xs" (click)="addLabel()">
                                                 <i class="fa fa-plus"></i>
                                             </button>
-                                        </div>
+                                        </div> 
                                         <div></div>
                                     </div>
                                 </div>
@@ -188,14 +188,15 @@
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label for="typeahead-basic">Estrutura de Documento</label>
-                                            <input id="typeahead-basic" type="text" class="form-control"
+                                            <input id="typeahead-basic" type="text" class="form-control" (change)="onChangeStruct()"
                                                 formControlName="id_Structure" [resultTemplate]="rtDoctStruct"
                                                 (selectItem)="selectDoctStruct($event)"
                                                 [inputFormatter]="formatterDoctStruct" [ngbTypeahead]="searchDoctStruct" />
                                         </div>
                                         <div class="form-group">
                                             <label for="id_child">Código do Tópico</label>
-                                            <select class="form-control" id="id_child" formControlName="id_child">
+                                            <select class="form-control" id="id_child" formControlName="id_child"
+                                            (change)="onChangeTopic()">
                                                 <option *ngFor="let struct of structs" [value]="struct._id">
                                                     {{ struct.codTopic }} - {{ struct.topic }}</option>
                                             </select>
@@ -209,7 +210,12 @@
                         </ng-template>
                     </ngb-tab>
                 </ngb-tabset>
-                   
+                <br/>
+                <div *ngIf="!isNew && !isEditing" class="col-12" id="call4">
+                  <div style="font-size: 12px; text-align: left;">
+                      Data da criação: {{ returnDateCreate(doc.dateCreated) }}
+                  </div>
+              </div>
 
                     
 
