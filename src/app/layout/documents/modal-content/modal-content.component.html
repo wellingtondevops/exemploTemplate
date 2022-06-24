@@ -25,14 +25,14 @@
                     <h2 id="call1" *ngIf="isEditing">Editar Documento</h2>
                     <h2 id="call1" *ngIf="isNew">Novo Documento</h2>
                 </div>
-            
+
                 <br/>
                 <div style="margin-bottom: 10px" id="call2">
                     <app-buttons-custom [id]="doc?._id" (edit)="editDocument()"
                         (delete)="open('focusFirst', doc._id)" [permissionEdit]="permissionEdit"
                         [permissionDelete]="permissionDelete"></app-buttons-custom>
                 </div>
-            </div>  
+            </div>
         </div>
 
         <div class="card-body base-modal-body">
@@ -42,12 +42,15 @@
                         <ng-template ngbTabContent>
                             <div class="row" style="margin-top: 20px">
                                 <div class="col-lg-6 col-md-12" >
-                        
+
                                     <div class="form-group col-lg-12 col-md-12">
-                                        <label for="typeahead-focus">Empresa</label>
-                                        <input id="typeahead-focus" type="text" class="form-control" formControlName="company"
+                                        <label for="typeahead-basic">Empresa</label>
+                                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
                                             [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                                            [ngClass]="{ 'is-invalid': !company.valid && !company.disabled }" />
+                                            [ngClass]="{ 'is-invalid': !company.valid && !company.disabled }" placeholder="Nome da Empresa"
+                                            #instanceCompany="ngbTypeahead"
+                                            (focus)="focusCompany$.next($any($event).target.value)"
+                                            (click)="clickCompany$.next($any($event).target.value)"/>
                                         <div *ngIf="company.invalid && (company.dirty || company.touched)"
                                             class="invalid-feedback">
                                             <div *ngIf="!company.valid">
@@ -60,7 +63,7 @@
                                         <input id="name" type="text" placeholder="Nome" class="form-control"
                                             formControlName="name" />
                                     </div>
-<!-- 
+<!--
                                     <div class="form-group col-lg-12 col-md-12" [hidden]="isEditing">
                                         <label for="">Criado em</label>
                                         <input id="dateCreated" type="text" placeholder="Criado em" class="form-control"
@@ -88,7 +91,7 @@
                                                             class="form-control" formControlName="dcurrentValue" />
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="form-group">
                                                         <label for="labelDintermediateValue">Intermédiaria</label>
@@ -114,7 +117,7 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -124,7 +127,7 @@
                                 <div class="col-lg-6 col-md-12" style="overflow-y: auto; max-height: 60vh">
                                     <div class="form-group" formArrayName="label">
                                         <label for="">Índices</label>
-                                         <div *ngFor="let label of labels.controls; index as i"> 
+                                         <div *ngFor="let label of labels.controls; index as i">
                                             <div class="card  mb-12" style="margin-bottom: 5px">
                                                 <div class="card-body">
                                                     <button *ngIf="isEditing || isNew" type="button" class="btn btn-danger btn-xs pull-right"
@@ -169,10 +172,10 @@
                                             </div>
                                         </div>
                                         <div *ngIf="isEditing || isNew">
-                                            <button type="button" class="btn btn-success btn-xs" (click)="addLabel()">
+                                            <button type="button" class="btn btn-success btn-xs" (click)="addLabelEdit()">
                                                 <i class="fa fa-plus"></i>
                                             </button>
-                                        </div> 
+                                        </div>
                                         <div></div>
                                     </div>
                                 </div>
@@ -217,9 +220,9 @@
                   </div>
               </div>
 
-                    
 
-                
+
+
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                 </ng-template>
@@ -230,7 +233,7 @@
             <div class="pull-right" id="call5">
                 <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"
                     style="margin-right:10px">Cancelar</button>
-                <button type="button" (click)="submit()" class="btn btn-primary" 
+                <button type="button" (click)="submit()" class="btn btn-primary"
                 [disabled]="name.invalid || company.invalid">
                     Salvar
                 </button>

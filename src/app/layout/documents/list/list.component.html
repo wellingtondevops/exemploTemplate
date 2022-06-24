@@ -15,7 +15,7 @@
             </div>
             <div class="row" id="step1">
                 <app-page-header [heading]="'Documentos'" [modalNew]="true"  [icon]="'fa-table'" [btnNew]="'Novo Documento'"
-                    (click)="getDocument(null)" [permissionBtnNew]="permissionNew">
+                    (click)="getDocument($event)" [permissionBtnNew]="permissionNew">
                 </app-page-header>
             </div>
         </div>

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { routerTransition } from 'src/app/router.animations';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
@@ -11,8 +11,8 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { Document } from 'src/app/models/document';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { TypeFieldListEnum } from 'src/app/models/typeFieldList.enum';
 import { DocumentsStructurService } from 'src/app/services/documents-structur/documents-structur.service';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
@@ -31,6 +31,8 @@ const MODALS = {
 export class ModalContentComponent implements OnInit {
   @Input() public doc;
   id;
+
+  @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
 
   document: Document;
   documentForm: FormGroup;
@@ -54,6 +56,8 @@ export class ModalContentComponent implements OnInit {
   companies: any = [];
   structs: any = [];
   doctStructs: any = [];
+  focusCompany$ = new Subject<string>();
+  clickCompany$ = new Subject<string>();
 
   constructor(
     private fb: FormBuilder,
@@ -187,6 +191,7 @@ export class ModalContentComponent implements OnInit {
                 if (!this.isNew && !this.isEditing) {
                     this.addLabel(item);
                 } else {
+                    console.log('Teste de Edit');
                     this.addLabelExist(item);
                 }
             });
@@ -205,7 +210,22 @@ export class ModalContentComponent implements OnInit {
     this.labels.push(this.createLabelExist(item));
   }
 
+  addLabelEdit(): void {
+    this.labels = this.documentForm.get('label') as FormArray;
+    this.labels.push(this.createLabelEdit());
+}
+
+createLabelEdit(): FormGroup {
+    return this.fb.group({
+        namefield: '',
+        typeField: '',
+        uniq: '',
+        timeControl: ''
+    });
+}
+
   createLabelExist(item): FormGroup {
+    console.log('ESTOU NO CREATE = ', item);
     return this.fb.group({
         namefield: item.namefield,
         typeField: item.typeField,
@@ -354,20 +374,24 @@ export class ModalContentComponent implements OnInit {
 
   formatterDoctStruct = (x: { structureName: string }) => x.structureName;
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(company => {
-                let res;
-                if (company.length < 2) {
-                    [];
-                } else {
-                    res = _.filter(this.companies, v => v.name.toLowerCase().indexOf(company.toLowerCase()) > -1).slice(0, 10);
-                }
-                return res;
-            })
-        )
+  searchCompany = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+    const inputFocus$ = this.focusCompany$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+        map(company => {
+            let res = [];
+            if (company.length < 0) {
+                [];
+            } else {
+                res = _.filter(this.companies,
+                    v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+            }
+            return res;
+        })
+    );
+    }
 
   searchDoctStruct = (text$: Observable<string>) =>
     text$.pipe(
@@ -462,6 +486,26 @@ export class ModalContentComponent implements OnInit {
           this.errorMsg.errorMessages(error);
           console.log('ERROR: ', error);
         });
+    } else {
+        this.loading = true;
+
+
+        this.returnId('company');
+        this.doctStructForm.value.company = this.documentForm.value.company;
+        const documentForm = _.omitBy(this.documentForm.value, _.isNil);
+        this.documentSrv.newDocument(documentForm).subscribe(
+            data => {
+                if (data._id) {
+                    this.successMsgSrv.successMessages('Documento cadastrado com sucesso.');
+                    this.activeModal.close('Novo');
+                }
+            },
+            error => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
     }
 
   }
