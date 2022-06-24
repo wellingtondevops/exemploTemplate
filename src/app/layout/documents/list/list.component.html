@@ -15,7 +15,7 @@
             </div>
             <div class="row" id="step1">
                 <app-page-header [heading]="'Documentos'" [modalNew]="true"  [icon]="'fa-table'" [btnNew]="'Novo Documento'"
-                    (click)="getDocument()" [permissionBtnNew]="permissionNew">
+                    (click)="getDocument(null)" [permissionBtnNew]="permissionNew">
                 </app-page-header>
             </div>
         </div>
@@ -52,9 +52,9 @@
                                 class="btn btn-dark" (click)="clear()">
                                 Limpar Campos
                             </button>
-                            <button type="submit" [disabled]="company.invalid" style="margin-left: 5px;" 
+                            <button type="submit" [disabled]="company.invalid" style="margin-left: 5px;"
                              class="btn btn-primary">
-                                <i class="fa fa-search"></i> 
+                                <i class="fa fa-search"></i>
                                 Pesquisar
                             </button>
                         </div>
@@ -72,15 +72,15 @@
 
             <ngx-datatable #myTable class="bootstrap" [rows]="documents.items" [columnMode]="'force'" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-                [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageDocuments($event)" 
-                [scrollbarH]="true" >
-                <ngx-datatable-column name="Actions" prop="name">
+                [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageDocuments($event)"
+                [scrollbarH]="true" (activate)="getDocument($event)">
+                <!-- <ngx-datatable-column name="Actions" prop="name">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                         let-row="row">
                         <button type="button" class="btn btn-outline-dark" (click)="getDocument(row, 'Antigo')">OpenPage</button>
                         <button type="button" class="btn btn-outline-success" (click)="getDocument(row, 'Novo')">OpenModal</button>
                     </ng-template>
-                </ngx-datatable-column>
+                </ngx-datatable-column> -->
             </ngx-datatable>
         </div>
     </div>

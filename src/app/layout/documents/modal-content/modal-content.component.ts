@@ -106,12 +106,12 @@ export class ModalContentComponent implements OnInit {
     this.getCompanies();
     if (this.doc) {
       console.log('O COELHINHO TROUXE: ', this.doc);
-      
+
       this.id = this.doc._id;
       this.getDocument();
-      
+
       this.enableDisable(0)
-      
+
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
 
@@ -120,8 +120,8 @@ export class ModalContentComponent implements OnInit {
       this.permissionCancel = true;
       this.permissionConfirm = true;
       this.getDoctStructs();
-         
-    } 
+
+    }
   }
 
   // RESOURCES
@@ -184,7 +184,11 @@ export class ModalContentComponent implements OnInit {
                 currentControl: this.document.currentControl
             });
             this.document.label.map(item => {
-              this.addLabelExist(item);
+                if (!this.isNew && !this.isEditing) {
+                    this.addLabel(item);
+                } else {
+                    this.addLabelExist(item);
+                }
             });
             this.loading = false;
         },
@@ -223,18 +227,18 @@ export class ModalContentComponent implements OnInit {
     );
   }
 
-  createLabel(): FormGroup {
+  createLabel(item): FormGroup {
     return this.fb.group({
-        namefield: '',
-        typeField: '',
-        uniq: '',
-        timeControl: ''
+        namefield: { value: item.namefield, disabled: true },
+        typeField: { value: item.typeField, disabled: true },
+        uniq: { value: item.uniq, disabled: true },
+        timeControl: { value: item.timeControl, disabled: true }
     });
-  }
+}
 
-  addLabel(): void {
+  addLabel(item): void {
     this.labels = this.documentForm.get('label') as FormArray;
-    this.labels.push(this.createLabel());
+    this.labels.push(this.createLabel(item));
   }
 
   enableDisable(type) {
@@ -257,7 +261,7 @@ export class ModalContentComponent implements OnInit {
       this.documentForm.controls['currentControl'].disable();
       this.documentForm.controls['label'].disable();
     }
-    
+
   }
 
   selectDoctStruct(doctStruct) {
@@ -364,7 +368,7 @@ export class ModalContentComponent implements OnInit {
                 return res;
             })
         )
-  
+
   searchDoctStruct = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -421,7 +425,7 @@ export class ModalContentComponent implements OnInit {
         this.delete(itemId);
     });
   }
-  
+
   delete(id) {
     this.loading = true;
     this.documentSrv.delete(id).subscribe(
@@ -459,7 +463,7 @@ export class ModalContentComponent implements OnInit {
           console.log('ERROR: ', error);
         });
     }
-    
+
   }
 
 }

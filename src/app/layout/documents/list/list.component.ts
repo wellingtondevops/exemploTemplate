@@ -170,22 +170,19 @@ export class ListComponent implements OnInit {
     //     );
     //   }
 
-    getDocument(document, execution) {
-        if (execution == 'Antigo') {
-            this._route.navigate(['/documents/get', document._id]);
-        } else {
-            // if (value.type == 'click') {
-                this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
-        
-                if (document) {
-                    this.data = document;
-                    // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+    getDocument(document) {
+        if (document.type == 'click') {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+
+                if (document.row) {
+                    this.data = document.row;
+                    document.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
                     this.modalRef.componentInstance.doc = this.data;
                 }
-    
+
                 this.modalRef.result.then((result) => {
                     if (result != "Sair") {
-                        this.getDocuments(); 
+                        this.getDocuments();
                     };
                     this.closeResult = `Closed with: ${result}`;
                   }, (reason) => {
