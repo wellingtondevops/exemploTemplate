@@ -16,6 +16,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { Observable, merge, Subject } from 'rxjs';
 import _ from 'lodash';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 
 @Component({
     selector: 'app-list',
@@ -43,9 +44,11 @@ export class ListComponent implements OnInit {
     };
     page = new Page();
     columns = [
-        { name: 'Empresa', prop: 'company.name', width: 830 },
-        { name: 'Perfil', prop: 'name', width: 825 },
+        { name: 'Empresa', prop: 'company.name', width: 200 },
+        { name: 'Perfil', prop: 'name', width: 150 },
     ];
+
+    // ColumnMode = ColumnMode;
 
 
     constructor(
@@ -86,7 +89,10 @@ export class ListComponent implements OnInit {
     }
 
     getAccessProfile(accessProfile) {
-        this._route.navigate(['/access-profiles/get', accessProfile._id]);
+        if (accessProfile.type == 'click') {
+            console.log('Teste despirocado.');
+        }
+        // this._route.navigate(['/access-profiles/get', accessProfile._id]);
     }
 
     getCompanies() {

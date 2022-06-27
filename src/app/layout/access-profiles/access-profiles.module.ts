@@ -14,6 +14,7 @@ import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { EditComponent } from './edit/edit.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
     declarations: [ListComponent, NewComponent, ShowComponent, EditComponent],
@@ -30,6 +31,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
         ButtonBackModule,
         NgMultiSelectDropDownModule,
         NgSelectModule,
+        NgxDatatableModule,
         TypeaheadModule,
         NgxLoadingModule.forRoot({})
     ],

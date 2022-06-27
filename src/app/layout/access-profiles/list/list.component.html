@@ -38,16 +38,17 @@
                     <div class="form-group col-lg-6 col-sm-12">
                         <label for="labelName">Perfil</label>
                         <input id="name" autoFocus="true" type="text" class="form-control"
-                            placeholder="Nome do Departamento" formControlName="name" style="width: 100%" />
+                            placeholder="Nome do Perfil" formControlName="name" style="width: 100%" />
                     </div>
                 </div>
                 <div class="row" id="step3">
                     <div class="form-group col-lg-12 col-sm-12 text-center">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <button type="button" class="btn btn-secondary" (click)="clear()" style="margin-left: 5px;">
+                        <button type="button" class="btn btn-dark" (click)="clear()" >
                             Limpar Campos
+                        </button>
+                        <button type="submit" class="btn btn-primary" style="margin-left: 5px;" [disabled]="company.invalid">
+                            <i class="fa fa-search"></i>
+                            Pesquisar
                         </button>
                     </div>
                 </div>
@@ -59,9 +60,15 @@
     </ng-template>
     <div class="row">
         <div class="col-lg-12" id="step4">
-            <app-datatables [data]="accessProfiles" (setPage)="setPageAccessProfiles($event)" [columns]="columns"
+            <!-- <app-datatables [data]="accessProfiles" (setPage)="setPageAccessProfiles($event)" [columns]="columns"
                 (show)="getAccessProfile($event)">
-            </app-datatables>
+            </app-datatables> -->
+
+            <ngx-datatable #myTable class="bootstrap" [rows]="accessProfiles.items" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+                [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageAccessProfiles($event)" 
+                [scrollbarH]="true" (activate)="getAccessProfile($event)">
+            </ngx-datatable>
         </div>
     </div>
 
