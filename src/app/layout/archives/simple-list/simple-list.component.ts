@@ -213,6 +213,7 @@ export class SimpleListComponent implements OnInit {
             this.page.pageNumber = data._links.currentPage - 1;
             this.page.totalElements = data._links.foundItems;
             this.page.size = data._links.totalPage;
+            console.log('REGISTROS EM OUTRO => ', data.items);
             const resultWithIndex = this.newRegisters(data.items);
             this.archives = resultWithIndex;
             this.loading = false;
@@ -352,6 +353,7 @@ export class SimpleListComponent implements OnInit {
         ); */
 
     newRegisters(registers) {
+        console.log('REGISTROS: ', registers);
         registers.map(item => {
             item.index = this.mapLabel(item.doct.label, item.tag);
         });
