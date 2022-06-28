@@ -2,7 +2,7 @@ export const environment = {
 
   apiUrl: 'https://archiomaintestes.archio.com.br',
 
-  apiUrlUpload: 'https://muploadtestes.archio.com.br',
+  apiUrlUpload: 'http://localhost:3000',
   apiUrlUploadSingle: 'https://smuploadtestes.archio.com.br',
 //   exportUrl: 'https://exportarchivestestes.archio.com.br',
   urlSearch: 'https://archiomaintestes.archio.com.br',
