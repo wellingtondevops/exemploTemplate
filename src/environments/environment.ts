@@ -1,6 +1,6 @@
 export const environment = {
 
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://archiomaintestes.archio.com.br',
 
   apiUrlUpload:'https://archiomaintestes.archio.com.br',
   apiUrlUploadSingle: 'https://smuploadtestes.archio.com.br',
