@@ -1,0 +1,91 @@
+<div [@routerTransition]>
+    <ngx-loading
+        [show]="loading"
+        [config]="{
+          backdropBorderRadius: '3px',
+          fullScreenBackdrop: false,
+          primaryColour: '#222',
+          secondaryColour: '#222',
+          tertiaryColour: '#222'
+        }"
+    ></ngx-loading>
+    <div class="base-modal-content" style="min-height: 80vh">
+        <div class="card-header base-modal-header flex">
+            <div class="row" *ngIf="!loading">
+                <div class="col text-left">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9; margin-left: 15px;" (click)="help()"></i>
+                </div>
+            <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
+                <span id="call4" aria-hidden="true">&times;</span>
+            </button>
+            <br>
+            <div class="col-lg-12" >
+                <h2 id="call1" *ngIf="!isNew && !isEditing">Dados do Departamento</h2>
+                <h2 id="call1" *ngIf="isNew">Novo Departamento</h2>
+                <h2 id="call1" *ngIf="isEditing">Editar Departamento</h2>
+            </div>
+            
+            <br/>
+            <div style="margin-bottom: 10px" id="call2">
+                <app-buttons-custom *ngIf="!isNew" [id]="dep._id" (edit)="editDepartament()"
+                    (delete)="open('focusFirst', dep._id)" [permissionEdit]="permissionEdit"
+                    [permissionDelete]="permissionDelete"></app-buttons-custom>
+            </div>
+            </div>
+
+            
+        </div>
+
+        <div class="card-body base-modal-body">
+            <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="submit()" class="form">
+                <div class="form-content" id="call3">
+                    <div class="form-group">
+                        <label for="typeahead-basic">Empresa</label>
+                            <input *ngIf="this.isNew" id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                                formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
+                                [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                                style="width: 100%; margin-right: 10px;"
+                                [ngClass]="{ 'is-invalid': companyIpt.invalid && companyIpt.touched }"
+                                #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                                (click)="clickCompany$.next($any($event).target.value)" />
+                                <input *ngIf="!this.isNew" id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                                formControlName="company" placeholder="Nome da Empresa"
+                                style="width: 100%; margin-right: 10px;"
+                                [ngClass]="{ 'is-invalid': companyIpt.invalid && companyIpt.touched }"
+                                />
+                            <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)" class="invalid-feedback">
+                                <div *ngIf="!companyIpt.valid">
+                                    Empresa é obrigatório.
+                                </div>
+                            </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="input-name">Departamento</label>
+                        <input type="text" placeholder="Nome do Departamento" oninput="this.value = this.value.toUpperCase()"
+                        [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control" formControlName="name" />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                            <div *ngIf="!name.valid">
+                                Departamento é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                </div>
+            </form>
+        </div>
+
+        <div *ngIf="this.permissionCancelEdit && this.permissionCancelEdit" class="modal-footer" >
+            <div class="pull-right" id="call5">
+                <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"
+                    style="margin-right:10px">Cancelar</button>
+                <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="companyIpt.invalid || name.invalid">
+                    Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+</div>

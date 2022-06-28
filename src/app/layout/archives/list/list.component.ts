@@ -17,11 +17,13 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
-import { NgbTypeahead, NgbTypeaheadConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadConfig, NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from '../../../utils/case-insensitive';
 import * as moment from 'moment';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
+import { ModalFilterComponent } from '../modal-filter/modal-filter.component';
 
 @Component({
     selector: 'app-list',
@@ -69,6 +71,13 @@ export class ListComponent implements OnInit {
     fDateIntermediate;
     ColumnMode = ColumnMode;
 
+    filterCount;
+
+    modalOptions: NgbModalOptions;
+    modalFilterOptions: NgbModalOptions;
+    data;
+    modalRef: any;
+    closeResult: string;
 
     constructor(
         private archiveSrv: ArquivesService,
@@ -91,14 +100,27 @@ export class ListComponent implements OnInit {
         config.showHint = true;
         config.container = 'body';
         config.focusFirst = false;
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+
+        this.modalFilterOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'filterModal',
+        };
     }
 
     ngOnInit() {
-        // this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
             departament: this.fb.control(null, [Validators.required]),
-            status: this.fb.control('ATIVO'),
+            status: this.fb.control([]),
             location: this.fb.control('', Validators.required),
             storehouse: this.fb.control('', [Validators.required]),
             doct: this.fb.control(null, Validators.required),
@@ -108,35 +130,46 @@ export class ListComponent implements OnInit {
             finalCurrent: this.fb.control(null),
             final: this.fb.control(null),
             finalIntermediate: this.fb.control(null),
+            fases: this.fb.control(null),
         });
 
-        const archive = JSON.parse(this.localStorageSrv.get('archive'));
-
-        if (archive && archive.company) {
-            this.searchForm.patchValue({
-                company: archive.company,
-                departament: archive.departament,
-                status: archive.status,
-                location: archive.location,
-                storehouse: archive.storehouse,
-                doct: archive.doct,
-                search: archive.search,
-                endDate: archive.endDate,
-                initDate: archive.initDate,
-                final: archive.final,
-                finalCurrent: archive.finalCurrent,
-                finalIntermediate: archive.finalIntermediate,
-            });
-            this.selectedCompany(archive.company._id);
-        }
+        this.getCompanies();
+        this.getStoreHouses();
+        
+        this.setForm();
+        this.filterCounter();
 
         this.statusList = StatusVolumeEnum;
         this.getArchive();
         this.noExternal = this.NoExternal();
-        this.getCompanies();
-        this.getStoreHouses();
+        
         this.searchForm.patchValue({ endDate: null });
         this.checkValue();
+    }
+
+    filterCounter() {
+        this.filterCount = 0;
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+                
+        if (archive.status !== null && archive.status !== undefined) {
+            if (archive.status.length > 0) {
+                this.filterCount++;
+            }
+        }
+        
+        if (archive.fases) {
+            if (archive.fases.length > 0) {
+                this.filterCount++;
+            }
+        }
+        
+        if (archive.initDate && archive.initDate != undefined) {
+            this.filterCount++;
+        }
+        if (archive.endDate && archive.endDate != undefined) {
+            this.filterCount++;
+        }
+        
     }
 
     NoExternal() {
@@ -179,21 +212,59 @@ export class ListComponent implements OnInit {
         return result;
     }
 
+    setForm() {
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+            if (archive && archive.company) {
+                this.searchForm.patchValue({
+                    company: archive.company,
+                    departament: archive.departament,
+                    status: archive.status,
+                    location: archive.location,
+                    storehouse: archive.storehouse,
+                    doct: archive.doct,
+                    search: archive.search,
+                    endDate: archive.endDate,
+                    initDate: archive.initDate,
+                    final: archive.final,
+                    finalCurrent: archive.finalCurrent,
+                    finalIntermediate: archive.finalIntermediate,
+                    fases: archive.fases
+                });
+                this.getDepartaments(archive.company._id);
+            }
+    }
+
+    openFilter(){
+        this.modalRef = this.modalService.open(ModalFilterComponent, this.modalFilterOptions);
+    
+        this.modalRef.componentInstance.form = this.searchForm.value;
+
+
+            this.modalRef.result.then((result) => {
+                if (result != "Sair") {
+                    this.setForm();
+                    this.filterCounter();
+                    this.setPage({ offset: 0 }); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+    }
+
     checkValue() {
         this.currentValue = this.fCurrent.value;
         this.indeterminateValue = this.fIntermediate.value;
-        if (this.indeterminateValue === true) {
-            const newValue: Boolean = true;
-            this.currentValue = newValue;
-        }
+        // if (this.indeterminateValue === true) {
+        //     const newValue: Boolean = true;
+        //     this.currentValue = newValue;
+        // }
     }
 
-    setPage(pageInfo) {
+     setPage(pageInfo) {
         this.checkValue();
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
-
-        this.localStorageSrv.save('archive', this.searchForm.value);
 
         const newSearch = {
             company: null,
@@ -201,13 +272,14 @@ export class ListComponent implements OnInit {
             departament: null,
             doct: null,
             location: null,
-            status: null,
+            status: [],
             search: null,
             endDate: null,
             initDate: null,
             final: null,
             finalCurrent: null,
             finalIntermediate: null,
+            fases: null
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -216,16 +288,17 @@ export class ListComponent implements OnInit {
         this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
         newSearch.location = this.searchForm.value.location;
         newSearch.status = this.searchForm.value.status;
+        // newSearch.fases = this.searchForm.value.fases;
         newSearch.search = this.searchForm.value.search;
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
         newSearch.final = this.searchForm.value.final;
         newSearch.finalCurrent = this.currentValue;
         newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
-        if (newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
-            newSearch.finalCurrent = this.currentValue = null;
-            newSearch.finalIntermediate = this.searchForm.value.finalIntermediate = null;
-        }
+        // if (newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
+        //     newSearch.finalCurrent = this.currentValue = null;
+        //     newSearch.finalIntermediate = this.searchForm.value.finalIntermediate = null;
+        // }
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
@@ -252,9 +325,9 @@ export class ListComponent implements OnInit {
     }
 
     showView(value) {
-        if (value.type === 'click') {
-            this._route.navigate(['/archives/get', value.row._id]);
-        }
+        // if (value.type === 'click') {
+            this._route.navigate(['/archives/get', value._id]);
+        // }
         /* if (value.type === 'click') {
           this._route.navigate(['/archives/get', value.row._id]);
         } else if (value.type === 'mouseenter') {
@@ -274,23 +347,26 @@ export class ListComponent implements OnInit {
 
     getArchive() {
         if (this.searchForm.value.company) {
+            this.localStorageSrv.save('archive', this.searchForm.value);
             this.setPage({ offset: 0 });
         }
     }
 
     clear() {
-        this.localStorageSrv.clear('archive');
         this.searchForm.patchValue({
             company: null,
             departament: null,
-            status: 'ATIVO',
             location: null,
             storehouse: null,
             doct: null,
             search: null,
-            endDate: null,
-            initDate: null
+            status: [],
+            initDate: null,
+            endDate: null
+            
         });
+        this.localStorageSrv.save('archive', this.searchForm.value);
+        this.filterCounter();
     }
 
     getCompanies() {
@@ -307,6 +383,10 @@ export class ListComponent implements OnInit {
     }
 
     selectedCompany(e) {
+        this.searchForm.patchValue({
+            departament: null,
+            doct: null,
+        });
         if (e && e.item && e.item._id) {
             this.getDocuments(e.item._id);
             this.getDepartaments(e.item._id);
@@ -390,18 +470,6 @@ export class ListComponent implements OnInit {
             }));
     }
 
-    /* searchStorehouse = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        map(storehouse => {
-          var res;
-          if (storehouse.length < 2) [];
-          else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
-          return res;
-        })
-      ); */
-
     getDocuments(company_id) {
         this.documentsSrv.searchDocuments(company_id).subscribe(
             data => {
@@ -425,18 +493,6 @@ export class ListComponent implements OnInit {
                 : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
             )));
     }
-
-    /*   searchDocument = (text$: Observable<string>) =>
-        text$.pipe(
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(document => {
-            var res;
-            if (document.length < 2) [];
-            else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
-            return res;
-          })
-        ); */
 
     newRegisters(registers) {
         registers.map(item => {
@@ -467,7 +523,7 @@ export class ListComponent implements OnInit {
             departament: null,
             doct: null,
             location: null,
-            status: null,
+            status: [],
             search: null,
             endDate: null,
             initDate: null,
@@ -538,6 +594,39 @@ export class ListComponent implements OnInit {
 
     help() {
         this.introService.ListArchives();
+    }
+
+    openArchive(value) {
+        if (value.type == 'click') {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+    
+            if (value) {
+                this.data = value.row;
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                this.modalRef.componentInstance.arch = this.data;
+            }
+
+            this.modalRef.result.then((result) => {
+                if (result != "Sair") {
+                    this.getArchive(); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+        }
+        
+        
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
     }
 }
 

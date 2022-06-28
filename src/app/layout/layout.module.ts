@@ -9,6 +9,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { NgbdModalConfirmComponent } from '../shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { NgbdModalConfirmModule, ThemeToggleModule } from '../shared';
 import { Masks } from '../utils/masks';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
@@ -18,9 +19,10 @@ import { Masks } from '../utils/masks';
       NgbDropdownModule,
       NgbdModalConfirmModule,
       ThemeToggleModule,
+      NgbModule,
+      
     ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
-    entryComponents: [NgbdModalConfirmComponent],
-    providers: [Masks]
+    providers: [Masks],
 })
 export class LayoutModule {}

@@ -10,10 +10,13 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class ButtonsCustomComponent implements OnInit {
     @Output() edit = new EventEmitter();
     @Output() delete = new EventEmitter();
+    @Output() block = new EventEmitter();
     @Input() id: string;
     @Input() permissionEdit = false;
     @Input() permissionDelete = false;
     @Input() isUser = false;
+    @Input() isNew = false;
+    @Input() inputBlock = false;
 
     public radioGroupForm: FormGroup;
 
@@ -31,5 +34,9 @@ export class ButtonsCustomComponent implements OnInit {
 
     deleteItem() {
         this.delete.emit(this.id);
+    }
+
+    blockCamps() {
+        this.block.emit();
     }
 }

@@ -97,6 +97,7 @@ export class ShowComponent implements OnInit {
         this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
         this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
         this.requestList = ResquestEnum;
+
     }
 
     //   isUser() {

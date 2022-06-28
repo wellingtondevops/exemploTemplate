@@ -14,8 +14,8 @@
                 </div>
             </div>
             <div id="step1">
-                <app-page-header [heading]="'Departamentos'" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
-                    [permissionBtnNew]="permissionNew" [routerTo]="'/departaments/new'"></app-page-header>
+                <app-page-header [heading]="'Departamentos'" [modalNew]="true" [icon]="'fa-table'" [btnNew]="'Novo Departamento'"
+                    [permissionBtnNew]="permissionNew" (click)="openDepartament($event)"></app-page-header>
             </div>
         </div>
         <div class="card-body ">
@@ -45,11 +45,14 @@
 
                 <div class="row" style="margin-top: 10px;" id="step3">
                     <div class="form-group col-lg-12 col-sm-12 text-center">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid"><i
-                                class="fa fa-search"></i></button>
-                        <button type="submit" class="btn dark-btn" style="margin-left: 10px;"
-                            [disabled]="company.invalid" (click)="clear()">
+                        <button type="submit" class="btn btn-dark" [disabled]="company.invalid" 
+                        (click)="clear()">
                             Limpar Campos
+                        </button>
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid"
+                        style="margin-left: 10px;">
+                        <i class="fa fa-search"></i>
+                            Pesquisar
                         </button>
                     </div>
                 </div>
@@ -60,10 +63,27 @@
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-12" id="step4">
             <app-datatables [data]="departaments" (setPage)="setPageDepartaments($event)" [columns]="columns"
                 (show)="getDepartament($event)"></app-datatables>
+        </div>
+    </div> -->
+
+     <div class="row" *ngIf="departaments.items.length > 0">
+        <div class="col col-xl-12 col-lg-12" id="step4">
+
+            <ngx-datatable #myTable class="bootstrap" [rows]="departaments.items" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+                [offset]="page.pageNumber - 1" [limit]="10" (page)="setPageDepartaments($event)" [scrollbarH]="true" (activate)="openDepartament($event)">
+
+                <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                    [resizeable]="false">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Departamento" prop="name" [width]= 50></ngx-datatable-column>
+                <ngx-datatable-column name="Empresa" prop="company.name" [width]= 50></ngx-datatable-column>
+
+            </ngx-datatable>
         </div>
     </div>
 </div>

@@ -1,9 +1,20 @@
-<div class="row">
+<div *ngIf="!modalNew" class="row">
     <div class="col-xl-12">
         <h2 class="page-header">
             {{heading}}
             <span style="float:right">
                 <button *ngIf="permissionBtnNew" class="btn btn-primary"  [routerLink]="[routerTo]">{{ btnNew }}</button>
+            </span>
+        </h2>
+    </div>
+</div>
+
+<div *ngIf="modalNew" class="row">
+    <div class="col-xl-12">
+        <h2 class="page-header">
+            {{heading}}
+            <span style="float:right">
+                <button *ngIf="permissionBtnNew" class="btn btn-primary"  (click)="openNew()">{{ btnNew }}</button>
             </span>
         </h2>
     </div>

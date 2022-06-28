@@ -13,28 +13,32 @@
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
             </div>
-            <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'"
-                [permissionBtnNew]="permissionNew && !isUsers" [routerTo]="'/volumes/new'"></app-page-header>
+            <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Novo Volume'" [modalNew]="true"
+                [permissionBtnNew]="permissionNew && !isUsers" (click)="openVolume($event)"></app-page-header>
+                <!-- <app-page-header [heading]="'Volumes'" [icon]="'fa-table'" [btnNew]="'Antigo Volume'"
+                [permissionBtnNew]="permissionNew && !isUsers" [routerTo]="'/volumes/new'"></app-page-header> -->
         </div>
         <div class="card-body">
             <form [formGroup]="searchForm" (ngSubmit)="getVolumes()" role="FormGroup">
                 <div id="step2">
                     <div class="row">
-                        <div class="col col-lg-4 col-sm-12">
-                            <label for="typeahead-basic">Empresa</label>
-                            <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)"
-                                type="text" placeholder="Nome da Empresa" class="form-control" formControlName="company"
-                                [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                                [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%"
+                        <div class="form-group col-lg-6 col-md-12">
+                            <label for="typeahead-focus">Empresa</label>
+                            <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
+                                formControlName="company" (selectItem)="selectedCompany($event)"
+                                placeholder="Nome da Empresa" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                                [ngbTypeahead]="searchCompany" style="width: 100%"
+                                [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
                                 #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
                                 (click)="clickCompany$.next($any($event).target.value)" />
-                            <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="company.invalid && (company.dirty || company.touched )"
+                                class="invalid-feedback">
                                 <div *ngIf="!company.valid">
                                     Empresa é obrigatório.
                                 </div>
                             </div>
                         </div>
-                        <div class="col col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-3 col-md-6">
                             <label for="typeahead-basic">Departamento</label>
                             <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome do Departamento"
                                 class="form-control" formControlName="departament" [resultTemplate]="rtDepartament"
@@ -43,12 +47,7 @@
                                 (focus)="focusDepartament$.next($any($event).target.value)"
                                 (click)="clickDepartament$.next($any($event).target.value)" />
                         </div>
-                        <div class="col col-lg-2 col-sm-12">
-                            <label for="location">Posição</label>
-                            <input id="location" class="form-control col-12" placeholder="Nome da Posição"
-                                formControlName="location" />
-                        </div>
-                        <div class="col col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-3 col-md-6">
                             <label for="typeahead-focus">Depósito</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 placeholder="Nome do Depósito" formControlName="storehouse"
@@ -57,10 +56,60 @@
                                 (focus)="focusStorehouse$.next($any($event).target.value)"
                                 (click)="clickStorehouse$.next($any($event).target.value)" />
                         </div>
-                    </div>
+                        <div [ngClass]="hiddenReference ? 'col-lg-6' : 'col-lg-4'" class="form-group col-sm-12">
+                            <label for="location">Posição</label>
+                            <input id="location" class="form-control col-12" placeholder="Nome da Posição"
+                                formControlName="location" />
+                        </div>
 
-                    <div class="row">
-                        <div class="col col-lg-4 col-sm-12 mt-2 mb-2">
+                        <div [ngClass]="hiddenReference ? 'col-lg-3' : 'col-lg-2'" class="form-group col-sm-6">
+                            <label for="initDate">Data Inicial</label>
+                            <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
+                                (input)="changeDate()" formControlName="initDate" />
+                        </div>
+                        <div [ngClass]="hiddenReference ? 'col-lg-3' : 'col-lg-2'" class="form-group col-sm-6">
+                            <label for="endDate">Data Final</label>
+                            <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
+                                [disabled]="!dateSent" [min]="dateSent" />
+                        </div>
+
+                        <div class="form-group col-lg-4 col-sm-12" [hidden]="hiddenReference">
+                            <label for="reference">Referência</label>
+                            <input  id="reference" placeholder="Insira a referência" class="form-control col-12"
+                                formControlName="reference" />
+                        </div>
+                        <div class="form-group col-lg-3 col-sm-6">
+                            <label for="status">Status</label>
+                            <select class="form-control col-12" id="status" formControlName="status">
+                                <option *ngFor="let item of statusThings" [value]="item.value"
+                                [selected]="item.selected == 1">
+                                    {{ item.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3 col-sm-6">
+                            <label for="guardType">Tipo de Guarda</label>
+                            <select class="form-control col-12" id="guardType" formControlName="guardType" (change)="switchGuardType($event)">
+                                <option *ngFor="let item of guardTypeThings" [value]="item.name"
+                                [selected]="item.selected == 1">
+                                    {{ item.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3 col-sm-6">
+                            <label for="records">Conteúdo</label>
+                            <select class="form-control col-12" id="records" formControlName="records">
+                                <option *ngFor="let item of recordsThings" [value]="item.name">
+                                    {{ item.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3 col-sm-6">
+                            <label for="closeBox">Situação do Volume</label>
+                            <select class="form-control col-12" id="closeBox" formControlName="closeBox">
+                                <option *ngFor="let item of boxThings" [value]="item.name">
+                                    {{ item.name }}</option>
+                            </select>
+                        </div>
+
+                        <!-- <div class="col col-lg-4 col-sm-12 mt-2 mb-2">
                             <label for="status" style="margin-right: 5px;">Status:</label>
                             <div class="pretty p-switch p-fill">
                                 <input class="form-check-input" type="radio" name="status" formControlName="status"
@@ -91,9 +140,9 @@
                             </div>
                         </div>
                         <div class="col col-lg-4 col-sm-12 mb-2 mt-2">
-                            <label for="status" style="margin-right: 5px;">Tipo de Guarda: </label>
+                            <label for="guardType" style="margin-right: 5px;">Tipo de Guarda: </label>
                             <div class="pretty p-switch p-fill">
-                                <input class="form-check-input" type="radio" name="guardType"
+                                <input (change)="switchGuardType($event)" class="form-check-input" type="radio" name="guardType"
                                     formControlName="guardType" id="simples" value="SIMPLES" />
                                 <div class="state">
                                     <label class="form-check-label" for="simples">
@@ -102,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="pretty p-switch p-fill">
-                                <input class="form-check-input" type="radio" name="guardType"
+                                <input (change)="switchGuardType($event)" class="form-check-input" type="radio" name="guardType"
                                     formControlName="guardType" id="gerenciada" value="GERENCIADA" />
                                 <div class="state">
                                     <label class="form-check-label" for="gerenciada">
@@ -110,32 +159,7 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <!-- <div class="col col-lg-2 col-sm-12">
-                        <label style="margin-right: 5px;">Tipo de Guarda:</label>
-                        <select style="border-radius: 50px;" class="form-control col-12" id="guardType" formControlName="guardType">
-                            <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
-                                {{ guardT | translate }}</option>
-                        </select>
-                    </div> -->
-                        <div class="col col-lg-3 col-sm-12">
-                            <label for="reference">Referência</label>
-                            <input id="reference" placeholder="Insira a referência" class="form-control col-12"
-                                formControlName="reference" />
-                        </div>
-                        <div class="col col-lg-2 col-sm-12">
-                            <label for="initDate">Data Inicial</label>
-                            <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
-                                (input)="changeDate()" formControlName="initDate" />
-                        </div>
-                        <div class="col col-lg-2 col-sm-12">
-                            <label for="endDate">Data Final</label>
-                            <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
-                                [disabled]="!dateSent" [min]="dateSent" />
-                        </div>
+                        </div>                     
                         <div class="col col-lg-2 col-sm-12">
                             <label>Conteúdo:</label>
                             <div class="pretty p-switch p-fill">
@@ -177,17 +201,18 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
                 <div class="col col-lg-12 col-sm-12 text-center mt-1" id="step3">
-                    <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <button style="margin-left: 5px;" type="button" class="btn dark-btn" [disabled]="company.invalid"
+                    <button type="button" class="btn btn-dark" [disabled]="company.invalid"
                         (click)="clear()">
                         Limpar Campos
+                    </button>
+                    <button style="margin-left: 5px;" type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                        <i class="fa fa-search"></i>
+                        Pesquisar
                     </button>
                 </div>
 
@@ -206,9 +231,15 @@
 
     <div class="row">
         <div class="col col-xl-12 col-lg-12" id="step4">
-            <app-datatables [data]="volumes" (setPage)="setPageVolumes($event)" [columns]="columns"
+            <!-- <app-datatables [data]="volumes" (setPage)="setPageVolumes($event)" [columns]="columns"
                 (show)="getVolume($event)">
-            </app-datatables>
+            </app-datatables> -->
+
+            <ngx-datatable #myTable class="bootstrap" [rows]="volumes.items" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+                [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageVolumes($event)" 
+                [scrollbarH]="true" (activate)="openVolume($event)">
+            </ngx-datatable>
         </div>
     </div>
 </div>

@@ -17,8 +17,40 @@
                 <div class="col-lg-1 text-right">
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
+
+                <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
+                    
+                    <div class="col-lg-6 text-right" style="float: right;">
+                        <div class="form-group ">
+                            <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
+                                class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar
+                            </button>
+      
+                            
+                        </div>
+                    </div>
+    
+                    <ng-template #content let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Solicitação enviada!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Sua solicitação de exportação foi realizada com sucesso, este processo
+                                e automatizado e dependendo da quantidade de itens pode demorar um pouco.</p>
+                            <strong>Mas não se preocupe, assim que o processo de exportação for finalizado avisaremos via notificação e e-mail.</strong>
+                            <br/>
+                            <small>Não é necessario, aguardar na pagina.</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-success"
+                                (click)="c()">Confirmar</button>
+                        </div>
+                    </ng-template>
+                </form>
             </div>
         </div>
+
         <div class="card-body">
             <form [formGroup]="searchForm" role="FormGroup" class="form">
                 <div id="step2">
@@ -78,22 +110,22 @@
                     </div>
                 </div>
                 <div class="row col-12 text-center" id="step4">
-                    <div class="form-group ">
-                        <button type="submit" class="btn btn-primary" (click)="getArchive()" >
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <button type="button" style="margin-left: 5px;" class="btn dark-btn" (click)="clear()">
+                    <div class="form-group mt-1">
+                        <button type="button" class="btn btn-dark" (click)="clear()">
                             Limpar Campos
                         </button>
-                        <button [disabled]="company.invalid || page.totalElements == 0" type="button"
+                        <button type="submit" class="btn btn-primary" style="margin-left: 5px;" (click)="getArchive()" >
+                            <i class="fa fa-search"></i> Pesquisar
+                        </button>
+                        <!-- <button [disabled]="company.invalid || page.totalElements == 0" type="button"
                             style="margin-left: 5px;" class="btn btn-success" (click)="exportArchives()"
                             (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
-                        </button>
+                        </button> -->
                     </div>
                 </div>
 
-                <ng-template #content let-c="close" let-d="dismiss">
+                <!-- <ng-template #content let-c="close" let-d="dismiss">
                     <div class="modal-header">
                         <h4 class="modal-title" id="modal-basic-title">Solicitação enviada!</h4>
                     </div>
@@ -108,7 +140,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-success" (click)="c()">Confirmar</button>
                     </div>
-                </ng-template>
+                </ng-template> -->
 
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
@@ -129,7 +161,7 @@
         <ngx-datatable #myTable class="bootstrap" [rows]="archives" [columnMode]="ColumnMode.force" [scrollbarH]="true"
             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
             [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
-            (activate)="showView($event)">
+            (activate)="openArchive($event)">
 
             <ngx-datatable-column name="Departamento" prop="departament.name" [width]="290"></ngx-datatable-column>
 

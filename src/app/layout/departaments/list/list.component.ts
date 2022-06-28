@@ -4,7 +4,7 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Router } from '@angular/router';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { NgbModal, NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbTypeahead, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { Page } from 'src/app/models/page';
 import { DepartamentList } from 'src/app/models/departament';
@@ -17,6 +17,7 @@ import _ from 'lodash';
 import { Observable, Subject, merge } from 'rxjs';
 import { CaseInsensitive } from '../../../utils/case-insensitive'
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -30,6 +31,10 @@ const MODALS = {
 export class ListComponent implements OnInit {
     @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
 
+    data;
+    modalRef: any;
+    closeResult: string;
+    modalOptions:NgbModalOptions;
     searchForm: FormGroup;
     height: any;
     loading: Boolean = true;
@@ -55,6 +60,8 @@ export class ListComponent implements OnInit {
     ];
     permissionNew: boolean = false;
 
+
+
     constructor(
         private el: ElementRef,
         private departmentService: DepartamentsService,
@@ -69,7 +76,16 @@ export class ListComponent implements OnInit {
         private utilCase: CaseInsensitive,
         private localStorageSrv: SaveLocal,
         private introService: IntroJsService,
-    ) { }
+    ) {
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+
+    }
 
     ngOnInit() {
         // this.setPage({ offset: 0 })
@@ -93,9 +109,42 @@ export class ListComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
-    getDepartament(departament) {
-        this._route.navigate(['/departaments/get', departament._id]);
+    openDepartament(value) {
+    if (value.type === 'click') {
+        console.log("CLIQUEI, TROUXE: ", value);
+        this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+
+        if (value.row) {
+            this.data = value.row;
+            value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+            this.modalRef.componentInstance.dep = this.data;
+        }
+
+        this.modalRef.result.then((result) => {
+            console.log('Aqui as ideia: ', result);
+            if (result != "Sair") {
+                this.getDepartaments(); 
+            };
+            this.closeResult = `Closed with: ${result}`;
+          }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          });
+        
     }
+
+
+
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
+      }
 
     getCompanies() {
         this.companiesSrv.searchCompanies().subscribe(

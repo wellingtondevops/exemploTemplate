@@ -9,6 +9,8 @@ import { Page } from 'src/app/models/page';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalDismissReasons, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
     selector: 'app-list',
@@ -17,6 +19,10 @@ import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    data;
+    modalRef: any;
+    closeResult: string;
+    modalOptions:NgbModalOptions;
     searchForm: FormGroup;
     companies: CompaniesList = {
         _links: {
@@ -46,11 +52,19 @@ export class ListComponent implements OnInit {
         private fb: FormBuilder,
         private localStorageSrv: SaveLocal,
         private introService: IntroJsService,
-    ) { }
+        private modalService: NgbModal,
+    ) { 
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+    }
 
     ngOnInit() {
         this.searchForm = this.fb.group({
-            name: this.fb.control(null, [Validators.required]),
+            name: this.fb.control(null),
         });
         const companies = JSON.parse(this.localStorageSrv.get('companies'));
         if (companies && companies.name) {
@@ -59,6 +73,7 @@ export class ListComponent implements OnInit {
             });
         }
         this.getCompanies();
+
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
     }
 
@@ -111,6 +126,8 @@ export class ListComponent implements OnInit {
             );
         } */
 
+        
+
     setPage(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
@@ -126,6 +143,40 @@ export class ListComponent implements OnInit {
             this.loading = false;
         });
     }
+
+    openCompany(value) {
+        if (value.type === 'click') {
+            console.log("CLIQUEI, TROUXE: ", value);
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+    
+            if (value.row) {
+                this.data = value.row;
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                this.modalRef.componentInstance.comp = this.data;
+            }
+    
+            this.modalRef.result.then((result) => {
+                console.log('Aqui as ideia: ', result);
+                if (result != "Sair") {
+                    this.getCompanies(); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+            
+        }
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
+      }
     clear() {
         this.localStorageSrv.clear('companies');
 

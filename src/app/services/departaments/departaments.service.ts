@@ -50,6 +50,7 @@ export class DepartamentsService {
   }
 
   delete(departament) {
+    console.log("Chegou no delete", departament);
     return this.http.delete<Departament>(`${url}/departaments/${departament}`)
     .pipe(
       tap(data => data)

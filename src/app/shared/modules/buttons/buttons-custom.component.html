@@ -1,8 +1,16 @@
 <span style="float: right">
-    <button type="button" *ngIf="permissionEdit && !isUser" style="margin-left: 5px" class="btn dark-btn btn-sm" (click)="editView()">
+    <button type="button" *ngIf="permissionEdit && !isUser && !isNew" style="margin-left: 5px" class="btn dark-btn btn-sm" (click)="editView()">
         <i style="color:white">Alterar</i>
     </button>
-    <button type="button" *ngIf="permissionDelete && !isUser" style="margin-left: 5px" class="btn btn-sm btn-danger" (click)="deleteItem()">
+    <button type="button" *ngIf="permissionDelete && !isUser && !isNew" style="margin-left: 5px" class="btn btn-sm btn-danger" (click)="deleteItem()">
         <i  style="color: white">Excluir</i>
+    </button>
+    <button type="button" *ngIf="!isUser && isNew" class="btn btn-primary" (click)="blockCamps()">
+        <span class="fa fa-lock" [hidden]="inputBlock">
+            Bloquear Campos
+        </span>
+        <span class="fa fa-unlock" [hidden]="!inputBlock">
+            Desbloquear Campos
+        </span>
     </button>
 </span>

@@ -17,13 +17,49 @@
                 <div class="col-lg-1 text-right">
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
                 </div>
+
+                <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
+                    
+                    <div class="col-lg-6 text-right mt-1" style="float: right;">
+                        <div class="form-group ">
+                            <button [disabled]="company.invalid" type="button"
+                                class="btn btn-dark" (click)="openFilter()" *ngIf="!noExternal">
+                                <i class="fa fa-filter" aria-hidden="true"></i>&emsp;Outros Filtros
+                                <span *ngIf="filterCount > 0" class="badge badge-danger">{{ filterCount }}</span>
+                            </button>
+                            <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
+                                class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar
+                            </button>
+      
+                            
+                        </div>
+                    </div>
+    
+                    <ng-template #content let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Solicitação enviada!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Sua solicitação de exportação foi realizada com sucesso, este processo
+                                e automatizado e dependendo da quantidade de itens pode demorar um pouco.</p>
+                            <strong>Mas não se preocupe, assim que o processo de exportação for finalizado avisaremos via notificação e e-mail.</strong>
+                            <br/>
+                            <small>Não é necessario, aguardar na pagina.</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-success"
+                                (click)="c()">Confirmar</button>
+                        </div>
+                    </ng-template>
+                </form>
             </div>
         </div>
         <div class="card-body">
             <form [formGroup]="searchForm" (ngSubmit)="getArchive()" role="FormGroup" class="form">
                 <div id="step2">
                     <div class="row">
-                        <div class="form-group col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-5 col-sm-12">
                             <label for="typeahead-focus">Empresa</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 formControlName="company" (selectItem)="selectedCompany($event)"
@@ -39,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-lg-3 col-sm-12">
+                        <div class="form-group col-lg-4 col-sm-12">
                             <label for="typeahead-focus">Departamento</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
                                 placeholder="Nome do Departamento" formControlName="departament"
@@ -49,11 +85,7 @@
                                 (focus)="focusDepartament$.next($any($event).target.value)"
                                 (click)="clickDepartament$.next($any($event).target.value)" />
                         </div>
-                        <div class="form-group col-lg-3 col-sm-12">
-                            <label for="search_archive">Posição</label>
-                            <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição"
-                                formControlName="location" />
-                        </div>
+                        
                         <div class="form-group col-lg-3 col-sm-12">
                             <label for="typeahead-focus">Depósito</label>
                             <input id="typeahead-focus" autoFocus="true" type="text" class="form-control"
@@ -63,8 +95,9 @@
                                 (focus)="focusStorehouse$.next($any($event).target.value)"
                                 (click)="clickStorehouse$.next($any($event).target.value)" />
                         </div>
+                        
                     </div>
-                    <div class="row ml-1 mt-1 mb-1 form-check-inline">
+                    <!-- <div class="row ml-1 mt-1 mb-1 form-check-inline">
                         <div class="col-lg-1 pr-0">
                             <label>Status:</label>
                         </div>
@@ -136,9 +169,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row" id="step3">
-                        <div class="form-group col-lg-4 col-sm-12">
+                        
+                        <div class="form-group col-lg-5 col-sm-12">
                             <label for="typeahead-scrollable">Documento</label>
                             <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
                                 placeholder="Nome do Documento" formControlName="doct" [resultTemplate]="rtDocument"
@@ -152,7 +186,13 @@
                             <input id="search_archive" class="form-control col-12" placeholder="Informe o Índice"
                                 formControlName="search" />
                         </div>
-                        <div class="form-group col-lg-2 col-sm-12">
+                        <div class="form-group col-lg-3 col-sm-12">
+                            <label for="search_archive">Posição</label>
+                            <input id="search_archive" class="form-control col-12" placeholder="Informe a Posição"
+                                formControlName="location" />
+                        </div>
+                        
+                        <!-- <div class="form-group col-lg-2 col-sm-12">
                             <label for="initDate">Data Inicial</label>
                             <input id="initDate" type="date" class="form-control col-12" [(ngModel)]="dateSent"
                                 (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
@@ -161,22 +201,25 @@
                             <label for="endDate">Data Final</label>
                             <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
                                 [disabled]="!dateSent" [min]="dateSent" />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="row col-12 text-center" id="step4">
+                <div class="row col-12 text-center mt-1" id="step4">
                     <div class="form-group ">
-                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <button type="button" style="margin-left: 5px;" [disabled]="company.invalid"
-                            class="btn dark-btn" (click)="clear()">
-                            Limpar Campos
-                        </button>
-                        <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
+                        <!-- <button [disabled]="company.invalid || page.totalElements == 0" type="button" style="margin-left: 5px;"
                             class="btn btn-success" (click)="exportArchives()" (click)="open(content)" *ngIf="!noExternal">
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>&emsp;Exportar Pesquisa
+                        </button> -->
+                        <button type="button" [disabled]="company.invalid"
+                            class="btn btn-dark" (click)="clear()">
+                            Limpar Campos
                         </button>
+                        <button type="submit" style="margin-left: 5px;" class="btn btn-primary" 
+                        [disabled]="company.invalid">
+                            <i class="fa fa-search"></i>
+                            Pesquisar
+                        </button>
+                        
                     </div>
                 </div>
 
@@ -215,8 +258,8 @@
     <div id="step5">
         <ngx-datatable #myTable class="bootstrap" [rows]="archives" [columnMode]="ColumnMode.force"
             [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
-            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'
-            (activate)="showView($event)">
+            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)' (activate)="openArchive($event)"
+            >
 
             <!-- Row Detail Template
             <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
@@ -245,6 +288,14 @@
 
             <ngx-datatable-column name="Departamento" prop="departament.name" [width]="290"></ngx-datatable-column>
 
+            <!-- <ngx-datatable-column name="Actions" prop="name">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                    let-row="row">
+                    <button type="button" class="btn btn-outline-success" (click)='showView(row)'>OpenPage</button>
+                    <button type="button" class="btn btn-outline-danger" (click)='openArchive(row)'>OpenModal</button>
+                </ng-template>
+            </ngx-datatable-column> -->
+                       
             <ngx-datatable-column name="Posição" prop="volume.location" [width]="100"></ngx-datatable-column>
 
             <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]="140"></ngx-datatable-column>
@@ -319,3 +370,4 @@
         </ngx-datatable>
     </div>
 </div>
+<!-- (activate)="showView($event)" -->

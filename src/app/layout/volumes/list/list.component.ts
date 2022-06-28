@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators'
 import { Router } from '@angular/router';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { NgbModal, NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbTypeahead, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { Page } from 'src/app/models/page';
@@ -23,6 +23,7 @@ import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 
 const MODALS = {
@@ -39,9 +40,14 @@ export class ListComponent implements OnInit {
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
     @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
 
+    data;
+    modalRef: any;
+    closeResult: string;
+    modalOptions: NgbModalOptions;
     searchForm: FormGroup;
     height: any;
     loading: Boolean = false;
+    hiddenReference: Boolean = true;
     companies: any = [];
     company_id: string;
     statusList: any = [];
@@ -81,9 +87,20 @@ export class ListComponent implements OnInit {
         { name: 'Conteúdo', prop: 'records', width: 100, pipe: { transform: this.pipes.recordsType } },
         { name: 'Criado em', prop: 'dateCreated', width: 100, pipe: { transform: this.pipes.datePipe } },
         { name: 'Situação do Volume', prop: 'closeBox', width: 150, pipe: { transform: this.pipes.boxType } },
+        { name: 'Qtd. Páginas', prop: 'totalPages', width: 150},
+        { name: 'Qtd. Arquivos', prop: 'totalArchives', width: 150},
     ];
     permissionNew = false;
     isUsers = false;
+
+    statusThings = [
+        { name: 'ARQUIVO', selected: 1, value: 'ATIVO'}, 
+        { name: 'BAIXADO', selected: 0, value: 'BAIXADO'}, 
+        { name: 'EMPRESTADO', selected: 0, value: 'EMPRESTADO'}
+    ];
+    guardTypeThings = [{ name: 'SIMPLES', selected: 0}, { name: 'GERENCIADA', selected: 1}];
+    recordsThings = [{ name: 'NÃO POSSUI ARQUIVOS', selected: 0}, { name: 'POSSUI ARQUIVOS', selected: 0}];
+    boxThings = [{ name: 'VOLUME ABERTO', selected: 0}, { name: 'VOLUME FECHADO', selected: 0}];
 
     constructor(
         private el: ElementRef,
@@ -105,6 +122,13 @@ export class ListComponent implements OnInit {
         private introService: IntroJsService,
     ) {
         this.guardTypeList = GuardyTypeVolumeEnum;
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
     }
 
     ngOnInit() {
@@ -157,6 +181,19 @@ export class ListComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
+    switchGuardType(event) {
+        console.log("TROQUEI: ", event);
+        switch (this.searchForm.value.guardType) {
+            case 'SIMPLES':
+                this.hiddenReference = false;
+                break;
+            case 'GERENCIADA':
+                this.hiddenReference = true;
+                break;
+        }
+        console.log('REFERENCE HIDDEN: ', this.hiddenReference);
+    }
+
     get storehouse() {
         return this.searchForm.get('storehouse');
     }
@@ -192,6 +229,39 @@ export class ListComponent implements OnInit {
 
     getVolumes() {
         this.setPageVolumes({ offset: 0 });
+    }
+
+    openVolume(value) {
+        if (value.type === 'click') {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+    
+            if (value.row) {
+                this.data = value.row;
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                this.modalRef.componentInstance.vol = this.data;
+            }
+    
+            this.modalRef.result.then((result) => {
+                console.log('Aqui as ideia: ', result);
+                if (result != "Sair") {
+                    this.getVolumes(); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+            
+        }
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
     }
 
     formatter = (x: { name: string }) => x.name;
@@ -232,8 +302,9 @@ export class ListComponent implements OnInit {
 
         const searchValue = _.omitBy(newForm, _.isNil);
 
-        this.volumeSrv.searchVolumes(searchValue, this.page).subscribe(
+        this.volumeSrv.searchVolumes(searchValue, this.page, null).subscribe(
             data => {
+                console.log('Aqui, viu? ', data);
                 this.volumes = data;
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;

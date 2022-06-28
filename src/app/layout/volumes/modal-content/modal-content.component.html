@@ -1,0 +1,211 @@
+<div [@routerTransition]>
+    <ngx-loading
+        [show]="loading"
+        [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: false,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"
+    ></ngx-loading>
+    <div class="base-modal-content" style="min-height: 80vh">
+
+        <div class="card-header base-modal-header flex">
+            <div class="row" *ngIf="!loading">
+                <div class="col text-left">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9; margin-left: 15px;" (click)="help()"></i>
+                </div>
+                <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
+                    <span id="call4" aria-hidden="true">&times;</span>
+                </button>
+                <br>
+                <div class="col-lg-12" >
+                    <h2 id="call1" *ngIf="!isNew && !isEditing">Dados do Volume</h2>
+                    <h2 id="call1" *ngIf="isNew">Novo Volume</h2>
+                    <h2 id="call1" *ngIf="isEditing">Editar Volume</h2>
+                </div>
+            
+                <br/>
+                <div style="margin-bottom: 10px" id="call2">
+                    <app-buttons-custom [isNew]="isNew" [inputBlock]="inputBlock" [id]="vol?._id" (edit)="editVolume()"
+                        (delete)="open('focusFirst', vol._id)" (block)="blockInputs()" [permissionEdit]="permissionEdit"
+                        [permissionDelete]="permissionDelete"></app-buttons-custom>
+                </div>
+            </div>  
+        </div>
+
+        <div class="card-body base-modal-body">
+            <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="submit()" class="form">
+                <div class="form-content" id="call3">  
+
+                    <div class="form-group col-lg-12">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa"
+                            type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label for="typeahead-basic">Departamento</label>
+                        <input id="typeahead-basic" type="text" placeholder="Nome do Departamento" class="form-control"
+                            formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchDepartament"
+                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }"
+                            #instanceDepartament="ngbTypeahead"
+                            (focus)="focusDepartament$.next($any($event).target.value)"
+                            (click)="clickDepartament$.next($any($event).target.value)"/>
+                        <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!departament.valid">
+                                Departamento é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label for="typeahead-basic">Depósito</label>
+                        <input id="typeahead-basic" type="text" placeholder="Nome do Deposito" class="form-control"
+                            formControlName="storehouse" [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchStorehouse"
+                            [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }"
+                            #instanceStorehouse="ngbTypeahead"
+                            (focus)="focusStorehouse$.next($any($event).target.value)"
+                            (click)="clickStorehouse$.next($any($event).target.value)" />
+                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!storehouse.valid">
+                                Depósito é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div [ngClass]="!isEditing && !isNew ? 'form-group col-lg-4' : 'form-group col-lg-6'">
+                        <label for="">Tipo de Volume</label>
+                        <select class="form-control" id="volumeType" formControlName="volumeType"
+                            [ngClass]="{ 'is-invalid': volumeType.invalid && volumeType.touched }">
+                            <option *ngFor="let volumeT of volumeTypeList | enumToArray" [value]="volumeT">
+                                {{ volumeT }}</option>
+                        </select>
+                        <div *ngIf="volumeType.invalid && (volumeType.dirty || volumeType.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!volumeType.valid">
+                                Tipo de volume é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div [ngClass]="!isEditing && !isNew ? 'form-group col-lg-4' : 'form-group col-lg-6'">
+                        <label for="">Tipo de Guarda</label>
+                        <select class="form-control" id="guardType" formControlName="guardType"
+                            [ngClass]="{ 'is-invalid': guardType.invalid && guardType.touched }"
+                            (change)="changeGuardType()">
+                            <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
+                                {{ guardT }}</option>
+                        </select>
+                        <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!guardType.valid">
+                                Tipo de volume é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isNew && !isEditing" class="form-group col-lg-4">
+                        <label for="status">Status</label>
+                        <select class="form-control col-12" id="status" formControlName="status">
+                            <option *ngFor="let item of statusList | enumToArray" [value]="item">
+                                {{ item }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-lg-12" [hidden]="hiddenReference">
+                        <label for="">Referência</label>
+                        <input type="text" placeholder="Referência" class="form-control" formControlName="reference" />
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label for="">Posição</label>
+                        <input type="text" placeholder="Posição" class="form-control" formControlName="location"
+                            [ngClass]="{ 'is-invalid': !location.valid && !location.disabled }" />
+                        <div *ngIf="location.invalid && (location.dirty || location.touched)" class="invalid-feedback">
+                            <div *ngIf="!location.valid">
+                                Posição é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12" *ngIf="isEditing || isNew" style="margin-top: 2rem;">
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" formControlName="closeBox" value="" />
+                            <div class="state">
+                                <label>Fechar Volume</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isEditing && !isNew" class="form-group">
+                        <label>Conteúdo:</label>
+                        <abbr title="Possui arquivos"  *ngIf="volume?.records"><i class="mdi mdi-archive mdi-24px"></i></abbr>
+                        <abbr title="Não possui arquivos" *ngIf="!volume?.records"><i class="mdi mdi-archive-remove mdi-24px"></i></abbr>
+                    </div>
+
+                    <div *ngIf="!isEditing && !isNew" class="state">
+                        <label class="mr-2" >Situação do Volume: </label>
+                        <ng-container *ngIf="volume?.closeBox; else elseTemplate">
+                            <strong>Fechado</strong>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <strong>Aberto</strong>
+                        </ng-template>
+                    </div>
+
+                    <ng-template #rtStoreHouse let-r="result" let-t="storehouse">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                    <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <div *ngIf="!isNew && !isEditing" class="pull-left" id="call6">
+                <!-- <div class="row" *ngIf="!loading"> -->
+                    <div class="col-12">
+                        <div style="font-size: 12px; text-align: right;">
+                            Qtd. Arquivos: {{ vol.totalArchives }}<br />
+                            Qtd. Páginas: {{ vol.totalPages }}<br />
+                            Data de Criação: {{ vol.dateCreated | date: 'dd/MM/yyyy HH:mm' }}<br />
+                            Alterado em: {{ vol.lastUpdateVolume | date: 'dd/MM/yyyy HH:mm' }}<br />
+                        </div>
+                    </div>
+                <!-- </div>     -->
+            </div>
+
+            <div *ngIf="isEditing || isNew" class="pull-right" id="call5">
+                <button [disabled]="!permissionCancel" type="button" (click)="cancelEditNew()" class="btn btn-danger"
+                    style="margin-right:10px">Cancelar</button>
+                <button type="button" (click)="submit()" class="btn btn-primary" 
+                [disabled]="storehouse.invalid || guardType.invalid || volumeType.invalid || departament.invalid || location.invalid
+                || reference.invalid || !permissionConfirm">
+                    Salvar
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

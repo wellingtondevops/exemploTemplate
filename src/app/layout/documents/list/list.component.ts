@@ -1,4 +1,4 @@
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbModalOptions, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
@@ -15,6 +15,7 @@ import _ from 'lodash';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
     selector: 'app-list',
@@ -48,6 +49,11 @@ export class ListComponent implements OnInit {
     loading: Boolean = false;
     permissionNew = false;
 
+    modalOptions: NgbModalOptions;
+    data;
+    modalRef: any;
+    closeResult: string;
+
     constructor(
         private _route: Router,
         private documentSrv: DocumentsService,
@@ -58,7 +64,15 @@ export class ListComponent implements OnInit {
         private localStorageSrv: SaveLocal,
         private utilCase: CaseInsensitive,
         private introService: IntroJsService,
-    ) { }
+        private modalService: NgbModal,
+    ) {
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'modalDocument',
+        };
+     }
 
     ngOnInit() {
         this.searchForm = this.fb.group({
@@ -95,7 +109,11 @@ export class ListComponent implements OnInit {
     }
 
     getDocuments() {
-        this.setPageDocuments({ offset: 0 });
+        if (this.searchForm.value.company) {
+            this.localStorageSrv.save('document', this.searchForm.value);
+            this.setPageDocuments({ offset: 0 });
+        }
+        // this.setPageDocuments({ offset: 0 });
     }
 
     returnId(object) {
@@ -107,7 +125,6 @@ export class ListComponent implements OnInit {
     setPageDocuments(pageInfo) {
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
-        this.localStorageSrv.save('documents', this.searchForm.value);
 
         const newForm = {
             company: null,
@@ -154,7 +171,35 @@ export class ListComponent implements OnInit {
     //   }
 
     getDocument(document) {
-        this._route.navigate(['/documents/get', document._id]);
+        if (document.type == 'click') {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+
+                if (document.row) {
+                    this.data = document.row;
+                    document.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
+                    this.modalRef.componentInstance.doc = this.data;
+                }
+
+                this.modalRef.result.then((result) => {
+                    if (result != "Sair") {
+                        this.getDocuments();
+                    };
+                    this.closeResult = `Closed with: ${result}`;
+                  }, (reason) => {
+                    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+                  });
+            // }
+        }
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
     }
 
     formatter = (x: { name: string }) => x.name;
