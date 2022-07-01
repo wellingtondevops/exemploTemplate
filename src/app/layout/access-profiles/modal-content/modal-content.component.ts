@@ -41,6 +41,8 @@ export class ModalContentComponent implements OnInit {
     permissionConfirmEdit: boolean = false;
     permissionCancelEdit: boolean = false;
 
+    labelButton = 'Exibir Documentos Permitidos';
+
     public isCollapsed = true;
     isViewPermission = false;
 
@@ -223,7 +225,11 @@ export class ModalContentComponent implements OnInit {
     }
 
     openMod(content) {
-        this.modalService.open(content, { size: 'lg', windowClass: 'modalPermissions', });
+        if (!this.isEditing) {
+            this.modalService.open(content, { size: 'lg', windowClass: 'modalPermissions', });
+        } else {
+
+        }
     }
 
     // EDIT
@@ -234,7 +240,8 @@ export class ModalContentComponent implements OnInit {
         this.permissionEdit = false;
         this.permissionCancelEdit = true;
         this.permissionConfirmEdit = true;
-        this.getDocuments();
+        this.getAccessProfile();
+        // this.labelButton = "Adicionar Documentos";
     }
 
     // DELETE
@@ -275,6 +282,7 @@ export class ModalContentComponent implements OnInit {
           this.close();
         } else {
           this.enableDisable(0);
+          this.getAccessProfile();
           this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
           this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
           this.permissionCancelEdit = false;

@@ -73,7 +73,7 @@
                     </div>
 
                     <div *ngIf="!this.isNew" class="col-lg-6 col-md-6" id="step3">
-                        <div class="card" style="margin-top: 10px;">
+                        <div *ngIf="!isEditing" class="card" style="margin-top: 10px;">
                             <div class="card-header">
                                 <h5>Permissões</h5>
                             </div>
@@ -97,8 +97,9 @@
                                     </div>
                                 </ng-template>
 
-                                <button *ngIf="!this.isEditing" class="btn btn-sm dark-btn" (click)="openMod(content)">Exibir
-                                    Documentos Permitidos</button>
+                                <button class="btn btn-sm dark-btn" (click)="openMod(content)">
+                                    {{labelButton}}
+                                </button>
                                 <div class="collapse navbar-collapse col-12" id="collapseExample"
                                     [ngbCollapse]="isCollapsed">
                                 </div>
