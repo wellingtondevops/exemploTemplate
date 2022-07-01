@@ -5,7 +5,7 @@ import { AccessProfilesService } from '../../../services/access-profiles/access-
 import { Page } from 'src/app/models/page';
 import { AccessProfilesList } from './../../../models/access-profiles';
 import { SaveLocal } from 'src/app/storage/saveLocal';
-import { NgbModal, NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbTypeahead, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
@@ -16,6 +16,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { Observable, merge, Subject } from 'rxjs';
 import _ from 'lodash';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
     selector: 'app-list',
@@ -47,6 +48,10 @@ export class ListComponent implements OnInit {
         { name: 'Perfil', prop: 'name', width: 825 },
     ];
 
+    modalOptions: NgbModalOptions;
+    data;
+    modalRef: any;
+    closeResult: string;
 
     constructor(
         private profilesSrv: AccessProfilesService,
@@ -62,7 +67,14 @@ export class ListComponent implements OnInit {
         private companiesSrv: CompaniesService,
         private introService: IntroJsService
 
-    ) { }
+    ) {
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'modalProfile',
+        };
+     }
 
     ngOnInit() {
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
@@ -172,5 +184,38 @@ export class ListComponent implements OnInit {
 
     help(): void {
         this.introService.ListAccess();
+    }
+
+    openShowModal(value, execution){
+        if (execution == 'Antigo') {
+            this._route.navigate(['/access-profiles/get', value._id]);
+        } else {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+
+            if (value) {
+                this.data = value;
+                // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
+                this.modalRef.componentInstance.profile = this.data;
+            }
+
+            this.modalRef.result.then((result) => {
+                if (result != "Sair") {
+                    this.getAccessProfiles();
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+        }
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
     }
 }

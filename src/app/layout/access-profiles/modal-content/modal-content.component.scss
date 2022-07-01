@@ -1,0 +1,82 @@
+
+.row {
+    width: 100%;
+    margin-left: 0px;
+}
+.text-left {
+    margin-left: 10x;
+}
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+strong{
+    margin-left: 20px;
+}
+label{
+    margin-left: 5px;
+}
+h5{
+    margin-left: 20px;
+}
+h2 {
+  margin-left: 20px;
+  white-space: normal;
+}
+h6{
+    font-weight: bold;
+}
+.form-control{
+    width: 100%;
+    border-radius: 50px;
+}
+
+.form-group {
+    display: inline-block;
+}
+
+.dataBtn{
+    margin-left: 22px;
+}
+
+.flex{
+    display: flex;
+    flex-wrap: wrap;
+}
+// .base-modal-body {
+//     height: 50vh;
+//     align-items: space-between;
+// }
+
+::ng-deep .modalProfile .modal-dialog {
+    vertical-align: middle;
+    max-width: 86%;
+    width: auto;
+    height: auto;
+    min-height: 80vh;
+}
+
+::ng-deep .modalProfile .modal-content {
+    margin-top: 5%;
+}
+
+::ng-deep .modalPermissions .modal-content {
+    margin-top: 5%;
+}
+
+@media screen and (max-width: 575px) {
+    ::ng-deep .modalProfile .modal-dialog {
+        max-width: 100%;
+        width: 100%;
+        padding: 30px 40px 30px 30px;
+
+    }
+}
+
+@media screen and (max-width: 350px) {
+    h2 {
+       margin-left: 10px;
+       font-size: 25px;
+    }
+}
