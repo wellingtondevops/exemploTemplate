@@ -120,10 +120,10 @@ export class ListComponent implements OnInit {
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
             departament: this.fb.control(null, [Validators.required]),
+            doct: this.fb.control(null, Validators.required),
             status: this.fb.control([]),
             location: this.fb.control('', Validators.required),
             storehouse: this.fb.control('', [Validators.required]),
-            doct: this.fb.control(null, Validators.required),
             search: this.fb.control(null, Validators.required),
             endDate: this.fb.control(null),
             initDate: this.fb.control(null),
@@ -231,6 +231,7 @@ export class ListComponent implements OnInit {
                     fases: archive.fases
                 });
                 this.getDepartaments(archive.company._id);
+                this.getDocuments(archive.company._id)// coloquei
             }
     }
 
@@ -469,6 +470,7 @@ export class ListComponent implements OnInit {
                 return res;
             }));
     }
+
 
     getDocuments(company_id) {
         this.documentsSrv.searchDocuments(company_id).subscribe(

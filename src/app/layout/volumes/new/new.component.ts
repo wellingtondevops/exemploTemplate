@@ -76,7 +76,7 @@ export class NewComponent implements OnInit {
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
             reference: this.fb.control(null),
-            closeBox: this.fb.control('', [Validators.required])
+            // closeBox: this.fb.control('', [Validators.required])
         });
     }
 

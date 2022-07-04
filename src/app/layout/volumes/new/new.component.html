@@ -34,9 +34,12 @@
                         </div>
                     </div>
 
+
+                    
+
                     <div class="form-group">
-                        <label for="typeahead-basic">Empresa</label>
-                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa"
+                        <label for="typeahead-focus">Empresa</label>
+                        <input id="typeahead-focus" autoFocus="true"(selectItem)="selectedCompany($event)" placeholder="Nome da Empresa"
                             type="text" class="form-control" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
