@@ -165,9 +165,10 @@ export class ListComponent implements OnInit {
             this.getDepartaments(volume.company._id);
         }
         this.statusList = StatusVolumeEnum;
-        this.getVolumes();
+        
         this.getCompanies();
         this.getStoreHouses();
+        // this.getVolumes();
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
         this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
         this.searchForm.patchValue({ endDate: null });
