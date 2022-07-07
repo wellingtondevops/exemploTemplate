@@ -15,7 +15,7 @@ import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators'
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import _ from 'lodash';
 import { Observable, Subject, merge } from 'rxjs';
-import { CaseInsensitive } from '../../../utils/case-insensitive'
+import { CaseInsensitive } from '../../../utils/case-insensitive';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { ModalContentComponent } from '../modal-content/modal-content.component';
 
@@ -29,12 +29,12 @@ const MODALS = {
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
 
     data;
     modalRef: any;
     closeResult: string;
-    modalOptions:NgbModalOptions;
+    modalOptions: NgbModalOptions;
     searchForm: FormGroup;
     height: any;
     loading: Boolean = true;
@@ -56,9 +56,9 @@ export class ListComponent implements OnInit {
         { name: 'Empresa', prop: 'company.name', width: 825 },
         { name: 'Departamento', prop: 'name', width: 825 },
         // { name: 'Criado por', prop: 'author.name' },
-        //{ name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
+        // { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
     ];
-    permissionNew: boolean = false;
+    permissionNew = false;
 
 
 
@@ -93,16 +93,16 @@ export class ListComponent implements OnInit {
             name: this.fb.control(null),
             company: this.fb.control(null, Validators.required)
         });
-        const document = JSON.parse(this.localStorageSrv.get('document'));
-        if (document && document.company) {
-            this.searchForm.patchValue({
-                company: document.company,
-                name: document.name
-            });
-        }
+        // const document = JSON.parse(this.localStorageSrv.get('document'));
+        // if (document && document.company) {
+        //     this.searchForm.patchValue({
+        //         company: document.company,
+        //         name: document.name
+        //     });
+        // }
         this.getDepartaments();
         this.getCompanies();
-        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
+        this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
     }
 
     get company() {
@@ -111,25 +111,25 @@ export class ListComponent implements OnInit {
 
     openDepartament(value) {
     if (value.type === 'click') {
-        console.log("CLIQUEI, TROUXE: ", value);
+        console.log('CLIQUEI, TROUXE: ', value);
         this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
 
         if (value.row) {
             this.data = value.row;
-            value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+            value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
             this.modalRef.componentInstance.dep = this.data;
         }
 
         this.modalRef.result.then((result) => {
             console.log('Aqui as ideia: ', result);
-            if (result != "Sair") {
-                this.getDepartaments(); 
-            };
+            if (result !== 'Sair') {
+                this.getDepartaments();
+            }
             this.closeResult = `Closed with: ${result}`;
           }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
           });
-        
+
     }
 
 
