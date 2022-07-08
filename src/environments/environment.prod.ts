@@ -1,6 +1,6 @@
 export const environment = {
 
-  apiUrl: 'https://archiomainprod.archio.com.br',
+  apiUrl: 'https://archiomaintestes.archio.com.br',
   exampleImportVolumesSimple: 'https://storage.googleapis.com/archiobucket/ARCHIOFILES/Exemplo%20Guarda%20Simples.xlsx',
   exampleImportVolumesManaged: 'https://storage.googleapis.com/archiobucket/ARCHIOFILES/Exemplo%20Guarda%20Gerenciada.xlsx',
   apiUrlUpload: 'https://muploadprod.archio.com.br',
