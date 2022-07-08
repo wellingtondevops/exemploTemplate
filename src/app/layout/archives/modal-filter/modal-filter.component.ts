@@ -66,16 +66,16 @@ export class ModalFilterComponent implements OnInit {
       fases: this.fb.control(null)
     });
 
-    
+
 
     if (archive && archive.company) {
-      // this.selectedItemsF = archive.fases;
+      this.selectedItemsF = archive.fases;
       this.selectedItemsS = archive.status;
 
-      const statusArquivo = this.selectedItemsS.findIndex(element => element == 'ATIVO');
+      const statusArquivo = this.selectedItemsS.findIndex(element => element === 'ATIVO');
 
       if (statusArquivo >= 0) {
-        this.selectedItemsS[statusArquivo] = 'ARQUIVO'; 
+        this.selectedItemsS[statusArquivo] = 'ARQUIVO';
       }
 
       this.searchForm.patchValue({
@@ -87,7 +87,7 @@ export class ModalFilterComponent implements OnInit {
         finalIntermediate: archive.finalIntermediate,
       });
 
-      
+
     }
 
     this.dropdownSettings = {
@@ -110,7 +110,7 @@ export class ModalFilterComponent implements OnInit {
     };
   }
 
-  close(){
+  close() {
     this.activeModal.close('Sair');
   }
 
@@ -133,7 +133,7 @@ export class ModalFilterComponent implements OnInit {
 
   changeDate() {
     const initialDate = this.searchForm.get('initDate').value;
-    
+
     if (initialDate) {
       this.dateSent = new Date(initialDate).toISOString().slice(0, 10);
       this.searchForm.controls['endDate'].enable();
@@ -162,30 +162,32 @@ export class ModalFilterComponent implements OnInit {
     console.log('onSelectAll', items);
   }
 
-  submit(){
-    // var current;
-    // var intermediate;
-    var statusArquivo;
+  submit() {
+    let current;
+    let intermediate;
+    let statusArquivo;
 
-    // if (this.selectedItemsF) {
-    //   current = this.selectedItemsF.findIndex(element => element.name === 'CORRENTE');
-    //   intermediate = this.selectedItemsF.findIndex(element => element.name === 'INTERMEDIÁRIO');
-    // }
-    
+    if (this.selectedItemsF) {
+      current = this.selectedItemsF.findIndex(element => element.name === 'CORRENTE');
+      intermediate = this.selectedItemsF.findIndex(element => element.name === 'INTERMEDIÁRIO');
+    }
+
     if (this.selectedItemsS) {
-      statusArquivo = this.selectedItemsS.findIndex(element => element == 'ARQUIVO');
+      statusArquivo = this.selectedItemsS.findIndex(element => element === 'ARQUIVO');
     }
 
     if (statusArquivo >= 0) {
-      this.selectedItemsS[statusArquivo] = 'ATIVO'; 
+      this.selectedItemsS[statusArquivo] = 'ATIVO';
     }
 
     this.searchForm.patchValue({
+
+
       status: this.selectedItemsS,
-      // finalCurrent: current >= 0 ? true : false,
-      // finalIntermediate: intermediate >= 0 ? true : false,
+      finalCurrent: current >= 0 ? true : false,
+      finalIntermediate: intermediate >= 0 ? true : false,
       fases: this.selectedItemsF
-    })
+    });
 
     this.localStorageSrv.save('archive', this.searchForm.value);
 

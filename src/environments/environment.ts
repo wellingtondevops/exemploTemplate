@@ -1,12 +1,12 @@
 export const environment = {
 
-  apiUrl: 'https://archiomaintestes.archio.com.br',
+  apiUrl: 'http://localhost:3000',
   exampleImportVolumesSimple: 'https://storage.googleapis.com/archiobucket/ARCHIOFILES/Exemplo%20Guarda%20Simples.xlsx',
   exampleImportVolumesManaged: 'https://storage.googleapis.com/archiobucket/ARCHIOFILES/Exemplo%20Guarda%20Gerenciada.xlsx',
-  apiUrlUpload: 'https://archiomaintestes.archio.com.br',
-  apiUrlUploadSingle: 'https://smuploadtestes.archio.com.br',
-//   exportUrl: 'https://exportarchivestestes.archio.com.br',
-  urlSearch: 'https://archiomaintestes.archio.com.br',
+  apiUrlUpload: 'https://archiomainprod.archio.com.br',
+  apiUrlUploadSingle: 'https://smuploadprod.archio.com.br',
+//   exportUrl: 'https://exportarchivesprod.archio.com.br',
+  urlSearch: 'https://archiomainprod.archio.com.br',
   production: false,
   firebaseConfig : {
     apiKey: 'AIzaSyCy9X4r36l6o1PLn4DuVdFpO41P5SmA57g',

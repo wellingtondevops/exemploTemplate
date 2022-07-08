@@ -363,7 +363,11 @@ export class ListComponent implements OnInit {
             search: null,
             status: [],
             initDate: null,
-            endDate: null
+            endDate: null,
+            fases: null,
+            final: null,
+            finalIntermediate: null,
+            finalCurrent: null
             
         });
         this.localStorageSrv.save('archive', this.searchForm.value);
@@ -529,6 +533,8 @@ export class ListComponent implements OnInit {
             search: null,
             endDate: null,
             initDate: null,
+            finalCurrent: null,
+            finalIntermediate: null
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -543,6 +549,8 @@ export class ListComponent implements OnInit {
         }
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
+        newSearch.finalCurrent = this.searchForm.value.finalCurrent;
+        newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
 
         const searchValue = _.omitBy(newSearch, _.isNil);
         console.log(searchValue);
