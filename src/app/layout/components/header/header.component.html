@@ -142,6 +142,72 @@
                 </div>
             </li>
 
+            <!--UPLOAD NOTIFICATION-->
+                 <!-- MENU UPLOAD -->
+                 <li class="nav-item dropdown" ngbDropdown>
+                    <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">
+
+                        <div *ngIf="(ArrUpload | async) !== 0">
+                            <span class="badgeAlert"> {{(ArrUpload | async)}} </span>
+                            <span class="caret"></span>
+                        </div>
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i><b class="caret"></b>
+
+                    </a>
+
+                    <div class="dropdown-menu-right" ngbDropdownMenu>
+                        <h6 class="dropdown-header" style="text-align: center">
+                            Uploads em Andamento..
+                        </h6>
+                        <hr style="margin: 0;" />
+                        <div *ngIf="(notifysUpuload | async) == 0" style="margin-top: 10px; text-align: center; width: 400px;">
+                            <p>  </p>
+                        </div>
+                        <div *ngFor="let notup of notifysUpuload | async">
+                            <div class="wrapper">
+
+                                <div class="notifications">
+
+                                    <div class="notifications__item">
+                                        <div class="notifications__item__avatar">
+                                            <a>
+                                                <i class={{notup.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
+                                            </a>
+                                            <div class="ex" *ngIf="notup.attachment !== undefined || null || '' ">
+                                                <a href={{notup.attachment}}>
+                                                    <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="notifications__item__content">
+                                            <span class="notifications__item__title">{{notup.title}}</span>
+                                            <small><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                {{notup.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}</small>
+                                            <span class="notifications__item__message">{{notup.msg}}</span>
+                                        </div>
+
+                                        <div>
+                                            <div class="notifications__item__option archive js-option"
+                                                (click)="clearNotify(notup.key)" *ngIf="notify.active">
+                                                <i title="Marcar como lida" class="mdi mdi-eye mdi-24px"
+                                                    aria-hidden="true"></i>
+                                            </div>
+                                            <div class="notifications__item__option delete js-option">
+                                                <i title="Deletar notificação" class="mdi mdi-trash-can mdi-24px"
+                                                    (click)="delete(notup.key)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+
             <!-- MENU LOGOUT -->
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>

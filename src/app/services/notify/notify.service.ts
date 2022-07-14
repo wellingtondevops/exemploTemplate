@@ -55,7 +55,18 @@ export class NotifyService {
             })
         );
     }
-
+    getAllUpload(userid) {
+        function msgUser (value) {
+            if (value.user === userid) {
+                return value;
+            }
+        }
+        return this.db.list('notifications').snapshotChanges().pipe(
+            map(changes => {
+                return changes.map(c => ({ key: c.payload.key, ...c.payload.val() as {}})).filter(msgUser);
+            })
+        );
+    }
     delete(key: string ) {
         this.db.object(`notifications/${key}`).remove();
     }
@@ -78,7 +89,20 @@ export class NotifyService {
         );
     }
 
+
     getlengthMail(userid) {
+        function msgUser (value) {
+            if (value.user === userid && value.active === true) {
+                return value;
+            }
+        }
+        return this.db.list('notifications').snapshotChanges().pipe(
+            map(changes => {
+                return changes.map(c => ({ key: c.payload.key, ...c.payload.val() as {}})).filter(msgUser).length;
+            })
+        );
+    }
+    getlengthUpload(userid) {
         function msgUser (value) {
             if (value.user === userid && value.active === true) {
                 return value;
