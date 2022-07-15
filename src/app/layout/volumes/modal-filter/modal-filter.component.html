@@ -1,0 +1,69 @@
+<div [@routerTransition]>
+    <ngx-loading
+    [show]="loading"
+    [config]="{
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: false,
+      primaryColour: '#222',
+      secondaryColour: '#222',
+      tertiaryColour: '#222'
+    }"
+    ></ngx-loading>
+
+    <div class="base-modal-content" style="min-height: 50vh" >
+
+      <div class="card-header base-modal-header flex">
+        <div class="row" *ngIf="!loading">
+            <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
+                <span id="call5" aria-hidden="true">&times;</span>
+            </button>
+            <div class="col-lg-12" >
+                <h2 id="call1">Filtros Secundários</h2>
+            </div>
+        </div>
+      </div>
+
+      <div class="card-body base-modal-body " >
+          <div class="row"  style="flex-direction: row;">
+              <div class="col-md-12 col-sm-12" >
+                  <label>Status:</label>
+                  <ng-multiselect-dropdown
+                      [placeholder]="'Selecione os Status'"
+                      [settings]="dropdownSettings"
+                      [data]="statusList"
+                      (onSelect)="onItemSelectStatus($event)"
+                      (onSelectAll)="onSelectAllStatus($event)"
+                      [(ngModel)]="selectedItemsS"
+                      >
+                  </ng-multiselect-dropdown>
+              </div>
+          </div>
+          <form [formGroup]="searchForm" role="FormGroup" class="form" style="margin-top: 15px;">
+              <div class="form-group col-md-6 col-sm-12">
+                  <label for="initDate">Data Inicial</label>
+                  <input id="initDate" type="date" class="form-control col-12"
+                  (input)="changeDate()" formControlName="initDate" formControlName="initDate" />
+              </div>
+              <div class="form-group col-md-6 col-sm-12">
+                  <label for="endDate">Data Final</label>
+                  <input id="endDate" type="date" class="form-control col-12" formControlName="endDate"
+                   [min]="dateSent" />
+              </div>
+          </form>
+      </div>
+
+      <div class="modal-footer">
+          <div class="pull-right" id="call5">
+              <button type="button"
+                class="btn btn-dark" (click)="clear()">
+                  Limpar Campos
+              </button>
+              <button type="button" (click)="submit()" class="btn btn-primary" style="margin-left: 5px">
+                  <i class="fa fa-search"></i>
+                  Pesquisar
+              </button>
+          </div>
+      </div>
+
+    </div>
+  </div>
