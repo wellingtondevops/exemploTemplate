@@ -91,6 +91,7 @@ export class ListComponent implements OnInit {
         { name: 'Status', prop: 'status', width: 100, pipe: {transform: this.pipes.statusVolume} },
         // { name: 'Guarda', prop: 'guardType', width: 100 , pipe: {transform: this.pipes.guardTypeVolume}},
         { name: 'Referência', prop: 'reference', width: 200 },
+        { name: 'Lacre', prop: 'seal', width: 200 },
         // { name: 'Conteúdo', prop: 'records', width: 100, pipe: { transform: this.pipes.recordsType } },
         { name: 'Criado em', prop: 'dateCreated', width: 100, pipe: { transform: this.pipes.datePipe } },
         // { name: 'Situação do Volume', prop: 'closeBox', width: 150, pipe: { transform: this.pipes.boxType } },
@@ -159,7 +160,8 @@ export class ListComponent implements OnInit {
             guardType: this.fb.control(null),
             records: this.fb.control(null),
             closeBox: this.fb.control(null),
-            search: this.fb.control(null)
+            search: this.fb.control(null),
+            seal: this.fb.control(null),
         });
         this.setForm();
         this.statusList = StatusVolumeEnum;
@@ -208,7 +210,8 @@ export class ListComponent implements OnInit {
                     endDate: volume.endDate,
                     initDate: volume.initDate,
                     guardType: volume.guardType,
-                    search: volume.search
+                    search: volume.search,
+                    seal: volume.seal,
                 });
                 this.getDepartaments(volume.company._id);
             }
@@ -274,12 +277,14 @@ export class ListComponent implements OnInit {
             search: null,
             endDate: null,
             initDate: null,
+            seal: null
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
         this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
         this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
         newSearch.location = this.searchForm.value.location;
+        newSearch.seal = this.searchForm.value.seal;
         newSearch.status = this.searchForm.value.status;
         newSearch.search = this.searchForm.value.search;
         if (newSearch.search === null) {
@@ -350,7 +355,8 @@ export class ListComponent implements OnInit {
             guardType: 'GERENCIADA',
             records: null,
             closeBox: null,
-            search: null
+            search: null,
+            seal: null
         });
     }
 
@@ -412,7 +418,8 @@ export class ListComponent implements OnInit {
             guardType: null,
             records: null,
             closeBox: null,
-            search: null
+            search: null,
+            seal: null
         };
 
         this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
@@ -427,6 +434,7 @@ export class ListComponent implements OnInit {
         this.searchForm.value.records ? newForm.records = this.searchForm.value.records : null;
         this.searchForm.value.closeBox ? newForm.closeBox = this.searchForm.value.closeBox : null;
         this.searchForm.value.search ? newForm.search = this.searchForm.value.search : null;
+        this.searchForm.value.seal ? newForm.seal = this.searchForm.value.seal : null;
 
 
         const searchValue = _.omitBy(newForm, _.isNil);
