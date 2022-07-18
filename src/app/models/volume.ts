@@ -29,7 +29,9 @@ export class Volume {
   commentsThree: string;
   commentsFour: string;
   finalDate: any;
-  seal: string
+  seal: string;
+  smallestYear: string;
+  biggestYear: string;
 }
 
 export class VolumeList {

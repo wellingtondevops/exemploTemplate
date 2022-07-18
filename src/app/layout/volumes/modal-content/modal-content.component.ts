@@ -19,6 +19,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+import { Console } from '@angular/core/src/console';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -57,6 +58,7 @@ export class ModalContentComponent implements OnInit {
   isUsers = false;
   isNew: Boolean = false;
   hiddenReference: Boolean = true;
+  hiddenYears: Boolean = true;
 
   focusCompany$ = new Subject<string>();
   clickCompany$ = new Subject<string>();
@@ -92,7 +94,7 @@ export class ModalContentComponent implements OnInit {
       uniqueField: this.fb.control(''),
       location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       reference: this.fb.control({ value: '', disabled: true }),
-      finalDate: this.fb.control({ value: null, disabled: true }),
+      finalDate: this.fb.control({ value: '', disabled: true }),
       seal: this.fb.control({ value: '', disabled: true }),
       closeBox: this.fb.control({value: '', disabled: true}),
       status: this.fb.control({value: 'ATIVO', disabled: true}),
@@ -109,6 +111,7 @@ export class ModalContentComponent implements OnInit {
     this.getStoreHouses();
 
     if (this.vol) {
+      console.log('O QUE VEM => ', this.vol);
       this.id = this.vol._id;
       this.getVolume();
 
@@ -116,6 +119,7 @@ export class ModalContentComponent implements OnInit {
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
       this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
       this.hiddenReference = this.vol.guardType == 'SIMPLES' ? false : true;
+      this.hiddenYears = this.vol.guardType == 'GERENCIADA' ? false : true;
     } else {
       this.isNew = true;
       this.permissionCancel = true;
@@ -236,7 +240,6 @@ export class ModalContentComponent implements OnInit {
   getVolume(){
     this.volumesSrv.volume(this.id).subscribe(
       data => {
-        console.log('AQUI ESSA PORRA => ', data.finalDate)
           this.loading = false;
           this.volume = data;
           this.volumeForm.patchValue({
@@ -273,9 +276,11 @@ export class ModalContentComponent implements OnInit {
     switch (this.volumeForm.value.guardType) {
         case 'SIMPLES':
             this.hiddenReference = false;
+            this.hiddenYears = true;
             break;
         case 'GERENCIADA':
             this.hiddenReference = true;
+            this.hiddenYears = false;
             break;
     }
   }
@@ -485,7 +490,7 @@ export class ModalContentComponent implements OnInit {
           if (data._id) {
             this.loading = false;
             this.successMsgSrv.successMessages('Volume editado com sucesso.');
-            this.activeModal.close('Editar');
+            // this.activeModal.close('Editar');
           }
         },
         error => {

@@ -118,7 +118,7 @@
                                     <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)"
                                         class="invalid-feedback">
                                         <div *ngIf="!guardType.valid">
-                                            Tipo de volume é obrigatório.
+                                            Tipo de guarda é obrigatório.
                                         </div>
                                     </div>
                                 </div>
@@ -243,6 +243,10 @@
                             Qtd. Páginas: {{ vol.totalPages }}<br />
                             Data de Criação: {{ vol.dateCreated | date: 'dd/MM/yyyy HH:mm' }}<br />
                             Alterado em: {{ vol.lastUpdateVolume | date: 'dd/MM/yyyy HH:mm' }}<br />
+                            <span *ngIf="!hiddenYears">
+                                Registro Mais Recente: {{ vol.biggestYear }}<br />
+                                Registro Mais Antigo: {{ vol.smallestYear }}<br />
+                            </span>
                         </div>
                     </div>
                 <!-- </div>     -->
