@@ -19,6 +19,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+import * as moment from 'moment';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -31,8 +32,8 @@ const MODALS = {
   animations: [routerTransition()]
 })
 export class ModalContentComponent implements OnInit {
-  @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
-  @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+  @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
+  @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
   @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
 
   @Input() public vol;
@@ -48,12 +49,12 @@ export class ModalContentComponent implements OnInit {
   departaments: any = [];
   companies: any = [];
 
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
-  permissionConfirm: boolean = false;
-  permissionCancel: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
+  permissionConfirm = false;
+  permissionCancel = false;
   inputBlock: Boolean = false;
-  isEditing: boolean = false;
+  isEditing = false;
   isUsers = false;
   isNew: Boolean = false;
   hiddenReference: Boolean = true;
@@ -115,7 +116,7 @@ export class ModalContentComponent implements OnInit {
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
       this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
-      this.hiddenReference = this.vol.guardType == 'SIMPLES' ? false : true;
+      this.hiddenReference = this.vol.guardType === 'SIMPLES' ? false : true;
     } else {
       this.isNew = true;
       this.permissionCancel = true;
@@ -125,7 +126,7 @@ export class ModalContentComponent implements OnInit {
   }
 
   enableDisable(execution) {
-    if (execution == 1) {
+    if (execution === 1) {
         this.volumeForm.controls['storehouse'].enable();
         this.volumeForm.controls['departament'].enable();
         this.volumeForm.controls['company'].enable();
@@ -141,7 +142,7 @@ export class ModalContentComponent implements OnInit {
         this.volumeForm.controls['commentsFour'].enable();
         this.volumeForm.controls['seal'].enable();
         this.volumeForm.controls['finalDate'].enable();
-    } else if(execution == 2) {
+    } else if (execution === 2) {
         this.volumeForm.controls['location'].enable();
         this.volumeForm.controls['closeBox'].enable();
         this.volumeForm.controls['reference'].enable();
@@ -152,7 +153,7 @@ export class ModalContentComponent implements OnInit {
         this.volumeForm.controls['commentsFour'].enable();
         this.volumeForm.controls['seal'].enable();
         this.volumeForm.controls['finalDate'].enable();
-    } else if (execution == 0) {
+    } else if (execution === 0) {
         this.volumeForm.controls['storehouse'].disable();
         this.volumeForm.controls['departament'].disable();
         this.volumeForm.controls['company'].disable();
@@ -233,10 +234,10 @@ export class ModalContentComponent implements OnInit {
     );
   }
 
-  getVolume(){
+  getVolume() {
     this.volumesSrv.volume(this.id).subscribe(
       data => {
-        console.log('AQUI ESSA PORRA => ', data.finalDate)
+        console.log('AQUI ESSA PORRA => ', data.finalDate);
           this.loading = false;
           this.volume = data;
           this.volumeForm.patchValue({
@@ -256,7 +257,7 @@ export class ModalContentComponent implements OnInit {
               commentsTwo: data.commentsTwo,
               commentsThree: data.commentsThree,
               commentsFour: data.commentsFour,
-              finalDate: data.finalDate,
+              finalDate: moment(data.finalDate).utc().format('YYYY-MM-DD'),
               seal: data.seal,
           });
           // this.getDepartament(data.company._id);
@@ -311,6 +312,10 @@ export class ModalContentComponent implements OnInit {
         })
     );
   }
+
+  returnDate(finalDate) {
+    return moment(finalDate).utc().format('DD/MM/YYYY');
+}
 
   selectedCompany(e) {
     if (e && e.item && e.item._id) {
@@ -376,7 +381,7 @@ export class ModalContentComponent implements OnInit {
     return `${this.volumeForm.value.location}-${this.volumeForm.value.company}`;
   }
 
-  blockInputs(){
+  blockInputs() {
     !this.inputBlock ? (this.inputBlock = true) : (this.inputBlock = false);
   }
 
@@ -392,7 +397,7 @@ export class ModalContentComponent implements OnInit {
     }
   }
 
-  beforeChange(event){}
+  beforeChange(event) {}
 
   close() {
     if (this.isNew) {
@@ -415,7 +420,7 @@ export class ModalContentComponent implements OnInit {
   // EDIT
 
   editVolume() {
-    console.log("ESTOU NO EDIT");
+    console.log('ESTOU NO EDIT');
     this.permissionDelete = false;
     this.permissionEdit = false;
     this.permissionCancel = true;
@@ -470,7 +475,7 @@ export class ModalContentComponent implements OnInit {
 
   // FINALIZAÇÃO
 
-  submit(){
+  submit() {
     if (!this.isNew && this.isEditing) {
       // this.loading = true;
       this.returnId('company');
