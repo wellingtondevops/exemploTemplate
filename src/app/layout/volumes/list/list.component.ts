@@ -37,9 +37,9 @@ const MODALS = {
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
 
     data;
     filterCount;
@@ -87,7 +87,7 @@ export class ListComponent implements OnInit {
         { name: 'Departamento', prop: 'departament.name', width: 300},
         { name: 'Posição', prop: 'location', width: 130, },
         { name: 'Depósito', prop: 'storehouse.name', width: 250 },
-        { name: 'Observações', prop: 'index', width: 300},
+        { name: 'Detalhamento', prop: 'index', width: 300},
         { name: 'Status', prop: 'status', width: 100, pipe: {transform: this.pipes.statusVolume} },
         // { name: 'Guarda', prop: 'guardType', width: 100 , pipe: {transform: this.pipes.guardTypeVolume}},
         { name: 'Referência', prop: 'reference', width: 200 },
@@ -187,10 +187,10 @@ export class ListComponent implements OnInit {
             }
         }
 
-        if (volume.initDate && volume.initDate != undefined) {
+        if (volume.initDate && volume.initDate !== undefined) {
             this.filterCount++;
         }
-        if (volume.endDate && volume.endDate != undefined) {
+        if (volume.endDate && volume.endDate !== undefined) {
             this.filterCount++;
         }
     }
@@ -223,7 +223,7 @@ export class ListComponent implements OnInit {
     }
 
     switchGuardType(event) {
-        console.log("TROQUEI: ", event);
+        console.log('TROQUEI: ', event);
         switch (this.searchForm.value.guardType) {
             case 'SIMPLES':
                 this.hiddenReference = false;
@@ -235,18 +235,18 @@ export class ListComponent implements OnInit {
         console.log('REFERENCE HIDDEN: ', this.hiddenReference);
     }
 
-    openFilter(){
+    openFilter() {
         this.modalRef = this.modalService.open(ModalFilterComponent, this.modalFilterOptions);
 
         this.modalRef.componentInstance.form = this.searchForm.value;
 
 
             this.modalRef.result.then((result) => {
-                if (result != "Sair") {
+                if (result !== 'Sair') {
                     this.setForm();
                     this.filterCounter();
                     this.setPageVolumes({ offset: 0 });
-                };
+                }
                 this.closeResult = `Closed with: ${result}`;
               }, (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -311,13 +311,13 @@ export class ListComponent implements OnInit {
 
     mapLabel(item) {
         let obj = '';
-        let labels = [
-            {title: 'Comentário 1', label: item.comments},
-            {title: 'Comentário 2', label: item.commentsOne},
-            {title: 'Comentário 3', label: item.commentsTwo},
-            {title: 'Comentário 4', label: item.commentsThree},
-            {title: 'Comentário 5', label: item.commentsFour},
-        ]
+        const labels = [
+            {title: 'Detalhe 1', label: item.comments},
+            {title: 'Detalhe 2', label: item.commentsOne},
+            {title: 'Detalhe 3', label: item.commentsTwo},
+            {title: 'Detalhe 4', label: item.commentsThree},
+            {title: 'Detalhe 5', label: item.commentsFour},
+        ];
         labels.map((item, i) => {
             obj += `<u><b>${item.title}:&nbsp</b></u> ${item.label || ''}</br>`;
         });
@@ -370,9 +370,9 @@ export class ListComponent implements OnInit {
 
             this.modalRef.result.then((result) => {
                 console.log('Aqui as ideia: ', result);
-                if (result != "Sair") {
+                if (result !== 'Sair') {
                     this.getVolumes();
-                };
+                }
                 this.closeResult = `Closed with: ${result}`;
               }, (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
