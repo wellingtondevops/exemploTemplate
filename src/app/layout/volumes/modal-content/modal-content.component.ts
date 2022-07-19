@@ -19,6 +19,7 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
+import * as moment from 'moment';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -31,10 +32,10 @@ const MODALS = {
   animations: [routerTransition()]
 })
 export class ModalContentComponent implements OnInit {
-  @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
-  @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+  @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
+  @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
   @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-  
+
   @Input() public vol;
   id;
 
@@ -48,16 +49,17 @@ export class ModalContentComponent implements OnInit {
   departaments: any = [];
   companies: any = [];
 
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
-  permissionConfirm: boolean = false;
-  permissionCancel: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
+  permissionConfirm = false;
+  permissionCancel = false;
   inputBlock: Boolean = false;
-  isEditing: boolean = false;
+  isEditing = false;
   isUsers = false;
   isNew: Boolean = false;
   hiddenReference: Boolean = true;
-  
+  hiddenYears: Boolean = true;
+
   focusCompany$ = new Subject<string>();
   clickCompany$ = new Subject<string>();
   focusDepartament$ = new Subject<string>();
@@ -78,7 +80,7 @@ export class ModalContentComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private storeHousesSrv: StorehousesService,
     private utilCase: CaseInsensitive,
-  ) { 
+  ) {
     this.statusList = StatusVolumeEnum;
     this.volumeTypeList = VolumeTypeEnum;
     this.guardTypeList = GuardyTypeVolumeEnum;
@@ -92,8 +94,15 @@ export class ModalContentComponent implements OnInit {
       uniqueField: this.fb.control(''),
       location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       reference: this.fb.control({ value: '', disabled: true }),
+      finalDate: this.fb.control({ value: '', disabled: true }),
+      seal: this.fb.control({ value: '', disabled: true }),
       closeBox: this.fb.control({value: '', disabled: true}),
       status: this.fb.control({value: 'ATIVO', disabled: true}),
+      comments: this.fb.control({value: '', disabled: true}),
+      commentsOne: this.fb.control({value: '', disabled: true}),
+      commentsTwo: this.fb.control({value: '', disabled: true}),
+      commentsThree: this.fb.control({value: '', disabled: true}),
+      commentsFour: this.fb.control({value: '', disabled: true}),
     });
   }
 
@@ -102,29 +111,67 @@ export class ModalContentComponent implements OnInit {
     this.getStoreHouses();
 
     if (this.vol) {
-      console.log('O COELHINHO TROUXE: ', this.vol);
+      console.log('O QUE VEM => ', this.vol);
       this.id = this.vol._id;
       this.getVolume();
+
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
       this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
+      this.hiddenReference = this.vol.guardType == 'SIMPLES' ? false : true;
+      this.hiddenYears = this.vol.guardType == 'GERENCIADA' ? false : true;
     } else {
       this.isNew = true;
       this.permissionCancel = true;
-      this.permissionConfirm = true;    
-      this.enableDisable(1); 
-    } 
+      this.permissionConfirm = true;
+      this.enableDisable(1);
+    }
   }
 
   enableDisable(execution) {
-    if (execution == 1) {
-      this.volumeForm.controls['storehouse'].enable();
-      this.volumeForm.controls['departament'].enable();
-      this.volumeForm.controls['company'].enable();
-      this.volumeForm.controls['guardType'].enable();
-      this.volumeForm.controls['volumeType'].enable();
-      this.volumeForm.controls['location'].enable();
-      this.volumeForm.controls['closeBox'].enable();
+    if (execution === 1) {
+        this.volumeForm.controls['storehouse'].enable();
+        this.volumeForm.controls['departament'].enable();
+        this.volumeForm.controls['company'].enable();
+        this.volumeForm.controls['guardType'].enable();
+        this.volumeForm.controls['volumeType'].enable();
+        this.volumeForm.controls['location'].enable();
+        this.volumeForm.controls['closeBox'].enable();
+        this.volumeForm.controls['reference'].enable();
+        this.volumeForm.controls['comments'].enable();
+        this.volumeForm.controls['commentsOne'].enable();
+        this.volumeForm.controls['commentsTwo'].enable();
+        this.volumeForm.controls['commentsThree'].enable();
+        this.volumeForm.controls['commentsFour'].enable();
+        this.volumeForm.controls['seal'].enable();
+        this.volumeForm.controls['finalDate'].enable();
+    } else if (execution === 2) {
+        this.volumeForm.controls['location'].enable();
+        this.volumeForm.controls['closeBox'].enable();
+        this.volumeForm.controls['reference'].enable();
+        this.volumeForm.controls['comments'].enable();
+        this.volumeForm.controls['commentsOne'].enable();
+        this.volumeForm.controls['commentsTwo'].enable();
+        this.volumeForm.controls['commentsThree'].enable();
+        this.volumeForm.controls['commentsFour'].enable();
+        this.volumeForm.controls['seal'].enable();
+        this.volumeForm.controls['finalDate'].enable();
+    } else if (execution === 0) {
+        this.volumeForm.controls['storehouse'].disable();
+        this.volumeForm.controls['departament'].disable();
+        this.volumeForm.controls['company'].disable();
+        this.volumeForm.controls['guardType'].disable();
+        this.volumeForm.controls['volumeType'].disable();
+        this.volumeForm.controls['location'].disable();
+        this.volumeForm.controls['closeBox'].disable();
+        this.volumeForm.controls['reference'].disable();
+        this.volumeForm.controls['comments'].disable();
+        this.volumeForm.controls['commentsOne'].disable();
+        this.volumeForm.controls['commentsTwo'].disable();
+        this.volumeForm.controls['commentsThree'].disable();
+        this.volumeForm.controls['commentsFour'].disable();
+        this.volumeForm.controls['seal'].disable();
+        this.volumeForm.controls['finalDate'].disable();
     }
   }
 
@@ -149,11 +196,17 @@ export class ModalContentComponent implements OnInit {
   get departament() {
       return this.volumeForm.get('departament');
   }
+  get finalDate() {
+    return this.volumeForm.get('finalDate');
+    }
+    get seal() {
+        return this.volumeForm.get('seal');
+    }
   get records() {
       console.log(this.records);
       return this.volumeForm.get('records');
   }
-  
+
   get company() {
     return this.volumeForm.get('company');
   }
@@ -184,7 +237,7 @@ export class ModalContentComponent implements OnInit {
     );
   }
 
-  getVolume(){
+  getVolume() {
     this.volumesSrv.volume(this.id).subscribe(
       data => {
           this.loading = false;
@@ -201,6 +254,13 @@ export class ModalContentComponent implements OnInit {
               status: data.status,
               reference: data.reference,
               closeBox: data.closeBox,
+              comments: data.comments,
+              commentsOne: data.commentsOne,
+              commentsTwo: data.commentsTwo,
+              commentsThree: data.commentsThree,
+              commentsFour: data.commentsFour,
+              finalDate: moment(data.finalDate).utc().format('YYYY-MM-DD'),
+              seal: data.seal,
           });
           // this.getDepartament(data.company._id);
       },
@@ -216,9 +276,11 @@ export class ModalContentComponent implements OnInit {
     switch (this.volumeForm.value.guardType) {
         case 'SIMPLES':
             this.hiddenReference = false;
+            this.hiddenYears = true;
             break;
         case 'GERENCIADA':
             this.hiddenReference = true;
+            this.hiddenYears = false;
             break;
     }
   }
@@ -254,6 +316,10 @@ export class ModalContentComponent implements OnInit {
         })
     );
   }
+
+  returnDate(finalDate) {
+    return moment(finalDate).utc().format('DD/MM/YYYY');
+}
 
   selectedCompany(e) {
     if (e && e.item && e.item._id) {
@@ -292,7 +358,7 @@ export class ModalContentComponent implements OnInit {
         )));
   }
 
-  
+
   getDepartament(id) {
     this.departamentsSrv.searchDepartaments(id).subscribe(
       data => {
@@ -319,7 +385,7 @@ export class ModalContentComponent implements OnInit {
     return `${this.volumeForm.value.location}-${this.volumeForm.value.company}`;
   }
 
-  blockInputs(){
+  blockInputs() {
     !this.inputBlock ? (this.inputBlock = true) : (this.inputBlock = false);
   }
 
@@ -334,6 +400,8 @@ export class ModalContentComponent implements OnInit {
         this.volumeForm.reset();
     }
   }
+
+  beforeChange(event) {}
 
   close() {
     if (this.isNew) {
@@ -356,22 +424,20 @@ export class ModalContentComponent implements OnInit {
   // EDIT
 
   editVolume() {
-    console.log("ESTOU NO EDIT");
+    console.log('ESTOU NO EDIT');
     this.permissionDelete = false;
     this.permissionEdit = false;
     this.permissionCancel = true;
     this.permissionConfirm = true;
     this.isEditing = true;
-    this.volumeForm.controls['location'].enable();
-    this.volumeForm.controls['closeBox'].enable();
+    this.enableDisable(2);
   }
 
   cancelEditNew() {
     if (this.isNew) {
       this.activeModal.close('Sair');
     } else {
-      this.volumeForm.controls['location'].disable();
-      this.volumeForm.controls['closeBox'].disable();
+      this.enableDisable(0);
       this.getVolume();
       this.permissionDelete = true;
       this.permissionEdit = true;
@@ -396,7 +462,7 @@ export class ModalContentComponent implements OnInit {
         this.delete(item);
       });
   }
-  
+
   delete(id) {
     this.loading = true;
     this.volumesSrv.deleteVolume(id).subscribe(
@@ -413,7 +479,7 @@ export class ModalContentComponent implements OnInit {
 
   // FINALIZAÇÃO
 
-  submit(){
+  submit() {
     if (!this.isNew && this.isEditing) {
       // this.loading = true;
       this.returnId('company');
@@ -427,8 +493,8 @@ export class ModalContentComponent implements OnInit {
         data => {
           if (data._id) {
             this.loading = false;
-            this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
-            this.activeModal.close('Editar');
+            this.successMsgSrv.successMessages('Volume editado com sucesso.');
+            // this.activeModal.close('Editar');
           }
         },
         error => {

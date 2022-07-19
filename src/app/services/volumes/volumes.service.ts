@@ -116,4 +116,11 @@ export class VolumesService {
         tap(data => data)
       );
   }
+
+  export(formData) {
+    return this.http.post<any>(`${url}/volumes/exportvolumes`, formData)
+        .pipe(
+            tap(data => data)
+        );
+}
 }

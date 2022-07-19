@@ -23,6 +23,15 @@ export class Volume {
   totalArchives: number;
   totalPages: number;
   lastUpdateVolume: string;
+  comments: string;
+  commentsOne: string;
+  commentsTwo: string;
+  commentsThree: string;
+  commentsFour: string;
+  finalDate: any;
+  seal: string;
+  smallestYear: string;
+  biggestYear: string;
 }
 
 export class VolumeList {

@@ -24,6 +24,7 @@ import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { ModalContentComponent } from '../modal-content/modal-content.component';
+import { ModalFilterComponent } from '../modal-filter/modal-filter.component';
 
 
 const MODALS = {
@@ -36,17 +37,18 @@ const MODALS = {
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
-    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
 
     data;
+    filterCount;
     modalRef: any;
     closeResult: string;
-    modalOptions: NgbModalOptions;
     searchForm: FormGroup;
     height: any;
     loading: Boolean = false;
+    noExternal = false;
     hiddenReference: Boolean = true;
     companies: any = [];
     company_id: string;
@@ -65,6 +67,7 @@ export class ListComponent implements OnInit {
     focusStorehouse$ = new Subject<string>();
     clickStorehouse$ = new Subject<string>();
     documents: any = [];
+    volumesM: Volume;
     volumes: VolumeList = {
         _links: {
             currentPage: 0,
@@ -77,16 +80,21 @@ export class ListComponent implements OnInit {
     };
     page = new Page();
 
+    modalOptions: NgbModalOptions;
+    modalFilterOptions: NgbModalOptions;
+
     columns = [
         { name: 'Departamento', prop: 'departament.name', width: 300},
         { name: 'Posição', prop: 'location', width: 130, },
         { name: 'Depósito', prop: 'storehouse.name', width: 250 },
+        { name: 'Detalhamento', prop: 'index', width: 300},
         { name: 'Status', prop: 'status', width: 100, pipe: {transform: this.pipes.statusVolume} },
-        { name: 'Guarda', prop: 'guardType', width: 100 , pipe: {transform: this.pipes.guardTypeVolume}},
+        // { name: 'Guarda', prop: 'guardType', width: 100 , pipe: {transform: this.pipes.guardTypeVolume}},
         { name: 'Referência', prop: 'reference', width: 200 },
-        { name: 'Conteúdo', prop: 'records', width: 100, pipe: { transform: this.pipes.recordsType } },
+        { name: 'Lacre', prop: 'seal', width: 200 },
+        // { name: 'Conteúdo', prop: 'records', width: 100, pipe: { transform: this.pipes.recordsType } },
         { name: 'Criado em', prop: 'dateCreated', width: 100, pipe: { transform: this.pipes.datePipe } },
-        { name: 'Situação do Volume', prop: 'closeBox', width: 150, pipe: { transform: this.pipes.boxType } },
+        // { name: 'Situação do Volume', prop: 'closeBox', width: 150, pipe: { transform: this.pipes.boxType } },
         { name: 'Qtd. Páginas', prop: 'totalPages', width: 150},
         { name: 'Qtd. Arquivos', prop: 'totalArchives', width: 150},
     ];
@@ -94,8 +102,8 @@ export class ListComponent implements OnInit {
     isUsers = false;
 
     statusThings = [
-        { name: 'ARQUIVO', selected: 1, value: 'ATIVO'}, 
-        { name: 'BAIXADO', selected: 0, value: 'BAIXADO'}, 
+        { name: 'ARQUIVO', selected: 0, value: 'ATIVO'},
+        { name: 'BAIXADO', selected: 0, value: 'BAIXADO'},
         { name: 'EMPRESTADO', selected: 0, value: 'EMPRESTADO'}
     ];
     guardTypeThings = [{ name: 'SIMPLES', selected: 0}, { name: 'GERENCIADA', selected: 1}];
@@ -129,6 +137,13 @@ export class ListComponent implements OnInit {
             keyboard: false,
             windowClass: 'customModal',
         };
+
+        this.modalFilterOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'filterModal',
+        };
     }
 
     ngOnInit() {
@@ -136,38 +151,24 @@ export class ListComponent implements OnInit {
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
             departament: this.fb.control(null),
-            status: this.fb.control('ATIVO'),
+            status: this.fb.control([]),
             location: this.fb.control(''),
             storehouse: this.fb.control(null),
             reference: this.fb.control(null),
             endDate: this.fb.control(null),
             initDate: this.fb.control(null),
-            guardType: this.fb.control('GERENCIADA'),
+            guardType: this.fb.control(null),
             records: this.fb.control(null),
-            closeBox: this.fb.control(null)
+            closeBox: this.fb.control(null),
+            search: this.fb.control(null),
+            seal: this.fb.control(null),
         });
-        const volume = JSON.parse(this.localStorageSrv.get('volume'));
-        if (volume && volume.company) {
-            this.searchForm.patchValue({
-                company: volume.company,
-                departament: volume.departament,
-                status: volume.status,
-                location: volume.location,
-                storehouse: volume.storehouse,
-                reference: volume.reference,
-                endDate: volume.endDate,
-                initDate: volume.initDate,
-                guardType: volume.guardType,
-                // records: volume.records,
-                // closeBox: volume.closeBox
-            });
-
-            this.getDepartaments(volume.company._id);
-        }
+        this.setForm();
         this.statusList = StatusVolumeEnum;
-        
+
         this.getCompanies();
         this.getStoreHouses();
+        this.noExternal = this.NoExternal();
         // this.getVolumes();
         this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
         this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
@@ -178,12 +179,54 @@ export class ListComponent implements OnInit {
         // console.log(this.todaysdate)
     }
 
+    filterCounter() {
+        this.filterCount = 0;
+        const volume = JSON.parse(this.localStorageSrv.get('volume'));
+
+        if (volume.status !== null && volume.status !== undefined) {
+            if (volume.status.length > 0) {
+                this.filterCount++;
+            }
+        }
+
+        if (volume.initDate && volume.initDate !== undefined) {
+            this.filterCount++;
+        }
+        if (volume.endDate && volume.endDate !== undefined) {
+            this.filterCount++;
+        }
+    }
+
+    setForm() {
+        const volume = JSON.parse(this.localStorageSrv.get('volume'));
+            if (volume && volume.company) {
+                this.searchForm.patchValue({
+                    company: volume.company,
+                    departament: volume.departament,
+                    status: volume.status,
+                    location: volume.location,
+                    storehouse: volume.storehouse,
+                    reference: volume.reference,
+                    endDate: volume.endDate,
+                    initDate: volume.initDate,
+                    guardType: volume.guardType,
+                    search: volume.search,
+                    seal: volume.seal,
+                });
+                this.getDepartaments(volume.company._id);
+            }
+    }
+
     get company() {
         return this.searchForm.get('company');
     }
 
+    openExport(content) {
+        this.modalService.open(content, { backdrop: 'static' });
+    }
+
     switchGuardType(event) {
-        console.log("TROQUEI: ", event);
+        console.log('TROQUEI: ', event);
         switch (this.searchForm.value.guardType) {
             case 'SIMPLES':
                 this.hiddenReference = false;
@@ -195,8 +238,95 @@ export class ListComponent implements OnInit {
         console.log('REFERENCE HIDDEN: ', this.hiddenReference);
     }
 
+    openFilter() {
+        this.modalRef = this.modalService.open(ModalFilterComponent, this.modalFilterOptions);
+
+        this.modalRef.componentInstance.form = this.searchForm.value;
+
+
+            this.modalRef.result.then((result) => {
+                if (result !== 'Sair') {
+                    this.setForm();
+                    this.filterCounter();
+                    this.setPageVolumes({ offset: 0 });
+                }
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+    }
+
+    NoExternal() {
+        let res = false;
+            if (JSON.parse(window.localStorage.getItem('userExternal')) === true) {
+                res = true;
+            }
+        return res;
+    }
+
+    exportArchives() {
+        this.loading = true;
+        this.localStorageSrv.save('volume', this.searchForm.value);
+
+        const newSearch = {
+            company: null,
+            storehouse: null,
+            departament: null,
+            location: null,
+            status: [],
+            search: null,
+            endDate: null,
+            initDate: null,
+            seal: null
+        };
+
+        this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
+        this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;
+        this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
+        newSearch.location = this.searchForm.value.location;
+        newSearch.seal = this.searchForm.value.seal;
+        newSearch.status = this.searchForm.value.status;
+        newSearch.search = this.searchForm.value.search;
+        if (newSearch.search === null) {
+            newSearch.search = '';
+        }
+        newSearch.endDate = this.searchForm.value.endDate;
+        newSearch.initDate = this.searchForm.value.initDate;
+
+        const searchValue = _.omitBy(newSearch, _.isNil);
+        console.log(searchValue);
+        this.volumeSrv.export(searchValue).subscribe(data => {
+            this.loading = false;
+        }, error => {
+            this.loading = false;
+            console.log('ERROR: ', error);
+        });
+    }
+
     get storehouse() {
         return this.searchForm.get('storehouse');
+    }
+
+    newRegisters(registers) {
+        registers.map(item => {
+            item.index = this.mapLabel(item);
+        });
+        return registers;
+    }
+
+    mapLabel(item) {
+        let obj = '';
+        const labels = [
+            {title: 'Detalhe 1', label: item.comments},
+            {title: 'Detalhe 2', label: item.commentsOne},
+            {title: 'Detalhe 3', label: item.commentsTwo},
+            {title: 'Detalhe 4', label: item.commentsThree},
+            {title: 'Detalhe 5', label: item.commentsFour},
+        ];
+        labels.map((item, i) => {
+            obj += `<u><b>${item.title}:&nbsp</b></u> ${item.label || ''}</br>`;
+        });
+        return obj;
     }
 
     getVolume(volume) {
@@ -216,7 +346,7 @@ export class ListComponent implements OnInit {
         this.searchForm.patchValue({
             company: null,
             departament: null,
-            status: 'ATIVO',
+            status: [],
             location: null,
             storehouse: null,
             reference: null,
@@ -224,7 +354,9 @@ export class ListComponent implements OnInit {
             initDate: null,
             guardType: 'GERENCIADA',
             records: null,
-            closeBox: null
+            closeBox: null,
+            search: null,
+            seal: null
         });
     }
 
@@ -235,23 +367,23 @@ export class ListComponent implements OnInit {
     openVolume(value) {
         if (value.type === 'click') {
             this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
-    
+
             if (value.row) {
                 this.data = value.row;
-                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
                 this.modalRef.componentInstance.vol = this.data;
             }
-    
+
             this.modalRef.result.then((result) => {
                 console.log('Aqui as ideia: ', result);
-                if (result != "Sair") {
-                    this.getVolumes(); 
-                };
+                if (result !== 'Sair') {
+                    this.getVolumes();
+                }
                 this.closeResult = `Closed with: ${result}`;
               }, (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
               });
-            
+
         }
     }
 
@@ -278,20 +410,22 @@ export class ListComponent implements OnInit {
             company: null,
             storehouse: null,
             departament: null,
-            status: null,
+            status: [],
             location: null,
             reference: null,
             endDate: null,
             initDate: null,
             guardType: null,
             records: null,
-            closeBox: null
+            closeBox: null,
+            search: null,
+            seal: null
         };
 
         this.searchForm.value.company ? newForm.company = this.returnId('company') : null;
         this.searchForm.value.storehouse ? newForm.storehouse = this.returnId('storehouse') : null;
         this.searchForm.value.departament ? newForm.departament = this.returnId('departament') : null;
-        this.searchForm.value.status ? newForm.status = this.searchForm.value.status : null;
+        this.searchForm.value.status ? newForm.status = this.searchForm.value.status : [];
         this.searchForm.value.location ? newForm.location = this.searchForm.value.location : null;
         this.searchForm.value.reference ? newForm.reference = this.searchForm.value.reference : null;
         this.searchForm.value.endDate ? newForm.endDate = this.searchForm.value.endDate : null;
@@ -299,6 +433,8 @@ export class ListComponent implements OnInit {
         this.searchForm.value.guardType ? newForm.guardType = this.searchForm.value.guardType : null;
         this.searchForm.value.records ? newForm.records = this.searchForm.value.records : null;
         this.searchForm.value.closeBox ? newForm.closeBox = this.searchForm.value.closeBox : null;
+        this.searchForm.value.search ? newForm.search = this.searchForm.value.search : null;
+        this.searchForm.value.seal ? newForm.seal = this.searchForm.value.seal : null;
 
 
         const searchValue = _.omitBy(newForm, _.isNil);
@@ -307,6 +443,8 @@ export class ListComponent implements OnInit {
             data => {
                 console.log('Aqui, viu? ', data);
                 this.volumes = data;
+                const resultWithIndex = this.newRegisters(data.items);
+                this.volumesM = resultWithIndex;
                 this.page.pageNumber = data._links.currentPage;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;

@@ -17,8 +17,10 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { ModalContentComponent } from './modal-content/modal-content.component';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { ModalFilterComponent } from './modal-filter/modal-filter.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
-  declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent, ErrorsVolumesComponent, ModalContentComponent],
+  declarations: [ShowComponent, ListComponent, NewComponent, EnumToArrayPipe, EditComponent, ImportVolumeComponent, ErrorsVolumesComponent, ModalContentComponent, ModalFilterComponent],
   imports: [
     CommonModule,
     VolumesRoutingModule,
@@ -33,9 +35,10 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
     ButtonBackModule,
     ButtonsCustomModule,
     NgxLoadingModule.forRoot({}),
-    NgbdModalConfirmModule
+    NgbdModalConfirmModule,
+    NgMultiSelectDropDownModule
   ],
   providers: [NgbActiveModal, CaseInsensitive],
-  entryComponents: [ModalContentComponent, NgbdModalConfirmComponent]
+  entryComponents: [ModalContentComponent, NgbdModalConfirmComponent, ModalFilterComponent]
 })
 export class VolumesModule { }
