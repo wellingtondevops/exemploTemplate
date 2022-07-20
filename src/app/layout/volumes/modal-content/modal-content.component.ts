@@ -48,7 +48,6 @@ export class ModalContentComponent implements OnInit {
   guardTypeList: any = [];
   departaments: any = [];
   companies: any = [];
-
   permissionEdit = false;
   permissionDelete = false;
   permissionConfirm = false;
@@ -95,6 +94,7 @@ export class ModalContentComponent implements OnInit {
       location: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       reference: this.fb.control({ value: '', disabled: true }),
       finalDate: this.fb.control({ value: '', disabled: true }),
+      dateCreated: this.fb.control({ value: '', disabled: true }),
       seal: this.fb.control({ value: '', disabled: true }),
       closeBox: this.fb.control({value: '', disabled: true}),
       status: this.fb.control({value: 'ATIVO', disabled: true}),
@@ -118,8 +118,8 @@ export class ModalContentComponent implements OnInit {
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
       this.isUsers = JSON.parse(localStorage.getItem('userExternal'));
-      this.hiddenReference = this.vol.guardType == 'SIMPLES' ? false : true;
-      this.hiddenYears = this.vol.guardType == 'GERENCIADA' ? false : true;
+      this.hiddenReference = this.vol.guardType === 'SIMPLES' ? false : true;
+      this.hiddenYears = this.vol.guardType === 'GERENCIADA' ? false : true;
     } else {
       this.isNew = true;
       this.permissionCancel = true;
@@ -145,6 +145,8 @@ export class ModalContentComponent implements OnInit {
         this.volumeForm.controls['commentsFour'].enable();
         this.volumeForm.controls['seal'].enable();
         this.volumeForm.controls['finalDate'].enable();
+        this.volumeForm.controls['dateCreated'].enable();
+
     } else if (execution === 2) {
         this.volumeForm.controls['location'].enable();
         this.volumeForm.controls['closeBox'].enable();
@@ -156,6 +158,7 @@ export class ModalContentComponent implements OnInit {
         this.volumeForm.controls['commentsFour'].enable();
         this.volumeForm.controls['seal'].enable();
         this.volumeForm.controls['finalDate'].enable();
+        this.volumeForm.controls['dateCreated'].enable();
     } else if (execution === 0) {
         this.volumeForm.controls['storehouse'].disable();
         this.volumeForm.controls['departament'].disable();
@@ -172,6 +175,7 @@ export class ModalContentComponent implements OnInit {
         this.volumeForm.controls['commentsFour'].disable();
         this.volumeForm.controls['seal'].disable();
         this.volumeForm.controls['finalDate'].disable();
+
     }
   }
 
@@ -210,6 +214,11 @@ export class ModalContentComponent implements OnInit {
   get company() {
     return this.volumeForm.get('company');
   }
+  get dateCreated() {
+    return this.volumeForm.get('dateCreated');
+  }
+
+
 
   getCompanies() {
     this.companiesSrv.searchCompanies().subscribe(

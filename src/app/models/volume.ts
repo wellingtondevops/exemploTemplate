@@ -31,7 +31,8 @@ export class Volume {
   finalDate: any;
   seal: string;
   smallestYear: string;
-  biggestYear: string;
+  biggestYear; string;
+
 }
 
 export class VolumeList {
