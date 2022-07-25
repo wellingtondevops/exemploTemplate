@@ -136,14 +136,12 @@
                                 </div>
 
                                 <!-- <div class="form-group col-lg-4 col-md-4"></div> -->
-                                <div class="form-group col-lg-4 col-md-4" *ngIf="isNew" style="margin-top: 2rem;">
-
+                                <div *ngIf="isNew" class="form-group col lg-4 col-md-4" >
                                     <label for="">Data de Criação</label>
                                     <input type="date" class="form-control" formControlName="dateCreated" />
-
                                 </div>
 
-                                <div class="form-group col-lg-12">
+                                <div class="form-group col-lg-8">
                                     <label for="">Posição</label>
                                     <input type="text" placeholder="Posição" class="form-control"
                                         formControlName="location"

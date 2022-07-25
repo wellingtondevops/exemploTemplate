@@ -413,11 +413,11 @@ export class ModalContentComponent implements OnInit {
   beforeChange(event) {}
 
   close() {
-    if (this.isNew) {
-      this.activeModal.close('Novo');
-    } else {
+    // if (this.isNew) {
+    //   this.activeModal.close('Novo');
+    // } else {
       this.activeModal.close('Sair');
-    }
+    // }
   }
 
   help() {
@@ -526,6 +526,7 @@ export class ModalContentComponent implements OnInit {
               }
           },
           error => {
+            this.loading = false;
               this.errorMsg.errorMessages(error);
               console.log('ERROR: ', error);
           }
