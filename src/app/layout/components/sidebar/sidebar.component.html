@@ -1,11 +1,7 @@
 <nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
-
+    <!-- [routerLink]="['/email-service']" -->
     <div class="list-group">
-        <!-- <a *ngIf="permissionAdmin || permissionArquivador" [routerLink]="['/not-found']"
-      [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-envelope"></i>&nbsp;
-      <span>{{ 'Solicitantes ' | translate }}</span>
-    </a> -->
+
         <i class="toggleTheme">
             <app-theme-toggle></app-theme-toggle>
         </i>
@@ -18,6 +14,19 @@
             <i class="mdi mdi-home-variant-outline mdi-18px"></i>&nbsp;
             <span>{{ "Depósitos" | translate }}</span>
         </a>
+        <!-- <a *ngIf="isStorehouses" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']"
+            class="list-group-item">
+            <i class="mdi mdi-home-variant-outline mdi-18px"></i>&nbsp;
+            <span>{{ "Depósitos" | translate }}</span>
+        </a> -->
+
+
+            <a class="list-group-item" [routerLink]="['/email-service']"
+                [routerLinkActive]="['router-link-active']">
+                <i class="mdi mdi-email mdi-18px"></i>&nbsp;
+                <span>{{ "Email" | translate }}</span>
+            </a>
+
 
         <a *ngIf="isCompanies" [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
@@ -122,7 +131,7 @@
                             <span>{{ "Pesquisa Simples" | translate }}</span>
                         </a>
                     </li>
-                    <li >
+                    <li>
                         <a [routerLink]="['/archives/audit']" class="list-group-item"
                             [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-text-box-search-outline mdi-18px"></i>&nbsp;
@@ -197,13 +206,13 @@
                             <span>{{ "Serviços" | translate }}</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="list-group-item" [routerLink]="['/email-service']"
                             [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-email mdi-18px"></i>&nbsp;
                             <span>{{ "Email" | translate }}</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </li>
         </div>

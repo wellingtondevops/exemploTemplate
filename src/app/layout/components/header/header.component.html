@@ -16,10 +16,16 @@
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false">
 
+
                     <div *ngIf="(ArrMail | async) !== 0">
-                        <span class="badgeAlertEmail"></span>
+                        <span class="badgeAlert"> {{(ArrMail | async)}} </span>
                         <span class="caret"></span>
                     </div>
+
+                    <!-- <div *ngIf="(ArrMail | async) !== 0">
+                        <span class="badgeAlertEmail"></span>
+                        <span class="caret"></span>
+                    </div> -->
                     <i class="icon mdi mdi-email mdi-18px"></i> <b class="caret"></b>
 
                 </a>
