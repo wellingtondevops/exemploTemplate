@@ -291,6 +291,26 @@ export class UsersPermissionsComponent implements OnInit {
         );
     }
 
+    deleteCompany(id) {
+        this.loading = true;
+        this.permissionsSrv.deleteCompanyPermission(this.id).subscribe(
+            (response) => {
+                this.loading = false;
+                this.successMsgSrv.successMessages(
+                    'Permissão deletada com sucesso.'
+                );
+                // this._route.navigate(['/users/get', this.userId]);
+                window.history.go(-1);
+                return false;
+            },
+            (error) => {
+                this.loading = false;
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR:', error);
+            }
+        );
+    }
+
     goBack() {
         this._route.navigate(['/users/get', this.userId]);
     }
