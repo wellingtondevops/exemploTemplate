@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { Router } from '@angular/router';
 import { EmailsList } from 'src/app/models/email-service';
+import { Pipes } from 'src/app/utils/pipes/pipes';
 declare var $: any;
 @Component({
     selector: 'app-list',
@@ -29,8 +30,21 @@ export class ListComponent implements OnInit {
     page = new Page();
     Email: EmailServiceList;
     emailsList: EmailsList = {
+        _links: {
+            currentPage: 0,
+            foundItems: 0,
+            next: '',
+            self: '',
+            totalPage: 0
+        },
         items: []
     };
+
+    columns = [
+        { name: 'Título', prop: 'title', width: 300},
+        { name: 'Remetente', prop: 'userSernder.name', width: 300, },
+        { name: 'Data', prop: 'dateCreated', width: 130, pipe: { transform: this.pipes.datePipe } },
+    ];
 
 
     constructor(
@@ -39,10 +53,43 @@ export class ListComponent implements OnInit {
         private modalService: NgbModal,
         private errorMsg: ErrorMessagesService,
         private introService: IntroJsService,
+        private pipes: Pipes,
     ) { }
 
     ngOnInit() {
         this.getListDocFull();
+
+    }
+
+    openEmailList(value) {
+        if (value.type == 'click') {
+            console.log('teste: ', value)
+            this._route.navigate(['/email-service/get', value.row._id]);
+
+        }
+
+    }
+
+    setPageEmailList(pageInfo) {
+        this.loading = true;
+        this.page.pageNumber = pageInfo.offset;
+        console.log(this.page);
+
+        this.emailSrv.searchListEmails(this.page, null).subscribe(
+            data => {
+                console.log('Aqui, viu? ', data);
+                this.emailsList = data;
+                this.page.pageNumber = data._links.currentPage;
+                this.page.totalElements = data._links.foundItems;
+                this.page.size = data._links.totalPage;
+                this.loading = false;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+                this.loading = false;
+            }
+        );
     }
 
     getListDocFull(i = null) {
@@ -50,6 +97,7 @@ export class ListComponent implements OnInit {
         this.emailSrv.searchListEmails(this.page, null).subscribe(
             data => {
                 this.emailsList = data;
+                console.log('TESTE => ', this.emailsList);
                 this.emailsListFull = this.emailsList.items.map(data => {
                     return data.title;
                 });
@@ -75,6 +123,9 @@ export class ListComponent implements OnInit {
                     return data._id;
                 });
                 // console.log('lista nova', this.id);
+                this.page.pageNumber = data._links.currentPage;
+                this.page.totalElements = data._links.foundItems;
+                this.page.size = data._links.totalPage;
                 this.loading = false;
             },
             error => {
