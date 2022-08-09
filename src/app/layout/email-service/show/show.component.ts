@@ -3,10 +3,12 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
 import { EmailServiceList } from 'src/app/models/email-service';
 import { EmailServiceService } from './../../../services/email-service/email-service.service';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { routerTransition } from 'src/app/router.animations';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 const MODALS = {
     focusFirst: NgbdModalConfirmComponent
@@ -15,7 +17,8 @@ const MODALS = {
 @Component({
     selector: 'app-show',
     templateUrl: './show.component.html',
-    styleUrls: ['./show.component.scss']
+    styleUrls: ['./show.component.scss'],
+    animations: [routerTransition()]
 })
 export class ShowComponent implements OnInit {
     loading: Boolean = false;
@@ -29,6 +32,11 @@ export class ShowComponent implements OnInit {
     pending: Boolean;
     permissionDelete = false;
 
+    modalOptions: NgbModalOptions;
+    data;
+    modalRef: any;
+    closeResult: string;
+
     constructor(
         private route: ActivatedRoute,
         private _route: Router,
@@ -38,7 +46,14 @@ export class ShowComponent implements OnInit {
         private emailSrv: EmailServiceService,
         private errorMsg: ErrorMessagesService,
         private introService: IntroJsService,
-    ) { }
+    ) {
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+    }
 
     ngOnInit() {
         this.id = this.route.snapshot.paramMap.get('id');
@@ -82,6 +97,38 @@ export class ShowComponent implements OnInit {
         modalRef.componentInstance.delete.subscribe(item => {
             this.delete(item);
         });
+    }
+
+    openArchive() {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+
+            if (this.archiveId) {
+                this.data = {
+                    _id: this.archiveId
+                };
+                // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
+                this.modalRef.componentInstance.arch = this.data;
+            }
+
+            this.modalRef.result.then((result) => {
+                if (result != "Sair") {
+                    // this.getArchive();
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
     }
 
     delete(file) {

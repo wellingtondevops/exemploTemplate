@@ -19,6 +19,7 @@ export class EmailServiceList {
 }
 export class EmailsList {
     items: EmailServiceList[];
+    _links: Pagination;
 }
 
 export enum ResquestEnum {
