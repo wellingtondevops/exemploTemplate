@@ -22,6 +22,8 @@ export class HeaderComponent implements OnInit {
     key = '';
     notifys: Observable<any>;
     notifysMail: Observable<any>;
+    notifysUpuload: Observable<any>;
+    ArrUpload: Observable<any>;
     notifyRef: any;
     sizeArr: Observable<any>;
     ArrMail: Observable<any>;
@@ -46,11 +48,14 @@ export class HeaderComponent implements OnInit {
         // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();
         this.notifys = this.notifyService.getAll(this.userId);
-        this.notifysMail = this.notifyService.getAllMail('email-'+this.userId);
+        this.notifysMail = this.notifyService.getAllMail('email-' + this.userId);
+        this.notifysUpuload = this.notifyService.getAllUpload('upload-' + this.userId);
         this.sizeArr = this.notifyService.getlength(this.userId);
-        this.ArrMail = this.notifyService.getlengthMail('email-'+this.userId);
+        this.ArrMail = this.notifyService.getlengthMail('email-' + this.userId);
+        this.ArrUpload = this.notifyService.getlengthUpload('upload-' + this.userId);
 
-        //UPDATE
+
+        // UPDATE
         this.notifyService.currentNotify.subscribe(data => {
             if (data.notify && data.key) {
                 this.notify = new Notify();
