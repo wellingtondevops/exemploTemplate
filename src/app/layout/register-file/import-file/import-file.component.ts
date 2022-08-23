@@ -29,10 +29,10 @@ import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
     animations: [routerTransition()]
 })
 export class ImportFileComponent implements OnInit {
-    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
-    @ViewChild('instanceDocument',) instanceDocument: NgbTypeahead;
+    @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceDocument', ) instanceDocument: NgbTypeahead;
 
     file: File | null = null;
     files: [File] | null = null;
@@ -52,10 +52,10 @@ export class ImportFileComponent implements OnInit {
     departaments: any = [];
     columns: any = [];
     errorsToPostArchive: any = [];
-    openCardStatus: boolean = false;
+    openCardStatus = false;
     urlErrors: string;
-    importedSuccess: number = 0;
-    errorsImported: number = 0;
+    importedSuccess = 0;
+    errorsImported = 0;
     companies: any = {
         _links: {
             self: '',
@@ -164,7 +164,7 @@ export class ImportFileComponent implements OnInit {
     }
 
     getStoreHouses() {
-        this.storeHousesSrv.searchStorehouses().subscribe(
+        this.storeHousesSrv.searchStorehousesNoVirtual().subscribe(
             data => {
                 this.loading = false;
                 this.storeHouses = data.items;
@@ -191,7 +191,7 @@ export class ImportFileComponent implements OnInit {
             this.nameFileXls = event.item(0).name;
             const file = event && event.item(0);
             if (!file.name.match(/\.(xls|xlsx|XLS|XLSX)$/)) {
-                //this.removeFile();
+                // this.removeFile();
                 const error = {
                     status: 404,
                     message: 'Formato de arquivo não suportado.'
@@ -205,7 +205,7 @@ export class ImportFileComponent implements OnInit {
                     this.arrayBuffer = fileReader.result;
                     const data = new Uint8Array(this.arrayBuffer);
                     const arr = new Array();
-                    for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+                    for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
                     const bstr = arr.join('');
                     const workbook = XLSX.read(bstr, { type: 'binary' });
                     // nome da aba
@@ -260,7 +260,7 @@ export class ImportFileComponent implements OnInit {
                 }
                 return res;
             })
-        )
+        );
     }
     // text$.pipe(
     //     debounceTime(200),
@@ -337,11 +337,11 @@ export class ImportFileComponent implements OnInit {
     }
 
     postImportArchive() {
-        let company = this.returnId('company');
-        let storehouse = this.returnId('storehouse');
-        let departament = this.returnId('departament');
-        let doct = this.returnId('doct');
-        let retroDate = this.importFileForm.get('retroDate').value;
+        const company = this.returnId('company');
+        const storehouse = this.returnId('storehouse');
+        const departament = this.returnId('departament');
+        const doct = this.returnId('doct');
+        const retroDate = this.importFileForm.get('retroDate').value;
 
         console.log('RETROATIVA: ', retroDate);
         this.submit(company, storehouse, departament, doct, retroDate);
@@ -349,7 +349,7 @@ export class ImportFileComponent implements OnInit {
 
     submit(company, storehouse, departament, doct, retroDate) {
         // this.loading = true;
-        console.log(company, storehouse, departament, doct, retroDate)
+        console.log(company, storehouse, departament, doct, retroDate);
         const formData = new FormData();
         formData.append('file', this.file);
         formData.append('company', company);
@@ -407,14 +407,14 @@ export class ImportFileComponent implements OnInit {
         this.loading = true;
         this.archivesSrv.import(archives).subscribe(data => {
             this.loading = false;
-        })
+        });
     }
 
     closeModalImport(data) {
         this.openCardStatus = data;
     }
     clearForm() {
-        //this.archivesSrv.clear('position');
+        // this.archivesSrv.clear('position');
         this.importFileForm.patchValue({
             company: null,
             storehouse: null,

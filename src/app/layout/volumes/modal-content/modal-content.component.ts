@@ -233,7 +233,7 @@ export class ModalContentComponent implements OnInit {
   }
 
   getStoreHouses() {
-    this.storeHousesSrv.searchStorehouses().subscribe(
+    this.storeHousesSrv.searchStorehousesNoVirtual().subscribe(
         data => {
             this.loading = false;
             this.storeHouses = data.items;
