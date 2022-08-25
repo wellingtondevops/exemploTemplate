@@ -183,7 +183,7 @@
                                         [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                         [ngbTypeahead]="searchCompany" style="width: 100%" />
                                 </div>
-                                <div class="form-group mb-2 col-lg-3">
+                                <!-- <div class="form-group mb-2 col-lg-3">
                                     <label for="typeahead-basic">Documento</label>
                                     <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
                                         formControlName="doct" [resultTemplate]="rtDocument"
@@ -199,7 +199,7 @@
                                         placeholder="Nome do Departamento"
                                         (focus)="focusDepartament$.next($any($event).target.value)"
                                         (click)="clickDepartament$.next($any($event).target.value)" />
-                                </div>
+                                </div> -->
                                 <div class="form-group mb-2 col-lg-3">
                                     <label for="location">Posição</label>
                                     <input id="location" placeholder="Informe a Posição" class="form-control col-12"
@@ -246,26 +246,26 @@
                                     [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                                     [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
                                     [scrollbarH]="true" (page)='setPage($event)'>
-                                    <ngx-datatable-column name="Documento" [width]="400" prop="doct.name">
+                                    <ngx-datatable-column name="Documento" [width]="340" prop="doct.name">
                                     </ngx-datatable-column>
                                     <ngx-datatable-column name="Departamento" [width]="340" prop="departament.name">
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Depósito" [width]="400" prop="storehouse.name">
+                                    <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name">
                                     </ngx-datatable-column>
                                     <ngx-datatable-column name="Posição" [width]="130" prop="location">
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Criado em" [width]="130" prop="dateCreated">
+                                    <!-- <ngx-datatable-column name="Criado em" [width]="130" prop="dateCreated">
                                         <ng-template let-value="value" ngx-datatable-cell-template>
                                             {{ value | date: 'dd/MM/yyyy' }}
                                         </ng-template>
-                                    </ngx-datatable-column>
+                                    </ngx-datatable-column> -->
                                     <ngx-datatable-column name="Selecionar" [width]="110" prop="_id">
                                         <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                                             <button class="btn btn-primary btn-sm"
                                                 (click)="getVolume(row)">Selecionar</button>
                                         </ng-template>
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Volume" [width]="100" prop="closeBox">
+                                    <!-- <ngx-datatable-column name="Volume" [width]="100" prop="closeBox">
                                         <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                                             <ng-container *ngIf="value; else elseTemplate">
                                                 <abbr title="Volume fechado"><i
@@ -276,7 +276,7 @@
                                                         class="mdi mdi-archive-eye mdi-24px"></i></abbr>
                                             </ng-template>
                                         </ng-template>
-                                    </ngx-datatable-column>
+                                    </ngx-datatable-column> -->
                                 </ngx-datatable>
                             </div>
                         </div>
@@ -286,3 +286,4 @@
         </div>
     </div>
 </div>
+

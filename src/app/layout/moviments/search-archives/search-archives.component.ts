@@ -141,7 +141,7 @@ export class SearchArchivesComponent implements OnInit {
     }
 
     getStorehouses() {
-        this.storehousesSrv.searchStorehouses().subscribe(data => {
+        this.storehousesSrv.searchStorehousesNoVirtual().subscribe(data => {
             this.storehouses = data.items;
         }, error => {
             this.errorMsg.errorMessages(error);

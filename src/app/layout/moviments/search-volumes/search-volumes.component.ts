@@ -138,7 +138,7 @@ export class SearchVolumesComponent implements OnInit {
     }
 
     getStorehouses() {
-        this.storehousesSrv.searchStorehouses().subscribe(data => {
+        this.storehousesSrv.searchStorehousesNoVirtual().subscribe(data => {
             this.storehouses = data.items;
         }, error => {
             this.errorMsg.errorMessages(error);
@@ -239,7 +239,7 @@ export class SearchVolumesComponent implements OnInit {
             endDate: null,
             reference: null
         };
-        //this.localStorageSrv.save('search-volume', this.searchForm.value);
+
         this.searchForm.value.departament ? newSearch.departament = this.returnId('departament') : null;
         this.searchForm.value.location ? newSearch.location = this.searchForm.value.location : null;
         this.searchForm.value.storehouse ? newSearch.storehouse = this.returnId('storehouse') : null;

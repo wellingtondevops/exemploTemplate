@@ -28,12 +28,16 @@ export class DepartamentsService {
     }
   }
 
+
   departament(id) {
-    return this.http.get<Departament>(`${url}/departaments/${id}`)
-      .pipe(
-          tap(data => data)
-      );
+    return this.http.get<Departament>(`${url}/departaments/${id}`).pipe(tap(data => data));
   }
+//   departament(id) {
+//     return this.http.get<Departament>(`${url}/departaments/${id}`)
+//       .pipe(
+//           tap(data => data)
+//       );
+//   }
 
   newDepartament(departament) {
     return this.http.post<Departament>(`${url}/departaments`, departament)
@@ -50,7 +54,7 @@ export class DepartamentsService {
   }
 
   delete(departament) {
-    console.log("Chegou no delete", departament);
+    // console.log("Chegou no delete", departament);
     return this.http.delete<Departament>(`${url}/departaments/${departament}`)
     .pipe(
       tap(data => data)

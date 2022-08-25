@@ -562,7 +562,7 @@ export class ListComponent implements OnInit {
     //     )
 
     getStoreHouses() {
-        this.storehousesSrv.searchStorehouses().subscribe(
+        this.storehousesSrv.searchStorehousesNoVirtual().subscribe(
             data => {
                 this.storehouses = data.items;
             },

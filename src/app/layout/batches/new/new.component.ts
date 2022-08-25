@@ -25,14 +25,19 @@ import { BatchesService } from 'src/app/services/batches/batches.service';
     animations: [routerTransition()]
 })
 export class NewComponent implements OnInit {
-    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
+
 
     focusCompany$ = new Subject<string>();
     clickCompany$ = new Subject<string>();
+    focusDepartament$ = new Subject<string>();
+    clickDepartament$ = new Subject<string>();
     loading: Boolean = true;
     batchForm: FormGroup;
     companies: any = [];
     documents: any = [];
+    departaments: any = [];
+
 
     constructor(
         private _route: Router,
@@ -44,6 +49,7 @@ export class NewComponent implements OnInit {
         private utilCase: CaseInsensitive,
         private documentsSrv: DocumentsService,
         private introService: IntroJsService,
+        private departamentsSrv: DepartamentsService,
 
     ) { }
 
@@ -51,6 +57,7 @@ export class NewComponent implements OnInit {
         this.batchForm = this.fb.group({
             company: this.fb.control('', [Validators.required]),
             doct: this.fb.control('', [Validators.required]),
+            departament: this.fb.control('', [Validators.required]),
         });
         this.getCompanies();
     }
@@ -63,6 +70,9 @@ export class NewComponent implements OnInit {
 
     get doct() {
         return this.batchForm.get('doct');
+    }
+    get departament() {
+        return this.batchForm.get('departament');
     }
 
     getCompanies() {
@@ -93,6 +103,17 @@ export class NewComponent implements OnInit {
             }
         );
     }
+    getDepartament(id) {
+        this.departamentsSrv.searchDepartaments(id).subscribe(
+            data => {
+                this.departaments = data.items;
+            },
+            error => {
+                this.errorMsg.errorMessages(error);
+                console.log('ERROR: ', error);
+            }
+        );
+    }
 
     searchCompany = (text$: Observable<string>) => {
         const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
@@ -112,7 +133,16 @@ export class NewComponent implements OnInit {
             })
         );
     }
-
+    searchDepartament = (text$: Observable<string>) =>
+    text$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        map(departament =>
+            departament.length < 2
+                ? []
+                : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
+        )
+    )
     searchDocument = (text$: Observable<string>) =>
         text$.pipe(
             debounceTime(200),
@@ -124,16 +154,23 @@ export class NewComponent implements OnInit {
             )
         )
 
+
+
     selectedCompany(e) {
         this.getDocuments(e.item._id);
+        this.getDepartament(e.item._id);
     }
+
+
+
 
     postBatch() {
         this.loading = true;
         let newForm = {
             company: this.batchForm.value.company ? this.returnId('company') : null,
-            doct: this.batchForm.value.doct ? this.returnId('doct') : null
-        }
+            doct: this.batchForm.value.doct ? this.returnId('doct') : null,
+            departament: this.batchForm.value.departament ? this.returnId('departament') : null
+        };
 
         newForm = _.omitBy(newForm, _.isNil);
 
@@ -147,7 +184,7 @@ export class NewComponent implements OnInit {
             this.loading = false;
             console.log('ERROR: ', error);
             this.errorMsg.errorMessages(error);
-        })
+        });
     }
 
     returnId(object) {

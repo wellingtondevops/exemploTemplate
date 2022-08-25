@@ -29,9 +29,9 @@ import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
     animations: [routerTransition()]
 })
 export class ImportVolumeComponent implements OnInit {
-    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
     file: File | null = null;
     nameFile: string;
     arrayBuffer: any;
@@ -52,13 +52,13 @@ export class ImportVolumeComponent implements OnInit {
     focusStorehouse$ = new Subject<string>();
     clickStorehouse$ = new Subject<string>();
     hiddenReference = true;
-    openCardStatus: boolean = false;
+    openCardStatus = false;
     uploadResponse: any = { status: 'progress', message: 0 };
     savedFile = false;
     errorUpload: boolean = null;
     urlErrors: string;
-    importedSuccess: number = 0;
-    errorsImported: number = 0;
+    importedSuccess = 0;
+    errorsImported = 0;
 
     constructor(
         private errorMsg: ErrorMessagesService,
@@ -130,7 +130,7 @@ export class ImportVolumeComponent implements OnInit {
                     this.arrayBuffer = fileReader.result;
                     const data = new Uint8Array(this.arrayBuffer);
                     const arr = new Array();
-                    for (let i = 0; i != data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+                    for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
                     const bstr = arr.join('');
                     const workbook = XLSX.read(bstr, { type: 'binary' });
                     const first_sheet_name = workbook.SheetNames[0];
@@ -234,12 +234,12 @@ export class ImportVolumeComponent implements OnInit {
     }
 
     closeModalImport(data) {
-        console.log('closeModalImport', data)
+        console.log('closeModalImport', data);
         this.openCardStatus = data;
     }
 
     getStoreHouses() {
-        this.storeHousesSrv.searchStorehouses().subscribe(
+        this.storeHousesSrv.searchStorehousesNoVirtual().subscribe(
             data => {
                 this.loading = false;
                 this.storeHouses = data.items;

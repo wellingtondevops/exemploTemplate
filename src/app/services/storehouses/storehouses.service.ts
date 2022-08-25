@@ -67,6 +67,12 @@ export class StorehousesService {
         tap(data => data)
       );
   }
+  searchStorehousesNoVirtual() {
+    return this.http.get<StorehousesSearchList>(`${url}/liststorehouses/novirutal`)
+      .pipe(
+        tap(data => data)
+      );
+  }
 
   searchStorehouse(formdata, page) {
     if (page) {
