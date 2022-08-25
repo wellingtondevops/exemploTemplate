@@ -216,6 +216,7 @@ export class ControlComponent implements OnInit {
         const formData = new FormData();
         formData.append('document', this.batch.doct._id);
         formData.append('company', this.batch.company._id);
+        formData.append('departament', this.batch.departament._id);
         formData.append('batch', this.batch._id);
         formData.append('ind', 'false');
         for (let i = 0; i < this.myFilesInputSelect.length; i++) {

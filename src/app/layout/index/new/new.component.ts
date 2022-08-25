@@ -24,6 +24,7 @@ import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-m
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Volume, VolumeList } from 'src/app/models/volume';
 import { environment } from '../../../../environments/environment';
+import { cleanData } from 'jquery';
 const urlSearch = environment.urlSearch;
 
 declare var $: any;
@@ -40,7 +41,7 @@ export class NewComponent implements OnInit {
     @ViewChild('tabs') private tabs: NgbTabset;
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-    @ViewChild('instanceStorehouse') instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -184,9 +185,9 @@ export class NewComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
-    // ngOnDestroy() {
-    //     this.localStorageSrv.clear(this.id);
-    // }
+    ngOnDestroy() {
+        this.localStorageSrv.clear(this.id);
+    }
 
     getBatchImages(pageInfo = null, size = 24) {
         // this.loading = true;
@@ -419,7 +420,7 @@ export class NewComponent implements OnInit {
                 this.page.pageNumber = pageInfo.offset;
         }
 
-        this.localStorageSrv.save('index', this.searchForm.value);
+        // this.localStorageSrv.save('index', this.searchForm.value);
 
         const newSearch = {
             storehouse: null,
@@ -434,12 +435,13 @@ export class NewComponent implements OnInit {
         const searchValue = _.omitBy(newSearch, _.isNil);
 
         this.batchesSrv.volumes(this.batch._id, this.page, searchValue).subscribe(data => {
-            if (data.items.length > 0) {
+            {
                 this.volumes = data.items;
                 this.page.pageNumber = data._links.currentPage - 1;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
             }
+
         }, error => {
             console.log('ERROR: ', error);
 
@@ -512,4 +514,5 @@ export class NewComponent implements OnInit {
         this.introService.indexNew();
     }
 }
+
 

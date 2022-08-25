@@ -176,28 +176,21 @@
                     <ng-template ngbTabContent>
                         <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form">
                             <div class="row col-12">
-                                <!-- <div class="form-group mb-2 col-lg-3">
+                                <div class="form-group mb-2 col-lg-3">
                                     <label for="typeahead-basic">Empresa</label>
                                     <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)"
                                         type="text" class="form-control" formControlName="company"
                                         [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                         [ngbTypeahead]="searchCompany" style="width: 100%" />
-                                </div> -->
+                                </div>
                                 <!-- <div class="form-group mb-2 col-lg-3">
                                     <label for="typeahead-basic">Documento</label>
                                     <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
                                         formControlName="doct" [resultTemplate]="rtDocument"
                                         [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
                                         style="width: 100%" />
-                                </div> -->
-                                <!-- <div class="form-group mb-2 col-lg-3">
-                                    <label for="typeahead-basic">Departamento</label>
-                                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
-                                        formControlName="departament" [resultTemplate]="rtDepartament"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament"
-                                        style="width: 100%" />
-                                </div> -->
-                                <!-- <div class="form-group mb-2 col-lg-3">
+                                </div>
+                                <div class="form-group mb-2 col-lg-3">
                                     <label for="typeahead-scrollable">Departamento</label>
                                     <input id="typeahead-scrollable" autoFocus="true" type="text" class="form-control"
                                         formControlName="departament" [resultTemplate]="rtDepartament"
@@ -222,21 +215,18 @@
                                         (focus)="focusStorehouse$.next($any($event).target.value)"
                                         (click)="clickStorehouse$.next($any($event).target.value)" />
                                 </div>
-                                <!-- <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
-                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                </ng-template> -->
-                                <!-- <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
-                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                </ng-template> -->
-                                <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
-                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                </ng-template>
-                                <!-- <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+                                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
                                 <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                </ng-template> -->
+                                </ng-template>
+                                <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
+                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                </ng-template>
+                                <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                </ng-template>
                             </div>
                             <div class="row col-12 text-center">
                                 <div class="form-group mb-1">
@@ -256,16 +246,14 @@
                                     [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                                     [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
                                     [scrollbarH]="true" (page)='setPage($event)'>
-                                    <!-- <ngx-datatable-column name="Documento" [width]="400" prop="doct.name">
-                                    </ngx-datatable-column> -->
+                                    <ngx-datatable-column name="Documento" [width]="340" prop="doct.name">
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Departamento" [width]="340" prop="departament.name">
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name">
+                                    </ngx-datatable-column>
                                     <ngx-datatable-column name="Posição" [width]="130" prop="location">
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Depósito" [width]="400" prop="storehouse.name">
-                                    </ngx-datatable-column>
-                                    <!-- <ngx-datatable-column name="Departamento" [width]="340" prop="departament.name">
-                                    </ngx-datatable-column> -->
-
-
                                     <!-- <ngx-datatable-column name="Criado em" [width]="130" prop="dateCreated">
                                         <ng-template let-value="value" ngx-datatable-cell-template>
                                             {{ value | date: 'dd/MM/yyyy' }}
@@ -298,3 +286,4 @@
         </div>
     </div>
 </div>
+

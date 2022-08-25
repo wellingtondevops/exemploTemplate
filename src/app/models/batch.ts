@@ -19,7 +19,10 @@ export class Batch {
   author: string;
   mailSignup: string;
   __v: number;
-  departament: string;
+  departament: {
+    _id: string;
+    name: string;
+  };
   storehouse: string;
   volume: string;
   sourceVolume: boolean;

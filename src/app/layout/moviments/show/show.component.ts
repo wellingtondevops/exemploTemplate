@@ -400,7 +400,7 @@ export class ShowComponent implements OnInit {
     }
 
     getStorehouses() {
-        this.storeHousesSrv.searchStorehouses().subscribe(data => {
+        this.storeHousesSrv.searchStorehousesNoVirtual().subscribe(data => {
             this.storehouses = data.items;
         }, error => {
             this.errorMsg.errorMessages(error);
