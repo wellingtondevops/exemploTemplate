@@ -40,7 +40,7 @@ export class NewComponent implements OnInit {
     @ViewChild('tabs') private tabs: NgbTabset;
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceStorehouse') instanceStorehouse: NgbTypeahead;
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -184,9 +184,9 @@ export class NewComponent implements OnInit {
         return this.searchForm.get('company');
     }
 
-    ngOnDestroy() {
-        this.localStorageSrv.clear(this.id);
-    }
+    // ngOnDestroy() {
+    //     this.localStorageSrv.clear(this.id);
+    // }
 
     getBatchImages(pageInfo = null, size = 24) {
         // this.loading = true;

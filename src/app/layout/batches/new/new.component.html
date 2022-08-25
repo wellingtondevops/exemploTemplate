@@ -47,11 +47,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="typeahead-basic">Departamento</label>
+                        <input id="typeahead-basic" type="text" placeholder="Nome do Departamento" class="form-control"
+                            formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchDepartament"
+                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }" />
+                        <div *ngIf="departament.invalid && (departament.dirty || departament.touched)" class="invalid-feedback">
+                            <div *ngIf="!departament.valid">
+                                Departamento é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
 
                     <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                     <ng-template #rtDocument let-r="result" let-t="document" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                    <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                 </div>
@@ -60,7 +76,8 @@
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="
                         company.invalid &&
-                        doct.invalid
+                        doct.invalid &&
+                        departament.invalid
                     ">
                         Salvar
                     </button>
