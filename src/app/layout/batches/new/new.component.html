@@ -37,23 +37,30 @@
 
                     <div class="form-group">
                         <label for="typeahead-basic">Documento</label>
-                        <input id="typeahead-basic" type="text" placeholder="Nome do Documento" class="form-control"
+                        <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome do Documento" class="form-control"
                             formControlName="doct" [resultTemplate]="rtDocument" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDocument"
-                            [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }" />
+                            [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }"
+                            (focus)="focusDocument$.next($any($event).target.value)"
+                            (click)="clickDocument$.next($any($event).target.value)" />
                         <div *ngIf="doct.invalid && (doct.dirty || doct.touched)" class="invalid-feedback">
                             <div *ngIf="!doct.valid">
                                 Documento é obrigatório.
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="typeahead-basic">Departamento</label>
-                        <input id="typeahead-basic" type="text" placeholder="Nome do Departamento" class="form-control"
+                        <input id="typeahead-basic" type="text" class="form-control" placeholder="Nome do Departamento"
                             formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDepartament"
-                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }" />
-                        <div *ngIf="departament.invalid && (departament.dirty || departament.touched)" class="invalid-feedback">
+                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }"
+                            #instanceDepartament="ngbTypeahead"
+                            (focus)="focusDepartament$.next($any($event).target.value)"
+                            (click)="clickDepartament$.next($any($event).target.value)" />
+                        <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
+                            class="invalid-feedback">
                             <div *ngIf="!departament.valid">
                                 Departamento é obrigatório.
                             </div>
@@ -75,8 +82,8 @@
                     <button type="button" [routerLink]="['/batches']" class="btn btn-default"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="
-                        company.invalid &&
-                        doct.invalid &&
+                        company.invalid ||
+                        doct.invalid ||
                         departament.invalid
                     ">
                         Salvar

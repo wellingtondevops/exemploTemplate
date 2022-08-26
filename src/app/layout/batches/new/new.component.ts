@@ -26,12 +26,16 @@ import { BatchesService } from 'src/app/services/batches/batches.service';
 })
 export class NewComponent implements OnInit {
     @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
+    @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
 
 
     focusCompany$ = new Subject<string>();
     clickCompany$ = new Subject<string>();
     focusDepartament$ = new Subject<string>();
     clickDepartament$ = new Subject<string>();
+    focusDocument$ = new Subject<string>();
+    clickDocument$ = new Subject<string>();
     loading: Boolean = true;
     batchForm: FormGroup;
     companies: any = [];
@@ -89,12 +93,11 @@ export class NewComponent implements OnInit {
         );
     }
 
-    getDocuments(company_id) {
-        this.loading = true;
+
+    getDocument(company_id) {
         this.documentsSrv.searchDocuments(company_id).subscribe(
             data => {
                 this.documents = data.items;
-                this.loading = false;
             },
             error => {
                 this.errorMsg.errorMessages(error);
@@ -103,16 +106,43 @@ export class NewComponent implements OnInit {
             }
         );
     }
-    getDepartament(id) {
-        this.departamentsSrv.searchDepartaments(id).subscribe(
+
+
+
+    searchDocument = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDocument$.pipe(filter(() => !this.instanceDepartament.isPopupOpen()));
+        const inputFocus$ = this.focusDocument$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(document => (document === '' ? this.documents
+                : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
+            )));
+    }
+
+
+    getDepartament(company_id) {
+        this.departamentsSrv.searchDepartaments(company_id).subscribe(
             data => {
                 this.departaments = data.items;
             },
             error => {
                 this.errorMsg.errorMessages(error);
                 console.log('ERROR: ', error);
+                this.loading = false;
             }
         );
+    }
+
+    searchDepartament = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDepartament$.pipe(filter(() => !this.instanceDepartament.isPopupOpen()));
+        const inputFocus$ = this.focusDepartament$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(departament => (departament === '' ? this.departaments
+                : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
+            )));
     }
 
     searchCompany = (text$: Observable<string>) => {
@@ -133,36 +163,17 @@ export class NewComponent implements OnInit {
             })
         );
     }
-    searchDepartament = (text$: Observable<string>) =>
-    text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        map(departament =>
-            departament.length < 2
-                ? []
-                : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
-        )
-    )
-    searchDocument = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(document =>
-                document.length < 2
-                    ? []
-                    : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
-            )
-        )
-
-
 
     selectedCompany(e) {
-        this.getDocuments(e.item._id);
-        this.getDepartament(e.item._id);
+        if (e && e.item && e.item._id) {
+            this.getDepartament(e.item._id);
+            this.getDocument(e.item._id);
+        } else {
+            this.getDepartament(e);
+            this.getDocument(e);
+
+        }
     }
-
-
-
 
     postBatch() {
         this.loading = true;
