@@ -10,7 +10,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-11">
-                    <h2>Caixa de E-mails</h2>
+                    <h2>Solicitações</h2>
                 </div>
                 <div class="col-lg-1 text-right">
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
@@ -19,17 +19,13 @@
         </div>
         <div class="card-body p-0">
             <div class="btn-group" id="step1">
-                <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" (click)="this.ngOnInit()"
+                <!-- <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" (click)="this.ngOnInit()"
                     class="btn mini tooltips">
                     <i class=" fa fa-refresh"></i>
-                </a>
+                </a> -->
             </div>
                 <div class="card-content p-1" id="step2">
-                    <!-- <ngx-datatable #myTable class="bootstrap" [rows]="emailsList.items" [columnMode]="'force'" [headerHeight]="50"
-                    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-                    [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageEmailList($event)"
-                    [scrollbarH]="true" (activate)="openEmailList($event)">
-                </ngx-datatable> -->
+
 
                 <ngx-datatable #myTable class="bootstrap" [rows]="emailsList.items" [columnMode]="'force'"
                 [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
@@ -63,64 +59,6 @@
                 </ngx-datatable>
 
 
-                <!-- <div class="list-group" *ngFor="let listEmails of emailsList.items; index as i"> -->
-                    <!-- If TRUE Show this -->
-                    <!-- <div *ngIf="highlightValue[i]">
-                        <a class="list-group-item list-group-item-action mb-1 p-1"
-                            [routerLink]="['/email-service/get', this.id[i]]">
-                            <div class="row text-black text-nowrap">
-                                <div class="col-lg-5 pr-0">
-                                    <small class="m-0 ml-3" style="font-weight: bold;">{{emailsListFull[i]}}</small>
-                                </div>
-                                <div class="col-lg-5 col-sm-12 text-left">
-                                    <div class="col-lg-5 pr-0">
-                                        <div class="pretty p-icon p-toggle p-plain">
-                                            <div class="state p-off">
-                                                <i class="icon mdi mdi-email"></i>
-                                            </div>
-                                        </div>
-                                        <small class="m-0 ml-3" style="font-weight: bold; font-size: small;"
-                                            *ngIf="highlightValue[i]">{{nameremet[i]}}</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-12 text-sm-right">
-                                    <small class="" style="font-style: italic; font-weight: bold;">{{dateCreated[i] |
-                                        date:'dd/MM/yyyy HH:mm'}}
-                                        <i class="mdi mdi-clock-time-two mdi-18px"></i>
-                                    </small>
-                                </div>
-                            </div>
-                        </a>
-                    </div> -->
-                    <!-- If FALSE Show this -->
-                    <!-- <div *ngIf="!highlightValue[i]">
-                        <a class="list-group-item list-group-item-action mb-1 p-1"
-                            [routerLink]="['/email-service/get', this.id[i]]">
-                            <div class="row">
-                                <div class="col-lg-5 pr-0">
-                                    <small class="m-0 ml-3 visualized">{{emailsListFull[i]}}</small>
-                                </div>
-                                <div class="col-lg-5 col-sm-12 text-left">
-                                    <div class="col-lg-5 pr-0">
-                                        <div class="pretty p-icon p-toggle p-plain">
-                                            <div class="state p-off mr-3">
-                                                <i class="icon mdi mdi-email"></i>
-                                            </div>
-                                            <small class="m-0 ml-3 visualized" style="white-space: nowrap;"
-                                                *ngIf="!highlightValue[i]">{{nameremet[i]}}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-12 text-sm-right">
-                                    <small class="visualized" style="font-style: italic;">{{dateCreated[i] |
-                                        date:'dd/MM/yyyy HH:mm'}}
-                                        <i class="mdi mdi-clock-time-two mdi-18px"></i>
-                                    </small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

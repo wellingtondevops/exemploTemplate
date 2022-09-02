@@ -14,19 +14,6 @@
             <i class="mdi mdi-home-variant-outline mdi-18px"></i>&nbsp;
             <span>{{ "Depósitos" | translate }}</span>
         </a>
-        <!-- <a *ngIf="isStorehouses" [routerLink]="['/storehouses']" [routerLinkActive]="['router-link-active']"
-            class="list-group-item">
-            <i class="mdi mdi-home-variant-outline mdi-18px"></i>&nbsp;
-            <span>{{ "Depósitos" | translate }}</span>
-        </a> -->
-
-
-            <a class="list-group-item" [routerLink]="['/email-service']"
-                [routerLinkActive]="['router-link-active']">
-                <i class="mdi mdi-email mdi-18px"></i>&nbsp;
-                <span>{{ "Email" | translate }}</span>
-            </a>
-
 
         <a *ngIf="isCompanies" [routerLink]="['/companies']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">
@@ -206,16 +193,16 @@
                             <span>{{ "Serviços" | translate }}</span>
                         </a>
                     </li>
-                    <!-- <li>
-                        <a class="list-group-item" [routerLink]="['/email-service']"
-                            [routerLinkActive]="['router-link-active']">
-                            <i class="mdi mdi-email mdi-18px"></i>&nbsp;
-                            <span>{{ "Email" | translate }}</span>
-                        </a>
-                    </li> -->
+
                 </ul>
             </li>
         </div>
+
+        <a class="list-group-item" [routerLink]="['/email-service']" [routerLinkActive]="['router-link-active']">
+            <i class="mdi mdi-email mdi-18px"></i>&nbsp;
+            <span>{{ "Solicitações" | translate }}</span>
+        </a>
+
         <a class="list-group-item" [routerLink]="['/login']" (click)="onLoggedout()">
             <i class="mdi mdi-logout mdi-18px"></i>&nbsp;
             <span> {{ "Log Out" | translate }}</span>
