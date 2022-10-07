@@ -10,7 +10,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-11">
-                    <h2>Solicitações</h2>
+                    <h2>Caixa de Entrada</h2>
                 </div>
                 <div class="col-lg-1 text-right">
                     <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
@@ -61,10 +61,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <a class="link" (click)="openArchive()">
+
+
+                        <div class= "col-lg-12">
+                            <a class="link"*ngIf="archiveId" (click)="openArchive()">
+
                                 <i class="mdi mdi-paperclip mdi-36px"></i><br />
                                 Ver Arquivo
+                            </a>
+                            <a class="link"*ngIf="!archiveId">
+
+
+                                Arquivo Excluído
                             </a>
                         </div>
                     </div>

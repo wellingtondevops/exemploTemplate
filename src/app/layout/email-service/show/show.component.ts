@@ -70,9 +70,12 @@ export class ShowComponent implements OnInit {
             this.sender = data.userSernder.name;
             this.dateCreated = data.dateCreated;
             this.title = data.title;
-            this.archiveId = data.archive._id;
-            this.pending = data.archive.pending;
-            // console.log('lista nova', this.pending);
+            this.title = data.title;
+            if (data.archive == null) {
+            } else {
+                this.pending = data.archive.pending;
+                this.archiveId = data.archive._id;
+            }
             this.loading = false;
         },
             error => {
@@ -100,34 +103,34 @@ export class ShowComponent implements OnInit {
     }
 
     openArchive() {
-            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+        this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
 
-            if (this.archiveId) {
-                this.data = {
-                    _id: this.archiveId
-                };
-                // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
-                this.modalRef.componentInstance.arch = this.data;
+        if (this.archiveId) {
+            this.data = {
+                _id: this.archiveId
+            };
+            // value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
+            this.modalRef.componentInstance.arch = this.data;
+        }
+
+        this.modalRef.result.then((result) => {
+            if (result !== 'Sair') {
+                // this.getArchive();
             }
-
-            this.modalRef.result.then((result) => {
-                if (result != "Sair") {
-                    // this.getArchive();
-                };
-                this.closeResult = `Closed with: ${result}`;
-              }, (reason) => {
-                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-              });
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
 
     }
 
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
-          return 'by pressing ESC';
+            return 'by pressing ESC';
         } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-          return 'by clicking on a bac~kdrop';
+            return 'by clicking on a bac~kdrop';
         } else {
-          return  `with: ${reason}`;
+            return `with: ${reason}`;
         }
     }
 

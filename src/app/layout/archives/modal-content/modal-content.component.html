@@ -1,295 +1,302 @@
-<div [@routerTransition]> 
-  <ngx-loading
-      [show]="loading"
-      [config]="{
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
         backdropBorderRadius: '3px',
         fullScreenBackdrop: false,
         primaryColour: '#222',
         secondaryColour: '#222',
         tertiaryColour: '#222'
-      }"
-  ></ngx-loading>
+      }"></ngx-loading>
 
-  <div class="base-modal-content" style="min-height: 90vh" >
+    <div class="base-modal-content" style="min-height: 90vh">
 
-    <div class="card-header base-modal-header flex">
-        <div class="row" *ngIf="!loading">
-            <div class="col text-left">
-                <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
-            </div>
-            <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
-                <span id="call5" aria-hidden="true">&times;</span>
-            </button>
-            <!-- <br> -->
-            <div class="col-lg-12" >
-                <h2 id="call1" *ngIf="!isEditing">Dados do Arquivo</h2>
-                <h2 id="call1" *ngIf="isEditing">Editar Arquivo</h2>
-            </div>
-        
-            <br/>
-            <div style="margin-bottom: 10px" id="call2">
-                <app-buttons-custom [id]="arch?._id" (edit)="editArchive()"
-                    (delete)="open('focusFirst', arch._id)" [permissionEdit]="permissionEdit"
-                    [permissionDelete]="permissionDelete"></app-buttons-custom>
-            </div>
-        </div>  
-    </div>
+        <div class="card-header base-modal-header flex">
+            <div class="row" *ngIf="!loading">
+                <div class="col text-left">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+                <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal"
+                    aria-label="Close">
+                    <span id="call5" aria-hidden="true">&times;</span>
+                </button>
+                <!-- <br> -->
+                <div class="col-lg-12">
+                    <h2 id="call1" *ngIf="!isEditing">Dados do Arquivo</h2>
+                    <h2 id="call1" *ngIf="isEditing">Editar Arquivo</h2>
+                </div>
 
-    <div class="card-body base-modal-body">
-      <div class="row" *ngIf="!loading">
-        <div class="tab-component col-lg-5 col-sm-12" id="step2">
-
-          <ngb-tabset #tab (tabChange)="beforeChange($event)" >
-
-            <ngb-tab title="Início" id="tab1">
-              <ng-template ngbTabContent>
                 <br />
-                <ngb-accordion #acc="ngbAccordion" activeIds="custom-panel-1">
-                  <ngb-panel title="Índices" id="custom-panel-1">
-                    <ng-template ngbPanelHeader let-opened="opened">
-                      <div class="d-flex align-items-center justify-content-between">
-                          <h5 class="m-0">Índices</h5>
-                          <button ngbPanelToggle class="btn btn-link p-0" >
-                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
-                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
-                          </button>
-                      </div>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        <div class="card-body p-1" id="calling">
-                          <span #myComponent>
-                            <app-form-index [data]="archive" [isArchive]="true" [edit]="isEditing" [canSave]="permissionConfirm" 
-                            (sendArchive)="updateArchive($event)"></app-form-index>
-                          </span>
-                        </div>
-                    </ng-template>
-                  </ngb-panel>
+                <div style="margin-bottom: 10px" id="call2">
+                    <app-buttons-custom [id]="arch?._id" (edit)="editArchive()" (delete)="open('focusFirst', arch._id)"
+                        [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete"></app-buttons-custom>
+                </div>
+            </div>
+        </div>
 
-                  <ngb-panel title="Dados do Volume" id="custom-panel-2">
-                    <ng-template ngbPanelHeader let-opened="opened">
-                      <div class="d-flex align-items-center justify-content-between">
-                          <h5 class="m-0">Dados do Volume</h5>
-                          <button ngbPanelToggle class="btn btn-link p-0">
-                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
-                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
-                          </button>
-                      </div>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        <ul>
-                            <li class="mb-1">
-                                <strong class="m-0">EMPRESA: </strong>
-                                <a>{{ arch.company.name }} </a>
-                            </li>
-                            <li class="mb-1">
-                                <strong class="m-0">DEPARTAMENTO: </strong>
-                                <a>{{ arch.departament.name }} </a>
-                            </li>
-                            <li class="mb-1">
-                                <strong class="m-0">DOCUMENTO: </strong>
-                                <a>{{ arch.doct.name }} </a>
-                            </li>
-                            <li class="mb-1">
-                                <strong class="m-0">DEPÓSITO: </strong>
-                                <a>{{ arch.storehouse.name }} </a>
-                            </li>
-                            <li class="mb-1">
-                                <strong class="m-0">POSIÇÃO: </strong>
-                                <a>{{ arch.volume.location }} </a>
-                            </li>
-                        </ul>
-                    </ng-template>
-                  </ngb-panel>
+        <div class="card-body base-modal-body">
+            <div class="row" *ngIf="!loading">
+                <div class="tab-component col-lg-5 col-sm-12" id="step2">
 
-                  <ngb-panel title="Temporalidade" id="custom-panel-3">
-                    <ng-template ngbPanelHeader let-opened="opened">
-                      <div class="d-flex align-items-center justify-content-between">
-                          <h5 class="m-0">Temporalidade</h5>
-                          <button ngbPanelToggle class="btn btn-link p-0">
-                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
-                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
-                          </button>
-                      </div>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                      <ul>
-                        <li class="mb-1">
-                          <strong *ngIf="archive?.startDateCurrent"
-                          class="m-0">Início da Fase Corrente: </strong>
-                          <strong *ngIf="!archive?.startDateCurrent && archive.doct.currentControl === false"
-                          class="m-0">Fase Corrente: </strong>
+                    <ngb-tabset #tab (tabChange)="beforeChange($event)">
 
-                          <a *ngIf="startCurrentDate && archive?.doct.currentControl === false
+                        <ngb-tab title="Início" id="tab1">
+                            <ng-template ngbTabContent>
+                                <br />
+                                <ngb-accordion #acc="ngbAccordion" activeIds="custom-panel-1">
+                                    <ngb-panel title="Índices" id="custom-panel-1">
+                                        <ng-template ngbPanelHeader let-opened="opened">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="m-0">Índices</h5>
+                                                <button ngbPanelToggle class="btn btn-link p-0">
+                                                    <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                                                    <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ngbPanelContent>
+                                            <div class="card-body p-1" id="calling">
+                                                <span #myComponent>
+                                                    <app-form-index [data]="archive" [isArchive]="true"
+                                                        [edit]="isEditing" [canSave]="permissionConfirm"
+                                                        (sendArchive)="updateArchive($event)"></app-form-index>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                    </ngb-panel>
+
+                                    <ngb-panel title="Dados do Volume" id="custom-panel-2">
+                                        <ng-template ngbPanelHeader let-opened="opened">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="m-0">Dados do Volume</h5>
+                                                <button ngbPanelToggle class="btn btn-link p-0">
+                                                    <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                                                    <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ngbPanelContent>
+                                            <ul>
+                                                <li class="mb-1">
+                                                    <strong class="m-0">EMPRESA: </strong>
+                                                    <a>{{ arch.company.name }} </a>
+                                                </li>
+                                                <li class="mb-1">
+                                                    <strong class="m-0">DEPARTAMENTO: </strong>
+                                                    <a>{{ arch.departament.name }} </a>
+                                                </li>
+                                                <li class="mb-1">
+                                                    <strong class="m-0">DOCUMENTO: </strong>
+                                                    <a>{{ arch.doct.name }} </a>
+                                                </li>
+                                                <li class="mb-1">
+                                                    <strong class="m-0">DEPÓSITO: </strong>
+                                                    <a>{{ arch.storehouse.name }} </a>
+                                                </li>
+                                                <li class="mb-1">
+                                                    <strong class="m-0">POSIÇÃO: </strong>
+                                                    <a>{{ arch.volume.location }} </a>
+                                                </li>
+                                            </ul>
+                                        </ng-template>
+                                    </ngb-panel>
+
+                                    <ngb-panel title="Temporalidade" id="custom-panel-3">
+                                        <ng-template ngbPanelHeader let-opened="opened">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="m-0">Temporalidade</h5>
+                                                <button ngbPanelToggle class="btn btn-link p-0">
+                                                    <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                                                    <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ngbPanelContent>
+                                            <ul>
+                                                <li class="mb-1">
+                                                    <strong *ngIf="archive?.startDateCurrent" class="m-0">Início da Fase
+                                                        Corrente: </strong>
+                                                    <strong
+                                                        *ngIf="!archive?.startDateCurrent && archive.doct.currentControl === false"
+                                                        class="m-0">Fase Corrente: </strong>
+
+                                                    <a *ngIf="startCurrentDate && archive?.doct.currentControl === false
                              && !archive?.startDateCurrent">Não Controlada</a>
 
-                          <a *ngIf="!archive?.startDateCurrent">
-                            {{ archive.doct.dcurrentLabel }}
-                          </a>
+                                                    <a *ngIf="!archive?.startDateCurrent">
+                                                        {{ archive.doct.dcurrentLabel }}
+                                                    </a>
 
-                          <a *ngIf="archive?.startDateCurrent">
-                            {{ returnDate(archive.startDateCurrent) }}
-                          </a>
-                        </li>
+                                                    <a *ngIf="archive?.startDateCurrent">
+                                                        {{ returnDate(archive.startDateCurrent) }}
+                                                    </a>
+                                                </li>
 
-                        <li class="mb-1">
-                          <strong *ngIf="archive?.startDateCurrent" 
-                          class="m-0">Início da Fase Intermediária: </strong>
-                          <strong *ngIf="!archive?.startDateCurrent" 
-                          class="m-0">Intermediária: </strong>
+                                                <li class="mb-1">
+                                                    <strong *ngIf="archive?.startDateCurrent" class="m-0">Início da Fase
+                                                        Intermediária: </strong>
+                                                    <strong *ngIf="!archive?.startDateCurrent"
+                                                        class="m-0">Intermediária: </strong>
 
-                          <a *ngIf="!archive?.startDateCurrent">
-                            {{ archive.doct.dintermediateValue }} Anos
-                          </a>
+                                                    <a *ngIf="!archive?.startDateCurrent">
+                                                        {{ archive.doct.dintermediateValue }} Anos
+                                                    </a>
 
-                          <a *ngIf="archive?.startDateIntermediate">
-                            {{ returnDate(archive.startDateIntermediate) }}
-                          </a>
+                                                    <a *ngIf="archive?.startDateIntermediate">
+                                                        {{ returnDate(archive.startDateIntermediate) }}
+                                                    </a>
 
-                          <a *ngIf="!archive?.startDateIntermediate && archive?.startDateCurrent">
-                            {{ returnDate(archive.finalDateCurrent) }}
-                          </a>
-                        </li>
+                                                    <a
+                                                        *ngIf="!archive?.startDateIntermediate && archive?.startDateCurrent">
+                                                        {{ returnDate(archive.finalDateCurrent) }}
+                                                    </a>
+                                                </li>
 
-                        <li class="mb-1">
-                          <strong class="m-0">Destinação Final: </strong>
-                          <a *ngIf="archive?.finalFase">
-                            {{ archive.finalFase }}
-                          </a>
-                          <a *ngIf="!archive?.startDateCurrent">
-                            {{ archive.doct.dfinal }}
-                          </a>
-                        </li>
+                                                <li class="mb-1">
+                                                    <strong class="m-0">Destinação Final: </strong>
+                                                    <a *ngIf="archive?.finalFase">
+                                                        {{ archive.finalFase }}
+                                                    </a>
+                                                    <a *ngIf="!archive?.startDateCurrent">
+                                                        {{ archive.doct.dfinal }}
+                                                    </a>
+                                                </li>
 
-                        <li *ngIf="archive?.finalDateIntermediate" class="mb-1">
-                          <strong class="m-0">Início da Destinação Final: </strong>
-                          <a>{{ returnDate(archive.finalDateIntermediate) }}</a>
-                        </li>
-                      </ul>
+                                                <li *ngIf="archive?.finalDateIntermediate" class="mb-1">
+                                                    <strong class="m-0">Início da Destinação Final: </strong>
+                                                    <a>{{ returnDate(archive.finalDateIntermediate) }}</a>
+                                                </li>
+                                            </ul>
 
-                      <hr class="m-1">
-                        <div class="dataBtn" *ngIf="startCurrentDate && archive?.doct.currentControl === true">
-                          <h6>Ajuste de Temporalidade </h6>
-                          <input type="date" class="form-control" [(ngModel)]="inputStartCurrentDate" />
-                          <button *ngIf="archive && archive.doct.currentControl === true"
-                            class="btn btn-danger btn-sm" (click)="setStartCurrentDate()"
-                            style="margin-top: 5px;">
-                            Final Corrente
-                          </button>
-                        </div>
-                        
-                    </ng-template>
-                  </ngb-panel>
-                </ngb-accordion>
-                
-              </ng-template>
-            </ngb-tab>
+                                            <hr class="m-1">
+                                            <div class="dataBtn"
+                                                *ngIf="startCurrentDate && archive?.doct.currentControl === true">
+                                                <h6>Ajuste de Temporalidade </h6>
+                                                <input type="date" class="form-control"
+                                                    [(ngModel)]="inputStartCurrentDate" />
+                                                <button *ngIf="archive && archive.doct.currentControl === true"
+                                                    class="btn btn-danger btn-sm" (click)="setStartCurrentDate()"
+                                                    style="margin-top: 5px;">
+                                                    Final Corrente
+                                                </button>
+                                            </div>
 
-            <ngb-tab title="Solicitar Correções" id="tab2">
-              <ng-template ngbTabContent>
-                <form [formGroup]="requestForm">
-                  <div class="card-body p-1" style="margin-top: 20px">
-                      <div class="row">
-                          <div class="col-lg-12 text-center" *ngIf="pending">
-                              <button class="btn text-center btn-outline-danger"
-                                  (click)="FimRequest()">
-                                  Finalizar
-                              </button>
-                          </div>
-                          <div class="col-lg-12 form-check" *ngIf="!pending">
-                              <!-- <label class="ml-3 mb-0 mr-2" for="requestType">Solicitar Correções: </label> -->
-                              <div class="pretty p-switch p-fill">
-                                  <input class="form-check-input" type="radio" name="requestType"
-                                      formControlName="requestType" value="CORRECAO_IMAGEM" id="requestType1"
-                                      onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
-                                  <div class="state" for="requestType1">
-                                      <label>
-                                          Correção de Imagem
-                                      </label>
-                                  </div>
-                              </div>
-                              <br/>
-                              <div class="pretty p-switch p-fill">
-                                  <input class="form-check-input" type="radio" name="requestType"
-                                      formControlName="requestType" value="CORRECAO_INDICE" id="requestType2"
-                                      onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
-                                  <div class="state" for="requestType2">
-                                      <label>
-                                          Correção de Índice
-                                      </label>
-                                  </div>
-                              </div>
-                              <br/>
+                                        </ng-template>
+                                    </ngb-panel>
+                                </ngb-accordion>
+                                <br />
+                                <div class="col-12" id="call4">
+                                    <div style="font-size: 12px; text-align: left;">
+                                        {{ archive.sponsor.name }}<br />
+                                        {{ archive.sponsor.cnpj }}<br />
+                                        Indexado por: {{ archive.author.email }}<br />
+                                        Data da indexação: {{ returnDateCreate(archive.create) }}
+                                    </div>
+                                </div>
 
-                              <div class="pretty p-switch p-fill">
-                                  <input class="form-check-input" type="radio" name="requestType"
-                                      formControlName="requestType" value="EMPRESTIMO" id="requestType3"
-                                      onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
-                                  <div class="state" for="requestType3">
-                                      <label>
-                                          Empréstimo
-                                      </label>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="row" *ngIf="!pending">
-                          <div class="col-lg-12 pl-4">
-                              <div class="form-floating">
-                                  <textarea class="form-control" name="notes"
-                                      formControlName="notes" placeholder="Observações:" id="notes"
-                                      style="height: 15%; width: 100%; border-radius: 20px; margin-top: 10px;"></textarea>
-                                  <label for="notes"></label>
-                              </div>
-                          </div>
-                          <div class="col-lg-12 mt-5 text-center">
-                              <button (click)="sendRequest()" type="button" name="enviar" id="enviar"
-                                  class="btn btn-sm dark-btn enviar" disabled="disabled">Enviar</button>
-                          </div>
-                      </div>
-                  </div>
-              </form>
-              </ng-template>
-                
-            </ngb-tab>
+                            </ng-template>
+                        </ngb-tab>
 
-          </ngb-tabset>
-          <br/>
-          <div class="col-12" id="call4">
-            <div style="font-size: 12px; text-align: left;">
-                {{ archive.sponsor.name }}<br />
-                {{ archive.sponsor.cnpj }}<br />
-                Autor: {{ archive.author.email }}<br />
-                Data da criação: {{ returnDateCreate(archive.create) }}
+                        <ngb-tab title="Solicitar Correções" id="tab2">
+                            <ng-template ngbTabContent>
+                                <form [formGroup]="requestForm">
+                                    <div class="card-body p-1" style="margin-top: 20px">
+                                        <div class="row">
+                                            <div class="col-lg-12 text-center" *ngIf="pending">
+                                                <button class="btn text-center btn-outline-danger"
+                                                    (click)="FimRequest()">
+                                                    Finalizar
+                                                </button>
+                                            </div>
+                                            <div class="col-lg-12 form-check" *ngIf="!pending">
+                                                <!-- <label class="ml-3 mb-0 mr-2" for="requestType">Solicitar Correções: </label> -->
+                                                <div class="pretty p-switch p-fill">
+                                                    <input class="form-check-input" type="radio" name="requestType"
+                                                        formControlName="requestType" value="CORRECAO_IMAGEM"
+                                                        id="requestType1"
+                                                        onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
+                                                    <div class="state" for="requestType1">
+                                                        <label>
+                                                            Correção de Imagem
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="pretty p-switch p-fill">
+                                                    <input class="form-check-input" type="radio" name="requestType"
+                                                        formControlName="requestType" value="CORRECAO_INDICE"
+                                                        id="requestType2"
+                                                        onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
+                                                    <div class="state" for="requestType2">
+                                                        <label>
+                                                            Correção de Índice
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <br />
+
+                                                <div class="pretty p-switch p-fill">
+                                                    <input class="form-check-input" type="radio" name="requestType"
+                                                        formControlName="requestType" value="EMPRESTIMO"
+                                                        id="requestType3"
+                                                        onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
+                                                    <div class="state" for="requestType3">
+                                                        <label>
+                                                            Empréstimo
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="!pending">
+                                            <div class="col-lg-12 pl-4">
+                                                <div class="form-floating">
+                                                    <textarea class="form-control" name="notes" formControlName="notes"
+                                                        placeholder="Observações:" id="notes"
+                                                        style="height: 15%; width: 100%; border-radius: 20px; margin-top: 10px;"></textarea>
+                                                    <label for="notes"></label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-5 text-center">
+                                                <button (click)="sendRequest()" type="button" name="enviar" id="enviar"
+                                                    class="btn btn-sm dark-btn enviar"
+                                                    disabled="disabled">Enviar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ng-template>
+
+                        </ngb-tab>
+
+                    </ngb-tabset>
+
+
+                </div>
+                <br />
+                <div class="form-group col-lg-7 col-sm-12" id="call3">
+                    <form [formGroup]="uploadFile" (ngSubmit)="submit()">
+                        <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
+                            [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)" [height]="pdfHeight">
+                        </app-form-upload>
+                    </form>
+                    <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+                    </app-modal-progress-right-bottom>
+
+
+                </div>
+
             </div>
         </div>
 
-        </div>
-        <br/>
-        <div class="form-group col-lg-7 col-sm-12" id="call3">
-          <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-              <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
-                  [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)" [height]="pdfHeight">
-              </app-form-upload>
-          </form>
-          <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
-          </app-modal-progress-right-bottom>
-
-          
-        </div>
-
-      </div>
-    </div>
-
-    <div *ngIf="isEditing" class="modal-footer">
-      <div class="pull-right" id="call6">
-            <button [disabled]="!permissionCancel" type="button" (click)="cancelEdit()" class="btn btn-danger"
-                style="margin-right:10px">Cancelar</button>
-            <!-- <button type="button" (click)="submit()" class="btn btn-primary" 
+        <div *ngIf="isEditing" class="modal-footer">
+            <div class="pull-right" id="call6">
+                <button [disabled]="!permissionCancel" type="button" (click)="cancelEdit()" class="btn btn-danger"
+                    style="margin-right:10px">Cancelar</button>
+                <!-- <button type="button" (click)="submit()" class="btn btn-primary"
             [disabled]="!permissionConfirm">
                 Salvar
             </button> -->
+            </div>
         </div>
-    </div>
 
-  </div>
+    </div>
 </div>
