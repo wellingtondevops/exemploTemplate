@@ -5,11 +5,12 @@ import { ShowComponent } from './show/show.component';
 import { ArchivesRoutingModule } from './archives-routing.module';
 import { PageHeaderModule, FormUploadModule, ButtonBackModule, ButtonsCustomModule,
   FormIndexModule, 
-  NgbdModalConfirmModule} from 'src/app/shared';
+  NgbdModalConfirmModule,
+  DatatablesModule} from 'src/app/shared';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxLoadingModule } from 'ngx-loading';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalProgressRightBottomModule } from 'src/app/shared/modules/modal-progress-right-bottom/modal-progress-right-bottom.module';
 import { EditComponent } from './edit/edit.component';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
@@ -35,13 +36,14 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     FormUploadModule,
     ButtonBackModule,
     ButtonsCustomModule,
+    DatatablesModule,
     FormIndexModule,
     ModalProgressRightBottomModule,
     NgxLoadingModule.forRoot({}),
     NgbdModalConfirmModule,
     NgMultiSelectDropDownModule
   ],
-  providers: [CaseInsensitive],
+  providers: [CaseInsensitive, NgbActiveModal],
   entryComponents: [ModalContentComponent, NgbdModalConfirmComponent, ModalFilterComponent]
 })
 export class ArchivesModule { }

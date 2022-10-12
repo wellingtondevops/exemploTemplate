@@ -312,7 +312,6 @@ export class ListComponent implements OnInit {
             this.loading = false;
         }, error => {
             this.loading = false;
-            console.log('ERROR: ', error);
             this.errorMsg.errorMessages(error);
         });
     }
@@ -322,7 +321,6 @@ export class ListComponent implements OnInit {
     }
 
     onDetailToggle(event) {
-        // console.log('Detail Toggled', event);
     }
 
     showView(value) {
@@ -377,7 +375,6 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
@@ -423,7 +420,6 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
@@ -447,7 +443,6 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
@@ -466,8 +461,8 @@ export class ListComponent implements OnInit {
                 } else {
                     res = _.filter(this.storehouses,
                         v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
-                }
-                return res;
+                    }
+                    return res;
             }));
     }
 
@@ -479,7 +474,6 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
@@ -545,12 +539,10 @@ export class ListComponent implements OnInit {
         newSearch.initDate = this.searchForm.value.initDate;
 
         const searchValue = _.omitBy(newSearch, _.isNil);
-        console.log(searchValue);
         this.archiveSrv.export(searchValue).subscribe(data => {
             this.loading = false;
         }, error => {
             this.loading = false;
-            console.log('ERROR: ', error);
         });
     }
 
@@ -589,8 +581,6 @@ export class ListComponent implements OnInit {
     changeDate() {
         this.dateSent =
             new Date(this.dateSent).toISOString().slice(0, 10);
-
-        console.log(this.dateSent);
         this.dateReceived = this.dateSent;
     }
 

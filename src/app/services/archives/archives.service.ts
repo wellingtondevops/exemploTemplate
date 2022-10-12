@@ -1,3 +1,5 @@
+import { ObjNew, objList } from './../../models/newObjModel';
+import { StorehousesSearchList } from './../../models/storehouse';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
@@ -110,4 +112,19 @@ export class ArquivesService {
     finalRequest(id) {
         return this.http.post<any>(`${url}/archives/pendingfinish/${id}`, id);
     }
+
+    searchStorehousesNoVirtual() {
+        return this.http.get<StorehousesSearchList>(`${url}/liststorehouses/novirutal`)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
+    getNewSearch(id, data, page) {
+        return this.http.post<objList>(`${url}/archives/${id}/searchvolumes?_page=${page.pageNumber}&size=10`, data)
+            .pipe(
+                tap(data => data)
+            );
+    }
+
 }
