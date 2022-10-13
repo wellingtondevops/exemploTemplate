@@ -363,7 +363,6 @@ export class ModalContentComponent implements OnInit {
     this.archiveSrv.searchStorehousesNoVirtual().subscribe(
       data => {
         this.storehouses = data.items;
-        console.log(data.items)
       },
       error => {
         this.errorMsg.errorMessages(error);
@@ -396,6 +395,15 @@ export class ModalContentComponent implements OnInit {
     this.newSeachrForm.patchValue({
       location: '',
       storehouse: '',
+    });
+  }
+
+  getVolume(item) {
+    this.archiveSrv.addVolume(this.id, item._id).subscribe(data => {
+      this.ngOnInit();
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
     });
   }
 }

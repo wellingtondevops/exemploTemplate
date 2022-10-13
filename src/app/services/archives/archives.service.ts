@@ -127,4 +127,11 @@ export class ArquivesService {
             );
     }
 
+    addVolume(id, volume_id){
+        return this.http.patch<any>(`${url}/archives/${id}/addvolume`, {volume: volume_id})
+            .pipe(
+                tap(data => data)
+            );
+    }
+
 }

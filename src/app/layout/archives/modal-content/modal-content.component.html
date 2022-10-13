@@ -371,6 +371,12 @@
                                             </ngx-datatable-column>
                                             <ngx-datatable-column name="Posição" prop="location" [width]=135>
                                             </ngx-datatable-column>
+                                            <ngx-datatable-column name="Selecionar" [width]="110" prop="_id">
+                                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                                    <button class="btn btn-primary btn-sm"
+                                                        (click)="getVolume(row)">Selecionar</button>
+                                                </ng-template>
+                                            </ngx-datatable-column>
                                         </ngx-datatable>
                                     </div>
                                 </div>
