@@ -328,23 +328,26 @@
                                             </div>
                                             <div class="form-group col-lg-3 col-sm-12">
                                                 <label for="typeahead-basic">Depósito</label>
-                                                <select placeholder="teste" class="form-control" id="exampleFormControlSelect1"
-                                                    formControlName="storehouse">
+                                                <select placeholder="teste" class="form-control"
+                                                    id="exampleFormControlSelect1" formControlName="storehouse"
+                                                    required>
                                                     <option *ngFor="let item of storehouses" [value]="item._id">
                                                         {{item.name}}</option>
                                                 </select>
-                                                
-                                                <!-- <input id="typeahead-basic" type="text" placeholder="Nome do Depósito" class="form-control"
-                                                    formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                                                    [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
-                                                    #instanceStorehouse="ngbTypeahead"
+                                            </div>
+                                            <!-- <div class="form-group col-lg-3 col-sm-12">
+                                                <label for="typeahead-basic">Depósito</label>
+                                                <input id="typeahead-basic" type="text" placeholder="Nome do Depósito"
+                                                    class="form-control" formControlName="storehouse"
+                                                    [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                                                    [ngbTypeahead]="searchStorehouse" #instanceStorehouse="ngbTypeahead"
                                                     (focus)="focusStorehouse$.next($any($event).target.value)"
-                                                    (click)="clickStorehouse$.next($any($event).target.value)" /> -->
+                                                    (click)="clickStorehouse$.next($any($event).target.value)" />
                                             </div>
                                             <ng-template #rtStorehouse let-r="result" let-t="storehouse"
                                                 class="custom-typeahead">
                                                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                            </ng-template>
+                                            </ng-template> -->
                                         </form>
                                     </div>
                                     <div class="form-row btnsStyles">
@@ -372,7 +375,8 @@
                                             <ngx-datatable-column name="Posição" prop="location" [width]=135>
                                             </ngx-datatable-column>
                                             <ngx-datatable-column name="Selecionar" [width]="110" prop="_id">
-                                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                                <ng-template let-value="value" let-row="row"
+                                                    ngx-datatable-cell-template>
                                                     <button class="btn btn-primary btn-sm"
                                                         (click)="getVolume(row)">Selecionar</button>
                                                 </ng-template>

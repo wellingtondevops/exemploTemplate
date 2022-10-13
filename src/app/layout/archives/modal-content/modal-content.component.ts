@@ -6,7 +6,8 @@ import { Subject, Observable, merge } from 'rxjs';
 import { Page } from './../../../models/page';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Archive } from 'src/app/models/archive';
 import { routerTransition } from 'src/app/router.animations';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
@@ -384,6 +385,7 @@ export class ModalContentComponent implements OnInit {
         } else {
           res = _.filter(this.storehouses,
             v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+            console.log(res);
         }
         return res;
       }));
