@@ -344,9 +344,6 @@ export class ModalContentComponent implements OnInit {
 
     newSearch.location = this.newSeachrForm.value.storehouse;
     newSearch.location = this.newSeachrForm.value.location;
-
-    const searchValue = _.omitBy(newSearch, _.isNil);
-
     this.archiveSrv.getNewSearch(this.id, this.newSeachrForm.value, this.page).subscribe(
       data => {
         this.page.pageNumber = data._links.currentPage - 1;
@@ -403,7 +400,6 @@ export class ModalContentComponent implements OnInit {
 
   getVolume(item) {
     this.archiveSrv.addVolume(this.id, item._id).subscribe(data => {
-
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
         this.getArchive();

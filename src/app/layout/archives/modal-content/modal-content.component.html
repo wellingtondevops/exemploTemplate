@@ -90,11 +90,11 @@
                                                         </li>
                                                         <li class="mb-1">
                                                             <strong class="m-0">DEPÓSITO: </strong>
-                                                            <a>{{ arch.storehouse.name }} </a>
+                                                            <a>{{ archive.storehouse.name }} </a>
                                                         </li>
                                                         <li class="mb-1">
                                                             <strong class="m-0">POSIÇÃO: </strong>
-                                                            <a>{{ arch.volume.location }} </a>
+                                                            <a>{{ archive.volume.location }} </a>
                                                         </li>
                                                     </ul>
                                                 </ng-template>
@@ -330,16 +330,16 @@
                                                 <label for="typeahead-basic">Depósito</label>
                                                 <select placeholder="teste" class="form-control"
                                                     id="exampleFormControlSelect1" formControlName="storehouse"
+                                                    [ngClass]="{ 'is-invalid': storehouseIpt.invalid && storehouseIpt.touched}"
                                                     required>
                                                     <option *ngFor="let item of storehouses" [value]="item._id">
                                                         {{item.name}}</option>
                                                 </select>
                                             </div>
-
                                         </form>
                                     </div>
                                     <div class="form-row btnsStyles">
-                                        <button class="btn btn-primary" (click)="searchPosition()">
+                                        <button class="btn btn-primary" (click)="searchPosition()" [disabled]="storehouseIpt.invalid">
                                             <i class="fa fa-search"></i>
                                         </button>
                                         <button type="button" class="btn btn-default ml-1" (click)="clear()">
