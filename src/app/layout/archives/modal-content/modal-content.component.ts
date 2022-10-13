@@ -404,7 +404,7 @@ export class ModalContentComponent implements OnInit {
   getVolume(item) {
     this.archiveSrv.addVolume(this.id, item._id).subscribe(data => {
 
-        this.loading = true;
+        this.loading = false;
         this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
         this.getArchive();
     }, error => {
