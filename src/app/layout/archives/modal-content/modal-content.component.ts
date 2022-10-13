@@ -18,6 +18,7 @@ import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import _ from 'lodash';
+import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -30,22 +31,22 @@ const MODALS = {
   animations: [routerTransition()]
 })
 export class ModalContentComponent implements OnInit {
-  @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+  @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
   @Input() public arch;
   id;
   select = 0;
   page = new Page();
   loading: Boolean = false;
   isEditing: Boolean = false;
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
-  permissionConfirm: boolean = false;
-  permissionCancel: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
+  permissionConfirm = false;
+  permissionCancel = false;
   isUsers = false;
   savedFile = false;
-  pdfHeight = '100vh;'
+  pdfHeight = '100vh;';
   document: any;
-  storehouses: any;
+  storehouses: any = [];
   focusStorehouse$ = new Subject<string>();
   clickStorehouse$ = new Subject<string>();
   locations: objList = {
@@ -94,6 +95,7 @@ export class ModalContentComponent implements OnInit {
     private picturesSrv: PicturesService,
     private utilCase: CaseInsensitive,
     private localStorageSrv: SaveLocal,
+    private storehousesSrv: StorehousesService,
   ) { }
 
   // INICIALIZAÇÃO
@@ -119,7 +121,7 @@ export class ModalContentComponent implements OnInit {
     this.newSeachrForm = this.fb.group({
       location: this.fb.control(''),
       storehouse: this.fb.control('', Validators.required)
-    })
+    });
 
     this.getArchive();
     this.getStoreHouses();
@@ -208,9 +210,7 @@ export class ModalContentComponent implements OnInit {
 
   updateArchive(data) {
     this.loading = true;
-    /* const storehouse = this.storeHouse_id;
-    const doct = this.document._id;
-    const company = this.company_id; */
+
     const tag = _.values(data);
     let uniqueness = '';
     const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);
@@ -228,6 +228,7 @@ export class ModalContentComponent implements OnInit {
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
         this.cancelEdit();
+        this.getArchive();
       }
     }, error => {
       this.loading = false;
@@ -361,16 +362,16 @@ export class ModalContentComponent implements OnInit {
   }
 
   getStoreHouses() {
-    this.archiveSrv.searchStorehousesNoVirtual().subscribe(
-      data => {
-        this.storehouses = data.items;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        this.loading = false;
-      }
+    this.storehousesSrv.searchStorehousesNoVirtual().subscribe(
+        data => {
+            this.storehouses = data.items;
+        },
+        error => {
+            this.errorMsg.errorMessages(error);
+            this.loading = false;
+        }
     );
-  }
+}
 
   searchStorehouse = (text$: Observable<string>) => {
     const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
@@ -378,18 +379,18 @@ export class ModalContentComponent implements OnInit {
     const inputFocus$ = this.focusStorehouse$;
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(storehouse => {
-        let res = [];
-        if (storehouse.length < 0) {
-          [];
-        } else {
-          res = _.filter(this.storehouses,
-            v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
-            console.log(res);
-        }
-        return res;
-      }));
-  }
+        map(storehouse => {
+            let res = [];
+            if (storehouse.length < 0) {
+                [];
+            } else {
+                res = _.filter(this.storehouses,
+                    v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
+        }));
+}
+
 
   formatter = (x: { name: string }) => x.name;
 
@@ -402,7 +403,10 @@ export class ModalContentComponent implements OnInit {
 
   getVolume(item) {
     this.archiveSrv.addVolume(this.id, item._id).subscribe(data => {
-      this.ngOnInit();
+
+        this.loading = true;
+        this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
+        this.getArchive();
     }, error => {
       this.loading = false;
       this.errorMsg.errorMessages(error);
