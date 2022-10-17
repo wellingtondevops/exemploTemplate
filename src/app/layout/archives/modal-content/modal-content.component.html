@@ -188,8 +188,8 @@
                                             </ngb-panel>
                                         </ngb-accordion>
                                     </div>
-                                    <div class="col-lg-7">
-                                        <div class="form-group col-lg-7 col-sm-12" id="call3" *ngIf="select !== 1">
+                                    <div class="col-lg-7 col-sm-12">
+                                        <div class="form-group col-lg-12 col-sm-12" id="call3" *ngIf="select !== 1">
                                             <form [formGroup]="uploadFile" (ngSubmit)="submit()">
                                                 <app-form-upload formControlName="file" [archive]="file"
                                                     (postFile)="postFile($event)" [savedFile]="savedFile"
@@ -287,8 +287,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-7">
-                                            <div class="form-group col-lg-7 col-sm-12" id="call3" *ngIf="select !== 1">
+                                        <div class="col-lg-7 col-sm 12">
+                                            <div class="form-group col-lg-12 col-sm-12" id="call3" *ngIf="select !== 1">
                                                 <form [formGroup]="uploadFile" (ngSubmit)="submit()">
                                                     <app-form-upload formControlName="file" [archive]="file"
                                                         (postFile)="postFile($event)" [savedFile]="savedFile"

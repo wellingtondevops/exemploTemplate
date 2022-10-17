@@ -599,8 +599,8 @@ export class ListComponent implements OnInit {
             }
 
             this.modalRef.result.then((result) => {
-                this.getArchive(); 
                 if (result != "Sair") {
+                    this.getArchive(); 
                     return null;
                 };
                 this.closeResult = `Closed with: ${result}`;
