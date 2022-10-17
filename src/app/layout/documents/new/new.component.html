@@ -8,25 +8,34 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <h2>Novo Documento</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Novo Documento</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header [heading]="'Novo Documento'" [icon]="'fa-book'"></app-page-header> -->
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body ">
             <ngb-tabset #tab>
                 <ngb-tab title="Documento" id="tab1">
                     <ng-template ngbTabContent>
                         <br>
                         <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="postDocument()">
-                            <div class="row">
+                            <div class="row" id="step1">
                                 <div class="col-xl-6">
                                     <div class="form-group">
-                                        <label for="typeahead-basic">Empresa</label>
-                                        <input id="typeahead-basic" type="text" class="form-control"
+                                        <label for="typeahead-focus">Empresa</label>
+                                        <input id="typeahead-focus" autoFocus="true" class="form-control"
                                             formControlName="company" placeholder="Nome da Empresa"
                                             [resultTemplate]="rtCompany" [inputFormatter]="formatter"
                                             [ngbTypeahead]="searchCompany"
                                             [ngClass]="{ 'is-invalid': company.touched && company.invalid}"
-                                            style="width: 100%; margin-bottom: 10px;" />
+                                            style="width: 100%; margin-bottom: 10px;" #instanceCompany="ngbTypeahead"
+                                            (focus)="focusCompany$.next($any($event).target.value)"
+                                            (click)="clickCompany$.next($any($event).target.value)" />
                                         <div *ngIf="company.invalid && (company.dirty || company.touched)"
                                             class="invalid-feedback">
                                             <div *ngIf="!company.valid">
@@ -48,7 +57,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card bg-light mb-12">
+                                    <div class="card  mb-12">
                                         <div class="card-header">
                                             Fases
                                         </div>
@@ -101,7 +110,7 @@
                                     <div class="form-group" formArrayName="label">
                                         <label for="">Índices</label>
                                         <div *ngFor="let label of labels.controls; index as i">
-                                            <div class="card bg-light mb-12" style="margin-bottom: 5px">
+                                            <div class="card  mb-12" style="margin-bottom: 5px">
                                                 <div class="card-body">
                                                     <button type="button" class="btn btn-danger btn-xs pull-right"
                                                         (click)="removeLabel(i)">
@@ -162,8 +171,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pull-right">
-                                <button type="button" [routerLink]="['/documents']" class="btn btn-default"
+                            <div class="pull-right" id="step2">
+                                <button type="button" [routerLink]="['/documents']" class="btn dark-btn"
                                     style="margin-right:10px">Voltar</button>
                                 <button type="submit" class="btn btn-primary" [disabled]="name.invalid">
                                     Salvar
@@ -200,7 +209,7 @@
                             </ng-template>
                         </form>
                         <div *ngIf="topic">
-                            <div class="card bg-light mb-12">
+                            <div class="card  mb-12">
                                 <div class="card-header">
                                     Tópico
                                 </div>

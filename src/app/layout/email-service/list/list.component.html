@@ -1,0 +1,65 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card  mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Solicitações</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="btn-group" id="step1">
+                <!-- <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" (click)="this.ngOnInit()"
+                    class="btn mini tooltips">
+                    <i class=" fa fa-refresh"></i>
+                </a> -->
+            </div>
+                <div class="card-content p-1" id="step2">
+
+
+                <ngx-datatable #myTable class="bootstrap" [rows]="emailsList.items" [columnMode]="'force'"
+                [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
+                [count]="page.totalElements" [offset]="page.pageNumber - 1" [limit]="10" (page)='setPageEmailList($event)' (activate)="openEmailList($event)"
+                >
+
+                <ngx-datatable-column name="" prop="highlighted" [width]="55">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        <ng-container *ngIf="value == true; else elseTemplate">
+                            <abbr title="Não Lido">
+                                <i class="icon mdi mdi-email" style="color: green;"></i>
+                            </abbr>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <abbr title="Lido">
+                                <i *ngIf="value == false" class="icon mdi mdi-email"></i>
+                            </abbr>
+                        </ng-template>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Título" prop="title" [width]="300"></ngx-datatable-column>
+                <ngx-datatable-column name="Remetente" prop="userSernder.name" [width]="300"></ngx-datatable-column>
+
+                <ngx-datatable-column name="Data" prop="dateCreated" [width]="85">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value | date: 'dd/MM/yyyy HH:mm' }}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                </ngx-datatable>
+
+
+            </div>
+        </div>
+    </div>
+</div>

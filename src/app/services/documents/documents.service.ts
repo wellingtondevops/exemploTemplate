@@ -1,3 +1,4 @@
+import { AccessDocts } from 'src/app/models/access-profiles';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
@@ -61,6 +62,12 @@ export class DocumentsService {
 
   doctsUser(user_id) {
     return this.http.get<PermissionsUser>(`${url}/users/permissions/${user_id}`).pipe(
+      tap(data => data)
+    );
+  }
+
+  doctsAccessProfile(access_id) {
+    return this.http.get<AccessDocts>(`${url}/accessprofiles/${access_id}`).pipe(
       tap(data => data)
     );
   }

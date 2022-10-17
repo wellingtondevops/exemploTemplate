@@ -6,11 +6,18 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
-            <h3>Novos valores de Serviços</h3>
+            <div class="row mt-0">
+                <div class="col-lg-11">
+                    <h3>Novos valores de Serviços</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="step1">
             <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="postCompanyService()">
                 <div class="row">
                     <div class="col-lg-12">
@@ -19,7 +26,9 @@
                             <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"
                                 class="form-control typehead" formControlName="company" [resultTemplate]="rtCompany"
                                 [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" style="width: 100%"
-                                [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
+                                [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
+                                #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                                (click)="clickCompany$.next($any($event).target.value)" />
                             <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                                 <div *ngIf="!company.valid">
                                     Empresa é obrigatório.
@@ -31,7 +40,7 @@
                         <label style="float: left;">Serviços</label>
                         <div class="form-group" id="services" formArrayName="services">
                             <div *ngFor="let service of services.controls; index as i">
-                                <div class="card bg-light col-lg-12" style="margin-bottom: 10px">
+                                <div class="card  col-lg-12" style="margin-bottom: 10px">
                                     <div class="card-body">
                                         <div [formGroupName]="i">
                                             <button type="button" class="btn btn-danger btn-xs pull-right"
@@ -73,7 +82,7 @@
                 <br />
                 <button type="submit" class="btn btn-primary" style="float: right"
                     [disabled]="company.invalid">Salvar</button>
-                <button type="button" [routerLink]="['/company-services']" class="btn btn-default"
+                <button type="button" [routerLink]="['/company-services']" class="btn dark-btn"
                     style="float: right;margin-right: 10px;">Voltar</button>
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>

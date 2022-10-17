@@ -6,19 +6,28 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <div class="card bg-light mb-3">
+    <div class="card  mb-3">
         <div class="card-header">
-            <h3>Relatórios</h3>
+            <div class="row mt-0">
+                <div class="col-lg-11">
+                    <h3>Relatórios</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" role="FormGroup" class="form">
+            <form [formGroup]="searchForm" role="FormGroup" class="form" id="step1">
                 <div class="row">
                     <div class="form-group col-lg-8 col-sm-12">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome da Empresa"
                             class="form-control typehead" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched}" />
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched}"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -46,7 +55,7 @@
                 <div class="row">
                     <div class="col-lg-2 col-sm-12">
                         <button *ngIf="reports" style="margin-left: 10px" class="btn btn-primary"
-                            printSectionId="print-section" ngxPrint>Imprimir Relatório</button>
+                            printSectionId="print-section" ngxPrint [useExistingCss]="true">Imprimir Relatório</button>
                     </div>
                 </div>
                 <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
@@ -57,14 +66,19 @@
     </div>
 
     <div class="row" *ngIf="reports">
-        <div class="col-lg-12">
+        <div class="col-lg-12" id="step2">
             <div style="margin-top: 15px" id="print-section">
                 <div class="card">
                     <div class="card-header"><b>Cliente</b></div>
                     <div class="card-body">
-                        <span><b>{{ reports.companyName }}</b></span>
-                        <span class="pull-right"><b>Período: {{ reports.initialPeriod }} À {{ reports.finalPeriod
-                                }}</b></span>
+                        <span>
+                            <b>{{ reports.companyName }}</b>
+                        </span>
+                        <span class="pull-right">
+                            <b>
+                                Período: {{ reports.initialPeriod }} À {{ reports.finalPeriod}}
+                            </b>
+                        </span>
                         <br />
                     </div>
                 </div>
@@ -74,18 +88,12 @@
                         <b>Descrição</b>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-responsive-sm">
                             <thead>
                                 <tr>
-                                    <th>
-
-                                    </th>
-                                    <th>
-                                        Totais do Acervo
-                                    </th>
-                                    <th>
-                                        Totais do Período
-                                    </th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Totais do Acervo</th>
+                                    <th scope="col">Totais do Período</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -118,24 +126,16 @@
                         <b>Departamentos</b>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-responsive-sm table-sm">
                             <thead>
                                 <tr>
-                                    <th>
-                                        Departamento
-                                    </th>
-                                    <th>
-                                        Total de Volumes
-                                    </th>
-                                    <th>
-                                        Volumes no Período
-                                    </th>
-                                    <th>
-                                        Total de Arquivos
-                                    </th>
-                                    <th>
-                                        Arquivos no Período
-                                    </th>
+                                    <th scope="col">Departamento</th>
+                                    <th scope="col">Total de Volumes</th>
+                                    <th scope="col">Volumes no Período</th>
+                                    <th scope="col">Total de Arquivos</th>
+                                    <th scope="col">Arquivos no Período</th>
+                                    <th scope="col">Total de Páginas</th>
+                                    <th scope="col">Páginas no Período</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -145,6 +145,8 @@
                                     <td>{{ departament.periodVolumes}}</td>
                                     <td>{{ departament.totalArchives}}</td>
                                     <td>{{ departament.periodArchives}}</td>
+                                    <td>{{ departament.departamentTotalPages}}</td>
+                                    <td>{{ departament.departamentPeridoPages}}</td>
                                 </tr>
                                 <tr>
                                     <td>Totais</td>
@@ -152,6 +154,8 @@
                                     <td>{{ reports.peridoDepartamentVolumes }}</td>
                                     <td>{{ reports.totalDepartamentArchives }}</td>
                                     <td>{{ reports.peridoDepartamentArchives }}</td>
+                                    <td>{{ reports.totalDocumentPages }}</td>
+                                    <td>{{ reports.periodDocumentPages }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -163,24 +167,14 @@
                         <b>Documentos</b>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-sm table-responsive-sm">
                             <thead>
                                 <tr>
-                                    <th>
-                                        Documento
-                                    </th>
-                                    <th>
-                                        Total de Arquivos
-                                    </th>
-                                    <th>
-                                        Arquivos no Período
-                                    </th>
-                                    <th>
-                                        Total de Páginas
-                                    </th>
-                                    <th>
-                                        Páginas no Período
-                                    </th>
+                                    <th scope="col">Documento</th>
+                                    <th scope="col">Total de Arquivos</th>
+                                    <th scope="col">Arquivos no Período</th>
+                                    <th scope="col">Total de Páginas</th>
+                                    <th scope="col">Páginas no Período</th>
                                 </tr>
                             </thead>
                             <tbody>

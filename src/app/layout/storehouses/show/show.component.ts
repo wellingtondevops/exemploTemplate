@@ -13,6 +13,7 @@ import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-con
 import { NgbModal, NgbActiveModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { PositionList } from 'src/app/models/position';
 import { NgIf } from '@angular/common';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 
 const MODALS = {
@@ -52,9 +53,9 @@ export class ShowComponent implements OnInit {
     page = new Page();
 
     columns = [
-        { name: 'Posição', prop: 'position' },
-        { name: 'Empresa', prop: 'company.name' },
-        { name: 'Departamento', prop: 'departament.name' },
+        { name: 'Posição', prop: 'position', width: 200 },
+        { name: 'Empresa', prop: 'company.name', width: 800 },
+        { name: 'Departamento', prop: 'departament.name', width: 600 },
         //{ name: 'Situação da Posição', prop: 'used' },
     ];
     permissionNew = false;
@@ -70,6 +71,7 @@ export class ShowComponent implements OnInit {
         private modalService: NgbModal,
         public modal: NgbActiveModal,
         private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
     ) {
        /* this.modalOptions = {
             backdrop: 'static',
@@ -270,6 +272,10 @@ export class ShowComponent implements OnInit {
         this.storeHouseForm.patchValue({
             position: null
         });
+    }
+
+    help() {
+        this.introService.ShowStoreHouse();
     }
     /*
     openMod(content) {

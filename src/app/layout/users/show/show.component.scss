@@ -1,4 +1,5 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
+@import '~@mdi/font/css/materialdesignicons.css';
 
 type-ahead[disabled] {
   background-color: #e9ecefd5;
@@ -7,5 +8,9 @@ type-ahead[disabled] {
 
 ::ng-deep .my-class .modal-dialog {
     top: -400px;
+}
+
+.bootstrap-dark .btn .btn-outline-dark{
+    background-color: azure;
 }
 

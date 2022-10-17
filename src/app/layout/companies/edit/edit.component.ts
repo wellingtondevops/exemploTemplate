@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from 'src/app/models/company';
 import { routerTransition } from 'src/app/router.animations';
 import _ from 'lodash';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-edit',
@@ -34,7 +35,8 @@ export class EditComponent implements OnInit {
         private companiesSrv: CompaniesService,
         private fb: FormBuilder,
         private successMsgSrv: SuccessMessagesService,
-        private errorMsg: ErrorMessagesService
+        private errorMsg: ErrorMessagesService,
+        private introService: IntroJsService,
     ) {
         this.personTypeList = PersonTypeEnum;
 
@@ -170,5 +172,9 @@ export class EditComponent implements OnInit {
                 this.companyForm.addControl('cnpj', new FormControl(null));
                 break;
         }
+    }
+
+    help() {
+        this.introService.ShowCompany();
     }
 }

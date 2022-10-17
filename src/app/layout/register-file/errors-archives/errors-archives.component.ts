@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
@@ -31,7 +32,9 @@ export class ErrorsArchivesComponent implements OnInit {
         private fb: FormBuilder,
         private archivesSrv: ArquivesService,
         private errorMsg: ErrorMessagesService,
-        private localStorageSrv: SaveLocal
+        private localStorageSrv: SaveLocal,
+        private introService: IntroJsService,
+
     ) { }
 
     ngOnInit() {
@@ -99,5 +102,9 @@ export class ErrorsArchivesComponent implements OnInit {
 
         console.log(this.dateSent);
         this.dateReceived = this.dateSent;
+    }
+
+    help() {
+        this.introService.archivesErrors();
     }
 }

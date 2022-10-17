@@ -36,7 +36,7 @@ export class AlterPasswordComponent implements OnInit {
             email: this.fb.control({ value: '', disabled: true }),
             name: this.fb.control('', [Validators.required]),
             password: this.fb.control('', [Validators.required, Validators.minLength(6)]),
-            profiles: this.fb.control({ value: '', disabled: true })
+            // profiles: this.fb.control({ value: '', disabled: true })
         });
 
         this.id = localStorage.getItem('id');
@@ -61,7 +61,7 @@ export class AlterPasswordComponent implements OnInit {
                     email: data.email,
                     name: data.name,
                     password: '',
-                    profiles: data.profiles
+                    // profiles: data.profiles
                 });
             },
             error => {

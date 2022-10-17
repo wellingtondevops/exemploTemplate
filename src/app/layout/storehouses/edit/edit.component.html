@@ -1,34 +1,28 @@
 <div [@routerTransition]>
-    <div class="card bg-light mb-12">
+    <div class="card mb-12">
         <div class="card-body">
-            <h2>Alterar Dados do Depósito</h2>
-            <form
-                [formGroup]="storeHouseForm"
-                role="FormGroup"
-                (ngSubmit)="updateStoreHouse()"
-            >
-                <div class="form-content">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Alterar Dados do Depósito</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <form [formGroup]="storeHouseForm" role="FormGroup" (ngSubmit)="updateStoreHouse()">
+                <div class="form-content" id="step1">
                     <div class="form-group">
                         <label for="name">Nome</label>
-                        <input
-                            id="name"
-                            class="form-control"
-                            [ngClass]="{
+                        <input id="name" class="form-control" [ngClass]="{
                                 'is-invalid': !name.valid && name.value === ''
-                            }"
-                            formControlName="name"
-                        />
-                        <div
-                            *ngIf="name.invalid && (name.dirty || name.touched)"
-                            class="invalid-feedback"
-                        >
+                            }" formControlName="name" />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
                             <div *ngIf="!name.valid">Nome é obrigatório.</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="pretty p-switch p-fill">
-                            <input type="checkbox" formControlName="mapStorehouse"
-                                value="" />
+                            <input type="checkbox" formControlName="mapStorehouse" value="" />
                             <div class="state">
                                 <label>
                                     Mapear Depósito
@@ -37,20 +31,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="pull-right">
-                    <button
-                        type="button"
-                        [routerLink]="['/storehouses/get', storeHouse._id]"
-                        class="btn btn-danger"
-                        style="margin-right: 10px"
-                    >
+                <div class="pull-right" id="step2">
+                    <button type="button" [routerLink]="['/storehouses/get', storeHouse._id]" class="btn btn-danger"
+                        style="margin-right: 10px">
                         Cancelar
                     </button>
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                        [disabled]="name.invalid"
-                    >
+                    <button type="submit" class="btn btn-primary" [disabled]="name.invalid">
                         Salvar
                     </button>
                 </div>

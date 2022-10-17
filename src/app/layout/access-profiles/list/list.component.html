@@ -1,0 +1,68 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+            backdropBorderRadius: '3px',
+            fullScreenBackdrop: true,
+            primaryColour: '#222',
+            secondaryColour: '#222',
+            tertiaryColour: '#222'
+        }"></ngx-loading>
+    <div class="card  mb-3">
+        <div class="card-header pt-0">
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <app-page-header [heading]="'Perfis de Acesso'" [icon]="'fa-table'" [btnNew]="'Novo Perfil de Acesso'"
+                [permissionBtnNew]="permissionNew" [routerTo]="'/access-profiles/new'" id="step1">
+            </app-page-header>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" role="FormGroup" (ngSubmit)="getAccessProfiles()" class="form">
+                <div class="row" id="step2">
+                    <div class="mb-2 col-lg-6 col-sm-12">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                            formControlName="company" placeholder="Nome da Empresa" [resultTemplate]="rtCompany"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            style="width: 100%; margin-right: 10px;"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6 col-sm-12">
+                        <label for="labelName">Perfil</label>
+                        <input id="name" autoFocus="true" type="text" class="form-control"
+                            placeholder="Nome do Departamento" formControlName="name" style="width: 100%" />
+                    </div>
+                </div>
+                <div class="row" id="step3">
+                    <div class="form-group col-lg-12 col-sm-12 text-center">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary" (click)="clear()" style="margin-left: 5px;">
+                            Limpar Campos
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+    </ng-template>
+    <div class="row">
+        <div class="col-lg-12" id="step4">
+            <app-datatables [data]="accessProfiles" (setPage)="setPageAccessProfiles($event)" [columns]="columns"
+                (show)="getAccessProfile($event)">
+            </app-datatables>
+        </div>
+    </div>
+
+</div>

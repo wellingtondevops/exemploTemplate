@@ -6,8 +6,13 @@
         secondaryColour: '#222',
         tertiaryColour: '#222'
     }"></ngx-loading>
-    <div class="card bg-light mb-3">
-        <div class="card-header">
+    <div class="card  mb-3">
+        <div class="card-header" id="step1">
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <app-page-header [heading]="'Valores dos Serviços'" [icon]="'fa-table'"
                 [btnNew]="'Novos Valores de Serviços'" [permissionBtnNew]="permissionNew"
                 [routerTo]="'/company-services/new'">
@@ -15,12 +20,14 @@
         </div>
         <div class="card-body">
             <form [formGroup]="searchForm" (ngSubmit)="setPageCompanyServices(page)" role="FormGroup">
-                <div class="row">
+                <div class="row" id="step2">
                     <div class="form-group mb-2 col-lg-7 col-sm-12" *ngIf="companies">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" placeholder="Nome da Empresa" autoFocus="true" type="text"
                             class="form-control typehead" formControlName="company" [resultTemplate]="rtCompany"
                             [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" style="width: 100%"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
@@ -29,12 +36,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="step3">
                     <div class="form-group mb-2 col-lg-12 col-sm-12 text-center">
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button type="submit" class="btn btn-default" style="margin-left: 5px;"
+                        <button type="submit" class="btn dark-btn" style="margin-left: 5px;"
                             [disabled]="company.invalid" (click)="clear()">
                             Limpar Campos
                         </button>
@@ -47,6 +54,8 @@
         </div>
     </div>
 
-    <app-datatables [data]="services" (setPage)="setPageCompanyServices($event)" (show)="getCompanyService($event)"
-        [columns]="columns"></app-datatables>
+    <div id="step4">
+        <app-datatables [data]="services" (setPage)="setPageCompanyServices($event)" (show)="getCompanyService($event)"
+            [columns]="columns"></app-datatables>
+    </div>
 </div>

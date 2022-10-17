@@ -1,7 +1,8 @@
 <div>
     <ngx-datatable
-        class="material striped"
+        class="bootstrap"
         [rows]="items"
+        [scrollbarH]="true"
         [columns]="columns"
         [columnMode]="'force'"
         [headerHeight]="50"
@@ -12,7 +13,6 @@
         [offset]="page.pageNumber"
         [limit]="page.size"
         (page)="pagination($event)"
-        (activate)="showView($event)"
-    >
+        (activate)="showView($event)">
     </ngx-datatable>
 </div>

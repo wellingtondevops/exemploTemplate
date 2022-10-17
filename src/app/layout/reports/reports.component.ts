@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { IntroJsService } from './../../services/introJs/intro-js.service';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { routerTransition } from 'src/app/router.animations';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { Report } from 'src/app/models/report'
@@ -21,12 +23,15 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
     animations: [routerTransition()]
 })
 export class ReportsComponent implements OnInit {
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
     searchForm: FormGroup;
     companies: any = [];
     loading: Boolean = false;
     reports: Report;
     dateSent;
     dateReceived;
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
 
     constructor(
         private _route: Router,
@@ -36,7 +41,9 @@ export class ReportsComponent implements OnInit {
         private pipes: Pipes,
         private fb: FormBuilder,
         private localStorageSrv: SaveLocal,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
+
     ) { }
 
     ngOnInit() {
@@ -87,34 +94,41 @@ export class ReportsComponent implements OnInit {
 
     formatter = (x: { name: string }) => x.name;
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
-                const res = [];
-                if (company.length < 2) { []; }
-                return _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                let res = [];
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                }
+                return res;
             })
-        )
+        );
+    }
 
     getReports() {
-        const newForm = {
-            name: null
-        };
-        newForm.name = this.searchForm.value.company.name;
+        // const newForm = {
+        //     name: null
+        // };
+        // newForm.name = this.searchForm.value.company.name;
 
-        this.localStorageSrv.save('company', newForm.name);
-        console.log('dasdad', this.localStorageSrv.get('company'));
+        this.localStorageSrv.save('company', this.searchForm.value.company.name);
 
-        this.searchForm.value.company = this.returnId('company') ? this.returnId('company') : null;
+        this.searchForm.value.company = this.returnId('company') ;
         this.loading = true;
         this.reportSrv.reports(this.searchForm.value).subscribe(data => {
             this.reports = data;
             this.reports.initialPeriod = moment(this.reports.initialPeriod).format('DD/MM/YYYY');
             this.reports.finalPeriod = moment(this.reports.finalPeriod).format('DD/MM/YYYY');
-            this.searchForm.patchValue({company: null});
-            // this.searchForm.patchValue({company: this.localStorageSrv.get('company')});
+            // this.searchForm.patchValue({company: null});
+            this.searchForm.patchValue({name: this.localStorageSrv.get('company')});
             this.loading = false;
         }, error => {
             console.log('ERROR: ', error);
@@ -127,5 +141,9 @@ export class ReportsComponent implements OnInit {
         this.dateSent =
             new Date(this.dateSent).toISOString().slice(0, 10);
         this.dateReceived = this.dateSent;
+    }
+
+    help() {
+        this.introService.ListReports();
     }
 }

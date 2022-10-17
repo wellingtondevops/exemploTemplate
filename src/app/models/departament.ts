@@ -6,7 +6,7 @@ export class Departament {
   };
   _id: string;
   name: string;
-  company: string;
+  company: any;
   author: string;
   dateCreated: string;
 }

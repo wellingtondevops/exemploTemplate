@@ -11,6 +11,12 @@ export class WarningMessagesService {
   ) { }
 
   showWarning(message, disTimeOut) {
-    this.toastr.warning(message, '', { disableTimeOut: disTimeOut });
+    this.toastr.warning(message, '', {
+        disableTimeOut: disTimeOut,
+        toastClass: 'warnclass ngx-toastr',
+        progressBar: true,
+        progressAnimation: 'decreasing',
+        positionClass: 'toast-center-center',
+        enableHtml: true, });
   }
 }

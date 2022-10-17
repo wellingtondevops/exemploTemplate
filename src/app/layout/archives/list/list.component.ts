@@ -1,3 +1,5 @@
+import { ColumnMode } from './../../../models/column-mode.types';
+import { data } from 'jquery';
 import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { routerTransition } from '../../../router.animations';
@@ -15,10 +17,13 @@ import { DepartamentsService } from 'src/app/services/departaments/departaments.
 import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
-import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadConfig, NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SaveLocal } from '../../../storage/saveLocal';
 import { CaseInsensitive } from '../../../utils/case-insensitive';
 import * as moment from 'moment';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
+import { ModalFilterComponent } from '../modal-filter/modal-filter.component';
 
 @Component({
     selector: 'app-list',
@@ -31,9 +36,11 @@ export class ListComponent implements OnInit {
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
     @ViewChild('instanceDocument',) instanceDocument: NgbTypeahead;
     @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
     @ViewChild('searchTypeahead',)
     private readonly typeahead: NgbTypeahead;
     archives: Archive[];
+    noExternal = false;
     archivesCol: any[];
     page = new Page();
     loading = false;
@@ -51,11 +58,26 @@ export class ListComponent implements OnInit {
     clickDocument$ = new Subject<string>();
     focusStorehouse$ = new Subject<string>();
     clickStorehouse$ = new Subject<string>();
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
     fileXls: string;
     archiveExport: string;
     nameArchiveExport: string;
     dateSent;
+    currentValue;
+    indeterminateValue;
     dateReceived;
+    fDateCurrent;
+    fDateIntermediate;
+    ColumnMode = ColumnMode;
+
+    filterCount;
+
+    modalOptions: NgbModalOptions;
+    modalFilterOptions: NgbModalOptions;
+    data;
+    modalRef: any;
+    closeResult: string;
 
     constructor(
         private archiveSrv: ArquivesService,
@@ -69,49 +91,93 @@ export class ListComponent implements OnInit {
         private warningMsg: WarningMessagesService,
         private localStorageSrv: SaveLocal,
         private utilCase: CaseInsensitive,
-        config: NgbTypeaheadConfig
+        config: NgbTypeaheadConfig,
+        private introService: IntroJsService,
+        private modalService: NgbModal,
+
+
     ) {
         config.showHint = true;
         config.container = 'body';
         config.focusFirst = false;
+
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'customModal',
+        };
+
+        this.modalFilterOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop',
+            keyboard: false,
+            windowClass: 'filterModal',
+        };
     }
 
     ngOnInit() {
-        // this.setPage({ offset: 0 });
         this.searchForm = this.fb.group({
             company: this.fb.control(null, Validators.required),
             departament: this.fb.control(null, [Validators.required]),
-            status: this.fb.control('ATIVO'),
+            doct: this.fb.control(null, Validators.required),
+            status: this.fb.control([]),
             location: this.fb.control('', Validators.required),
             storehouse: this.fb.control('', [Validators.required]),
-            doct: this.fb.control(null, Validators.required),
             search: this.fb.control(null, Validators.required),
             endDate: this.fb.control(null),
-            initDate: this.fb.control(null)
+            initDate: this.fb.control(null),
+            finalCurrent: this.fb.control(null),
+            final: this.fb.control(null),
+            finalIntermediate: this.fb.control(null),
+            fases: this.fb.control(null),
         });
 
-        const archive = JSON.parse(this.localStorageSrv.get('archive'));
-
-        if (archive && archive.company) {
-            this.searchForm.patchValue({
-                company: archive.company,
-                departament: archive.departament,
-                status: archive.status,
-                location: archive.location,
-                storehouse: archive.storehouse,
-                doct: archive.doct,
-                search: archive.search,
-                endDate: archive.endDate,
-                initDate: archive.initDate
-            });
-            this.selectedCompany(archive.company._id);
-        }
+        this.getCompanies();
+        this.getStoreHouses();
+        
+        this.setForm();
+        this.filterCounter();
 
         this.statusList = StatusVolumeEnum;
         this.getArchive();
-        this.getCompanies();
-        this.getStoreHouses();
+        this.noExternal = this.NoExternal();
+        
         this.searchForm.patchValue({ endDate: null });
+        this.checkValue();
+    }
+
+    filterCounter() {
+        this.filterCount = 0;
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+                
+        if (archive.status !== null && archive.status !== undefined) {
+            if (archive.status.length > 0) {
+                this.filterCount++;
+            }
+        }
+        
+        if (archive.fases) {
+            if (archive.fases.length > 0) {
+                this.filterCount++;
+            }
+        }
+        
+        if (archive.initDate && archive.initDate != undefined) {
+            this.filterCount++;
+        }
+        if (archive.endDate && archive.endDate != undefined) {
+            this.filterCount++;
+        }
+        
+    }
+
+    NoExternal() {
+        let res = false;
+            if (JSON.parse(window.localStorage.getItem('userExternal')) === true) {
+                res = true;
+            }
+        return res;
     }
 
     formatter = (x: { name: string }) => x.name;
@@ -131,6 +197,13 @@ export class ListComponent implements OnInit {
     get storehouse() {
         return this.searchForm.get('storehouse');
     }
+    get fIntermediate() {
+        return this.searchForm.get('finalIntermediate');
+    }
+    get fCurrent() {
+        return this.searchForm.get('finalCurrent');
+    }
+
 
     returnId(object) {
         const result = _.filter(this.searchForm.value[object], function (value, key) {
@@ -139,11 +212,60 @@ export class ListComponent implements OnInit {
         return result;
     }
 
-    setPage(pageInfo) {
+    setForm() {
+        const archive = JSON.parse(this.localStorageSrv.get('archive'));
+            if (archive && archive.company) {
+                this.searchForm.patchValue({
+                    company: archive.company,
+                    departament: archive.departament,
+                    status: archive.status,
+                    location: archive.location,
+                    storehouse: archive.storehouse,
+                    doct: archive.doct,
+                    search: archive.search,
+                    endDate: archive.endDate,
+                    initDate: archive.initDate,
+                    final: archive.final,
+                    finalCurrent: archive.finalCurrent,
+                    finalIntermediate: archive.finalIntermediate,
+                    fases: archive.fases
+                });
+                this.getDepartaments(archive.company._id);
+                this.getDocuments(archive.company._id)// coloquei
+            }
+    }
+
+    openFilter(){
+        this.modalRef = this.modalService.open(ModalFilterComponent, this.modalFilterOptions);
+    
+        this.modalRef.componentInstance.form = this.searchForm.value;
+
+
+            this.modalRef.result.then((result) => {
+                if (result != "Sair") {
+                    this.setForm();
+                    this.filterCounter();
+                    this.setPage({ offset: 0 }); 
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+    }
+
+    checkValue() {
+        this.currentValue = this.fCurrent.value;
+        this.indeterminateValue = this.fIntermediate.value;
+        // if (this.indeterminateValue === true) {
+        //     const newValue: Boolean = true;
+        //     this.currentValue = newValue;
+        // }
+    }
+
+     setPage(pageInfo) {
+        this.checkValue();
         this.loading = true;
         this.page.pageNumber = pageInfo.offset;
-
-        this.localStorageSrv.save('archive', this.searchForm.value);
 
         const newSearch = {
             company: null,
@@ -151,10 +273,14 @@ export class ListComponent implements OnInit {
             departament: null,
             doct: null,
             location: null,
-            status: null,
+            status: [],
             search: null,
             endDate: null,
             initDate: null,
+            final: null,
+            finalCurrent: null,
+            finalIntermediate: null,
+            fases: null
         };
 
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -163,9 +289,17 @@ export class ListComponent implements OnInit {
         this.searchForm.value.doct ? newSearch.doct = this.returnId('doct') : null;
         newSearch.location = this.searchForm.value.location;
         newSearch.status = this.searchForm.value.status;
+        // newSearch.fases = this.searchForm.value.fases;
         newSearch.search = this.searchForm.value.search;
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
+        newSearch.final = this.searchForm.value.final;
+        newSearch.finalCurrent = this.currentValue;
+        newSearch.finalIntermediate = this.searchForm.value.finalIntermediate;
+        // if (newSearch.finalCurrent === false && newSearch.finalIntermediate === false) {
+        //     newSearch.finalCurrent = this.currentValue = null;
+        //     newSearch.finalIntermediate = this.searchForm.value.finalIntermediate = null;
+        // }
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 
@@ -178,7 +312,6 @@ export class ListComponent implements OnInit {
             this.loading = false;
         }, error => {
             this.loading = false;
-            console.log('ERROR: ', error);
             this.errorMsg.errorMessages(error);
         });
     }
@@ -188,13 +321,12 @@ export class ListComponent implements OnInit {
     }
 
     onDetailToggle(event) {
-        // console.log('Detail Toggled', event);
     }
 
     showView(value) {
-        if (value.type === 'click') {
-            this._route.navigate(['/archives/get', value.row._id]);
-        }
+        // if (value.type === 'click') {
+            this._route.navigate(['/archives/get', value._id]);
+        // }
         /* if (value.type === 'click') {
           this._route.navigate(['/archives/get', value.row._id]);
         } else if (value.type === 'mouseenter') {
@@ -214,23 +346,26 @@ export class ListComponent implements OnInit {
 
     getArchive() {
         if (this.searchForm.value.company) {
+            this.localStorageSrv.save('archive', this.searchForm.value);
             this.setPage({ offset: 0 });
         }
     }
 
     clear() {
-        this.localStorageSrv.clear('archive');
         this.searchForm.patchValue({
             company: null,
             departament: null,
-            status: 'ATIVO',
             location: null,
             storehouse: null,
             doct: null,
             search: null,
-            endDate: null,
-            initDate: null
+            status: [],
+            initDate: null,
+            endDate: null
+            
         });
+        this.localStorageSrv.save('archive', this.searchForm.value);
+        this.filterCounter();
     }
 
     getCompanies() {
@@ -240,13 +375,16 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
     }
 
     selectedCompany(e) {
+        this.searchForm.patchValue({
+            departament: null,
+            doct: null,
+        });
         if (e && e.item && e.item._id) {
             this.getDocuments(e.item._id);
             this.getDepartaments(e.item._id);
@@ -256,18 +394,24 @@ export class ListComponent implements OnInit {
         }
     }
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
                 let res = [];
-                if (company.length < 2) { []; } else {
-                    res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
                 }
                 return res;
             })
-        )
+        );
+    }
 
     getDepartaments(company_id) {
         this.departamentsSrv.searchDepartaments(company_id).subscribe(
@@ -276,7 +420,6 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
@@ -300,7 +443,6 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
@@ -312,22 +454,18 @@ export class ListComponent implements OnInit {
         const inputFocus$ = this.focusStorehouse$;
 
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-            map(storehouse => (storehouse === '' ? this.storehouses
-                : _.filter(this.storehouses, v => this.utilCase.replaceSpecialChars(v.name.toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10)
-            )));
+            map(storehouse => {
+                let res = [];
+                if (storehouse.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.storehouses,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+                    }
+                    return res;
+            }));
     }
 
-    /* searchStorehouse = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        map(storehouse => {
-          var res;
-          if (storehouse.length < 2) [];
-          else res = _.filter(this.storehouses, v => v.name.toLowerCase().indexOf(storehouse.toLowerCase()) > -1).slice(0, 10);
-          return res;
-        })
-      ); */
 
     getDocuments(company_id) {
         this.documentsSrv.searchDocuments(company_id).subscribe(
@@ -336,7 +474,6 @@ export class ListComponent implements OnInit {
             },
             error => {
                 this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
                 this.loading = false;
             }
         );
@@ -352,18 +489,6 @@ export class ListComponent implements OnInit {
                 : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
             )));
     }
-
-    /*   searchDocument = (text$: Observable<string>) =>
-        text$.pipe(
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(document => {
-            var res;
-            if (document.length < 2) [];
-            else res = _.filter(this.documents, v => v.name.toLowerCase().indexOf(document.toLowerCase()) > -1).slice(0, 10);
-            return res;
-          })
-        ); */
 
     newRegisters(registers) {
         registers.map(item => {
@@ -394,7 +519,7 @@ export class ListComponent implements OnInit {
             departament: null,
             doct: null,
             location: null,
-            status: null,
+            status: [],
             search: null,
             endDate: null,
             initDate: null,
@@ -407,29 +532,33 @@ export class ListComponent implements OnInit {
         newSearch.location = this.searchForm.value.location;
         newSearch.status = this.searchForm.value.status;
         newSearch.search = this.searchForm.value.search;
+        if (newSearch.search === null) {
+            newSearch.search = '';
+        }
         newSearch.endDate = this.searchForm.value.endDate;
         newSearch.initDate = this.searchForm.value.initDate;
 
         const searchValue = _.omitBy(newSearch, _.isNil);
-        console.log(searchValue);
         this.archiveSrv.export(searchValue).subscribe(data => {
             this.loading = false;
-            this.showPdf(data.file, data.name);
         }, error => {
             this.loading = false;
-            console.log('ERROR: ', error);
         });
     }
 
-    showPdf(base64, name) {
-        const linkSource = 'data:application/pdf;base64, ' + base64;
-        const downloadLink = document.createElement('a');
-        const fileName = name;
-
-        downloadLink.href = linkSource;
-        downloadLink.download = fileName;
-        downloadLink.click();
+    open(content) {
+        this.modalService.open(content, { backdrop: 'static' });
     }
+
+    // showPdf(base64, name) {
+    //     const linkSource = 'data:application/pdf;base64, ' + base64;
+    //     const downloadLink = document.createElement('a');
+    //     const fileName = name;
+
+    //     downloadLink.href = linkSource;
+    //     downloadLink.download = fileName;
+    //     downloadLink.click();
+    // }
 
     typeaheadKeydown() {
         if (!this.typeahead.isPopupOpen()) {
@@ -452,9 +581,45 @@ export class ListComponent implements OnInit {
     changeDate() {
         this.dateSent =
             new Date(this.dateSent).toISOString().slice(0, 10);
-
-        console.log(this.dateSent);
         this.dateReceived = this.dateSent;
+    }
+
+    help() {
+        this.introService.ListArchives();
+    }
+
+    openArchive(value) {
+        if (value.type == 'click') {
+            this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+    
+            if (value) {
+                this.data = value.row;
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                this.modalRef.componentInstance.arch = this.data;
+            }
+
+            this.modalRef.result.then((result) => {
+                if (result != "Sair") {
+                    this.getArchive(); 
+                    return null;
+                };
+                this.closeResult = `Closed with: ${result}`;
+              }, (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              });
+        }
+        
+        
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a bac~kdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
     }
 }
 

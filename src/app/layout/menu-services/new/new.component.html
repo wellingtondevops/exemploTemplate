@@ -6,11 +6,18 @@
         secondaryColour: '#222',
         tertiaryColour: '#222'
     }"></ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
-            <h3>Novo Serviço</h3>
+            <div class="row mt-0">
+                <div class="col-lg-11">
+                    <h3>Novo Serviço</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="step1">
             <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="postMenuService()">
                 <div class="form-content">
                     <div class="form-group">
@@ -27,7 +34,7 @@
                     </div>
                 </div>
                 <div class="pull-right">
-                    <button type="button" [routerLink]="['/menu-services']" class="btn btn-default"
+                    <button type="button" [routerLink]="['/menu-services']" class="btn dark-btn"
                         style="float: right;margin-right: 10px;">Voltar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="descriptionService.invalid">
                         Salvar

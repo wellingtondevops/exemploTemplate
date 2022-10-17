@@ -8,16 +8,25 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <h2>Novo Departamento</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Novo Departamento</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body ">
             <form [formGroup]="departamentForm" role="FormGroup" (ngSubmit)="postDepartament()">
-                <div class="form-content">
+                <div class="form-content" id="step1">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" type="text" class="form-control" placeholder="Nome da Empresa"
                             formControlName="company" [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                            [ngbTypeahead]="searchCompany"
+                            [ngbTypeahead]="searchCompany" #instanceCompany="ngbTypeahead"
+                            (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)"
                             [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
@@ -41,8 +50,8 @@
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                 </div>
-                <div class="pull-right">
-                    <button type="button" [routerLink]="['/departaments']" class="btn btn-default"
+                <div class="pull-right" id="step2">
+                    <button type="button" [routerLink]="['/departaments']" class="btn dark-btn"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="company.invalid || name.invalid">
                         Salvar

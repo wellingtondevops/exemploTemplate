@@ -1,0 +1,89 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card ">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Perfil de Acesso</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div class="row" id="step1">
+                <div class="col-lg-10">
+                    <app-button-back [redirectTo]="'access-profiles'"></app-button-back>
+                    <app-buttons-custom [id]="accessProfile">
+                    </app-buttons-custom>
+                </div>
+                <div class="col-lg-2 text-right ml-0 p-0 pr-2">
+                    <button type="button" class="btn dark-btn btn-sm text-right"
+                        (click)="this.editAccessProfile(accessProfile._id)"
+                        style="font-style: italic;">Alterar</button>
+                    <button type="button" class="btn btn-danger btn-sm text-right"
+                        (click)="this.open('focusFirst', accessProfile._id)"
+                        style="font-style: italic; margin-left: 3px;">Excluir</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="accessProfileForm" role="FormGroup">
+                <div class="row">
+                    <div class="col-lg-6" id="step2">
+                        <div class="form-group">
+                            <label for="typeahead-basic">Empresa</label>
+                            <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                                (selectItem)="getDocuments($event)" [inputFormatter]="formatter"
+                                [ngbTypeahead]="searchCompany" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" formControlName="name" class="form-control input-underline input-lg" />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6" id="step3">
+                        <h5>Permissões</h5>
+                        <div class="form-group">
+                            <div class="card  col-lg-12" style="margin-bottom: 10px">
+                                <div class="card-body">
+
+                                    <ng-template #content let-c="close" let-d="dismiss">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modal-basic-title">Documentos
+                                                Permitidos
+                                            </h4>
+                                            <button type="button" class="close" aria-label="Close"
+                                                (click)="d('Cross click')">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul *ngFor="let listItem of listDoc; index as i">
+                                                <li>{{listDoc[i]}}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </ng-template>
+
+                                    <button class="btn btn-sm dark-btn" (click)="openMod(content)">Exibir
+                                        Documentos Permitidos</button>
+                                    <div class="collapse navbar-collapse col-12" id="collapseExample"
+                                        [ngbCollapse]="isCollapsed">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

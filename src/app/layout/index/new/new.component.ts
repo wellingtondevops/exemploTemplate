@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { SubClass } from './../../../models/document-structur';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +23,8 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { Volume, VolumeList } from 'src/app/models/volume';
-import { environment} from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
+import { cleanData } from 'jquery';
 const urlSearch = environment.urlSearch;
 
 declare var $: any;
@@ -39,9 +41,7 @@ export class NewComponent implements OnInit {
     @ViewChild('tabs') private tabs: NgbTabset;
     @ViewChild('instanceDocument') instanceDocument: NgbTypeahead;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-
-
-
+    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
     companies: any;
     public loading: Boolean = false;
     id: string;
@@ -64,15 +64,11 @@ export class NewComponent implements OnInit {
     clickDocument$ = new Subject<string>();
     focusDepartament$ = new Subject<string>();
     clickDepartament$ = new Subject<string>();
+    focusStorehouse$ = new Subject<string>();
+    clickStorehouse$ = new Subject<string>();
     indexs: any = [];
     volumes: Volume[];
-    columns = [
-        { name: 'Documento', prop: 'doct.name' },
-        { name: 'Departamento', prop: 'departament.name' },
-        { name: 'Depósito', prop: 'storehouse.name' },
-        { name: 'Posição', prop: 'location', width: 70 },
-        { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
-    ];
+    changeIcon = true;
     urlFile: any = '';
     pictureId: any = '';
     pictures: any = '';
@@ -97,13 +93,14 @@ export class NewComponent implements OnInit {
         private pipes: Pipes,
         private _route: Router,
         config: NgbModalConfig,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private introService: IntroJsService,
 
-        ) {
-            config.backdrop = 'static';
-            config.keyboard = false;
+    ) {
+        config.backdrop = 'static';
+        config.keyboard = false;
 
-        }
+    }
 
 
     ngOnInit() {
@@ -121,39 +118,46 @@ export class NewComponent implements OnInit {
         const index = JSON.parse(this.localStorageSrv.get('index'));
         this.setDataIndexForm(index);
 
-
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#worksheets').autocomplete({
-                source:  async function(request, response) {
+                source: async function (request, response) {
                     const myId = localStorage.getItem('idBatch');
                     const myId2 = await JSON.parse(myId).map(el => el.fdp);
 
-                    const data = await fetch(`${urlSearch}/batches/${myId2.toString()}/search?term=${request.term}` )
-                    .then(results => results.json())
-                    .then(results => results.map(result => {
-                        return {label: result.fieldColumns, value: result.fieldColumns, id: result._id};
-                    }));
+                    const data = await fetch(`${urlSearch}/batches/${myId2.toString()}/search?term=${request.term}`)
+                        .then(results => results.json())
+                        .then(results => results.map(result => {
+                            return { label: result.fieldColumns, value: result.fieldColumns, id: result._id };
+                        }));
                     response(data);
                 },
-                select: function(event, ui) {
+                select: function (event, ui) {
                     fetch(`${urlSearch}/worksheets/${ui.item.id}`)
-                    .then(result => result.json())
-                    .then(result => {
-                        localStorage.removeItem('lista');
-                        result.fieldColumns.forEach(fieldColumn => {
-                            const lista = JSON.parse(localStorage.getItem('lista') || '[]');
-                            lista.push(
-                                fieldColumn
+                        .then(result => result.json())
+                        .then(result => {
+                            localStorage.removeItem('lista');
+                            result.fieldColumns.forEach(fieldColumn => {
+                                const lista = JSON.parse(localStorage.getItem('lista') || '[]');
+                                lista.push(
+                                    fieldColumn
                                 );
                                 localStorage.setItem('lista', JSON.stringify(lista));
-                                setTimeout(function() {$('#realtime')[0].click(); }, 0);
+                                setTimeout(function () { $('#realtime')[0].click(); }, 0);
+                            });
                         });
-                    });
 
                 }
             });
         });
 
+    }
+
+    ChangeIcon() {
+        if (this.changeIcon !== false) {
+            this.changeIcon = false;
+        } else {
+            this.changeIcon = true;
+        }
     }
 
     load() {
@@ -225,7 +229,7 @@ export class NewComponent implements OnInit {
                 this.getBatchImages();
             } else {
                 this.getBatchImages();
-                    setTimeout(function() {$('#open')[0].click(); }, 700);
+                setTimeout(function () { $('#open')[0].click(); }, 700);
 
 
             }
@@ -365,16 +369,23 @@ export class NewComponent implements OnInit {
         );
     }
 
-    searchStorehouse = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchStorehouse = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickStorehouse$.pipe(filter(() => !this.instanceStorehouse.isPopupOpen()));
+        const inputFocus$ = this.focusStorehouse$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(storehouse => {
-                let res;
-                if (storehouse.length < 2) { []; } else { res = _.filter(this.storehouses, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10); }
+                let res = [];
+                if (storehouse.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.storehouses,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
+                }
                 return res;
-            })
-        )
+            }));
+    }
 
     getDocuments(company_id) {
         this.documentsSrv.searchDocuments(company_id).subscribe(
@@ -409,7 +420,7 @@ export class NewComponent implements OnInit {
                 this.page.pageNumber = pageInfo.offset;
         }
 
-        this.localStorageSrv.save('index', this.searchForm.value);
+        // this.localStorageSrv.save('index', this.searchForm.value);
 
         const newSearch = {
             storehouse: null,
@@ -424,12 +435,13 @@ export class NewComponent implements OnInit {
         const searchValue = _.omitBy(newSearch, _.isNil);
 
         this.batchesSrv.volumes(this.batch._id, this.page, searchValue).subscribe(data => {
-            if (data.items.length > 0) {
+            {
                 this.volumes = data.items;
                 this.page.pageNumber = data._links.currentPage - 1;
                 this.page.totalElements = data._links.foundItems;
                 this.page.size = data._links.totalPage;
             }
+
         }, error => {
             console.log('ERROR: ', error);
 
@@ -496,6 +508,11 @@ export class NewComponent implements OnInit {
             location: null,
             storehouse: null
         });
-        }
+    }
+
+    help() {
+        this.introService.indexNew();
+    }
 }
+
 

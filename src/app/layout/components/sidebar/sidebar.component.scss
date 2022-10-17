@@ -1,19 +1,23 @@
+@import "~@mdi/font/css/materialdesignicons.css";
 $topnav-background-color: #222;
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
 .sidebar {
-    border-radius: 0;
+    // border-radius: 0;
     position: fixed;
     z-index: 1000;
     top: 56px;
     left: 235px;
     width: 235px;
     margin-left: -235px;
-    margin-bottom: 48px;
+    margin-bottom: 50px;
     border: none;
     border-radius: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: $topnav-background-color;
     bottom: 0;
-    overflow-x: hidden;
     padding-bottom: 40px;
     white-space: nowrap;
     -webkit-transition: all 0.2s ease-in-out;
@@ -24,7 +28,7 @@ $topnav-background-color: #222;
     // border-top: 1px solid rgba(255,255,255,0.3);
     .list-group {
         a.list-group-item {
-            padding-left: 25px;
+            padding-left: 20px;
             background: $topnav-background-color;
             border: 0;
             border-radius: 0;
@@ -109,6 +113,13 @@ $topnav-background-color: #222;
         }
     }
 }
+.toggleTheme {
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    background: #222;
+    color: #999;
+}
 
 .nested-menu {
     .list-group-item {
@@ -120,6 +131,11 @@ $topnav-background-color: #222;
     ul.submenu {
         display: none;
         height: 0;
+        padding-left: 15px;
+        a {
+            display: none;
+            margin-left: 5px;
+        }
     }
     & .expand {
         ul.submenu {
@@ -169,7 +185,7 @@ $topnav-background-color: #222;
 
 .toggle-button {
     position: fixed;
-    width: 236px;
+    width: 235px;
     cursor: pointer;
     padding: 12px;
     bottom: 0;

@@ -6,14 +6,20 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <div class="card bg-light mb-3">
+    <div class="card  mb-3">
         <div class="card-header">
-            <!-- <app-page-header [heading]="'Errors de Importação de Arquivos'" [icon]="'fa-table'"></app-page-header> -->
-            <h2>Erros de Importação de Arquivos</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Erros de Importação de Arquivos</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" (ngSubmit)="getErrors()" role="FormGroup" class="form-inline">
-                <div class="row col-12">
+            <form [formGroup]="searchForm" (ngSubmit)="getErrors()" role="FormGroup" class="">
+                <div class="row col-12" id="step1">
                     <div class="form-group mb-2 col-lg-6 col-sm-12">
                         <label for="sheet">Nome da Planilha</label>
                         <input id="sheet" class="form-control col-12" formControlName="sheet"
@@ -37,12 +43,12 @@
                     </div>
                 </div>
 
-                <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                    <div class="form-group mb-2">
+                <div class="row text-center">
+                    <div class="form-group col-12 mb-2" id="step2">
                         <button type="submit" class="btn btn-primary" [disabled]="sheet.invalid">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button style="margin-left: 5px;" type="button" class="btn btn-default" (click)="clear()">
+                        <button style="margin-left: 5px;" type="button" class="btn dark-btn" (click)="clear()">
                             Limpar Campos
                         </button>
                     </div>
@@ -52,17 +58,17 @@
     </div>
 
     <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <ngx-datatable #myTable class="material" [rows]="errorsArchives" [columnMode]="'force'" [headerHeight]="50"
-                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+        <div class="col col-xl-12 col-lg-12" id="step3">
+            <ngx-datatable #myTable class="bootstrap" [rows]="errorsArchives" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [scrollbarH]="true"
                 [offset]="page.pageNumber" [limit]="10" (page)='setPage($event)'>
-                <ngx-datatable-column name="Nome da Planilha" prop="sheet"></ngx-datatable-column>
-                <ngx-datatable-column name="" prop="_id">
+                <ngx-datatable-column name="Nome da Planilha" prop="sheet" [width]=700 ></ngx-datatable-column>
+                <ngx-datatable-column name="" prop="_id" [width]=500 >
                     <ng-template let-value="value" ngx-datatable-cell-template>
-                        <button class="btn btn-primary btn-xs" (click)="getFile(value)">Download</button>
+                        <button class="btn btn-primary btn-xs" style="border-radius: 50px;" (click)="getFile(value)">Download</button>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Criado em" prop="dateCreated">
+                <ngx-datatable-column name="Criado em" prop="dateCreated" [width]=500 >
                     <ng-template let-value="value" ngx-datatable-cell-template>
                         {{ value | date: 'dd/MM/yyyy' }}
                     </ng-template>

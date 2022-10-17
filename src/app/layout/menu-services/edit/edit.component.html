@@ -6,34 +6,41 @@
         secondaryColour: '#222',
         tertiaryColour: '#222'
     }"></ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
-            <h3>Alterar dados do Serviço</h3>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Alterar dados do Serviço</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
-            <div class="card-body">
-                <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="updateMenu()">
-                    <div class="form-content">
-                        <div class="form-group">
-                            <label for="">Descrição</label>
-                            <input id="descriptionService" type="text" placeholder="Descrição" class="form-control"
-                                formControlName="descriptionService"
-                                [ngClass]="{ 'is-invalid': !descriptionService.valid }" />
-                            <div *ngIf="descriptionService.invalid && (descriptionService.dirty || descriptionService.touched)"
-                                class="invalid-feedback">
-                                <div *ngIf="!descriptionService.valid">
-                                    Descrição é obrigatória.
-                                </div>
+        <div class="card-body" id="step1">
+            <form [formGroup]="serviceForm" role="FormGroup" (ngSubmit)="updateMenu()">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="">Descrição</label>
+                        <input id="descriptionService" type="text" placeholder="Descrição" class="form-control"
+                            formControlName="descriptionService"
+                            [ngClass]="{ 'is-invalid': !descriptionService.valid }" />
+                        <div *ngIf="descriptionService.invalid && (descriptionService.dirty || descriptionService.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!descriptionService.valid">
+                                Descrição é obrigatória.
                             </div>
                         </div>
                     </div>
-                    <div class="pull-right">
-                        <button type="button" [routerLink]="['/menu-services/get', service._id]" class="btn btn-danger"
-                            style="margin-right:10px">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" [disabled]="descriptionService.invalid">
-                            Salvar
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="pull-right">
+                    <button type="button" [routerLink]="['/menu-services/get', service._id]" class="btn btn-danger"
+                        style="margin-right:10px">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="descriptionService.invalid">
+                        Salvar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+</div>

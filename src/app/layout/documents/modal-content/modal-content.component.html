@@ -1,0 +1,257 @@
+<div [@routerTransition]>
+    <ngx-loading
+      [show]="loading"
+      [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: false,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'
+      }"
+    ></ngx-loading>
+
+    <div class="base-modal-content" style="min-height: 90vh" >
+        <div class="card-header base-modal-header flex">
+            <div class="row" *ngIf="!loading">
+                <div class="col text-left">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+                <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
+                    <span id="call5" aria-hidden="true">&times;</span>
+                </button>
+                <!-- <br> -->
+                <div class="col-lg-12" >
+                    <h2 id="call1" *ngIf="!isEditing && !isNew">Dados do Documento</h2>
+                    <h2 id="call1" *ngIf="isEditing">Editar Documento</h2>
+                    <h2 id="call1" *ngIf="isNew">Novo Documento</h2>
+                </div>
+
+                <br/>
+                <div style="margin-bottom: 10px" id="call2">
+                    <app-buttons-custom [id]="doc?._id" (edit)="editDocument()"
+                        (delete)="open('focusFirst', doc._id)" [permissionEdit]="permissionEdit"
+                        [permissionDelete]="permissionDelete"></app-buttons-custom>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body base-modal-body">
+            <form [formGroup]="documentForm" role="FormGroup" (ngSubmit)="submit()" class="form">
+                <ngb-tabset #tab>
+                    <ngb-tab title="Documento" id="tab1">
+                        <ng-template ngbTabContent>
+                            <div class="row" style="margin-top: 20px">
+                                <div class="col-lg-6 col-md-12" >
+
+                                    <div class="form-group col-lg-12 col-md-12">
+                                        <label for="typeahead-basic">Empresa</label>
+                                        <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
+                                            [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                                            [ngClass]="{ 'is-invalid': !company.valid && !company.disabled }" placeholder="Nome da Empresa"
+                                            #instanceCompany="ngbTypeahead"
+                                            (focus)="focusCompany$.next($any($event).target.value)"
+                                            (click)="clickCompany$.next($any($event).target.value)"/>
+                                        <div *ngIf="company.invalid && (company.dirty || company.touched)"
+                                            class="invalid-feedback">
+                                            <div *ngIf="!company.valid">
+                                                Empresa é obrigatória.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12 col-md-12">
+                                        <label for="">Nome</label>
+                                        <input id="name" type="text" placeholder="Nome" class="form-control"
+                                            formControlName="name" />
+                                    </div>
+<!--
+                                    <div class="form-group col-lg-12 col-md-12" [hidden]="isEditing">
+                                        <label for="">Criado em</label>
+                                        <input id="dateCreated" type="text" placeholder="Criado em" class="form-control"
+                                            formControlName="dateCreated" />
+                                    </div> -->
+
+                                    <div class="card mb-12" style="margin-top: 20px;">
+                                        <div class="card-header ">
+                                            Fases
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group" *ngIf="checkbox.checked">
+                                                        <label for="labelDcurrentValue">Corrente</label>
+                                                        <input id="dcurrentLabel" type="text" placeholder="Texto"
+                                                            class="form-control" formControlName="dcurrentLabel" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group" *ngIf="checkbox.checked">
+                                                        <label for="labelDcurrentValue">Anos</label>
+                                                        <input id="dcurrentValue" type="number" placeholder="Fase Corrente"
+                                                            class="form-control" formControlName="dcurrentValue" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="labelDintermediateValue">Intermédiaria</label>
+                                                        <input id="dintermediateValue" type="number"
+                                                            placeholder="Fase Intermédiaria" class="form-control"
+                                                            formControlName="dintermediateValue" />
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="labelDfinal">Final</label>
+                                                        <input id="dfinal" type="text" placeholder="Final" class="form-control"
+                                                            formControlName="dfinal" />
+                                                    </div>
+                                                </div> -->
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="labelDfinal">Final</label>
+                                                        <br />
+                                                        <select placeholder="Fase Intermédiaria"
+                                                        class="form-control" formControlName="dfinal">
+                                                            <option value="PERMANENTE">PERMANENTE</option>
+                                                            <option value="ELIMINIÇÃO">ELIMINIÇÃO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-sm-6" style="margin-top: 20px;">
+                                                    <div class="pretty p-switch p-fill">
+                                                        <input #checkbox type="checkbox" formControlName="currentControl" value="" />
+                                                        <div class="state">
+                                                            <label>
+                                                                Controlar Fase Corrente
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12" style="overflow-y: auto; max-height: 60vh">
+                                    <div class="form-group" formArrayName="label">
+                                        <label for="">Índices</label>
+                                         <div *ngFor="let label of labels.controls; index as i">
+                                            <div class="card  mb-12" style="margin-bottom: 5px">
+                                                <div class="card-body">
+                                                    <button *ngIf="isEditing || isNew" type="button" class="btn btn-danger btn-xs pull-right"
+                                                    (click)="removeLabel(i)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                    <br />
+                                                    <div [formGroupName]="i">
+                                                        <div class="form-group">
+                                                            <label for="">Nome do Índice</label>
+                                                            <input [disabled]="!isNew && !isEditing" type="text" placeholder="Nome do Índice" class="form-control"
+                                                                formControlName="namefield" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Tipo de Índice</label>
+                                                            <select class="form-control" formControlName="typeField">
+                                                                <option *ngFor="let typeFieldN of typeFieldList | enumToArray"
+                                                                    [value]="typeFieldN">
+                                                                    {{ typeFieldN | translate }}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="pretty p-switch p-fill">
+                                                                <input type="checkbox" formControlName="uniq" value="" />
+                                                                <div class="state">
+                                                                    <label>
+                                                                        Único
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pretty p-switch p-fill">
+                                                                <input type="checkbox" formControlName="timeControl" value="" />
+                                                                <div class="state">
+                                                                    <label>
+                                                                        Temporalidade
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="isEditing || isNew">
+                                            <button type="button" class="btn btn-success btn-xs" (click)="addLabelEdit()">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab id="tab2" *ngIf="isNew" [disabled]="tabIndex" title="Estrutura de Documentos">
+                        <ng-template ngbTabContent>
+                            <form [formGroup]="doctStructForm" role="FormGroup">
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label for="typeahead-basic">Estrutura de Documento</label>
+                                            <input id="typeahead-basic" type="text" class="form-control" (change)="onChangeStruct()"
+                                                formControlName="id_Structure" [resultTemplate]="rtDoctStruct"
+                                                (selectItem)="selectDoctStruct($event)"
+                                                [inputFormatter]="formatterDoctStruct" [ngbTypeahead]="searchDoctStruct" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_child">Código do Tópico</label>
+                                            <select class="form-control" id="id_child" formControlName="id_child"
+                                            (change)="onChangeTopic()">
+                                                <option *ngFor="let struct of structs" [value]="struct._id">
+                                                    {{ struct.codTopic }} - {{ struct.topic }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-template #rtDoctStruct let-r="result" let-t="doctStruct" class="custom-typeahead">
+                                    <ngb-highlight [result]="r.structureName" [term]="t"></ngb-highlight>
+                                </ng-template>
+                            </form>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+                <br/>
+                <div *ngIf="!isNew && !isEditing" class="col-12" id="call4">
+                  <div style="font-size: 12px; text-align: left;">
+                      Data da criação: {{ returnDateCreate(doc.dateCreated) }}
+                  </div>
+              </div>
+
+
+
+
+                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+            </form>
+        </div>
+
+        <div *ngIf="isEditing || isNew" class="modal-footer" >
+            <div class="pull-right" id="call5">
+                <button  type="button" (click)="cancelEditNew()" class="btn btn-danger"
+                    style="margin-right:10px">Cancelar</button>
+                <button type="button" (click)="submit()" class="btn btn-primary"
+                [disabled]="name.invalid || company.invalid">
+                    Salvar
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

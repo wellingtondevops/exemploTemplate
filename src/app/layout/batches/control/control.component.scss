@@ -1,3 +1,4 @@
+@import '~@mdi/font/css/materialdesignicons.css';
 
 #dados{
     width: 350px;
@@ -5,15 +6,15 @@
 .form-control{
     border: none;
     padding: 0;
-    background-color: #F8F9FA;
 }
+
 .btns{
     width: 400px;
     margin-right: 5px;
 }
 
 .import{
-    width: 400px;
+    width: 300px;
 }
 
 .cus-modal{
@@ -55,6 +56,7 @@
     bottom: 0;
     right: 0;
     margin: 0 auto;
+    color: #000;
 }
 
 .cus-modal.in .cus-modal-dialog {
@@ -151,7 +153,6 @@
     flex-wrap: wrap;
     align-content:center;
     justify-content:center;
-
 }
 
 .gallery div {

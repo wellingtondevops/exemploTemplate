@@ -1,0 +1,29 @@
+<!-- <div class="oval" [ngClass]="{ovalSelected: theme == 'bootstrap'}" (click)="toggleTheme()">
+    <div class="button" [ngClass]="{buttonSelected: theme == 'bootstrap'}"></div>
+</div> -->
+<ngx-loading [show]="loading" [config]="{
+    backdropBorderRadius: '3px',
+    fullScreenBackdrop: true,
+    primaryColour: '#222',
+    secondaryColour: '#222',
+    tertiaryColour: '#222'
+}"></ngx-loading>
+<form [formGroup]="themeForm">
+    <button class="btn dark-btn btn-sm" [ngClass]="{buttonSelected: theme == 'bootstrap'}"
+        (click)="toggleTheme()" >
+        <ng-container *ngIf="theme === 'bootstrap'; else elseTheme">
+            <i class="mdi mdi-weather-night mdi-18px" title="Modo Escuro">
+            </i>
+        </ng-container>
+        <ng-template #elseTheme>
+            <i class="mdi mdi-weather-sunny mdi-18px" title="Modo Claro">
+            </i>
+        </ng-template>
+    </button>
+    <ng-container *ngIf="theme === 'bootstrap'; else elseTemplate">
+        <i>   Modo Escuro</i>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <i>   Modo Claro</i>
+    </ng-template>
+</form>

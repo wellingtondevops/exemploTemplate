@@ -6,45 +6,78 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
     }"></ngx-loading>
-    <div class="card bg-light">
-        <div class="card-header">
+    <div class="card ">
+        <div class="card-header" id="step1">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Indexação</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header *ngIf="!loading" [heading]="'Indexação'" [icon]="'fa-user'"></app-page-header> -->
-            <h2>Indexação</h2>
             <div style="margin-bottom: 10px;" *ngIf="!loading">
                 <app-button-back [redirectTo]="'batches/get'" [id]="id"></app-button-back>
                 <button class="btn btn-sm btn-danger pull-right" (click)="deleteImgs()">Excluir</button>
                 <br />
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body pt-1">
             <ngb-tabset #tabs>
                 <ngb-tab title="Dados" id="dados">
                     <ng-template ngbTabContent>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card bg-light mb-3" style="font-size: 15px;">
-                                    <div class="card-body">
-                                        <p class="card-text">
-                                            <b>EMPRESA</b>: {{ batch && batch.company &&
-                                            batch.company.name ? batch.company.name : '' }} <br>
-                                            <b>DOCUMENTO</b>: {{ batch && batch.doct && batch.doct.name
-                                            ? batch.doct.name : '' }}<br>
-                                            <b>DEPARTAMENTO</b>: {{ batch && batch.departament &&
-                                            batch.departament.name ? batch.departament.name : '' }}<br>
-                                            <b>DEPÓSITO</b>: {{ batch && batch.storehouse &&
-                                            batch.storehouse.name ? batch.storehouse.name : '' }}<br>
-                                            <b>POSIÇÃO</b>: {{ batch && batch.volume &&
-                                            batch.volume.location ? batch.volume.location : '' }}<br>
-                                        </p>
+                        <div class="card  mb-3" style="font-size: 15px;">
+                            <div class="row" id="step2">
+                                <div class="col-sm-11">
+                                    <div class="card-body pt-1 pb-1">
+                                        <div class="collapse show exemplo" id="collapseExample">
+                                            <p class="card-text mb-1">
+                                                <b>EMPRESA</b>: {{ batch && batch.company &&
+                                                batch.company.name ? batch.company.name : '' }} <br>
+                                                <b>DOCUMENTO</b>: {{ batch && batch.doct && batch.doct.name
+                                                ? batch.doct.name : '' }}<br>
+                                                <b>DEPARTAMENTO</b>: {{ batch && batch.departament &&
+                                                batch.departament.name ? batch.departament.name : '' }}<br>
+                                                <b>DEPÓSITO</b>: {{ batch && batch.storehouse &&
+                                                batch.storehouse.name ? batch.storehouse.name : '' }}<br>
+                                                <b>POSIÇÃO</b>: {{ batch && batch.volume &&
+                                                batch.volume.location ? batch.volume.location : '' }}<br>
+
+                                            </p>
+                                            <div class="text-center col-lg-auto">
+                                                <a *ngIf=" batch && batch.volume &&
+                                                            batch.volume.closeBox ? batch.volume.closeBox : '' "
+                                                    class="bg-danger">
+                                                    VOLUME FECHADO, POR FAVOR ENTRE EM CONTATO COM
+                                                    O ADMINISTRADOR DO
+                                                    ARQUIVO OU ESCOLHA OUTRA POSIÇÃO
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-lg-1 text-right">
+                                    <i class="btn btn-secundary" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseExample" aria-expanded="false"
+                                        aria-controls="collapseExample" (click)="ChangeIcon(changeIcon)">
+                                        <ng-container *ngIf="changeIcon === true; else elseTheme">
+                                            <i class="fa fa-fw fa-angle-double-up" title="Ocultar índice">
+                                            </i>
+                                        </ng-container>
+                                        <ng-template #elseTheme>
+                                            <i class="fa fa-fw fa-angle-double-down" title="Mostrar índice">
+                                            </i>
+                                        </ng-template>
+                                    </i>
                                 </div>
                             </div>
                         </div>
                         <div>
 
-                            <div class="row">
+                            <div class="row" id="step3">
                                 <div class="col-lg-4">
-                                    <div class="card bg-light" style="margin:5px;font-size: 15px;">
+                                    <div class="card " style="margin:5px;font-size: 15px;">
                                         <div *ngIf="page.totalElements !== 0;">
                                             <div class="card-header">Fonte de dados</div>
                                             <div class="card-body">
@@ -107,8 +140,7 @@
                                         <div *ngIf="isPdf && urlFile" style="width: 100%; height: 100%">
                                             <ngx-extended-pdf-viewer [src]="urlFile" [showSidebarButton]="true"
                                                 [showSecondaryToolbarButton]="false" [showOpenFileButton]="false"
-                                                [showDownloadButton]="download" [showBookmarkButton]="false"
-                                                [showPrintButton]="print" [showPresentationModeButton]="false"
+                                                [showBookmarkButton]="false" [showPresentationModeButton]="false"
                                                 [printResolution]="300" [useBrowserLocale]="true" [textLayer]="true"
                                                 [height]="'90vh'"></ngx-extended-pdf-viewer>
                                         </div>
@@ -140,114 +172,102 @@
                     </ng-template>
                 </ngb-tab>
 
-
                 <ngb-tab title="Pesquisar Posição" id="position">
                     <ng-template ngbTabContent>
-                        <ngb-accordion #acc="ngbAccordion" activeIds="index-search">
-                            <ngb-panel id="index-search" style="margin-top:10px">
-                                <ng-template ngbPanelTitle>
-                                    <span> <i class="fa fa-filter" style="margin-right: 5px"></i> <b>Filtros</b></span>
-                                </ng-template>
-                                <ng-template ngbPanelContent>
-                                    <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup"
-                                        class="form-inline">
-                                        <div class="row col-12">
-                                            <div class="form-group mb-2 col-3">
-                                                <label for="typeahead-basic">Empresa</label>
-                                                <input id="typeahead-basic" autoFocus="true"
-                                                    (selectItem)="selectedCompany($event)" type="text"
-                                                    class="form-control" formControlName="company"
-                                                    [resultTemplate]="rtCompany" [inputFormatter]="formatter"
-                                                    [ngbTypeahead]="searchCompany" style="width: 100%" />
+                        <form [formGroup]="searchForm" (ngSubmit)="setPage()" role="FormGroup" class="form">
+                            <div class="row col-12">
+                                <div class="form-group mb-2 col-lg-3">
+                                    <label for="typeahead-basic">Empresa</label>
+                                    <input id="typeahead-basic" autoFocus="true" (selectItem)="selectedCompany($event)"
+                                        type="text" class="form-control" formControlName="company"
+                                        [resultTemplate]="rtCompany" [inputFormatter]="formatter"
+                                        [ngbTypeahead]="searchCompany" style="width: 100%" />
+                                </div>
 
-                                            </div>
-                                            <div class="form-group mb-2 col-3">
-                                                <label for="typeahead-basic">Documento</label>
-                                                <input id="typeahead-basic" autoFocus="true" type="text"
-                                                    class="form-control" formControlName="doct"
-                                                    [resultTemplate]="rtDocument" [inputFormatter]="formatter"
-                                                    [ngbTypeahead]="searchDocument" style="width: 100%" />
-                                            </div>
-                                            <div class="form-group mb-2 col-3">
-                                                <label for="typeahead-basic">Departamento</label>
-                                                <input id="typeahead-basic" autoFocus="true" type="text"
-                                                    class="form-control" formControlName="departament"
-                                                    [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
-                                                    [ngbTypeahead]="searchDepartament" style="width: 100%" />
-                                            </div>
-                                            <div class="form-group mb-2 col-3">
-                                                <label for="location">Posição</label>
-                                                <input id="location" class="form-control col-12"
-                                                    formControlName="location" />
-                                            </div>
-                                            <div class="form-group mb-2 col-3">
-                                                <label for="typeahead-basic">Depósito</label>
-                                                <input id="typeahead-basic" autoFocus="true" type="text"
-                                                    class="form-control" formControlName="storehouse"
-                                                    [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
-                                                    [ngbTypeahead]="searchStorehouse" style="width: 100%" />
-                                            </div>
-                                            <ng-template #rtCompany let-r="result" let-t="company"
-                                                class="custom-typeahead">
-                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                            </ng-template>
-                                            <ng-template #rtDepartament let-r="result" let-t="departament"
-                                                class="custom-typeahead">
-                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                            </ng-template>
-                                            <ng-template #rtStorehouse let-r="result" let-t="storehouse"
-                                                class="custom-typeahead">
-                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                            </ng-template>
-                                            <ng-template #rtDocument let-r="result" let-t="doct"
-                                                class="custom-typeahead">
-                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-                                            </ng-template>
-                                        </div>
-                                        <div class="row col-12" style="justify-content: center; margin-top: 10px;">
-                                            <div class="form-group mb-2">
-                                                <button type="submit" class="btn btn-primary"
-                                                    [disabled]="company.invalid">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                                <button style="margin-left: 5px;" type="button" class="btn btn-default"
-                                                    (click)="clear()">
-                                                    Limpar Campos
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                <div class="form-group mb-2 col-lg-3">
+                                    <label for="location">Posição</label>
+                                    <input id="location" placeholder="Informe a Posição" class="form-control col-12"
+                                        formControlName="location" />
+                                </div>
+                                <div class="form-group mb-2 col-lg-3">
+                                    <label for="typeahead-basic">Depósito</label>
+                                    <input id="typeahead-basic" autoFocus="true" type="text" class="form-control"
+                                        formControlName="storehouse" [resultTemplate]="rtStorehouse"
+                                        [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
+                                        style="width: 100%" placeholder="Nome do Depósito"
+                                        #instanceStorehouse="ngbTypeahead"
+                                        (focus)="focusStorehouse$.next($any($event).target.value)"
+                                        (click)="clickStorehouse$.next($any($event).target.value)" />
+                                </div>
+                                <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
+                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
-                            </ngb-panel>
-
-                        </ngb-accordion>
-                        <br />
-                        <ngx-datatable #myTable class="material" [rows]="volumes" [columnMode]="'force'"
-                            [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
-                            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
-                            (page)='setPage($event)'>
-                            <ngx-datatable-column name="Documento" [width]="200" prop="doct.name">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Departamento" [width]="200" prop="departament.name">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Posição" [width]="100" prop="location">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Criado em" [width]="150" prop="dateCreated">
-                                <ng-template let-value="value" ngx-datatable-cell-template>
-                                    {{ value | date: 'dd/MM/yyyy' }}
+                                <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Selecionar" [width]="150" prop="_id">
-                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                                    <button class="btn btn-primary" (click)="getVolume(row)">Selecionar</button>
+                                <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
+                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
-                            </ngx-datatable-column>
-                        </ngx-datatable>
+                                <ng-template #rtDocument let-r="result" let-t="doct" class="custom-typeahead">
+                                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                </ng-template>
+                            </div>
+                            <div class="row col-12 text-center">
+                                <div class="form-group mb-1">
+                                    <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <button style="margin-left: 5px;" type="button" class="btn dark-btn"
+                                        (click)="clear()">
+                                        Limpar Campos
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-lg-12 mt-2">
+                                <ngx-datatable #myTable class="bootstrap" [rows]="volumes" [columnMode]="'force'"
+                                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                    [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
+                                    [scrollbarH]="true" (page)='setPage($event)'>
+                                    <ngx-datatable-column name="Documento" [width]="340" prop="doct.name">
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Departamento" [width]="340" prop="departament.name">
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Depósito" [width]="200" prop="storehouse.name">
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Posição" [width]="130" prop="location">
+                                    </ngx-datatable-column>
+                                    <!-- <ngx-datatable-column name="Criado em" [width]="130" prop="dateCreated">
+                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                            {{ value | date: 'dd/MM/yyyy' }}
+                                        </ng-template>
+                                    </ngx-datatable-column> -->
+                                    <ngx-datatable-column name="Selecionar" [width]="110" prop="_id">
+                                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                            <button class="btn btn-primary btn-sm"
+                                                (click)="getVolume(row)">Selecionar</button>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <!-- <ngx-datatable-column name="Volume" [width]="100" prop="closeBox">
+                                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                            <ng-container *ngIf="value; else elseTemplate">
+                                                <abbr title="Volume fechado"><i
+                                                        class="mdi mdi-archive-lock mdi-24px"></i></abbr>
+                                            </ng-container>
+                                            <ng-template #elseTemplate>
+                                                <abbr title="Volume aberto"><i
+                                                        class="mdi mdi-archive-eye mdi-24px"></i></abbr>
+                                            </ng-template>
+                                        </ng-template>
+                                    </ngx-datatable-column> -->
+                                </ngx-datatable>
+                            </div>
+                        </div>
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>
         </div>
     </div>
 </div>
+

@@ -18,6 +18,7 @@ import { VolumeTypeEnum } from 'src/app/models/volume.type.enum';
 import { GuardyTypeVolumeEnum } from 'src/app/models/guardtype.volume.enum';
 import { StatusVolumeEnum } from 'src/app/models/status.volume.enum';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 
 @Component({
     selector: 'app-edit',
@@ -50,7 +51,8 @@ export class EditComponent implements OnInit {
         private successMsgSrv: SuccessMessagesService,
         private errorMsg: ErrorMessagesService,
         private fb: FormBuilder,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {
         this.statusList = StatusVolumeEnum;
         this.volumeTypeList = VolumeTypeEnum;
@@ -58,14 +60,15 @@ export class EditComponent implements OnInit {
 
         this.volumeForm = this.fb.group({
             _id: this.fb.control(''),
-            storehouse: this.fb.control('', [Validators.required]),
-            company: this.fb.control('', [Validators.required]),
-            guardType: this.fb.control('', [Validators.required]),
-            volumeType: this.fb.control('', [Validators.required]),
-            departament: this.fb.control('', [Validators.required]),
+            storehouse: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            company: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            guardType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            volumeType: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+            departament: this.fb.control({ value: '', disabled: true }, [Validators.required]),
             uniqueField: this.fb.control(''),
             location: this.fb.control('', [Validators.required]),
-            reference: this.fb.control('')
+            reference: this.fb.control(''),
+            closeBox: this.fb.control('', [Validators.required])
         });
     }
 
@@ -114,7 +117,8 @@ export class EditComponent implements OnInit {
                     volumeType: data.volumeType,
                     uniqueField: data.uniqueField,
                     location: data.location,
-                    status: data.status
+                    status: data.status,
+                    closeBox: data.closeBox,
                 });
                 this.changeGuardType();
                 this.getDepartament(data.company._id);
@@ -179,7 +183,7 @@ export class EditComponent implements OnInit {
     }
 
     returnId(object) {
-        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function(value, key) {
+        this.volumeForm.value[object] = _.filter(this.volumeForm.value[object], function (value, key) {
             if (key === '_id') { return value; }
         })[0];
     }
@@ -197,7 +201,7 @@ export class EditComponent implements OnInit {
                 if (data._id) {
                     this.loading = false;
                     this.successMsgSrv.successMessages('Volume cadastrado com sucesso.');
-                    // this._route.navigate(['/volumes']);
+                    this._route.navigate(['/volumes/get', this.volume._id]);
                 }
             },
             error => {
@@ -206,6 +210,10 @@ export class EditComponent implements OnInit {
                 console.log('ERROR: ', error);
             }
         );
+    }
+
+    goBack() {
+        this._route.navigate(['/volumes/get', this.volume._id]);
     }
 
     search = (text$: Observable<string>) =>
@@ -243,4 +251,8 @@ export class EditComponent implements OnInit {
                     : _.filter(this.departaments, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(departament.toLowerCase())) > -1).slice(0, 10)
             )
         )
+
+    help() {
+        this.introService.EditVolumes();
+    }
 }

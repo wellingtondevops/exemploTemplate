@@ -18,6 +18,7 @@ export class FormIndexComponent {
     @Input() store: any;
     @Input() isArchive: Boolean = false;
     @Input() edit: Boolean = false;
+    @Input() canSave: Boolean = true;
     @Input() multipleIndex: Boolean = false;
     @Output() sendArchive = new EventEmitter();
     firstMoment: Boolean = false;
@@ -30,6 +31,8 @@ export class FormIndexComponent {
     constructor() {
     }
     ngOnInit(){
+        console.log('ESTOU EM WONDERLAND');
+        
         if (this.store && this.document.label) {
             this.model = this.objectModel(this.document.label, this.store);
             this.fields = this.arrayLabelForm(this.document.label, this.store);
@@ -87,7 +90,7 @@ export class FormIndexComponent {
                 type: this.typeInput(element.typeField),
                 defaultValue: value,
                 uniq : element.uniq,
-                    templateOptions: {
+                templateOptions: {
                     label: element.namefield,
                     placeholder: element.namefield,
                     required: element.uniq,

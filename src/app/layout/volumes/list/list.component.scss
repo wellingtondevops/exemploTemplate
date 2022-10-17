@@ -1,10 +1,18 @@
+@import "~@mdi/font/css/materialdesignicons.css";
+@import "~pretty-checkbox/src/pretty-checkbox.scss";
 .color-ATIVO {
-  color: green;
+    color: green;
 }
 .color-EMPRESTADO {
-  color: yellow;
+    color: yellow;
 }
 .color-BAIXADO {
-  color: red;
+    color: red;
 }
-@import '~pretty-checkbox/src/pretty-checkbox.scss';
+input{
+    border-radius: 50px;
+}
+
+::ng-deep .bootstrap-dark .mt-1, .bootstrap-dark .my-1 {
+    margin-top: 2rem !important;
+}

@@ -6,14 +6,20 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
-            <!-- <app-page-header [heading]="'Nova Strutura Documental'" [icon]="'fa-book'"></app-page-header> -->
-            <h2>Nova Estrutura Documental</h2>
+            <div class="row mt-0">
+                <div class="col-lg-11">
+                    <h2>Nova Estrutura Documental</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <form [formGroup]="documentStructurForm" role="FormGroup" (ngSubmit)="postDocumentStructur()">
-                <div class="row col-12">
+                <div class="row col-12" id="step1">
                     <div class="form-group mb-2 col-6">
                         <label for="">Nome da Estrutura de Documento</label>
                         <input id="structureName" type="text" placeholder="Nome" class="form-control"
@@ -31,7 +37,7 @@
                         <br>
                         <div class="form-group" formArrayName="classes">
                             <div *ngFor="let class of classes.controls; index as i">
-                                <div class="card bg-light mb-12 card-primary">
+                                <div class="card  mb-12 card-primary">
                                     <div class="card-body">
                                         <span *ngIf="i > 0">
                                             <button type="button" class="btn btn-danger btn-sm pull-right"
@@ -105,7 +111,7 @@
                                                 <br>
                                                 <br>
                                             </div>
-                                            <div class="card bg-light mb-12 card-secundary"
+                                            <div class="card  mb-12 card-secundary"
                                                 *ngIf="class.value.subclasses.length > 0">
                                                 <div class="card-body">
                                                     <label for="">Sub Classes</label>
@@ -197,7 +203,7 @@
                                                                     <br>
                                                                     <br>
                                                                 </div>
-                                                                <div class="card bg-light mb-12 card-warning"
+                                                                <div class="card  mb-12 card-warning"
                                                                     *ngIf="subclass.value.groups.length > 0">
                                                                     <div class="card-body">
                                                                         <label for="">Grupos</label>
@@ -318,7 +324,7 @@
                                                                                         <br>
                                                                                         <br>
                                                                                     </div>
-                                                                                    <div class="card bg-light mb-12 card-info"
+                                                                                    <div class="card  mb-12 card-info"
                                                                                         *ngIf="group.value.subgroups && group.value.subgroups.length > 0">
                                                                                         <div class="card-body">
                                                                                             <label for="">Sub
@@ -472,11 +478,12 @@
                         <br />
                         <button class="btn btn-primary" type="button" (click)="addClass()"><i
                                 class="fa fa-plus"></i></button>
-                        <div class="col-lg-12">
-                            <br />
-                            <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>
-                            <button type="button" [routerLink]="['/documents-structur']" class="btn btn-default"
-                                style="float: right;margin-right: 10px;">Voltar</button>
+                        <div class="row" id="step2">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary" style="float: right">Salvar</button>
+                                <button type="button" [routerLink]="['/documents-structur']" class="btn dark-btn"
+                                    style="float: right;margin-right: 10px;">Voltar</button>
+                            </div>
                         </div>
                     </div>
                 </div>

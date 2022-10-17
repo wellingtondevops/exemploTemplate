@@ -6,9 +6,16 @@
         secondaryColour: '#222',
         tertiaryColour: '#222'
     }"></ngx-loading>
-    <div class="card  bg-light">
-        <div class="card-header">
-            <h3>Movimentação</h3>
+    <div class="card  ">
+        <div class="card-header" id="step1">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h3>Movimentação</h3>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <!-- <app-page-header [heading]="'Movimentação'" [icon]="'fa-user'"></app-page-header> -->
             <div>
                 <app-button-back [redirectTo]="'moviments'"></app-button-back>
@@ -18,8 +25,8 @@
                 </app-buttons-custom>
             </div>
         </div>
-        <div class="card-body">
-            <ngb-tabset #tab *ngIf="moviment" (tabChange)="beforeChange($event)">
+        <div class="card-body" id="step3">
+            <ngb-tabset #tab *ngIf="moviment" (tabChange)="beforeChange($event)" >
                 <ngb-tab title="Movimentação Nr {{moviment.nr}}" id="tab1">
                     <ng-template ngbTabContent>
                         <br />
@@ -115,23 +122,31 @@
                             <div class="form-row">
                                 <div class="form-group col-lg-3 col-sm-12">
                                     <label for="typeahead-basic">Documento</label>
-                                    <input id="typeahead-basic" type="text" class="form-control"
-                                        formControlName="document" [resultTemplate]="rtDocument"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDocument" />
+                                    <input id="typeahead-basic" type="text" placeholder="Nome do Documento"
+                                        class="form-control" formControlName="document" [resultTemplate]="rtDocument"
+                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDocument"
+                                        #instanceDocument="ngbTypeahead"
+                                        (focus)="focusDocument$.next($any($event).target.value)"
+                                        (click)="clickDocument$.next($any($event).target.value)" />
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-12">
                                     <label for="typeahead-basic">Depósito</label>
-                                    <input id="typeahead-basic" type="text" class="form-control"
-                                        formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
+                                    <input id="typeahead-basic" type="text" placeholder="Nome do Depósito"
+                                        class="form-control" formControlName="storehouse"
+                                        [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                                        [ngbTypeahead]="searchStorehouse" #instanceStorehouse="ngbTypeahead"
+                                        (focus)="focusStorehouse$.next($any($event).target.value)"
+                                        (click)="clickStorehouse$.next($any($event).target.value)" />
                                 </div>
                                 <div class="form-group col-lg-2 col-sm-12">
                                     <label for="location">Posição</label>
-                                    <input type="text" class="form-control" formControlName="location" />
+                                    <input type="text" class="form-control" placeholder="Informe a Posição"
+                                        formControlName="location" />
                                 </div>
                                 <div class="form-group col-lg-2 col-sm-12">
                                     <label for="search">Índice</label>
-                                    <input type="text" class="form-control" formControlName="search" />
+                                    <input type="text" class="form-control" placeholder="Informe o Índice"
+                                        formControlName="search" />
                                 </div>
                                 <div class="form-group col-lg-1 col-sm-6">
                                     <br />
@@ -191,11 +206,11 @@
                         </form>
                         <div class="row" *ngIf="archives && archives.items.length > 0">
                             <div class="col col-xl-12 col-lg-12" style="padding-top: 20px">
-                                <ngx-datatable class="material striped" [rows]="archives.items" [columnMode]="'force'"
+                                <ngx-datatable class="bootstrap" [rows]="archives.items" [columnMode]="'force'"
                                     [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
                                     [count]="pageArchives.totalElements" [offset]="pageArchives.pageNumber - 1"
                                     [limit]="10" (page)="searchItensArchives($event)" [selected]="selected"
-                                    [selectionType]="'checkbox'" [selectAllRowsOnPage]="true"
+                                    [selectionType]="'checkbox'" [selectAllRowsOnPage]="true" [scrollbarH]="true"
                                     [selectAllRowsOnPage]="false" (select)="onSelectArchives($event)">
                                     <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false"
                                         [draggable]="false" [resizeable]="false">
@@ -215,10 +230,10 @@
                                                 (change)="onCheckboxChangeFn($event)" />
                                         </ng-template>
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Document" prop="doct.name"></ngx-datatable-column>
-                                    <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
-                                    <ngx-datatable-column name="Posição" prop="volume.location"></ngx-datatable-column>
-                                    <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Documento" prop="doct.name" [width]= 400></ngx-datatable-column>
+                                    <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]= 310></ngx-datatable-column>
+                                    <ngx-datatable-column name="Posição" prop="volume.location" [width]= 135></ngx-datatable-column>
+                                    <ngx-datatable-column name="Status" prop="status" [width]= 135></ngx-datatable-column>
                                     <!-- <ngx-datatable-column name="Devolução" prop="devolutions[0].dateDevolution"></ngx-datatable-column> -->
 
 
@@ -229,7 +244,7 @@
                                                 }}</span>
                                         </ng-template>
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Indexação" prop="tag"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Indexação" prop="tag" [width]= 450></ngx-datatable-column>
                                 </ngx-datatable>
                             </div>
                         </div>
@@ -241,31 +256,39 @@
                         <br>
                         <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="showItensVolumes()">
                             <div class="form-row">
-                                <div class="form-group col">
+                                <div class="form-group col-lg-3">
                                     <label for="typeahead-basic">Departamento</label>
                                     <input id="typeahead-basic" type="text" class="form-control"
-                                        formControlName="departament" [resultTemplate]="rtDepartament"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" />
+                                        placeholder="Nome do Departamento" formControlName="departament"
+                                        [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                                        [ngbTypeahead]="searchDepartament" #instanceDepartament="ngbTypeahead"
+                                        (focus)="focusDepartament$.next($any($event).target.value)"
+                                        (click)="clickDepartament$.next($any($event).target.value)" />
                                 </div>
                                 <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
-                                <div class="form-group col">
+                                <div class="form-group col-lg-3">
                                     <label for="location">Posição</label>
-                                    <input type="text" class="form-control" formControlName="location" />
+                                    <input type="text" class="form-control" formControlName="location"
+                                        placeholder="Informe a Posição" />
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-lg-3">
                                     <label for="typeahead-basic">Depósito</label>
                                     <input id="typeahead-basic" type="text" class="form-control"
-                                        formControlName="storehouse" [resultTemplate]="rtStorehouse"
-                                        [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse" />
+                                        placeholder="Nome do Depósito" formControlName="storehouse"
+                                        [resultTemplate]="rtStorehouse" [inputFormatter]="formatter"
+                                        [ngbTypeahead]="searchStorehouse" #instanceStorehouse="ngbTypeahead"
+                                        (focus)="focusStorehouse$.next($any($event).target.value)"
+                                        (click)="clickStorehouse$.next($any($event).target.value)" />
                                 </div>
                                 <ng-template #rtStorehouse let-r="result" let-t="storehouse" class="custom-typeahead">
                                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                                 </ng-template>
-                                <div class="form-group col">
+                                <div class="form-group col-lg-2">
                                     <label for="reference">Referência</label>
-                                    <input type="text" class="form-control" formControlName="reference" />
+                                    <input type="text" class="form-control" formControlName="reference"
+                                        placeholder="Informe a Referência" />
                                 </div>
                                 <div class="form-group">
                                     <br />
@@ -274,9 +297,7 @@
                                     </button>
                                 </div>
 
-
-
-                                <div class="form-group col-1" *ngIf="moviment.moveVolume && !moviment.processed">
+                                <div class="form-group col-lg-1" *ngIf="moviment.moveVolume && !moviment.processed">
                                     <br />
                                     <button type="button" class="btn btn-danger" style="margin-top: 7px" type="button"
                                         class="btn btn-danger" (click)="removeVolumes()">Remover</button>
@@ -290,7 +311,7 @@
                             (ngSubmit)="devolutionOrLowVolumes()">
 
                             <div class="form-row">
-                                <div class="col-2">
+                                <div class="col-lg-2">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="process" id="devolution"
                                             formControlName="process" value="devolution">
@@ -306,7 +327,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col form-group">
+                                <div class="col-lg-2 form-group">
                                     <input type="date" class="form-control" formControlName="date">
                                 </div>
                                 <div class="col">
@@ -315,11 +336,11 @@
                             </div>
                         </form>
                         <div class="row" *ngIf="volumes && volumes.items.length > 0">
-                            <div class="col col-xl-12 col-lg-12" style="padding-top: 20px">
-                                <ngx-datatable class="material striped" [rows]="volumes.items" [columnMode]="'force'"
+                            <div class="col-lg-12">
+                                <ngx-datatable class="bootstrap" [rows]="volumes.items" [columnMode]="'force'"
                                     [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
                                     [count]="pageVolumes.totalElements" [offset]="pageVolumes.pageNumber - 1"
-                                    [limit]="10" (page)="showItensVolumes($event)" [selected]="selected"
+                                    [limit]="10" (page)="showItensVolumes($event)" [selected]="selected" [scrollbarH]="true"
                                     [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
                                     (select)="onSelectVolumes($event)">
                                     <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false"
@@ -347,25 +368,25 @@
                                     <!-- <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="true"
                       [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
                     </ngx-datatable-column> -->
-                                    <ngx-datatable-column name="Departamento" prop="departament.name">
+                                    <ngx-datatable-column name="Departamento" prop="departament.name" [width]= 480>
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Depósito" prop="storehouse.name"></ngx-datatable-column>
-                                    <ngx-datatable-column name="Posição" prop="location"></ngx-datatable-column>
-                                    <ngx-datatable-column name="Status" prop="status"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Depósito" prop="storehouse.name" [width]= 400></ngx-datatable-column>
+                                    <ngx-datatable-column name="Posição" prop="location" [width]= 135></ngx-datatable-column>
+                                    <ngx-datatable-column name="Status" prop="status" [width]= 150></ngx-datatable-column>
                                     <!-- <ngx-datatable-column name="Devolução" prop="devolutions">
                       <ng-template let-value="value" ngx-datatable-cell-template>
                         <span *ngIf="value.length && value[0].dateDevolution">{{ value[0].dateDevolution | date:
                           'dd/MM/yyyy' }}</span>
                       </ng-template>
                     </ngx-datatable-column> -->
-                                    <ngx-datatable-column name="Baixa" prop="lows">
+                                    <ngx-datatable-column name="Baixa" prop="lows" [width]= 200>
                                         <ng-template let-value="value" ngx-datatable-cell-template>
                                             <span *ngIf="value.length && value[0].dateLows">{{ value[0].dateLows | date:
                                                 'dd/MM/yyyy'
                                                 }}</span>
                                         </ng-template>
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Referência" prop="reference"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Referência" prop="reference" [width]= 200></ngx-datatable-column>
                                     <!-- <ngx-datatable-column name="Tipo de Guarda" prop="guardType"></ngx-datatable-column> -->
                                     <!-- <ngx-datatable-column name="Criado em" prop="dateCreated">
                       <ng-template let-value="value" ngx-datatable-cell-template>
@@ -398,7 +419,7 @@
                                 <br>
                                 <p>Movimentação NR {{ moviment.nr }}</p>
                                 <br>
-                                <table class="table table-striped table-bordered">
+                                <table class="table table-striped table-bordered table-responsive-sm">
                                     <tr>
                                         <th>
                                             Empresa

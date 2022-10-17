@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MovimentList } from 'src/app/models/moviment';
@@ -15,8 +17,8 @@ import { CaseInsensitive } from 'src/app/utils/case-insensitive';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { WarningMessagesService } from 'src/app/utils/warning-messages/warning-messages.service';
 import { routerTransition } from 'src/app/router.animations';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 
 @Component({
@@ -26,6 +28,7 @@ import { Pipes } from 'src/app/utils/pipes/pipes';
     animations: [routerTransition()]
 })
 export class ListComponent implements OnInit {
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
     searchForm: FormGroup;
     moviments: MovimentList = {
         _links: {
@@ -43,14 +46,16 @@ export class ListComponent implements OnInit {
     permissionNew = false;
     dateSent;
     dateReceived;
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
 
     columns = [
-        { name: 'Nr. Movimentação', prop: 'nr', width: 10 },
-        { name: 'Empresa', prop: 'company.name', width: 250 },
-        { name: 'Nome', prop: 'requester.name' },
-        { name: 'Status da Operação', prop: 'title' },
-        { name: 'Data da Solicitação', prop: 'demandDate', width: 20, pipe: { transform: this.pipes.datePipe } },
-        { name: 'Data da Movimentação', prop: 'processedDate', width: 20, pipe: { transform: this.pipes.datePipe } },
+        { name: 'Nr. Movimentação', prop: 'nr', width: 135 },
+        { name: 'Empresa', prop: 'company.name', width: 500 },
+        { name: 'Nome', prop: 'requester.name', width: 400 },
+        { name: 'Status da Operação', prop: 'title', width: 300 },
+        { name: 'Data da Solicitação', prop: 'demandDate', width: 150, pipe: { transform: this.pipes.datePipe } },
+        { name: 'Data da Movimentação', prop: 'processedDate', width: 150, pipe: { transform: this.pipes.datePipe } },
     ];
 
     constructor(
@@ -66,7 +71,9 @@ export class ListComponent implements OnInit {
         private documentsSrv: DocumentsService,
         private warningMsg: WarningMessagesService,
         private localStorageSrv: SaveLocal,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
+
     ) {
         this.searchForm = this.fb.group({
             company: this.fb.control('', Validators.required),
@@ -186,16 +193,24 @@ export class ListComponent implements OnInit {
         );
     }
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
                 let res = [];
-                if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
+                }
                 return res;
             })
-        )
+        );
+    }
 
         changeDate() {
             this.dateSent =
@@ -203,4 +218,7 @@ export class ListComponent implements OnInit {
             this.dateReceived = this.dateSent;
         }
 
+        help() {
+            this.introService.ListMoviments();
+        }
 }

@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-sm fixed-top">
-    <a class="navbar-brand"[routerLink]="['/dashboard']" class="nav-link">
+<nav class="navbar navbar-expand-lg fixed-top">
+    <a class="navbar-brand" class="nav-link">
         <img src="assets/images/logo.png" width="100px" />
     </a>
     <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
@@ -9,99 +9,225 @@
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item" >
-                <a [routerLink]="['/dashboard']" class="nav-link" >
-                    <i class="fa fa-home fa-lg" aria-hidden="true"></i>
-                </a>
-            </li>
 
-
-            <!-- MENU NOTIFICATION -->
+            <!-- Email Notification -->
 
             <li class="nav-item dropdown" ngbDropdown>
-                <a
-                    href="javascript:void(0)"
-                    class="nav-link"
-                    ngbDropdownToggle
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >
+                <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">
 
-                    <div *ngIf="(sizeArr | async) !== 0">
-                        <span class="badgeAlert" > {{(sizeArr | async)}} </span>
+
+                    <div *ngIf="(ArrMail | async) !== 0">
+                        <span class="badgeAlert"> {{(ArrMail | async)}} </span>
                         <span class="caret"></span>
                     </div>
-                    <i class="fa fa-bell" ></i> <b class="caret"></b>
+
+                    <!-- <div *ngIf="(ArrMail | async) !== 0">
+                        <span class="badgeAlertEmail"></span>
+                        <span class="caret"></span>
+                    </div> -->
+                    <i class="icon mdi mdi-email mdi-18px"></i> <b class="caret"></b>
 
                 </a>
 
-                    <div class="dropdown-menu-right" ngbDropdownMenu>
-                        <h6 class="dropdown-header" style="text-align: center">
-                            Notificações
-                        </h6>
-                        <hr style="margin: 0;"/>
-                        <div  *ngIf="(notifys | async) == 0" style="margin-top: 10px; text-align: center; width: 400px;">
-                            <p> Não possui novas notificações  </p>
+                <div class="dropdown-menu-right" ngbDropdownMenu id="notificationMail">
+                    <h6 class="dropdown-header" style="text-align: center">
+                        Notificações de Email
+                    </h6>
+                    <hr style="margin: 0;" />
+                    <div *ngIf="(notifysMail | async) == 0" style="margin-top: 10px; text-align: center; width: 400px;">
+                        <p> Não possui novos Emails </p>
+                    </div>
+                    <div *ngFor="let noti of notifysMail | async">
+                        <div class="wrapper">
+
+                            <div class="notifications">
+
+                                <div class="notifications__item" [routerLink]="['/email-service']" (click)="delete(noti.key)">
+                                    <div class="notifications__item__content">
+                                        <span class="notifications__item__title">{{noti.title}}</span>
+                                        <small><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            {{noti.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}</small>
+                                        <span class="notifications__item__message">{{noti.msg}}</span>
+                                    </div>
+
+                                    <div>
+                                        <div class="notifications__item__option archive js-option">
+                                        <i title="Visualizar mensagem" class="mdi mdi-eye mdi-24px"
+                                            aria-hidden="true"></i>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div *ngFor="let notify of notifys | async">
-                            <hr/>
-                                <div class="media">
-                                    <div class="media-left">
+                        <!-- <hr />
+                        <div class="media" [routerLink]="['/email-service']" (click)="delete(noti.key)">
+                            <div class="media-left">
+                                <a>
+                                    <i class={{noti.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{noti.title}}</h4>
+                                <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    {{noti.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
+                                </a>
+                                <p>
+                                    {{noti.msg}}
+                                </p>
+                            </div>
+                            <div style="align-items: flex-end; margin-left: 5px;">
+                                <i class="icon mdi mdi-eye mdi-18px" aria-hidden="true"></i>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </li>
+
+            <!-- MENU NOTIFICATION -->
+            <li class="nav-item dropdown" ngbDropdown>
+                <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">
+
+                    <div *ngIf="(sizeArr | async) !== 0">
+                        <span class="badgeAlert"> {{(sizeArr | async)}} </span>
+                        <span class="caret"></span>
+                    </div>
+                    <i class="icon mdi mdi-bell mdi-18px"></i><b class="caret"></b>
+
+                </a>
+
+                <div class="dropdown-menu-right" ngbDropdownMenu>
+                    <h6 class="dropdown-header" style="text-align: center">
+                        Notificações
+                    </h6>
+                    <hr style="margin: 0;" />
+                    <div *ngIf="(notifys | async) == 0" style="margin-top: 10px; text-align: center; width: 400px;">
+                        <p> Não possui novas notificações </p>
+                    </div>
+                    <div *ngFor="let notify of notifys | async">
+                        <div class="wrapper">
+
+                            <div class="notifications">
+
+                                <div class="notifications__item">
+                                    <div class="notifications__item__avatar">
                                         <a>
                                             <i class={{notify.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
                                         </a>
+                                        <div class="ex" *ngIf="notify.attachment !== undefined || null || '' ">
+                                            <a href={{notify.attachment}}>
+                                                <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">{{notify.title}}</h4>
-                                        <a class="time"><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                            {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}
-                                        </a>
-                                        <p>
-                                            {{notify.msg}}
-                                        </p>
+
+                                    <div class="notifications__item__content">
+                                        <span class="notifications__item__title">{{notify.title}}</span>
+                                        <small><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            {{notify.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}</small>
+                                        <span class="notifications__item__message">{{notify.msg}}</span>
                                     </div>
-                                    <div class="button-group" style="align-items: flex-end;">
-                                        <button class="btn btn-secundary" type="button" (click)="onSubmit(notify.key)" *ngIf="notify.active">
-                                            <i
-                                            class="fa fa-eye"
-                                            aria-hidden="true"
-                                            ></i>
-                                        </button>
-                                        <button class="btn-del btn btn-secundary" type="button" (click)="delete(notify.key)" style="margin-left: 5px;">
-                                            <i
-                                            class="fa fa-trash-o"
-                                            aria-hidden="true"
-                                            ></i>
-                                        </button>
+
+                                    <div>
+                                        <div class="notifications__item__option archive js-option"
+                                            (click)="clearNotify(notify.key)" *ngIf="notify.active">
+                                            <i title="Marcar como lida" class="mdi mdi-eye mdi-24px"
+                                                aria-hidden="true"></i>
+                                        </div>
+                                        <div class="notifications__item__option delete js-option">
+                                            <i title="Deletar notificação" class="mdi mdi-trash-can mdi-24px"
+                                                (click)="delete(notify.key)"></i>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                     </div>
-                    </div>
+                </div>
             </li>
+
+            <!--UPLOAD NOTIFICATION-->
+                 <!-- MENU UPLOAD -->
+                 <li class="nav-item dropdown" ngbDropdown>
+                    <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">
+
+                        <div *ngIf="(ArrUpload | async) !== 0">
+                            <span class="badgeAlert"> {{(ArrUpload | async)}} </span>
+                            <span class="caret"></span>
+                        </div>
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i><b class="caret"></b>
+
+                    </a>
+
+                    <div class="dropdown-menu-right" ngbDropdownMenu>
+                        <h6 class="dropdown-header" style="text-align: center">
+                            Uploads em Andamento..
+                        </h6>
+                        <hr style="margin: 0;" />
+                        <div *ngIf="(notifysUpuload | async) == 0" style="margin-top: 10px; text-align: center; width: 400px;">
+                            <p>  </p>
+                        </div>
+                        <div *ngFor="let notup of notifysUpuload | async">
+                            <div class="wrapper">
+
+                                <div class="notifications">
+
+                                    <div class="notifications__item">
+                                        <div class="notifications__item__avatar">
+                                            <a>
+                                                <i class={{notup.linkIcon}} aria-hidden="true" style="color: #343A40;"></i>
+                                            </a>
+                                            <div class="ex" *ngIf="notup.attachment !== undefined || null || '' ">
+                                                <a href={{notup.attachment}}>
+                                                    <i class="mdi mdi-file-excel mdi-36px" style="color: #1D6C41;"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="notifications__item__content">
+                                            <span class="notifications__item__title">{{notup.title}}</span>
+                                            <small><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                {{notup.dateCreated | date:'dd/MM/yyyy HH:mm:ss'}}</small>
+                                            <span class="notifications__item__message">{{notup.msg}}</span>
+                                        </div>
+
+                                        <div>
+                                            <div class="notifications__item__option archive js-option"
+                                                (click)="clearNotify(notup.key)" *ngIf="notify.active">
+                                                <i title="Marcar como lida" class="mdi mdi-eye mdi-24px"
+                                                    aria-hidden="true"></i>
+                                            </div>
+                                            <div class="notifications__item__option delete js-option">
+                                                <i title="Deletar notificação" class="mdi mdi-trash-can mdi-24px"
+                                                    (click)="delete(notup.key)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
 
             <!-- MENU LOGOUT -->
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="fa fa-user"></i> {{ email }} <b class="caret"></b>
+                    <i class="mdi mdi-account mdi-18px"></i><b class="caret">{{ newName.replace(',' , ' ' ) }}</b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
-                    <a
-                        class="dropdown-item"
-                        [routerLink]="['/users/alter']"
-                        [routerLinkActive]="['router-link-active']"
-                    >
-                        <i class="fa fa-fw fa-user"></i>
+                    <a class="dropdown-item" [routerLink]="['/users/alter']"
+                        [routerLinkActive]="['router-link-active']">
+                        <i class="mdi mdi-account-edit mdi-24px"></i>
                         {{ "Alterar Dados" | translate }}
                     </a>
-                    <hr/>
-                    <a
-                        class="dropdown-item"
-                        [routerLink]="['/login']"
-                        (click)="onLoggedout()"
-                    >
-                        <i class="fa fa-fw fa-power-off"></i>
+                    <hr />
+                    <a class="dropdown-item" [routerLink]="['/login']" (click)="onLoggedout()">
+                        <i class="mdi mdi-logout mdi-24px"></i>
                         {{ "Log Out" | translate }}
                     </a>
                 </div>

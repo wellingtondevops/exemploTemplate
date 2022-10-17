@@ -1,7 +1,7 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { BatchSheetNameService } from './../../../services/batchSheetName/batch-sheet-name.service';
 import { BatchSheetName } from './../../../../.././src/app/models/batchSheetName';
 import { SaveLocal } from './../../../storage/saveLocal';
-
 import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,12 +13,11 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import { routerTransition } from '../../../router.animations';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import * as $ from 'jquery';
 import _ from 'lodash';
 import * as XLSX from 'ts-xlsx';
 import { Pipes } from 'src/app/utils/pipes/pipes';
 import { DomSanitizer } from '@angular/platform-browser';
-
+declare var $: any;
 
 @Component({
     selector: 'app-control',
@@ -30,7 +29,6 @@ export class ControlComponent implements OnInit {
     file: File | null = null;
     nameFile: string;
     arrayBuffer: any;
-
     progressInfos: any = [];
     fileInfos: any = [];
     batch: Batch;
@@ -44,7 +42,6 @@ export class ControlComponent implements OnInit {
     rowsFile: any = [];
     errorUpload: boolean = null;
     savedFile = false;
-    // pageImages = new Page();
     myFilesInputSelect: any = [];
     myFiles: any = [];
     uploadResponse: any = { status: 'progress', message: 0 };
@@ -53,6 +50,7 @@ export class ControlComponent implements OnInit {
         file: new FormControl('', [Validators.required]),
     });
     sheetnames: BatchSheetName[];
+    uploadField: any;
 
     constructor(
         private _route: Router,
@@ -66,69 +64,73 @@ export class ControlComponent implements OnInit {
         private pipes: Pipes,
         private domSanitizer: DomSanitizer,
         private localStorageSrv: SaveLocal,
-
+        private introService: IntroJsService,
     ) { }
 
-
     ngOnInit() {
-        /* $(document).ready(function () {
-            // var $modal = $('#right-bottom');
-            $('.cus-modal').click(function () {
-                $('body').removeClass('cus-modal-open');
-                $('.in').removeClass('in');
-            });
-        }); */
-
         this.searchForm = this.fb.group({
             sheetname: this.fb.control(''),
         });
-
         this.id = this.route.snapshot.paramMap.get('id');
-
-
         let batchID = this.id;
-
-        const idBatch = [{fdp: batchID}];
+        const idBatch = [{ fdp: batchID }];
         localStorage.setItem('idBatch', JSON.stringify(idBatch));
         const myid = localStorage.getItem('idBatch');
         this.getBatch();
-        // this.getArchive();
     }
 
     @HostListener('change', ['$event.target.files']) emitFiles(event: FileList = null) {
         if (event) {
-          this.nameFile = event.item(0).name;
-          const file = event && event.item(0);
-          if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
-            this.removeFile();
-            const error = {
-              status: 404,
-              message: 'Formato de arquivo não suportado.'
-            };
-            this.errorMsg.showError(error);
+            // this.uploadField = event.item(0).size;
+            // const fileSize = event && event.item(0);
+            // if (fileSize.size > 1e+8) {
+            //     if (this.myFilesInputSelect.length === 1) {
+            //         const erroMsg = {
+            //             status: 'Tamanho do arquivo',
+            //             message: 'Este arquivo ultrapassa o tamanho de 100MB! Por favor verifique.'
+            //         };
+            //         this.errorMsg.showError(erroMsg);
+            //     } else {
+            //         const erroMsg = {
+            //             status: 'Tamanho do arquivo',
+            //             message: 'Um dos arquivos ultrapassa o tamanho de 100MB! Por favor verifique.'
+            //         };
+            //         this.errorMsg.showError(erroMsg);
+            //     }
+            //     this.removeFile();
+            // } else {
+                this.nameFile = event.item(0).name;
+                const file = event && event.item(0);
+                if (!file.name.match(/\.(pdf|PDF|xls|xlsx|XLS|XLSX)$/)) {
+                    this.removeFile();
+                    const error = {
+                        status: 404,
+                        message: 'Formato de arquivo não suportado.'
+                    };
+                    this.errorMsg.showError(error);
 
-          } else {
-            this.file = file;
-            const fileReader = new FileReader();
-            fileReader.onload = (e) => {
-              this.arrayBuffer = fileReader.result;
-              const data = new Uint8Array(this.arrayBuffer);
-              const arr = new Array();
-              for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
-              const bstr = arr.join('');
-              const workbook = XLSX.read(bstr, { type: 'binary' });
-              const first_sheet_name = workbook.SheetNames[0];
-              const worksheet = workbook.Sheets[first_sheet_name];
-              const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-              item.map(row => {
-                this.rowsFile.push(row);
-              });
-            };
-            fileReader.readAsArrayBuffer(this.file);
-          }
+                } else {
+                    this.file = file;
+                    const fileReader = new FileReader();
+                    fileReader.onload = (e) => {
+                        this.arrayBuffer = fileReader.result;
+                        const data = new Uint8Array(this.arrayBuffer);
+                        const arr = new Array();
+                        for (let i = 0; i !== data.length; ++i) { arr[i] = String.fromCharCode(data[i]); }
+                        const bstr = arr.join('');
+                        const workbook = XLSX.read(bstr, { type: 'binary' });
+                        const first_sheet_name = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[first_sheet_name];
+                        const item = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+                        item.map(row => {
+                            this.rowsFile.push(row);
+                        });
+                    };
+                    fileReader.readAsArrayBuffer(this.file);
+                }
+            // }
         }
-      }
-
+    }
 
     setDataIndexForm(index) {
         if (index) {
@@ -214,6 +216,7 @@ export class ControlComponent implements OnInit {
         const formData = new FormData();
         formData.append('document', this.batch.doct._id);
         formData.append('company', this.batch.company._id);
+        formData.append('departament', this.batch.departament._id);
         formData.append('batch', this.batch._id);
         formData.append('ind', 'false');
         for (let i = 0; i < this.myFilesInputSelect.length; i++) {
@@ -231,33 +234,37 @@ export class ControlComponent implements OnInit {
 
     sub() {
         const formData = new FormData();
-      formData.append('file', this.file);
+        formData.append('file', this.file);
 
-      this.batchesSrv.import(formData, this.id).subscribe(data => {
-        if (data.status && data.status === 'progress') {
-            this.uploadResponse.message = data.message;
-            this.uploadResponse.status = data.status;
-            this.errorUpload = false;
-          }
-          if (Array(data)) {
-            this.savedFile = true;
-            this.successMsgSrv.successMessages('Upload realizado com sucesso.');
-            this.setPage('');
-          }
+        this.batchesSrv.import(formData, this.id).subscribe(data => {
+            if (data.status && data.status === 'progress') {
+                this.uploadResponse.message = data.message;
+                this.uploadResponse.status = data.status;
+                this.errorUpload = false;
+            }
+            if (Array(data)) {
+                this.savedFile = true;
+                this.successMsgSrv.successMessages('Upload realizado com sucesso.');
+                this.setPage('');
+            }
         }, error => {
-          this.loading = false;
-          this.uploadResponse.message = 10;
-          this.uploadResponse.status = 'progress';
-          this.errorUpload = true;
-          this.errorMsg.errorMessages(error);
-          console.log('ERROR ', error);
+            this.loading = false;
+            this.uploadResponse.message = 10;
+            this.uploadResponse.status = 'progress';
+            this.errorUpload = true;
+            this.errorMsg.errorMessages(error);
+            console.log('ERROR ', error);
         });
     }
     removeFile() {
         // this.host.nativeElement.value = '';
         this.file = null;
         this.nameFile = null;
-      }
+        this.myForm.patchValue({
+            file: '',
+        });
+        this.myFiles = [];
+    }
 
     upload(formData, i) {
         this.filesSrv.filesProgress(formData).subscribe(event => {
@@ -306,10 +313,6 @@ export class ControlComponent implements OnInit {
         localStorage.removeItem('lista');
         this._route.navigate(['/index', this.id]);
     }
-
-    // getArchive() {
-    //     this.setPage({ offset: 0 });
-    // }
 
     setPage(pageInfo) {
         this.loading = true;
@@ -367,4 +370,7 @@ export class ControlComponent implements OnInit {
         });
     }
 
+    help() {
+        this.introService.ControlBatches();
+    }
 }

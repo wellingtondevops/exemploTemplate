@@ -7,131 +7,192 @@
             tertiaryColour: '#222'
         }">
     </ngx-loading>
-    <div class="card bg-light">
+    <div class="card">
         <div class="card-header">
-            <!-- <app-page-header *ngIf="!loading" [heading]="'Arquivo'" [icon]="'fa-user'"></app-page-header> -->
-            <h2>Arquivo</h2>
-            <div style="margin-bottom: 10px" *ngIf="!loading">
-                <app-button-back [redirectTo]="'archives'"></app-button-back>
-                <app-buttons-custom [id]="archive._id" (edit)="editArchive(archive._id)"
-                    (delete)="open('focusFirst', archive._id)" [permissionEdit]="permissionEdit"
-                    [permissionDelete]="permissionDelete" [isUser]="isUsers">
-                </app-buttons-custom>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Arquivos</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div class="row" id="step1">
+                <div class="col-lg-1" *ngIf="!loading">
+                    <app-button-back [redirectTo]="'archives/list'"></app-button-back>
+                </div>
+                <div class="col-lg-11">
+                    <!-- [id]="archive._id" -->
+                    <app-buttons-custom (edit)="editArchive(archive._id)" (delete)="open('focusFirst', archive._id)"
+                        [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete" [isUser]="isUsers">
+                    </app-buttons-custom>
+                </div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top: 5px;">
             <div class="row" *ngIf="!loading">
-                <div class="col-4">
-                    <h5>DADOS DO VOLUME</h5>
-                    <div class="card bg-light mb-12">
-                        <div class="card-body">
-                            <div>
-                                <strong> EMPRESA: </strong> <br />
-                                <label> {{ archive.company.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DEPARTAMENTO: </strong> <br />
-                                <label> {{ archive.departament.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DOCUMENTO: </strong> <br />
-                                <label> {{ archive.doct.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> DEPÓSITO: </strong> <br />
-                                <label> {{ archive.storehouse.name }} </label>
-                            </div>
-                            <br />
-                            <div>
-                                <strong> POSIÇÃO: </strong> <br />
-                                <label> {{ archive.volume.location }} </label>
-                            </div>
-                        </div>
+                <div class="col-lg-4 col-sm-12" id="step2">
+                    <div class="card-body p-1">
+                        <h5 class="m-0">DADOS DO VOLUME</h5>
+                        <ul>
+                            <li class="mb-1">
+                                <strong class="m-0">EMPRESA: </strong>
+                                <a>{{ archive.company.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DEPARTAMENTO: </strong>
+                                <a>{{ archive.departament.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DOCUMENTO: </strong>
+                                <a>{{ archive.doct.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">DEPÓSITO: </strong>
+                                <a>{{ archive.storehouse.name }} </a>
+                            </li>
+                            <li class="mb-1">
+                                <strong class="m-0">POSIÇÃO: </strong>
+                                <a>{{ archive.volume.location }} </a>
+                            </li>
+                        </ul>
                     </div>
-                    <br />
-
-                    <div class="col-lg-4">
-                        <h5>ÍNDICES</h5>
-                    </div>
-                    <div class="card bg-light mb-12">
-                        <div class="card-body">
-                            <app-form-index [data]="archive" [isArchive]="true">
-                            </app-form-index>
+                    <div class="card">
+                        <h5 class="m-2">ÍNDICES</h5>
+                        <div class="card-body p-1">
+                            <app-form-index [data]="archive" [isArchive]="true"></app-form-index>
                         </div>
                     </div>
                 </div>
-                <div class="col-8">
-                    <form [formGroup]="uploadFile" (ngSubmit)="submit()">
-                        <div class="form-group">
+                <div class="col-lg-8">
+                    <div class="card mb-1" id="step3">
+                        <form [formGroup]="requestForm">
+                            <div class="card-body p-1">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center" *ngIf="pending === true">
+                                        <button class="btn text-center btn-outline-danger"
+                                            (click)="FimRequest()">
+                                            Finalizar
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-12 form-check" *ngIf="pending === false">
+                                        <label class="ml-3 mb-0 mr-2" for="requestType">Solicitar Correções: </label>
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="requestType"
+                                                formControlName="requestType" value="CORRECAO_IMAGEM" id="requestType1"
+                                                onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
+                                            <div class="state" for="requestType1">
+                                                <label>
+                                                    Correção de Imagem
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="requestType"
+                                                formControlName="requestType" value="CORRECAO_INDICE" id="requestType2"
+                                                onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
+                                            <div class="state" for="requestType2">
+                                                <label>
+                                                    Correção de Indíce
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-switch p-fill">
+                                            <input class="form-check-input" type="radio" name="requestType"
+                                                formControlName="requestType" value="EMPRESTIMO" id="requestType3"
+                                                onclick="if(document.getElementById('enviar').disabled==true){document.getElementById('enviar').disabled=false}" />
+                                            <div class="state" for="requestType3">
+                                                <label>
+                                                    Emprestimo
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="pending == false">
+                                    <div class="col-lg-10 pl-4">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="notes"
+                                                formControlName="notes" placeholder="Observações:" id="notes"
+                                                style="height: 5%; width: 95%;"></textarea>
+                                            <label for="notes"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 mt-5 text-center">
+                                        <button (click)="sendRequest()" type="button" name="enviar" id="enviar"
+                                            class="btn btn-sm dark-btn enviar" disabled="disabled">Enviar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group" id="step4">
+                        <form [formGroup]="uploadFile" (ngSubmit)="submit()">
                             <app-form-upload formControlName="file" [archive]="file" (postFile)="postFile($event)"
                                 [savedFile]="savedFile" (deleteFile)="open('focusFirst', file._id)">
                             </app-form-upload>
-                        </div>
-                    </form>
-                    <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
-                    </app-modal-progress-right-bottom>
+                        </form>
+                        <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
+                        </app-modal-progress-right-bottom>
+                    </div>
                 </div>
             </div>
             <br />
 
             <div class="row" *ngIf="!loading">
-                <div class="col-4">
-                    <h5>TEMPORALIDADE</h5>
-
+                <div class="col-lg-4">
                     <!-- FASE CORRENTE -->
-                    <div class="card bg-light md-12">
-                        <div class="card-body">
-                            <strong>Corrente: </strong><br />
-                            <label
-                                *ngIf="startCurrentDate && archive.doct.currentControl === false && archive.startDateCurrent == undefined">
-                                Fase Corrente não Controlada
-                            </label>
-                            <label *ngIf="archive && archive.startDateCurrent === undefined">
-                                {{ archive.doct.dcurrentLabel }}
-                            </label>
-                            <label *ngIf="archive && archive.startDateCurrent != undefined">
-                                Início:
-                                {{ returnDate(archive.startDateCurrent) }}
-                            </label>
-                            <label *ngIf="archive && archive.finalDateCurrent === true">
-                                Fim:
-                                {{ returnDate(archive.finalDateCurrent) }}
-                            </label>
-                            <br />
-                            <br />
-
-                            <strong>Intermediária: </strong> <br />
-                            <label *ngIf="archive && archive.startDateCurrent === undefined">
-                                {{ archive.doct.dintermediateValue }} Anos
-                            </label>
-                            <label *ngIf="archive && archive.startDateIntermediate">
-                                Início:
-                                {{ returnDate(archive.startDateIntermediate) }}
-                            </label>
-                            <label *ngIf="archive && archive.finalDateIntermediate">
-                                Fim:
-                                {{ returnDate(archive.finalDateIntermediate) }}
-                            </label>
-
-                            <br />
-                            <br />
-                            <strong>Destinação Final: </strong><br />
-                            <label *ngIf="archive && archive.finalFase">
-                                {{ archive.finalFase }}
-                            </label>
-                            <label *ngIf="archive && archive.startDateCurrent === undefined">
-                                {{ archive.doct.dfinal }}
-                            </label>
-                            <label *ngIf="archive && archive.finalDateIntermediate">
-                                Início:
-                                {{ returnDate(archive.finalDateIntermediate) }}
-                            </label>
-                            <br />
-
-                            <hr>
+                    <div class="card" id="step5">
+                        <div class="card-body p-1">
+                            <h5 class="m-2">TEMPORALIDADE</h5>
+                            <ul>
+                                <li class="mb-1">
+                                    <strong class="m-0">Corrente: </strong>
+                                    <a
+                                        *ngIf="startCurrentDate && archive.doct.currentControl === false && archive.startDateCurrent == undefined">
+                                        Fase Corrente não Controlada
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateCurrent === undefined">
+                                        {{ archive.doct.dcurrentLabel }}
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateCurrent != undefined">
+                                        Início:
+                                        {{ returnDate(archive.startDateCurrent) }}
+                                    </a>
+                                    <a *ngIf="archive && archive.finalDateCurrent === true">
+                                        Fim:
+                                        {{ returnDate(archive.finalDateCurrent) }}
+                                    </a>
+                                </li>
+                                <li class="mb-1">
+                                    <strong class="m-0">Intermediária: </strong>
+                                    <a *ngIf="archive && archive.startDateCurrent === undefined">
+                                        {{ archive.doct.dintermediateValue }} Anos
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateIntermediate">
+                                        Início:
+                                        {{ returnDate(archive.startDateIntermediate) }}
+                                    </a>
+                                    <a *ngIf="archive && archive.finalDateIntermediate">
+                                        Fim:
+                                        {{ returnDate(archive.finalDateIntermediate) }}
+                                    </a>
+                                </li>
+                                <li class="mb-1">
+                                    <strong class="m-0">Destinação Final: </strong>
+                                    <a *ngIf="archive && archive.finalFase">
+                                        {{ archive.finalFase }}
+                                    </a>
+                                    <a *ngIf="archive && archive.startDateCurrent === undefined">
+                                        {{ archive.doct.dfinal }}
+                                    </a>
+                                    <a *ngIf="archive && archive.finalDateIntermediate">
+                                        <strong class="m-0">Início:</strong>
+                                        {{ returnDate(archive.finalDateIntermediate) }}
+                                    </a>
+                                </li>
+                            </ul>
+                            <hr class="m-1">
                             <div class="dataBtn" *ngIf="startCurrentDate && archive.doct.currentControl === true">
                                 <h6>Ajuste de Temporalidade </h6>
                                 <input type="date" class="form-control" [(ngModel)]="inputStartCurrentDate" />
@@ -146,7 +207,7 @@
 
                     <br />
                     <div class="row" *ngIf="!loading">
-                        <div class="col-12">
+                        <div class="col-12" id="step6">
                             <div style="font-size: 12px">
                                 {{ archive.sponsor.name }}<br />
                                 {{ archive.sponsor.cnpj }}<br />

@@ -6,61 +6,88 @@
         secondaryColour: '#222',
         tertiaryColour: '#222'}">
     </ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
-            <!-- <app-page-header [heading]="'Importar Arquivos'" [icon]="'fa-table'"></app-page-header> -->
-            <h2>Importar Arquivos</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Importar Arquivos</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+
+            </div>
         </div>
         <div class="card-body">
             <form [formGroup]="importFileForm" role="FormGroup" class="form-inline" (ngSubmit)="postImportArchive()">
-                <div class="form-group mb-2 col-lg-6 col-sm-12">
-                    <label for="typeahead-basic">Empresa</label>
-                    <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa"
-                        autoFocus="false" id="company" type="text" class="form-control" formControlName="company"
-                        [resultTemplate]="rtCompany1" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                        [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%" />
-                    <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
-                        <div *ngIf="!company.valid">
-                            Empresa é obrigatório.
+                <div class="row" id="step1">
+                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                        <label for="typeahead-basic">Empresa</label>
+                        <input id="typeahead-basic" (selectItem)="selectedCompany($event)" placeholder="Nome da Empresa"
+                            autoFocus="false" id="company" type="text" class="form-control" formControlName="company"
+                            [resultTemplate]="rtCompany1" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" style="width: 100%"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
+                        <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
+                            <div *ngIf="!company.valid">
+                                Empresa é obrigatório.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group mb-2 col-lg-6 col-sm-12">
-                    <label for="typeahead-basic">Depósito</label>
-                    <input id="typeahead-basic" type="text" id="storehouse" placeholder="Nome do Depósito"
-                        class="form-control" formControlName="storehouse" [resultTemplate]="rtStoreHouse1"
-                        [inputFormatter]="formatter" [ngbTypeahead]="search"
-                        [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }" style="width: 100%" />
-                    <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
-                        class="invalid-feedback">
-                        <div *ngIf="!storehouse.valid">
-                            Depósito é obrigatório.
+                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                        <label for="typeahead-basic">Depósito</label>
+                        <input id="typeahead-basic" type="text" id="storehouse" placeholder="Nome do Depósito"
+                            class="form-control" formControlName="storehouse" [resultTemplate]="rtStoreHouse1"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchStorehouse"
+                            [ngClass]="{ 'is-invalid': storehouse.invalid && storehouse.touched }" style="width: 100%"
+                            #instanceStorehouse="ngbTypeahead"
+                            (focus)="focusStorehouse$.next($any($event).target.value)"
+                            (click)="clickStorehouse$.next($any($event).target.value)" />
+                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!storehouse.valid">
+                                Depósito é obrigatório.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group mb-2 col-lg-6 col-sm-12">
-                    <label for="typeahead-basic">Departamento</label>
-                    <input id="typeahead-basic" id="departament" autoFocus="true" placeholder="Nome do Departamento"
-                        type="text" class="form-control" formControlName="departament" [resultTemplate]="rtDepartament"
-                        [inputFormatter]="formatter" [ngbTypeahead]="searchDepartament" style="width: 100%"
-                        [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }" />
-                    <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
-                        class="invalid-feedback">
-                        <div *ngIf="!departament.valid">
-                            Departamento é obrigatório.
+                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                        <label for="typeahead-basic">Departamento</label>
+                        <input id="typeahead-basic" id="departament" autoFocus="true" placeholder="Nome do Departamento"
+                            type="text" class="form-control" formControlName="departament"
+                            [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchDepartament" style="width: 100%"
+                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }"
+                            #instanceDepartament="ngbTypeahead"
+                            (focus)="focusDepartament$.next($any($event).target.value)"
+                            (click)="clickDepartament$.next($any($event).target.value)" />
+                        <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!departament.valid">
+                                Departamento é obrigatório.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group mb-2 col-lg-6 col-sm-12">
-                    <label for="typeahead-basic">Documento</label>
-                    <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Tipo do Documento"
-                        class="form-control" formControlName="doct" [resultTemplate]="rtTypeDocument"
-                        [inputFormatter]="formatter" [ngbTypeahead]="searchTypeDocument"
-                        [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }" style="width: 100%"
-                        (selectItem)="selectTypeDocument($event)" />
-                    <div *ngIf="doct.invalid && (doct.dirty || doct.touched)" class="invalid-feedback">
-                        <div *ngIf="!doct.valid">
-                            Tipo de documento é obrigatório.
+                    <div class="form-group mb-2 col-lg-6 col-sm-12">
+                        <label for="typeahead-scrollable">Documento</label>
+                        <input id="typeahead-scrollable" autoFocus="true" type="text" placeholder="Tipo do Documento"
+                            class="form-control" formControlName="doct" [resultTemplate]="rtTypeDocument"
+                            [inputFormatter]="formatter" [ngbTypeahead]="searchTypeDocument"
+                            [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }" style="width: 100%"
+                            #instanceDocument="ngbTypeahead" (focus)="focusDocument$.next($any($event).target.value)"
+                            (click)="clickDocument$.next($any($event).target.value)" />
+                        <div *ngIf="doct.invalid && (doct.dirty || doct.touched)" class="invalid-feedback">
+                            <div *ngIf="!doct.valid">
+                                Tipo de documento é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12" style="margin-top: 2rem; margin-bottom: 2rem;">
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" formControlName="retroDate" value="" />
+                            <div class="state">
+                                <label>Data Retroativa</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,17 +103,21 @@
                 <ng-template #rtTypeDocument let-r="result" let-t="doct" class="custom-typeahead">
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                 </ng-template>
-                <fieldset class="form-group mb-2 col-12">
-                    <label style="justify-content:left;-webkit-box-pack: initial!important"
-                        for="exampleInputFile">Importar
-                        Planilha</label>
-                    <input type="file" class="form-control-file" id="importxls">
-                </fieldset>
-                <div class="form-group mb-2 col-12">
-                    <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
-                        Importar
-                    </button>
+                <div id="step2">
+                    <fieldset class="form-group mb-2 col-12">
+                        <label style="justify-content:left;-webkit-box-pack: initial!important"
+                            for="exampleInputFile">Importar
+                            Planilha</label>
+                        <input type="file" class="form-control-file" id="importxls" style="border-radius: 0px;">
+                    </fieldset>
+                    
+                    <div class="form-group mb-2 col-12">
+                        <button type="submit" class="btn btn-primary" [disabled]="company.invalid">
+                            Importar
+                        </button>
+                    </div>
                 </div>
+
             </form>
             <app-modal-progress-right-bottom [progress]="uploadResponse" [error]="errorUpload">
             </app-modal-progress-right-bottom>

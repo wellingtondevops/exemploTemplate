@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { CompaniesService } from 'src/app/services/companies/companies.service';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { CaseInsensitive } from 'src/app/utils/case-insensitive';
@@ -23,6 +25,8 @@ import { BatchesService } from 'src/app/services/batches/batches.service';
 })
 
 export class ListComponent implements OnInit {
+    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+    @ViewChild('instanceDocument',) instanceDocument: NgbTypeahead;
     searchForm: FormGroup;
     companies: any = [];
     loading: Boolean = true;
@@ -30,6 +34,10 @@ export class ListComponent implements OnInit {
     documents: any = [];
     dateSent;
     dateReceived;
+    focusCompany$ = new Subject<string>();
+    clickCompany$ = new Subject<string>();
+    focusDocument$ = new Subject<string>();
+    clickDocument$ = new Subject<string>();
     batches: BatchesList = {
         _links: {
             currentPage: 1,
@@ -43,10 +51,10 @@ export class ListComponent implements OnInit {
     page = new Page();
 
     columns = [
-        { name: 'Empresa', prop: 'company.name' },
-        { name: 'Documento', prop: 'doct.name' },
-        { name: 'Lote', prop: 'batchNr', width: 20 },
-        { name: 'Criado em', prop: 'dateCreated', width: 20, pipe: { transform: this.pipes.datePipe } }
+        { name: 'Empresa', prop: 'company.name', width: 750 },
+        { name: 'Documento', prop: 'doct.name', width: 600 },
+        { name: 'Lote', prop: 'batchNr', width: 150 },
+        { name: 'Criado em', prop: 'dateCreated', width: 135, pipe: { transform: this.pipes.datePipe } }
     ];
 
     constructor(
@@ -59,6 +67,7 @@ export class ListComponent implements OnInit {
         private utilCase: CaseInsensitive,
         private localStorageSrv: SaveLocal,
         private batchesSrv: BatchesService,
+        private introService: IntroJsService,
     ) { }
 
     ngOnInit() {
@@ -174,37 +183,42 @@ export class ListComponent implements OnInit {
         );
     }
 
-    searchCompany = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
+    searchCompany = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickCompany$.pipe(filter(() => !this.instanceCompany.isPopupOpen()));
+        const inputFocus$ = this.focusCompany$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
             map(company => {
                 let res = [];
-                if (company.length < 2) { []; } else { res = _.filter(this.companies, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10); }
-                if (res.length > 0) {
-                    this.getDocuments(res[0]._id);
+                if (company.length < 0) {
+                    [];
+                } else {
+                    res = _.filter(this.companies,
+                        v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(company.toLowerCase())) > -1).slice(0, 10);
                 }
                 return res;
             })
-        )
+        );
+    }
 
-    searchDocument = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            map(document =>
-                document.length < 2
-                    ? []
-                    : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
-            )
-        )
+    searchDocument = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.clickDocument$.pipe(filter(() => !this.instanceDocument.isPopupOpen()));
+        const inputFocus$ = this.focusDocument$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(document => (document === '' ? this.documents
+                : _.filter(this.documents, v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(document.toLowerCase())) > -1).slice(0, 10)
+            )));
+    }
 
     clear() {
         this.localStorageSrv.clear('volume');
 
         this.searchForm.patchValue({
             company: null,
-            departament: null,
+            doct: null,
             batchNr: null,
             endDate: null,
             initDate: null
@@ -221,5 +235,9 @@ export class ListComponent implements OnInit {
 
         console.log(this.dateSent);
         this.dateReceived = this.dateSent;
+    }
+
+    help() {
+        this.introService.ListBatches();
     }
 }

@@ -6,11 +6,18 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'
         }"></ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
-            <h2>Novo Lote</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Novo Lote</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="step1">
             <form [formGroup]="batchForm" role="FormGroup" (ngSubmit)="postBatch()">
                 <div class="form-content">
                     <div class="form-group">
@@ -18,7 +25,9 @@
                         <input id="typeahead-basic" type="text" placeholder="Nome da Empresa"
                             (selectItem)="selectedCompany($event)" class="form-control" formControlName="company"
                             [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }" />
+                            [ngClass]="{ 'is-invalid': company.invalid && company.touched }"
+                            #instanceCompany="ngbTypeahead" (focus)="focusCompany$.next($any($event).target.value)"
+                            (click)="clickCompany$.next($any($event).target.value)" />
                         <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                             <div *ngIf="!company.valid">
                                 Empresa é obrigatório.
@@ -28,10 +37,12 @@
 
                     <div class="form-group">
                         <label for="typeahead-basic">Documento</label>
-                        <input id="typeahead-basic" type="text" placeholder="Nome do Documento" class="form-control"
+                        <input id="typeahead-basic" autoFocus="true" type="text" placeholder="Nome do Documento" class="form-control"
                             formControlName="doct" [resultTemplate]="rtDocument" [inputFormatter]="formatter"
                             [ngbTypeahead]="searchDocument"
-                            [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }" />
+                            [ngClass]="{ 'is-invalid': doct.invalid && doct.touched }"
+                            (focus)="focusDocument$.next($any($event).target.value)"
+                            (click)="clickDocument$.next($any($event).target.value)" />
                         <div *ngIf="doct.invalid && (doct.dirty || doct.touched)" class="invalid-feedback">
                             <div *ngIf="!doct.valid">
                                 Documento é obrigatório.
@@ -39,19 +50,41 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="typeahead-basic">Departamento</label>
+                        <input id="typeahead-basic" type="text" class="form-control" placeholder="Nome do Departamento"
+                            formControlName="departament" [resultTemplate]="rtDepartament" [inputFormatter]="formatter"
+                            [ngbTypeahead]="searchDepartament"
+                            [ngClass]="{ 'is-invalid': departament.invalid && departament.touched }"
+                            #instanceDepartament="ngbTypeahead"
+                            (focus)="focusDepartament$.next($any($event).target.value)"
+                            (click)="clickDepartament$.next($any($event).target.value)" />
+                        <div *ngIf="departament.invalid && (departament.dirty || departament.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!departament.valid">
+                                Departamento é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+
+
                     <ng-template #rtCompany let-r="result" let-t="company" class="custom-typeahead">
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
                     <ng-template #rtDocument let-r="result" let-t="document" class="custom-typeahead">
                         <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                     </ng-template>
+                    <ng-template #rtDepartament let-r="result" let-t="departament" class="custom-typeahead">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" id="step2">
                     <button type="button" [routerLink]="['/batches']" class="btn btn-default"
                         style="margin-right:10px">Voltar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="
-                        company.invalid &&
-                        doct.invalid
+                        company.invalid ||
+                        doct.invalid ||
+                        departament.invalid
                     ">
                         Salvar
                     </button>

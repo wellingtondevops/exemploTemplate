@@ -14,14 +14,20 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
     email: String = '';
+    name: String = '';
     userId: String = '';
     data: number = Date.now();
     notify: Notify;
     active: boolean;
     key = '';
     notifys: Observable<any>;
+    notifysMail: Observable<any>;
+    notifysUpuload: Observable<any>;
+    ArrUpload: Observable<any>;
     notifyRef: any;
     sizeArr: Observable<any>;
+    ArrMail: Observable<any>;
+    newName: String;
 
     constructor(
         private translate: TranslateService, public router: Router,
@@ -35,13 +41,21 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
-        this.email = window.localStorage.getItem('email'); //
+        this.email = window.localStorage.getItem('email');
+        this.name = window.localStorage.getItem('name');
+        this.newName = this.name.split(' ', 2).toString();
         this.userId = window.localStorage.getItem('id'); //
         // this.id = window.localStorage.getItem('id');
         this.notify = new Notify();
         this.notifys = this.notifyService.getAll(this.userId);
+        this.notifysMail = this.notifyService.getAllMail('email-' + this.userId);
+        this.notifysUpuload = this.notifyService.getAllUpload('upload-' + this.userId);
         this.sizeArr = this.notifyService.getlength(this.userId);
-        //UPDATE
+        this.ArrMail = this.notifyService.getlengthMail('email-' + this.userId);
+        this.ArrUpload = this.notifyService.getlengthUpload('upload-' + this.userId);
+
+
+        // UPDATE
         this.notifyService.currentNotify.subscribe(data => {
             if (data.notify && data.key) {
                 this.notify = new Notify();
@@ -71,6 +85,7 @@ export class HeaderComponent implements OnInit {
         localStorage.removeItem('id');
         localStorage.removeItem('token');
         localStorage.removeItem('email');
+        localStorage.removeItem('name');
         localStorage.removeItem('profiles');
         localStorage.removeItem('routes');
         localStorage.removeItem('actions');
@@ -80,8 +95,12 @@ export class HeaderComponent implements OnInit {
         this.translate.use(language);
     }
 
-    onSubmit(key: string) {
+    clearNotify(key: string) {
         this.notifyService.update(key);
+    }
+
+    clearEmail(key: string) {
+        this.notifyService.updateMail('email-' + key);
     }
 
     delete(key: string) {

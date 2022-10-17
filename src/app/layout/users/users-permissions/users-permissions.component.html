@@ -1,0 +1,201 @@
+<div>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card ">
+        <div class="card-header">
+            <div class="row" style="margin: 0px;">
+                <div class="col-lg-11" id="step1">
+                    <h2>{{listComp}}</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+
+            <div class="row" id="step2">
+                <div class="col-11">
+                    <button style="margin-left: 5px" class="btn btn-sm dark-btn" onclick="window.history.go(-1); return false;">
+                        <i class="fa fa-arrow-left" style="color:white"></i>
+                    </button>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <button type="button" (click)="deleteCompany(id)"
+                        class="btn btn-sm btn-danger">Excluir</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="usersDoctForm" role="FormGroup">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Documentos Permitidos</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-lg-12" id="step3">
+                                    <div style="margin-bottom: 10px;">
+                                        <button class="btn dark-btn" style="margin-right: 3px;" id="step4"
+                                            (click)="openAddDoc(addDoc)">Adicionar
+                                            Documentos</button>
+                                        <button class="btn btn-danger" id="step5" (click)="openRemoveDoc(removeDoc)">Remover
+                                            Documentos</button>
+                                    </div>
+                                    <ul *ngFor="let listItem of documentsList; index as i">
+                                        <li>{{itensName[i]}}</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <ng-template #addDoc let-c="close" let-d="dismiss">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Adicionar permissões</h4>
+                                                <button type="button" class="close" aria-label="Close"
+                                                    (click)="d('Cross click')">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-11">
+                                                    <ng-multiselect-dropdown name="docts"
+                                                        [placeholder]="'Selecione os Documentos'" [data]="documentsListFull"
+                                                        [settings]="dropdownSettings" formControlName="docts"
+                                                        (onSelect)="onItemSelect($event)">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary"
+                                                    (click)="c('Save click')" (click)="updateList()">Salvar</button>
+                                            </div>
+
+                                        </ng-template>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <ng-template #removeDoc let-c="close" let-d="dismiss">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Remover permissões</h4>
+                                                <button type="button" class="close" aria-label="Close"
+                                                    (click)="d('Cross click')">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-11">
+                                                    <ng-multiselect-dropdown name="docts"
+                                                        [placeholder]="'Remover Documentos Selecionados'"
+                                                        [data]="documentsList" [settings]="dropdownSettings"
+                                                        formControlName="docts" (onSelect)="onItemSelect($event)">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary"
+                                                    (click)="c('Save click')" (click)="updateList()">Salvar</button>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Perfis de Acesso</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-lg-12" id="step6">
+                                    <div style="margin-bottom: 10px;">
+                                        <button class="btn dark-btn" style="margin-right: 3px;" id="step7"
+                                            (click)="openAddProfile(addProfile)">Adicionar
+                                            Perfis</button>
+                                        <button class="btn btn-danger" id="step8"
+                                            (click)="openRemoveProfile(removeProfile)">Remover
+                                            Perfis</button>
+                                    </div>
+                                    <ul *ngFor="let listItem of listProfile; index as i">
+                                        <li>{{profileNames[i]}}</li>
+                                    </ul>
+                                </div>
+
+                                <!--Modals Perfis-->
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <ng-template #addProfile let-c="close" let-d="dismiss">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Adicionar permissões</h4>
+                                                <button type="button" class="close" aria-label="Close"
+                                                    (click)="d('Cross click')">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-11">
+                                                    <ng-multiselect-dropdown name="docts"
+                                                        [placeholder]="'Selecione os Perfis de Acesso'"
+                                                        [data]="profileListFull" [settings]="dropdownSettings"
+                                                        formControlName="accessprofiles" (onSelect)="onItemSelect($event)">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary"
+                                                    (click)="c('Save click')"
+                                                    (click)="updateAccessProfiles()">Salvar</button>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <ng-template #removeProfile let-c="close" let-d="dismiss">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Remover permissões</h4>
+                                                <button type="button" class="close" aria-label="Close"
+                                                    (click)="d('Cross click')">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-11">
+                                                    <ng-multiselect-dropdown name="docts"
+                                                        [placeholder]="'Remover Documentos Selecionados'"
+                                                        [data]="profileList" [settings]="dropdownSettings"
+                                                        formControlName="accessprofiles" (onSelect)="onItemSelect($event)">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary"
+                                                    (click)="c('Save click')"
+                                                    (click)="updateAccessProfiles()">Salvar</button>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="row">
+                    <div class="col-lg-12 text-right">
+                        <button type="button" class="btn btn-outline-danger"
+                            onclick="window.history.go(-1); return false;"
+                            style="margin-right:10px; margin-top: 10px;">Voltar</button>
+                    </div>
+                </div> -->
+            </form>
+        </div>
+    </div>
+</div>

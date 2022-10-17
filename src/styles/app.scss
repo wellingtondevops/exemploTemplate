@@ -1,21 +1,255 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~@mdi/font/css/materialdesignicons.css"; /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/bootstrap";
 @import "spinner";
 @import "utils";
 @import "rtl";
 @import "responsive";
-@import '~@swimlane/ngx-datatable/release/index.css';
-@import '~@swimlane/ngx-datatable/release/themes/material.css';
-@import '~@swimlane/ngx-datatable/release/assets/icons.css';
-
+@import "~@swimlane/ngx-datatable/release/index.css";
+@import "~@swimlane/ngx-datatable/release/themes/dark.css";
+@import "~@swimlane/ngx-datatable/release/themes/bootstrap";
+@import "~@swimlane/ngx-datatable/release/themes/material.css";
+@import "~@swimlane/ngx-datatable/release/assets/icons.css";
 
 @media print {
     .breadcrumb {
         display: none !important;
     }
 }
+//White Theme
+.bootstrap .dropdown-menu {
+    max-height: 10em;
+    overflow-y: auto;
+    border-radius: 10px;
+    .bootstrap .dropdown-item {
+        border-radius: 10px;
+        padding: 3px;
+    }
+}
 
-.dropdown-menu {
-  max-height: 10em;
-  overflow-y: auto;
+.bootstrap .card input {
+    border-radius: 50px;
+}
+
+.bootstrap .card select {
+    border-radius: 50px;
+}
+
+.bootstrap .card {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+.bootstrap .btn {
+    border-radius: 50px;
+}
+.bootstrap .dark-btn {
+    color: #fff;
+    background-color: #3c4146;
+    border-color: #3c4146;
+}
+
+.ngx-datatable.bootstrap .datatable-footer {
+    background: #ffffff;
+    color: #504f4f;
+    margin-top: -1px;
+    border-top: solid 1px;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+    color: #504f4f;
+}
+.ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled).active
+    a,
+.ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled):hover
+    a {
+    background-color: rgb(165, 159, 159);
+    font-weight: bold;
+}
+
+//Dark Theme
+.bootstrap-dark .dropdown-menu {
+    max-height: 10em;
+    overflow-y: auto;
+    border-radius: 10px;
+    .bootstrap-dark .dropdown-item {
+        border-radius: 10px;
+        padding: 3px;
+    }
+}
+
+.bootstrap-dark .card input {
+    border-radius: 50px;
+}
+
+.bootstrap-dark .card select {
+    border-radius: 50px;
+}
+
+.bootstrap-dark .card {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.bootstrap-dark .btn {
+    border-radius: 50px;
+}
+
+//Btn Import Batches
+.bootstrap-dark .import .form-control {
+    background-color: #212529;
+}
+.import .form-control {
+    background-color: #ffffff;
+}
+
+//Button Dark
+.bootstrap-dark .dark-btn {
+    color: #ced4da;
+    background-color: #1475d6;
+    border-color: #1475d6;
+}
+//DataTable Dark
+.bootstrap-dark .ngx-datatable.bootstrap .datatable-footer {
+    background: #424242;
+    color: #f1f1f1;
+    margin-top: -1px;
+    border-top: solid 1px;
+}
+.bootstrap-dark .ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+    color: #ffffff;
+}
+.bootstrap-dark
+    .ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled).active
+    a,
+.ngx-datatable.bootstrap
+    .datatable-footer
+    .datatable-pager
+    ul
+    li:not(.disabled):hover
+    a {
+    background-color: #545454;
+    font-weight: bold;
+}
+
+.ngx-datatable.bootstrap {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.customTooltip * {
+    color: #4a4a4a;
+    font-size: 18px;
+}
+
+// Toastr Notifications
+.successclass.toast-success {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    border-radius: 15px !important;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    box-shadow: 0 0 12px rgb(68, 67, 67);
+    color: rgb(185, 192, 185);
+    border: 4px solid green !important;
+    border-image-slice: 20 !important;
+    background-color: white;
+    background-image: none !important;
+    .toast-title {
+        font-weight: bold;
+        color: green;
+    }
+    .toast-message {
+        word-wrap: break-word;
+        color: green;
+    }
+    .toast-message a,
+    .toast-message label {
+        color: green;
+    }
+    .toast-message a:hover {
+        color: green;
+        text-decoration: none;
+    }
+}
+
+.errorclass.toast-error {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    border-radius: 15px !important;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    box-shadow: 0 0 12px rgb(68, 67, 67);
+    color: rgb(236, 225, 225);
+    border: 4px solid red !important;
+    border-image-slice: 20 !important;
+    background-color: white;
+    background-image: none !important;
+    .toast-title {
+        font-weight: bold;
+        color: red;
+    }
+    .toast-message {
+        word-wrap: break-word;
+        color: red;
+    }
+    .toast-message a,
+    .toast-message label {
+        color: red;
+    }
+    .toast-message a:hover {
+        color: red;
+        text-decoration: none;
+    }
+}
+
+.warnclass.toast-warning {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    border-radius: 15px !important;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    box-shadow: 0 0 12px rgb(68, 67, 67);
+    color: rgb(236, 225, 225);
+    border: 4px solid rgb(255, 166, 0) !important;
+    border-image-slice: 20 !important;
+    background-color: white;
+    background-image: none !important;
+    .toast-title {
+        font-weight: bold;
+        color: rgb(255, 166, 0);
+    }
+    .toast-message {
+        word-wrap: break-word;
+        color: rgb(255, 166, 0);
+    }
+    .toast-message a,
+    .toast-message label {
+        color: rgb(255, 166, 0);
+    }
+    .toast-message a:hover {
+        color: rgb(255, 166, 0);
+        text-decoration: none;
+    }
 }

@@ -1,0 +1,42 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'
+    }"></ngx-loading>
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row mt-0">
+                <div class="col-11">
+                    <h2>Auditoria</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" role="FormGroup" class="form">
+                <div class="row" id="step2">
+                    <div class="col-lg-7 col-sm-12">
+                        <div class="form-group">
+                            <input id="typeahead-basic" autoFocus="true" type="text" class="form-control typehead"
+                                formControlName="id" placeholder="Informe o ID desejado" maxlength="24"
+                                [ngClass]="{ 'is-invalid': id.invalid && id.touched }" />
+                            <div *ngIf="id.invalid && (id.dirty || id.touched)" class="invalid-feedback">
+                                <div *ngIf="!id.valid">
+                                    Digite um ID válido!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2 col-lg-3 col-md-10 text-center" id="step3">
+                        <button type="submit" class="btn btn-primary" (click)="showData()" [disabled]="id.invalid">Ver Arquivo</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

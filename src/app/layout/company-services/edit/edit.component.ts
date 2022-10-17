@@ -1,3 +1,4 @@
+import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { MenuService } from 'src/app/services/menu-services/menu-services.service';
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -50,7 +51,8 @@ export class EditComponent implements OnInit {
         private companyServiceSrv: CompanyServicesService,
         private currencyPipe: CurrencyPipe,
         private menuSrv: MenuService,
-        private utilCase: CaseInsensitive
+        private utilCase: CaseInsensitive,
+        private introService: IntroJsService,
     ) {}
 
     ngOnInit() {
@@ -230,5 +232,9 @@ export class EditComponent implements OnInit {
 
     onSelect(menuService: MenuService): void {
         this.selectedService = menuService;
+    }
+
+    help() {
+        this.introService.EditCompServices();
     }
 }

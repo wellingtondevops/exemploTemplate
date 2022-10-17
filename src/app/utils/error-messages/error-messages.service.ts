@@ -2,101 +2,117 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ErrorMessagesService {
 
-  constructor(
-    private toastr: ToastrService
-  ) { }
+    constructor(
+        private toastr: ToastrService
+    ) { }
 
-  errorMessagesImport(error) {
-    const response = {
-      message: '',
-      status: 0,
-      positionClass: 'toast-center-center'
-    };
-    switch (error.status) {
-      case 400:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 403:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 404:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 405:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 500:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 0:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
+    errorMessagesImport(error) {
+        const response = {
+            message: '',
+            status: 0,
+            toastClass: 'errorclass ngx-toastr',
+            progressBar: true,
+            progressAnimation: 'decreasing',
+            enableHtml: true,
+            positionClass: 'toast-center-center'
+        };
+        switch (error.status) {
+            case 400:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 403:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 404:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 405:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 500:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 0:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+        }
+        this.showError(response, true);
+        return response;
     }
-    this.showError(response, true);
-    return response;
-  }
 
-  errorMessages(error) {
-    const response = {
-      message: '',
-      status: 0,
-      positionClass: 'toast-center-center'
+    errorMessages(error) {
+        const response = {
+            message: '',
+            status: 0,
+            toastClass: 'errorclass ngx-toastr',
+            progressBar: true,
+            progressAnimation: 'decreasing',
+            enableHtml: true,
+            positionClass: 'toast-center-center'
 
-    };
-    switch (error.status) {
-      case 400:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 412:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 403:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 404:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 405:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 500:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
-      case 0:
-        response.message = error.error.message;
-        response.status = error.status;
-        break;
+        };
+        switch (error.status) {
+            case 400:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 412:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 403:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 404:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 405:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 500:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+            case 0:
+                response.message = error.error.message;
+                response.status = error.status;
+                break;
+        }
+        this.showError(response);
+        return response;
     }
-    this.showError(response);
-    return response;
-  }
 
-  showError(error, disableTimeOut = false) {
-    if (disableTimeOut) {
-      this.toastr.error(`Erro ${error.status}`, error.message, {
-        disableTimeOut: disableTimeOut,
-        positionClass: 'toast-center-center'
-      });
-    } else {
-      this.toastr.error(`Erro ${error.status}`, error.message, {
-        positionClass: 'toast-center-center'
-      });
+    showError(error, disableTimeOut = false) {
+        if (disableTimeOut) {
+            this.toastr.error(`Erro ${error.status}`, error.message, {
+                disableTimeOut: disableTimeOut,
+                positionClass: 'toast-center-center',
+                toastClass: 'errorclass ngx-toastr',
+                progressBar: true,
+                progressAnimation: 'decreasing',
+                enableHtml: true,
+            });
+        } else {
+            this.toastr.error(`Erro ${error.status}`, error.message, {
+                positionClass: 'toast-center-center',
+                toastClass: 'errorclass ngx-toastr',
+                progressBar: true,
+                progressAnimation: 'decreasing',
+                enableHtml: true,
+            });
+        }
     }
-  }
 }

@@ -6,8 +6,13 @@
         secondaryColour: '#222',
         tertiaryColour: '#222'}">
     </ngx-loading>
-    <div class="card bg-light mb-3">
+    <div class="card  mb-3" id="step1">
         <div class="card-header">
+            <div class="row mt-0">
+                <div class="col-lg-12 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
             <app-page-header [heading]="'Plano de Classificação'" [icon]="'fa-table'"
                 [btnNew]="'Novo Plano de Classificação'" [permissionBtnNew]="permissionNew"
                 [routerTo]="'/documents-structur/new'">
@@ -15,7 +20,9 @@
         </div>
     </div>
 
-    <app-datatables [data]="documentsStructur" (setPage)="setPageDocumentsStructur($event)"
-        (show)="getDocumentStructur($event)" [columns]="columns">
-    </app-datatables>
+    <div id="step2">
+        <app-datatables [data]="documentsStructur" (setPage)="setPageDocumentsStructur($event)"
+            (show)="getDocumentStructur($event)" [columns]="columns">
+        </app-datatables>
+    </div>
 </div>

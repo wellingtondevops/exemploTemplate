@@ -19,6 +19,20 @@ export class Volume {
   status: string;
   reference: string;
   records: boolean;
+  closeBox: boolean;
+  totalArchives: number;
+  totalPages: number;
+  lastUpdateVolume: string;
+  comments: string;
+  commentsOne: string;
+  commentsTwo: string;
+  commentsThree: string;
+  commentsFour: string;
+  finalDate: any;
+  seal: string;
+  smallestYear: string;
+  biggestYear; string;
+
 }
 
 export class VolumeList {

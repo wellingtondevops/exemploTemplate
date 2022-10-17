@@ -8,16 +8,28 @@
     </ngx-loading>
     <div class="card">
         <div class="card-header">
-            <h2>Dados do Depósitp</h2>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Dados do Depósito</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div class="row" id="step1">
+                <div class="col-10">
+                    <app-button-back [redirectTo]="'storehouses'"></app-button-back>
+                </div>
+                <div class="col-2 text-right">
+                    <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)" (delete)="open('focusFirst', storeHouse._id)"
+                        [permissionEdit]="permissionEdit" [permissionDelete]="permissionDelete">
+                    </app-buttons-custom>
+                </div>
+            </div>
             <!-- <app-page-header [id]="storeHouse._id" [heading]="'Dados do Depósito'" [icon]="'fa-house'">
             </app-page-header> -->
-                <app-button-back [redirectTo]="'storehouses'"></app-button-back>
-                <app-buttons-custom (edit)="editStoreHouse(storeHouse._id)"
-                    (delete)="open('focusFirst', storeHouse._id)" [permissionEdit]="permissionEdit"
-                    [permissionDelete]="permissionDelete">
-                </app-buttons-custom>
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body">
             <ngb-tabset #tab>
                 <ngb-tab title="Depósito" id="tab1">
                     <ng-template ngbTabContent>
@@ -94,7 +106,7 @@
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fa fa-search"></i>
                                     </button>
-                                    <button type="button" class="btn btn-default" style="margin-left: 5px"
+                                    <button type="button" class="btn dark-btn" style="margin-left: 5px"
                                         (click)="clear()">
                                         Limpar Campos
                                     </button>

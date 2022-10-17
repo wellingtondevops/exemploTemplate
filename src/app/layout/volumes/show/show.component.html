@@ -6,32 +6,31 @@
             secondaryColour: '#222',
             tertiaryColour: '#222'}">
     </ngx-loading>
-    <div class="card bg-light">
+    <div class="card ">
         <div class="card-header">
-            <h2>Dados do Volume</h2>
-            <!-- <app-page-header [heading]="'Dados do Volume'" [icon]="'fa-user'"></app-page-header> -->
-    <div style="margin-bottom: 10px">
-        <app-button-back [redirectTo]="'volumes'"></app-button-back>
-        <app-buttons-custom [id]="volume._id" (edit)="editVolume(volume._id)" (delete)="open('focusFirst', volume._id)"
-            [permissionEdit]="permissionEdit && !isUsers " [permissionDelete]="permissionDelete && !isUsers">
-        </app-buttons-custom>
-        <br />
-    </div>
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Dados do Volume</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px" id="step1">
+                <app-button-back [redirectTo]="'volumes'"></app-button-back>
+                <app-buttons-custom (edit)="editVolume(volume._id)" (delete)="open('focusFirst', volume._id)"
+                    [permissionEdit]="permissionEdit && !isUsers " [permissionDelete]="permissionDelete && !isUsers">
+                </app-buttons-custom>
+                <br />
+            </div>
         </div>
         <div class="card-body">
             <form [formGroup]="volumeForm" role="FormGroup" (ngSubmit)="updateVolume()">
-                <div class="form-content">
+                <div class="form-content" id="step2">
                     <div class="form-group">
                         <label for="typeahead-basic">Empresa</label>
                         <input id="typeahead-basic" type="text" class="form-control" formControlName="company"
-                            [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany"
-                            [ngClass]="{ 'is-invalid': !companyIpt.valid && !companyIpt.disabled }" />
-                        <div *ngIf="companyIpt.invalid && (companyIpt.dirty || companyIpt.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!companyIpt.valid">
-                                Empresa é obrigatória.
-                            </div>
-                        </div>
+                            [resultTemplate]="rtCompany" [inputFormatter]="formatter" [ngbTypeahead]="searchCompany" />
                     </div>
 
                     <div class="form-group">
@@ -44,45 +43,24 @@
                     <div class="form-group">
                         <label for="typeahead-basic">Depósito</label>
                         <input id="typeahead-basic" type="text" class="form-control" formControlName="storehouse"
-                            [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search"
-                            [ngClass]="{ 'is-invalid': !storehouse.valid && !storehouse.disabled }" />
-                        <div *ngIf="storehouse.invalid && (storehouse.dirty || storehouse.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!storehouse.valid">
-                                Depósito é obrigatório.
-                            </div>
-                        </div>
+                            [resultTemplate]="rtStoreHouse" [inputFormatter]="formatter" [ngbTypeahead]="search" />
                     </div>
 
                     <div class="form-group">
                         <label for="">Tipo de Volume</label>
-                        <select class="form-control" id="volumeType" formControlName="volumeType"
-                            [ngClass]="{ 'is-invalid': !volumeType.valid && !volumeType.disabled }">
+                        <select class="form-control" id="volumeType" formControlName="volumeType">
                             <option *ngFor="let volumeT of volumeTypeList | enumToArray" [value]="volumeT">
                                 {{ volumeT | translate }}</option>
                         </select>
-                        <div *ngIf="volumeType.invalid && (volumeType.dirty || volumeType.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!volumeType.valid">
-                                Tipo de volume é obrigatório.
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="">Tipo de Guarda</label>
                         <select class="form-control" id="guardType" formControlName="guardType"
-                            [ngClass]="{ 'is-invalid': !guardType.valid && !guardType.disabled }"
                             (change)="changeGuardType()">
                             <option *ngFor="let guardT of guardTypeList | enumToArray" [value]="guardT">
                                 {{ guardT | translate }}</option>
                         </select>
-                        <div *ngIf="guardType.invalid && (guardType.dirty || guardType.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!guardType.valid">
-                                Tipo de volume é obrigatório.
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group">
@@ -118,26 +96,23 @@
 
                     <div class="form-group">
                         <label>Conteúdo:</label>
-                        <button type="button" class="btn btn-dark" style="margin-left: 10px;" *ngIf="volume.records"
-                            disabled>
-                            <a title="Possui Arquivos"><i class="fa fa-archive"></i></a>
-                        </button>
-                        <button type="button" class="btn btn-ligth" style="margin-left: 10px;" *ngIf="!volume.records"
-                            disabled>
-                            <a title="Não possui Arquivos"><i class="fa fa-archive"></i></a>
-                        </button>
+                        <abbr title="Possui arquivos"  *ngIf="volume.records"><i class="mdi mdi-archive mdi-24px"></i></abbr>
+                        <abbr title="Não possui arquivos" *ngIf="!volume.records"><i class="mdi mdi-archive-remove mdi-24px"></i></abbr>
+                    </div>
+
+                    <div class="state">
+                        <label class="mr-2" >Situação do Volume: </label>
+                        <ng-container *ngIf="volume.closeBox; else elseTemplate">
+                            <strong>Fechado</strong>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <strong>Aberto</strong>
+                        </ng-template>
                     </div>
 
                     <div class="form-group" [hidden]="hiddenReference">
                         <label for="">Referência</label>
-                        <input type="text" placeholder="Referência" class="form-control" formControlName="reference"
-                            [ngClass]="{ 'is-invalid': !reference.valid }" />
-                        <div *ngIf="reference.invalid && (reference.dirty || reference.touched)"
-                            class="invalid-feedback">
-                            <div *ngIf="!reference.valid">
-                                Referência é obrigatória.
-                            </div>
-                        </div>
+                        <input type="text" placeholder="Referência" class="form-control" formControlName="reference" />
                     </div>
 
 

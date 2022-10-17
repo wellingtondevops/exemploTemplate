@@ -1,0 +1,84 @@
+<div [@routerTransition]>
+    <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: true,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'}">
+    </ngx-loading>
+    <div class="card  mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-11">
+                    <h2>Caixa de Entrada</h2>
+                </div>
+                <div class="col-lg-1 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <div class="row" id="step1">
+                <div class="col-lg-10">
+                    <app-button-back [redirectTo]="'email-service'"></app-button-back>
+                </div>
+                <div class="col-lg-2 text-right ml-0 p-0 pr-2">
+                    <button type="button" class="btn btn-danger btn-sm text-right"
+                        (click)="open('focusFirst',Email._id)"
+                        style="font-style: italic; margin-left: 3px;">Excluir</button>
+                </div>
+            </div>
+        </div>Viviane Fabiana de Sousa
+        <div class="card-body">
+            <div class="card">
+                <div class="card-header" id="step2">
+                    <div class="row" >
+                        <div class="col-lg-10">
+                            <h4>Assunto: {{title}}</h4>
+                        </div>
+                        <div class="col-lg-2 text-right" *ngIf="!pending == false; else terminate">
+                            <button class="btn bnt-sm btn-outline-danger" disabled>
+                                Pendente
+                            </button>
+                        </div>
+                        <ng-template #terminate>
+                            <div class="col-lg-2 text-right" *ngIf="!pending == true">
+                                <button class="btn bnt-sm btn-outline-success" disabled>
+                                    Concluído
+                                </button>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <div class="col-lg-12">
+                        <small class="m-0 ml-3">De: {{sender}} - {{dateCreated |
+                            date:'dd/MM/yyyy HH:mm'}}</small>
+                    </div>
+                </div>
+                <div class="card-body" id="step3">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p class="text-left">Obervações:</p>
+                            <p class="text-center">{{notes}}</p>
+                            <p *ngIf="notes == ''" style="font-weight: bold;">Não possui Observações.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+                        <div class= "col-lg-12">
+                            <a class="link"*ngIf="archiveId" (click)="openArchive()">
+
+                                <i class="mdi mdi-paperclip mdi-36px"></i><br />
+                                Ver Arquivo
+                            </a>
+                            <a class="link"*ngIf="!archiveId">
+
+
+                                Arquivo Excluído
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [routerLink]="['/archives/get', archiveId]" -->

@@ -14,7 +14,7 @@ export class VolumesService {
     private http: HttpClient
   ) { }
 
-  searchVolumes(formData, page) {
+  searchVolumes(formData, page, size=0) {
     if (page) {
       return this.http.post<VolumeList>(`${url}/volumes/search?_page=${page.pageNumber}&size=10`, formData)
         .pipe(
@@ -116,4 +116,11 @@ export class VolumesService {
         tap(data => data)
       );
   }
+
+  export(formData) {
+    return this.http.post<any>(`${url}/volumes/exportvolumes`, formData)
+        .pipe(
+            tap(data => data)
+        );
+}
 }
