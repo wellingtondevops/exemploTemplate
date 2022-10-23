@@ -193,7 +193,13 @@
                             <span>{{ "Serviços" | translate }}</span>
                         </a>
                     </li>
-
+                    <li>
+                        <a class="list-group-item" *ngIf="isMenuService" [routerLink]="['/package']"
+                            [routerLinkActive]="['router-link-active']">
+                            <i class="mdi mdi-view-list-outline mdi-18px"></i>&nbsp;
+                            <span>{{ "Pacotes" | translate }}</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </div>
