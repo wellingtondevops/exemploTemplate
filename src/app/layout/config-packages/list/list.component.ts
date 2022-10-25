@@ -1,3 +1,4 @@
+import { NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { PackageService } from './../../../services/config-packages/package.service';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { SaveLocal } from './../../../storage/saveLocal';
@@ -9,6 +10,7 @@ import { ErrorMessagesService } from 'src/app/utils/error-messages/error-message
 import { Pipes } from '../../../utils/pipes/pipes';
 import { Router } from '@angular/router';
 import { PackageList } from 'src/app/models/packages';
+import { NewComponent } from '../new/new.component';
 
 
 @Component({
@@ -32,12 +34,17 @@ export class ListComponent implements OnInit {
   page = new Page();
   columns = [
     { name: 'Nome do Pacote', prop: 'labelPackage', width: 600 },
-    { name: 'OCR', prop: 'ocr', width: 200 },
-    { name: 'Assinatura Digital', prop: 'signature', width: 200 },
-    { name: 'Criado em', prop: 'dateCreated', width: 827, pipe: { transform: this.pipes.datePipe } }
+    { name: 'OCR', prop: 'ocr' },
+    { name: 'Assinatura Digital', prop: 'signature'},
+    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
   ];
   loading: Boolean = true;
   permissionNew: boolean = false;
+  modalRef: any;
+  modalOptions: NgbModalOptions;
+  data;
+  closeResult: string;
+
 
   constructor(
     private _route: Router,
@@ -47,8 +54,16 @@ export class ListComponent implements OnInit {
     private fb: FormBuilder,
     private localStorageSrv: SaveLocal,
     private introService: IntroJsService,
+    private modalService: NgbModal,
 
-  ) { }
+  ) {
+    this.modalOptions = {
+      backdrop: 'static',
+      backdropClass: 'customBackdrop',
+      keyboard: false,
+      windowClass: 'customModal',
+    };
+  }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
@@ -122,5 +137,37 @@ export class ListComponent implements OnInit {
 
   help() {
     this.introService.ListMenuServices();
+  }
+
+  newPackage(document) {
+    if (document.type == 'click') {
+      this.modalRef = this.modalService.open(NewComponent, this.modalOptions);
+
+      if (document.row) {
+        this.data = document.row;
+        document.cellElement.blur();
+        this.modalRef.componentInstance.doc = this.data;
+      }
+
+      this.modalRef.result.then((result) => {
+        if (result != "Sair") {
+          this.getMenus();
+        };
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.getMenus();
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a bac~kdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

@@ -1,3 +1,89 @@
-<p>
-  new works!
-</p>
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true,
+      primaryColour: '#222',
+      secondaryColour: '#222',
+      tertiaryColour: '#222'
+  }"></ngx-loading>
+  <div class="base-modal-content" style="min-height: 80vh">
+    <div class="card ">
+      <div class="card-header">
+        <div class="row mt-0">
+          <div class="col-lg-10">
+            <h3>Novo Serviço</h3>
+          </div>
+          <div class="col-lg-2 text-right">
+            <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal"
+              aria-label="Close">
+              <span id="call4" aria-hidden="true">&times;</span>
+            </button>
+            <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body" id="step1">
+        <form [formGroup]="packageForm" role="FormGroup" (ngSubmit)="postPackage()">
+          <div class="form-content">
+            <div class="form-group  col-xl-12">
+              <label for="">Nome do Pacote</label>
+              <input id="labelPackage" type="text" placeholder="Nome do Pacote" class="form-control"
+                formControlName="labelPackage" [ngClass]="{ 'is-invalid': !labelPackage.valid }" />
+              <div *ngIf="labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
+                class="invalid-feedback">
+                <div *ngIf="!labelPackage.valid">
+                  Descrição é obrigatória.
+                </div>
+              </div>
+            </div>
+            <div class="form-group  col-xl-12">
+              <label for="">Descrição do Pacote</label>
+              <input id="describe" type="text" placeholder="Descrição do Pacote" class="form-control"
+                formControlName="describe" />
+            </div>
+            <div class="form-group col-xl-4">
+              <label for="">Quantidade de Arquivos para assinatura</label>
+              <input type="text" placeholder="0"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                class="form-control" formControlName="filesPackage" />
+            </div>
+            <div class="form-group col-xl-2">
+              <div class="pretty p-switch p-fill">
+                <input type="checkbox" formControlName="signature" value="" checked (ngModelChange)="signiatureChange($event)"/>
+                <div class="state">
+                  <label>Assinatura Digital</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-2">
+              <div class="pretty p-switch p-fill">
+                <input type="checkbox" formControlName="ocr" (ngModelChange)="ocrChange($event)" />
+                <div class="state">
+                  <label>Ocr</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-4" *ngIf="ocrValue !== false">
+              <label for="">Quantidade de Paginas para Ocr</label>
+              <input type="text" placeholder="0"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                class="form-control" formControlName="pagesPackage" />
+            </div>
+            <div class="form-group col-xl-8">
+              <label for="">Valor do Pacote</label>
+              <input id="price" type="text" placeholder="R$" class="form-control" formControlName="price" />
+            </div>
+          </div>
+          <div class="pull-right">
+            <button type="button" [routerLink]="['/package']" class="btn dark-btn" (click)="close()"
+              style="float: right;margin-right: 10px;">Voltar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="labelPackage.invalid">
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

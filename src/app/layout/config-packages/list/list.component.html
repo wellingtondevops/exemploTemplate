@@ -13,8 +13,8 @@
                   <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
               </div>
           </div>
-          <app-page-header [heading]="'Pacotes'" [icon]="'fa-table'" [btnNew]="'Novo Pacote'"
-              [permissionBtnNew]="permissionNew" [routerTo]="'/menu-services/new'">
+          <app-page-header [heading]="'Pacotes'" [modalNew]="true" [icon]="'fa-table'" [btnNew]="'Novo Pacote'"
+          (click)="newPackage($event)" [permissionBtnNew]="permissionNew">
           </app-page-header>
       </div>
       <div class="card-body">
