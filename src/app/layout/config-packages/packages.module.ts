@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -28,6 +29,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ButtonBackModule,
     TypeaheadModule,
     TextMaskModule,
+    NgxDatatableModule,
     NgxLoadingModule.forRoot({})
   ],
   providers: [NgbActiveModal, CurrencyPipe]

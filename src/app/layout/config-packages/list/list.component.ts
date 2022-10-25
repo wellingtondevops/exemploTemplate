@@ -11,6 +11,7 @@ import { Pipes } from '../../../utils/pipes/pipes';
 import { Router } from '@angular/router';
 import { PackageList } from 'src/app/models/packages';
 import { NewComponent } from '../new/new.component';
+import { ShowComponent } from '../show/show.component';
 
 
 @Component({
@@ -45,7 +46,6 @@ export class ListComponent implements OnInit {
   data;
   closeResult: string;
 
-
   constructor(
     private _route: Router,
     private packageSvr: PackageService,
@@ -55,7 +55,6 @@ export class ListComponent implements OnInit {
     private localStorageSrv: SaveLocal,
     private introService: IntroJsService,
     private modalService: NgbModal,
-
   ) {
     this.modalOptions = {
       backdrop: 'static',
@@ -168,6 +167,30 @@ export class ListComponent implements OnInit {
       return 'by clicking on a bac~kdrop';
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  getPackages(event){
+    console.log(event.row._id);
+    window.localStorage.setItem('idPackage', event.row._id)
+    if (event.type == 'click') {
+      this.modalRef = this.modalService.open(ShowComponent, this.modalOptions);
+
+      if (event.row) {
+        this.data = event.row;
+        event.cellElement.blur();
+        this.modalRef.componentInstance.doc = this.data;
+      }
+
+      this.modalRef.result.then((result) => {
+        if (result != "Sair") {
+          this.getMenus();
+        };
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.getMenus();
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
     }
   }
 }

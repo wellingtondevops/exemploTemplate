@@ -1,54 +1,64 @@
 <div [@routerTransition]>
-  <ngx-loading [show]="loading" [config]="{
+    <ngx-loading [show]="loading" [config]="{
       backdropBorderRadius: '3px',
       fullScreenBackdrop: true,
       primaryColour: '#222',
       secondaryColour: '#222',
       tertiaryColour: '#222'
   }"></ngx-loading>
-  <div class="card  mb-3">
-      <div class="card-header" id="step1">
-          <div class="row mt-0">
-              <div class="col-lg-12 text-right">
-                  <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
-              </div>
-          </div>
-          <app-page-header [heading]="'Pacotes'" [modalNew]="true" [icon]="'fa-table'" [btnNew]="'Novo Pacote'"
-          (click)="newPackage($event)" [permissionBtnNew]="permissionNew">
-          </app-page-header>
-      </div>
-      <div class="card-body">
-          <form [formGroup]="searchForm" (ngSubmit)="setPageMenu(page)" role="FormGroup">
-              <div class="row" id="step2">
-                  <div class="form-group mb-2 col-lg-7 col-sm-12">
-                      <label for="labelName">Nome do Pacote</label>
-                      <input id="labelPackage" autoFocus="true" type="text" placeholder="Nome da Empresa"
-                          class="form-control" formControlName="labelPackage" style="width: 100%"
-                          [ngClass]="{ 'is-invalid': labelPackage.invalid && labelPackage.touched }" />
-                      <div *ngIf="labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
-                          class="invalid-feedback">
-                          <div *ngIf="!labelPackage.valid">
-                              Nome do Pacote é obrigatório.
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="row" id="step3">
-                  <div class="form-group mb-2 col-lg-12 col-sm-12 text-center">
-                      <button type="submit" class="btn btn-primary">
-                          <i class="fa fa-search"></i>
-                      </button>
-                      <button type="submit" class="btn dark-btn" style="margin-left: 5px;"
-                          [disabled]="labelPackage.invalid" (click)="clear()">
-                          Limpar Campos
-                      </button>
-                  </div>
-              </div>
-          </form>
-      </div>
-  </div>
-  <div id="step4">
-      <app-datatables [data]="packages" (setPage)="setPageMenu($event)" (show)="getMenu($event)" [columns]="columns">
-      </app-datatables>
-  </div>
+    <div class="card  mb-3">
+        <div class="card-header" id="step1">
+            <div class="row mt-0">
+                <div class="col-lg-12 text-right">
+                    <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9;" (click)="help()"></i>
+                </div>
+            </div>
+            <app-page-header [heading]="'Pacotes'" [modalNew]="true" [icon]="'fa-table'" [btnNew]="'Novo Pacote'"
+                (click)="newPackage($event)" [permissionBtnNew]="permissionNew">
+            </app-page-header>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="searchForm" (ngSubmit)="setPageMenu(page)" role="FormGroup">
+                <div class="row" id="step2">
+                    <div class="form-group mb-2 col-lg-7 col-sm-12">
+                        <label for="labelName">Nome do Pacote</label>
+                        <input id="labelPackage" autoFocus="true" type="text" placeholder="Nome da Empresa"
+                            class="form-control" formControlName="labelPackage" style="width: 100%"
+                            [ngClass]="{ 'is-invalid': labelPackage.invalid && labelPackage.touched }" />
+                        <div *ngIf="labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="!labelPackage.valid">
+                                Nome do Pacote é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="step3">
+                    <div class="form-group mb-2 col-lg-12 col-sm-12 text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button type="submit" class="btn dark-btn" style="margin-left: 5px;"
+                            [disabled]="labelPackage.invalid" (click)="clear()">
+                            Limpar Campos
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="step4">
+        <ngx-datatable #myTable class="bootstrap" [rows]="packages.items" [columnMode]="'force'" [headerHeight]="50"
+            [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+            [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageMenu($event)"
+            [scrollbarH]="true" (activate)="getPackages($event)">
+            <!-- <ngx-datatable-column name="Actions" prop="name">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                        let-row="row">
+                        <button type="button" class="btn btn-outline-dark" (click)="getDocument(row, 'Antigo')">OpenPage</button>
+                        <button type="button" class="btn btn-outline-success" (click)="getDocument(row, 'Novo')">OpenModal</button>
+                    </ng-template>
+                </ngx-datatable-column> -->
+        </ngx-datatable>
+    </div>
 </div>
