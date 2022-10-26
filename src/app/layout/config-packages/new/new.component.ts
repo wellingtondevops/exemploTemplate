@@ -53,16 +53,17 @@ export class NewComponent implements OnInit {
     return this.packageForm.get('labelPackage');
   }
 
-  ocrChange(event){
+  ocrChange(event) {
     this.ocrValue = event;
   }
 
-  signiatureChange(event){
+  signiatureChange(event) {
     this.sgnValue = event;
   }
 
   postPackage() {
     this.loading = true;
+    this.returnFormatPrice();
     this.packageSrv.newPackage(this.packageForm.value).subscribe(
       data => {
         if (data._id) {
@@ -85,5 +86,14 @@ export class NewComponent implements OnInit {
 
   close() {
     this.activeModal.close('Sair');
+  }
+
+  returnFormatPrice() {
+    let priceStr = this.packageForm.get('price').value;
+    priceStr.replace(',', '.');
+    priceStr = priceStr.replace('R$', '');
+    const priceFloat = parseFloat(priceStr);
+    this.packageForm.patchValue({
+      price: priceFloat})
   }
 }
