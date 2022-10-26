@@ -90,7 +90,7 @@ export class NewComponent implements OnInit {
 
   returnFormatPrice() {
     let priceStr = this.packageForm.get('price').value;
-    priceStr.replace(',', '.');
+    priceStr = priceStr.replace(',', '.');
     priceStr = priceStr.replace('R$', '');
     const priceFloat = parseFloat(priceStr);
     this.packageForm.patchValue({

@@ -4,13 +4,10 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { Masks } from 'src/app/utils/masks';
 import _ from 'lodash';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
-declare var $;
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
 };
@@ -38,20 +35,17 @@ export class ShowComponent implements OnInit {
   isEditing = false;
 
   constructor(
-    private _route: Router,
-    private mask: Masks,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private packageSrv: PackageService,
     private introService: IntroJsService,
     private activeModal: NgbActiveModal,
-    private route: ActivatedRoute,
     private modalService: NgbModal,
   ) {
     this.packageForm = this.fb.group({
       _id: this.fb.control(''),
-      labelPackage: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+      labelPackage: this.fb.control({ value: '', disabled: true }),
       describe: this.fb.control({ value: '', disabled: true }),
       filesPackage: this.fb.control({ value: '', disabled: true }),
       pagesPackage: this.fb.control({ value: '', disabled: true }),
@@ -137,7 +131,6 @@ export class ShowComponent implements OnInit {
       error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
-        console.log('ERROR:', error);
       }
     );
   }
@@ -184,21 +177,21 @@ export class ShowComponent implements OnInit {
   submit() {
     this.loading = true;
     const pack = _.omitBy(this.packageForm.value, _.isNil);
-    console.log(pack);
     this.packageSrv.updatePackage(pack).subscribe(
       data => {
         if (data._id) {
           this.loading = false;
+          this.ngOnInit();
           this.successMsgSrv.successMessages('Pacote alterado com sucesso.');
-          this.isEditing = false;
-          this.enableDisable(0);
         }
+        this.isEditing = false;
+        this.enableDisable(0);
       },
       error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
       }
     );
   }
+
 }

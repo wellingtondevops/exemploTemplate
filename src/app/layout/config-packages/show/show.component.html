@@ -39,10 +39,10 @@
             <div class="form-group  col-xl-12">
               <label for="">Nome do Pacote</label>
               <input id="labelPackage" type="text" placeholder="Nome do Pacote" class="form-control"
-                formControlName="labelPackage" [ngClass]="{ 'is-invalid': !labelPackage.valid }" />
-                <div *ngIf="!isEditing || labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
+                formControlName="labelPackage" [ngClass]="{ 'is-invalid': labelPackage.dirty }" />
+                <div *ngIf="!isEditing && labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
                 class="invalid-feedback">
-                <div *ngIf="!labelPackage.valid">
+                <div *ngIf="labelPackage.dirty">
                   Nome é obrigatório.
                 </div>
               </div>
@@ -86,7 +86,7 @@
             <div class="pull-right" id="call5">
                 <button  type="button" (click)="cancelEdit()" class="btn btn-danger"
                     style="margin-right:10px">Cancelar</button>
-                <button type="button" (click)="submit()" class="btn btn-primary">
+                <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="labelPackage.dirty">
                     Salvar
                 </button>
             </div>
