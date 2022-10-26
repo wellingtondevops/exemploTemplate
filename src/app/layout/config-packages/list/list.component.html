@@ -18,11 +18,11 @@
             </app-page-header>
         </div>
         <div class="card-body">
-            <form [formGroup]="searchForm" (ngSubmit)="setPageMenu(page)" role="FormGroup">
+            <form [formGroup]="searchForm" (ngSubmit)="setPagePackages(page)" role="FormGroup">
                 <div class="row" id="step2">
                     <div class="form-group mb-2 col-lg-7 col-sm-12">
                         <label for="labelName">Nome do Pacote</label>
-                        <input id="labelPackage" autoFocus="true" type="text" placeholder="Nome da Empresa"
+                        <input id="labelPackage" autoFocus="true" type="text" placeholder="Nome do Pacote"
                             class="form-control" formControlName="labelPackage" style="width: 100%"
                             [ngClass]="{ 'is-invalid': labelPackage.invalid && labelPackage.touched }" />
                         <div *ngIf="labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
@@ -35,7 +35,7 @@
                 </div>
                 <div class="row" id="step3">
                     <div class="form-group mb-2 col-lg-12 col-sm-12 text-center">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary" [disabled]="labelPackage.invalid">
                             <i class="fa fa-search"></i>
                         </button>
                         <button type="submit" class="btn dark-btn" style="margin-left: 5px;"
@@ -48,17 +48,56 @@
         </div>
     </div>
     <div id="step4">
-        <ngx-datatable #myTable class="bootstrap" [rows]="packages.items" [columnMode]="'force'" [headerHeight]="50"
-            [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-            [offset]="page.pageNumber - 1" [columns]="columns" [limit]="10" (page)="setPageMenu($event)"
-            [scrollbarH]="true" (activate)="getPackages($event)">
-            <!-- <ngx-datatable-column name="Actions" prop="name">
-                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                        let-row="row">
-                        <button type="button" class="btn btn-outline-dark" (click)="getDocument(row, 'Antigo')">OpenPage</button>
-                        <button type="button" class="btn btn-outline-success" (click)="getDocument(row, 'Novo')">OpenModal</button>
+        <ngx-datatable #myTable class="bootstrap" [rows]="packages.items" [columnMode]="ColumnMode.force"
+            [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
+            [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPagePackages($event)'
+            (activate)="getPackages($event)">
+            <ngx-datatable-column name="Nome do Pacote" prop="labelPackage"></ngx-datatable-column>
+
+            <ngx-datatable-column name="OCR" prop="ocr">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <ng-container *ngIf="value === true; else elseTemplate">
+                        <abbr title="Fase corrente concluida">
+                            <i class="mdi mdi-ocr mdi-24px"></i>
+                        </abbr>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <abbr title="Fase corrente não concluida">
+                            <i class="mdi mdi-ocr-outline mdi-24px"></i>
+                        </abbr>
                     </ng-template>
-                </ngx-datatable-column> -->
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Assinatura Digital" prop="signature">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <ng-container *ngIf="value == true; else elseTemplate">
+                        <abbr title="Fase corrente concluida">
+                            <i class="mdi mdi-signature mdi-24px"></i>
+                        </abbr>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <abbr title="Fase corrente não concluida">
+                            <i class="mdi mdi-alpha-c-circle-outline mdi-24px"></i>
+                        </abbr>
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Criado em" prop="dateCreated">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date: 'dd/MM/yyyy' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column name="Actions" prop="name">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <button type="button" class="btn btn-outline-dark"
+                        (click)="getDocument(row, 'Antigo')">OpenPage</button>
+                    <button type="button" class="btn btn-outline-success"
+                        (click)="getDocument(row, 'Novo')">OpenModal</button>
+                </ng-template>
+            </ngx-datatable-column> -->
         </ngx-datatable>
     </div>
 </div>

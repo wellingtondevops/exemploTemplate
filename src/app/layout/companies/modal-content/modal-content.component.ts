@@ -70,7 +70,6 @@ export class ModalContentComponent implements OnInit {
 
   ngOnInit() {
     if (this.comp) {
-      console.log('O COELHINHO TROUXE: ', this.comp);
       this.id = this.comp._id;
       this.getCompany();
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
@@ -216,7 +215,6 @@ export class ModalContentComponent implements OnInit {
   // EDIT
 
   editDepartament() {
-    console.log("ESTOU NO EDIT");
     this.enableDisable(1);
     this.permissionDelete = false;
     this.permissionEdit = false;

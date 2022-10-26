@@ -2,7 +2,7 @@ import { NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng
 import { PackageService } from './../../../services/config-packages/package.service';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
 import { SaveLocal } from './../../../storage/saveLocal';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Page } from 'src/app/models/page';
 import { routerTransition } from '../../../router.animations';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { PackageList } from 'src/app/models/packages';
 import { NewComponent } from '../new/new.component';
 import { ShowComponent } from '../show/show.component';
+import { ColumnMode } from 'src/app/models/column-mode.types';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { ShowComponent } from '../show/show.component';
 })
 export class ListComponent implements OnInit {
   searchForm: FormGroup;
+  @ViewChild('myTable') table: any;
   packages: PackageList = {
     _links: {
       currentPage: 1,
@@ -33,18 +35,13 @@ export class ListComponent implements OnInit {
     items: []
   };
   page = new Page();
-  columns = [
-    { name: 'Nome do Pacote', prop: 'labelPackage', width: 600 },
-    { name: 'OCR', prop: 'ocr' },
-    { name: 'Assinatura Digital', prop: 'signature'},
-    { name: 'Criado em', prop: 'dateCreated', pipe: { transform: this.pipes.datePipe } }
-  ];
   loading: Boolean = true;
   permissionNew: boolean = false;
   modalRef: any;
   modalOptions: NgbModalOptions;
   data;
   closeResult: string;
+  ColumnMode = ColumnMode;
 
   constructor(
     private _route: Router,
@@ -87,10 +84,10 @@ export class ListComponent implements OnInit {
   }
 
   getMenus() {
-    this.setPageMenu({ offset: 0 });
+    this.setPagePackages({ offset: 0 });
   }
 
-  setPageMenu(pageInfo) {
+  setPagePackages(pageInfo) {
     this.loading = true;
     this.page.pageNumber = pageInfo ? pageInfo.offset ? pageInfo.offset : 0 : 0;
     this.localStorageSrv.save('labelPackage', this.searchForm.value);

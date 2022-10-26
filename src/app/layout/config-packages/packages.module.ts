@@ -1,3 +1,4 @@
+import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { PackageRoutingModule } from './packages-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
@@ -11,7 +12,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { NgxLoadingModule } from 'ngx-loading';
 import { TypeaheadModule } from 'ngx-type-ahead';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule } from 'src/app/shared';
+import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule, NgbdModalConfirmModule } from 'src/app/shared';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -30,8 +31,10 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TypeaheadModule,
     TextMaskModule,
     NgxDatatableModule,
+    NgbdModalConfirmModule,
     NgxLoadingModule.forRoot({})
   ],
-  providers: [NgbActiveModal, CurrencyPipe]
+  providers: [NgbActiveModal, CurrencyPipe],
+  entryComponents: [NgbdModalConfirmComponent]
 })
 export class PackageModule { }
