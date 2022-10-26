@@ -7,13 +7,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Page } from 'src/app/models/page';
 import { routerTransition } from '../../../router.animations';
 import { ErrorMessagesService } from 'src/app/utils/error-messages/error-messages.service';
-import { Pipes } from '../../../utils/pipes/pipes';
 import { Router } from '@angular/router';
 import { PackageList } from 'src/app/models/packages';
 import { NewComponent } from '../new/new.component';
 import { ShowComponent } from '../show/show.component';
 import { ColumnMode } from 'src/app/models/column-mode.types';
-
 
 @Component({
   selector: 'app-list',
@@ -21,9 +19,15 @@ import { ColumnMode } from 'src/app/models/column-mode.types';
   styleUrls: ['./list.component.scss'],
   animations: [routerTransition()]
 })
+
 export class ListComponent implements OnInit {
-  searchForm: FormGroup;
   @ViewChild('myTable') table: any;
+
+  searchForm: FormGroup;
+  modalOptions: NgbModalOptions;
+  ColumnMode = ColumnMode;
+  page = new Page();
+
   packages: PackageList = {
     _links: {
       currentPage: 1,
@@ -34,20 +38,17 @@ export class ListComponent implements OnInit {
     },
     items: []
   };
-  page = new Page();
-  loading: Boolean = true;
-  permissionNew: boolean = false;
+
+  loading = true;
+  permissionNew = false;
   modalRef: any;
-  modalOptions: NgbModalOptions;
-  data;
   closeResult: string;
-  ColumnMode = ColumnMode;
+  data;
 
   constructor(
     private _route: Router,
     private packageSvr: PackageService,
     private errorMsg: ErrorMessagesService,
-    private pipes: Pipes,
     private fb: FormBuilder,
     private localStorageSrv: SaveLocal,
     private introService: IntroJsService,
@@ -71,19 +72,15 @@ export class ListComponent implements OnInit {
         labelPackage: namePackage.labelPackage
       });
     }
-    this.getMenus();
-    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write
-  }
-
-  getMenu(service) {
-    this._route.navigate(['/menu-services/get', service._id]);
+    this.getPackage();
+    this.permissionNew = JSON.parse(window.localStorage.getItem('actions'))[0].write;
   }
 
   get labelPackage() {
     return this.searchForm.get('labelPackage');
   }
 
-  getMenus() {
+  getPackage() {
     this.setPagePackages({ offset: 0 });
   }
 
@@ -102,7 +99,6 @@ export class ListComponent implements OnInit {
         },
         error => {
           this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
           this.loading = false;
         }
       );
@@ -117,7 +113,6 @@ export class ListComponent implements OnInit {
         },
         error => {
           this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
           this.loading = false;
         }
       );
@@ -147,11 +142,11 @@ export class ListComponent implements OnInit {
 
       this.modalRef.result.then((result) => {
         if (result != "Sair") {
-          this.getMenus();
+          this.getPackage();
         };
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
-        this.getMenus();
+        this.getPackage();
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
     }
@@ -167,8 +162,7 @@ export class ListComponent implements OnInit {
     }
   }
 
-  getPackages(event){
-    console.log(event.row._id);
+  getPackages(event) {
     window.localStorage.setItem('idPackage', event.row._id)
     if (event.type == 'click') {
       this.modalRef = this.modalService.open(ShowComponent, this.modalOptions);
@@ -181,11 +175,11 @@ export class ListComponent implements OnInit {
 
       this.modalRef.result.then((result) => {
         if (result != "Sair") {
-          this.getMenus();
+          this.getPackage();
         };
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
-        this.getMenus();
+        this.getPackage();
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
     }

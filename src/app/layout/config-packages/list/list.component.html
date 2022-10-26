@@ -57,12 +57,12 @@
             <ngx-datatable-column name="OCR" prop="ocr">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <ng-container *ngIf="value === true; else elseTemplate">
-                        <abbr title="Fase corrente concluida">
+                        <abbr title="Possui OCR">
                             <i class="mdi mdi-ocr mdi-24px"></i>
                         </abbr>
                     </ng-container>
                     <ng-template #elseTemplate>
-                        <abbr title="Fase corrente não concluida">
+                        <abbr title="nNão possui OCR">
                             <i class="mdi mdi-ocr-outline mdi-24px"></i>
                         </abbr>
                     </ng-template>
@@ -72,12 +72,12 @@
             <ngx-datatable-column name="Assinatura Digital" prop="signature">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <ng-container *ngIf="value == true; else elseTemplate">
-                        <abbr title="Fase corrente concluida">
+                        <abbr title="Possui assinatura digital">
                             <i class="mdi mdi-signature mdi-24px"></i>
                         </abbr>
                     </ng-container>
                     <ng-template #elseTemplate>
-                        <abbr title="Fase corrente não concluida">
+                        <abbr title="Não ossui assinatura digital">
                             <i class="mdi mdi-alpha-c-circle-outline mdi-24px"></i>
                         </abbr>
                     </ng-template>
@@ -89,15 +89,6 @@
                     {{ value | date: 'dd/MM/yyyy' }}
                 </ng-template>
             </ngx-datatable-column>
-
-            <!-- <ngx-datatable-column name="Actions" prop="name">
-                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                    <button type="button" class="btn btn-outline-dark"
-                        (click)="getDocument(row, 'Antigo')">OpenPage</button>
-                    <button type="button" class="btn btn-outline-success"
-                        (click)="getDocument(row, 'Novo')">OpenModal</button>
-                </ng-template>
-            </ngx-datatable-column> -->
         </ngx-datatable>
     </div>
 </div>
