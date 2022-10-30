@@ -11,9 +11,9 @@ export class Masks {
     let numberMask = createNumberMask({
       prefix: 'R$ ',
       includeThousandsSeparator: false,
-      allowDecimal: true,
+      allowDecimal: false,
       allowFloat: true,
-      decimalSymbol: '.',
+      decimalSymbol: ',',
       integerLimit: null,
       requireDecimal: true
     })

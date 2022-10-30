@@ -38,14 +38,22 @@
           <div class="form-content">
             <div class="form-group  col-xl-12">
               <label for="">Nome do Pacote</label>
-              <input id="labelPackage" type="text" placeholder="Nome do Pacote" class="form-control"
-                formControlName="labelPackage" [ngClass]="{ 'is-invalid': labelPackage.dirty }" />
-                <div *ngIf="!isEditing && labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
-                class="invalid-feedback">
-                <div *ngIf="labelPackage.dirty">
+              <input *ngIf="!isEditing" type="text" placeholder="Nome do Pacote" class="form-control" formControlName="labelPackage"/>
+              <input *ngIf="isEditing" type="text" placeholder="Nome do Pacote" class="form-control" formControlName="labelPackage"
+                [ngClass]="{ 'is-invalid': !labelPackage.valid }" />
+              <div *ngIf="labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)" class="invalid-feedback">
+                <div *ngIf="!labelPackage.valid">
                   Nome é obrigatório.
                 </div>
               </div>
+              <!-- <input id="labelPackage" type="text" placeholder="Nome do Pacote" class="form-control"
+                formControlName="labelPackage" [ngClass]="{ 'is-invalid': labelPackage.invalid }" />
+              <div *ngIf="!isEditing && labelPackage.invalid && (labelPackage.dirty || labelPackage.touched)"
+                class="invalid-feedback">
+                <div *ngIf="labelPackage.invalid">
+                  Nome é obrigatório.
+                </div>
+              </div> -->
             </div>
             <div class="form-group  col-xl-12">
               <label for="">Descrição do Pacote</label>
@@ -78,19 +86,21 @@
               <input type="text" placeholder="0" class="form-control" formControlName="pagesPackage" />
             </div>
             <div class="form-group col-xl-8">
-              <label for="">Valor do Pacote</label>
-              <input id="price" step="0.01" min="0.01" type="number" placeholder="R$" class="form-control" formControlName="price" />
+              <label for="price">Preço</label>
+              <input *ngIf="!isEditing" class="form-control" type="text" formControlName="price" />
+              <input *ngIf="isEditing" class="form-control" placeholder="R$ 0,00" type="text"
+                [textMask]="{ mask: mask.money }" formControlName="price" />
             </div>
           </div>
-          <div *ngIf="isEditing" class="modal-footer" >
+          <div *ngIf="isEditing" class="modal-footer">
             <div class="pull-right" id="call5">
-                <button  type="button" (click)="cancelEdit()" class="btn btn-danger"
-                    style="margin-right:10px">Cancelar</button>
-                <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="labelPackage.dirty">
-                    Salvar
-                </button>
+              <button type="button" (click)="cancelEdit()" class="btn btn-danger"
+                style="margin-right:10px">Cancelar</button>
+              <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="labelPackage.invalid">
+                Salvar
+              </button>
             </div>
-        </div>
+          </div>
         </form>
       </div>
     </div>

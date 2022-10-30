@@ -64,6 +64,7 @@ export class NewComponent implements OnInit {
   postPackage() {
     this.loading = true;
     this.returnFormatPrice();
+    this.toggleCheck();
     this.packageSrv.newPackage(this.packageForm.value).subscribe(
       data => {
         if (data._id) {
@@ -95,5 +96,14 @@ export class NewComponent implements OnInit {
     const priceFloat = parseFloat(priceStr);
     this.packageForm.patchValue({
       price: priceFloat})
+  }
+
+  toggleCheck(){
+    if(this.packageForm.value.signature === false){
+      this.packageForm.value.filesPackage = null
+    }
+    if(this.packageForm.value.ocr === false){
+      this.packageForm.value.pagesPackage = null
+    }
   }
 }

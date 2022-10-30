@@ -1,3 +1,4 @@
+import { Masks } from 'src/app/utils/masks';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { PackageService } from './../../../services/config-packages/package.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -36,6 +37,7 @@ export class ShowComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private mask: Masks,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
     private packageSrv: PackageService,
@@ -45,7 +47,7 @@ export class ShowComponent implements OnInit {
   ) {
     this.packageForm = this.fb.group({
       _id: this.fb.control(''),
-      labelPackage: this.fb.control({ value: '', disabled: true }),
+      labelPackage: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       describe: this.fb.control({ value: '', disabled: true }),
       filesPackage: this.fb.control({ value: '', disabled: true }),
       pagesPackage: this.fb.control({ value: '', disabled: true }),
@@ -85,7 +87,10 @@ export class ShowComponent implements OnInit {
           describe: packageData.describe,
           filesPackage: packageData.filesPackage,
           pagesPackage: packageData.pagesPackage,
-          price: packageData.price,
+          price: packageData.price.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }),
           signature: packageData.signature,
           ocr: packageData.ocr
         });
@@ -176,6 +181,8 @@ export class ShowComponent implements OnInit {
 
   submit() {
     this.loading = true;
+    this.returnFormatPrice();
+    this.toggleCheck();
     const pack = _.omitBy(this.packageForm.value, _.isNil);
     this.packageSrv.updatePackage(pack).subscribe(
       data => {
@@ -192,6 +199,22 @@ export class ShowComponent implements OnInit {
         this.errorMsg.errorMessages(error);
       }
     );
+  }
+
+  returnFormatPrice() {
+    let price = this.packageForm.value.price.replace(',', '.');
+    const priceStr = price.replace('R$', '');
+    const priceFloat = parseFloat(priceStr);
+    this.packageForm.value.price = priceFloat;
+  }
+
+  toggleCheck(){
+    if(this.packageForm.value.signature === false){
+      this.packageForm.value.filesPackage = null
+    }
+    if(this.packageForm.value.ocr === false){
+      this.packageForm.value.pagesPackage = null
+    }
   }
 
 }

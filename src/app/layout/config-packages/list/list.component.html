@@ -53,37 +53,24 @@
             [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPagePackages($event)'
             (activate)="getPackages($event)">
             <ngx-datatable-column name="Nome do Pacote" prop="labelPackage"></ngx-datatable-column>
-
+            <ngx-datatable-column name="Assinatura Digital" prop="signature">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <ng-container *ngIf="value == true">
+                        <abbr title="Possui assinatura digital">
+                            <i class="mdi mdi-draw-pen mdi-24px"></i>
+                        </abbr>
+                    </ng-container>
+                </ng-template>
+            </ngx-datatable-column>
             <ngx-datatable-column name="OCR" prop="ocr">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    <ng-container *ngIf="value === true; else elseTemplate">
+                    <ng-container *ngIf="value === true">
                         <abbr title="Possui OCR">
                             <i class="mdi mdi-ocr mdi-24px"></i>
                         </abbr>
                     </ng-container>
-                    <ng-template #elseTemplate>
-                        <abbr title="nNão possui OCR">
-                            <i class="mdi mdi-ocr-outline mdi-24px"></i>
-                        </abbr>
-                    </ng-template>
                 </ng-template>
             </ngx-datatable-column>
-
-            <ngx-datatable-column name="Assinatura Digital" prop="signature">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <ng-container *ngIf="value == true; else elseTemplate">
-                        <abbr title="Possui assinatura digital">
-                            <i class="mdi mdi-signature mdi-24px"></i>
-                        </abbr>
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                        <abbr title="Não ossui assinatura digital">
-                            <i class="mdi mdi-alpha-c-circle-outline mdi-24px"></i>
-                        </abbr>
-                    </ng-template>
-                </ng-template>
-            </ngx-datatable-column>
-
             <ngx-datatable-column name="Criado em" prop="dateCreated">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{ value | date: 'dd/MM/yyyy' }}
