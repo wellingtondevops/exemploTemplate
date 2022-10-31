@@ -5,7 +5,7 @@ export const environment = {
     exampleImportVolumesSimple: 'https://storage.googleapis.com/archiobucket/ARCHIOFILES/Exemplo%20Guarda%20Simples.xlsx',
     exampleImportVolumesManaged: 'https://storage.googleapis.com/archiobucket/ARCHIOFILES/Exemplo%20Guarda%20Gerenciada.xlsx',
     apiUrlUpload: 'https://muploadtestes.archio.com.br',
-    apiUrlUploadSingle: 'https://smuploadtestes.archio.com.br',
+    apiUrlUploadSingle: 'https://smuploadprod.archio.com.br',
     urlSearch: 'https://archiomaintestes.archio.com.br',
     production: true,
     firebaseConfig: {
