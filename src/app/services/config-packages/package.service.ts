@@ -76,4 +76,13 @@ export class PackageService {
     }
   }
 
+  // Purchase
+
+  buyPackage(company, data) {
+    return this.http.post<Package>(`${url}/companies/${company}/purchasepackages`, data)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
 }
