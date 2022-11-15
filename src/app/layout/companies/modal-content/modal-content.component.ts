@@ -4,7 +4,7 @@ import { SaveLocal } from './../../../storage/saveLocal';
 import { PackageService } from './../../../services/config-packages/package.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal, NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Company } from 'src/app/models/company';
 import { PersonTypeEnum } from 'src/app/models/persontype.enum';
 import { routerTransition } from 'src/app/router.animations';
@@ -16,7 +16,6 @@ import { Masks } from 'src/app/utils/masks';
 import { SuccessMessagesService } from 'src/app/utils/success-messages/success-messages.service';
 import _ from 'lodash';
 import { ColumnMode } from 'src/app/models/column-mode.types';
-import { event } from 'jquery';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -37,9 +36,15 @@ export class ModalContentComponent implements OnInit {
   permissionDelete = false;
   permissionConfirmEdit = false;
   permissionCancelEdit = false;
+  disabledTab2 = false;
+  disabledTab3 = true;
   hiddenCPF = true;
   hiddenCNPJ = true;
   company: Company;
+  dataCompanyPackage;
+  idPack;
+  filesAvailable;
+  pagesAvailable;
   ColumnMode = ColumnMode;
   page = new Page();
   personTypeList: any = [];
@@ -95,7 +100,6 @@ export class ModalContentComponent implements OnInit {
   }
 
   // INICIALIZAÇÃO
-
   ngOnInit() {
     if (this.comp) {
       this.id = this.comp._id;
@@ -106,14 +110,11 @@ export class ModalContentComponent implements OnInit {
       this.isNew = true;
       this.permissionCancelEdit = true;
       this.permissionConfirmEdit = true;
-
       this.enableDisable(1);
-
     }
   }
 
   // RESOURCES
-
   enableDisable(type) {
     if (type == 1) {
       this.companyForm.controls['name'].enable();
@@ -138,13 +139,11 @@ export class ModalContentComponent implements OnInit {
       this.companyForm.controls['cpf'].disable();
       this.companyForm.controls['cnpj'].disable();
     }
-
   }
 
   getCompany() {
     this.companiesSrv.company(this.id).subscribe(
       data => {
-        console.log('A COMPANHIA: ', data)
         this.loading = false;
         this.company = data;
         this.companyForm.patchValue({
@@ -160,18 +159,19 @@ export class ModalContentComponent implements OnInit {
           cnpj: data.cnpj ? data.cnpj : null,
           cpf: data.cpf ? data.cpf : null
         });
+        this.filesAvailable = this.company.filesAvailable;
+        this.pagesAvailable = this.company.pagesAvailable;
+        this.getBuyPackage(this.company._id);
         if (data.cnpj) {
           this.hiddenCNPJ = false;
         }
         if (data.cpf) {
           this.hiddenCPF = false;
         }
-
       },
       error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
-        console.log('ERROR', error);
       }
     );
   }
@@ -214,7 +214,6 @@ export class ModalContentComponent implements OnInit {
     return this.searchForm.get('labelPackage');
   }
 
-
   help() {
     if (this.isNew) {
       this.introService.NewCompany();
@@ -243,7 +242,6 @@ export class ModalContentComponent implements OnInit {
   }
 
   // EDIT
-
   editDepartament() {
     this.enableDisable(1);
     this.permissionDelete = false;
@@ -266,7 +264,6 @@ export class ModalContentComponent implements OnInit {
   }
 
   // DELETE
-
   open(name: string, id) {
     const modalRef = this.modalService.open(MODALS[name]);
     modalRef.componentInstance.item = id;
@@ -291,18 +288,15 @@ export class ModalContentComponent implements OnInit {
       error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
-        console.log('ERROR:', error);
       }
     );
   }
 
   // FINALIZAÇÃO
-
   submit() {
     if (!this.isNew) {
       this.loading = true;
       const company = _.omitBy(this.companyForm.value, _.isNil);
-      console.log(company);
       this.companiesSrv.updateCompany(company).subscribe(
         data => {
           if (data._id) {
@@ -314,7 +308,6 @@ export class ModalContentComponent implements OnInit {
         error => {
           this.loading = false;
           this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
         }
       );
     } else {
@@ -331,7 +324,6 @@ export class ModalContentComponent implements OnInit {
         error => {
           this.loading = false;
           this.errorMsg.errorMessages(error);
-          console.log('ERROR: ', error);
         }
       );
     }
@@ -376,21 +368,90 @@ export class ModalContentComponent implements OnInit {
     }
   }
 
-  buyPackage(data) {
-    console.log(data)
-    const id = this.company._id;
-    const teste = {
-      typepackage: data
-    }
-    this.packageSvr.buyPackage(id, teste).subscribe(data => {
-
-    })
+  clear() {
+    this.localStorageSrv.clear('labelPackage');
+    this.searchForm.patchValue({
+      labelPackage: null
+    });
   }
 
-  t;
+  buyPackage(dataId) {
+    this.loading = true;
+    const id = this.company._id;
+    const idPackage = {
+      typepackage: dataId
+    };
 
-  // beforeChange($event: NgbTabChangeEvent) {
-  //  event.nextID = 1;
-  // }
+    this.packageSvr.buyPackage(id, idPackage).subscribe(
+      data => {
+        this.successMsgSrv.successMessages('Compra efetuada com sucesso!');
+        this.idPack = data;
+        this.getCompany();
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        this.loading = false;
+      });
+  }
+
+  changeTab(tab) {
+    setTimeout(() => {
+      tab.select('tab3');
+    }, 1000);
+  }
+
+  getBuyPackage(id) {
+    this.loading = true;
+    this.packageSvr.getBuyPackage(id).subscribe(
+      data => {
+        this.dataCompanyPackage = data.items[0];
+        const dataSize = data.items;
+        if (dataSize <= 0) {
+          this.disabledTab2 = true;
+          this.disabledTab3 = true;
+        } else {
+          this.disabledTab2 = false;
+          this.disabledTab3 = false;
+        }
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        this.loading = false;
+      }
+    )
+  }
+
+  addDoc(endpoint) {
+    this.loading = true;
+    const id = this.company._id;
+    let a: any;
+    this.packageSvr.addDocument(id, endpoint, a).subscribe(
+      data => {
+        this.successMsgSrv.successMessages(data.message);
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        this.loading = false;
+      }
+    )
+  }
+
+  removeDoc(endpoint) {
+    this.loading = true;
+    const id = this.company._id;
+    this.packageSvr.removeDocument(id, endpoint).subscribe(
+      data => {
+        this.successMsgSrv.successMessages(data.message);
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        this.loading = false;
+      }
+    )
+  }
 
 }

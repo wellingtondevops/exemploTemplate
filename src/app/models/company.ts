@@ -18,6 +18,9 @@ export class Company {
   cpf: string;
   cnpj: string;
   dateCreated: string;
+  filesAvailable?: number;
+	pagesAvailable?: number;
+  allDocuments: boolean;
 }
 
 export class CompaniesList {

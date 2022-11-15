@@ -35,7 +35,7 @@
 
         <div class="card-body base-modal-body">
             <ngb-tabset #tab="ngbTabset">
-                <ngb-tab title="Dados da Empresa" [id]="0">
+                <ngb-tab title="Dados da Empresa" id="tab1">
                     <ng-template ngbTabContent>
                         <form [formGroup]="companyForm" role="FormGroup" (ngSubmit)="submit()" class="form">
                             <div class="form-content" id="call3">
@@ -187,7 +187,7 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab title="Compra de Pacotes" [id]="1">
+                <ngb-tab title="Compra de Pacotes" id="tab2" [disabled]="!disabledTab2">
                     <ng-template ngbTabContent>
                         <form [formGroup]="searchForm" (ngSubmit)="setPagePackages(page)" role="FormGroup">
                             <div class="row" id="step2">
@@ -223,17 +223,6 @@
                                 [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"
                                 (page)='setPagePackages($event)'>
                                 <ngx-datatable-column name="Nome do Pacote" prop="labelPackage"></ngx-datatable-column>
-                                <ngx-datatable-column name="Assinatura Digital" prop="signature">
-                                    <ng-template let-value="value" ngx-datatable-cell-template>
-                                        <ng-container *ngIf="value == true">
-                                            <abbr title="Possui assinatura digital">
-                                                <i class="mdi mdi-draw-pen mdi-24px"></i>
-                                            </abbr>
-                                        </ng-container>
-                                    </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column name="Número de Arquivos para Assinar" prop="filesPackage">
-                                </ngx-datatable-column>
                                 <ngx-datatable-column name="OCR" prop="ocr">
                                     <ng-template let-value="value" ngx-datatable-cell-template>
                                         <ng-container *ngIf="value === true">
@@ -245,6 +234,17 @@
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="Número de páginas OCR" prop="pagesPackage">
                                 </ngx-datatable-column>
+                                <ngx-datatable-column name="Assinatura Digital" prop="signature">
+                                    <ng-template let-value="value" ngx-datatable-cell-template>
+                                        <ng-container *ngIf="value == true">
+                                            <abbr title="Possui assinatura digital">
+                                                <i class="mdi mdi-draw-pen mdi-24px"></i>
+                                            </abbr>
+                                        </ng-container>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Número de Arquivos para Assinar" prop="filesPackage">
+                                </ngx-datatable-column>
                                 <ngx-datatable-column name="Valor" prop="price">
                                     <ng-template let-value="value" ngx-datatable-cell-template>
                                         {{value | currency:'BRL':true:'1.2-2' }}
@@ -252,7 +252,8 @@
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="" prop="_id">
                                     <ng-template let-value="value" ngx-datatable-cell-template>
-                                        <button class="btn btn-success" (click)="buyPackage(value); tab.select('tab3')">Comprar</button>
+                                        <button class="btn btn-success"
+                                            (click)="buyPackage(value); changeTab(tab)">Comprar</button>
                                     </ng-template>
                                 </ngx-datatable-column>
                             </ngx-datatable>
@@ -260,9 +261,91 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab title="Configurações" id="tab3">
+                <ngb-tab title="Configurações" id="tab3" [disabled]="disabledTab3">
                     <ng-template ngbTabContent>
+                        <h1>Pacote Ativo</h1>
+                        <ngb-accordion #acc="ngbAccordion" activeIds="custom-panel-1">
+                            <ngb-panel title="packageInfo" id="custom-panel-1">
+                                <ng-template ngbPanelHeader let-opened="opened">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="m-0">{{dataCompanyPackage.labelPackage}}</h5>
+                                        <button ngbPanelToggle class="btn btn-link p-0">
+                                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="card-body p-1" id="calling">
+                                        <ul>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Código do Pacote: </strong>
+                                                <a>{{ dataCompanyPackage.ticketNumber }} </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">OCR em Arquivos PDF: </strong>
+                                                <a>{{ dataCompanyPackage.ocr === true ? 'Ativo' : 'Inativo' }} </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Total de Páginas para o OCR: </strong>
+                                                <a>{{ dataCompanyPackage.pages }} </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Limite restante de Páginas para OCR: </strong>
+                                                <a>{{ pagesAvailable }} </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Assinatura Digital: </strong>
+                                                <a>{{ dataCompanyPackage.signature === true ? 'Ativo' : 'Inativo'}}
+                                                </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Total de Arquivos para Assinar: </strong>
+                                                <a>{{ dataCompanyPackage.files }} </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Limite restante de Arquivos para Assinar: </strong>
+                                                <a>{{ filesAvailable }} </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
 
+                            <ngb-panel title="packageBtn" id="custom-panel-2">
+                                <ng-template ngbPanelHeader let-opened="opened">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="m-0">APLICAR ESTE PACOTE A TODOS DOCUMENTOS</h5>
+                                        <button ngbPanelToggle class="btn btn-link p-0">
+                                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelContent let-opened="opened">
+                                    <div class="card-body p-1">
+                                        <ul>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Para ativar ou desativar OCR a todos documentos
+                                                    utilize os botões: </strong>
+                                                <button class="btn btn-primary mr-2 btn-sm"
+                                                    (click)="addDoc('setorcall')">ATIVAR</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="addDoc('removeorcall')">DESATIVAR</button>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Para ativar ou desativar todos documentos com
+                                                    Assinatura utilize os botões: </strong>
+                                                <button class="btn btn-primary mr-2 btn-sm"
+                                                    (click)="addDoc('setsignatureall')">ATIVAR</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="addDoc('removesignatureall')">DESATIVAR</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>

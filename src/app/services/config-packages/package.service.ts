@@ -85,4 +85,24 @@ export class PackageService {
       );
   }
 
+  getBuyPackage(id) {
+    return this.http.get<any>(`${url}/companies/${id}/purchases`)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  addDocument(id, endpoint, a) {
+    return this.http.post<any>(`${url}/companies/${id}/${endpoint}`, a)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  removeDocument(id, endpoint) {
+    return this.http.delete<any>(`${url}/companies/${id}/${endpoint}`)
+      .pipe(
+        tap(data => data)
+      );
+  }
 }

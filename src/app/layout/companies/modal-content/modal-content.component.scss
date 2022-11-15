@@ -1,32 +1,39 @@
-
 .row {
     width: 100%;
 }
+
 .text-left {
     margin-left: 10x;
 }
+
 :host {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
-strong{
+
+strong {
     margin-left: 20px;
 }
-label{
+
+label {
     margin-left: 22px;
 }
-h5{
+
+h5 {
     margin-left: 20px;
 }
+
 h2 {
-  margin-left: 20px;
-  white-space: normal;
+    margin-left: 20px;
+    white-space: normal;
 }
-h6{
+
+h6 {
     font-weight: bold;
 }
-.form-control{
+
+.form-control {
     // width: 100%;
     border-radius: 50px;
 }
@@ -35,14 +42,15 @@ h6{
     display: inline-block;
 }
 
-.dataBtn{
+.dataBtn {
     margin-left: 22px;
 }
 
-.flex{
+.flex {
     display: flex;
     flex-wrap: wrap;
 }
+
 // .base-modal-body {
 //     height: 50vh;
 //     align-items: space-between;
@@ -64,6 +72,10 @@ h6{
     background-color: #ff0000;
 }
 
+li {
+    list-style-type: none;
+}
+
 @media screen and (max-width: 575px) {
     ::ng-deep .customModal .modal-dialog {
         max-width: 100%;
@@ -75,7 +87,7 @@ h6{
 
 @media screen and (max-width: 350px) {
     h2 {
-       margin-left: 10px;
-       font-size: 25px;
+        margin-left: 10px;
+        font-size: 25px;
     }
 }
