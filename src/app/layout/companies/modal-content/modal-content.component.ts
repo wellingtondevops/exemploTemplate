@@ -40,6 +40,8 @@ export class ModalContentComponent implements OnInit {
   disabledTab3 = true;
   hiddenCPF = true;
   hiddenCNPJ = true;
+  ocr: boolean;
+  signature : boolean;
   company: Company;
   dataCompanyPackage;
   idPack;
@@ -162,6 +164,8 @@ export class ModalContentComponent implements OnInit {
         this.filesAvailable = this.company.filesAvailable;
         this.pagesAvailable = this.company.pagesAvailable;
         this.getBuyPackage(this.company._id);
+        this.ocr = this.company.ocr;
+        this.signature = this.company.signature;
         if (data.cnpj) {
           this.hiddenCNPJ = false;
         }
@@ -430,6 +434,7 @@ export class ModalContentComponent implements OnInit {
     this.packageSvr.addDocument(id, endpoint, a).subscribe(
       data => {
         this.successMsgSrv.successMessages(data.message);
+        this.getCompany();
         this.loading = false;
       },
       error => {
@@ -445,6 +450,7 @@ export class ModalContentComponent implements OnInit {
     this.packageSvr.removeDocument(id, endpoint).subscribe(
       data => {
         this.successMsgSrv.successMessages(data.message);
+        this.getCompany();
         this.loading = false;
       },
       error => {

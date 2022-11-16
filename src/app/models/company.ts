@@ -21,6 +21,8 @@ export class Company {
   filesAvailable?: number;
 	pagesAvailable?: number;
   allDocuments: boolean;
+  ocr: boolean;
+  signature: boolean;
 }
 
 export class CompaniesList {

@@ -92,8 +92,8 @@ export class PackageService {
       );
   }
 
-  addDocument(id, endpoint, a) {
-    return this.http.post<any>(`${url}/companies/${id}/${endpoint}`, a)
+  addDocument(id, endpoint, data) {
+    return this.http.post<any>(`${url}/companies/${id}/${endpoint}`, data)
       .pipe(
         tap(data => data)
       );

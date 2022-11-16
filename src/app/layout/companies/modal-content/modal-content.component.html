@@ -329,17 +329,17 @@
                                                 <strong class="m-0">Para ativar ou desativar OCR a todos documentos
                                                     utilize os botões: </strong>
                                                 <button class="btn btn-primary mr-2 btn-sm"
-                                                    (click)="addDoc('setorcall')">ATIVAR</button>
+                                                    (click)="addDoc('setorcall')" [disabled]="ocr === true">ATIVAR</button>
                                                 <button class="btn btn-danger btn-sm"
-                                                    (click)="addDoc('removeorcall')">DESATIVAR</button>
+                                                    (click)="addDoc('removeorcall')" [disabled]="ocr === false">DESATIVAR</button>
                                             </li>
                                             <li class="mb-1">
                                                 <strong class="m-0">Para ativar ou desativar todos documentos com
                                                     Assinatura utilize os botões: </strong>
                                                 <button class="btn btn-primary mr-2 btn-sm"
-                                                    (click)="addDoc('setsignatureall')">ATIVAR</button>
+                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true">ATIVAR</button>
                                                 <button class="btn btn-danger btn-sm"
-                                                    (click)="addDoc('removesignatureall')">DESATIVAR</button>
+                                                    (click)="addDoc('removesignatureall')" [disabled]="signature === false">DESATIVAR</button>
                                             </li>
                                         </ul>
                                     </div>
