@@ -287,25 +287,34 @@
                                                 <a>{{ dataCompanyPackage.ocr === true ? 'Ativo' : 'Inativo' }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Total de páginas adiquiridas para ocr OCR: </strong>
+                                                <strong class="m-0">Total de páginas adquiridos para OCR: </strong>
+                                                <a>{{ dataCompanyPackage.pages }} </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Saldo restante para de páginas para OCR: </strong>
                                                 <a>{{ pagesAvailable }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Total de páginas já processadas para OCR: </strong>
-                                                <a>{{ dataCompanyPackage.pages }} </a>
+                                                <strong class="m-0">Total de OCRs realizados: </strong>
+                                                <a>{{ dataCompanyPackage.pages - pagesAvailable }} </a>
                                             </li>
+                                            <br>
                                             <li class="mb-1">
                                                 <strong class="m-0">Pacote Assinatura Digital: </strong>
                                                 <a>{{ dataCompanyPackage.signature === true ? 'Ativo' : 'Inativo'}}
                                                 </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Total de Assinturas adiquiridos: </strong>
+                                                <strong class="m-0">Total de Assinturas adquiridos: </strong>
+                                                <a>{{dataCompanyPackage.files }} </a>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Saldo restante para Assinaturas:</strong>
                                                 <a>{{ filesAvailable }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Total de Arquivos Assinados: </strong>
-                                                <a>{{ dataCompanyPackage.files }} </a>
+                                                <strong class="m-0">Total de Assinaturas realizadas: </strong>
+                                                <a>{{ dataCompanyPackage.files  - filesAvailable }} </a>
                                             </li>
 
                                         </ul>

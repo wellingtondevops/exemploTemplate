@@ -29,13 +29,13 @@ export class ModalContentComponent implements OnInit {
 
   loading: Boolean = false;
   isEditing: Boolean = false;
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
-  permissionConfirm: boolean = false;
-  permissionCancel: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
+  permissionConfirm = false;
+  permissionCancel = false;
   isUsers = false;
   savedFile = false;
-  pdfHeight = '100vh;'
+  pdfHeight = '100vh;';
   document: any;
 
   uploadResponse: any = { status: 'progress', message: 0 };
@@ -50,8 +50,11 @@ export class ModalContentComponent implements OnInit {
   ocr;
   dateOcr;
   ocrBy;
-  assDigi;
+  cerificateBy;
+  signature;
+  dateSignature;
   archive: Archive;
+
 
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
@@ -106,7 +109,9 @@ export class ModalContentComponent implements OnInit {
       this.ocr = data.ocr;
       this.dateOcr = data.dateOcr;
       this.ocrBy = data.ocrBy;
-      this.assDigi = data.signature
+      this.cerificateBy = data.cerificateBy;
+      this.signature = data.signature;
+      this.dateSignature = data.dateSignature;
       this.pending = data.pending;
       this.document = data.doct;
       this.archiveCreateForm.patchValue({
@@ -147,15 +152,17 @@ export class ModalContentComponent implements OnInit {
   }
 
   returnDateCreate(create) {
-    return moment(create).utc().format('DD/MM/YYYY hh:mm');
+    return moment(create).locale('pt-br').format('DD/MM/YYYY hh:mm');
   }
 
-  returnDateOcr(create) {
-    return moment(create).utc().format('DD/MM/YYYY hh:mm');
+  returnDateOcr(dateOcr) {
+    return moment(dateOcr).locale('pt-br').format('DD/MM/YYYY hh:mm');
   }
-
+  returnDateSign(dateSignature) {
+    return moment(dateSignature).locale('pt-br').format('DD/MM/YYYY hh:mm');
+  }
   returnDate(create) {
-    return moment(create).utc().format('DD/MM/YYYY');
+    return moment(create).locale('pt-br').format('DD/MM/YYYY');
   }
 
   postFile(data) {
