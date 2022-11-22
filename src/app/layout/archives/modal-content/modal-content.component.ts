@@ -23,7 +23,7 @@ const MODALS = {
   animations: [routerTransition()]
 })
 export class ModalContentComponent implements OnInit {
-  
+
   @Input() public arch;
   id;
 
@@ -47,7 +47,10 @@ export class ModalContentComponent implements OnInit {
   requestForm: FormGroup;
   startCurrentDate = false;
   inputStartCurrentDate = '';
-
+  ocr;
+  dateOcr;
+  ocrBy;
+  assDigi;
   archive: Archive;
 
   uploadFile = new FormGroup({
@@ -84,35 +87,38 @@ export class ModalContentComponent implements OnInit {
     this.archiveCreateForm = this.fb.group({
       create: this.fb.control(''),
       indexBy: this.fb.control('')
-  });
-  this.requestForm = this.fb.group({
+    });
+    this.requestForm = this.fb.group({
       requestType: this.fb.control(''),
       notes: this.fb.control('')
-  });
+    });
     this.getArchive();
   }
 
   // RESOURCES
 
-  beforeChange(data){}
+  beforeChange(data) { }
 
   getArchive() {
     this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
-        this.archive = data;
-        this.pending = data.pending;
-        this.document = data.doct;
-        this.archiveCreateForm.patchValue({
-            create: moment(data.create).format('DD/MM/YYYY hh:mm'),
-            indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
-        });
-        this.file = data.picture;
-        $('.file').css('height', 'auto');
-        this.loading = false;
+      this.archive = data;
+      this.ocr = data.ocr;
+      this.dateOcr = data.dateOcr;
+      this.ocrBy = data.ocrBy;
+      this.assDigi = data.signature
+      this.pending = data.pending;
+      this.document = data.doct;
+      this.archiveCreateForm.patchValue({
+        create: moment(data.create).format('DD/MM/YYYY hh:mm'),
+        indexBy: data.author && data.author.email ? data.author.email : 'Sem e-mail'
+      });
+      this.file = data.picture;
+      $('.file').css('height', 'auto');
+      this.loading = false;
     }, error => {
-        $('.file').css('height', this.height - 30);
-        console.log('ERROR: ', error);
-        this.loading = false;
+      $('.file').css('height', this.height - 30);
+      this.loading = false;
     });
   }
 
@@ -128,42 +134,45 @@ export class ModalContentComponent implements OnInit {
     }
   }
 
-  setStartCurrentDate(){
+  setStartCurrentDate() {
     const data = { startCurrentDate: moment(this.inputStartCurrentDate).utc().format('DD/MM/YYYY') };
-        this.loading = true;
-        this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
-            this.getArchive();
-            this.loading = false;
-        }, error => {
-            this.loading = false;
-            this.errorMsg.errorMessages(error);
-            console.log('ERROR ', error);
-        });
+    this.loading = true;
+    this.archiveSrv.patchStartCurrentDate(this.id, data).subscribe(res => {
+      this.getArchive();
+      this.loading = false;
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
+    });
   }
 
   returnDateCreate(create) {
     return moment(create).utc().format('DD/MM/YYYY hh:mm');
   }
 
+  returnDateOcr(create) {
+    return moment(create).utc().format('DD/MM/YYYY hh:mm');
+  }
+
   returnDate(create) {
-      return moment(create).utc().format('DD/MM/YYYY');
+    return moment(create).utc().format('DD/MM/YYYY');
   }
 
   postFile(data) {
     this.uploadFile.patchValue({
-        archive: this.archive._id,
-        volume: this.archive.volume._id,
-        company: this.archive.company._id,
-        storehouse: this.archive.storehouse._id,
-        doct: this.archive.doct._id,
-        file: data
+      archive: this.archive._id,
+      volume: this.archive.volume._id,
+      company: this.archive.company._id,
+      storehouse: this.archive.storehouse._id,
+      doct: this.archive.doct._id,
+      file: data
     });
     this.submit();
-}
+  }
 
-//  resizeFile(){
-//   $('.file').css('height', this.height - 30);
-//  }
+  //  resizeFile(){
+  //   $('.file').css('height', this.height - 30);
+  //  }
 
   // EDIT
 
@@ -176,26 +185,25 @@ export class ModalContentComponent implements OnInit {
     let uniqueness = '';
     const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);
     this.document.label.map((label, i) => {
-        if (label.uniq) {
-            if (i === (labelsTrueLength.length - 1)) {
-                uniqueness += `${tag[i]}`;
-            } else {
-                uniqueness += `${tag[i]}-`;
-            }
+      if (label.uniq) {
+        if (i === (labelsTrueLength.length - 1)) {
+          uniqueness += `${tag[i]}`;
+        } else {
+          uniqueness += `${tag[i]}-`;
         }
+      }
     });
     this.archiveSrv.updateArchive(this.id, { tag, uniqueness }).subscribe(data => {
-        if (data._id) {
-            this.loading = false;
-            this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
-            this.cancelEdit();
-        }
-    }, error => {
+      if (data._id) {
         this.loading = false;
-        this.errorMsg.errorMessages(error);
-        console.log('ERROR: ', error);
+        this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
+        this.cancelEdit();
+      }
+    }, error => {
+      this.loading = false;
+      this.errorMsg.errorMessages(error);
     });
-}
+  }
 
   startEdit(execution) {
     this.isEditing = execution;
@@ -225,64 +233,61 @@ export class ModalContentComponent implements OnInit {
     });
     modalRef.componentInstance.item = id;
     modalRef.componentInstance.data = {
-        titleModal: 'Deletar Arquivo',
-        msgConfirmDelete: 'Arquivo foi deletada com sucesso.',
-        msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o arquivo?',
-        msgQuestionDeleteTwo: 'Todas as informações associadas ao arquivo serão deletadas.'
+      titleModal: 'Deletar Arquivo',
+      msgConfirmDelete: 'Arquivo foi deletada com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o arquivo?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao arquivo serão deletadas.'
     };
     modalRef.componentInstance.delete.subscribe(item => {
-        this.delete(item);
+      this.delete(item);
     });
   }
 
   delete(file) {
     this.archiveSrv.delete(this.id, this.archive).subscribe(res => {
-        this.successMsgSrv.successMessages('Arquivo deletado com sucesso.');
-        this.file = null;
-        this.archive = null;
-        this.activeModal.close('Delete');
+      this.successMsgSrv.successMessages('Arquivo deletado com sucesso.');
+      this.file = null;
+      this.archive = null;
+      this.activeModal.close('Delete');
     }, error => {
-        console.log(error);
-        this.errorMsg.errorMessages(error);
+      this.errorMsg.errorMessages(error);
     });
   }
 
   // FINALIZAÇÃO
 
-  sendRequest(){
+  sendRequest() {
     this.loading = true;
-        this.archiveSrv.sendRequest(this.id ,this.requestForm.value).subscribe(
-            data => {
-                this.loading = false;
-                this.successMsgSrv.successMessages('Solicitação cadastrado com sucesso.');
-                this.ngOnInit();
+    this.archiveSrv.sendRequest(this.id, this.requestForm.value).subscribe(
+      data => {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Solicitação cadastrado com sucesso.');
+        this.ngOnInit();
 
-            },
-            error => {
-                this.loading = false;
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            }
-        );
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+      }
+    );
 
 
   }
 
-  FimRequest(){
+  FimRequest() {
     this.loading = true;
-        this.archiveSrv.finalRequest(this.id).subscribe(
-            data => {
-                this.loading = false;
-                this.successMsgSrv.successMessages('Solicitação Finalizada com sucesso.');
-                this.ngOnInit();
-            },
-            error => {
-                this.loading = false;
-                this.errorMsg.errorMessages(error);
-                console.log('ERROR: ', error);
-            }
-        );
+    this.archiveSrv.finalRequest(this.id).subscribe(
+      data => {
+        this.loading = false;
+        this.successMsgSrv.successMessages('Solicitação Finalizada com sucesso.');
+        this.ngOnInit();
+      },
+      error => {
+        this.loading = false;
+        this.errorMsg.errorMessages(error);
+      }
+    );
   }
 
-  submit(){}
+  submit() { }
 }

@@ -44,6 +44,10 @@ export class Archive {
   finalIntermediate: Boolean;
   final: Boolean;
   pending: Boolean;
+  signature: Boolean;
+  ocr: Boolean;
+  dateOcr;
+  ocrBy;
 }
 
 class Author {

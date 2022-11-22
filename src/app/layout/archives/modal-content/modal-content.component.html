@@ -185,10 +185,14 @@
                                 <br />
                                 <div class="col-12" id="call4">
                                     <div style="font-size: 12px; text-align: left;">
-                                        {{ archive.sponsor.name }}<br />
+                                        Documento digitalizado por {{archive.sponsor.name}}<br />
                                         {{ archive.sponsor.cnpj }}<br />
                                         Indexado por: {{ archive.author.email }}<br />
                                         Data da indexação: {{ returnDateCreate(archive.create) }}
+                                        <div *ngIf="ocr === true">
+                                            OCR por: {{ocrBy}}<br/>
+                                            Data OCR: {{returnDateOcr(dateOcr)}}
+                                        </div>
                                     </div>
                                 </div>
 
