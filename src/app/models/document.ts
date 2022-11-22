@@ -18,7 +18,9 @@ export class Document {
     dintermediateLabel: string;
     dfinal: string;
     label: Label[];
-    currentControl:boolean;
+    currentControl: boolean;
+    ocr: boolean;
+    signature: boolean;
 }
 
 export class DocumentList {

@@ -72,15 +72,15 @@ export class DocumentsService {
     );
   }
 
-  listStructurs(struct_id){
+  listStructurs(struct_id) {
     return this.http.post(`${url}/docts/listStructure`, { id_Structure: struct_id }).pipe(
       tap(data => data)
     );
   }
 
-  postDoctStruct(data){
+  postDoctStruct(data) {
     return this.http.post<any>(`${url}/docts/structure`, data).pipe(
       tap(data => data)
-    )
+    );
   }
 }
