@@ -1,3 +1,4 @@
+import { PackageService } from './../../../services/config-packages/package.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
@@ -70,6 +71,8 @@ export class ModalContentComponent implements OnInit {
     private companiesSrv: CompaniesService,
     private documentSrv: DocumentsService,
     private doctStructsSrv: DocumentsStructurService,
+    private packageSvr: PackageService,
+
   ) {
     this.documentForm = this.fb.group({
       _id: '',
@@ -508,6 +511,39 @@ createLabelEdit(): FormGroup {
         );
     }
 
+  }
+
+  addDoc(endpoint) {
+    this.loading = true;
+    const id = this.document._id;
+    let a: any;
+    this.packageSvr.addDocument(id, endpoint, a).subscribe(
+      data => {
+        this.successMsgSrv.successMessages(data.message);
+        this.getDocument();
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        this.loading = false;
+      }
+    )
+  }
+
+  removeDoc(endpoint) {
+    this.loading = true;
+    const id = this.document._id;
+    this.packageSvr.removeDocument(id, endpoint).subscribe(
+      data => {
+        this.successMsgSrv.successMessages(data.message);
+        this.getDocument();
+        this.loading = false;
+      },
+      error => {
+        this.errorMsg.errorMessages(error);
+        this.loading = false;
+      }
+    )
   }
 
 }

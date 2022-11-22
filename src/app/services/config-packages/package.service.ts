@@ -16,7 +16,7 @@ export class PackageService {
 
   packages(page) {
     if (page) {
-      return this.http.get<PackageList>(`${url}/listpackagestypes?_page=${page.pageNumber}&size=10`)
+      return this.http.get<any>(`${url}/listpackagestypes?_page=${page.pageNumber}&size=10`)
         .pipe(
           tap(data => data)
         );
