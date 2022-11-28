@@ -324,24 +324,41 @@
                                 </ng-template>
                                 <ng-template ngbPanelContent let-opened="opened">
                                     <div class="card-body p-1">
-                                        <ul>
-                                            <li class="mb-1">
+                                        <div class="row">
+                                            <div class="col-lg-11">
                                                 <strong class="m-0">Para ativar ou desativar OCR a todos documentos
-                                                    utilize os botões: </strong>
-                                                <button class="btn btn-primary mr-2 btn-sm"
-                                                    (click)="addDoc('setorcall')" [disabled]="ocr === true">ATIVAR</button>
-                                                <button class="btn btn-danger btn-sm"
-                                                    (click)="addDoc('removeorcall')" [disabled]="ocr === false">DESATIVAR</button>
-                                            </li>
-                                            <li class="mb-1">
+                                                    utilize os botões:
+                                                </strong>
+                                            </div>
+                                            <div class="col-lg-1 text-right">
+                                                <button class="btn btn-primary mr-2 btn-sm" *ngIf="!ocr"
+                                                    (click)="addDoc('setorcall')" [disabled]="ocr === true">
+                                                    ATIVAR
+                                                </button>
+                                                <button class="btn btn-danger btn-sm bntRight" *ngIf="ocr"
+                                                    (click)="addDoc('removeorcall')" [disabled]="ocr === false">
+                                                    DESATIVAR
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-lg-11">
                                                 <strong class="m-0">Para ativar ou desativar todos documentos com
-                                                    Assinatura utilize os botões: </strong>
-                                                <button class="btn btn-primary mr-2 btn-sm"
-                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true">ATIVAR</button>
-                                                <button class="btn btn-danger btn-sm"
-                                                    (click)="addDoc('removesignatureall')" [disabled]="signature === false">DESATIVAR</button>
-                                            </li>
-                                        </ul>
+                                                    Assinatura utilize os botões:
+                                                </strong>
+                                            </div>
+                                            <div class="col-lg-1 text-right">
+                                                <button class="btn btn-primary mr-2 btn-sm" *ngIf="!signature"
+                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true">
+                                                    ATIVAR
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" *ngIf="signature"
+                                                    (click)="addDoc('removesignatureall')"
+                                                    [disabled]="signature === false">
+                                                    DESATIVAR
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </ng-template>
                             </ngb-panel>
