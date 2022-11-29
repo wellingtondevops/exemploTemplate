@@ -200,6 +200,13 @@
                             <span>{{ "Pacotes" | translate }}</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="list-group-item" *ngIf="isMenuService" [routerLink]="['/certificate']"
+                            [routerLinkActive]="['router-link-active']">
+                            <i class="mdi mdi-certificate mdi-18px"></i>&nbsp;
+                            <span>{{ "Certificados" | translate }}</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </div>
