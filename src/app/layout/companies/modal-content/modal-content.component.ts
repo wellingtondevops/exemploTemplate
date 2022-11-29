@@ -1,3 +1,5 @@
+import { CertificateService } from './../../../services/certificate/certificate.service';
+import { Certificate } from './../../../models/certificate';
 import { PackageList } from 'src/app/models/packages';
 import { Page } from 'src/app/models/page';
 import { SaveLocal } from './../../../storage/saveLocal';
@@ -43,6 +45,7 @@ export class ModalContentComponent implements OnInit {
   ocr: boolean;
   signature : boolean;
   company: Company;
+  listCertificate: Certificate;
   dataCompanyPackage;
   idPack;
   filesAvailable;
@@ -62,6 +65,7 @@ export class ModalContentComponent implements OnInit {
     },
     items: []
   };
+  certificate;
 
   constructor(
     private companiesSrv: CompaniesService,
@@ -74,6 +78,7 @@ export class ModalContentComponent implements OnInit {
     public mask: Masks,
     private packageSvr: PackageService,
     private localStorageSrv: SaveLocal,
+    private certificateSrv: CertificateService,
   ) {
     this.personTypeList = PersonTypeEnum;
 
@@ -106,6 +111,7 @@ export class ModalContentComponent implements OnInit {
     if (this.comp) {
       this.id = this.comp._id;
       this.getCompany();
+      this.getCertificate();
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
     } else {
@@ -166,6 +172,7 @@ export class ModalContentComponent implements OnInit {
         this.getBuyPackage(this.company._id);
         this.ocr = this.company.ocr;
         this.signature = this.company.signature;
+        this.certificate =  data.certificate;
         if (data.cnpj) {
           this.hiddenCNPJ = false;
         }
@@ -427,11 +434,13 @@ export class ModalContentComponent implements OnInit {
     )
   }
 
-  addDoc(endpoint) {
+  addDoc(endpoint, data?) {
     this.loading = true;
     const id = this.company._id;
-    let a: any;
-    this.packageSvr.addDocument(id, endpoint, a).subscribe(
+    const data2 = {
+      "certificate": data
+    }
+    this.packageSvr.addDocument(id, endpoint, data2).subscribe(
       data => {
         this.successMsgSrv.successMessages(data.message);
         this.getCompany();
@@ -444,16 +453,13 @@ export class ModalContentComponent implements OnInit {
     )
   }
 
-  removeDoc(endpoint) {
-    this.loading = true;
-    const id = this.company._id;
-    this.packageSvr.removeDocument(id, endpoint).subscribe(
+  getCertificate(){
+    this.certificateSrv.searchCertificadeList().subscribe(
       data => {
-        this.successMsgSrv.successMessages(data.message);
-        this.getCompany();
-        this.loading = false;
-      },
-      error => {
+        this.listCertificate = data.items;
+        console.log(this.listCertificate)
+
+      }, error => {
         this.errorMsg.errorMessages(error);
         this.loading = false;
       }

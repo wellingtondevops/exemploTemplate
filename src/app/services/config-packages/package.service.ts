@@ -98,11 +98,4 @@ export class PackageService {
         tap(data => data)
       );
   }
-
-  removeDocument(id, endpoint) {
-    return this.http.delete<any>(`${url}/companies/${id}/${endpoint}`)
-      .pipe(
-        tap(data => data)
-      );
-  }
 }

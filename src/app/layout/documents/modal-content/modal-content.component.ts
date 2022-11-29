@@ -530,20 +530,4 @@ createLabelEdit(): FormGroup {
     )
   }
 
-  removeDoc(endpoint) {
-    this.loading = true;
-    const id = this.document._id;
-    this.packageSvr.removeDocument(id, endpoint).subscribe(
-      data => {
-        this.successMsgSrv.successMessages(data.message);
-        this.getDocument();
-        this.loading = false;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-        this.loading = false;
-      }
-    )
-  }
-
 }

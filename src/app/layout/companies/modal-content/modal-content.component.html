@@ -263,7 +263,6 @@
 
                 <ngb-tab title="Configurações" id="tab3" [disabled]="disabledTab3">
                     <ng-template ngbTabContent>
-                        <h1>Pacote Ativo</h1>
                         <ngb-accordion #acc="ngbAccordion" activeIds="custom-panel-1">
                             <ngb-panel title="packageInfo" id="custom-panel-1">
                                 <ng-template ngbPanelHeader let-opened="opened">
@@ -312,7 +311,49 @@
                                 </ng-template>
                             </ngb-panel>
 
-                            <ngb-panel title="packageBtn" id="custom-panel-2">
+                            <ngb-panel title="listCertificate" id="custom-panel-2">
+                                <ng-template ngbPanelHeader let-opened="opened">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="m-0 text-uppercase">Certificados</h5>
+                                        <button ngbPanelToggle class="btn btn-link p-0">
+                                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelContent let-opened="opened">
+                                    <div class="card-body p-1">
+                                        <div class="row" *ngIf="certificate !== undefined">
+                                            <div class="col-lg-10">
+                                                <strong class="m-0">Nome do certificado: </strong>
+                                                <a>{{ certificate?.fileName }} </a>
+                                            </div>
+                                            <div class="col-lg-2 text-right">
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="addDoc('removecertificate')">
+                                                    Remover certificado
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="certificate === undefined">
+                                            <div class="col-lg-12">
+                                                <ul class="list-group">
+                                                    <li *ngFor="let item of listCertificate"
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        {{item.subscriber}}
+                                                        <button class="btn btn-primary btn-sm"
+                                                            (click)="addDoc('addcertificate', item._id)">
+                                                            Selecionar certificado
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+
+                            <ngb-panel title="packageBtn" id="custom-panel-3">
                                 <ng-template ngbPanelHeader let-opened="opened">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="m-0">APLICAR ESTE PACOTE A TODOS DOCUMENTOS</h5>
@@ -349,7 +390,7 @@
                                             </div>
                                             <div class="col-lg-1 text-right">
                                                 <button class="btn btn-primary mr-2 btn-sm" *ngIf="!signature"
-                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true">
+                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true || certificate === undefined">
                                                     ATIVAR
                                                 </button>
                                                 <button class="btn btn-danger btn-sm" *ngIf="signature"
@@ -358,6 +399,11 @@
                                                     DESATIVAR
                                                 </button>
                                             </div>
+                                        </div>
+                                        <div class="row" *ngIf="certificate === undefined">
+                                            <span class="text-danger text-sm-left mt-2">Nenhum certificado foi selecionado, 
+                                                por favor escolha o certificado antes de ativar.
+                                            </span>
                                         </div>
                                     </div>
                                 </ng-template>

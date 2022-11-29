@@ -23,6 +23,7 @@ export class Company {
   allDocuments: boolean;
   ocr: boolean;
   signature: boolean;
+  certificate: CertificateCompany[];
 }
 
 export class CompaniesList {
@@ -36,6 +37,14 @@ export class CompaniesSearchList {
     _id: string;
     name: string;
   }];
+}
+
+export class CertificateCompany {
+  _id: string;
+  subscriber: string;
+  fileName: string;
+  notBefore: string;
+  notAfter: string;
 }
 
 
