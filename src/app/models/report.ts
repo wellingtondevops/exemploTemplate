@@ -2,6 +2,10 @@ export class Report {
     companyName: string;
     initialPeriod: string;
     finalPeriod: string;
+    peridoOcr: number;
+    totalOcr: number;
+    periodSignature: number;
+    totalSignature: number ;
     totalDepartamentVolumes: number;
     totalDepartamentArchives: number;
     peridoDepartamentVolumes: number;
@@ -12,7 +16,7 @@ export class Report {
     periodDocumentPages: number;
     usedSpace: string;
     DEPARTAMENT: DEPARTAMENT[];
-    DOCUMENT: DOCUMENT[]
+    DOCUMENT: DOCUMENT[];
 }
 
 class DEPARTAMENT {

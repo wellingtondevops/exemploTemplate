@@ -48,8 +48,10 @@ export class ModalContentComponent implements OnInit {
   listCertificate: Certificate;
   dataCompanyPackage;
   idPack;
-  filesAvailable;
+//   filesAvailable;
+
   pagesAvailable;
+
   ColumnMode = ColumnMode;
   page = new Page();
   personTypeList: any = [];
@@ -166,8 +168,11 @@ export class ModalContentComponent implements OnInit {
           answerable: data.answerable,
           cnpj: data.cnpj ? data.cnpj : null,
           cpf: data.cpf ? data.cpf : null
+
+
         });
-        this.filesAvailable = this.company.filesAvailable;
+
+        // this.filesAvailable = this.company.filesAvailable;
         this.pagesAvailable = this.company.pagesAvailable;
         this.getBuyPackage(this.company._id);
         this.ocr = this.company.ocr;

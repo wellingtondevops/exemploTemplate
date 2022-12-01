@@ -234,17 +234,9 @@
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="Número de páginas OCR" prop="pagesPackage">
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="Assinatura Digital" prop="signature">
-                                    <ng-template let-value="value" ngx-datatable-cell-template>
-                                        <ng-container *ngIf="value == true">
-                                            <abbr title="Possui assinatura digital">
-                                                <i class="mdi mdi-draw-pen mdi-24px"></i>
-                                            </abbr>
-                                        </ng-container>
-                                    </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column name="Número de Arquivos para Assinar" prop="filesPackage">
-                                </ngx-datatable-column>
+
+                                <!-- <ngx-datatable-column name="Número de Arquivos para Assinar" prop="filesPackage">
+                                </ngx-datatable-column> -->
                                 <ngx-datatable-column name="Valor" prop="price">
                                     <ng-template let-value="value" ngx-datatable-cell-template>
                                         {{value | currency:'BRL':true:'1.2-2' }}
@@ -298,23 +290,11 @@
                                                 <a>{{ dataCompanyPackage.pages - pagesAvailable }} </a>
                                             </li>
                                             <br>
-                                            <li class="mb-1">
-                                                <strong class="m-0">Pacote Assinatura Digital: </strong>
-                                                <a>{{ dataCompanyPackage.signature === true ? 'Ativo' : 'Inativo'}}
-                                                </a>
-                                            </li>
-                                            <li class="mb-1">
-                                                <strong class="m-0">Total de Assinturas adquiridos: </strong>
-                                                <a>{{dataCompanyPackage.files }} </a>
-                                            </li>
-                                            <li class="mb-1">
-                                                <strong class="m-0">Saldo restante para Assinaturas:</strong>
-                                                <a>{{ filesAvailable }} </a>
-                                            </li>
-                                            <li class="mb-1">
+
+                                            <!-- <li class="mb-1">
                                                 <strong class="m-0">Total de Assinaturas realizadas: </strong>
-                                                <a>{{ dataCompanyPackage.files  - filesAvailable }} </a>
-                                            </li>
+                                                <a>{{ dataCompanyPackage.files  - filesAvailable}} </a>
+                                            </li> -->
 
                                         </ul>
                                     </div>
@@ -336,7 +316,7 @@
                                         <div class="row" *ngIf="certificate !== undefined">
                                             <div class="col-lg-10">
                                                 <strong class="m-0">Nome do certificado: </strong>
-                                                <a>{{ certificate?.fileName }} </a>
+                                                <a>{{ certificate?.subscriber }} </a>
                                             </div>
                                             <div class="col-lg-2 text-right">
                                                 <button class="btn btn-danger btn-sm"
@@ -383,14 +363,6 @@
                                                     (click)="addDoc('setorcall')" [disabled]="ocr === true">ATIVAR</button>
                                                 <button class="btn btn-danger btn-sm"
                                                     (click)="addDoc('removeorcall')" [disabled]="ocr === false">DESATIVAR</button>
-                                            </li>
-                                            <li class="mb-1">
-                                                <strong class="m-0">todos documentos com
-                                                    Assinatura utilize os botões: </strong>
-                                                <button class="btn btn-primary mr-2 btn-sm"
-                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true">ATIVAR</button>
-                                                <button class="btn btn-danger btn-sm"
-                                                    (click)="addDoc('removesignatureall')" [disabled]="signature === false">DESATIVAR</button>
                                             </li>
                                         </ul>
                                     </div>

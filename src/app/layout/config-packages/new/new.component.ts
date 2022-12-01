@@ -41,7 +41,7 @@ export class NewComponent implements OnInit {
     this.packageForm = this.fb.group({
       labelPackage: this.fb.control('', [Validators.required]),
       describe: this.fb.control(''),
-      filesPackage: this.fb.control(''),
+    //   filesPackage: this.fb.control(''),
       pagesPackage: this.fb.control(''),
       price: this.fb.control(''),
       signature: this.fb.control(true),
@@ -95,15 +95,15 @@ export class NewComponent implements OnInit {
     priceStr = priceStr.replace('R$', '');
     const priceFloat = parseFloat(priceStr);
     this.packageForm.patchValue({
-      price: priceFloat})
+      price: priceFloat});
   }
 
-  toggleCheck(){
-    if(this.packageForm.value.signature === false){
-      this.packageForm.value.filesPackage = null
-    }
-    if(this.packageForm.value.ocr === false){
-      this.packageForm.value.pagesPackage = null
+  toggleCheck() {
+    // if(this.packageForm.value.signature === false){
+    //   this.packageForm.value.filesPackage = null
+    // }
+    if (this.packageForm.value.ocr === false) {
+      this.packageForm.value.pagesPackage = null;
     }
   }
 }

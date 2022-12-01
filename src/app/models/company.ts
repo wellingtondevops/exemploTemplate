@@ -18,8 +18,8 @@ export class Company {
   cpf: string;
   cnpj: string;
   dateCreated: string;
-  filesAvailable?: number;
-	pagesAvailable?: number;
+  pagesAvailable?: number;
+//   filesAvailable?: number;
   allDocuments: boolean;
   ocr: boolean;
   signature: boolean;

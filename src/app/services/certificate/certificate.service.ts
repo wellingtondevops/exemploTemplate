@@ -23,7 +23,7 @@ export class CertificateService {
 
   searchCertificate(page) {
     if (page) {
-      return this.http.get<any>(`${url}/certificates?_page=${page.pageNumber}&size=10`)
+      return this.http.get<any>(`${url}/certificates/?_page=${page.pageNumber}&size=10`)
         .pipe(
           tap(data => data)
         );

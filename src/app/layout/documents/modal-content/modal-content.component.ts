@@ -84,7 +84,8 @@ export class ModalContentComponent implements OnInit {
       dcurrentValue: this.fb.control(0),
       dintermediateValue: this.fb.control(0),
       dfinal: this.fb.control(''),
-      currentControl: this.fb.control('')
+      currentControl: this.fb.control(''),
+      ocr: this.fb.control('')
     });
 
     this.doctStructForm = this.fb.group({
@@ -188,7 +189,9 @@ export class ModalContentComponent implements OnInit {
                 dcurrentValue: this.document.dcurrentValue,
                 dintermediateValue: this.document.dintermediateValue,
                 dfinal: this.document.dfinal,
-                currentControl: this.document.currentControl
+                currentControl: this.document.currentControl,
+                ocr: this.document.ocr,
+
             });
             this.document.label.map(item => {
                 if (!this.isNew && !this.isEditing) {
@@ -272,6 +275,8 @@ createLabelEdit(): FormGroup {
       this.documentForm.controls['dintermediateValue'].enable();
       this.documentForm.controls['dfinal'].enable();
       this.documentForm.controls['currentControl'].enable();
+      this.documentForm.controls['ocr'].enable();
+      this.documentForm.controls['signature'].disable();
       this.documentForm.controls['label'].enable();
 
     } else {
@@ -282,6 +287,8 @@ createLabelEdit(): FormGroup {
       this.documentForm.controls['dintermediateValue'].disable();
       this.documentForm.controls['dfinal'].disable();
       this.documentForm.controls['currentControl'].disable();
+      this.documentForm.controls['ocr'].disable();
+      this.documentForm.controls['signature'].disable();
       this.documentForm.controls['label'].disable();
     }
 
@@ -307,7 +314,8 @@ createLabelEdit(): FormGroup {
         this.doctStructForm.value.id_Structure === '') {
         this.documentForm.patchValue({
             name: '',
-            currentControl: ''
+            currentControl: '',
+
         });
         this.structs = [];
         this.documentForm.get('name').enable();
@@ -410,7 +418,7 @@ createLabelEdit(): FormGroup {
   // EDIT
 
   editDocument() {
-    console.log('ESTOU NO EDIT');
+    // console.log('ESTOU NO EDIT');
     this.enableDisable(1);
     this.isEditing = true;
     this.permissionDelete = false;
