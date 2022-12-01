@@ -6,6 +6,10 @@ export class Certificate {
   };
   _id: string;
   subscriber: string;
+  notBefore: string;
+  notAfter: string;
+  mailSignup: string;
+  dateCreated: string;
 }
 
 export class CertificateList {
