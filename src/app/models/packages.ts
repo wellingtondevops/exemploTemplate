@@ -3,7 +3,7 @@ import { Pagination } from './pagination';
 export class Package {
     link: {
         self: string;
-    }
+    };
     _id: string;
     author: string;
     labelPackage: string;
@@ -11,7 +11,7 @@ export class Package {
     describe: string;
     price: number;
     descriptionService: string;
-    filesPackage: number;
+
     pagesPackage: number;
 	signature: boolean;
     ocr: boolean;

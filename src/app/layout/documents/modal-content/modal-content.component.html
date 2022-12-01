@@ -134,6 +134,28 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="card mb-12" style="margin-top: 20px;">
+                                        <div class="card-header ">
+                                            Configurações
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+
+                                                <div class="col-lg-12 col-sm-6" style="margin-top: 20px;">
+                                                    <div class="pretty p-switch p-fill">
+                                                        <input #checkbox type="checkbox"
+                                                            formControlName="ocr" value="" />
+                                                        <div class="state">
+                                                            <label>
+                                                                Serviço OCR
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-12" style="overflow-y: auto; max-height: 60vh">
@@ -232,7 +254,7 @@
                         </ng-template>
                     </ngb-tab>
 
-                    <ngb-tab title="Configurações" id="tab3" [disabled]="disabledTab3">
+                    <!-- <ngb-tab title="Configurações" id="tab3" [disabled]="disabledTab3">
                         <ng-template ngbTabContent>
                             <div class="card-body p-1">
                                 <ul>
@@ -253,7 +275,7 @@
                                 </ul>
                             </div>
                         </ng-template>
-                    </ngb-tab>
+                    </ngb-tab> -->
                 </ngb-tabset>
                 <br />
                 <div *ngIf="!isNew && !isEditing" class="col-12" id="call4">

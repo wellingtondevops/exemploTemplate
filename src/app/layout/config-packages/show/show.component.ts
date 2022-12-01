@@ -85,7 +85,7 @@ export class ShowComponent implements OnInit {
           _id: packageData._id,
           labelPackage: packageData.labelPackage,
           describe: packageData.describe,
-          filesPackage: packageData.filesPackage,
+
           pagesPackage: packageData.pagesPackage,
           price: packageData.price.toLocaleString('pt-BR', {
             style: 'currency',
@@ -163,7 +163,6 @@ export class ShowComponent implements OnInit {
     if (type == 1) {
       this.packageForm.controls['labelPackage'].enable();
       this.packageForm.controls['describe'].enable();
-      this.packageForm.controls['filesPackage'].enable();
       this.packageForm.controls['pagesPackage'].enable();
       this.packageForm.controls['price'].enable();
       this.packageForm.controls['signature'].enable();
@@ -171,7 +170,6 @@ export class ShowComponent implements OnInit {
     } else {
       this.packageForm.controls['labelPackage'].disable();
       this.packageForm.controls['describe'].disable();
-      this.packageForm.controls['filesPackage'].disable();
       this.packageForm.controls['pagesPackage'].disable();
       this.packageForm.controls['price'].disable();
       this.packageForm.controls['signature'].disable();
@@ -209,9 +207,7 @@ export class ShowComponent implements OnInit {
   }
 
   toggleCheck(){
-    if(this.packageForm.value.signature === false){
-      this.packageForm.value.filesPackage = null
-    }
+
     if(this.packageForm.value.ocr === false){
       this.packageForm.value.pagesPackage = null
     }
