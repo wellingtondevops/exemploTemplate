@@ -43,7 +43,7 @@ export class ModalContentComponent implements OnInit {
   hiddenCPF = true;
   hiddenCNPJ = true;
   ocr: boolean;
-  signature : boolean;
+  signature: boolean;
   company: Company;
   listCertificate: Certificate;
   dataCompanyPackage;
@@ -124,7 +124,7 @@ export class ModalContentComponent implements OnInit {
 
   // RESOURCES
   enableDisable(type) {
-    if (type == 1) {
+    if (type === 1) {
       this.companyForm.controls['name'].enable();
       this.companyForm.controls['email'].enable();
       this.companyForm.controls['adress'].enable();
@@ -431,7 +431,7 @@ export class ModalContentComponent implements OnInit {
         this.errorMsg.errorMessages(error);
         this.loading = false;
       }
-    )
+    );
   }
 
   addDoc(endpoint, data?) {
@@ -450,7 +450,7 @@ export class ModalContentComponent implements OnInit {
         this.errorMsg.errorMessages(error);
         this.loading = false;
       }
-    )
+    );
   }
 
   getCertificate(){
@@ -463,7 +463,7 @@ export class ModalContentComponent implements OnInit {
         this.errorMsg.errorMessages(error);
         this.loading = false;
       }
-    )
+    );
   }
 
 }

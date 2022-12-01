@@ -177,8 +177,8 @@
                             <div class="pull-right" id="call5">
                                 <button type="button" (click)="cancelEditNew()" class="btn btn-danger"
                                     style="margin-right:10px">Cancelar</button>
-                                <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="name.invalid || email.invalid || adress.invalid || 
-                                province.invalid || city.invalid || fone.invalid || answerable.invalid 
+                                <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="name.invalid || email.invalid || adress.invalid ||
+                                province.invalid || city.invalid || fone.invalid || answerable.invalid
                                 || typePerson.invalid">
                                     Salvar
                                 </button>
@@ -282,30 +282,40 @@
                                                 <a>{{ dataCompanyPackage.ticketNumber }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">OCR em Arquivos PDF: </strong>
+                                                <strong class="m-0">Pacote para OCR: </strong>
                                                 <a>{{ dataCompanyPackage.ocr === true ? 'Ativo' : 'Inativo' }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Total de Páginas para o OCR: </strong>
+                                                <strong class="m-0">Total de páginas adquiridos para OCR: </strong>
                                                 <a>{{ dataCompanyPackage.pages }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Limite restante de Páginas para OCR: </strong>
+                                                <strong class="m-0">Saldo restante para de páginas para OCR: </strong>
                                                 <a>{{ pagesAvailable }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Assinatura Digital: </strong>
+                                                <strong class="m-0">Total de OCRs realizados: </strong>
+                                                <a>{{ dataCompanyPackage.pages - pagesAvailable }} </a>
+                                            </li>
+                                            <br>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Pacote Assinatura Digital: </strong>
                                                 <a>{{ dataCompanyPackage.signature === true ? 'Ativo' : 'Inativo'}}
                                                 </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Total de Arquivos para Assinar: </strong>
-                                                <a>{{ dataCompanyPackage.files }} </a>
+                                                <strong class="m-0">Total de Assinturas adquiridos: </strong>
+                                                <a>{{dataCompanyPackage.files }} </a>
                                             </li>
                                             <li class="mb-1">
-                                                <strong class="m-0">Limite restante de Arquivos para Assinar: </strong>
+                                                <strong class="m-0">Saldo restante para Assinaturas:</strong>
                                                 <a>{{ filesAvailable }} </a>
                                             </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Total de Assinaturas realizadas: </strong>
+                                                <a>{{ dataCompanyPackage.files  - filesAvailable }} </a>
+                                            </li>
+
                                         </ul>
                                     </div>
                                 </ng-template>
@@ -356,7 +366,7 @@
                             <ngb-panel title="packageBtn" id="custom-panel-3">
                                 <ng-template ngbPanelHeader let-opened="opened">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <h5 class="m-0">APLICAR ESTE PACOTE A TODOS DOCUMENTOS</h5>
+                                        <h5 class="m-0">ATIVAÇÃO DE SERVIÇOS PARA TODOS DOCUMENTOS</h5>
                                         <button ngbPanelToggle class="btn btn-link p-0">
                                             <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
                                             <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
@@ -365,46 +375,24 @@
                                 </ng-template>
                                 <ng-template ngbPanelContent let-opened="opened">
                                     <div class="card-body p-1">
-                                        <div class="row">
-                                            <div class="col-lg-11">
+                                        <ul>
+                                            <li class="mb-1">
                                                 <strong class="m-0">Para ativar ou desativar OCR a todos documentos
-                                                    utilize os botões:
-                                                </strong>
-                                            </div>
-                                            <div class="col-lg-1 text-right">
-                                                <button class="btn btn-primary mr-2 btn-sm" *ngIf="!ocr"
-                                                    (click)="addDoc('setorcall')" [disabled]="ocr === true">
-                                                    ATIVAR
-                                                </button>
-                                                <button class="btn btn-danger btn-sm bntRight" *ngIf="ocr"
-                                                    (click)="addDoc('removeorcall')" [disabled]="ocr === false">
-                                                    DESATIVAR
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-lg-11">
-                                                <strong class="m-0">Para ativar ou desativar todos documentos com
-                                                    Assinatura utilize os botões:
-                                                </strong>
-                                            </div>
-                                            <div class="col-lg-1 text-right">
-                                                <button class="btn btn-primary mr-2 btn-sm" *ngIf="!signature"
-                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true || certificate === undefined">
-                                                    ATIVAR
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" *ngIf="signature"
-                                                    (click)="addDoc('removesignatureall')"
-                                                    [disabled]="signature === false">
-                                                    DESATIVAR
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="certificate === undefined">
-                                            <span class="text-danger text-sm-left mt-2">Nenhum certificado foi selecionado, 
-                                                por favor escolha o certificado antes de ativar.
-                                            </span>
-                                        </div>
+                                                    utilize os botões: </strong>
+                                                <button class="btn btn-primary mr-2 btn-sm"
+                                                    (click)="addDoc('setorcall')" [disabled]="ocr === true">ATIVAR</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="addDoc('removeorcall')" [disabled]="ocr === false">DESATIVAR</button>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="m-0">todos documentos com
+                                                    Assinatura utilize os botões: </strong>
+                                                <button class="btn btn-primary mr-2 btn-sm"
+                                                    (click)="addDoc('setsignatureall')" [disabled]="signature === true">ATIVAR</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="addDoc('removesignatureall')" [disabled]="signature === false">DESATIVAR</button>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </ng-template>
                             </ngb-panel>

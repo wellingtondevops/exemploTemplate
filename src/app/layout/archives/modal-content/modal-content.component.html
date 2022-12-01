@@ -191,7 +191,11 @@
                                         Data da indexação: {{ returnDateCreate(archive.create) }}
                                         <div *ngIf="ocr === true">
                                             OCR por: {{ocrBy}}<br/>
-                                            Data OCR: {{returnDateOcr(dateOcr)}}
+                                            Data OCR: {{returnDateOcr(archive.dateOcr)}}
+                                        </div>
+                                        <div *ngIf="signature === true">
+                                            Assinado por: {{cerificateBy}}<br/>
+                                            Data da Assinatura: {{returnDateSign(archive.dateSignature)}}
                                         </div>
                                     </div>
                                 </div>

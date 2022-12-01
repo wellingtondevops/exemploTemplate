@@ -34,10 +34,10 @@ import { ModalFilterComponent } from '../modal-filter/modal-filter.component';
 export class ListComponent implements OnInit {
     @ViewChild('myTable') table: any;
     @ViewChild('instanceDepartament') instanceDepartament: NgbTypeahead;
-    @ViewChild('instanceDocument',) instanceDocument: NgbTypeahead;
-    @ViewChild('instanceStorehouse',) instanceStorehouse: NgbTypeahead;
-    @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
-    @ViewChild('searchTypeahead',)
+    @ViewChild('instanceDocument', ) instanceDocument: NgbTypeahead;
+    @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
+    @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
+    @ViewChild('searchTypeahead', )
     private readonly typeahead: NgbTypeahead;
     archives: Archive[];
     noExternal = false;
@@ -135,14 +135,14 @@ export class ListComponent implements OnInit {
 
         this.getCompanies();
         this.getStoreHouses();
-        
+
         this.setForm();
         this.filterCounter();
 
         this.statusList = StatusVolumeEnum;
         this.getArchive();
         this.noExternal = this.NoExternal();
-        
+
         this.searchForm.patchValue({ endDate: null });
         this.checkValue();
     }
@@ -150,26 +150,26 @@ export class ListComponent implements OnInit {
     filterCounter() {
         this.filterCount = 0;
         const archive = JSON.parse(this.localStorageSrv.get('archive'));
-                
+
         if (archive.status !== null && archive.status !== undefined) {
             if (archive.status.length > 0) {
                 this.filterCount++;
             }
         }
-        
+
         if (archive.fases) {
             if (archive.fases.length > 0) {
                 this.filterCount++;
             }
         }
-        
-        if (archive.initDate && archive.initDate != undefined) {
+
+        if (archive.initDate && archive.initDate !== undefined) {
             this.filterCount++;
         }
-        if (archive.endDate && archive.endDate != undefined) {
+        if (archive.endDate && archive.endDate !== undefined) {
             this.filterCount++;
         }
-        
+
     }
 
     NoExternal() {
@@ -228,25 +228,28 @@ export class ListComponent implements OnInit {
                     final: archive.final,
                     finalCurrent: archive.finalCurrent,
                     finalIntermediate: archive.finalIntermediate,
-                    fases: archive.fases
+                    fases: archive.fases,
+                    ocr: archive.ocr,
+                    signature: archive.signature
+
                 });
                 this.getDepartaments(archive.company._id);
-                this.getDocuments(archive.company._id)// coloquei
+                this.getDocuments(archive.company._id); // coloquei
             }
     }
 
-    openFilter(){
+    openFilter() {
         this.modalRef = this.modalService.open(ModalFilterComponent, this.modalFilterOptions);
-    
+
         this.modalRef.componentInstance.form = this.searchForm.value;
 
 
             this.modalRef.result.then((result) => {
-                if (result != "Sair") {
+                if (result !== 'Sair') {
                     this.setForm();
                     this.filterCounter();
-                    this.setPage({ offset: 0 }); 
-                };
+                    this.setPage({ offset: 0 });
+                }
                 this.closeResult = `Closed with: ${result}`;
               }, (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -364,7 +367,7 @@ export class ListComponent implements OnInit {
             status: [],
             initDate: null,
             endDate: null
-            
+
         });
         this.localStorageSrv.save('archive', this.searchForm.value);
         this.filterCounter();
@@ -599,26 +602,26 @@ export class ListComponent implements OnInit {
     }
 
     openArchive(value) {
-        if (value.type == 'click') {
+        if (value.type === 'click') {
             this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
-    
+
             if (value) {
                 this.data = value.row;
-                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+                value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".
                 this.modalRef.componentInstance.arch = this.data;
             }
 
             this.modalRef.result.then((result) => {
-                if (result != "Sair") {
-                    this.getArchive(); 
-                };
+                if (result !== 'Sair') {
+                    this.getArchive();
+                }
                 this.closeResult = `Closed with: ${result}`;
               }, (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
               });
         }
-        
-        
+
+
     }
 
     private getDismissReason(reason: any): string {

@@ -33,7 +33,7 @@ export class ModalContentComponent implements OnInit {
   @Input() public doc;
   id;
 
-  @ViewChild('instanceCompany',) instanceCompany: NgbTypeahead;
+  @ViewChild('instanceCompany', ) instanceCompany: NgbTypeahead;
 
   document: Document;
   documentForm: FormGroup;
@@ -46,10 +46,10 @@ export class ModalContentComponent implements OnInit {
   isEditing: Boolean = false;
   isNew: Boolean = false;
   isCurrent: Boolean = false;
-  permissionEdit: boolean = false;
-  permissionDelete: boolean = false;
-  permissionConfirm: boolean = false;
-  permissionCancel: boolean = false;
+  permissionEdit = false;
+  permissionDelete = false;
+  permissionConfirm = false;
+  permissionCancel = false;
   isUsers = false;
   tabIndex: Boolean = false;
 
@@ -117,7 +117,7 @@ export class ModalContentComponent implements OnInit {
       this.id = this.doc._id;
       this.getDocument();
 
-      this.enableDisable(0)
+      this.enableDisable(0);
 
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
@@ -265,7 +265,7 @@ createLabelEdit(): FormGroup {
   }
 
   enableDisable(type) {
-    if (type == 1) {
+    if (type === 1) {
       this.documentForm.controls['name'].enable();
       this.documentForm.controls['dcurrentLabel'].enable();
       this.documentForm.controls['dcurrentValue'].enable();
@@ -410,7 +410,7 @@ createLabelEdit(): FormGroup {
   // EDIT
 
   editDocument() {
-    console.log("ESTOU NO EDIT");
+    console.log('ESTOU NO EDIT');
     this.enableDisable(1);
     this.isEditing = true;
     this.permissionDelete = false;
@@ -471,7 +471,7 @@ createLabelEdit(): FormGroup {
 
   // FINALIZAÇÃO
 
-  submit(){
+  submit() {
     if (this.isEditing && !this.isNew) {
       this.loading = true;
 
