@@ -185,16 +185,21 @@
                                 <br />
                                 <div class="col-12" id="call4">
                                     <div style="font-size: 12px; text-align: left;">
-                                        Documento digitalizado por {{archive.sponsor.name}}<br />
-                                        {{ archive.sponsor.cnpj }}<br />
+                                        Digitalizado por: {{archive.sponsor.name}}<br />
+                                        CNPJ:{{ archive.sponsor.cnpj }}<br />
                                         Indexado por: {{ archive.author.email }}<br />
                                         Data da indexação: {{ returnDateCreate(archive.create) }}
+
+
                                         <div *ngIf="ocr === true">
+                                            <br>
                                             OCR por: {{ocrBy}}<br/>
                                             Data OCR: {{returnDateOcr(archive.dateOcr)}}
                                         </div>
+                                        <br>
                                         <div *ngIf="signature === true">
-                                            Assinado por: {{cerificateBy}}<br/>
+                                            <i class='far fa-file-signature'></i>{{cerificateBy}}<br/>
+                                            <!-- Assinado por: {{cerificateBy}}<br/> -->
                                             Data da Assinatura: {{returnDateSign(archive.dateSignature)}}
                                         </div>
                                     </div>

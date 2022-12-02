@@ -276,7 +276,7 @@ createLabelEdit(): FormGroup {
       this.documentForm.controls['dfinal'].enable();
       this.documentForm.controls['currentControl'].enable();
       this.documentForm.controls['ocr'].enable();
-      this.documentForm.controls['signature'].disable();
+    //   this.documentForm.controls['signature'].disable();
       this.documentForm.controls['label'].enable();
 
     } else {
@@ -288,7 +288,7 @@ createLabelEdit(): FormGroup {
       this.documentForm.controls['dfinal'].disable();
       this.documentForm.controls['currentControl'].disable();
       this.documentForm.controls['ocr'].disable();
-      this.documentForm.controls['signature'].disable();
+    //   this.documentForm.controls['signature'].disable();
       this.documentForm.controls['label'].disable();
     }
 
@@ -535,7 +535,7 @@ createLabelEdit(): FormGroup {
         this.errorMsg.errorMessages(error);
         this.loading = false;
       }
-    )
+    );
   }
 
 }

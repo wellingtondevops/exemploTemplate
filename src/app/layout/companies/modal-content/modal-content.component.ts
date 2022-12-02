@@ -443,8 +443,8 @@ export class ModalContentComponent implements OnInit {
     this.loading = true;
     const id = this.company._id;
     const data2 = {
-      "certificate": data
-    }
+      'certificate': data
+    };
     this.packageSvr.addDocument(id, endpoint, data2).subscribe(
       data => {
         this.successMsgSrv.successMessages(data.message);
@@ -458,11 +458,11 @@ export class ModalContentComponent implements OnInit {
     );
   }
 
-  getCertificate(){
+  getCertificate() {
     this.certificateSrv.searchCertificadeList().subscribe(
       data => {
         this.listCertificate = data.items;
-        console.log(this.listCertificate)
+        console.log(this.listCertificate);
 
       }, error => {
         this.errorMsg.errorMessages(error);

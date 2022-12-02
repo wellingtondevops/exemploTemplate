@@ -186,8 +186,8 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-
                 <ngb-tab title="Compra de Pacotes" id="tab2" [disabled]="!disabledTab2">
+
                     <ng-template ngbTabContent>
                         <form [formGroup]="searchForm" (ngSubmit)="setPagePackages(page)" role="FormGroup">
                             <div class="row" id="step2">
@@ -301,7 +301,41 @@
                                 </ng-template>
                             </ngb-panel>
 
-                            <ngb-panel title="listCertificate" id="custom-panel-2">
+                            <ngb-panel title="packageBtn" id="custom-panel-3">
+                                <ng-template ngbPanelHeader let-opened="opened">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="m-0">ATIVAÇÃO DE SERVIÇOS PARA TODOS DOCUMENTOS</h5>
+                                        <button ngbPanelToggle class="btn btn-link p-0">
+                                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
+                                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelContent let-opened="opened">
+                                    <div class="card-body p-1">
+                                        <ul>
+                                            <li class="mb-1">
+                                                <strong class="m-0">Para ativar ou desativar OCR a todos documentos
+                                                    utilize os botões: </strong>
+                                                <button class="btn btn-primary mr-2 btn-sm"
+                                                    (click)="addDoc('setorcall')" [disabled]="ocr === true">ATIVAR</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="addDoc('removeorcall')" [disabled]="ocr === false">DESATIVAR</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab title="Certificado Digital" id="tab4" >
+                    <ng-template ngbTabContent>
+                        <ngb-accordion #acc="ngbAccordion" activeIds="custom-panel-4">
+
+
+                            <ngb-panel title="listCertificate" id="custom-panel-4">
                                 <ng-template ngbPanelHeader let-opened="opened">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="m-0 text-uppercase">Certificados</h5>
@@ -342,35 +376,10 @@
                                     </div>
                                 </ng-template>
                             </ngb-panel>
-
-                            <ngb-panel title="packageBtn" id="custom-panel-3">
-                                <ng-template ngbPanelHeader let-opened="opened">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h5 class="m-0">ATIVAÇÃO DE SERVIÇOS PARA TODOS DOCUMENTOS</h5>
-                                        <button ngbPanelToggle class="btn btn-link p-0">
-                                            <i *ngIf="!opened" class="fa fa-arrow-down" aria-hidden="true"></i>
-                                            <i *ngIf="opened" class="fa fa-arrow-up" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </ng-template>
-                                <ng-template ngbPanelContent let-opened="opened">
-                                    <div class="card-body p-1">
-                                        <ul>
-                                            <li class="mb-1">
-                                                <strong class="m-0">Para ativar ou desativar OCR a todos documentos
-                                                    utilize os botões: </strong>
-                                                <button class="btn btn-primary mr-2 btn-sm"
-                                                    (click)="addDoc('setorcall')" [disabled]="ocr === true">ATIVAR</button>
-                                                <button class="btn btn-danger btn-sm"
-                                                    (click)="addDoc('removeorcall')" [disabled]="ocr === false">DESATIVAR</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </ng-template>
-                            </ngb-panel>
                         </ngb-accordion>
                     </ng-template>
                 </ngb-tab>
+
             </ngb-tabset>
 
         </div>
