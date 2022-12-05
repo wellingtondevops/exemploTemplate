@@ -194,14 +194,14 @@
                         </a>
                     </li>
                     <li>
-                        <a class="list-group-item" *ngIf="isMenuService" [routerLink]="['/package']"
+                        <a class="list-group-item" *ngIf="isOwner" [routerLink]="['/package']"
                             [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-package mdi-18px"></i>&nbsp;
                             <span>{{ "Pacotes" | translate }}</span>
                         </a>
                     </li>
                     <li>
-                        <a class="list-group-item" *ngIf="isMenuService" [routerLink]="['/certificate']"
+                        <a class="list-group-item" *ngIf="isceritifates" [routerLink]="['/certificate']"
                             [routerLinkActive]="['router-link-active']">
                             <i class="mdi mdi-certificate mdi-18px"></i>&nbsp;
                             <span>{{ "Certificados" | translate }}</span>

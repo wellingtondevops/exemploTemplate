@@ -27,6 +27,16 @@ export class DashboardComponent implements OnInit {
     acceptanceTerm = false;
     isMoves = false;
     isSimpleArchives = false;
+    isOwner = false;
+    isconfigOcr = false;
+    isceritifates = false;
+    isbuyPackages = false;
+
+
+    // owner
+    // configOcr
+    // ceritifates
+    // buyPackages
 
     constructor(
         public daenerysGuard: DaenerysGuard,
@@ -83,6 +93,12 @@ export class DashboardComponent implements OnInit {
         this.isCompanies = this.isCompany();
         this.isDocuments = this.isDocument();
         this.isSimpleArchives = this.isSimpleArchive();
+        this.isOwner = this.isOnwers();
+        this.isconfigOcr = this.isConfigOcrs();
+        this.isceritifates = this.isCerits();
+        this.isbuyPackages = this.isBuys();
+
+
 
     }
 
@@ -186,6 +202,38 @@ export class DashboardComponent implements OnInit {
         });
         return res;
     }
+
+
+    isOnwers() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].owner) {
+            res = true;
+        }
+        return res;
+    }
+    isConfigOcrs() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].configOcr) {
+            res = true;
+        }
+        return res;
+    }
+    isCerits() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].ceritifates) {
+            res = true;
+        }
+        return res;
+    }
+    isBuys() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].buyPackages) {
+            res = true;
+        }
+        return res;
+    }
+
+
 
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);

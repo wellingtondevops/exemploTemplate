@@ -44,6 +44,11 @@ export class SidebarComponent implements OnInit {
     isAccessProfile = false;
     isSimpleArchives = false;
     isAuditArchives = false;
+    isOwner = false;
+    isconfigOcr = false;
+    isceritifates = false;
+    isbuyPackages = false;
+
 
 
     @Output() collapsedEvent = new EventEmitter<boolean>();
@@ -92,6 +97,11 @@ export class SidebarComponent implements OnInit {
         this.isScan = this.isScanning();
         this.isAccessProfile = this.isAccessProfiles();
         this.isEmailService = this.isEmailServices();
+        this.isOwner = this.isOnwers();
+        this.isconfigOcr = this.isConfigOcrs();
+        this.isceritifates = this.isCerits();
+        this.isbuyPackages = this.isBuys();
+
     }
 
     eventCalled() {
@@ -366,6 +376,34 @@ export class SidebarComponent implements OnInit {
     isToggled(): boolean {
         const dom: Element = document.querySelector('body');
         return dom.classList.contains(this.pushRightClass);
+    }
+    isOnwers() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].owner) {
+            res = true;
+        }
+        return res;
+    }
+    isConfigOcrs() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].configOcr) {
+            res = true;
+        }
+        return res;
+    }
+    isCerits() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].ceritifates) {
+            res = true;
+        }
+        return res;
+    }
+    isBuys() {
+        let res = false;
+        if (JSON.parse(window.localStorage.getItem('routes'))[0].buyPackages) {
+            res = true;
+        }
+        return res;
     }
 
     toggleSidebar() {

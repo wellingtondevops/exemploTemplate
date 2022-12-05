@@ -42,10 +42,15 @@ export class ModalContentComponent implements OnInit {
   disabledTab3 = true;
   hiddenCPF = true;
   hiddenCNPJ = true;
+  isOwner = false;
+  isconfigOcr = false;
+  isceritifates = false;
+  isbuyPackages = false;
   ocr: boolean;
   signature: boolean;
   company: Company;
   listCertificate: Certificate;
+
   dataCompanyPackage;
   idPack;
 //   filesAvailable;
@@ -116,6 +121,11 @@ export class ModalContentComponent implements OnInit {
       this.getCertificate();
       this.permissionEdit = JSON.parse(window.localStorage.getItem('actions'))[0].change;
       this.permissionDelete = JSON.parse(window.localStorage.getItem('actions'))[0].delete;
+      this.isOwner = this.isOnwers();
+      this.isconfigOcr = this.isConfigOcrs();
+      this.isceritifates = this.isCerits();
+      this.isbuyPackages = this.isBuys();
+
     } else {
       this.isNew = true;
       this.permissionCancelEdit = true;
@@ -148,6 +158,7 @@ export class ModalContentComponent implements OnInit {
       this.companyForm.controls['typePerson'].disable();
       this.companyForm.controls['cpf'].disable();
       this.companyForm.controls['cnpj'].disable();
+
     }
   }
 
@@ -457,6 +468,35 @@ export class ModalContentComponent implements OnInit {
       }
     );
   }
+  isOnwers() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].owner) {
+        res = true;
+    }
+    return res;
+}
+isConfigOcrs() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].configOcr) {
+        res = true;
+    }
+    return res;
+}
+isCerits() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].ceritifates) {
+        res = true;
+    }
+    return res;
+}
+isBuys() {
+    let res = false;
+    if (JSON.parse(window.localStorage.getItem('routes'))[0].buyPackages) {
+        res = true;
+    }
+    return res;
+}
+
 
   getCertificate() {
     this.certificateSrv.searchCertificadeList().subscribe(
