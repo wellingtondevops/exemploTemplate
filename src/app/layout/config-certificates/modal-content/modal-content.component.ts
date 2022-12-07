@@ -60,9 +60,9 @@ export class ModalContentComponent implements OnInit {
     const modalRef = this.modalService.open(MODALS[name]);
     modalRef.componentInstance.item = id;
     modalRef.componentInstance.data = {
-      msgConfirmDelete: 'Empresa foi deletada com sucesso.',
-      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar a empresa?',
-      msgQuestionDeleteTwo: 'Todas as informações associadas a empresa serão deletadas.'
+      msgConfirmDelete: 'Certificado foi deletado com sucesso.',
+      msgQuestionDeleteOne: 'Você tem certeza que deseja deletar o Certificado?',
+      msgQuestionDeleteTwo: 'Todas as informações associadas ao Certificado serão deletadas.'
     };
     modalRef.componentInstance.delete.subscribe(itemId => {
       this.delete(itemId);
@@ -74,7 +74,7 @@ export class ModalContentComponent implements OnInit {
     this.certificateSrv.delete(id).subscribe(
       response => {
         this.loading = false;
-        this.successMsgSrv.successMessages('Empresa deletada com sucesso.');
+        this.successMsgSrv.successMessages('Certificado deletado com sucesso.');
         this.activeModal.close('Excluir');
         this.close();
       },
