@@ -1,3 +1,4 @@
+import { ModalContentComponent } from './modal-content/modal-content.component';
 import { ModalUploadCertificateComponent } from './modalUploadCertificate/modalUploadCertificate.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: ModalUploadCertificateComponent,
+  },
+  {
+    path: 'show',
+    component: ModalContentComponent,
   },
 ];
 

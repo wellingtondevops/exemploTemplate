@@ -37,13 +37,13 @@
   <div id="step4" *ngIf="certificateData !== null">
     <ngx-datatable #myTable class="bootstrap" [rows]="certificatesData" [columnMode]="ColumnMode.force"
       [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
-      [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPageCertificates($event)'>
+      [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"  (activate)="openCertificate($event)" (page)='setPageCertificates($event)'>
       <ngx-datatable-column name="Nome do Certificado" prop="subscriber"></ngx-datatable-column>
-          <ngx-datatable-column name="Criado em" prop="dateCreated">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{ value | date: 'dd/MM/yyyy' }}
-              </ng-template>
-          </ngx-datatable-column>
+      <ngx-datatable-column name="Criado em" prop="dateCreated">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date: 'dd/MM/yyyy' }}
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>

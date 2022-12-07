@@ -10,6 +10,7 @@ export class Certificate {
   notAfter: string;
   mailSignup: string;
   dateCreated: string;
+  password: string;
 }
 
 export class CertificateList {

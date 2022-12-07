@@ -146,7 +146,6 @@ export class ListComponent implements OnInit {
 
     openCompany(value) {
         if (value.type === 'click') {
-            console.log("CLIQUEI, TROUXE: ", value);
             this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
     
             if (value.row) {

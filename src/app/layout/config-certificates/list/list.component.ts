@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { ModalUploadCertificateComponent } from '../modalUploadCertificate/modalUploadCertificate.component';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
   selector: 'app-list',
@@ -128,6 +129,31 @@ export class ListComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  openCertificate(value){
+    if (value.type === 'click') {
+      const certificateID = value.row._id;
+      sessionStorage.setItem('certificateId', certificateID)
+      this.modalRef = this.modalService.open(ModalContentComponent, this.modalOptions);
+
+      if (value.row) {
+          this.data = value.row;
+          value.cellElement.blur(); // Correção do erro de "ExpressionChangedAfterItHasBeenCheckedError".    
+          this.modalRef.componentInstance.comp = this.data;
+      }
+
+      this.modalRef.result.then((result) => {
+          console.log('Aqui as ideia: ', result);
+          if (result != "Sair") {
+              this.getCertificates(); 
+          };
+          this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+      
+  }
   }
 
 

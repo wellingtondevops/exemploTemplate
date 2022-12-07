@@ -462,8 +462,6 @@ export class ModalContentComponent implements OnInit {
     this.certificateSrv.searchCertificadeList().subscribe(
       data => {
         this.listCertificate = data.items;
-        console.log(this.listCertificate)
-
       }, error => {
         this.errorMsg.errorMessages(error);
         this.loading = false;
