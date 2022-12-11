@@ -12,9 +12,10 @@ import { TypeaheadModule } from 'ngx-type-ahead';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PageHeaderModule, DatatablesModule, ButtonsCustomModule, ButtonBackModule, NgbdModalConfirmModule } from 'src/app/shared';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalContentComponent } from './modal-content/modal-content.component';
 
 @NgModule({
-  declarations: [ListComponent, ModalUploadCertificateComponent],
+  declarations: [ListComponent, ModalUploadCertificateComponent, ModalContentComponent],
   imports: [
     NgbModule,
     CommonModule,

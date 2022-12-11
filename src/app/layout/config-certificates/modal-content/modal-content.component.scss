@@ -1,0 +1,53 @@
+@import "~@mdi/font/css/materialdesignicons.css";
+
+.row {
+    width: 100%;
+}
+
+.text-left {
+    margin-left: 10x;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+strong {
+    margin-left: 20px;
+}
+
+label {
+    margin-left: 22px;
+}
+
+h2 {
+    margin-left: 20px;
+    white-space: normal;
+}
+
+.form-control {
+    border-radius: 50px;
+}
+
+.form-group {
+    display: inline-block;
+}
+
+.base-modal-content{
+    min-height: 40vh !important;
+}
+
+::ng-deep .customModal .modal-dialog {
+    vertical-align: middle;
+    max-width: 86%;
+    width: auto;
+    height: auto;
+    min-height: 80vh;
+}
+
+::ng-deep .customModal .modal-content {
+    margin-top: 5%;
+}
+

@@ -9,10 +9,10 @@
   <div class="card mb-3">
     <div class="card-header" id="step1">
       <app-page-header [heading]="'Certificados'" [modalNew]="true" [icon]="'fa-table'" [btnNew]="'Novo Certificado'"
-        [permissionBtnNew]="permissionNew">
+        (click)="newCertificate($event)" [permissionBtnNew]="permissionNew">
       </app-page-header>
     </div>
-    <div class="card-body">
+    <!-- <div class="card-body">
       <form [formGroup]="searchForm" (ngSubmit)="setPageCertificates(page)" role="FormGroup">
         <div class="row" id="step2">
           <div class="form-group mb-2 col-lg-7 col-sm-12">
@@ -27,41 +27,23 @@
               <i class="fa fa-search"></i>
             </button>
             <button type="submit" class="btn dark-btn" style="margin-left: 5px;" (click)="clear()">
-              Limpar Campos
+              Limpar Campo
             </button>
           </div>
         </div>
       </form>
-    </div>
+    </div> -->
   </div>
-  <!-- <div id="step4">
-    <ngx-datatable #myTable class="bootstrap" [rows]="certificates.items" [columnMode]="ColumnMode.force"
+  <div id="step4" *ngIf="certificateData !== null">
+    <ngx-datatable #myTable class="bootstrap" [rows]="certificatesData" [columnMode]="ColumnMode.force"
       [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
-      [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10" (page)='setPageCertificates($event)'>
-      <ngx-datatable-column name="Nome do Pacote" prop="labelPackage"></ngx-datatable-column>
-       <ngx-datatable-column name="Assinatura Digital" prop="signature">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                  <ng-container *ngIf="value == true">
-                      <abbr title="Possui assinatura digital">
-                          <i class="mdi mdi-draw-pen mdi-24px"></i>
-                      </abbr>
-                  </ng-container>
-              </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="OCR" prop="ocr">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                  <ng-container *ngIf="value === true">
-                      <abbr title="Possui OCR">
-                          <i class="mdi mdi-ocr mdi-24px"></i>
-                      </abbr>
-                  </ng-container>
-              </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Criado em" prop="dateCreated">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{ value | date: 'dd/MM/yyyy' }}
-              </ng-template>
-          </ngx-datatable-column>
+      [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"  (activate)="openCertificate($event)" (page)='setPageCertificates($event)'>
+      <ngx-datatable-column name="Nome do Certificado" prop="subscriber"></ngx-datatable-column>
+      <ngx-datatable-column name="Criado em" prop="dateCreated">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date: 'dd/MM/yyyy' }}
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
-  </div> -->
+  </div>
 </div>

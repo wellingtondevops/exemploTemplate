@@ -113,7 +113,6 @@ export class ListComponent implements OnInit {
             this.localStorageSrv.save('document', this.searchForm.value);
             this.setPageDocuments({ offset: 0 });
         }
-        // this.setPageDocuments({ offset: 0 });
     }
 
     returnId(object) {

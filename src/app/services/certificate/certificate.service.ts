@@ -1,3 +1,5 @@
+import { Certificate } from 'src/app/models/certificate';
+import { Company } from 'src/app/models/company';
 import { CertificateSearchList, CertificateList } from './../../models/certificate';
 import { environment } from './../../../environments/environment';
 import { tap } from 'rxjs/operators';
@@ -33,6 +35,34 @@ export class CertificateService {
           tap(data => data)
         );
     }
+  }
+
+  newCertificate(certificate) {
+    return this.http.post<any>(`${url}/certificates`, certificate)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  removeCertificate(id, endpoint) {
+    return this.http.delete<any>(`${url}/companies/${endpoint}/${id}`,)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  simpleGetCertificate(id) {
+    return this.http.get<any>(`${url}/certificates/${id}`)
+      .pipe(
+        tap(data => data)
+      );
+  }
+
+  delete(id) {
+    return this.http.delete<Certificate>(`${url}/certificates/${id}`)
+      .pipe(
+        tap(data => data)
+      );
   }
 
 }

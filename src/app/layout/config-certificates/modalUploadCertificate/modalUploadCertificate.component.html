@@ -1,3 +1,49 @@
-<p>
-  modalUploadCertificate works!
-</p>
+<div [@routerTransition]>
+  <ngx-loading [show]="loading" [config]="{
+        backdropBorderRadius: '3px',
+        fullScreenBackdrop: false,
+        primaryColour: '#222',
+        secondaryColour: '#222',
+        tertiaryColour: '#222'
+      }"></ngx-loading>
+  <div class="base-modal-content" style="min-height: 80vh">
+    <div class="card-header base-modal-header">
+      <div class="row" *ngIf="!loading">
+        <div class="col text-left">
+          <i class="mdi mdi-help-circle mdi-24px" style="color:#2869D9; margin-left: 15px;"></i>
+        </div>
+        <button type="button" (click)="close()" class="close col text-right" data-dismiss="modal" aria-label="Close">
+          <span id="call4" aria-hidden="true">&times;</span>
+        </button>
+        <br>
+        <div class="col-lg-12">
+          <h2 id="call1">Novo Certificado</h2>
+        </div>
+
+        <br />
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="uploadForm" (ngSubmit)="createCertificate($event, uploadForm)" role="FormGroup">
+        <div class="row" id="step2">
+          <div class="form-group col-lg-6 col-sm-6">
+            <label class="ml-0" for="file">Certificado</label>
+            <input type="file" class="form-control-file" id="file">
+          </div>
+          <div class="form-group col-lg-6 col-sm-6">
+            <label for="password" class="ml-0">Senha do Certificado</label>
+            <input id="password" autoFocus="true" type="password" placeholder="Senha do Certificado" class="form-control"
+              formControlName="password" style="width: 100%" />
+          </div>
+        </div>
+        <div class="row mt-5" id="step3">
+          <div class="form-group mb-2 col-lg-12 col-sm-12 text-center">
+            <button type="submit" class="btn btn-primary">
+              Importar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

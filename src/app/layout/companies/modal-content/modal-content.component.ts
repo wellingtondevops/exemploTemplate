@@ -502,7 +502,6 @@ isBuys() {
     this.certificateSrv.searchCertificadeList().subscribe(
       data => {
         this.listCertificate = data.items;
-        console.log(this.listCertificate);
 
       }, error => {
         this.errorMsg.errorMessages(error);
