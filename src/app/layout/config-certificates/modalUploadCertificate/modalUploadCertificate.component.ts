@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { routerTransition } from 'src/app/router.animations';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modalUploadCertificate',
@@ -29,6 +30,7 @@ export class ModalUploadCertificateComponent implements OnInit {
     private readonly certificateSrv: CertificateService,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
+    private _route: Router,
 
   ) { }
 
@@ -62,7 +64,10 @@ export class ModalUploadCertificateComponent implements OnInit {
       if (Array(data)) {
         this.savedFile = true;
         this.successMsgSrv.successMessages('Upload realizado com sucesso.');
-        // this.clearForm();
+        this.activeModal.close('Excluir');
+        this.close();
+
+
       }
     }, error => {
       this.loading = false;
