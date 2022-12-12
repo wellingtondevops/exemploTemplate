@@ -51,6 +51,7 @@ export class ModalContentComponent implements OnInit {
   company: Company;
   listCertificate: Certificate;
 
+
   dataCompanyPackage;
   idPack;
 //   filesAvailable;
