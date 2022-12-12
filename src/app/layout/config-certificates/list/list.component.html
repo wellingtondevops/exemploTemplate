@@ -34,7 +34,7 @@
       </form>
     </div> -->
   </div>
-  <div id="step4" *ngIf="certificateData !== null">
+  <div id="step4" *ngIf="certificatesData !== null">
     <ngx-datatable #myTable class="bootstrap" [rows]="certificatesData" [columnMode]="ColumnMode.force"
       [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true"
       [count]="page.totalElements" [offset]="page.pageNumber" [limit]="10"  (activate)="openCertificate($event)" (page)='setPageCertificates($event)'>

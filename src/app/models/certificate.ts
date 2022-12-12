@@ -11,6 +11,7 @@ export class Certificate {
   mailSignup: string;
   dateCreated: string;
   password: string;
+  fileName: string;
 }
 
 export class CertificateList {

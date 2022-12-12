@@ -160,7 +160,7 @@ export class ShowComponent implements OnInit {
   }
 
   enableDisable(type) {
-    if (type == 1) {
+    if (type === 1) {
       this.packageForm.controls['labelPackage'].enable();
       this.packageForm.controls['describe'].enable();
       this.packageForm.controls['pagesPackage'].enable();
@@ -200,16 +200,16 @@ export class ShowComponent implements OnInit {
   }
 
   returnFormatPrice() {
-    let price = this.packageForm.value.price.replace(',', '.');
+    const price = this.packageForm.value.price.replace(',', '.');
     const priceStr = price.replace('R$', '');
     const priceFloat = parseFloat(priceStr);
     this.packageForm.value.price = priceFloat;
   }
 
-  toggleCheck(){
+  toggleCheck() {
 
-    if(this.packageForm.value.ocr === false){
-      this.packageForm.value.pagesPackage = null
+    if (this.packageForm.value.ocr === false) {
+      this.packageForm.value.pagesPackage = null;
     }
   }
 

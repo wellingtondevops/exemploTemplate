@@ -27,7 +27,7 @@ export class NewComponent implements OnInit {
 
   constructor(
     private _route: Router,
-    private mask: Masks,
+    public mask: Masks,
     private fb: FormBuilder,
     private successMsgSrv: SuccessMessagesService,
     private errorMsg: ErrorMessagesService,
