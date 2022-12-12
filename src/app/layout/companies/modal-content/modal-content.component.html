@@ -186,7 +186,7 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab  *ngIf="!isbuyPackages"title="Compra de Pacotes" id="tab2" [disabled]="!disabledTab2">
+                <ngb-tab  *ngIf="isbuyPackages"title="Compra de Pacotes" id="tab2" [disabled]="!disabledTab2">
 
                     <ng-template ngbTabContent>
                         <form [formGroup]="searchForm" (ngSubmit)="setPagePackages(page)" role="FormGroup">
@@ -301,7 +301,7 @@
                                 </ng-template>
                             </ngb-panel>
 
-                            <ngb-panel  title="packageBtn" id="custom-panel-3">
+                            <ngb-panel *ngIf="isconfigOcr" title="packageBtn" id="custom-panel-3">
                                 <ng-template ngbPanelHeader let-opened="opened">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="m-0">ATIVAÇÃO DE SERVIÇOS PARA TODOS DOCUMENTOS</h5>
@@ -330,7 +330,7 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab title="Certificado Digital" id="tab4" >
+                <ngb-tab  *ngIf="isceritifates" title="Certificado Digital" id="tab4" >
                     <ng-template ngbTabContent>
                         <ngb-accordion #acc="ngbAccordion" activeIds="custom-panel-4">
 
