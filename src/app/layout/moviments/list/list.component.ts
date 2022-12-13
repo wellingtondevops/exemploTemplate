@@ -48,6 +48,9 @@ export class ListComponent implements OnInit {
     dateReceived;
     focusCompany$ = new Subject<string>();
     clickCompany$ = new Subject<string>();
+    textField;
+    location;
+
 
     columns = [
         { name: 'Nr. Movimentação', prop: 'nr', width: 135 },
@@ -82,7 +85,10 @@ export class ListComponent implements OnInit {
             processed: this.fb.control(false),
             initDate: this.fb.control(null),
             endDate: this.fb.control(null),
-            nr: this.fb.control(null)
+            nr: this.fb.control(null),
+            textField: this.fb.control(''),
+            location: this.fb.control('')
+
         });
     }
 
@@ -97,6 +103,7 @@ export class ListComponent implements OnInit {
                 nr: moviment.nr,
                 endDate: moviment.endDate,
                 initDate: moviment.initDate
+
             });
         }
         this.getMoviments();
@@ -136,7 +143,9 @@ export class ListComponent implements OnInit {
             processed: null,
             initDate: null,
             endDate: null,
-            nr: null
+            nr: null,
+            textField: null,
+            location: null
         });
     }
 
@@ -151,7 +160,10 @@ export class ListComponent implements OnInit {
             processed: null,
             initDate: null,
             endDate: null,
-            nr: null
+            nr: null,
+            textField: null,
+            location: null
+
         };
         this.localStorageSrv.save('moviment', this.searchForm.value);
         this.searchForm.value.company ? newSearch.company = this.returnId('company') : null;
@@ -161,6 +173,10 @@ export class ListComponent implements OnInit {
         this.searchForm.value.initDate ? newSearch.initDate = this.searchForm.value.initDate : null;
         this.searchForm.value.endDate ? newSearch.endDate = this.searchForm.value.endDate : null;
         this.searchForm.value.nr ? newSearch.nr = this.searchForm.value.nr : null;
+
+        this.searchForm.value.textField ? newSearch.textField = this.searchForm.value.textField : null;
+        this.searchForm.value.location ? newSearch.location = this.searchForm.value.location : null;
+
 
         const searchValue = _.omitBy(newSearch, _.isNil);
 

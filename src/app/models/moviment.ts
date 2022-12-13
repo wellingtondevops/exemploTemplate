@@ -4,16 +4,16 @@ import { Pagination } from './pagination';
 export class MovimentSearch {
   link: {
     self: string;
-  }
+  };
   _id: string;
   company: {
     _id: string;
     name: string;
-  }
+  };
   requester: {
     _id: string;
     name: string;
-  }
+  };
   author: string;
   demandDate: string;
   itens: [];
@@ -23,26 +23,29 @@ export class MovimentSearch {
   moveVolume: boolean;
   moveArchive: boolean;
   nr: number;
+  textField: string;
+  location: string;
+
 }
 
 export class Moviment {
   link: {
     self: string;
-  }
+  };
   _id: string;
   company: {
     _id: string;
     name: string;
-  }
+  };
   requester: {
     _id: string;
     name: string;
     email: string;
-  }
+  };
   author: {
     _id: string;
     name: string;
-  }
+  };
   demandDate: string;
   itens: [];
   processed: boolean;
