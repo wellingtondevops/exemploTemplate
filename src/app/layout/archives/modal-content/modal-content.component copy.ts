@@ -1,13 +1,6 @@
-import { SaveLocal } from 'src/app/storage/saveLocal';
-import { ObjNew, objList } from './../../../models/newObjModel';
-import { CaseInsensitive } from './../../../utils/case-insensitive';
-import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
-import { Subject, Observable, merge } from 'rxjs';
-import { Page } from './../../../models/page';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Archive } from 'src/app/models/archive';
 import { routerTransition } from 'src/app/router.animations';
 import { IntroJsService } from 'src/app/services/introJs/intro-js.service';
@@ -18,7 +11,6 @@ import { PicturesService } from 'src/app/services/pictures/pictures.service';
 import { ArquivesService } from 'src/app/services/archives/archives.service';
 import { NgbdModalConfirmComponent } from 'src/app/shared/modules/ngbd-modal-confirm/ngbd-modal-confirm.component';
 import _ from 'lodash';
-import { StorehousesService } from 'src/app/services/storehouses/storehouses.service';
 
 const MODALS = {
   focusFirst: NgbdModalConfirmComponent
@@ -31,11 +23,10 @@ const MODALS = {
   animations: [routerTransition()]
 })
 export class ModalContentComponent implements OnInit {
-  @ViewChild('instanceStorehouse', ) instanceStorehouse: NgbTypeahead;
+
   @Input() public arch;
   id;
-  select = 0;
-  page = new Page();
+
   loading: Boolean = false;
   isEditing: Boolean = false;
   permissionEdit = false;
@@ -46,19 +37,6 @@ export class ModalContentComponent implements OnInit {
   savedFile = false;
   pdfHeight = '100vh;';
   document: any;
-  storehouses: any = [];
-  focusStorehouse$ = new Subject<string>();
-  clickStorehouse$ = new Subject<string>();
-  locations: objList = {
-    _links: {
-      currentPage: 0,
-      foundItems: 0,
-      next: '',
-      self: '',
-      totalPage: 0
-    },
-    items: []
-  };
 
   uploadResponse: any = { status: 'progress', message: 0 };
   errorUpload: boolean = null;
@@ -67,11 +45,8 @@ export class ModalContentComponent implements OnInit {
   pending: Boolean;
   archiveCreateForm: FormGroup;
   requestForm: FormGroup;
-  newSeachrForm: FormGroup;
   startCurrentDate = false;
   inputStartCurrentDate = '';
-  companyName;
-  deptName;
   ocr;
   dateOcr;
   ocrBy;
@@ -79,6 +54,7 @@ export class ModalContentComponent implements OnInit {
   signature;
   dateSignature;
   archive: Archive;
+
 
   uploadFile = new FormGroup({
     storehouse: new FormControl(''),
@@ -98,9 +74,6 @@ export class ModalContentComponent implements OnInit {
     private modalService: NgbModal,
     private archiveSrv: ArquivesService,
     private picturesSrv: PicturesService,
-    private utilCase: CaseInsensitive,
-    private localStorageSrv: SaveLocal,
-    private storehousesSrv: StorehousesService,
   ) { }
 
   // INICIALIZAÇÃO
@@ -122,29 +95,14 @@ export class ModalContentComponent implements OnInit {
       requestType: this.fb.control(''),
       notes: this.fb.control('')
     });
-
-    this.newSeachrForm = this.fb.group({
-      location: this.fb.control(''),
-      storehouse: this.fb.control('', Validators.required)
-    });
-
     this.getArchive();
-    this.getStoreHouses();
   }
 
   // RESOURCES
 
-  beforeChange(data) {
-    if (data.nextId === 'tab3') {
-      this.select = 1;
-    } else {
-      this.select = 0;
-    }
-  }
+  beforeChange(data) { }
 
-
-
-getArchive() {
+  getArchive() {
     this.loading = true;
     this.archiveSrv.archive(this.id).subscribe(data => {
       this.archive = data;
@@ -227,7 +185,9 @@ getArchive() {
 
   updateArchive(data) {
     this.loading = true;
-
+    /* const storehouse = this.storeHouse_id;
+    const doct = this.document._id;
+    const company = this.company_id; */
     const tag = _.values(data);
     let uniqueness = '';
     const labelsTrueLength = _.filter(this.document.label, ['uniq', true]);
@@ -245,7 +205,6 @@ getArchive() {
         this.loading = false;
         this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
         this.cancelEdit();
-        this.getArchive();
       }
     }, error => {
       this.loading = false;
@@ -311,12 +270,15 @@ getArchive() {
         this.loading = false;
         this.successMsgSrv.successMessages('Solicitação cadastrado com sucesso.');
         this.ngOnInit();
+
       },
       error => {
         this.loading = false;
         this.errorMsg.errorMessages(error);
       }
     );
+
+
   }
 
   FimRequest() {
@@ -335,94 +297,4 @@ getArchive() {
   }
 
   submit() { }
-
-  get storehouseIpt() {
-    return this.newSeachrForm.get('storehouse');
-  }
-
-  returnId(object) {
-    const result = _.filter(this.newSeachrForm.value[object], function (value, key) {
-      if (key === '_id') { return value; }
-    })[0];
-    return result;
-  }
-
-  searchPosition() {
-    this.setPage({ offset: 0 });
-  }
-
-  setPage(pageInfo) {
-    this.page.pageNumber = pageInfo.offset;
-
-    const newSearch = {
-      storehouse: null,
-      location: null,
-    };
-
-    newSearch.location = this.newSeachrForm.value.storehouse;
-    newSearch.location = this.newSeachrForm.value.location;
-    this.archiveSrv.getNewSearch(this.id, this.newSeachrForm.value, this.page).subscribe(
-      data => {
-        this.page.pageNumber = data._links.currentPage - 1;
-        this.page.totalElements = data._links.foundItems;
-        this.page.size = data._links.totalPage;
-        this.page.size = data._links.totalPage;
-        this.locations = data;
-      },
-      error => {
-        this.errorMsg.errorMessages(error);
-      }
-    );
-  }
-
-  getStoreHouses() {
-    this.storehousesSrv.searchStorehousesNoVirtual().subscribe(
-        data => {
-            this.storehouses = data.items;
-        },
-        error => {
-            this.errorMsg.errorMessages(error);
-            this.loading = false;
-        }
-    );
-}
-
-  searchStorehouse = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-    const clicksWithClosedPopup$ = this.clickStorehouse$.pipe(filter(() => !this.instanceStorehouse.isPopupOpen()));
-    const inputFocus$ = this.focusStorehouse$;
-
-    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-        map(storehouse => {
-            let res = [];
-            if (storehouse.length < 0) {
-                [];
-            } else {
-                res = _.filter(this.storehouses,
-                    v => (this.utilCase.replaceSpecialChars(v.name).toLowerCase().indexOf(storehouse.toLowerCase())) > -1).slice(0, 10);
-                }
-                return res;
-        }));
-}
-
-
-  formatter = (x: { name: string }) => x.name;
-
-  clear() {
-    this.newSeachrForm.patchValue({
-      location: '',
-      storehouse: '',
-    });
-  }
-
-  getVolume(item) {
-    this.archiveSrv.addVolume(this.id, item._id).subscribe(data => {
-        this.loading = false;
-        this.successMsgSrv.successMessages('Arquivo alterado com sucesso.');
-        this.getArchive();
-    }, error => {
-      this.loading = false;
-      this.errorMsg.errorMessages(error);
-    });
-  }
 }
